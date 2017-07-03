@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+    <activeProfiles>
+        <activeProfile>local</activeProfile>
+    </activeProfiles>
+
+    <servers>
+        <server>
+            <id>Dev_TomcatServer</id>
+            <username>tomcat_birdman</username>
+            <password>qmfhtmqjemaos</password>
+        </server>
+        <server>
+            <id>birdletter.internal.release</id>
+            <username>bird_user</username>
+            <password>birdman12#$</password>
+        </server>
+        <server>
+            <id>birdletter.internal.snapshot</id>
+            <username>bird_user</username>
+            <password>birdman12#$</password>
+        </server>
+    </servers>
+
+
+    <localRepository>
+        <!--/Users/challa_mac/Documents/dev/ChallaBros/BirdLetter/maven-repo-->
+        /Users/jihoan/Documents/dev/challabros/birdletter/maven-repo
+    </localRepository>
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <admin.db.url>jdbc:mysql://127.0.0.1:3306/taesei</admin.db.url>
+                <admin.db.username>root</admin.db.username>
+                <admin.db.password>c7684301</admin.db.password>
+                <logger.root>/Users/jihoan/Downloads/</logger.root>
+                <logger.level>DEBUG</logger.level>
+                <logger.name>STDOUT</logger.name>
+                <service.isQuartzUseCheck>false</service.isQuartzUseCheck>
+                <google.email.username>anjo0080</google.email.username>
+                <google.email.password>c7684301-++</google.email.password>
+                <service.isUseEmail>false</service.isUseEmail>
+                <service.version>1.2.2</service.version>
+            </properties>
+        </profile>
+    </profiles>
+
+</settings>

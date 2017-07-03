@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.taesei.mapper.ExcelMapper">
+
+	<insert id="insertSaleMonth" parameterType="java.util.List">
+		INSERT INTO
+			MONTH_SALE
+			(
+				date,
+				customer,
+				item,
+				weight,
+				quantity,
+				price,
+				unit_price,
+				sales_amount,
+				size,
+				wear_date,
+				purchase_price,
+				purchase_amount,
+				sales_profit
+			)
+			VALUES
+			<foreach collection="list" item="value" index="index" separator=",">
+			(
+				#{value.date},
+				#{value.customer},
+				#{value.item},
+				#{value.weight},
+				#{value.quantity},
+				#{value.price},
+				#{value.unitPrice},
+				#{value.salesAmount},
+				#{value.size},
+				#{value.wearDate},
+				#{value.purchasePrice},
+				#{value.purchaseAmount},
+				#{value.salesProfit}
+			)
+			</foreach>
+	</insert>
+
+</mapper>
