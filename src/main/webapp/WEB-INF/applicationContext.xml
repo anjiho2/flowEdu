@@ -20,7 +20,7 @@
     
     <tx:annotation-driven transaction-manager="transactionManager"/>
     
-      <context:component-scan base-package="com.taesei">
+      <context:component-scan base-package="com.flowedu">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
         <context:exclude-filter type="annotation" expression="org.aspectj.lang.annotation.Aspect" />
         <context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
@@ -81,7 +81,7 @@
 	</bean>
      -->
     <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.taesei.mapper"/>
+        <property name="basePackage" value="com.flowedu.mapper"/>
     </bean>
     
 	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>

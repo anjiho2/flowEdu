@@ -16,7 +16,6 @@
 <link rel="stylesheet" href="<%=webRoot%>/Bootstrap/css/bootstrap-theme.min.css">
 <!-- bootstrap 스크립트 -->
 <script src="<%=webRoot%>/Bootstrap/js/bootstrap.min.js"></script>
-
 <%--
 <link rel="shortcut icon" href="<%=webRoot%>/common/images/icon/favicon.ico" type="image/x-icon">
 <link rel="icon" href="<%=webRoot%>/common/images/icon/favicon.ico" type="image/x-icon">
@@ -42,9 +41,9 @@
 
 
 <!-- 공통으로 쓰는 값 모여있는 스크립트 -->
-<script src="<%=webRoot%>/js/value.js?ver=  "></script>
+<script src="<%=webRoot%>/js/value.js?ver="></script>
 <!-- 페이지 이동 스크립트 -->
-<script src="<%=webRoot%>/js/page.js?ver=  "></script>
+<script src="<%=webRoot%>/js/page.js?ver="></script>
 
 <meta charset="utf-8">
 <title>플로우 교육</title>
