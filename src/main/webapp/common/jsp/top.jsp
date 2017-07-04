@@ -11,14 +11,14 @@
 
 <!--  jquery plugin -->
 <script type='text/javascript' src="<%=webRoot%>/common/js/jquery-1.11.3.min.js"></script>
-
+<%--
 <link rel="stylesheet" href="<%=webRoot%>/Bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=webRoot%>/Bootstrap/css/bootstrap-theme.min.css">
+-->
 <!-- bootstrap 스크립트 -->
-<script src="<%=webRoot%>/Bootstrap/js/bootstrap.min.js"></script>
+<%--<script src="<%=webRoot%>/Bootstrap/js/bootstrap.min.js"></script>--%>
 <%--
-<link rel="shortcut icon" href="<%=webRoot%>/common/images/icon/favicon.ico" type="image/x-icon">
-<link rel="icon" href="<%=webRoot%>/common/images/icon/favicon.ico" type="image/x-icon">
+
 -->
 <!-- 공통 유틸 스크립트 -->
 <script type='text/javascript' src="<%=webRoot%>/common/js/common.js?ver=  "></script>

@@ -3,7 +3,7 @@
 <html>
 <%@include file="/common/jsp/top.jsp" %>
 
-<script type="text/javascript" src="<%=webRoot%>/dwr/interface/loginService.js"></script>
+<%--<script type="text/javascript" src="<%=webRoot%>/dwr/interface/loginService.js"></script>--%>
 <script type="text/javascript">
     function excelUpload() {
         var check = new isCheck();
