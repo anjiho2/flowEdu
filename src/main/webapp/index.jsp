@@ -3,44 +3,26 @@
 <html>
 <%@include file="/common/jsp/top.jsp" %>
 
-<%--<script type="text/javascript" src="<%=webRoot%>/dwr/interface/loginService.js"></script>--%>
-<script type="text/javascript">
-    function excelUpload() {
-        var check = new isCheck();
-        var data = new FormData();
-        $.each($('#excel_file')[0].files, function(i, file) {
-            data.append("excel_file", file);
-        });
-        var excelFile = fn_clearFilePath($("#excel_file").val());
-		alert(excelFile);
-        if (check.value(excelFile, comment.select_excel_file) == false) return;
+<script type='text/javascript' src='/flowEdu/dwr/interface/loginService.js'></script>
 
-        if (confirm(comment.isInsert)) {
-            if (excelFile != null) {
-                $.ajax ({
-                    url: "<%=webRoot%>/excelReader/monthSale.do",
-                    method : "POST",
-                    dataType : "JSON",
-                    data: data,
-                    cache: false,
-                    processData: false,
-                    contentType: false,
-                    success: function(data) {
-                        alert(comment.success_process);
-                    }
-                });
-            }
-        }
-    }
+<script type="text/javascript">
+   function viewUserName() {
+       var userName = "안지호";
+       loginService.findUserName(userName, function (name) {
+           innerHTML("name", name);
+       });
+   }
 </script>
-<body id="login">
+<body id="login" onload="viewUserName()">
 <form name="frm" method="post">
 <input type="hidden" name="param1" />
 <input type="hidden" name="param2" />
 <input type="hidden" name="page_gbn" id="page_gbn">
 플로우 교육 개발
+    <input type="button" onclick="viewUserName();" value="테스트">
 </form>
 
+<span id="name"></span>
 <%-- <%@ include file="/common/jsp/top_menu.jsp"%> --%>
 </body>
 </html>
