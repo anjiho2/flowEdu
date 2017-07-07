@@ -22,13 +22,16 @@
 -->
 <!-- 공통 유틸 스크립트 -->
 
-<script type='text/javascript' src="<%=webRoot%>/common/js/comment.js?ver=  "></script>
+
 <script type='text/javascript' src="<%=webRoot%>/js/blank-check.js?ver=  "></script>
 <script type='text/javascript' src="<%=webRoot%>/js/page.js?ver=  "></script>
 <script type='text/javascript' src="<%=webRoot%>/js/selectbox.js?ver=  "></script>
 <%-- <script type='text/javascript' src="<%=webRoot%>/js/datepicker.js"></script> --%>
+<script type='text/javascript' src="<%=webRoot%>/common/js/comment.js?ver=  "></script>
 <script type='text/javascript' src="<%=webRoot%>/common/js/common.js?ver=  "></script>
 <script type='text/javascript' src="<%=webRoot%>/js/few-weeks.js"></script>
+<script type='text/javascript' src="<%=webRoot%>/js/paging-count-check.js"></script>
+
 <!-- 페이징 관련 필수 스트립트 -->
 <script type='text/javascript' src="<%=webRoot%>/common/js/com_page.js"></script>
 <!-- dwr 필수 스트립트 -->
@@ -39,6 +42,15 @@
 <script type='text/javascript' src="<%=webRoot%>/common/js/jquery.confirm.js?ver=  "></script>	<!-- jquery alert -->
 
 <link rel="stylesheet" type="text/css" href="<%=webRoot%>/common/css/jquery.confirm.css"><!-- jquery alert css -->
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script
 
 
 <!-- 공통으로 쓰는 값 모여있는 스크립트 -->

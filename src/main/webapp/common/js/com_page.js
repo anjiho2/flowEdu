@@ -47,10 +47,10 @@ function gfn_fnList_new(page) {
 }
 
 function gfn_fnList2(page) {
-	var sPage = document.getElementById("sPage2");
+	var sPage = document.getElementById("sPage");
 	sPage.value = page;
 	try {
-		fn_search2();
+		fn_search();
 	} catch (e){
 		
 	}
@@ -184,28 +184,30 @@ function gfn_getPageNav_new2(totalPageCnt,printNum,curPage) {
     if (iEnd  > totalPageCnt) { 
         iEnd = totalPageCnt; 
     } 
-	var sHtml = ""; 
+	var sHtml = '<ul class = "pagination">';
 	var ibefore = parseInt(curPage) - parseInt(printNum) ;
 	if (ibefore < 1) ibefore = 1;
-	sHtml += "<a href='javascript:gfn_fnList2(1)' ><img src='"+webRoot+"/img/arrow1.png' border='0' align='absmiddle'></a>";
-	sHtml += "<a href='javascript:gfn_fnList2(" + ibefore + ")' ><img src='"+webRoot+"/img/arrow2.png' border='0' align='absmiddle'></a>";   
+	sHtml += "<li><a href='javascript:gfn_fnList2(1)' >&laquo;</a></li>";
+	//sHtml += "<li><a href='javascript:gfn_fnList2(" + ibefore + ")' ><img src='"+webRoot+"/img/arrow2.png' border='0' align='absmiddle'></a></li>";
 	
 	for(var i=iStart; i<= iEnd; i++) {  
 		if(curPage== i) {
-			sHtml += "<strong> <a href='javascript:gfn_fnList2(" + i + ")' style='color:red'>" + i + "</a></strong>  ";
+			sHtml += "<li><a href='javascript:gfn_fnList2(" + i + ")' style='color:red'>" + i + "</a></li>";
             //sHtml += "<strong title=\"현재페이지\"> " + i + " </strong>  "; 
         } else { 
-            sHtml += "<a href='javascript:gfn_fnList2(" + i + ")'>" + i + "</a>  "; 
-        } 
+            sHtml += "<li><a href='javascript:gfn_fnList2(" + i + ")'>" + i + "</a></li>";
+        }
+
         if(i!=iEnd) {// 마지막 라인에는 구분자를 뺌
-          	sHtml += "<a> | </a> ";
+          	//sHtml += "<a> | </a> ";
          }
 	} 
 	var inext = parseInt(curPage) + parseInt(printNum) ;
 	if (inext > totalPageCnt) inext = totalPageCnt;
-	sHtml += "<a href='javascript:gfn_fnList2(" + inext + ")' ><img src='"+webRoot+"/img/arrow3.png' border='0' align='absmiddle'></a>";  
-	sHtml += "<a href='javascript:gfn_fnList2(" + totalPageCnt + ")'><img src='"+webRoot+"/img/arrow4.png' border='0' align='absmiddle'></a>";  
-	
+	//sHtml += "<li><a href='javascript:gfn_fnList2(" + inext + ")' ><img src='"+webRoot+"/img/arrow3.png' border='0' align='absmiddle'></a></li>";
+	//sHtml += "<li><a href='javascript:gfn_fnList2(" + totalPageCnt + ")'><img src='"+webRoot+"/img/arrow4.png' border='0' align='absmiddle'></a></li>";
+    sHtml += "<li><a href='javascript:gfn_fnList2(" + totalPageCnt + ")'>&raquo;</a></li>";
+	sHtml += "</ul>";
 	return sHtml; 
 }
 
