@@ -6,11 +6,17 @@
 	<allow>
 		<!-- ========================= SERVICE ======================== -->
 		<convert converter="bean" match="com.flowedu.service.LoginService"/>
+		<convert converter="bean" match="com.flowedu.service.UserService"/>
 
 
 		<create creator="spring" javascript="loginService">
 			<param name="class" value="com.flowedu.service.LoginService"/>
 			<param name="beanName" value="loginService" />
+		</create>
+
+		<create creator="spring" javascript="userService">
+			<param name="class" value="com.flowedu.service.UserService"/>
+			<param name="beanName" value="userService" />
 		</create>
 
 

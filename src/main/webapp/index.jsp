@@ -59,7 +59,7 @@
 <input type="hidden" name="param1" />
 <input type="hidden" name="param2" />
 <input type="hidden" name="page_gbn" id="page_gbn">
-플로우 교육 개발
+    플로우 교육 개발
 
     <table class="table table-striped table-bordered table-hover">
         <colgroup>
