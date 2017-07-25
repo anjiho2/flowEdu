@@ -20,6 +20,7 @@
     <entry key="logger.name">${logger.name}</entry>
     
     <entry key="service.isQuartzUseCheck">${service.isQuartzUseCheck}</entry>
+    <entry key="service.uploadRoot">${service.uploadRoot}</entry>
     
     <entry key="google.email.username">${google.email.username}</entry>
     <entry key="google.email.password">${google.email.password}</entry>
@@ -27,10 +28,4 @@
     <entry key="service.isUseEmail">${service.isUseEmail}</entry>
     
     <entry key="service.version">${service.version}</entry>
-    
-    <!-- 
-    <entry key="db.url">jdbc:mysql://192.168.0.30:3306/birdletter_db_v102</entry>
-    <entry key="db.password">qmfhtmqjemaos</entry>
-    <entry key="db.username">root</entry>
-     -->
 </properties>

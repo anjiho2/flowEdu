@@ -52,9 +52,32 @@
             });
         });
     }
+
+    function upload() {
+        var data = new FormData();
+        $.each($("#uploaFile")[0].files, function(i, file) {
+            data.append("uploaFile", file);
+        });
+        $.ajax({
+            url : "<%=webRoot%>/fileUpload.do",
+            method : "post",
+            dataType : "json",
+            data : data,
+            cache : false,
+            processData : false,
+            contentType : false,
+            success : function(data) {
+                alert("1");
+            },
+            error : function(request, status, error) {
+                alert(comment.error);
+                return;
+            }
+        });
+    }
 </script>
 <body id="login" onload="init();">
-<form name="frm" method="post">
+<form name="frm" method="post" enctype="multipart/form-data">
 <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
 <input type="hidden" name="param1" />
 <input type="hidden" name="param2" />
@@ -90,6 +113,9 @@
 </form>
 
 <span id="name"></span>
+
+<input type="file" id="uploaFile" name="uploaFile">
+<input type="button" value="업로드" onclick="upload();">
 <%-- <%@ include file="/common/jsp/top_menu.jsp"%> --%>
 </body>
 </html>

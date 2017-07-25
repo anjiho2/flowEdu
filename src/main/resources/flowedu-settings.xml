@@ -43,6 +43,7 @@
                 <logger.level>DEBUG</logger.level>
                 <logger.name>STDOUT</logger.name>
                 <service.isQuartzUseCheck>false</service.isQuartzUseCheck>
+                <service.uploadRoot>/Users/jihoan/Downloads</service.uploadRoot>
                 <google.email.username>anjo0080</google.email.username>
                 <google.email.password>c7684301-++</google.email.password>
                 <service.isUseEmail>false</service.isUseEmail>

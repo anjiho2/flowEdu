@@ -202,7 +202,7 @@ public class FileUtil {
 		}
 		return wb;
 	}
-	
+
 	public static void main(String args[]) throws Exception{
 		String targetDir = "C:/softforum/test";
 		//targetDir = targetDir + "/so/XAS_SO_7/libXAS_jni.so";
