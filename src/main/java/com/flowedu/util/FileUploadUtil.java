@@ -42,11 +42,19 @@ public class FileUploadUtil {
                     }
                     */
                     //파일명 변경
-                    String finalFileName = FileUploadRename.multipartFileRename(multipartFile).toString();
+                    //String finalFileName = FileUploadRename.multipartFileRename(multipartFile).toString();
+                    String makeFileName = originalFileName.substring(0, originalFileName.lastIndexOf("."));
+                    int filePos = originalFileName.lastIndexOf(".");
+                    String fileExtension = originalFileName.substring(filePos+1);
+                    String finalFileName = makeFileName + "_" + Util.returnNowDateByYyyymmddhhmmss() + "." + fileExtension;
 
                     if (originalFileName != null || !"".equals(originalFileName)) {
                         File serverFile = new File(FileUtil.concatPath(savePath, finalFileName));
                         multipartFile.transferTo(serverFile);
+                        //root경로 파일 삭제
+                        FileUtil.fileDelete(finalFileName);
+                        FileUtil.fileDelete(originalFileName);
+
                         fileName = serverFile.getName();
                     }
                 }
@@ -88,7 +96,12 @@ public class FileUploadUtil {
                     }
                     */
                     //파일명 변경
-                    String finalFileName = FileUploadRename.multipartFileRename(multipartFile).toString();
+                    //String finalFileName = FileUploadRename.multipartFileRename(multipartFile).toString();
+                    String makeFileName = originalFileName.substring(0, originalFileName.lastIndexOf("."));
+                    int filePos = originalFileName.lastIndexOf(".");
+                    String fileExtension = originalFileName.substring(filePos+1);
+                    String finalFileName = makeFileName + "_" + Util.returnNowDateByYyyymmddhhmmss() + "." + fileExtension;
+
                     //년도 디렉토리 존재 확인
                     File yearDirectory = new File(FileUtil.concatPath(savePath, DateUtils.getNowYear()));
                     if (!yearDirectory.isDirectory()) {
@@ -103,6 +116,10 @@ public class FileUploadUtil {
                     if (originalFileName != null || !"".equals(originalFileName)) {
                         File serverFile = new File(FileUtil.concatPath(todayDirectory.toString(), finalFileName));
                         multipartFile.transferTo(serverFile);
+                        //root경로 파일 삭제
+                        FileUtil.fileDelete(finalFileName);
+                        FileUtil.fileDelete(originalFileName);
+
                         fileName = serverFile.getName();
                     }
                 }

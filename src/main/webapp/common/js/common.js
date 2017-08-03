@@ -1678,6 +1678,55 @@ function getClassValue(className) {
 	}
 	return value;
 }
+
+//dwr 로딩 이미지 호출
+function viewLoadingMessage() {
+    dwr.util.useLoadingMessage(comment.load_data);
+}
+//input file 값 받아오기
+function getFileData(fileId) {
+	var data = new FormData();
+	$.each($("#" + fileId)[0].files, function(i, file) {
+		data.append(fileId, file);
+	});
+	return data;
+}
+//input file 배열값 받아오기
+function getFileDatas(tagName) {
+ 	var data = new FormData();
+ 	var cnt = $("input[name="+tagName+"]").length;
+ 	for (var i=0; i<cnt; i++) {
+ 		data.append(fileId+"-"+i, $("input[name="+tagName+"]")[i].files[0]);
+	}
+	return data;
+}
+//ajax 파일 전송
+function ajaxFileUpload(callUrl, fileData, pageReloadYn) {
+	$.ajax({
+		url : callUrl,
+		method : "post",
+		dataType : "json",
+		data : fileData,
+		cache : false,
+		processData : false,
+		contentType : false,
+		success : function (data) {
+			if (data.result == "1") {
+				alert(comment.success_process);
+				if (pageReloadYn == true) {
+					isReloadPage(pageReloadYn);
+				}
+			} else {
+				alert(comment.error);
+			}
+        },
+		error : function (request, status, error) {
+			alert(comment.error);
+			return;
+        }
+	});
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //HashMap Class Section
 ////////////////////////////////////////////////////////////////////////////////

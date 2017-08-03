@@ -3,24 +3,25 @@ package com.flowedu.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+
 public class CreateSESSION {
 	
 	final static Logger logger = LoggerFactory.getLogger(CreateSESSION.class);
 
-	/*
-	public static AdminDto sessionCF(HttpServletRequest request) throws Exception {
-		String param = request.getParameter("param1");
-		String param2 = request.getParameter("param2");
+	public static HashMap<String, Object> sessionCF(HttpServletRequest request) throws Exception {
+		String userId = request.getParameter("user_id");
+		String userPass = request.getParameter("user_pass");
 		
-		logger.info("admin_id : " + param);
-		logger.info("admin_pass : " + param2);
-	
-		AdminDto adminInfo = new AdminDto();
-		adminInfo.setAdminId(param);
-		adminInfo.setAdminPass(param2);
-		request.setAttribute("adminInfo", adminInfo);
-		return adminInfo;
-	}
-	*/
+		logger.info("userId : " + userId);
+		logger.info("userPass : " + userPass);
 
+		HashMap<String, Object> resultMap = new HashMap<>();
+		resultMap.put("userId", userId);
+		resultMap.put("userPass", userPass);
+		request.setAttribute("loginInfo", resultMap);
+
+		return resultMap;
+	}
 }

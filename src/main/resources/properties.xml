@@ -20,7 +20,7 @@
     <entry key="logger.name">${logger.name}</entry>
     
     <entry key="service.isQuartzUseCheck">${service.isQuartzUseCheck}</entry>
-    <entry key="service.uploadRoot">${service.uploadRoot}</entry>
+    <entry key="file.uploads.path">${file.uploads.path}</entry>
     
     <entry key="google.email.username">${google.email.username}</entry>
     <entry key="google.email.password">${google.email.password}</entry>
