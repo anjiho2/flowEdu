@@ -1,6 +1,5 @@
 package com.flowedu.mapper;
 
-import com.flowedu.dto.UserDto;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
