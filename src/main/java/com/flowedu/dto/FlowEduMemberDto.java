@@ -11,8 +11,11 @@ public class FlowEduMemberDto {
     //  회원 아이디
     private Long flowMemberId;
 
-    //  관 구분
-    private String officeCode;
+    //  관 구분 아이디
+    private Long officeId;
+
+    //  팀 아이디
+    private Integer teamId;
 
     //  로그인 전화번호 사용
     private String phoneNumber;
@@ -23,16 +26,60 @@ public class FlowEduMemberDto {
     //  이름
     private String memberName;
 
+    //  생년월일
+    private String memberBirthday;
+
+    //  주소
+    private String memberAddress;
+
+    //  이메일
+    private String memberEmail;
+
+    //  성범죄경력조회 확인일자
+    private String sexualAssultConfirmDate;
+
+    //  교육정 강사등록일자
+    private String educationRegDate;
+
     //  운영자, 선생님인지 구분
     private String memberType;
 
     //  생성일
     private String createDate;
 
-    public FlowEduMemberDto(String officeCode, String phoneNumber, String memberPassword, String memberName, String memberType) throws Exception {
-        this.officeCode = officeCode;
+    private FlowEduMemberDto() {}
+
+    public FlowEduMemberDto(Long officeId, Integer teamId, String phoneNumber, String memberName, String memberBirthDay,
+                String memeberAddress, String memberPassword, String memberEmail, String sexualAssultConfirmDate,
+                String educationRegDate, String memberType) throws Exception {
+        this.officeId = officeId;
+        this.teamId = teamId;
         this.phoneNumber = phoneNumber;
+        this.memberName = memberName;
+        this.memberBirthday = memberBirthDay;
+        this.memberAddress = memeberAddress;
         this.memberPassword = Aes256.encrypt(memberPassword);
+        this.memberEmail = memberEmail;
+        this.sexualAssultConfirmDate = sexualAssultConfirmDate;
+        this.educationRegDate = educationRegDate;
+        this.memberName = memberName;
+        this.memberType = memberType;
+    }
+
+    public FlowEduMemberDto(Long flowMemberId,Long officeId, Integer teamId, String phoneNumber, String memberName,
+                            String memberBirthDay, String memeberAddress, String memberPassword, String memberEmail,
+                            String sexualAssultConfirmDate, String educationRegDate, String memberType) throws Exception {
+        this.flowMemberId = flowMemberId;
+        this.officeId = officeId;
+        this.teamId = teamId;
+        this.phoneNumber = phoneNumber;
+        this.memberName = memberName;
+        this.memberBirthday = memberBirthDay;
+        this.memberAddress = memeberAddress;
+        this.memberPassword = Aes256.encrypt(memberPassword);
+        this.memberEmail = memberEmail;
+        this.sexualAssultConfirmDate = sexualAssultConfirmDate;
+        this.educationRegDate = educationRegDate;
         this.memberName = memberName;
         this.memberType = memberType;
     }

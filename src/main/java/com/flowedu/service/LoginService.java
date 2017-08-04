@@ -15,19 +15,5 @@ import java.util.List;
 @Service
 public class LoginService extends PagingSupport {
 
-    @Autowired
-    private LoginMapper loginMapper;
-
-    @Transactional(readOnly = true)
-    public List<UserDto> selectUserList(int sPage, int pageCount) {
-        PagingDto paging = getPagingInfo(sPage, pageCount);
-        List<UserDto> list = loginMapper.findUserName(paging.getStart(), pageCount);
-        return list;
-    }
-
-    @Transactional(readOnly = true)
-    public int userListSize() {
-        return loginMapper.userCount();
-    }
 
 }
