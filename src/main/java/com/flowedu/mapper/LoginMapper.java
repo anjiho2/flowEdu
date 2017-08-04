@@ -9,7 +9,4 @@ import java.util.List;
  */
 public interface LoginMapper {
 
-    List<UserDto> findUserName(@Param("start") int start, @Param("end") int end);
-
-    int userCount();
 }
