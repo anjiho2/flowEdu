@@ -2,6 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.flowedu.mapper.OfficeMapper">
 
+	<select id="getAcademyList" resultType="com.flowedu.dto.OfficeDto">
+		SELECT * FROM OFFICE
+		<if test="officeId > 0">
+			<where>
+				office_id = #{officeId}
+			</where>
+		</if>
+	</select>
+
 	<insert id="saveAcademy" parameterType="com.flowedu.dto.OfficeDto">
 		INSERT INTO OFFICE
 		(
@@ -12,5 +21,19 @@
 			#{officeName}, #{officeDirectorName}, #{officeTelNumber}, #{officeAddress}, #{officeFaxNumber}
 		)
 	</insert>
+
+	<update id="modifyAcademy" parameterType="com.flowedu.dto.OfficeDto">
+		UPDATE OFFICE
+		<set>
+			<if test="officeName != ''">office_name = #{officeName},</if>
+			<if test="officeDirectorName != ''">office_director_name = #{officeDirectorName},</if>
+			<if test="officeTelNumber != ''">office_tel_number = #{officeTelNumber},</if>
+			<if test="officeAddress != ''">office_address = #{officeAddress},</if>
+			<if test="officeFaxNumber != ''">office_fax_number = #{officeFaxNumber},</if>
+		</set>
+		<where>
+			office_id = #{officeId}
+		</where>
+	</update>
 
 </mapper>

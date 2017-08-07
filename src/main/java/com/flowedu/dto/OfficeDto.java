@@ -37,4 +37,14 @@ public class OfficeDto {
         this.officeAddress = officeAddress;
         this.officeFaxNumber = officeFaxNumber;
     }
+
+    public OfficeDto(Long officeId, String officeName, String officeDirectorName, String officeTelNumber,
+        String officeAddress, String officeFaxNumber) {
+        this.officeId = officeId;
+        this.officeName = officeName;
+        this.officeDirectorName = officeDirectorName;
+        this.officeTelNumber = officeTelNumber;
+        this.officeAddress = officeAddress;
+        this.officeFaxNumber = officeFaxNumber;
+    }
 }
