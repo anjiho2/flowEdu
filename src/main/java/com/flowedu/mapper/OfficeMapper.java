@@ -1,5 +1,7 @@
 package com.flowedu.mapper;
 
+import com.amazonaws.services.dynamodbv2.xspec.L;
+import com.flowedu.dto.FlowEduTeamDto;
 import com.flowedu.dto.OfficeDto;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,6 +14,8 @@ public interface OfficeMapper {
 
     /** SELECT **/
     List<OfficeDto> getAcademyList(@Param("officeId") Long officeId);
+
+    List<FlowEduTeamDto> getFlowEduTeamList(@Param("teamId") Integer teamId);
 
     /** INSERT **/
     void saveAcademy(OfficeDto officeDto);

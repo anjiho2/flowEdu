@@ -11,8 +11,13 @@
 		</if>
 	</select>
 	
-	<select id="getFlowEduTeamList">
-		SELECT * FROM FLO
+	<select id="getFlowEduTeamList" resultType="com.flowedu.dto.FlowEduTeamDto">
+		SELECT * FROM FLOWEDU_TEAM_INFO
+		<if test="teamId > 0">
+			<where>
+				team_id = #{teamId}
+			</where>
+		</if>
 	</select>
 
 	<insert id="saveAcademy" parameterType="com.flowedu.dto.OfficeDto">
