@@ -31,6 +31,7 @@
 
 		<!--  dto 선언 -->
 		<convert converter="bean" match="com.flowedu.dto.FlowEduMemberDto"/>
+		<convert converter="bean" match="com.flowedu.dto.FlowEduMemberListDto"/>
 		<convert converter="bean" match="com.flowedu.dto.MemberTypeDto"/>
 		<convert converter="bean" match="com.flowedu.dto.OfficeDto"/>
 

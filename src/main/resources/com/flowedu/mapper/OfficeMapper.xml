@@ -10,6 +10,10 @@
 			</where>
 		</if>
 	</select>
+	
+	<select id="getFlowEduTeamList">
+		SELECT * FROM FLO
+	</select>
 
 	<insert id="saveAcademy" parameterType="com.flowedu.dto.OfficeDto">
 		INSERT INTO OFFICE

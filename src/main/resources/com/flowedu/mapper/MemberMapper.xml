@@ -8,9 +8,28 @@
 			member_birthday, member_address, member_email, sexual_assult_confirm_date,
 			education_reg_date, member_type, create_date
 		FROM FLOWEDU_MEMBER
-		<where>
-			flow_member_id = #{flowMemberId}
-		</where>
+		<if test="flowMemberId > 0">
+			<where>
+				flow_member_id = #{flowMemberId}
+			</where>
+		</if>
+	</select>
+
+	<select id="getFlowEduMemberListCount" resultType="Integer">
+		SELECT count(A.flow_member_id) as cnt
+		FROM FLOWEDU_MEMBER A LEFT JOIN OFFICE B
+		ON A.office_id = B.office_id
+	</select>
+
+	<select id="getFlowEduMemberList" resultType="com.flowedu.dto.FlowEduMemberListDto">
+		SELECT
+			A.flow_member_id, A.office_id, A.team_id, A.phone_number, A.member_name, A.member_birthday,
+			A.member_address, A.member_email, A.sexual_assult_confirm_date, A.education_reg_date,
+			A.member_type, B.office_name, C.team_name
+		FROM FLOWEDU_MEMBER A LEFT JOIN OFFICE B
+		ON A.office_id = B.office_id LEFT JOIN FLOWEDU_TEAM_INFO C
+		ON A.team_id = C.team_id
+		LIMIT #{start}, #{end}
 	</select>
 
 	<insert id="saveFlowEduMember" parameterType="com.flowedu.dto.FlowEduMemberDto">

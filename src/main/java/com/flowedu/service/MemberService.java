@@ -1,8 +1,11 @@
 package com.flowedu.service;
 
+import com.flowedu.config.PagingSupport;
 import com.flowedu.define.datasource.MemberType;
 import com.flowedu.dto.FlowEduMemberDto;
+import com.flowedu.dto.FlowEduMemberListDto;
 import com.flowedu.dto.MemberTypeDto;
+import com.flowedu.dto.PagingDto;
 import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
 import com.flowedu.mapper.MemberMapper;
@@ -18,7 +21,7 @@ import java.util.List;
  * Created by jihoan on 2017. 8. 4..
  */
 @Service
-public class MemberService {
+public class MemberService extends PagingSupport {
 
     @Autowired
     private MemberMapper memberMapper;
@@ -49,7 +52,7 @@ public class MemberService {
 
     /**
      * <PRE>
-     * 1. Comment : 멤버 타입 리스트 가져오기
+     * 1. Comment : 멤버 정보 가져오기
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .04
      * </PRE>
@@ -62,6 +65,36 @@ public class MemberService {
             throw new FlowEduException(FlowEduErrorCode.INTERNAL_ERROR);
         }
         return memberMapper.getFlowEduMember(flowMemberId);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 페이징 관련 멤버 개수 가져오기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .07
+     * </PRE>
+     * @return Integer
+     */
+    @Transactional(readOnly = true)
+    public int getFlowEduMemberListCount() {
+        return memberMapper.getFlowEduMemberListCount();
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 페이징 관련 멤버 리스트 가져오기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .07
+     * </PRE>
+     * @param sPage
+     * @param pageListCount
+     * @return FlowEduMemberListDto
+     */
+    @Transactional(readOnly = true)
+    public List<FlowEduMemberListDto> getFlowEduMemberList(int sPage, int pageListCount) {
+        PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
+        List<FlowEduMemberListDto> list = memberMapper.getFlowEduMemberList(pagingDto.getStart(), pageListCount);
+        return list;
     }
 
     /**
