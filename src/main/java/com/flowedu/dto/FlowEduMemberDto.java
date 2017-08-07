@@ -3,11 +3,13 @@ package com.flowedu.dto;
 import com.flowedu.util.Aes256;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * Created by jihoan on 2017. 8. 4..
  */
 @Data
-public class FlowEduMemberDto {
+public class FlowEduMemberDto implements Serializable {
     //  회원 아이디
     private Long flowMemberId;
 
@@ -47,7 +49,7 @@ public class FlowEduMemberDto {
     //  생성일
     private String createDate;
 
-    private FlowEduMemberDto() {}
+    public FlowEduMemberDto() {}
 
     public FlowEduMemberDto(Long officeId, Integer teamId, String phoneNumber, String memberName, String memberBirthDay,
                 String memeberAddress, String memberPassword, String memberEmail, String sexualAssultConfirmDate,

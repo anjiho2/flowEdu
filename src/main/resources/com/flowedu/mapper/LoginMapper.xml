@@ -2,4 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.flowedu.mapper.LoginMapper">
 
+    <select id="findFlowEduMember" resultType="Long">
+        SELECT flow_member_id
+        FROM FLOWEDU_MEMBER
+        <where>
+            phone_number = #{phoneNumber}
+        </where>
+        AND member_password = #{password}
+        AND member_type = #{memberType}
+    </select>
+
 </mapper>

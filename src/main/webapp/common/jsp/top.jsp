@@ -1,4 +1,5 @@
 <%@page import="com.flowedu.config.VersionConfigHolder"%>
+<%@ page import="com.flowedu.dto.FlowEduMemberDto" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/common/jsp/common.jsp" %>
@@ -8,6 +9,8 @@
 	
 	//VersionConfigHolder holder = new VersionConfigHolder();
 	String version = VersionConfigHolder.gerVersion();
+
+
 %>
 <!DOCTYPE html>
 <!--  jquery plugin -->

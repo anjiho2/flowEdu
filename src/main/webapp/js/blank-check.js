@@ -13,14 +13,14 @@ var isCheck = function() {
 	//input type=text 공백 체크
 	this.input = function(tagId, alertContent) {
 		if ($("#"+tagId).val() == "") {
-			jAlert(alertContent, tagId);
+			alert(alertContent, tagId);
 			return false;
 		} 
 	};
 	//input type=select 공백 체크
 	this.selectbox = function(tagId, alertContent) {
 		if ($("#"+tagId+" option:selected").val() == "") {
-			jAlert(alertContent, tagId);
+			alert(alertContent, tagId);
 			return false;
 		}
 	};

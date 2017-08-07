@@ -49,7 +49,7 @@ public class Aes256 {
 	public static void main(String[] args) throws Exception {
 		String mode = "encrypt";
 		String text = "{result:true}";
-		String encText = "{'"+"phone_number"+"':"+"'"+"01062585228,"+"'"+"uuid"+"':"+"'"+"956C3187-3580-42E1-ABAD-D21E8AF8A866"+"'}";
+		String encText = "1234";
 		String decText = "b+mP5oZmP6BYxVzF";
 		encText = Aes256.encrypt(encText);
 		System.out.println("enc::" + encText);
