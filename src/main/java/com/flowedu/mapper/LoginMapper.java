@@ -9,7 +9,6 @@ import java.util.List;
  */
 public interface LoginMapper {
 
-    List<UserDto> findUserName(@Param("start") int start, @Param("end") int end);
+    Long findFlowEduMember(@Param("phoneNumber") String phoneNumber, @Param("password") String password, @Param("memberType") String memberType);
 
-    int userCount();
 }

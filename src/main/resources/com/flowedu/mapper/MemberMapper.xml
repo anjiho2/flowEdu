@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flowedu.mapper.MemberMapper">
+
+	<select id="getFlowEduMember" parameterType="Long" resultType="com.flowedu.dto.FlowEduMemberDto">
+		SELECT
+			flow_member_id, office_id, team_id, phone_number, member_name,
+			member_birthday, member_address, member_email, sexual_assult_confirm_date,
+			education_reg_date, member_type, create_date
+		FROM FLOWEDU_MEMBER
+		<where>
+			flow_member_id = #{flowMemberId}
+		</where>
+	</select>
+
+	<insert id="saveFlowEduMember" parameterType="com.flowedu.dto.FlowEduMemberDto">
+		INSERT INTO FLOWEDU_MEMBER
+		(
+			office_id, team_id, phone_number, member_password,
+			member_name, member_birthday, member_address, member_email,
+			sexual_assult_confirm_date, education_reg_date, member_type
+		)
+		VALUES
+		(
+			#{officeId}, #{teamId}, #{phoneNumber}, #{memberPassword},
+			#{memberName}, #{memberBirthday}, #{memberAddress}, #{memberEmail},
+			#{sexualAssultConfirmDate}, #{educationRegDate}, #{memberType}
+		)
+	</insert>
+
+	<update id="modifyFlowEduMember" parameterType="com.flowedu.dto.FlowEduMemberDto">
+		UPDATE FLOWEDU_MEMBER
+		<set>
+			<if test="officeId > -1">office_id = #{officeId},</if>
+			<if test="teamId > -1">team_id = #{teamId},</if>
+			<if test="phoneNumber != ''">phone_number= #{phoneNumber},</if>
+			<if test="memberPassword != ''">member_password = #{memberPassword},</if>
+			<if test="memberName != ''">member_name = #{memberName},</if>
+			<if test="memberBirthday != ''">member_birthday = #{memberBirthday},</if>
+			<if test="memberAddress != ''">member_address = #{memberAddress},</if>
+			<if test="memberEmail != ''">member_email = #{memberEmail},</if>
+			<if test="sexualAssultConfirmDate != ''">sexual_assult_confirm_date = #{sexualAssultConfirmDate},</if>
+			<if test="educationRegDate != ''">education_reg_date = #{educationRegDate},</if>
+			<if test="memberType != ''">member_type = #{memberType}</if>
+		</set>
+		<where>
+			flow_member_id = #{flowMemberId}
+		</where>
+	</update>
+
+	<delete id="deleteFlowEduMember" parameterType="Long">
+		DELETE FROM FLOWEDU_MEMBER
+		<where>
+			flow_member_id = #{flowMemberId}
+		</where>
+	</delete>
+
+</mapper>

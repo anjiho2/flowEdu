@@ -1,3 +1,19 @@
+function memberTypeSelectbox(tag_id, val) {
+	memberService.getMemberType(function(list) {
+		var html = "<select id='sel_memberType'>";
+		html += "<option value=''>▶선택</option>";
+		for (var i=0; i<list.length; i++) {
+			if (list[i].memberTypeCode == val) {
+				html += "<option value="+list[i].memberTypeCode+" selected>"+ list[i].memberTypeName +"</option>";
+			} else {
+                html += "<option value="+list[i].memberTypeCode+">"+ list[i].memberTypeName +"</option>";
+			}
+		}
+		html += "</select>";
+		innerHTML(tag_id, html);
+    });
+}
+
 /**
  * <PRE>
  * 1. Comment :  스토어 리스트 검색종류 셀렉트박스

@@ -36,7 +36,7 @@
         <profile>
             <id>local</id>
             <properties>
-                <admin.db.url>jdbc:mysql://127.0.0.1:3306/angular_test_db</admin.db.url>
+                <admin.db.url>jdbc:mysql://127.0.0.1:3306/flowedu_dev</admin.db.url>
                 <admin.db.username>root</admin.db.username>
                 <admin.db.password>c7684301</admin.db.password>
                 <logger.root>/Users/jihoan/Downloads/</logger.root>
@@ -47,7 +47,7 @@
                 <google.email.username></google.email.username>
                 <google.email.password></google.email.password>
                 <service.isUseEmail>false</service.isUseEmail>
-                <service.version>1.2.2</service.version>
+                <service.version>1.0.0</service.version>
             </properties>
         </profile>
         <profile>
@@ -64,7 +64,7 @@
                 <google.email.username></google.email.username>
                 <google.email.password></google.email.password>
                 <service.isUseEmail>false</service.isUseEmail>
-                <service.version>1.2.2</service.version>
+                <service.version>1.0.0</service.version>
             </properties>
         </profile>
     </profiles>
