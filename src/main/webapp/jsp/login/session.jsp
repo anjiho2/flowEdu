@@ -14,7 +14,6 @@
 
 		try {
 			FlowEduMemberDto dto = CreateSESSION.sessionCF(request);
-			System.out.print("id ::" + dto.getFlowMemberId());
 			session.setAttribute("member_info", dto);
 			session.setMaxInactiveInterval(60*60);
 		}catch (Exception e) {
@@ -24,19 +23,12 @@
 
 	
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-	<script type='text/javascript' src='<%=webRoot%>/dwr/engine.js'></script>
-	<script type='text/javascript' src='<%=webRoot%>/dwr/util.js'></script>
-	<script type='text/javascript' src='<%=webRoot%>/common/js/common.js'></script>
-</head>
 <script type="text/javascript">
 var page_gbn = "<%=page_gbn%>";
 function init() {
 	with(document.frm) {
-		action = "<%=webRoot%>/dashboard.do";
-		page_gbn.value = "dashboardList";
+		action = "<%=webRoot%>/login.do";
+		page_gbn.value = "after";
 		submit();
 	}
 }
@@ -46,4 +38,3 @@ function init() {
 	<input type="hidden" name="page_gbn">
 </form>
 </body>
-</html>

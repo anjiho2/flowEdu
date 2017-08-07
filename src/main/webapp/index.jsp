@@ -45,6 +45,7 @@
             submit();
         }
     }
+    
 </script>
 <body onload="init();">
 <form name="frm" method="post">
@@ -65,7 +66,7 @@
 <%
     } else {
 %>
-    <input type="button" id="logoutBtn" value="로그아웃" onclick="logOut();">
+    <input type="button" id="logoutBtn" value="로그아웃" onclick="goLogout();">
 <%
     }
 %>
