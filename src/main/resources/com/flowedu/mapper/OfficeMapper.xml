@@ -36,4 +36,13 @@
 		</where>
 	</update>
 
+	<delete id="deleteAcademy">
+		DELETE FROM OFFICE
+		<if test="officeId > 0">
+			<where>
+				office_id = #{officeId}
+			</where>
+		</if>
+	</delete>
+
 </mapper>

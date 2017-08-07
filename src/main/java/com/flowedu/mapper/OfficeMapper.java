@@ -18,4 +18,7 @@ public interface OfficeMapper {
 
     /** UPDATE **/
     void modifyAcademy(OfficeDto officeDto);
+
+    /** DELETE **/
+    void deleteAcademy(@Param("officeId") Long officeId);
 }
