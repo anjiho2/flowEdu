@@ -23,7 +23,7 @@
         var academy_fax           = getInputTextValue("academy_fax");
 
         academyService.saveAcademy(academy_name,academy_directorname,academy_address,academy_allphone,academy_fax,function () {
-            alert("학원정보가 등록되었습니다.");
+            alert("학원정보가 등록 되었습니다.");
             location.reload();
         });
     }
@@ -34,9 +34,69 @@
             return;
         }
     }
+function academy_modify(officeid) {
+        alert(officeid);
+        goPage('academy', 'modify_academy');
+}
+
+function academyList() {
+        academyService.getAcademyList(0, function (selList) {
+            if (selList.length > 0) {
+                for (var i = 0; i < selList.length; i++) {
+                    var cmpList = selList[i];
+                    if (cmpList != undefined) {
+                        var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.officeId + "'/>";
+                        var modifyHTML = "<input type='button' name='modify' id='modify' value='수정' onclick='academy_modify(" + cmpList.officeId + ");'/>";
+
+                        var cellData = [
+                            function(data) {return checkHTML;},
+                            function(data) {return cmpList.officeName;},
+                            function(data) {return cmpList.officeDirectorName;},
+                            function(data) {return cmpList.officeTelNumber;},
+                            function(data) {return cmpList.officeAddress;},
+                            function(data) {return cmpList.officeFaxNumber;},
+                            function(data) {return cmpList.createDate;},
+                            function(data) {return modifyHTML;}
+                        ];
+
+                        dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
+                    }
+                }
+            }
+        });
+    }
+
+    function Delete() {
+       var result = true;
+        $("input[name=chk]:checked").each(function() {
+            var officeid = $(this).val();
+
+            if (officeid == "") {
+                jAlert(comment.blank_check);
+                return;
+            }
+            academyService.deleteAcademy(officeid, function(bl) {
+                if (bl == true) {
+                    result = true;
+                } else {
+                    result = false;
+                }
+            });
+        });
+        if (result == true) {
+            location.reload(true);
+        } else {
+            jAlert(comment.error);
+            return;
+        }
+    }
+
+
+
+
 </script>
-<body>
-<form name="frm" method="post">
+<body onload="academyList();">
+<form name="frm" method="get">
     <input type="hidden" name="page_gbn" id="page_gbn">
     <h1>학원정보입력page</h1>
     <table>
@@ -76,8 +136,39 @@
         </tr>
     </table>
     <input type="button" value="등록" onclick="save_academy();">
-</form>
+
 
 <h1>학원정보list</h1>
+<div id="academyList">
+    <table class="table_list" border="1">
+        <colgroup>
+            <col width="2%" />
+            <col width="*" />
+            <col width="*" />
+            <col width="*" />
+            <col width="*" />
+            <col width="*" />
+            <col width="*" />
+            <col width="*" />
+        </colgroup>
+        <thead>
+        <tr>
+            <th>
+                <input type="checkbox" id="chkAll" onclick="javascript:checkall('chkAll');">
+            </th>
+            <th>관명</th>
+            <th>원장명</th>
+            <th>관전화번호</th>
+            <th>주소</th>
+            <th>팩스번호</th>
+            <th>생성일</th>
+            <th>수정</th>
+        </tr>
+        </thead>
+        <tbody id="dataList"></tbody>
+        <input type="button" value="삭제" onclick="Delete();">
+    </table>
+</div>
+</form>
 </body>
 </html>
