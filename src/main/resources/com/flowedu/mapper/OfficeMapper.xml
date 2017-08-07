@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flowedu.mapper.OfficeMapper">
+
+	<insert id="saveAcademy" parameterType="com.flowedu.dto.OfficeDto">
+		INSERT INTO OFFICE
+		(
+			office_name, office_director_name, office_tel_number, office_address, office_fax_number
+		)
+		VALUES
+		(
+			#{officeName}, #{officeDirectorName}, #{officeTelNumber}, #{officeAddress}, #{officeFaxNumber}
+		)
+	</insert>
+
+</mapper>

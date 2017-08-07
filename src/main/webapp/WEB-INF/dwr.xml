@@ -7,6 +7,7 @@
 		<!-- ========================= SERVICE ======================== -->
 		<convert converter="bean" match="com.flowedu.service.LoginService"/>
 		<convert converter="bean" match="com.flowedu.service.MemberService"/>
+		<convert converter="bean" match="com.flowedu.service.AcademyService"/>
 
 
 		<create creator="spring" javascript="loginService">
@@ -19,6 +20,11 @@
 			<param name="beanName" value="memberService" />
 		</create>
 
+		<create creator="spring" javascript="academyService">
+			<param name="class" value="com.flowedu.service.AcademyService"/>
+			<param name="beanName" value="academyService" />
+		</create>
+
 
 		
 		<!-- ========================= MANAGER ======================== -->
@@ -26,7 +32,7 @@
 		<!--  dto 선언 -->
 		<convert converter="bean" match="com.flowedu.dto.FlowEduMemberDto"/>
 		<convert converter="bean" match="com.flowedu.dto.MemberTypeDto"/>
-
+		<convert converter="bean" match="com.flowedu.dto.OfficeDto"/>
 
 		<!-- define -->
 
