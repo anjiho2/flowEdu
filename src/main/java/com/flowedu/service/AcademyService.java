@@ -81,8 +81,20 @@ public class AcademyService {
         officeMapper.modifyAcademy(officeDto);
     }
 
+    /**
+     * <PRE>
+     * 1. Comment : 학원정보 삭제
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .07
+     * </PRE>
+     * @param officeId
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
     public void deleteAcademy(Long officeId) {
-        if
+        if (officeId == null || officeId < 1L) {
+            throw new FlowEduException(FlowEduErrorCode.INTERNAL_ERROR);
+        }
+        officeMapper.deleteAcademy(officeId);
     }
 
 }
