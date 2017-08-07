@@ -42,7 +42,14 @@ var comment = {
 		success_delete : "삭제됬습니다.",
 		success_cancel : "취소됬습니다.",
 
-		load_data : "데이타를 불러오는중.."
-		
+		load_data : "데이타를 불러오는중..",
+
+		input_academy_name : "학원명을 입력해주세요.",
+        input_academy_directorname : "학원원장명을 입력해주세요.",
+		input_academy_phone1 : "핸드폰번호 입력해주세요.",
+		input_academy_phone2 : "핸드폰번호 입력해주세요.",
+		input_academy_phone3 : "핸드폰번호 입력해주세요.",
+        input_academy_address : "학원주소를 입력해주세요",
+		input_academy_fax : "팩스번호를 입력해주세요.",
 }
 
