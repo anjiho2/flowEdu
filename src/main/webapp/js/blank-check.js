@@ -14,6 +14,7 @@ var isCheck = function() {
 	this.input = function(tagId, alertContent) {
 		if ($("#"+tagId).val() == "") {
 			alert(alertContent, tagId);
+			focusInputText(tagId);
 			return false;
 		} 
 	};
@@ -21,6 +22,7 @@ var isCheck = function() {
 	this.selectbox = function(tagId, alertContent) {
 		if ($("#"+tagId+" option:selected").val() == "") {
 			alert(alertContent, tagId);
+			focusInputText(tagId);
 			return false;
 		}
 	};

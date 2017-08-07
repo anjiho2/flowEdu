@@ -16,9 +16,9 @@
         var pass = getInputTextValue("memberPass");
         var memberType = getSelectboxValue("sel_memberType");
 
-        if (check.selectbox("sel_memberType", "tt") == false) return;
-        if (check.input("phoneNumber", "azz") == false) return;
-        if (check.input("memberPass", "rr") == false) return;
+        if (check.selectbox("sel_memberType", comment.select_member) == false) return;
+        if (check.input("phoneNumber", comment.insert_id) == false) return;
+        if (check.input("memberPass", comment.insert_password) == false) return;
 
         loginService.isMember(phoneNumber, pass, memberType, function(data) {
             console.log(data);

@@ -4,6 +4,8 @@ var comment = {
 		auth_error : "권한이 없습니다.",
 		cancel : "취소됬습니다.",
 		insert_number : "숫자를 입력하세요.",
+		insert_id : "아이디를 입력하세요.",
+		insert_password : "비밀번호를 입력하세요",
 		download : "다운로드",
 		insert : "등록",
 		update : "수정",
@@ -15,7 +17,8 @@ var comment = {
 		isExcelDownload : "엑셀표를 다운로드 받으시겠습니까?",
 		isSend : "발송하시겠습니까?",
 		isCancel : "취소하시겠습니까?",
-		
+
+		select_member : "멤버 종류를 선택하세요.",
 		select_search_list : "검색종류를 선택하세요.",
 		select_year : "년도를 선택하세요.",
 		select_product : "상품종류를 선택하세요.",
