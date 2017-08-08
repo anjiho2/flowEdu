@@ -50,4 +50,8 @@ public class StudentService {
         }
         studentMapper.saveStudentInfo(studentDto);
     }
+
+    public static void main(String[] args) {
+
+    }
 }
