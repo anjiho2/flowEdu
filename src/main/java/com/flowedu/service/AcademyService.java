@@ -1,5 +1,6 @@
 package com.flowedu.service;
 
+import com.flowedu.dto.FlowEduTeamDto;
 import com.flowedu.dto.OfficeDto;
 import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
@@ -34,6 +35,19 @@ public class AcademyService {
         return officeMapper.getAcademyList(officeId);
     }
 
+    /**
+     * <PRE>
+     * 1. Comment : 학원정보 리스트
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .07
+     * </PRE>
+     * @param teamId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<FlowEduTeamDto> getFlowEduTeamList(Integer teamId) {
+        return officeMapper.getFlowEduTeamList(teamId);
+    }
     /**
      * <PRE>
      * 1. Comment : 학원정보 저장
