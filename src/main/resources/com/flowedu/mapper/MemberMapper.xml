@@ -51,7 +51,7 @@
 
 	<select id="getMemberCount" parameterType="String" resultType="Integer">
 		SELECT count(flow_member_id) as cnt
-		FROM FLOW_MEMBER
+		FROM FLOWEDU_MEMBER
 		WHERE phone_number = #{phoneNumber}
 	</select>
 

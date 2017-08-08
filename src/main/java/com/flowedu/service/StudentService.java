@@ -45,15 +45,26 @@ public class StudentService {
     }
 
     /**
-     *
+     * <PRE>
+     * 1. Comment : 학생정보 입력하기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .08
+     * </PRE>
      * @param studentDto
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void saveStudentInfo(StudentDto studentDto) {
+    public void saveStudentInfo(StudentDto studentDto) throws Exception {
         if (studentDto == null) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
-        studentMapper.saveStudentInfo(studentDto);
+        StudentDto dto = new StudentDto(
+            studentDto.getStudentName(), studentDto.getStudentPassword(), studentDto.getStudentGender(),
+            studentDto.getStudentBirthday(), studentDto.getHomeTelNumber(), studentDto.getStudentPhoneNumber(),
+            studentDto.getStudentEmail(), studentDto.getSchoolName(), studentDto.getSchoolType(),
+            studentDto.getStudentGrade(), studentDto.getStudentPhotoFile(), studentDto.getStudentPhotoUrl(),
+            studentDto.getStudentMemo(), studentDto.getMotherName(), studentDto.getMotherPhoneNumber(),
+            studentDto.getFatherName(), studentDto.getFatherPhoneNumber()
+        );
+        studentMapper.saveStudentInfo(dto);
     }
-
 }
