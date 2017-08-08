@@ -51,13 +51,13 @@ public class StudentDto {
     private String studentMemo;
 
     //  학부모(모)이름
-    private String motherParentName;
+    private String motherName;
 
     //  학부모(모)전화번호
     private String motherPhoneNumber;
 
     //  학부모(부)이름
-    private String fatherParentName;
+    private String fatherName;
 
     //  학부모(부)전화번호
     private String fatherPhoneNumber;

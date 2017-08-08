@@ -12,7 +12,7 @@
 	</select>
 	
 	<select id="getFlowEduTeamList" resultType="com.flowedu.dto.FlowEduTeamDto">
-		SELECT * FROM FLOWEDU_TEAM_INFO
+		SELECT * FROM TEAM_INFO
 		<if test="teamId > 0">
 			<where>
 				team_id = #{teamId}
