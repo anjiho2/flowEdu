@@ -18,6 +18,15 @@
 		</if>
 	</select>
 
+	<select id="getFlowEduMemberCheck" parameterType="Long" resultType="com.flowedu.dto.FlowEduMemberDto">
+		SELECT * FROM FLOWEDU_MEMBER
+		<if test="flowMemberId > 0">
+			<where>
+				flow_member_id = #{flowMemberId}
+			</where>
+		</if>
+	</select>
+
 	<select id="getFlowEduMemberListCount" resultType="Integer">
 		SELECT count(A.flow_member_id) as cnt
 		FROM FLOWEDU_MEMBER A LEFT JOIN OFFICE B
