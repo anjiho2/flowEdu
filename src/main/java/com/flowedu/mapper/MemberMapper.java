@@ -12,7 +12,7 @@ import java.util.List;
 public interface MemberMapper {
 
     /** SELECT **/
-    FlowEduMemberDto getFlowEduMember(@Param("flowMemberId") Long flowMemberId);
+    List<FlowEduMemberListDto> getFlowEduMember(@Param("flowMemberId") Long flowMemberId);
 
     Integer getFlowEduMemberListCount();
 

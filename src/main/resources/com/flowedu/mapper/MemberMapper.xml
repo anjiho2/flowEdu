@@ -2,15 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.flowedu.mapper.MemberMapper">
 
-	<select id="getFlowEduMember" parameterType="Long" resultType="com.flowedu.dto.FlowEduMemberDto">
+	<select id="getFlowEduMember" parameterType="Long" resultType="com.flowedu.dto.FlowEduMemberListDto">
 		SELECT
-			flow_member_id, office_id, team_id, phone_number, member_name,
-			member_birthday, member_address, member_email, sexual_assult_confirm_date,
-			education_reg_date, member_type, create_date
-		FROM FLOWEDU_MEMBER
+		A.flow_member_id, A.office_id, A.team_id, A.job_position_id, A.phone_number, A.member_name,
+		A.member_birthday, A.member_address, A.member_email, A.sexual_assult_confirm_date,
+		A.education_reg_date, A.member_type, B.office_name, C.team_name, D.job_position_name
+		FROM FLOWEDU_MEMBER A LEFT JOIN OFFICE B
+		ON A.office_id = B.office_id LEFT JOIN TEAM_INFO C
+		ON A.team_id = C.team_id LEFT JOIN JOB_POSITION_INFO D
+		ON A.job_position_id = D.job_position_id
 		<if test="flowMemberId > 0">
 			<where>
-				flow_member_id = #{flowMemberId}
+				A.flow_member_id = #{flowMemberId}
 			</where>
 		</if>
 	</select>
@@ -23,12 +26,13 @@
 
 	<select id="getFlowEduMemberList" resultType="com.flowedu.dto.FlowEduMemberListDto">
 		SELECT
-			A.flow_member_id, A.office_id, A.team_id, A.phone_number, A.member_name, A.member_birthday,
-			A.member_address, A.member_email, A.sexual_assult_confirm_date, A.education_reg_date,
-			A.member_type, B.office_name, C.team_name
+			A.flow_member_id, A.office_id, A.team_id, A.job_position_id, A.phone_number, A.member_name,
+			A.member_birthday, A.member_address, A.member_email, A.sexual_assult_confirm_date,
+			A.education_reg_date, A.member_type, B.office_name, C.team_name, D.job_position_name
 		FROM FLOWEDU_MEMBER A LEFT JOIN OFFICE B
-		ON A.office_id = B.office_id LEFT JOIN FLOWEDU_TEAM_INFO C
-		ON A.team_id = C.team_id
+		ON A.office_id = B.office_id LEFT JOIN TEAM_INFO C
+		ON A.team_id = C.team_id LEFT JOIN JOB_POSITION_INFO D
+		ON A.job_position_id = D.job_position_id
 		LIMIT #{start}, #{end}
 	</select>
 

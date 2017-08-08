@@ -19,6 +19,9 @@ public class FlowEduMemberDto implements Serializable {
     //  팀 아이디
     private Integer teamId;
 
+    //  직책 아이디
+    private Integer jobPositionId;
+
     //  로그인 전화번호 사용
     private String phoneNumber;
 
@@ -51,11 +54,12 @@ public class FlowEduMemberDto implements Serializable {
 
     public FlowEduMemberDto() {}
 
-    public FlowEduMemberDto(Long officeId, Integer teamId, String phoneNumber, String memberName, String memberBirthDay,
+    public FlowEduMemberDto(Long officeId, int teamId, int jobPositionId,  String phoneNumber, String memberName, String memberBirthDay,
                 String memeberAddress, String memberPassword, String memberEmail, String sexualAssultConfirmDate,
                 String educationRegDate, String memberType) throws Exception {
         this.officeId = officeId;
         this.teamId = teamId;
+        this.jobPositionId = jobPositionId;
         this.phoneNumber = phoneNumber;
         this.memberName = memberName;
         this.memberBirthday = memberBirthDay;
@@ -68,12 +72,13 @@ public class FlowEduMemberDto implements Serializable {
         this.memberType = memberType;
     }
 
-    public FlowEduMemberDto(Long flowMemberId,Long officeId, Integer teamId, String phoneNumber, String memberName,
+    public FlowEduMemberDto(Long flowMemberId,Long officeId, Integer teamId, int jobPositionId, String phoneNumber, String memberName,
                             String memberBirthDay, String memeberAddress, String memberPassword, String memberEmail,
                             String sexualAssultConfirmDate, String educationRegDate, String memberType) throws Exception {
         this.flowMemberId = flowMemberId;
         this.officeId = officeId;
         this.teamId = teamId;
+        this.jobPositionId = jobPositionId;
         this.phoneNumber = phoneNumber;
         this.memberName = memberName;
         this.memberBirthday = memberBirthDay;

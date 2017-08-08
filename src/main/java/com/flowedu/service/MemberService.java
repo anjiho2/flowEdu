@@ -60,7 +60,7 @@ public class MemberService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public FlowEduMemberDto getFlowEduMember(Long flowMemberId) {
+    public List<FlowEduMemberListDto> getFlowEduMember(Long flowMemberId) {
         if (flowMemberId == null || flowMemberId == 0L) {
             throw new FlowEduException(FlowEduErrorCode.INTERNAL_ERROR);
         }
@@ -117,14 +117,14 @@ public class MemberService extends PagingSupport {
      * @throws Exception
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void saveFlowEduMember(Long officeId, Integer teamId, String phoneNumber, String memberPassword, String memberName,
+    public void saveFlowEduMember(Long officeId, Integer teamId, Integer jobPositionId, String phoneNumber, String memberPassword, String memberName,
         String memberBirthDay, String memberAddress, String memeberEmail, String sexualAssultConfirmDate,
         String educationRegDate, String memberType) throws Exception {
         if (officeId == null) {
             throw new FlowEduException(FlowEduErrorCode.INTERNAL_ERROR);
         }
         FlowEduMemberDto dto = new FlowEduMemberDto(
-            officeId, teamId, phoneNumber,  memberName, memberBirthDay, memberAddress,
+            officeId, teamId, jobPositionId,  phoneNumber,  memberName, memberBirthDay, memberAddress,
                 memberPassword, memeberEmail, sexualAssultConfirmDate, educationRegDate, memberType
         );
         memberMapper.saveFlowEduMember(dto);
@@ -151,14 +151,14 @@ public class MemberService extends PagingSupport {
      * @throws Exception
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void modifyFlowEduMember(Long flowMemberId, Long officeId, Integer teamId, String phoneNumber, String memberPassword, String memberName,
-        String memberBirthDay, String memberAddress, String memeberEmail, String sexualAssultConfirmDate,
-        String educationRegDate, String memberType) throws Exception {
+    public void modifyFlowEduMember(Long flowMemberId, Long officeId, Integer teamId, Integer jobPositionId, String phoneNumber,
+        String memberPassword, String memberName, String memberBirthDay, String memberAddress, String memeberEmail,
+        String sexualAssultConfirmDate, String educationRegDate, String memberType) throws Exception {
         if (flowMemberId == null || flowMemberId == 0L) {
             throw new FlowEduException(FlowEduErrorCode.INTERNAL_ERROR);
         }
         FlowEduMemberDto dto = new FlowEduMemberDto(
-                flowMemberId, officeId, teamId, phoneNumber,  memberName, memberBirthDay, memberAddress,
+                flowMemberId, officeId, teamId, jobPositionId, phoneNumber,  memberName, memberBirthDay, memberAddress,
                 memberPassword, memeberEmail, sexualAssultConfirmDate, educationRegDate, memberType
         );
         memberMapper.modifyFlowEduMember(dto);

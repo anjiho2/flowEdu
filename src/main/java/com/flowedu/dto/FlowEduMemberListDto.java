@@ -17,6 +17,9 @@ public class FlowEduMemberListDto {
     //  팀 아이디
     private Integer teamId;
 
+    // 직책 아이디
+    private Integer jobPositionId;
+
     //  로그인 전화번호 사용
     private String phoneNumber;
 
@@ -52,4 +55,7 @@ public class FlowEduMemberListDto {
 
     //팀 명
     private String teamName;
+
+    //직책 명
+    private String jobPositionName;
 }
