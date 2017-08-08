@@ -2,7 +2,7 @@
 <%@include file="/common/jsp/top.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type="text/javascript">
-    function save_academy() {
+    function save_academy() { //학원정보 저장
         var check = new isCheck();
 
         if(check.input("academy_name", comment.input_academy_name) == false) return;
@@ -27,19 +27,13 @@
             location.reload();
         });
     }
-    
-    function js_tab_order(arg, nextname, len) {
-        if (arg.value.length == len) {
-             nextname.focus()
-            return;
-        }
-    }
-function academy_modify(officeid) {
-        alert(officeid);
+
+   function academy_modify(officeid) { //수정페이지 이동
+        innerValue("office_id", officeid);
         goPage('academy', 'modify_academy');
 }
 
-function academyList() {
+    function academyList() { //학원정보리스트 가져오기
         academyService.getAcademyList(0, function (selList) {
             if (selList.length > 0) {
                 for (var i = 0; i < selList.length; i++) {
@@ -66,29 +60,18 @@ function academyList() {
         });
     }
 
-    function Delete() {
-       var result = true;
-        $("input[name=chk]:checked").each(function() {
+    function Delete() { //학원정보 삭제
+       $("input[name=chk]:checked").each(function() {
             var officeid = $(this).val();
 
             if (officeid == "") {
-                jAlert(comment.blank_check);
+                alert(comment.blank_check);
                 return;
             }
-            academyService.deleteAcademy(officeid, function(bl) {
-                if (bl == true) {
-                    result = true;
-                } else {
-                    result = false;
-                }
-            });
+            academyService.deleteAcademy(officeid, function() {});
         });
-        if (result == true) {
-            location.reload(true);
-        } else {
-            jAlert(comment.error);
-            return;
-        }
+       alert(comment.success_delete);
+       location.reload();
     }
 
 
@@ -97,6 +80,7 @@ function academyList() {
 </script>
 <body onload="academyList();">
 <form name="frm" method="get">
+    <input type="hidden" name="office_id" id="office_id">
     <input type="hidden" name="page_gbn" id="page_gbn">
     <h1>학원정보입력page</h1>
     <table>
@@ -115,9 +99,9 @@ function academyList() {
         <tr>
             <th>관 전화번호</th>
             <td>
-                <input type="text" size="2" id="academy_phone1" maxlength="2" onkeyup="js_tab_order(this,frm.academy_phone2,2)">
+                <input type="text" size="2" id="academy_phone1" maxlength="3" onkeyup="js_tab_order(this,frm.academy_phone2,2)">
                 -
-                <input type="text" size="5" id="academy_phone2" maxlength="4" onkeyup="js_tab_order(this,frm.academy_phone3,4)">
+                <input type="text" size="5" id="academy_phone2" maxlength="3" onkeyup="js_tab_order(this,frm.academy_phone3,4)">
                 -
                 <input type="text" size="5" id="academy_phone3" maxlength="4">
             </td>
