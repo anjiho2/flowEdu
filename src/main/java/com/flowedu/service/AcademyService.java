@@ -37,19 +37,6 @@ public class AcademyService {
 
     /**
      * <PRE>
-     * 1. Comment : 학원정보 리스트
-     * 2. 작성자 : 안지호
-     * 3. 작성일 : 2017. 08 .07
-     * </PRE>
-     * @param teamId
-     * @return
-     */
-    @Transactional(readOnly = true)
-    public List<FlowEduTeamDto> getFlowEduTeamList(Integer teamId) {
-        return officeMapper.getFlowEduTeamList(teamId);
-    }
-    /**
-     * <PRE>
      * 1. Comment : 학원정보 저장
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .07

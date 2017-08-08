@@ -2,13 +2,11 @@ package com.flowedu.service;
 
 import com.flowedu.config.PagingSupport;
 import com.flowedu.define.datasource.MemberType;
-import com.flowedu.dto.FlowEduMemberDto;
-import com.flowedu.dto.FlowEduMemberListDto;
-import com.flowedu.dto.MemberTypeDto;
-import com.flowedu.dto.PagingDto;
+import com.flowedu.dto.*;
 import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
 import com.flowedu.mapper.MemberMapper;
+import com.flowedu.mapper.OfficeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -25,6 +23,9 @@ public class MemberService extends PagingSupport {
 
     @Autowired
     private MemberMapper memberMapper;
+
+    @Autowired
+    private OfficeMapper officeMapper;
 
     /**
      * <PRE>
@@ -95,6 +96,54 @@ public class MemberService extends PagingSupport {
         PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
         List<FlowEduMemberListDto> list = memberMapper.getFlowEduMemberList(pagingDto.getStart(), pageListCount);
         return list;
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 팀 리스트
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .07
+     * </PRE>
+     * @param teamId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<FlowEduTeamDto> getFlowEduTeamList(Integer teamId) {
+        return officeMapper.getFlowEduTeamList(teamId);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 직책 리스트
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .07
+     * </PRE>
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<JobPositionDto> getJobPositionList() {
+        return memberMapper.getJobPositionList();
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 핸드폰 중복된 멤버가 있는지 확인
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .07
+     * </PRE>
+     * @param phoneNumber
+     * @return 있으면 false, 없으면 true
+     */
+    @Transactional(readOnly = true)
+    public boolean isMember(String phoneNumber) {
+        if ("".equals(phoneNumber)) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        int memberCount = memberMapper.getMemberCount(phoneNumber);
+        if (memberCount == 0) {
+            return false;
+        }
+        return true;
     }
 
     /**

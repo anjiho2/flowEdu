@@ -2,6 +2,7 @@ package com.flowedu.mapper;
 
 import com.flowedu.dto.FlowEduMemberDto;
 import com.flowedu.dto.FlowEduMemberListDto;
+import com.flowedu.dto.JobPositionDto;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -17,6 +18,10 @@ public interface MemberMapper {
     Integer getFlowEduMemberListCount();
 
     List<FlowEduMemberListDto> getFlowEduMemberList(@Param("start") int start, @Param("end") int end);
+
+    List<JobPositionDto> getJobPositionList();
+
+    Integer getMemberCount(@Param("phoneNumber") String phoneNumber);
 
     /** INSERT **/
     void saveFlowEduMember(FlowEduMemberDto flowEduMemberDto);

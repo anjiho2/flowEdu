@@ -35,6 +35,16 @@
 		ON A.job_position_id = D.job_position_id
 		LIMIT #{start}, #{end}
 	</select>
+	
+	<select id="getJobPositionList" resultType="com.flowedu.dto.JobPositionDto">
+		SELECT * FROM JOB_POSITION_INFO
+	</select>
+
+	<select id="getMemberCount" parameterType="String" resultType="Integer">
+		SELECT count(flow_member_id) as cnt
+		FROM FLOW_MEMBER
+		WHERE phone_number = #{phoneNumber}
+	</select>
 
 	<insert id="saveFlowEduMember" parameterType="com.flowedu.dto.FlowEduMemberDto">
 		INSERT INTO FLOWEDU_MEMBER
