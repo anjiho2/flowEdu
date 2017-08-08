@@ -5,6 +5,7 @@ import com.flowedu.dto.StudentDto;
 import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
 import com.flowedu.mapper.StudentMapper;
+import com.flowedu.util.JsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -43,6 +44,10 @@ public class StudentService {
         return Arr;
     }
 
+    /**
+     *
+     * @param studentDto
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public void saveStudentInfo(StudentDto studentDto) {
         if (studentDto == null) {
@@ -51,7 +56,4 @@ public class StudentService {
         studentMapper.saveStudentInfo(studentDto);
     }
 
-    public static void main(String[] args) {
-
-    }
 }

@@ -58,13 +58,13 @@
 	<insert id="saveFlowEduMember" parameterType="com.flowedu.dto.FlowEduMemberDto">
 		INSERT INTO FLOWEDU_MEMBER
 		(
-			office_id, team_id, phone_number, member_password,
+			office_id, team_id, job_position_id, phone_number, member_password,
 			member_name, member_birthday, member_address, member_email,
 			sexual_assult_confirm_date, education_reg_date, member_type
 		)
 		VALUES
 		(
-			#{officeId}, #{teamId}, #{phoneNumber}, #{memberPassword},
+			#{officeId}, #{teamId}, #{jobPositionId}, #{phoneNumber}, #{memberPassword},
 			#{memberName}, #{memberBirthday}, #{memberAddress}, #{memberEmail},
 			#{sexualAssultConfirmDate}, #{educationRegDate}, #{memberType}
 		)

@@ -1,5 +1,6 @@
 package com.flowedu.dto;
 
+import com.flowedu.util.Aes256;
 import lombok.Data;
 
 /**
@@ -67,5 +68,30 @@ public class StudentDto {
 
     //  생성일
     private String createDate;
+
+    public StudentDto() {}
+
+    public StudentDto(String studentName, String studentPassword, String studentGender, String studentBirthday, String homeTelNumber,
+                      String studentPhoneNumber, String studentEmail, String schoolName, String schoolType, int studentGrade,
+                      String studentPhotoFile, String studentPhotoUrl, String studentMemo, String motherName, String motherPhoneNumber,
+                      String fatherName, String fatherPhoneNumber) throws Exception {
+        this.studentName = studentName;
+        this.studentPassword = Aes256.encrypt(studentPassword);
+        this.studentGender = studentGender;
+        this.studentBirthday = studentBirthday;
+        this.homeTelNumber = homeTelNumber;
+        this.studentPhoneNumber = studentPhoneNumber;
+        this.studentEmail = studentEmail;
+        this.schoolName = schoolName;
+        this.schoolType = schoolType;
+        this.studentGrade = studentGrade;
+        this.studentPhotoFile = studentPhotoFile;
+        this.studentPhotoUrl = studentPhotoUrl;
+        this.studentMemo = studentMemo;
+        this.motherName = motherName;
+        this.motherPhoneNumber = motherPhoneNumber;
+        this.fatherName = fatherName;
+        this.fatherPhoneNumber = fatherPhoneNumber;
+    }
 
 }
