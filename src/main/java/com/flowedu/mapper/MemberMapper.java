@@ -15,6 +15,8 @@ public interface MemberMapper {
     /** SELECT **/
     List<FlowEduMemberListDto> getFlowEduMember(@Param("flowMemberId") Long flowMemberId);
 
+    FlowEduMemberDto getFlowEduMemberCheck(@Param("flowMemberId") Long flowMemberId);
+
     Integer getFlowEduMemberListCount();
 
     List<FlowEduMemberListDto> getFlowEduMemberList(@Param("start") int start, @Param("end") int end);

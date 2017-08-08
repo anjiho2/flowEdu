@@ -2,6 +2,7 @@ package com.flowedu.service;
 
 import com.flowedu.config.PagingSupport;
 import com.flowedu.dto.FlowEduMemberDto;
+import com.flowedu.dto.FlowEduMemberListDto;
 import com.flowedu.dto.PagingDto;
 import com.flowedu.mapper.LoginMapper;
 import com.flowedu.mapper.MemberMapper;
@@ -42,7 +43,7 @@ public class LoginService {
         FlowEduMemberDto dto = new FlowEduMemberDto();
         Long flowMemberId = loginMapper.findFlowEduMember(phoneNumber, Aes256.encrypt(password), memberType);
         if (flowMemberId != null) {
-            dto = memberMapper.getFlowEduMember(flowMemberId);
+            dto = memberMapper.getFlowEduMemberCheck(flowMemberId);
             return dto;
         }
         return dto;
