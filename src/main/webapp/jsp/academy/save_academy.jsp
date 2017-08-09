@@ -13,14 +13,14 @@
         if(check.input("academy_address", comment.input_academy_address) == false) return;
         if(check.input("academy_fax", comment.input_academy_fax) == false) return;
 
-        var academy_name                = getInputTextValue("academy_name");
+        var academy_name            = getInputTextValue("academy_name");
         var academy_directorname    = getInputTextValue("academy_directorname");
-        var academy_phone1   = getInputTextValue("academy_phone1");
-        var academy_phone2   = getInputTextValue("academy_phone2");
-        var academy_phone3   = getInputTextValue("academy_phone3");
-        var academy_allphone  = academy_phone1+academy_phone2+academy_phone3;
-        var academy_address   = getInputTextValue("academy_address");
-        var academy_fax           = getInputTextValue("academy_fax");
+        var academy_phone1          = getInputTextValue("academy_phone1");
+        var academy_phone2          = getInputTextValue("academy_phone2");
+        var academy_phone3          = getInputTextValue("academy_phone3");
+        var academy_allphone        = academy_phone1+academy_phone2+academy_phone3;
+        var academy_address         = getInputTextValue("academy_address");
+        var academy_fax             = getInputTextValue("academy_fax");
 
         academyService.saveAcademy(academy_name,academy_directorname,academy_address,academy_allphone,academy_fax,function () {
             alert("학원정보가 등록 되었습니다.");

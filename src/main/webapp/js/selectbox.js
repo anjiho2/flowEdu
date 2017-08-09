@@ -14,6 +14,53 @@ function memberTypeSelectbox(tag_id, val) {
     });
 }
 
+function jobPositionSelectbox(tag_id, val) { //직책 리스트
+    memberService.getJobPositionList(function(list) {
+        var html = "<select id='sel_jobPosition'>";
+        html += "<option value=''>▶선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].jobPositionId == val) {
+                html += "<option value="+list[i].jobPositionId+" selected>"+ list[i].jobPositionName +"</option>";
+            } else {
+                html += "<option value="+list[i].jobPositionId+">"+ list[i].jobPositionName +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
+function academyListSelectbox(tag_id, val) { //소속부서(학원)리스트
+    academyService.getAcademyList(function(list) {
+        var html = "<select id='sel_academyList'>";
+        html += "<option value=''>▶선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].officeId == val) {
+                html += "<option value="+list[i].officeId+" selected>"+ list[i].officeName +"</option>";
+            } else {
+                html += "<option value="+list[i].officeId+">"+ list[i].officeName +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
+function flowEduTeamListSelectbox(tag_id, val) { //소속팀 리스트
+    memberService.getFlowEduTeamList(function(list) {
+        var html = "<select id='sel_FlowEduTeamList'>";
+        html += "<option value=''>▶선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].teamId == val) {
+                html += "<option value="+list[i].teamId+" selected>"+ list[i].teamName +"</option>";
+            } else {
+                html += "<option value="+list[i].teamId+">"+ list[i].teamName +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
 /**
  * <PRE>
  * 1. Comment :  스토어 리스트 검색종류 셀렉트박스

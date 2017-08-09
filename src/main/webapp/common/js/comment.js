@@ -51,5 +51,18 @@ var comment = {
 		input_academy_phone3 : "핸드폰번호 입력해주세요.",
         input_academy_address : "학원주소를 입력해주세요",
 		input_academy_fax : "팩스번호를 입력해주세요.",
+
+		input_member_name : "직원명을 입력해주세요.",
+		input_member_phone1 : "핸드폰번호 입력해주세요.",
+    	input_member_phone2 : "핸드폰번호 입력해주세요.",
+    	input_member_phone3 : "핸드폰번호 입력해주세요.",
+		input_member_startDate : "생년월일을 입력해주세요.",
+		input_member_tel1 : "전화번호를 입력해주세요.",
+		input_member_tel2 : "전화번호를 입력해주세요",
+		input_member_tel3 : "전화번호를 입력해주세요",
+    	input_member_address : "주소를 입력해주세요.",
+    	input_member_email : "이메일주소를 입력해주세요.",
+   		input_member_startSearchDate : "성범죄경력조회 확인일자를 선택해주세요.",
+    	input_member_startSearchDate2: "교육청 강사등록일자를 선택해주세요.",
 }
 
