@@ -9,6 +9,7 @@
 		<convert converter="bean" match="com.flowedu.service.MemberService"/>
 		<convert converter="bean" match="com.flowedu.service.AcademyService"/>
 		<convert converter="bean" match="com.flowedu.service.StudentService"/>
+		<convert converter="bean" match="com.flowedu.service.LectureService"/>
 
 
 		<create creator="spring" javascript="loginService">
@@ -31,6 +32,11 @@
 			<param name="beanName" value="studentService" />
 		</create>
 
+		<create creator="spring" javascript="lectureService">
+			<param name="class" value="com.flowedu.service.LectureService"/>
+			<param name="beanName" value="lectureService" />
+		</create>
+
 
 		<!-- ========================= MANAGER ======================== -->
 
@@ -41,6 +47,7 @@
 		<convert converter="bean" match="com.flowedu.dto.MemberTypeDto"/>
 		<convert converter="bean" match="com.flowedu.dto.OfficeDto"/>
 		<convert converter="bean" match="com.flowedu.dto.JobPositionDto"/>
+		<convert converter="bean" match="com.flowedu.dto.StudentDto"/>
 
 		<!-- define -->
 

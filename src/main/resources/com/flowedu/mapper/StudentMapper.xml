@@ -2,6 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.flowedu.mapper.StudentMapper">
 
+	<select id="getStudentInfo" resultType="com.flowedu.dto.StudentDto">
+		SELECT * FROM STUDENT
+		WHERE student_id = #{studentId}
+	</select>
+
+	<select id="getSudentListCount" resultType="Integer">
+		SELECT count(student_id) FROM STUDENT
+	</select>
+
+	<select id="getSudentList" resultType="com.flowedu.dto.StudentDto">
+		SELECT * FROM STUDENT
+		LIMIT #{start}, #{end}
+	</select>
+
 	<insert id="saveStudentInfo" parameterType="com.flowedu.dto.StudentDto">
 		INSERT INTO STUDENT
 		(
@@ -19,5 +33,30 @@
 
 		)
 	</insert>
+
+	<update id="modifyStudentInfo" parameterType="com.flowedu.dto.StudentDto">
+		UPDATE STUDENT
+		<set>
+			<if test="studentName != ''">student_name = #{studentName},</if>
+			<if test="studentGender != ''">student_gender = #{studentGender},</if>
+			<if test="studentBirthday != ''">student_birthday = #{studentBirthday},</if>
+			<if test="homeTelNumber != ''">home_tel_number = #{homeTelNumber},</if>
+			<if test="studentPhoneNumber != ''">student_phone_number = #{studentPhoneNumber},</if>
+			<if test="studentEmail != ''">student_email = #{studentEmail},</if>
+			<if test="schoolName != ''">school_name = #{schoolName},</if>
+			<if test="schoolType != ''">school_type = #{schoolType},</if>
+			<if test="studentGrade != ''">student_grade = #{studentGrade},</if>
+			<if test="studentPhotoFile != ''">student_photo_file = #{studentPhotoFile},</if>
+			<if test="studentPhotoUrl != ''">student_photo_url = #{studentPhotoUrl},</if>
+			<if test="studentMemo != ''">student_memo = #{studentMemo},</if>
+			<if test="motherName != ''">mother_name = #{motherName},</if>
+			<if test="motherPhoneNumber != ''">mother_phone_number = #{motherPhoneNumber},</if>
+			<if test="fatherName != ''">father_name = #{fatherName},</if>
+			<if test="fatherPhoneNumber != ''">father_phone_number = #{fatherPhoneNumber},</if>
+		</set>
+		<where>
+			student_id = #{studentId}
+		</where>
+	</update>
 
 </mapper>

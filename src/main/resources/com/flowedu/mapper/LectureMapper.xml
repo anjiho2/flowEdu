@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flowedu.mapper.LectureMapper">
+
+	<select id="getLectureRoomCount" resultType="Integer">
+		SELECT count(lecture_room_id) FROM LECTURE_ROOM_INFO
+	</select>
+
+	<insert id="saveLectureRoom" parameterType="String">
+		INSERT INTO LECTURE_ROOM_INFO
+		(lecture_room_name)
+		VALUES
+		(#{lectureRoomName})
+	</insert>
+
+
+</mapper>
