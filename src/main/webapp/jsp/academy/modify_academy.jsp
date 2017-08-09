@@ -39,7 +39,7 @@
 
     function academyList() { //학원정보가져오기
 
-        var officeId                = getInputTextValue("officeId");
+        var officeId        = getInputTextValue("officeId");
         academyService.getAcademyList(officeId, function (selList) {
             console.log(selList);
          if (selList.length > 0) {

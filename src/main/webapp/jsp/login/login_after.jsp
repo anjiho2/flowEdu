@@ -26,9 +26,8 @@
         <nav>
             <ul>
                 <li onclick="goPage('academy', 'save_academy')">학원정보</li>
-                <li>원생정보</li>
-                <li>운영자정보</li>
-                <li>선생님정보</li>
+                <li onclick="goPage('student', 'save_student')">원생정보</li>
+                <li onclick="goPage('member', 'save_member')">운영자/선생님정보</li>
             </ul>
         </nav>
     </div>

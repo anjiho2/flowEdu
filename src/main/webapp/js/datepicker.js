@@ -1,4 +1,3 @@
-
 $(function() {
 	$("#startDate").datepicker({
 		dateFormat: 'yy-mm-dd',
@@ -7,6 +6,7 @@ $(function() {
 		changeMonth: true, //월변경가능
 	    changeYear: true, //년변경가능
 		showMonthAfterYear: true, //년 뒤에 월 표시
+        yearRange: 'c-99:c+99',
 	});
 });
  
