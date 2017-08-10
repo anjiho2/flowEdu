@@ -26,7 +26,7 @@
 		)
 		VALUES
 		(
-			#{studentName}, {studentPassword}, #{studentGender}, #{studentBirthday}, #{homeTelNumber},
+			#{studentName}, #{studentPassword}, #{studentGender}, #{studentBirthday}, #{homeTelNumber},
 			#{studentPhoneNumber}, #{studentEmail}, #{schoolName}, #{schoolType}, #{studentGrade},
 			#{studentPhotoFile}, #{studentPhotoUrl}, #{studentMemo}, #{motherName},
 			#{motherPhoneNumber}, #{fatherName}, #{fatherPhoneNumber}, #{parentPassword}

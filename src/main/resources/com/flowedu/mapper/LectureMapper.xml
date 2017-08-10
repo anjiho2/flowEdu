@@ -2,16 +2,91 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.flowedu.mapper.LectureMapper">
 
-	<select id="getLectureRoomCount" resultType="Integer">
-		SELECT count(lecture_room_id) FROM LECTURE_ROOM_INFO
+	<select id="getLectureRoomList" resultType="com.flowedu.dto.LectureRoomDto">
+		SELECT A.lecture_room_id, A.office_id, A.lecture_room_name, B.office_name
+		FROM LECTURE_ROOM_INFO A LEFT JOIN OFFICE B
+		ON A.office_id = B.office_id
+		<if test="officeId > 0">
+			<where>
+				A.office_id = #{officeId}
+			</where>
+		</if>
 	</select>
 
-	<insert id="saveLectureRoom" parameterType="String">
+	<select id="getLectureRoomCount" resultType="Integer">
+		SELECT count(lecture_room_id)
+		FROM LECTURE_ROOM_INFO
+		WHERE office_id = #{officeId}
+		AND lecture_room_name = #{lectureRoomName}
+	</select>
+
+	<select id="getLecturePriceList" resultType="com.flowedu.dto.LecturePriceDto">
+		SELECT lecture_price_id, lecture_price FROM LECTURE_PRICE ORDER BY lecture_price ASC
+	</select>
+
+	<select id="getLecturePriceCount" parameterType="Integer" resultType="Integer">
+		SELECT count(lecture_price_id)
+		FROM LECTURE_PRICE
+		WHERE lecture_price = #{lecturePrice}
+	</select>
+
+	<insert id="saveLectureRoom">
 		INSERT INTO LECTURE_ROOM_INFO
-		(lecture_room_name)
+		(office_id, lecture_room_name)
 		VALUES
-		(#{lectureRoomName})
+		(#{officeId}, #{lectureRoomName})
 	</insert>
+
+	<insert id="saveLecturePrice" parameterType="Integer">
+		INSERT INTO LECTURE_PRICE (lecture_price)
+		VALUES (#{lecturePrice})
+	</insert>
+
+	<insert id="saveLectureInfo" parameterType="com.flowedu.dto.LectureInfoDto">
+		INSERT INTO LECTURE_INFO
+		(
+			office_id, charge_member_id, manage_member_id, lecture_price_id, lecture_name,
+			lecture_subject, lecture_grade, lecture_level, lecture_operation_type,
+			lecture_start_date, lecture_end_date, lecture_limit_student, lecture_status
+		)
+		VALUES
+		(
+			#{officeId}, #{chargeMemberId}, #{manageMemberId}, #{lecturePriceId}, #{lectureName},
+			#{lectureSubject}, #{lectureGrade}, #{lectureLevel}, #{lectureOperationType},
+			#{lectureStartDate}, #{lectureEndDate}, #{lectureLimitStudent}, #{lectureStatus}
+		)
+		<selectKey resultType="Long" keyProperty="lectureId" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<insert id="saveLectureDetailList" parameterType="com.flowedu.dto.LectureDetailDto">
+		INSERT INTO LECTURE_DETAIL_INFO
+		(
+			lecture_id, lecture_room_id, start_time, end_time, lecture_day
+		)
+		<foreach collection="lectureDeatilList" item="values" separator=",">
+		( #{values.lectureId}, #{values.lectureRoomId}, #{values.startTime}, #{values.endTime}, #{values.lectureDay} )
+		</foreach>
+	</insert>
+
+	<update id="modifyLectureRoom">
+		UPDATE LECTURE_ROOM_INFO
+		<set>
+			<if test="officeId != null or officeId > 0">office_id = #{officeId},</if>
+			<if test="lectureRoomName != ''">lecture_room_name = #{lectureRoomName}</if>
+		</set>
+		WHERE lecture_room_id = #{lectureRoomId}
+	</update>
+
+	<update id="modifuLecturePrice">
+		UPDATE LECTURE_PRICE
+		<set>
+			lecture_price = #{lecturePrice}
+		</set>
+		WHERE lecture_price_id = #{lecturePriceId}
+	</update>
+
 
 
 </mapper>

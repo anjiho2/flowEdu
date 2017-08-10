@@ -48,7 +48,9 @@
 		<convert converter="bean" match="com.flowedu.dto.OfficeDto"/>
 		<convert converter="bean" match="com.flowedu.dto.JobPositionDto"/>
 		<convert converter="bean" match="com.flowedu.dto.StudentDto"/>
-
+		<convert converter="bean" match="com.flowedu.dto.LectureRoomDto"/>
+		<convert converter="bean" match="com.flowedu.dto.LecturePriceDto"/>
+		<convert converter="bean" match="com.flowedu.dto.LectureInfoDto"/>
 		<!-- define -->
 
 		
