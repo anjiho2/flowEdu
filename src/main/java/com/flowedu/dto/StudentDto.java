@@ -94,11 +94,12 @@ public class StudentDto {
         this.fatherPhoneNumber = fatherPhoneNumber;
     }
 
-    public StudentDto(Long studentId, String studentName, String studentGender, String studentBirthday, String homeTelNumber,
+    public StudentDto(Long studentId, String studentPasword, String studentName, String studentGender, String studentBirthday, String homeTelNumber,
                       String studentPhoneNumber, String studentEmail, String schoolName, String schoolType, int studentGrade,
                       String studentPhotoFile, String studentPhotoUrl, String studentMemo, String motherName, String motherPhoneNumber,
                       String fatherName, String fatherPhoneNumber) throws Exception {
         this.studentId = studentId;
+        this.studentPassword = Aes256.encrypt(studentPasword);
         this.studentName = studentName;
         this.studentGender = studentGender;
         this.studentBirthday = studentBirthday;

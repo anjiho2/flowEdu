@@ -180,7 +180,7 @@ public class StudentService extends PagingSupport {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
         StudentDto dto = new StudentDto(
-                studentDto.getStudentId(), studentDto.getStudentName(), studentDto.getStudentGender(),
+                studentDto.getStudentId(), studentDto.getStudentPassword(), studentDto.getStudentName(), studentDto.getStudentGender(),
                 studentDto.getStudentBirthday(), studentDto.getHomeTelNumber(), studentDto.getStudentPhoneNumber(),
                 studentDto.getStudentEmail(), studentDto.getSchoolName(), studentDto.getSchoolType(),
                 studentDto.getStudentGrade(), studentDto.getStudentPhotoFile(), studentDto.getStudentPhotoUrl(),
