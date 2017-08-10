@@ -60,7 +60,7 @@ function fn_search(val) {
         });
     });
 }
-function save_academy() { // 운영자.선생님정보등록
+function save_member() { // 운영자.선생님정보등록
     var check = new isCheck();
 
     if(check.input("member_name", comment.input_member_name)       == false) return;
@@ -211,7 +211,7 @@ function Delete() { //운영자|선생님정보 삭제
             </td>
         </tr>
     </table>
-    <input type="button" value="등록" onclick="save_academy();">
+    <input type="button" value="등록" onclick="save_member();">
 
 
 <h1>운영자/선생님정보 LIST</h1>

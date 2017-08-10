@@ -20,6 +20,8 @@ public class StudentController {
 
         if("save_student".equals(page_gbn)){
             mvc.setViewName("/student/save_student");
+        }else if("modify_student".equals(page_gbn)){
+            mvc.setViewName("/student/modify_student");
         }
         return mvc;
     }
