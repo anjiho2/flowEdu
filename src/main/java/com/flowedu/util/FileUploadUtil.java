@@ -116,7 +116,7 @@ public class FileUploadUtil {
                     if (!todayDirectory.isDirectory()) {
                         todayDirectory.mkdirs();
                     }
-                    map.put("file_url", yearDirectory+"/"+mmdd);
+                    map.put("file_url", DateUtils.getNowYear()+"/"+mmdd);
                     if (originalFileName != null || !"".equals(originalFileName)) {
                         File serverFile = new File(FileUtil.concatPath(todayDirectory.toString(), finalFileName));
                         multipartFile.transferTo(serverFile);
