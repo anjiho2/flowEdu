@@ -153,6 +153,10 @@
             });
         }
     }
+
+    function school_radio(school_grade) {
+        schoolSelectbox("student_grade","", school_grade);
+    }
 </script>
 <body onload="init();">
 <form name="frm" id="frm" method="get">
@@ -253,11 +257,11 @@
         <tr>
             <th>학부모(모)전화번호</th>
             <td>
-                <input type="text" size="2" id="mother_phone1" name="mother_phone1" maxlength="3" onkeyup="js_tab_order(this,frm.mother_phone2,3)" disabled>
+                <input type="text" size="2" id="mother_phone1" name="mother_phone1" maxlength="3" onkeyup="js_tab_order(this,frm.mother_phone2,3)">
                 -
-                <input type="text" size="5" id="mother_phone2" name="mother_phone2" maxlength="4" onkeyup="js_tab_order(this,frm.mother_phone3,4)" disabled>
+                <input type="text" size="5" id="mother_phone2" name="mother_phone2" maxlength="4" onkeyup="js_tab_order(this,frm.mother_phone3,4)">
                 -
-                <input type="text" size="5" id="mother_phone3" name="mother_phone3" maxlength="4" disabled>
+                <input type="text" size="5" id="mother_phone3" name="mother_phone3" maxlength="4">
             </td>
         </tr>
 
