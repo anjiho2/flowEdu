@@ -271,7 +271,7 @@ public class LectureService {
     @Transactional(propagation = Propagation.REQUIRED)
     public void modifyLectureDetailInfo(LectureDetailDto lectureDetailDto) {
         if (lectureDetailDto == null) {
-            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST)
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
         lectureMapper.modifyLectureDetailInfo(lectureDetailDto);
     }
