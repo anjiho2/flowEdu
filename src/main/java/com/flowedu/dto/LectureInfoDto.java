@@ -52,4 +52,16 @@ public class LectureInfoDto {
 
     //  생성일
     private String createDate;
+
+
+    private String chargeMemberName;
+
+    private String manageMemberName;
+
+    private String officeName;
+
+    private Integer lecturePrice;
+
+
+
 }

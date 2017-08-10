@@ -35,7 +35,7 @@
         <mybatis.spring.version>1.2.2</mybatis.spring.version>
          -->
 	</properties>
-
+	<!--
 	<repositories>
 		<repository>
 			<id>central</id>
@@ -53,7 +53,7 @@
 			<snapshots><enabled>true</enabled></snapshots>
 		</pluginRepository>
 	</pluginRepositories>
-
+		-->
 	<build>
 		<finalName>flowEdu</finalName>
 
@@ -368,6 +368,11 @@
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>3.1</version>
 		</dependency>
 	</dependencies>
 

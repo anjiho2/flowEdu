@@ -22,6 +22,10 @@ public interface LectureMapper {
 
     Integer getLecturePriceCount(@Param("lecturePrice") int lecturePrice);
 
+    List<LectureInfoDto> getLectureInfoList(@Param("flowMemberId") Long flowMemberId, @Param("memberType") String memberType);
+
+    List<LectureDetailDto> getLectureDetailInfoList(@Param("lectureId") Long lectureId);
+
     /** INSERT **/
     void saveLectureRoom(@Param("officeId") Long officeId, @Param("lectureRoomName") String lectureRoomName);
 
@@ -35,5 +39,9 @@ public interface LectureMapper {
     void modifyLectureRoom(@Param("lectureRoomId") Long lectureRoomId, @Param("lectureRoomName") String lectureRoomName);
 
     void modifuLecturePrice(@Param("lecturePriceId") Long lecturePriceId, @Param("lecturePrice") int lecturePrice);
+
+    void modifyLectureInfo(LectureInfoDto lectureInfoDto);
+
+    void modifyLectureDetailInfo(LectureDetailDto lectureDetailDto);
 
 }

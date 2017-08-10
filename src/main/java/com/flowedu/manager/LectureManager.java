@@ -32,13 +32,15 @@ public class LectureManager {
      * @param lectureDetailDtoList
      * @return
      */
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRED)
     public boolean regLecture(LectureInfoDto lectureInfoDto, List<LectureDetailDto> lectureDetailDtoList) {
         if (lectureInfoDto == null) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
+        //LECTURE_INFO 테이블 정보 입력
         Long lectureId = lectureService.saveLectureInfo(lectureInfoDto);
         if (lectureDetailDtoList.size() > 0) {
+            //특정 강의에 상세 정보 입력(LECTURE_DETAIL_INFO)
             lectureService.saveLectureDetailInfo(lectureId, lectureDetailDtoList);
         }
         return true;
@@ -61,7 +63,9 @@ public class LectureManager {
         dto.setLectureStatus("ON");
 
         //this.saveLectureInfo(dto);
+
         List<LectureDetailDto> Arr = new ArrayList<>();
+        /*
         for (int i=0; i<2; i++) {
             LectureDetailDto detailDto = new LectureDetailDto();
             detailDto.setLectureRoomId(2L);
@@ -70,6 +74,7 @@ public class LectureManager {
             detailDto.setLectureDay("MON");
             Arr.add(detailDto);
         }
+        */
         this.regLecture(dto, Arr);
     }
 

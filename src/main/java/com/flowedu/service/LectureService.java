@@ -83,6 +83,38 @@ public class LectureService {
 
     /**
      * <PRE>
+     * 1. Comment : 강의 기본 정보 리스트
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .10
+     * </PRE>
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<LectureInfoDto> getLectureInfoList() {
+        List<LectureInfoDto> Arr = new ArrayList<>();
+        Arr = lectureMapper.getLectureInfoList(UserSession.flowMemberId(), UserSession.memberType());
+        return Arr;
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 강의 상세 정보
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .10
+     * </PRE>
+     * @param lectureId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<LectureDetailDto> getLectureDetailInfoList(Long lectureId) {
+        if (lectureId < 1L) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        return lectureMapper.getLectureDetailInfoList(lectureId);
+    }
+
+    /**
+     * <PRE>
      * 1. Comment : 강의실 명 저장
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .09
@@ -172,11 +204,6 @@ public class LectureService {
         lectureMapper.saveLectureDetailList(Arr);
     }
 
-    public void test() {
-        //Date startDate = DateUtils.stringToDate("2017-09-01");
-        //Date endDate = DateUtils.stringToDate("2017-09-3");
-    }
-
     /**
      * <PRE>
      * 1. Comment : 강의실 명 수정
@@ -215,6 +242,38 @@ public class LectureService {
         }
         lectureMapper.modifuLecturePrice(lecturePriceId, lecturePrice);
         return true;
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 강의 기본 정보 수정
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .10
+     * </PRE>
+     * @param lectureInfoDto
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void modifyLectureInfo(LectureInfoDto lectureInfoDto) {
+        if (lectureInfoDto == null) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        lectureMapper.modifyLectureInfo(lectureInfoDto);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 강의 상세
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .10
+     * </PRE>
+     * @param lectureDetailDto
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void modifyLectureDetailInfo(LectureDetailDto lectureDetailDto) {
+        if (lectureDetailDto == null) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST)
+        }
+        lectureMapper.modifyLectureDetailInfo(lectureDetailDto);
     }
 
 

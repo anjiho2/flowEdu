@@ -30,6 +30,31 @@
 		WHERE lecture_price = #{lecturePrice}
 	</select>
 
+	<select id="getLectureInfoList" resultType="com.flowedu.dto.LectureInfoDto">
+		SELECT A.*, B.member_name as charge_member_name, C.member_name as manage_member_name,
+			   D.office_name, E.lecture_price
+		FROM LECTURE_INFO A LEFT JOIN FLOWEDU_MEMBER B
+		ON A.charge_member_id = B.flow_member_id LEFT JOIN FLOWEDU_MEMBER C
+		ON A.manage_member_id = C.flow_member_id LEFT JOIN OFFICE D
+		ON A.office_id = D.office_id LEFT JOIN LECTURE_PRICE E
+		ON A.lecture_price_id = E.lecture_price_id
+		<if test="memberType = 'TEACHER'">
+			<where>
+				A.charge_member_id = #{flowMemberId} OR A.manage_member_id = #{flowMemberId}
+			</where>
+		</if>
+	</select>
+
+	<select id="getLectureDetailInfoList" parameterType="Long" resultType="com.flowedu.dto.LectureDetailDto">
+		SELECT A.*, B.office_id, B.lecture_room_name, C.office_name
+		FROM LECTURE_DETAIL_INFO A LEFT JOIN LECTURE_ROOM_INFO B
+		ON A.lecture_room_id = B.lecture_room_id LEFT JOIN OFFICE C
+		ON B.office_id = C.office_id
+		<if test="lectureId > 0">
+			<where>A.lecture_id = #{lectureId}</where>
+		</if>
+	</select>
+
 	<insert id="saveLectureRoom">
 		INSERT INTO LECTURE_ROOM_INFO
 		(office_id, lecture_room_name)
@@ -65,6 +90,7 @@
 		(
 			lecture_id, lecture_room_id, start_time, end_time, lecture_day
 		)
+		VALUES
 		<foreach collection="lectureDeatilList" item="values" separator=",">
 		( #{values.lectureId}, #{values.lectureRoomId}, #{values.startTime}, #{values.endTime}, #{values.lectureDay} )
 		</foreach>
@@ -85,6 +111,38 @@
 			lecture_price = #{lecturePrice}
 		</set>
 		WHERE lecture_price_id = #{lecturePriceId}
+	</update>
+
+	<update id="modifyLectureInfo" parameterType="com.flowedu.dto.LectureInfoDto">
+		UPDATE LECTURE_INFO
+		<set>
+			<if test="officeId > 0">office_id = #{officeId},</if>
+			<if test="chargeMemberId > 0">charge_member_id = #{chargeMemberId},</if>
+			<if test="manageMemberId > 0">manage_member_id = #{manageMemberId},</if>
+			<if test="lecturePriceId > 0">lecture_price_id = #{lecturePriceId},</if>
+			<if test="lectureName != ''">lecture_name = #{lectureName},</if>
+			<if test="lectureSubject != ''">lecture_subject = #{lectureSubject},</if>
+			<if test="lectureGrade > 0">lecutre_grade = #{lectureGrade},</if>
+			<if test="lectureLevel != ''">lecture_level = #{lectureLevel},</if>
+			<if test="lectureOperationType != ''">lecture_operation_type = #{lectureOperationType},</if>
+			<if test="lectureStartDate != ''">lecture_start_date = #{lectureStartDate},</if>
+			<if test="lectureEndDate != ''">lecture_end_date = #{lectureEndDate},</if>
+			<if test="lectureLimitStudent > 0">lecture_limit_student = #{lectureLimitStudent},</if>
+			<if test="lectureStatus != ''">lecture_status = #{lectureStatus},</if>
+		</set>
+		WHERE lecture_id = #{lectureId}
+	</update>
+
+	<update id="modifyLectureDetailInfo" parameterType="com.flowedu.dto.LectureDetailDto">
+		UPDATE LECTURE_DETAIL_INFO
+		<set>
+			<if test="lectureId > 0">lecutre_id = #{lectureId},</if>
+			<if test="lectureRoomId > 0">lecture_room_id = #{lectureRoomId},</if>
+			<if test="startTime != ''">start_time = #{startTime},</if>
+			<if test="endTime != ''">end_time = #{endTime},</if>
+			<if test="lectureDay != ''">lecture_day = #{lectureDay}</if>
+		</set>
+		WHERE lecture_detail_id = #{lectureDetailId}
 	</update>
 
 

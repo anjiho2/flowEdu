@@ -187,6 +187,7 @@ public class StudentService extends PagingSupport {
                 studentDto.getStudentMemo(), studentDto.getMotherName(), studentDto.getMotherPhoneNumber(),
                 studentDto.getFatherName(), studentDto.getFatherPhoneNumber()
         );
+        studentMapper.modifyStudentInfo(dto);
     }
 
 }

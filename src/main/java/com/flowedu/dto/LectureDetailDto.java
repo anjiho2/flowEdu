@@ -28,6 +28,12 @@ public class LectureDetailDto {
     //  생성일
     private String createDate;
 
+    private Long officeId;
+
+    private String lectureLoomName;
+
+    private String officeName;
+
     public LectureDetailDto() {}
 
     public LectureDetailDto(Long lectureId, Long lectureRoomId,

@@ -17,6 +17,8 @@
   		http://www.directwebremoting.org/schema/spring-dwr http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd
   		">
 
+	<tx:annotation-driven proxy-target-class="true"/>
+
   	<!-- 세션 인터셉터 설정 -->
 
 	<!--<mvc:interceptors>-->
