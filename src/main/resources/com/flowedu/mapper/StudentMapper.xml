@@ -38,6 +38,7 @@
 		UPDATE STUDENT
 		<set>
 			<if test="studentName != ''">student_name = #{studentName},</if>
+			<if test="studentPassword != ''">student_password = #{studentPassword},</if>
 			<if test="studentGender != ''">student_gender = #{studentGender},</if>
 			<if test="studentBirthday != ''">student_birthday = #{studentBirthday},</if>
 			<if test="homeTelNumber != ''">home_tel_number = #{homeTelNumber},</if>
