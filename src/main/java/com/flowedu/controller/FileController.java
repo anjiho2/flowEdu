@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.util.Map;
+
 /**
  * Created by jihoan on 2017. 7. 24..
  */
@@ -18,11 +20,11 @@ public class FileController {
 
     @RequestMapping(value = "/upload.do", method = RequestMethod.POST)
     public @ResponseBody String fileUpload(MultipartHttpServletRequest request) {
-        String fileName = FileUploadUtil.fileUploadYmdLocation(request, getFileUploadRoot());
-        if (!"".equals(fileName)) {
-            return new JsonBuilder().add("result", "1").build();
+        Map<String, Object> uploadInfoMap = FileUploadUtil.fileUploadYmdLocation(request, getFileUploadRoot());
+        if (uploadInfoMap != null) {
+            return new JsonBuilder().add("result", uploadInfoMap).build();
         }
-        return new JsonBuilder().add("result", "0").build();
+        return new JsonBuilder().add("result", null).build();
     }
 
     public String getFileUploadRoot() {

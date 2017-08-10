@@ -175,23 +175,6 @@ public class LectureService {
     public void test() {
         //Date startDate = DateUtils.stringToDate("2017-09-01");
         //Date endDate = DateUtils.stringToDate("2017-09-3");
-
-        LectureInfoDto dto = new LectureInfoDto();
-        dto.setOfficeId(4L);
-        dto.setChargeMemberId(5L);
-        dto.setManageMemberId(6L);
-        dto.setLecturePriceId(1L);
-        dto.setLectureName("강의1");
-        dto.setLectureSubject("수학");
-        dto.setLectureGrade(1);
-        dto.setLectureLevel("LOW");
-        dto.setLectureOperationType("MONTH");
-        dto.setLectureStartDate("2017-09-01");
-        dto.setLectureEndDate("2017-09-30");
-        dto.setLectureLimitStudent(20);
-        dto.setLectureStatus("ON");
-
-        this.saveLectureInfo(dto);
     }
 
     /**

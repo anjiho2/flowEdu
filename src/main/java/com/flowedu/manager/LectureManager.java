@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,7 +32,7 @@ public class LectureManager {
      * @param lectureDetailDtoList
      * @return
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public boolean regLecture(LectureInfoDto lectureInfoDto, List<LectureDetailDto> lectureDetailDtoList) {
         if (lectureInfoDto == null) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
@@ -41,6 +42,35 @@ public class LectureManager {
             lectureService.saveLectureDetailInfo(lectureId, lectureDetailDtoList);
         }
         return true;
+    }
+
+    public void test() {
+        LectureInfoDto dto = new LectureInfoDto();
+        dto.setOfficeId(4L);
+        dto.setChargeMemberId(5L);
+        dto.setManageMemberId(6L);
+        dto.setLecturePriceId(1L);
+        dto.setLectureName("강의1");
+        dto.setLectureSubject("수학");
+        dto.setLectureGrade(1);
+        dto.setLectureLevel("LOW");
+        dto.setLectureOperationType("MONTH");
+        dto.setLectureStartDate("2017-09-01");
+        dto.setLectureEndDate("2017-09-30");
+        dto.setLectureLimitStudent(20);
+        dto.setLectureStatus("ON");
+
+        //this.saveLectureInfo(dto);
+        List<LectureDetailDto> Arr = new ArrayList<>();
+        for (int i=0; i<2; i++) {
+            LectureDetailDto detailDto = new LectureDetailDto();
+            detailDto.setLectureRoomId(2L);
+            detailDto.setStartTime("11:00:00");
+            detailDto.setEndTime("12:00:00");
+            detailDto.setLectureDay("MON");
+            Arr.add(detailDto);
+        }
+        this.regLecture(dto, Arr);
     }
 
 }
