@@ -14,6 +14,12 @@
     function studentList() {
         var student_id        = getInputTextValue("student_id");
         studentService.getStudentInfo(student_id, function (selList) {
+                    var file_url = 'C:/dev/download/'+selList.studentPhotoUrl+"/"+selList.studentPhotoFile;
+                    $("#modify_preView").attr("src", file_url);
+                    if(file_url != null) {
+                        gfn_display("preview", true);
+                    }
+
                     innerValue("student_name", selList.studentName);
                     innerValue("startDate", selList.studentBirthday);
                     $('input:radio[name=student_gender]:input[value=' + selList.studentGender + ']').attr("checked", true);
@@ -157,6 +163,10 @@
     function school_radio(school_grade) {
         schoolSelectbox("student_grade","", school_grade);
     }
+    
+    function school_search_popup() {
+        alert("1");
+    }
 </script>
 <body onload="init();">
 <form name="frm" id="frm" method="get">
@@ -166,6 +176,7 @@
     <input type="hidden" id="student_id" name="student_id" value="<%=student_id%>">
     <h1>학생정보입력 수정page</h1>
     <table>
+
         <tr>
             <th>학생사진</th>
             <td>
@@ -239,7 +250,7 @@
         <tr>
             <th>학교이름</th>
             <td>
-                <input type="text" id="schoolname" name="schoolname">
+                <input type="text" id="schoolname" name="schoolname" onclick="school_search_popup();">
             </td>
         </tr>
         <tr>

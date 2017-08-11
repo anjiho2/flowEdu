@@ -189,18 +189,16 @@ function student_modify(student_id) { //수정페이지 이동
     goPage('student', 'modify_student');
 }
 
-function Delete() { //학생  삭제
-   /* $("input[name=chk]:checked").each(function() {
-        var student_id = $(this).val();
 
-        if (student_id == "") {
-            alert(comment.blank_check);
-            return;
-        }
-        studentService.deleteStudent(student_id, function() {});
-    });
-    alert(comment.success_delete);
-    location.reload();*/
+function school_search_popup() {
+    var school_type =  $(":input:radio[name=school_type]:checked").val();
+
+    if(school_type == null){
+        alert("학교구분을 선택해 주세요.");
+        return false;
+    }
+    var param = "?school_type="+school_type;
+     gfn_winPop(750,200,"jsp/popup/school_search_popup.jsp",param);
 }
 </script>
 <body onload="init();">
@@ -279,15 +277,15 @@ function Delete() { //학생  삭제
             </td>
         </tr>
         <tr>
-            <th>학년</th>
+            <th>학교이름</th>
             <td>
-                <span id="student_grade"></span>
+                <input type="text" id="schoolname" onclick="school_search_popup();">
             </td>
         </tr>
         <tr>
-            <th>학교이름</th>
+            <th>학년</th>
             <td>
-                <input type="text" id="schoolname" >
+                <span id="student_grade"></span>
             </td>
         </tr>
         <tr>
@@ -385,3 +383,5 @@ function Delete() { //학생  삭제
 </form>
 </body>
 </html>
+
+
