@@ -28,6 +28,9 @@
                 <li onclick="goPage('academy', 'save_academy')">학원정보</li>
                 <li onclick="goPage('student', 'save_student')">원생정보</li>
                 <li onclick="goPage('member', 'save_member')">운영자/선생님정보</li>
+                <li onclick="goPage('lecture', 'lecture_info')">강의관리</li>
+                <li onclick="goPage('lecture', 'lecture_price')">강의가격</li>
+                <li onclick="goPage('lecture', 'lecture_room')">강의룸</li>
             </ul>
         </nav>
     </div>

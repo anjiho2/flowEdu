@@ -1898,3 +1898,8 @@ function get_allphonenum(phone1,phone2,phone3) {
 	return all_phonenum;
 }
 
+//쌍따옴표 제거
+function remove_double_quotation(val) {
+    var removed_str =   val.replace(/"/g, "");
+	return removed_str;
+}
