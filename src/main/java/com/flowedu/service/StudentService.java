@@ -9,6 +9,7 @@ import com.flowedu.error.FlowEduException;
 import com.flowedu.mapper.StudentMapper;
 import com.flowedu.util.GsonJsonReader;
 import com.flowedu.util.JsonBuilder;
+import com.flowedu.util.JsonParser;
 import com.google.api.client.json.Json;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -138,8 +139,9 @@ public class StudentService extends PagingSupport {
             return null;
         }
         JsonObject contentJsonObj = jsonArray.get(0).getAsJsonObject();
-        String schoolName = contentJsonObj.get("schoolName").toString();
-        return schoolName.replaceAll("\"", "");
+        JsonParser jsonParser = new JsonParser(contentJsonObj.toString());
+        String schoolName = (String)jsonParser.val("schoolName");
+        return schoolName;
     }
 
     /**

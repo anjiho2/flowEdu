@@ -55,6 +55,40 @@
 		</if>
 	</select>
 
+	<select id="getLectureInfo" resultType="com.flowedu.dto.LectureInfoDto">
+		SELECT A.*, B.member_name as charge_member_name, C.member_name as manage_member_name,
+		D.office_name, E.lecture_price
+		FROM LECTURE_INFO A LEFT JOIN FLOWEDU_MEMBER B
+		ON A.charge_member_id = B.flow_member_id LEFT JOIN FLOWEDU_MEMBER C
+		ON A.manage_member_id = C.flow_member_id LEFT JOIN OFFICE D
+		ON A.office_id = D.office_id LEFT JOIN LECTURE_PRICE E
+		ON A.lecture_price_id = E.lecture_price_id
+		WHERE A.lecture_id = #{lectureId}
+	</select>
+
+	<select id="getLectureDetailCountByTime" resultType="Integer">
+		SELECT count(*) FROM LECTURE_DETAIL_INFO
+		WHERE lecture_room_id = #{lectureRoomId}
+		<![CDATA[
+		AND TIME_TO_SEC(time(start_time)) <= TIME_TO_SEC(time(#{startTime}))
+		]]>
+		<![CDATA[
+		AND  TIME_TO_SEC(time(end_time)) <= TIME_TO_SEC(time(#{endTime}))
+		]]>
+		AND lecture_day = #{lectureDay}
+	</select>
+
+	<select id="getRegisteredLectureStudentCount" resultType="Integer">
+		SELECT count(lecture_rel_id) FROM LECUTRE_STUDENT_REL WHERE lecture_id = #{lectureId}
+	</select>
+	
+	<select id="getStudentListByLectureRegister" resultType="com.flowedu.dto.LectureStudentRelDto">
+		SELECT A.*, B.student_name, B.school_name
+		FROM LECTURE_STUDENT_REL A LEFT JOIN STUDENT B
+		ON A.student_id = B.student_id
+		WHERE A.lecture_id = #{lectureId}
+	</select>
+
 	<insert id="saveLectureRoom">
 		INSERT INTO LECTURE_ROOM_INFO
 		(office_id, lecture_room_name)
@@ -93,6 +127,15 @@
 		VALUES
 		<foreach collection="lectureDeatilList" item="values" separator=",">
 		( #{values.lectureId}, #{values.lectureRoomId}, #{values.startTime}, #{values.endTime}, #{values.lectureDay} )
+		</foreach>
+	</insert>
+
+	<insert id="saveLectureStudentRel" parameterType="com.flowedu.dto.LectureStudentRelDto">
+		INSERT INTO LECTURE_STUDENT_REL
+		( lecture_id , student_id )
+		VALUES
+		<foreach collection="relList" item="values" separator=",">
+		( #{values.lectureId}, #{values.studentId} )
 		</foreach>
 	</insert>
 
