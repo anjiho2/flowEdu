@@ -11,6 +11,7 @@ import com.flowedu.util.GsonJsonReader;
 import com.flowedu.util.JsonBuilder;
 import com.google.api.client.json.Json;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -138,7 +139,7 @@ public class StudentService extends PagingSupport {
         }
         JsonObject contentJsonObj = jsonArray.get(0).getAsJsonObject();
         String schoolName = contentJsonObj.get("schoolName").toString();
-        return schoolName;
+        return schoolName.replaceAll("\"", "");
     }
 
     /**

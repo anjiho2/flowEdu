@@ -144,7 +144,14 @@
 		</set>
 		WHERE lecture_detail_id = #{lectureDetailId}
 	</update>
-
-
+	<!--
+	 mysql 시간 비교하기
+	SELECT count(*)
+	FROM LECTURE_DETAIL_INFO
+	WHERE lecture_room_id = 2
+	AND TIME_TO_SEC(time(start_time)) <=  TIME_TO_SEC(time('11:01:00'))
+	AND  TIME_TO_SEC(time(end_time)) >=  TIME_TO_SEC(time('11:59:00'))
+	AND lecture_day = 'MON'
+		-->
 
 </mapper>
