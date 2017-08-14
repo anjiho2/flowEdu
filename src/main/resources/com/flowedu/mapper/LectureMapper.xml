@@ -187,14 +187,22 @@
 		</set>
 		WHERE lecture_detail_id = #{lectureDetailId}
 	</update>
-	<!--
-	 mysql 시간 비교하기
-	SELECT count(*)
-	FROM LECTURE_DETAIL_INFO
-	WHERE lecture_room_id = 2
-	AND TIME_TO_SEC(time(start_time)) <=  TIME_TO_SEC(time('11:01:00'))
-	AND  TIME_TO_SEC(time(end_time)) >=  TIME_TO_SEC(time('11:59:00'))
-	AND lecture_day = 'MON'
-		-->
+
+	<update id="modifyLecutreStatus">
+		UPDATE LECTURE_INFO
+		<set>
+			<if test="lectureStatus != ''">lecture_status = #{lectureStatus}</if>
+		</set>
+		WHERE lecture_id = #{lectureId}
+	</update>
+
+	<update id="modifyLectureStudentRel">
+		UPDATE LECTURE_STUDENT_REL
+		<set>
+			<if test="lectureId > 0">lecture_id = #{lectureId},</if>
+			<if test="studentId > 0">student_id = #{studentId}</if>
+		</set>
+		WHERE lecture_rel_id = #{lectureRelId}
+	</update>
 
 </mapper>

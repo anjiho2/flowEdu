@@ -43,12 +43,16 @@ public interface LectureMapper {
     void saveLectureStudentRel(@Param("relList") List<LectureStudentRelDto> lectureStudentRelDtoList);
 
     /** UPDATE **/
-    void modifyLectureRoom(@Param("lectureRoomId") Long lectureRoomId, @Param("lectureRoomName") String lectureRoomName);
+    void modifyLectureRoom(@Param("lectureRoomId") Long lectureRoomId, @Param("officeId") Long officeId, @Param("lectureRoomName") String lectureRoomName);
 
     void modifuLecturePrice(@Param("lecturePriceId") Long lecturePriceId, @Param("lecturePrice") int lecturePrice);
 
     void modifyLectureInfo(LectureInfoDto lectureInfoDto);
 
     void modifyLectureDetailInfo(LectureDetailDto lectureDetailDto);
+
+    void modifyLecutreStatus(@Param("lectureId") Long lectureId, @Param("lectureStatus") String lectureStatus);
+
+    void modifyLectureStudentRel(@Param("lectureRelId") Long lectureRelId, @Param("lectureId") Long lectureId, @Param("studentId") Long studentId);
 
 }

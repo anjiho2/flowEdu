@@ -1,6 +1,8 @@
 package com.flowedu.service;
 
 import com.flowedu.define.datasource.LectureDay;
+import com.flowedu.define.datasource.LectureOperationType;
+import com.flowedu.define.datasource.LectureStatus;
 import com.flowedu.dto.*;
 import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
@@ -32,6 +34,66 @@ public class LectureService {
 
     /**
      * <PRE>
+     * 1. Comment : 요일 리스트 가져오기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .09
+     * </PRE>
+     * @return
+     */
+    public List<HashMap<String, Object>> getLectureDayList() {
+        List<HashMap<String, Object>> Arr = new ArrayList<>();
+
+        for (int i=0; i<LectureDay.size(); i++) {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("dayCode", LectureDay.getLectureDayCode(i).toString());
+            map.put("dayName", LectureDay.getLectureDayName(i));
+            Arr.add(map);
+        }
+        return Arr;
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 강의 상태 리스트 가져오기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .14
+     * </PRE>
+     * @return
+     */
+    public List<HashMap<String, Object>> getLectureStatusList() {
+        List<HashMap<String, Object>> Arr = new ArrayList<>();
+
+        for (int i=0; i<LectureStatus.size(); i++) {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("statusCode", LectureStatus.getLectureStatusCode(i).toString());
+            map.put("statusName", LectureStatus.getLectureStatusName(i));
+            Arr.add(map);
+        }
+        return Arr;
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 강의 운영 형태 리스트
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .14
+     * </PRE>
+     * @return
+     */
+    public List<HashMap<String, Object>> getLectureOperationTypeList() {
+        List<HashMap<String, Object>> Arr = new ArrayList<>();
+
+        for (int i=0; i< LectureOperationType.size(); i++) {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("operationTypeCode", LectureOperationType.getLectureOpeationTypeCode(i).toString());
+            map.put("operationTypeName", LectureOperationType.getLectureOperationTypeName(i));
+            Arr.add(map);
+        }
+        return Arr;
+    }
+
+    /**
+     * <PRE>
      * 1. Comment : 강의실 리스트 가져오기
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .09
@@ -56,26 +118,6 @@ public class LectureService {
     @Transactional(readOnly = true)
     public List<LecturePriceDto> getLecturePriceList() {
         return lectureMapper.getLecturePriceList();
-    }
-
-    /**
-     * <PRE>
-     * 1. Comment : 요일 리스트 가져오기
-     * 2. 작성자 : 안지호
-     * 3. 작성일 : 2017. 08 .09
-     * </PRE>
-     * @return
-     */
-    public List<HashMap<String, Object>> getLectureDayList() {
-        List<HashMap<String, Object>> Arr = new ArrayList<>();
-
-        for (int i=0; i< LectureDay.size(); i++) {
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("dayCode", LectureDay.getLectureDayCode(i).toString());
-            map.put("dayName", LectureDay.getLectureDayName(i));
-            Arr.add(map);
-        }
-        return Arr;
     }
 
     /**
@@ -277,11 +319,11 @@ public class LectureService {
      * @param lectureRoomName
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void modifyLectureRoom(Long lectureRoomId, String lectureRoomName) {
+    public void modifyLectureRoom(Long lectureRoomId, Long officeId, String lectureRoomName) {
         if (lectureRoomId < 1L && "".equals(lectureRoomName)) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
-        lectureMapper.modifyLectureRoom(lectureRoomId, lectureRoomName);
+        lectureMapper.modifyLectureRoom(lectureRoomId, officeId, lectureRoomName);
     }
 
     /**
@@ -325,7 +367,7 @@ public class LectureService {
 
     /**
      * <PRE>
-     * 1. Comment : 강의 상세
+     * 1. Comment : 강의 상세 정보 수정
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .10
      * </PRE>
@@ -337,6 +379,41 @@ public class LectureService {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
         lectureMapper.modifyLectureDetailInfo(lectureDetailDto);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 강의 상태 변경
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .14
+     * </PRE>
+     * @param lectureId
+     * @param lectureStatus (LectureStatus enum 클래스 정의)
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void modifyLecutreStatus(Long lectureId, String lectureStatus) {
+        if (lectureId == null) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        lectureMapper.modifyLecutreStatus(lectureId, lectureStatus);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 강의와 학생 연관 값 변경 (LECTURE_STUDENT_REL)
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .14
+     * </PRE>
+     * @param lectureRelId
+     * @param lectureId
+     * @param studentId
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void modifyLectureStudentRel(Long lectureRelId, Long lectureId, Long studentId) {
+        if (lectureRelId == null || lectureId == null || studentId == null) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        lectureMapper.modifyLectureStudentRel(lectureRelId, lectureId, studentId);
     }
 
 

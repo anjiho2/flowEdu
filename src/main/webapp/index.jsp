@@ -47,8 +47,9 @@
     }
 
     function test() {
-        var i=0;
-        $("#div_1").clone().attr("id", "id" + i++).insertAfter("#div_1").appendTo("body");
+        var cloneCount=1;
+        $("#div_1").clone().attr("id", "div_" + cloneCount++).insertAfter("#div_1").appendTo("body");
+
     }
     
 </script>
