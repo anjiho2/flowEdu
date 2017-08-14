@@ -1,6 +1,7 @@
 package com.flowedu.service;
 
 import com.flowedu.config.PagingSupport;
+import com.flowedu.config.SchoolSearchConfigHoler;
 import com.flowedu.define.datasource.SchoolType;
 import com.flowedu.dto.PagingDto;
 import com.flowedu.dto.StudentDto;
@@ -38,10 +39,6 @@ import java.util.List;
 public class StudentService extends PagingSupport {
 
     private final Logger logger = LoggerFactory.getLogger(StudentService.class);
-
-    private static final String SCHOOL_SEARCH_API_KEY = "e72f78b94377a9f6c7d56a69ef44bf80";
-
-    private static final String SCHOOL_SEARCH_API_URL = "http://www.career.go.kr/cnet/openapi/getOpenApi";
 
     @Autowired
     private StudentMapper studentMapper;
@@ -129,7 +126,9 @@ public class StudentService extends PagingSupport {
         if ("".equals(gubun) && region == null) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
-        String url = SCHOOL_SEARCH_API_URL + "?apiKey=" + SCHOOL_SEARCH_API_KEY + "&svcType=api&svcCode=SCHOOL&contentType=json&gubun="
+        String schoolSearchApikey = SchoolSearchConfigHoler.getSchoolSearchApiKey();
+        String schoolSearchApiUrl = SchoolSearchConfigHoler.getSchoolSearchApiUrl();
+        String url = schoolSearchApiUrl + "?apiKey=" + schoolSearchApikey + "&svcType=api&svcCode=SCHOOL&contentType=json&gubun="
                 + gubun + "&region=" + region + "&searchSchulNm=" + URLEncoder.encode(searchScoolName, "UTF-8");
 
         JsonObject jsonStr = GsonJsonReader.readJsonFromUrl(url);
@@ -140,8 +139,7 @@ public class StudentService extends PagingSupport {
         }
         JsonObject contentJsonObj = jsonArray.get(0).getAsJsonObject();
         JsonParser jsonParser = new JsonParser(contentJsonObj.toString());
-        String schoolName = (String)jsonParser.val("schoolName");
-        return schoolName;
+        return  (String)jsonParser.val("schoolName");
     }
 
     /**
