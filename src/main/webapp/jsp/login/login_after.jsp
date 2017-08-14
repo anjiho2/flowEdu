@@ -1,9 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/common/jsp/top.jsp" %>
-<script type="text/javascript">
-
-</script>
-<body>
 <style>
     body {margin: 0;}
     #fixed-menu {width: 100%;background-color: #ffffff;position: fixed;  top: 0px;left: 0px;}
@@ -14,12 +10,7 @@
     nav{margin-top: 20px;padding: 10px 0;border-top: 1px solid #969696;border-bottom: 1px solid #969696;}
     img {max-width: 100%;}
 </style>
-<script type="text/javascript" src="http://code.jquery.com/jquery-3.2.0.min.js" ></script>
-<script>
-    $('#academy').click(function () {
-        alert("123");
-    })
-</script>
+<body>
 <form name="frm" method="get">
     <input type="hidden" name="page_gbn" id="page_gbn">
     <div id="fixed-menu">

@@ -45,6 +45,12 @@
             submit();
         }
     }
+
+    function test() {
+        var cloneCount=1;
+        $("#div_1").clone().attr("id", "div_" + cloneCount++).insertAfter("#div_1").appendTo("body");
+
+    }
     
 </script>
 <body onload="init();">
@@ -63,6 +69,17 @@
     <input type="text" id="phoneNumber">
     <input type="password" id="memberPass" name="memberPass">
     <input type="button" id="loginBtn" value="로그인" onclick="loginCheck();">
+
+    <input type="button" value="추가" onclick="test();">
+    <div id="div_1">
+        <input type="text">
+        <input type="button" value="버튼">
+        <select>
+            <option>1</option>
+            <option>2</option>
+        </select>
+    </div>
+
 <%
     } else {
 %>

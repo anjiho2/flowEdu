@@ -1,9 +1,6 @@
 package com.flowedu.mapper;
 
-import com.flowedu.dto.LectureDetailDto;
-import com.flowedu.dto.LectureInfoDto;
-import com.flowedu.dto.LecturePriceDto;
-import com.flowedu.dto.LectureRoomDto;
+import com.flowedu.dto.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -26,6 +23,14 @@ public interface LectureMapper {
 
     List<LectureDetailDto> getLectureDetailInfoList(@Param("lectureId") Long lectureId);
 
+    LectureInfoDto getLectureInfo(@Param("lectureId")Long lectureId);
+
+    int getLectureDetailCountByTime(@Param("lectureRoomId") Long lectureRoomId, @Param("startTime") String startTime, @Param("endTime") String endTime, @Param("lectureDay") String lectureDay);
+
+    int getRegisteredLectureStudentCount(@Param("lectureId") Long lectureId);
+
+    List<LectureStudentRelDto> getStudentListByLectureRegister(@Param("lectureId") Long lectureId);
+
     /** INSERT **/
     void saveLectureRoom(@Param("officeId") Long officeId, @Param("lectureRoomName") String lectureRoomName);
 
@@ -35,13 +40,19 @@ public interface LectureMapper {
 
     void saveLectureDetailList(@Param("lectureDeatilList")List<LectureDetailDto> lectureDetailDtoList);
 
+    void saveLectureStudentRel(@Param("relList") List<LectureStudentRelDto> lectureStudentRelDtoList);
+
     /** UPDATE **/
-    void modifyLectureRoom(@Param("lectureRoomId") Long lectureRoomId, @Param("lectureRoomName") String lectureRoomName);
+    void modifyLectureRoom(@Param("lectureRoomId") Long lectureRoomId, @Param("officeId") Long officeId, @Param("lectureRoomName") String lectureRoomName);
 
     void modifuLecturePrice(@Param("lecturePriceId") Long lecturePriceId, @Param("lecturePrice") int lecturePrice);
 
     void modifyLectureInfo(LectureInfoDto lectureInfoDto);
 
     void modifyLectureDetailInfo(LectureDetailDto lectureDetailDto);
+
+    void modifyLecutreStatus(@Param("lectureId") Long lectureId, @Param("lectureStatus") String lectureStatus);
+
+    void modifyLectureStudentRel(@Param("lectureRelId") Long lectureRelId, @Param("lectureId") Long lectureId, @Param("studentId") Long studentId);
 
 }

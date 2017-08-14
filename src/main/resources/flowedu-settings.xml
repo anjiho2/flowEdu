@@ -48,6 +48,8 @@
                 <google.email.password></google.email.password>
                 <service.isUseEmail>false</service.isUseEmail>
                 <service.version>1.0.0</service.version>
+                <school.search_api.key>e72f78b94377a9f6c7d56a69ef44bf80</school.search_api.key>
+                <school.search_api.url>http://www.career.go.kr/cnet/openapi/getOpenApi</school.search_api.url>
             </properties>
         </profile>
         <profile>
@@ -65,6 +67,8 @@
                 <google.email.password></google.email.password>
                 <service.isUseEmail>false</service.isUseEmail>
                 <service.version>1.0.0</service.version>
+                <school.search.api.key>e72f78b94377a9f6c7d56a69ef44bf80</school.search.api.key>
+                <school.search.api.url>http://www.career.go.kr/cnet/openapi/getOpenApi</school.search.api.url>
             </properties>
         </profile>
     </profiles>
