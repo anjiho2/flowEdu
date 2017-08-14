@@ -52,6 +52,10 @@ var comment = {
         input_academy_address : "학원주소를 입력해주세요",
 		input_academy_fax : "팩스번호를 입력해주세요.",
 
+    	input_member_type : "직원타입을 선택해주세요.",
+    	input_member_posiotion:"직책을 선택해주세요.",
+    	input_member_academy:"소속부서를 선택해주세요.",
+    	input_member_team:"소속팀을 선택해주세요.",
 		input_member_name : "직원명을 입력해주세요.",
 		input_member_phone1 : "핸드폰번호 입력해주세요.",
     	input_member_phone2 : "핸드폰번호 입력해주세요.",

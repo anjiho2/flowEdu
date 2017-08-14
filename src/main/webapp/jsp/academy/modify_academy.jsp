@@ -41,7 +41,6 @@
 
         var officeId        = getInputTextValue("officeId");
         academyService.getAcademyList(officeId, function (selList) {
-            console.log(selList);
          if (selList.length > 0) {
              for (var i=0; i<selList.length; i++) {
                  var cmpList = selList[i];

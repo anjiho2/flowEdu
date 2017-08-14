@@ -32,10 +32,10 @@ function fn_search(val) {
 
                     var cmpList = selList[i];
                     if (cmpList != undefined) {
-                        var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.studentId + "'/>";
+                        //var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.studentId + "'/>";
                         var modifyHTML = "<input type='button'  name='modify' id='modify' value='수정' onclick='student_modify(" + cmpList.studentId + ");'/>";
                         var cellData = [
-                            function(data) {return checkHTML;},
+                            //function(data) {return checkHTML;},
                             function(data) {return cmpList.studentName;},
                             function(data) {return cmpList.studentGender;},
                             function(data) {return cmpList.studentBirthday;},
@@ -232,7 +232,7 @@ function school_search_popup() {
         <tr>
             <th>성별</th>
             <td>
-                <input type="radio" name="student_gender" value="MALE">남
+                <input type="radio" name="student_gender" value="MALE" checked>남
                 <input type="radio" name="student_gender" value="FEMAIE">여
             </td>
         </tr>
@@ -271,7 +271,7 @@ function school_search_popup() {
         <tr>
             <th>학교구분</th>
             <td>
-                <input type="radio" name="school_type" value="elem_list" onclick="school_radio(this.value);">초등학교
+                <input type="radio" name="school_type" value="elem_list" onclick="school_radio(this.value);" checked>초등학교
                 <input type="radio" name="school_type" value="midd_list" onclick="school_radio(this.value);">중학교
                 <input type="radio" name="school_type" value="high_list" onclick="school_radio(this.value);">고등학교
             </td>
@@ -337,7 +337,7 @@ function school_search_popup() {
 <div id="memberList">
     <table class="table_list" border="1">
         <colgroup>
-            <col width="2%" />
+           <!-- <col width="2%" />-->
             <col width="*" />
             <col width="*" />
             <col width="*" />
@@ -353,9 +353,9 @@ function school_search_popup() {
         </colgroup>
         <thead>
         <tr>
-            <th>
+            <!--<th>
                 <input type="checkbox" id="chkAll" onclick="javascript:checkall('chkAll');">
-            </th>
+            </th>-->
             <th>학생이름</th>
             <th>성별</th>
             <th>학생생일</th>
@@ -376,7 +376,7 @@ function school_search_popup() {
         <tr>
             <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
         </tr>
-        <input type="button" value="삭제" onclick="Delete();">
+        <!--<input type="button" value="삭제" onclick="Delete();">-->
     </table>
     <%@ include file="/common/inc/com_pageNavi.inc" %>
 </div>

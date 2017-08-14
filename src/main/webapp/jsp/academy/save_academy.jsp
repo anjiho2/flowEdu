@@ -39,11 +39,11 @@
                 for (var i = 0; i < selList.length; i++) {
                     var cmpList = selList[i];
                     if (cmpList != undefined) {
-                        var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.officeId + "'/>";
+                        //var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.officeId + "'/>";
                         var modifyHTML = "<input type='button' name='modify' id='modify' value='수정' onclick='academy_modify(" + cmpList.officeId + ");'/>";
 
                         var cellData = [
-                            function(data) {return checkHTML;},
+                           // function(data) {return checkHTML;},
                             function(data) {return cmpList.officeName;},
                             function(data) {return cmpList.officeDirectorName;},
                             function(data) {return cmpList.officeTelNumber;},
@@ -60,7 +60,8 @@
         });
     }
 
-    function Delete() { //학원정보 삭제
+    /*function Delete() { //학원정보 삭제
+        confirm("삭제 하시겠습니까?");
        $("input[name=chk]:checked").each(function() {
             var officeid = $(this).val();
 
@@ -72,7 +73,7 @@
         });
        alert(comment.success_delete);
        location.reload();
-    }
+    }*/
 
 
 
@@ -99,9 +100,9 @@
         <tr>
             <th>관 전화번호</th>
             <td>
-                <input type="text" size="2" id="academy_phone1" maxlength="3" onkeyup="js_tab_order(this,frm.academy_phone2,2)">
+                <input type="text" size="2" id="academy_phone1" maxlength="3" onkeyup="js_tab_order(this,frm.academy_phone2,3)">
                 -
-                <input type="text" size="5" id="academy_phone2" maxlength="3" onkeyup="js_tab_order(this,frm.academy_phone3,4)">
+                <input type="text" size="5" id="academy_phone2" maxlength="4" onkeyup="js_tab_order(this,frm.academy_phone3,4)">
                 -
                 <input type="text" size="5" id="academy_phone3" maxlength="4">
             </td>
@@ -126,7 +127,7 @@
 <div id="academyList">
     <table class="table_list" border="1">
         <colgroup>
-            <col width="2%" />
+            <!--<col width="2%" />-->
             <col width="*" />
             <col width="*" />
             <col width="*" />
@@ -137,9 +138,9 @@
         </colgroup>
         <thead>
         <tr>
-            <th>
+            <!--<th>
                 <input type="checkbox" id="chkAll" onclick="javascript:checkall('chkAll');">
-            </th>
+            </th>-->
             <th>관명</th>
             <th>원장명</th>
             <th>관전화번호</th>
@@ -150,7 +151,7 @@
         </tr>
         </thead>
         <tbody id="dataList"></tbody>
-        <input type="button" value="삭제" onclick="Delete();">
+        <!--<input type="button" value="삭제" onclick="Delete();">-->
     </table>
 </div>
 </form>

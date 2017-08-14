@@ -35,10 +35,10 @@ function fn_search(val) {
 
                     var cmpList = selList[i];
                     if (cmpList != undefined) {
-                        var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.officeId + "'/>";
+                       // var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.officeId + "'/>";
                         var modifyHTML = "<input type='button'  name='modify' id='modify' value='수정' onclick='member_modify(" + cmpList.flowMemberId + ");'/>";
                         var cellData = [
-                            function(data) {return checkHTML;},
+                         //   function(data) {return checkHTML;},
                             function(data) {return cmpList.memberType=="OPERATOR"?"운영자":"선생님";},
                             function(data) {return cmpList.memberName;},
                             function(data) {return cmpList.phoneNumber;},
@@ -63,6 +63,10 @@ function fn_search(val) {
 function save_member() { // 운영자.선생님정보등록
     var check = new isCheck();
 
+    if(check.input("sel_memberType", comment.input_member_type)    == false) return;
+    if(check.input("sel_jobPosition", comment.input_member_posiotion)    == false) return;
+    if(check.input("sel_academyList", comment.input_member_academy)    == false) return;
+    if(check.input("sel_FlowEduTeamList", comment.input_member_team)    == false) return;
     if(check.input("member_name", comment.input_member_name)       == false) return;
     if(check.input("member_phone1", comment.input_member_phone1)   == false) return;
     if(check.input("member_phone2", comment.input_member_phone2)   == false) return;
@@ -88,6 +92,7 @@ function save_member() { // 운영자.선생님정보등록
     var l_FlowEduTeam        = getSelectboxValue("l_FlowEduTeam");
     var sel_jobPosition      = getSelectboxValue("sel_jobPosition");
     var sel_memberType       = getSelectboxValue("sel_memberType");
+
     var memtype = $("#sel_memberType option:selected").text();
     var isEmail = fn_isemail(member_email);
     if (isEmail == true) {
@@ -218,7 +223,7 @@ function Delete() { //운영자|선생님정보 삭제
 <div id="memberList">
     <table class="table_list" border="1">
         <colgroup>
-            <col width="2%" />
+           <!-- <col width="2%" />-->
             <col width="*" />
             <col width="*" />
             <col width="*" />
@@ -234,9 +239,9 @@ function Delete() { //운영자|선생님정보 삭제
         </colgroup>
         <thead>
         <tr>
-            <th>
+           <!-- <th>
                 <input type="checkbox" id="chkAll" onclick="javascript:checkall('chkAll');">
-            </th>
+            </th>-->
             <th>직원선택</th>
             <th>직원명</th>
             <th>직원핸드폰번호</th>
@@ -255,7 +260,7 @@ function Delete() { //운영자|선생님정보 삭제
         <tr>
             <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
         </tr>
-        <input type="button" value="삭제" onclick="Delete();">
+        <!--input type="button" value="삭제" onclick="Delete();">-->
     </table>
     <%@ include file="/common/inc/com_pageNavi.inc" %>
 </div>

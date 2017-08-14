@@ -56,7 +56,7 @@
         academyListSelectbox("sel_academy","");
         flowEduTeamListSelectbox("l_FlowEduTeam","");
     }
-    
+
     function memberList() {
         var member_id        = getInputTextValue("member_id");
         memberService.getFlowEduMember(member_id, function (selList) {
@@ -64,15 +64,15 @@
             if (selList.length > 0) {
                 for (var i=0; i<selList.length; i++) {
                     var cmpList = selList[i];
-                    innerValue("sel_memberType", cmpList.memberType);
                     innerValue("member_name", cmpList.memberName);
                     fnSetPhoneNo(member_phone1, member_phone2, member_phone3, cmpList.phoneNumber);
                     innerValue("startDate", cmpList.memberBirthday);
                     innerValue("member_address", cmpList.memberAddress);
                     innerValue("member_email", cmpList.memberEmail);
-                    innerValue("sel_jobPosition", cmpList.jobPositionId);
-                    innerValue("sel_academyList", cmpList.officeId);
-                    innerValue("sel_FlowEduTeamList", cmpList.teamId);
+                    memberTypeSelectbox("l_memberType", cmpList.memberType);
+                    jobPositionSelectbox("l_jobPosition",cmpList.jobPositionId);
+                    academyListSelectbox("sel_academy", cmpList.officeId);
+                    flowEduTeamListSelectbox("l_FlowEduTeam",cmpList.teamId);
                     innerValue("startSearchDate", cmpList.sexualAssultConfirmDate);
                     innerValue("startSearchDate2", cmpList.educationRegDate);
                 }

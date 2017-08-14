@@ -208,7 +208,7 @@ public class LectureService {
      * <PRE>
      * 1. Comment : 강의실 명 수정
      * 2. 작성자 : 안지호
-     * 3. 작성일 : 2017. 08 .09
+     * 3. 작성일 : 2017. 08 .09123
      * </PRE>
      * @param lectureRoomId
      * @param lectureRoomName

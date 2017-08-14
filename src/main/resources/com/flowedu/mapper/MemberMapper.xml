@@ -30,7 +30,7 @@
 	<select id="getFlowEduMemberListCount" resultType="Integer">
 		SELECT count(A.flow_member_id) as cnt
 		FROM FLOWEDU_MEMBER A LEFT JOIN OFFICE B
-		ON A.office_id = B.office_id
+		ON A.office_id = B.office_id WHERE A.member_type != 'ADMIN'
 	</select>
 
 	<select id="getFlowEduMemberList" resultType="com.flowedu.dto.FlowEduMemberListDto">

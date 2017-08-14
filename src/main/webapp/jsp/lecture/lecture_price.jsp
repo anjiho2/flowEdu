@@ -9,7 +9,6 @@
 <script type="text/javascript">
     function init() {
         lecture_priceList();
-
     }
 
     function save_price() {
@@ -24,15 +23,12 @@
 
         var lecturePriceId =  "price_"+val;
         var priceButton = "modify_"+val;
+        var modify_price = getInputTextValue(lecturePriceId);
 
-
-
-
-
-        /* lectureService.modifyLecutrePrice( val ,function () {
+        lectureService.modifyLecutrePrice( val, modify_price, function () {
              alert("가격이 수정되었습니다.");
              location.reload();
-         });*/
+         });
     }
 
     function change_price(val) {
@@ -54,7 +50,7 @@
                     if (cmpList != undefined) {
                        // var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.lecturePriceId + "'/>";
                         var inputHTML = "<input type='text' id='price_"+cmpList.lecturePriceId+"' value='"+cmpList.lecturePrice+"' style='border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;' disabled>";
-                        var modifyHTML = "<input type='button' id='modify_"+cmpList.lecturePriceId+"' value='변경' onclick='change_price(" + cmpList.lecturePriceId + ");'/><input type='button'   id='change_"+cmpList.lecturePriceId+"' value='수정' onclick='change_price(" + cmpList.lecturePriceId + ");' style='display:none;'/>";
+                        var modifyHTML = "<input type='button' id='modify_"+cmpList.lecturePriceId+"' value='변경' onclick='change_price(" + cmpList.lecturePriceId + ");'/><input type='button'   id='change_"+cmpList.lecturePriceId+"' value='수정' onclick='modify_price(" + cmpList.lecturePriceId + ");' style='display:none;'/>";
 
                         var cellData = [
                             //function(data) {return checkHTML;},
