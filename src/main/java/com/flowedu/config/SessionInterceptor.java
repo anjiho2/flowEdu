@@ -22,7 +22,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 			HttpServletResponse response, Object handler) throws Exception {
 		// TODO Auto-generated method stub
 		try {
-			if (request.getSession().getAttribute("adminInfo") == null) {
+			if (request.getSession().getAttribute("memberInfo") == null) {
 				response.sendRedirect(request.getContextPath());
 				return false;
 			}
