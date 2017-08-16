@@ -46,6 +46,22 @@ function academyListSelectbox(tag_id, val) { //소속부서(학원)리스트
     });
 }
 
+function academyListSelectbox2(tag_id, val) { //소속부서(학원)리스트
+    academyService.getAcademyList(function(list) {
+        var html = "<select id='sel_academyList2' onchange='academy_sel_change(this.value);' >";
+        html += "<option value=''>▶선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].officeId == val) {
+                html += "<option value="+list[i].officeId+" selected>"+ list[i].officeName +"</option>";
+            } else {
+                html += "<option value="+list[i].officeId+">"+ list[i].officeName +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
 function flowEduTeamListSelectbox(tag_id, val) { //소속팀 리스트
     memberService.getFlowEduTeamList(function(list) {
         var html = "<select id='sel_FlowEduTeamList'>";

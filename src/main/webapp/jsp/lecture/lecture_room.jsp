@@ -6,41 +6,68 @@
 <script type="text/javascript">
 function init() {
     academyListSelectbox("sel_academy","");
-    lecture_roomList();
+    academyListSelectbox2("sel_academyList","");
+   // lecture_roomList();
 }
 function save_room() {
 
     var lectureName = getInputTextValue("lectureName");
     var academyId = getSelectboxValue("sel_academyList");
 
+
     lectureService.saveLectureRoom(academyId,lectureName, function () {
         alert("저장되었습니다.");
         location.reload();
     });
 }
-
+/*
 function lecture_roomList() {
-   /* lectureService.getLecturePriceList( function (selList) {
+
+   lectureService.getLectureRoomList( function (selList) {
         console.log(selList);
         if (selList.length > 0) {
             for (var i = 0; i < selList.length; i++) {
                 var cmpList = selList[i];
                 if (cmpList != undefined) {
-                    // var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.lecturePriceId + "'/>";
-                    var inputHTML = "<input type='text' id='price_"+cmpList.lecturePriceId+"' value='"+cmpList.lecturePrice+"' style='border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;' disabled>";
-                    var modifyHTML = "<input type='button' id='modify_"+cmpList.lecturePriceId+"' value='변경' onclick='change_price(" + cmpList.lecturePriceId + ");'/><input type='button'   id='change_"+cmpList.lecturePriceId+"' value='수정' onclick='modify_price(" + cmpList.lecturePriceId + ");' style='display:none;'/>";
-
                     var cellData = [
                         //function(data) {return checkHTML;},
-                        function(data) {return inputHTML;},
-                        function(data) {return modifyHTML;}
+                        function(data) {return cmpList.officeName;},
+                        function(data) {return cmpList.lectureRoomName;}
                     ];
                     dwr.util.addRows("dataList", [0], cellData, {escapeHtml:false});
                 }
             }
         }
 
-    });*/
+    });
+}*/
+
+function academy_sel_change(val) {
+
+    if(val != null) {
+        lectureService.getLectureRoomList(function (selList) {
+            console.log(selList);
+            if (selList.length > 0) {
+                for (var i = 0; i < selList.length; i++) {
+                    var cmpList = selList[i];
+                    if (cmpList != undefined) {
+                        var cellData = [
+                            //function(data) {return checkHTML;},
+                            function (data) {
+                                return cmpList.officeName;
+                            },
+                            function (data) {
+                                return cmpList.lectureRoomName;
+                            }
+                        ];
+                        dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
+                    }
+                }
+            }
+
+        });
+    }
+
 }
 </script>
 <body onload="init();">
@@ -58,6 +85,7 @@ function lecture_roomList() {
     </table>
     <h1>강의room LIST</h1>
     <div>
+        <span id="sel_academyList"></span>
         <table border="1">
             <colgroup>
                 <col width="40%" />
@@ -70,7 +98,6 @@ function lecture_roomList() {
                 <th><input type="checkbox" id="chkAll" onclick="javascript:checkall('chkAll');"></th>-->
                 <th>관명</th>
                 <th>강의실명</th>
-                <th>수정/변경</th>
             </tr>
             </thead>
             <tbody id="dataList"></tbody>
