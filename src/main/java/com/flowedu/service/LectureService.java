@@ -1,8 +1,6 @@
 package com.flowedu.service;
 
-import com.flowedu.define.datasource.LectureDay;
-import com.flowedu.define.datasource.LectureOperationType;
-import com.flowedu.define.datasource.LectureStatus;
+import com.flowedu.define.datasource.*;
 import com.flowedu.dto.*;
 import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
@@ -87,6 +85,42 @@ public class LectureService {
             HashMap<String, Object> map = new HashMap<>();
             map.put("operationTypeCode", LectureOperationType.getLectureOpeationTypeCode(i).toString());
             map.put("operationTypeName", LectureOperationType.getLectureOperationTypeName(i));
+            Arr.add(map);
+        }
+        return Arr;
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 과목 리스트
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .14
+     * </PRE>
+     * @return
+     */
+    public List<HashMap<String, Object>> getLectureSubjectList() {
+        List<HashMap<String, Object>> Arr = new ArrayList<>();
+
+        for (int i=0; i< LectureSubject.size(); i++) {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("subjectCode", LectureSubject.getLectureSubjectCode(i).toString());
+            map.put("subjectName", LectureSubject.getLectureSubjectName(i));
+            Arr.add(map);
+        }
+        return Arr;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public List<HashMap<String, Object>> getLectureLevelList() {
+        List<HashMap<String, Object>> Arr = new ArrayList<>();
+
+        for (int i=0; i< LectureLevel.size(); i++) {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("levelCode", LectureLevel.getLectureLevelCode(i).toString());
+            map.put("levelName", LectureLevel.getLectureLevelName(i));
             Arr.add(map);
         }
         return Arr;
