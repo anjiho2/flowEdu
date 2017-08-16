@@ -25,6 +25,8 @@ public interface MemberMapper {
 
     Integer getMemberCount(@Param("phoneNumber") String phoneNumber);
 
+    List<FlowEduMemberDto> getTeacherList(@Param("officeId") Long officeId);
+
     /** INSERT **/
     void saveFlowEduMember(FlowEduMemberDto flowEduMemberDto);
 

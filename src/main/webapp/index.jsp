@@ -2,6 +2,7 @@
 <%@include file="/common/jsp/top.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/loginService.js'></script>
+<script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
 
 <script type="text/javascript">
 
@@ -69,7 +70,7 @@
     <input type="text" id="phoneNumber">
     <input type="password" id="memberPass" name="memberPass">
     <input type="button" id="loginBtn" value="로그인" onclick="loginCheck();">
-
+    <!--
     <input type="button" value="추가" onclick="test();">
     <div id="div_1">
         <input type="text">
@@ -79,7 +80,7 @@
             <option>2</option>
         </select>
     </div>
-
+    -->
 <%
     } else {
 %>

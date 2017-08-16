@@ -10,8 +10,9 @@ import java.util.List;
  */
 public enum MemberType {
     OPERATOR(1, "운영자"),
-    TEACHER(2, "선생님"),
-    ADMIN(3, "관리자");
+    TEACHER(2, "담임 선생님"),
+    TEACHER_MANAGE(3, "관리 선생님"),
+    ADMIN(4, "관리자");
 
     int memberTypeCode;
 
