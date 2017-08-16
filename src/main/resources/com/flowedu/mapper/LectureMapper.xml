@@ -106,13 +106,13 @@
 		(
 			office_id, charge_member_id, manage_member_id, lecture_price_id, lecture_name,
 			lecture_subject, lecture_grade, lecture_level, lecture_operation_type,
-			lecture_start_date, lecture_end_date, lecture_limit_student, lecture_status
+			lecture_start_date, lecture_end_date, lecture_limit_student, lecture_status, school_type
 		)
 		VALUES
 		(
 			#{officeId}, #{chargeMemberId}, #{manageMemberId}, #{lecturePriceId}, #{lectureName},
 			#{lectureSubject}, #{lectureGrade}, #{lectureLevel}, #{lectureOperationType},
-			#{lectureStartDate}, #{lectureEndDate}, #{lectureLimitStudent}, #{lectureStatus}
+			#{lectureStartDate}, #{lectureEndDate}, #{lectureLimitStudent}, #{lectureStatus}, #{schoolType}
 		)
 		<selectKey resultType="Long" keyProperty="lectureId" order="AFTER">
 			SELECT LAST_INSERT_ID()

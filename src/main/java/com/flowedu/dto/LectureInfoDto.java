@@ -54,6 +54,10 @@ public class LectureInfoDto {
     private String createDate;
 
 
+    // 학교 타입(초, 중, 고)
+    private String schoolType;
+
+
     private String chargeMemberName;
 
     private String manageMemberName;

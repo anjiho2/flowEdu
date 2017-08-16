@@ -241,6 +241,22 @@ function lecturePriceSelectbox(tag_id, val) {
     });
 }
 
+function lectureRoomSelectbox(office_id, tag_id, val) {
+    lectureService.getLectureRoomList(function (list) {
+        var html = "<select id='sel_lecturePrice'>";
+        html += "<option value=''>▶강의실선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].lectureRoomId == val) {
+                html += "<option value="+list[i].lectureRoomId+" selected>"+ list[i].lectureRoomName +"</option>";
+            } else {
+                html += "<option value="+list[i].lectureRoomId+">"+ list[i].lectureRoomName +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
 /**
  * <PRE>
  * 1. Comment : 년도 선택 셀렉트 박스.
