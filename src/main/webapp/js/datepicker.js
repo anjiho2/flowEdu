@@ -88,9 +88,17 @@ $(function() {
 });
 
 $(function() {
-	$("#time").timepicker({
+	$("#start_time").timepicker({
 		hourText: '시',
 		minuteText: '분'
 	});
 	$.timepicker.setDefaults($.timepicker.regional['ko']);
+});
+
+$(function() {
+    $("#end_time").timepicker({
+        hourText: '시',
+        minuteText: '분'
+    });
+    $.timepicker.setDefaults($.timepicker.regional['ko']);
 });

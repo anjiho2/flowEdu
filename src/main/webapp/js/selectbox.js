@@ -183,6 +183,22 @@ function teacherList(office_id, tag_id, val) {
     });
 }
 
+function teacherList2(office_id, tag_id, val) {
+    memberService.getTeacherList(office_id, function (list) {
+        var html = "<select id='sel_teacherList2'>";
+        html += "<option value=''>▶선생님선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].flowMemberId == val) {
+                html += "<option value="+list[i].flowMemberId+" selected>"+ list[i].memberName +"</option>";
+            } else {
+                html += "<option value="+list[i].flowMemberId+">"+ list[i].memberName +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
 /**
  * 강의 과목 셀렉트 박스
  * @param tag_id

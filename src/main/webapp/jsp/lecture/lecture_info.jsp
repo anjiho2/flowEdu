@@ -1,8 +1,11 @@
 <%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/common/jsp/top.jsp" %>
+
+<script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
+<link rel="stylesheet" href="//cdn.rawgit.com/fgelinas/timepicker/master/jquery.ui.timepicker.css">
 <style>
     /*초기화와 메뉴폭 지정*/
     #navi{padding:0;width:200px;margin:0;}
@@ -17,12 +20,24 @@
     #navi h2 a:active{background:#1a1a1a;background:-moz-linear-gradient(#1a1a1a 0%, #000000 100%);background:-webkit-linear-gradient(#1a1a1a 0%, #000000 100%);background:-o-linear-gradient(#1a1a1a 0%, #000000 100%);background:linear-gradient(#1a1a1a 0%, #000000 100%);color:#eee;text-shadow: 0 1px 1px #000000;}
 </style>
 <script type="text/javascript">
-    function init() {
-        academyListSelectbox("sel_academy","");
+    function init(val) {
+        var office_id;
+        if(val == undefined || val == "") office_id = 0;
+        else office_id = val;
+
+        academyListSelectbox2("sel_academy",office_id);
         lectureOperationTypeSelectbox("sel_lectureOperation","");
         lectureStatusSelectbox("sel_lectureStatus","","50");
-        lectureStudentLimitSelectbox("sel_lectureStudentlimit","");
-        schoolSelectbox("student_grade","", school_grade);
+        lectureStudentLimitSelectbox("sel_lectureStudentlimit","", "30");
+        schoolSelectbox("student_grade","", "elem_list");
+        lectureSubjectSelectbox("sel_lectureSubject","");
+        lectureLevelRadio("lecture_level","HIGH","");
+        lecturePriceSelectbox("lecture_price","");
+        teacherList(office_id, "sel_member", "");
+        teacherList2(office_id,"sel_member2","");
+
+        lectureDaySelectbox("lectureDaySelectbox","");
+
     }
 
     function lecture_go(val) {
@@ -32,9 +47,22 @@
             goPage('lecture','lecture_room');
         }
     }
+
     function school_radio(school_grade) {
         schoolSelectbox("student_grade","", school_grade);
     }
+
+    function academy_sel_change(val) {
+        init(val);
+    }
+
+    function test() {
+        var cloneCount=1;1
+        $("#div_1").clone().attr("id", "div_" + cloneCount++).insertAfter("#div_1").appendTo("body");
+
+    }
+
+
 </script>
 <body onload="init();">
 <form name="frm" id="frm" method="get">
@@ -56,21 +84,21 @@
                 </td>
             </tr>
             <tr>
-                <th>관리자</th>
+                <th>관리선생님</th>
                 <td>
-                    <input type="text" id="">
+                    <span id="sel_member2"></span>
                 </td>
             </tr>
             <tr>
                 <th>담당선생님</th>
                 <td>
-                    <input type="text" id="">
+                    <span id="sel_member"></span>
                 </td>
             </tr>
             <tr>
                 <th>가격</th>
                 <td>
-                    <input type="text" id="">
+                   <span id="lecture_price"></span>
                 </td>
             </tr>
             <tr>
@@ -82,7 +110,7 @@
             <tr>
                 <th>강의과목</th>
                 <td>
-                    <input type="text" id="">
+                    <span id="sel_lectureSubject"> </span>
                 </td>
             </tr>
             <tr>
@@ -102,7 +130,7 @@
             <tr>
                 <th>레벨</th>
                 <td>
-                    <input type="text" id="">
+                    <span id="lecture_level"></span>
                 </td>
             </tr>
             <tr>
@@ -135,8 +163,38 @@
                     <span id="sel_lectureStatus"></span>
                 </td>
             </tr>
-            <td><input type="button" onclick="" value="저장"></td>
         </table>
+    </div>
+
+    <h2>강의 상세정보 입력</h2>
+    <div id="div_1">
+      <input type="button" value="추가" onclick="test();">
+      <table>
+                <tr>
+                    <th>강의실선택</th>
+                    <td>
+                        <span id=""></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>강의시작시간</th>
+                    <td>
+                       <input type="text" id="start_time">
+                    </td>
+                </tr>
+                <tr>
+                    <th>강의종료시간</th>
+                    <td>
+                        <input type="text" id="end_time">
+                    </td>
+                </tr>
+                <tr>
+                    <th>강의요일</th>
+                    <td>
+                        <span id="lectureDaySelectbox"></span>
+                    </td>
+                </tr>
+      </table>
     </div>
 </form>
 </body>
