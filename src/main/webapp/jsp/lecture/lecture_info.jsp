@@ -19,6 +19,10 @@
 <script type="text/javascript">
     function init() {
         academyListSelectbox("sel_academy","");
+        lectureOperationTypeSelectbox("sel_lectureOperation","");
+        lectureStatusSelectbox("sel_lectureStatus","","50");
+        lectureStudentLimitSelectbox("sel_lectureStudentlimit","");
+        schoolSelectbox("student_grade","", school_grade);
     }
 
     function lecture_go(val) {
@@ -27,6 +31,9 @@
         }else if(val=="room"){
             goPage('lecture','lecture_room');
         }
+    }
+    function school_radio(school_grade) {
+        schoolSelectbox("student_grade","", school_grade);
     }
 </script>
 <body onload="init();">
@@ -79,9 +86,17 @@
                 </td>
             </tr>
             <tr>
+                <th>학교구분</th>
+                <td>
+                    <input type="radio" name="school_type" value="elem_list" onclick="school_radio(this.value);" checked>초등학교
+                    <input type="radio" name="school_type" value="midd_list" onclick="school_radio(this.value);">중학교
+                    <input type="radio" name="school_type" value="high_list" onclick="school_radio(this.value);">고등학교
+                </td>
+            </tr>
+            <tr>
                 <th>학년</th>
                 <td>
-                    <input type="text" id="">
+                    <span id="student_grade"></span>
                 </td>
             </tr>
             <tr>
@@ -93,31 +108,31 @@
             <tr>
                 <th>강의기간단위</th>
                 <td>
-                    <input type="text" id="">
+                    <span id="sel_lectureOperation"></span>
                 </td>
             </tr>
             <tr>
                 <th>시작일</th>
                 <td>
-                    <input type="text" id="">
+                    <input type="text" id="startDate">
                 </td>
             </tr>
             <tr>
                 <th>종료일</th>
                 <td>
-                    <input type="text" id="">
+                    <input type="text" id="startDate2">
                 </td>
             </tr>
             <tr>
                 <th>강의정원명</th>
                 <td>
-                    <input type="text" id="">
+                    <span id="sel_lectureStudentlimit"></span>
                 </td>
             </tr>
             <tr>
                 <th>강의상태</th>
                 <td>
-                    <input type="text" id="">
+                    <span id="sel_lectureStatus"></span>
                 </td>
             </tr>
             <td><input type="button" onclick="" value="저장"></td>
