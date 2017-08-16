@@ -77,6 +77,106 @@ function flowEduTeamListSelectbox(tag_id, val) { //소속팀 리스트
         innerHTML(tag_id, html);
     });
 }
+
+/**
+ * 요일 셀렉트 박스 (월, 화, 수, 목, 금, 토, 일)
+ * @param tag_id
+ * @param val
+ */
+function lectureDaySelectbox(tag_id, val) {
+	lectureService.getLectureDayList(function (list) {
+		var html = "<select id='sel_lectureDayList'>";
+		html += "<option value=''>▶요일선택</option>";
+		for (var i=0; i<list.length; i++) {
+			if (list[i].dayCode == val) {
+				html += "<option value="+list[i].dayCode+" selected>"+ list[i].dayName +"</option>";
+			} else {
+                html += "<option value="+list[i].dayCode+">"+ list[i].dayName +"</option>";
+			}
+		}
+		html += "</select>";
+		innerHTML(tag_id, html);
+    });
+}
+
+/**
+ * 강의 상태 셀렉트 박스(개강, 휴강, 폐강)
+ * @param tag_id
+ * @param val
+ */
+function lectureStatusSelectbox(tag_id, val) {
+    lectureService.getLectureStatusList(function (list) {
+        var html = "<select id='sel_lectureStatusList'>";
+        html += "<option value=''>▶강의상태선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].statusCode == val) {
+                html += "<option value="+list[i].statusCode+" selected>"+ list[i].statusName +"</option>";
+            } else {
+                html += "<option value="+list[i].statusCode+">"+ list[i].statusName +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
+/**
+ * 강의 운영 형태 선텍 셀렉트 박스(월, 횟수)
+ * @param tag_id
+ * @param val
+ */
+function lectureOperationTypeSelectbox(tag_id, val) {
+    lectureService.getLectureOperationTypeList(function (list) {
+        var html = "<select id='sel_lectureOperationTypeList'>";
+        html += "<option value=''>▶운영형태선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].operationTypeCode == val) {
+                html += "<option value="+list[i].operationTypeCode+" selected>"+ list[i].operationTypeName +"</option>";
+            } else {
+                html += "<option value="+list[i].operationTypeCode+">"+ list[i].operationTypeName +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
+/**
+ * 강의 인원수 선택 셀렉트 박스(limitCount로 인원수 설정)
+ * @param tag_id
+ * @param val
+ * @param limitCount
+ */
+function lectureStudentLimitSelectbox(tag_id, val, limitCount) {
+    var html = "<select id='sel_lectureStudentLimitList'>";
+    html += "<option value=''>▶인원수선택</option>";
+    for (var i=1; i<=limitCount; i++) {
+        if (i == val) {
+            html += "<option value="+ i +" selected>"+ i +"명</option>";
+        } else {
+            html += "<option value="+ i +">"+ i +"명</option>";
+        }
+    }
+    html += "</select>";
+    innerHTML(tag_id, html);
+}
+
+function teacherList(office_id, tag_id, val) {
+    memberService.getTeacherList(office_id, function (list) {
+        var html = "<select id='sel_teacherList'>";
+        html += "<option value=''>▶선생님선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].flowMemberId == val) {
+                html += "<option value="+list[i].flowMemberId+" selected>"+ list[i].memberName +"</option>";
+            } else {
+                html += "<option value="+list[i].flowMemberId+">"+ list[i].memberName +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
 /**
  * <PRE>
  * 1. Comment : 년도 선택 셀렉트 박스.

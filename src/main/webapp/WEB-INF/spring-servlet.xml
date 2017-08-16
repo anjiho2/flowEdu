@@ -21,12 +21,12 @@
 
   	<!-- 세션 인터셉터 설정 -->
 
-	<!--<mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/*.do"/>
-   			<bean class="com.flowedu.config.SessionInterceptor"/>
-		</mvc:interceptor>
-	</mvc:interceptors>-->
+	<!--<mvc:interceptors>-->
+		<!--<mvc:interceptor>-->
+			<!--<mvc:mapping path="/*.do"/>-->
+   			<!--<bean class="com.flowedu.config.SessionInterceptor"/>-->
+		<!--</mvc:interceptor>-->
+	<!--</mvc:interceptors>-->
 
   	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="50000000" />

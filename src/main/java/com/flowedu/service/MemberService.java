@@ -148,6 +148,23 @@ public class MemberService extends PagingSupport {
 
     /**
      * <PRE>
+     * 1. Comment : 선생님 리스트 받아오기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .16
+     * </PRE>
+     * @param officeId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<FlowEduMemberDto> getTeacherList(Long officeId) {
+        if (officeId == null) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        return memberMapper.getTeacherList(officeId);
+    }
+
+    /**
+     * <PRE>
      * 1. Comment : 운영자, 선생님정보 저장
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .04

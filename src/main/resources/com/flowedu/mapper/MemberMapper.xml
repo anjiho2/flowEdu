@@ -56,6 +56,13 @@
 		WHERE phone_number = #{phoneNumber}
 	</select>
 
+	<select id="getTeacherList" resultType="com.flowedu.dto.FlowEduMemberListDto">
+		SELECT flow_member_id, office_id, team_id, member_name
+		FROM FLOWEDU_MEMBER
+		WHERE office_id = #{officeId}
+		AND member_type LIKE CONCAT('TEACHER', '%')
+	</select>
+
 	<insert id="saveFlowEduMember" parameterType="com.flowedu.dto.FlowEduMemberDto">
 		INSERT INTO FLOWEDU_MEMBER
 		(
