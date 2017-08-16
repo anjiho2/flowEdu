@@ -1,7 +1,7 @@
 <%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/common/jsp/top.jsp" %>
-
+<script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
 <style>
     /*초기화와 메뉴폭 지정*/
@@ -17,17 +17,19 @@
     #navi h2 a:active{background:#1a1a1a;background:-moz-linear-gradient(#1a1a1a 0%, #000000 100%);background:-webkit-linear-gradient(#1a1a1a 0%, #000000 100%);background:-o-linear-gradient(#1a1a1a 0%, #000000 100%);background:linear-gradient(#1a1a1a 0%, #000000 100%);color:#eee;text-shadow: 0 1px 1px #000000;}
 </style>
 <script type="text/javascript">
-function lecture_go(val) {
-    if(val=="price"){
-        goPage('lecture','lecture_price');
-    }else if(val=="room"){
-        goPage('lecture','lecture_room');
+    function init() {
+        academyListSelectbox("sel_academy","");
     }
 
-
-}
+    function lecture_go(val) {
+        if(val=="price"){
+            goPage('lecture','lecture_price');
+        }else if(val=="room"){
+            goPage('lecture','lecture_room');
+        }
+    }
 </script>
-<body>
+<body onload="init();">
 <form name="frm" id="frm" method="get">
     <input type="hidden" name="page_gbn" id="page_gbn">
     <div id="navi">
@@ -36,6 +38,90 @@ function lecture_go(val) {
             <p><a onclick="lecture_go('price');">강의가격</a></p>
             <p><a onclick="lecture_go('room');">강의룸</a></p>
         </div>
+    </div>
+    <div id="lectureInfo">
+        <h1>강의정보입력</h1>
+        <table>
+            <tr>
+                <th>관선택</th>
+                <td>
+                    <span id="sel_academy"></span>
+                </td>
+            </tr>
+            <tr>
+                <th>관리자</th>
+                <td>
+                    <input type="text" id="">
+                </td>
+            </tr>
+            <tr>
+                <th>담당선생님</th>
+                <td>
+                    <input type="text" id="">
+                </td>
+            </tr>
+            <tr>
+                <th>가격</th>
+                <td>
+                    <input type="text" id="">
+                </td>
+            </tr>
+            <tr>
+                <th>강의명</th>
+                <td>
+                    <input type="text" id="">
+                </td>
+            </tr>
+            <tr>
+                <th>강의과목</th>
+                <td>
+                    <input type="text" id="">
+                </td>
+            </tr>
+            <tr>
+                <th>학년</th>
+                <td>
+                    <input type="text" id="">
+                </td>
+            </tr>
+            <tr>
+                <th>레벨</th>
+                <td>
+                    <input type="text" id="">
+                </td>
+            </tr>
+            <tr>
+                <th>강의기간단위</th>
+                <td>
+                    <input type="text" id="">
+                </td>
+            </tr>
+            <tr>
+                <th>시작일</th>
+                <td>
+                    <input type="text" id="">
+                </td>
+            </tr>
+            <tr>
+                <th>종료일</th>
+                <td>
+                    <input type="text" id="">
+                </td>
+            </tr>
+            <tr>
+                <th>강의정원명</th>
+                <td>
+                    <input type="text" id="">
+                </td>
+            </tr>
+            <tr>
+                <th>강의상태</th>
+                <td>
+                    <input type="text" id="">
+                </td>
+            </tr>
+            <td><input type="button" onclick="" value="저장"></td>
+        </table>
     </div>
 </form>
 </body>

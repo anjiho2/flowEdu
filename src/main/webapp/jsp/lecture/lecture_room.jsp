@@ -7,7 +7,7 @@
 function init() {
     academyListSelectbox("sel_academy","");
     academyListSelectbox2("sel_academyList","");
-   // lecture_roomList();
+    lecture_roomList();
 }
 function save_room() {
 
@@ -20,13 +20,14 @@ function save_room() {
         location.reload();
     });
 }
-/*
+
 function lecture_roomList() {
 
    lectureService.getLectureRoomList( function (selList) {
         console.log(selList);
         if (selList.length > 0) {
             for (var i = 0; i < selList.length; i++) {
+
                 var cmpList = selList[i];
                 if (cmpList != undefined) {
                     var cellData = [
@@ -40,12 +41,11 @@ function lecture_roomList() {
         }
 
     });
-}*/
+}
 
 function academy_sel_change(val) {
-
-    if(val != null) {
-        lectureService.getLectureRoomList(function (selList) {
+        $("#dataList").html("");
+        lectureService.getLectureRoomList(val, function (selList) {
             console.log(selList);
             if (selList.length > 0) {
                 for (var i = 0; i < selList.length; i++) {
@@ -66,8 +66,6 @@ function academy_sel_change(val) {
             }
 
         });
-    }
-
 }
 </script>
 <body onload="init();">
