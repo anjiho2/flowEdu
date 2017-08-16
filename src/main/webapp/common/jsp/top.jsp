@@ -38,6 +38,7 @@
 <script type='text/javascript' src="<%=webRoot%>/common/js/common.js?ver=<%=version%>"></script>
 <script type='text/javascript' src="<%=webRoot%>/js/few-weeks.js"></script>
 <script type='text/javascript' src="<%=webRoot%>/js/paging-count-check.js"></script>
+<script type='text/javascript' src="<%=webRoot%>/js/radio.js?ver=<%=version%>"></script>
 
 <!-- 페이징 관련 필수 스트립트 -->
 <script type='text/javascript' src="<%=webRoot%>/common/js/com_page.js"></script>

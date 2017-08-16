@@ -161,6 +161,12 @@ function lectureStudentLimitSelectbox(tag_id, val, limitCount) {
     innerHTML(tag_id, html);
 }
 
+/**
+ * 관 선택에 따른 선생님 셀렉트 박
+ * @param office_id
+ * @param tag_id
+ * @param val
+ */
 function teacherList(office_id, tag_id, val) {
     memberService.getTeacherList(office_id, function (list) {
         var html = "<select id='sel_teacherList'>";
@@ -170,6 +176,48 @@ function teacherList(office_id, tag_id, val) {
                 html += "<option value="+list[i].flowMemberId+" selected>"+ list[i].memberName +"</option>";
             } else {
                 html += "<option value="+list[i].flowMemberId+">"+ list[i].memberName +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
+/**
+ * 강의 과목 셀렉트 박스
+ * @param tag_id
+ * @param val
+ */
+function lectureSubjectSelectbox(tag_id, val) {
+    lectureService.getLectureSubjectList(function (list) {
+        var html = "<select id='sel_lectureSubject'>";
+        html += "<option value=''>▶과목선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].subjectCode == val) {
+                html += "<option value="+list[i].subjectCode+" selected>"+ list[i].subjectName +"</option>";
+            } else {
+                html += "<option value="+list[i].subjectCode+">"+ list[i].subjectName +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
+/**
+ * 강의 가격 셀렉트 박스
+ * @param tag_id
+ * @param val
+ */
+function lecturePriceSelectbox(tag_id, val) {
+    lectureService.getLecturePriceList(function (list) {
+        var html = "<select id='sel_lecturePrice'>";
+        html += "<option value=''>▶가격선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].lecturePriceId == val) {
+                html += "<option value="+list[i].lecturePriceId+" selected>"+ list[i].lecturePrice +"원</option>";
+            } else {
+                html += "<option value="+list[i].lecturePriceId+">"+ list[i].lecturePrice +"원</option>";
             }
         }
         html += "</select>";

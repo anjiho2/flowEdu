@@ -10,6 +10,8 @@
 
     function init() {
         memberTypeSelectbox("l_memberType", "");
+        //lectureLevelRadio("l_test", "HIGH", "loginCheck();");
+        //lecturePriceSelectbox("l_test", "");
     }
 
     function loginCheck() {
@@ -48,7 +50,7 @@
     }
 
     function test() {
-        var cloneCount=1;
+        var cloneCount=1;1
         $("#div_1").clone().attr("id", "div_" + cloneCount++).insertAfter("#div_1").appendTo("body");
 
     }
