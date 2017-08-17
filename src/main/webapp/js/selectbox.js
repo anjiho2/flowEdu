@@ -242,8 +242,8 @@ function lecturePriceSelectbox(tag_id, val) {
 }
 
 function lectureRoomSelectbox(office_id, tag_id, val) {
-    lectureService.getLectureRoomList(function (list) {
-        var html = "<select id='sel_lecturePrice'>";
+    lectureService.getLectureRoomList(office_id, function (list) {
+        var html = "<select id='sel_lecturePrice' name='sel_lecturePrice[]'>";
         html += "<option value=''>▶강의실선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].lectureRoomId == val) {

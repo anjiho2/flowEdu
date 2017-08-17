@@ -35,8 +35,8 @@
         lecturePriceSelectbox("lecture_price","");
         teacherList(office_id, "sel_member", "");
         teacherList2(office_id,"sel_member2","");
-
         lectureDaySelectbox("lectureDaySelectbox","");
+        lectureRoomSelectbox(office_id,"lectureRoomSelectbox","");
 
     }
 
@@ -57,12 +57,40 @@
     }
 
     function test() {
-        var cloneCount=1;1
-        $("#div_1").clone().attr("id", "div_" + cloneCount++).insertAfter("#div_1").appendTo("body");
+        var cnt = $(".plus_div").length;
+        var cnt2 = $(".plus_div").length;
+
+        $("#div").clone().attr("id", "div_" + cnt++).appendTo("body");
+    }
+    
+    function save_lecture_info() {
+        var price_list = new Array();
+        var start_time_list = new Array();
+        $('select[name="sel_lecturePrice[]"]').each(function () {
+            //   alert($(this).val());
+            price_list.push($(this).val());
+        });
+
+        $('select[name="start_time[]"]').each(function () {
+            //   alert($(this).val());
+            start_time_list.push($(this).val());
+        });
+        alert(start_time_list);
 
     }
 
-
+    $(document).ready(function () {
+        $("#start_time1").click(function () {
+           alert("12312");
+        });
+        $('.time_class').each(function () {
+            alert("111");
+            if ($(this).hasClass('hasDatepicker')) {
+                $(this).removeClass('hasDatepicker');
+            }
+            $(this).timepicker();
+        });
+    });
 </script>
 <body onload="init();">
 <form name="frm" id="frm" method="get">
@@ -167,25 +195,26 @@
     </div>
 
     <h2>강의 상세정보 입력</h2>
-    <div id="div_1">
-      <input type="button" value="추가" onclick="test();">
-      <table>
+    <input type="button" value="추가" onclick="test();">
+    <input type="button" value="저장" onclick="save_lecture_info();">
+    <div id="div" class="plus_div">
+      <table border="1">
                 <tr>
                     <th>강의실선택</th>
                     <td>
-                        <span id=""></span>
+                        <span id="lectureRoomSelectbox"></span>
                     </td>
                 </tr>
                 <tr>
                     <th>강의시작시간</th>
                     <td>
-                       <input type="text" id="start_time">
+                       <input type="text" id="start_time1" class="time_class" name="start_time[]" >
                     </td>
                 </tr>
                 <tr>
                     <th>강의종료시간</th>
                     <td>
-                        <input type="text" id="end_time">
+                        <input type="text" id="end_time" name="end_time[]">
                     </td>
                 </tr>
                 <tr>
@@ -195,7 +224,9 @@
                     </td>
                 </tr>
       </table>
+        <br>
     </div>
 </form>
+
 </body>
 </html>
