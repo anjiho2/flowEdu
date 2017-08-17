@@ -88,7 +88,7 @@ $(function() {
 });
 
 $(function() {
-	$("#start_time").timepicker({
+	$("#start_time_1").timepicker({
 		hourText: '시',
 		minuteText: '분'
 	});

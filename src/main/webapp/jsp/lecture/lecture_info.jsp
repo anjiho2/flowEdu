@@ -56,12 +56,49 @@
         init(val);
     }
 
-    function test() {
-        var cnt = $(".plus_div").length;
-        var cnt2 = $(".plus_div").length;
+    //html 복제하기
+    function trans_html() {
+        var num = $(".clonedDiv").length;   //복사할 영역 클래스 길이
+        var newNum = num + 1;
+        var newElem = $("#input1").clone().attr('id', 'input' + newNum);    //복사할 영역 원본 id 값 변경
+        newElem.find("#start_time_input_1 input").attr('id', 'start_time_' + newNum).val('');   //시간이 보여줄 input 접근 후 id 값 변경
+        //복제된 영역에서 시간이 보여줄 input jquery.timepicker 바인딩시켜주기
+        newElem.find("#start_time_input_1 input")
+            .removeClass('hasTimepicker')
+            .removeData('timepicker')
+            .unbind()
+            .timepicker({
+                hourText: '시',
+                minuteText: '분'
+            });
+            $.timepicker.setDefaults($.timepicker.regional['ko']);
 
-        $("#div").clone().attr("id", "div_" + cnt++).appendTo("body");
+        newElem.find("#end_time_input_1 input").attr('id', 'end_time_' + newNum).val('');
+        newElem.find("#end_time_input_1 input")
+            .removeClass('hasTimepicker')
+            .removeData('timepicker')
+            .unbind()
+            .timepicker({
+                hourText: '시',
+                minuteText: '분'
+            });
+        $.timepicker.setDefaults($.timepicker.regional['ko']);
+        //복제시 삭제 버튼 추가
+        newElem.find('#lectureRoomSelectbox').after("<input type='button' class='btn_less1' onclick='del_html();' value='삭제' id='del_btn'/>")
+
+        $("#input" + num).after(newElem);
     }
+
+    //복제된 html 삭제하기
+    function del_html() {
+        var num = $('.clonedDiv').length;
+        $('#input' + num).remove();
+        $('#del_btn').attr('disabled', false);
+        if (num - 1 == 1) {
+            $('#del_btn').attr('disabled', 'disabled');
+        }
+    }
+
     
     function save_lecture_info() {
         var price_list = new Array();
@@ -80,17 +117,13 @@
     }
 
     $(document).ready(function () {
-        $("#start_time1").click(function () {
-           alert("12312");
-        });
-        $('.time_class').each(function () {
-            alert("111");
-            if ($(this).hasClass('hasDatepicker')) {
-                $(this).removeClass('hasDatepicker');
-            }
-            $(this).timepicker();
-        });
+            $("#start_time_2").timepicker({
+                hourText: '시',
+                minuteText: '분'
+            });
+            $.timepicker.setDefaults($.timepicker.regional['ko']);
     });
+
 </script>
 <body onload="init();">
 <form name="frm" id="frm" method="get">
@@ -195,9 +228,9 @@
     </div>
 
     <h2>강의 상세정보 입력</h2>
-    <input type="button" value="추가" onclick="test();">
+    <input type="button" value="추가" class="add_btn" id="addBtn" onclick="trans_html();">
     <input type="button" value="저장" onclick="save_lecture_info();">
-    <div id="div" class="plus_div">
+    <div id="input1" class="clonedDiv">
       <table border="1">
                 <tr>
                     <th>강의실선택</th>
@@ -207,13 +240,13 @@
                 </tr>
                 <tr>
                     <th>강의시작시간</th>
-                    <td>
-                       <input type="text" id="start_time1" class="time_class" name="start_time[]" >
+                    <td id="start_time_input_1">
+                       <input type="text" id="start_time_1" name="start_time[]">
                     </td>
                 </tr>
                 <tr>
                     <th>강의종료시간</th>
-                    <td>
+                    <td id="end_time_input_1">
                         <input type="text" id="end_time" name="end_time[]">
                     </td>
                 </tr>
