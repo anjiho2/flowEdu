@@ -231,9 +231,9 @@ function lecturePriceSelectbox(tag_id, val) {
         html += "<option value=''>▶가격선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].lecturePriceId == val) {
-                html += "<option value="+list[i].lecturePriceId+" selected>"+ list[i].lecturePrice +"원</option>";
+                html += "<option value="+list[i].lecturePriceId+" selected>"+ addThousandSeparatorCommas(list[i].lecturePrice) +"원</option>";
             } else {
-                html += "<option value="+list[i].lecturePriceId+">"+ list[i].lecturePrice +"원</option>";
+                html += "<option value="+list[i].lecturePriceId+">"+ addThousandSeparatorCommas(list[i].lecturePrice) +"원</option>";
             }
         }
         html += "</select>";

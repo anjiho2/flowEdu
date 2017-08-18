@@ -111,7 +111,11 @@ public class LectureService {
     }
 
     /**
-     *
+     * <PRE>
+     * 1. Comment : 강의 레벨 리스트
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .14
+     * </PRE>
      * @return
      */
     public List<HashMap<String, Object>> getLectureLevelList() {

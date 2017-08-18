@@ -20,7 +20,16 @@
                 <li onclick="goPage('student', 'save_student')">원생정보</li>
                 <li onclick="goPage('member', 'save_member')">운영자/선생님정보</li>
                 <li onclick="goPage('lecture', 'lecture_info')">강의관리</li>
+                <%
+                    if (session.getAttribute("member_info") != null) {
+                %>
+                <li><input type="button" id="logoutBtn" value="로그아웃" onclick="goLogout();"></li>
+                <%
+                    }
+                %>
             </ul>
+
+
         </nav>
     </div>
     <div id="main-content">

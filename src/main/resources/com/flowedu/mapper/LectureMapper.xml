@@ -69,13 +69,11 @@
 	<select id="getLectureDetailCountByTime" resultType="Integer">
 		SELECT count(*) FROM LECTURE_DETAIL_INFO
 		WHERE lecture_room_id = #{lectureRoomId}
-		<![CDATA[
-		AND TIME_TO_SEC(time(start_time)) <= TIME_TO_SEC(time(#{startTime}))
-		]]>
-		<![CDATA[
-		AND  TIME_TO_SEC(time(end_time)) <= TIME_TO_SEC(time(#{endTime}))
-		]]>
 		AND lecture_day = #{lectureDay}
+		<![CDATA[
+		AND TIME_TO_SEC(TIME(start_time)) < TIME_TO_SEC(TIME(#{endTime}))
+		]]>
+		AND TIME_TO_SEC(TIME(end_time)) > TIME_TO_SEC(TIME(#{startTime}))
 	</select>
 
 	<select id="getRegisteredLectureStudentCount" resultType="Integer">
