@@ -85,7 +85,7 @@ function flowEduTeamListSelectbox(tag_id, val) { //소속팀 리스트
  */
 function lectureDaySelectbox(tag_id, val) {
 	lectureService.getLectureDayList(function (list) {
-		var html = "<select id='sel_lectureDayList'>";
+		var html = "<select id='sel_lectureDayList' name='lecture_day[]'>";
 		html += "<option value=''>▶요일선택</option>";
 		for (var i=0; i<list.length; i++) {
 			if (list[i].dayCode == val) {
@@ -243,7 +243,7 @@ function lecturePriceSelectbox(tag_id, val) {
 
 function lectureRoomSelectbox(office_id, tag_id, val) {
     lectureService.getLectureRoomList(office_id, function (list) {
-        var html = "<select id='sel_lecturePrice' name='sel_lecturePrice[]'>";
+        var html = "<select id='sel_lectureRoom' name='sel_lectureRoom[]'>";
         html += "<option value=''>▶강의실선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].lectureRoomId == val) {
