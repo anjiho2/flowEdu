@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/common/jsp/top.jsp" %>
 
+<script type='text/javascript' src='/flowEdu/dwr/interface/lectureManager.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
@@ -58,6 +59,22 @@
 
     //html 복제하기
     function trans_html() {
+
+        var sel_lectureRoom = $('select[name="sel_lectureRoom[]"]').last().val();
+        var sel_lectureDay  = $('select[name="lecture_day[]"]').last().val();
+        var start_time      = $('input[name="start_time[]"]').last().val();
+        var end_time        =  $('input[name="end_time[]"]').last().val();
+
+
+
+        lectureService.checkDuplicateLectureDetail(sel_lectureRoom, start_time, end_time, sel_lectureDay, function (bl) {
+            alert(bl);
+            if(bl==true){
+                alert("등록할수없는 시간대와 강의실 입니다.\n다른 시간대와 강의실을 선택하세요.");
+                return false;
+            }
+        });
+
         var num = $(".clonedDiv").length;   //복사할 영역 클래스 길이
         var newNum = num + 1;
         var newElem = $("#input1").clone().attr('id', 'input' + newNum);    //복사할 영역 원본 id 값 변경
@@ -99,30 +116,82 @@
         }
     }
 
-    
+    //강의정보 저장
     function save_lecture_info() {
-        var price_list = new Array();
+        var end_time_list = new Array();
         var start_time_list = new Array();
-        $('select[name="sel_lecturePrice[]"]').each(function () {
-            //   alert($(this).val());
-            price_list.push($(this).val());
+        var room_list = new Array();
+        var day_list = new Array();
+
+        var sel_academy  = getSelectboxValue("sel_academyList2");//관선택
+        var manager      = getSelectboxValue("sel_teacherList2");//관리선생님
+        var teacher      = getSelectboxValue("sel_teacherList");//담당선생님
+        var sel_price    = getSelectboxValue("sel_lecturePrice");//가격
+        var lecture_name = getInputTextValue("lecture_name");//강의명
+        var lecture_subject   =  getSelectboxValue("sel_lectureSubject"); //강의과목
+        var school_type  = get_radio_value("school_type");//학교구분
+        var sel_school   = getSelectboxValue("sel_school");//학년
+        var lecture_level  = get_radio_value("lecture_level");//레벨
+        var lecture_operation    = getSelectboxValue("sel_lectureOperationTypeList");//강의기간단위
+        var lecture_start = getInputTextValue("startDate");//강의시작일
+        var lecture_end = getInputTextValue("startDate2");//강의종료일
+        var lecture_student_limit   = getSelectboxValue("sel_lectureStudentLimitList");//강의인원수
+        var lecture_state    = getSelectboxValue("sel_lectureStatusList");//강의상태
+
+
+        var lecture_info = {
+            officeId: sel_academy,
+            chargeMemberId: teacher,
+            manageMemberId: manager,
+            lecturePriceId: sel_price,
+            lectureName: lecture_name,
+            lectureSubject: lecture_subject,
+            lectureGrade: sel_school,
+            lectureLevel: lecture_level,
+            lectureOperationType: lecture_operation,
+            lectureStartDate: lecture_start,
+            lectureEndDate: lecture_end,
+            lectureLimitStudent: lecture_student_limit,
+            lectureStatus: lecture_state,
+            schoolType: school_type
+        };
+
+        $('select[name="sel_lectureRoom[]"]').each(function () {
+            room_list.push($(this).val());
         });
 
-        $('select[name="start_time[]"]').each(function () {
-            //   alert($(this).val());
+        $('select[name="lecture_day[]"]').each(function () {
+            day_list.push($(this).val());
+        });
+
+        $('input[name="start_time[]"]').each(function () {
             start_time_list.push($(this).val());
         });
-        alert(start_time_list);
+
+        $('input[name="end_time[]"]').each(function () {
+            end_time_list.push($(this).val());
+        });
+
+        var num = $('.clonedDiv').length;
+        var detail_list = new Array();
+
+        for(var i=0; i < num ; i++){
+            var lecture_detail_info = {
+                lectureRoomId: room_list[i],
+                startTime: start_time_list[i],
+                endTime: end_time_list[i],
+                lectureDay: day_list[i]
+            };
+            detail_list.push(lecture_detail_info);
+        }
+
+        lectureManager.regLecture(lecture_info, detail_list, function (bl) {
+            alert(bl);
+        })
+
 
     }
 
-    $(document).ready(function () {
-            $("#start_time_2").timepicker({
-                hourText: '시',
-                minuteText: '분'
-            });
-            $.timepicker.setDefaults($.timepicker.regional['ko']);
-    });
 
 </script>
 <body onload="init();">
@@ -165,7 +234,7 @@
             <tr>
                 <th>강의명</th>
                 <td>
-                    <input type="text" id="">
+                    <input type="text" id="lecture_name">
                 </td>
             </tr>
             <tr>
