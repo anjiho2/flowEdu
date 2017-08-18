@@ -1,5 +1,6 @@
 package com.flowedu.service;
 
+import com.flowedu.config.PagingSupport;
 import com.flowedu.define.datasource.*;
 import com.flowedu.dto.*;
 import com.flowedu.error.FlowEduErrorCode;
@@ -23,7 +24,7 @@ import java.util.List;
  * Created by jihoan on 2017. 8. 8..
  */
 @Service
-public class LectureService {
+public class LectureService extends PagingSupport {
 
     private final Logger logger = LoggerFactory.getLogger(LectureService.class);
 
@@ -167,10 +168,24 @@ public class LectureService {
      * @return
      */
     @Transactional(readOnly = true)
-    public List<LectureInfoDto> getLectureInfoList() {
-        List<LectureInfoDto> Arr = new ArrayList<>();
-        Arr = lectureMapper.getLectureInfoList(UserSession.flowMemberId(), UserSession.memberType());
+    public List<LectureInfoDto> getLectureInfoList(int sPage, int pageListCount) {
+        PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
+        List<LectureInfoDto> Arr = lectureMapper.getLectureInfoList(
+                pagingDto.getStart(), pageListCount, UserSession.flowMemberId(), UserSession.memberType());
         return Arr;
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 강의 기본 정보 리스트 개수
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .18
+     * </PRE>
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public int getLectureInfoCount() {
+        return lectureMapper.getLectureInfoCount();
     }
 
     /**

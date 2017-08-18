@@ -38,11 +38,21 @@
 		ON A.manage_member_id = C.flow_member_id LEFT JOIN OFFICE D
 		ON A.office_id = D.office_id LEFT JOIN LECTURE_PRICE E
 		ON A.lecture_price_id = E.lecture_price_id
-		<if test="memberType = 'TEACHER'">
+		<if test="memberType == 'TEACHER' or memberType == 'TEACHER_MANAGE'">
 			<where>
 				A.charge_member_id = #{flowMemberId} OR A.manage_member_id = #{flowMemberId}
 			</where>
 		</if>
+		LIMIT #{start}, #{end}
+	</select>
+
+	<select id="getLectureInfoCount" resultType="Integer">
+		SELECT count(A.lecture_id)
+		FROM LECTURE_INFO A LEFT JOIN FLOWEDU_MEMBER B
+		ON A.charge_member_id = B.flow_member_id LEFT JOIN FLOWEDU_MEMBER C
+		ON A.manage_member_id = C.flow_member_id LEFT JOIN OFFICE D
+		ON A.office_id = D.office_id LEFT JOIN LECTURE_PRICE E
+		ON A.lecture_price_id = E.lecture_price_id
 	</select>
 
 	<select id="getLectureDetailInfoList" parameterType="Long" resultType="com.flowedu.dto.LectureDetailDto">

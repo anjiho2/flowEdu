@@ -12,6 +12,15 @@
       <param-value>utf-8</param-value>
     </init-param>
   </filter>
+  <filter>
+    <filter-name>userSessionFilter</filter-name>
+    <filter-class>com.flowedu.filter.UserSessionFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>userSessionFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
   <listener>
     <display-name>contextConfigLocation</display-name>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

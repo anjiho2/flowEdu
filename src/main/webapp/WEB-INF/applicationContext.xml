@@ -94,6 +94,9 @@
     </bean>
     
 	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+
+    <!-- Filter -->
+    <bean id="userSessionFilter" class="com.flowedu.filter.UserSessionFilter"/>
 	
 	<!-- ========================= SERVICE OBJECT DEFINITIONS ======================== -->	
   	<!--<bean id="userService" class="com.challabros.birdletter.admin.service.UserService"/>-->

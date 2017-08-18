@@ -163,6 +163,11 @@ public class MemberService extends PagingSupport {
         return memberMapper.getTeacherList(officeId);
     }
 
+    @Transactional(readOnly = true)
+    public FlowEduMemberDto getFlowEduMemberCheck(Long flowMemberId) {
+        return memberMapper.getFlowEduMemberCheck(flowMemberId);
+    }
+
     /**
      * <PRE>
      * 1. Comment : 운영자, 선생님정보 저장
