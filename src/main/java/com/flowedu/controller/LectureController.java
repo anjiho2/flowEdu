@@ -23,7 +23,14 @@ public class LectureController {
             mvc.setViewName("/lecture/lecture_price");
         }else if("lecture_room".equals(page_gbn)){
             mvc.setViewName("/lecture/lecture_room");
+        }else if("lecture_list".equals(page_gbn)){
+            mvc.setViewName("/lecture/lecture_list");
+        }else if("lecture_detail".equals(page_gbn)){
+            mvc.setViewName("/lecture/lecture_detail");
+        }else if("lecture_modify".equals(page_gbn)){
+            mvc.setViewName("/lecture/lecture_modify");
         }
+
         return mvc;
     }
 

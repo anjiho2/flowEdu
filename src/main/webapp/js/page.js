@@ -196,3 +196,13 @@ function goDetailSquare(val) {
 		submit();
 	}
 }
+
+function lecture_go(val) {
+    if(val=="price"){
+        goPage('lecture','lecture_price');
+    }else if(val=="room"){
+        goPage('lecture','lecture_room');
+    }else if(val=="lecture_list"){
+        goPage('lecture','lecture_list');
+	}
+}

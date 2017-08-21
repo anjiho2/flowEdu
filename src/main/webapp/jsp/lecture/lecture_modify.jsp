@@ -1,25 +1,15 @@
 <%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/common/jsp/top.jsp" %>
-
+<%
+    Long lecture_id = Long.parseLong(request.getParameter("lecture_id"));
+%>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureManager.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
 <link rel="stylesheet" href="//cdn.rawgit.com/fgelinas/timepicker/master/jquery.ui.timepicker.css">
-<style>
-    /*초기화와 메뉴폭 지정*/
-    #navi{padding:0;width:200px;margin:0;}
-    #navi h2{margin: 0;padding: 0;}
-    /*메인메뉴 스타일 지정*/
-    #navi h2 a{display: block;font-weight: bold;text-decoration: none;margin: 0;padding: 10px;font-family:'돋움', sans-serif;font-size: 14px;color: #ccc;text-shadow: 0 1px 1px #000; background:#1d4ab3;background: -moz-linear-gradient(#1d4ab3 0%, #163887 100%);background: -webkit-linear-gradient(#1d4ab3 0%, #163887 100%);background: -o-linear-gradient(#1d4ab3 0%, #163887 100%);background: linear-gradient(#1d4ab3 0%, #163887 100%);}
 
-    /*메인 메뉴에 대한 마우스 이벤트에 대한 효과 지정*/
-    #navi :target h2 a,
-    #navi h2 a:focus,
-    #navi h2 a:hover,
-    #navi h2 a:active{background:#1a1a1a;background:-moz-linear-gradient(#1a1a1a 0%, #000000 100%);background:-webkit-linear-gradient(#1a1a1a 0%, #000000 100%);background:-o-linear-gradient(#1a1a1a 0%, #000000 100%);background:linear-gradient(#1a1a1a 0%, #000000 100%);color:#eee;text-shadow: 0 1px 1px #000000;}
-</style>
 <script type="text/javascript">
     function init(val) {
         var office_id;
@@ -66,7 +56,7 @@
         });
     }
 
-    //html 복제하기
+   /* //html 복제하기
     function trans_html() {
         var num = $(".clonedDiv").length;   //복사할 영역 클래스 길이
         var newNum = num + 1;
@@ -81,7 +71,7 @@
                 hourText: '시',
                 minuteText: '분'
             });
-            $.timepicker.setDefaults($.timepicker.regional['ko']);
+        $.timepicker.setDefaults($.timepicker.regional['ko']);
         //종료시간 input박스
         newElem.find("#end_time_input_1 input").attr('id', 'end_time_' + newNum).val('');
         newElem.find("#end_time_input_1 input")
@@ -107,7 +97,7 @@
             $('#del_btn').attr('disabled', 'disabled');
         }
     }
-
+*/
     //강의정보 저장
     function save_lecture_info() {
         var end_time_list = new Array();
@@ -170,7 +160,7 @@
             };
             detail_list.push(lecture_detail_info);
         }
-        lectureManager.regLecture(lecture_info, detail_list, function (bl) {
+        lectureManager.modifyLectureInfo(lecture_info, detail_list, function (bl) {
             if(bl==true){
                 //TODO : 등록이 완료되면 강의 리스트로 이동시키는 기능 추가하기
             } else {
@@ -179,19 +169,30 @@
         });
     }
 
+    function lecture_detail_List() {
+        var lecture_id        = getInputTextValue("lecture_id");
+        lectureService.getLectureInfo( lecture_id, function (selList) {
+            console.log(selList);
+                    academyListSelectbox2("sel_academy",office_id);
+                  /*  innerValue("member_name", cmpList.memberName);
+                    fnSetPhoneNo(member_phone1, member_phone2, member_phone3, cmpList.phoneNumber);
+                    innerValue("startDate", cmpList.memberBirthday);
+                    innerValue("member_address", cmpList.memberAddress);
+                    innerValue("member_email", cmpList.memberEmail);
+                    memberTypeSelectbox("l_memberType", cmpList.memberType);
+                    jobPositionSelectbox("l_jobPosition",cmpList.jobPositionId);
+                    academyListSelectbox("sel_academy", cmpList.officeId);
+                    flowEduTeamListSelectbox("l_FlowEduTeam",cmpList.teamId);
+                    innerValue("startSearchDate", cmpList.sexualAssultConfirmDate);
+                    innerValue("startSearchDate2", cmpList.educationRegDate);*/
+        });
+    }
 
 </script>
-<body onload="init();">
+<body onload="init(); lecture_detail_List();">
 <form name="frm" id="frm" method="post">
     <input type="hidden" name="page_gbn" id="page_gbn">
-    <div id="navi">
-        <div id="menu1">
-            <h2><a href="">강의관리</a></h2>
-            <p><a onclick="lecture_go('price');">강의가격</a></p>
-            <p><a onclick="lecture_go('room');">강의룸</a></p>
-            <p><a onclick="lecture_go('lecture_list');">강의상세보기</a></p>
-        </div>
-    </div>
+    <input type="hidden" name="lecture_id" id="lecture_id" value="<%=lecture_id%>">
     <div id="lectureInfo">
         <h1>강의정보입력</h1>
         <table>
@@ -216,7 +217,7 @@
             <tr>
                 <th>가격</th>
                 <td>
-                   <span id="lecture_price"></span>
+                    <span id="lecture_price"></span>
                 </td>
             </tr>
             <tr>
@@ -283,39 +284,34 @@
             </tr>
         </table>
     </div>
-
     <h2>강의 상세정보 입력</h2>
-    <input type="button" value="추가" class="add_btn" id="addBtn" onclick="dupcheck_lecture_room();">
-    <input type="button" value="저장" onclick="save_lecture_info();">
-    <div id="input1" class="clonedDiv">
-      <table border="1">
-                <tr>
-                    <th>강의실선택</th>
-                    <td>
-                        <span id="lectureRoomSelectbox"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <th>강의시작시간</th>
-                    <td id="start_time_input_1">
-                       <input type="text" id="start_time_1" name="start_time[]">
-                    </td>
-                </tr>
-                <tr>
-                    <th>강의종료시간</th>
-                    <td id="end_time_input_1">
-                        <input type="text" id="end_time" name="end_time[]">
-                    </td>
-                </tr>
-                <tr>
-                    <th>강의요일</th>
-                    <td>
-                        <span id="lectureDaySelectbox"></span>
-                    </td>
-                </tr>
-      </table>
-        <br>
-    </div>
+    <table border="1">
+        <tr>
+            <th>강의실선택</th>
+            <td>
+                <span id="lectureRoomSelectbox"></span>
+            </td>
+        </tr>
+        <tr>
+            <th>강의시작시간</th>
+            <td id="start_time_input_1">
+                <input type="text" id="start_time_1" name="start_time[]">
+            </td>
+        </tr>
+        <tr>
+            <th>강의종료시간</th>
+            <td id="end_time_input_1">
+                <input type="text" id="end_time" name="end_time[]">
+            </td>
+        </tr>
+        <tr>
+            <th>강의요일</th>
+            <td>
+                <span id="lectureDaySelectbox"></span>
+            </td>
+        </tr>
+    </table>
+
 </form>
 
 </body>
