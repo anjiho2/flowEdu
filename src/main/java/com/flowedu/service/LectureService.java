@@ -168,10 +168,10 @@ public class LectureService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public List<LectureInfoDto> getLectureInfoList(int sPage, int pageListCount) {
+    public List<LectureInfoDto> getLectureInfoList(int sPage, int pageListCount, Long officeId) {
         PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
         List<LectureInfoDto> Arr = lectureMapper.getLectureInfoList(
-                pagingDto.getStart(), pageListCount, UserSession.flowMemberId(), UserSession.memberType());
+                pagingDto.getStart(), pageListCount, officeId, UserSession.flowMemberId(), UserSession.memberType());
         return Arr;
     }
 
@@ -227,6 +227,20 @@ public class LectureService extends PagingSupport {
             return true;
         }
         return false;
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 강의 상세 정보
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .21
+     * </PRE>
+     * @param lectureId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public LectureInfoDto getLectureInfo(Long lectureId) {
+        return lectureMapper.getLectureInfo(lectureId);
     }
 
     /**

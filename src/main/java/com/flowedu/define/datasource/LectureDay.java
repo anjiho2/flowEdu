@@ -4,13 +4,14 @@ package com.flowedu.define.datasource;
  * Created by jihoan on 2017. 8. 9..
  */
 public enum LectureDay {
-    MON(0, "월요일"),
-    TUE(1, "화요일"),
-    WEN(2, "수요일"),
-    THU(3, "목요일"),
-    FRI(4, "금요일"),
-    SAT(5, "토요일"),
-    SUN(6, "일요일");
+    SUN(0, "일요일"),
+    MON(1, "월요일"),
+    TUE(2, "화요일"),
+    WEN(3, "수요일"),
+    THU(4, "목요일"),
+    FRI(5, "금요일"),
+    SAT(6, "토요일");
+
 
     int lectureDayCode;
 
@@ -34,6 +35,15 @@ public enum LectureDay {
         for (LectureDay day : LectureDay.values()) {
             if (day.equals(getLectureDayCode(lectureDayCode))) {
                 return day.lectureDayName.toString();
+            }
+        }
+        return null;
+    }
+
+    public static Integer getLectureDayCode(String lectureDayName) {
+        for (LectureDay lectureDay : LectureDay.values()) {
+            if (lectureDay.toString().equals(lectureDayName)) {
+                return lectureDay.lectureDayCode;
             }
         }
         return null;

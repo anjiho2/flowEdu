@@ -19,7 +19,7 @@ public interface LectureMapper {
 
     Integer getLecturePriceCount(@Param("lecturePrice") int lecturePrice);
 
-    List<LectureInfoDto> getLectureInfoList(@Param("start") int start, @Param("end") int end, @Param("flowMemberId") Long flowMemberId, @Param("memberType") String memberType);
+    List<LectureInfoDto> getLectureInfoList(@Param("start") int start, @Param("end") int end, @Param("officeId") Long officeId, @Param("flowMemberId") Long flowMemberId, @Param("memberType") String memberType);
 
     int getLectureInfoCount();
 

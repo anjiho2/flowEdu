@@ -26,6 +26,12 @@
 <!-- 공통 유틸 스크립트 -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
+
+<link rel="stylesheet" href="calendar/css/fullcalendar.css">
+
+<script type='text/javascript' src="<%=webRoot%>/calendar/lib/moment.min.js"/>
+<script type='text/javascript' src="<%=webRoot%>/calendar/lib/locale-all.js"/>
+
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -39,6 +45,11 @@
 <script type='text/javascript' src="<%=webRoot%>/js/few-weeks.js"></script>
 <script type='text/javascript' src="<%=webRoot%>/js/paging-count-check.js"></script>
 <script type='text/javascript' src="<%=webRoot%>/js/radio.js?ver=<%=version%>"></script>
+
+<script type='text/javascript' src="<%=webRoot%>/calendar/js/fullcalendar.js"/>
+
+<%--<script type='text/javascript' src="<%=webRoot%>/calendar/js/fullcalendar.min.js"/>--%>
+
 
 <!-- 페이징 관련 필수 스트립트 -->
 <script type='text/javascript' src="<%=webRoot%>/common/js/com_page.js"></script>
@@ -58,8 +69,9 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
 <!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+<script src="<%=webRoot%>/calendar/lang/ko.js"/>
 <!-- 공통으로 쓰는 값 모여있는 스크립트 -->
 <script src="<%=webRoot%>/js/value.js?ver=<%=version%>"></script>
 <!-- 페이지 이동 스크립트 -->

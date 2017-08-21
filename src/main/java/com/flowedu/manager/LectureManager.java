@@ -1,5 +1,6 @@
 package com.flowedu.manager;
 
+import com.flowedu.dto.LectureCalendarDto;
 import com.flowedu.dto.LectureDetailDto;
 import com.flowedu.dto.LectureInfoDto;
 import com.flowedu.error.FlowEduErrorCode;
@@ -45,6 +46,8 @@ public class LectureManager {
         }
         return true;
     }
+
+    //public List<LectureCalendarDto>
 
     public void test() {
         LectureInfoDto dto = new LectureInfoDto();

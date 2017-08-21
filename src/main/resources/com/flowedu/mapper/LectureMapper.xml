@@ -38,10 +38,12 @@
 		ON A.manage_member_id = C.flow_member_id LEFT JOIN OFFICE D
 		ON A.office_id = D.office_id LEFT JOIN LECTURE_PRICE E
 		ON A.lecture_price_id = E.lecture_price_id
+		WHERE 1=1
+		<if test="officeId > 0">
+			AND  A.office_id = #{officeId}
+		</if>
 		<if test="memberType == 'TEACHER' or memberType == 'TEACHER_MANAGE'">
-			<where>
-				A.charge_member_id = #{flowMemberId} OR A.manage_member_id = #{flowMemberId}
-			</where>
+			AND A.charge_member_id = #{flowMemberId} OR A.manage_member_id = #{flowMemberId}
 		</if>
 		LIMIT #{start}, #{end}
 	</select>
