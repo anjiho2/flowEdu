@@ -22,6 +22,11 @@
         goPage("lecture","lecture_modify");
     }
 
+    function lecutre_calendar_btn(lecture_id) {
+        innerValue("lecture_id", lecture_id);
+        goPage("lecture","lecture_calendar");
+    }
+
     function fn_search(val) {
         var paging = new Paging();
         var sPage = $("#sPage").val();
@@ -44,24 +49,26 @@
                             // var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.officeId + "'/>";
                             var detailHTML = "<input type='button'  value='상세' onclick='lecutre_detail_btn(" + cmpList.lectureId + ");'/>";
                             var modifyHTML = "<input type='button'  value='수정' onclick='lecutre_modify_btn(" + cmpList.lectureId + ");'/>";
+                            var calendarHTML = "<input type='button'  value='달력보기' onclick='lecutre_calendar_btn(" + cmpList.lectureId + ");'/>";
                             var cellData = [
 
                                 function(data) {return cmpList.officeName;},
                                 function(data) {return cmpList.manageMemberName;},
                                 function(data) {return cmpList.chargeMemberName;},
-                                function(data) {return cmpList.lecturePrice;},
+                                function(data) {return addThousandSeparatorCommas(cmpList.lecturePrice);},
                                 function(data) {return cmpList.lectureName;},
-                                function(data) {return cmpList.lectureSubject;},
-                                function(data) {return cmpList.schoolType;},
-                                function(data) {return cmpList.lectureLevel;},
-                                function(data) {return cmpList.lectureGrade;},
-                                function(data) {return cmpList.lectureOperationType;},
+                                function(data) {return convert_lecture_subject(cmpList.lectureSubject);},
+                                function(data) {return convert_school(cmpList.schoolType);},
+                                function(data) {return convert_lecture_level(cmpList.lectureLevel);},
+                                function(data) {return convert_lecture_grade(cmpList.lectureGrade);},
+                                function(data) {return cmpList.lectureOperationType == 'MONTH' ? '월' : '횟수';},
                                 function(data) {return cmpList.lectureStartDate;},
                                 function(data) {return cmpList.lectureEndDate;},
-                                function(data) {return cmpList.lectureLimitStudent;},
-                                function(data) {return cmpList.lectureStatus;},
+                                function(data) {return cmpList.lectureLimitStudent + "명";},
+                                function(data) {return convert_lecture_status(cmpList.lectureStatus);},
                                 function(data) {return detailHTML;},
-                                function(data) {return modifyHTML;}
+                                function(data) {return modifyHTML;},
+                                function(data) {return calendarHTML;}
 
                             ];
                             dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
@@ -119,7 +126,7 @@
                 <th>종료일</th>
                 <th>강의정원명</th>
                 <th>강의상태</th>
-                <th colspan="2"></th>
+                <th colspan="3"></th>
             </tr>
             </thead>
             <tbody id="dataList"></tbody>

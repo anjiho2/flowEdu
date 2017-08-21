@@ -71,11 +71,13 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-<%--<script src="<%=webRoot%>/calendar/lang/ko.js"/>--%>
+<script src="<%=webRoot%>/calendar/lang/ko.js"/>
 <!-- 공통으로 쓰는 값 모여있는 스크립트 -->
 <script src="<%=webRoot%>/js/value.js?ver=<%=version%>"></script>
 <!-- 페이지 이동 스크립트 -->
 <script src="<%=webRoot%>/js/page.js?ver=<%=version%>"></script>
+<!-- 공통으로 쓰는 값 모여있는 스크립트 -->
+<script src="<%=webRoot%>/js/convert_value.js?ver=<%=version%>"></script>
 
 <meta charset="utf-8">
 <title>플로우 교육</title>

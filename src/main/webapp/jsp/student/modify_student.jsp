@@ -163,9 +163,16 @@
     function school_radio(school_grade) {
         schoolSelectbox("student_grade","", school_grade);
     }
-    
+
     function school_search_popup() {
-        alert("1");
+        var school_type =  $(":input:radio[name=school_type]:checked").val();
+
+        if(school_type == null){
+            alert("학교구분을 선택해 주세요.");
+            return false;
+        }
+        var param = "?school_type="+school_type;
+        gfn_winPop(750,200,"jsp/popup/school_search_popup.jsp",param);
     }
 </script>
 <body onload="init();">
