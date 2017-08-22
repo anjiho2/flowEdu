@@ -33,7 +33,13 @@
 
 
         studentService.getApiSchoolName(school_type, region, searchSchoolName, function (schoolName) {
-            window.opener.document.getElementById("schoolname").value = remove_double_quotation(schoolName);
+            if (schoolName == null) {
+                alert("검색된 학교가 없습니다.")
+                return;
+            } else {
+                window.opener.document.getElementById("schoolname").value = remove_double_quotation(schoolName);
+                self.close();
+            }
         });
     }
 
@@ -73,7 +79,7 @@
         <br>
         <th>학교이름</th>
         <td>
-            <input type="text" id="schoo_name">
+            <input type="text" id="schoo_name" onkeypress="javascript:if(event.keyCode == 13){school_search(); return false;}">
         </td>
             <input type="button" value="검색" onclick="school_search();">
     <tr>

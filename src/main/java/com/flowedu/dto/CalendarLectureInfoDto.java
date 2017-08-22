@@ -28,4 +28,8 @@ public class CalendarLectureInfoDto {
 
     private String lectureOperationType;
 
+    private String officeName;
+
+    private String lectureRoomName;
+
 }

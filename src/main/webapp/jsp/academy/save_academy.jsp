@@ -49,7 +49,7 @@
                             function(data) {return cmpList.officeTelNumber;},
                             function(data) {return cmpList.officeAddress;},
                             function(data) {return cmpList.officeFaxNumber;},
-                            function(data) {return cmpList.createDate;},
+                            function(data) {return getDateTimeSplitComma(cmpList.createDate);},
                             function(data) {return modifyHTML;}
                         ];
 

@@ -42,7 +42,7 @@ function fn_search(val) {
                             function(data) {return cmpList.studentPhoneNumber;},
                             function(data) {return cmpList.homeTelNumber;},
                             function(data) {return cmpList.studentEmail;},
-                            function(data) {return cmpList.studentGrade;},
+                            function(data) {return convert_lecture_grade(cmpList.studentGrade);},
                             function(data) {return cmpList.schoolName;},
                             function(data) {return cmpList.studentMemo;},
                             function(data) {return cmpList.motherName;},

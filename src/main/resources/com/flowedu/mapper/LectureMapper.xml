@@ -175,7 +175,7 @@
 			<if test="lecturePriceId > 0">lecture_price_id = #{lecturePriceId},</if>
 			<if test="lectureName != ''">lecture_name = #{lectureName},</if>
 			<if test="lectureSubject != ''">lecture_subject = #{lectureSubject},</if>
-			<if test="lectureGrade > 0">lecutre_grade = #{lectureGrade},</if>
+			<if test="lectureGrade > 0">lecture_grade = #{lectureGrade},</if>
 			<if test="lectureLevel != ''">lecture_level = #{lectureLevel},</if>
 			<if test="lectureOperationType != ''">lecture_operation_type = #{lectureOperationType},</if>
 			<if test="lectureStartDate != ''">lecture_start_date = #{lectureStartDate},</if>

@@ -448,6 +448,17 @@ public class LectureService extends PagingSupport {
         lectureMapper.modifyLectureDetailInfo(lectureDetailDto);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void modifyLectureDetailInfoList(List<LectureDetailDto> lectureDetailDtoList) {
+        if (lectureDetailDtoList.size() == 0) return;
+
+        for (LectureDetailDto dto : lectureDetailDtoList)  {
+            lectureMapper.modifyLectureDetailInfo(dto);
+        }
+    }
+
+
+
     /**
      * <PRE>
      * 1. Comment : 강의 상태 변경
