@@ -47,38 +47,57 @@ public class LectureManager {
         return true;
     }
 
+    /**
+     * 
+     * @param lectureInfoDto
+     * @param lectureDetailDtoList
+     * @return
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean modifyLecture(LectureInfoDto lectureInfoDto, List<LectureDetailDto> lectureDetailDtoList) {
+        if (lectureInfoDto == null) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        lectureService.modifyLectureInfo(lectureInfoDto);
+        lectureService.modifyLectureDetailInfoList(lectureDetailDtoList);
+        return true;
+    }
+
     //public List<LectureCalendarDto>
 
     public void test() {
         LectureInfoDto dto = new LectureInfoDto();
+        dto.setLectureId(26L);
         dto.setOfficeId(4L);
         dto.setChargeMemberId(5L);
         dto.setManageMemberId(6L);
-        dto.setLecturePriceId(1L);
-        dto.setLectureName("강의1");
+        dto.setLecturePriceId(2L);
+        dto.setLectureName("강의1111");
         dto.setLectureSubject("수학");
         dto.setLectureGrade(1);
         dto.setLectureLevel("LOW");
         dto.setLectureOperationType("MONTH");
-        dto.setLectureStartDate("2017-09-01");
-        dto.setLectureEndDate("2017-09-30");
-        dto.setLectureLimitStudent(20);
-        dto.setLectureStatus("ON");
+        dto.setLectureStartDate("2017-10-01");
+        dto.setLectureEndDate("2017-10-30");
+        dto.setLectureLimitStudent(30);
+        dto.setLectureStatus("CANCEL");
 
         //this.saveLectureInfo(dto);
 
         List<LectureDetailDto> Arr = new ArrayList<>();
-        /*
+
         for (int i=0; i<2; i++) {
             LectureDetailDto detailDto = new LectureDetailDto();
+            Long l = new Long(i+1);
             detailDto.setLectureRoomId(2L);
             detailDto.setStartTime("11:00:00");
             detailDto.setEndTime("12:00:00");
             detailDto.setLectureDay("MON");
+            detailDto.setLectureDetailId(l);
             Arr.add(detailDto);
         }
-        */
-        this.regLecture(dto, Arr);
+
+        this.modifyLecture(dto, Arr);
     }
 
 }
