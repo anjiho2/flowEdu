@@ -436,7 +436,7 @@ public class LectureService extends PagingSupport {
      * <PRE>
      * 1. Comment : 강의 상세 정보 수정
      * 2. 작성자 : 안지호
-     * 3. 작성일 : 2017. 08 .10
+     * 3. 작성일 : 2017. 08 .102
      * </PRE>
      * @param lectureDetailDto
      */

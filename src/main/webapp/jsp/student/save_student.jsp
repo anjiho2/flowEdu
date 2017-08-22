@@ -26,7 +26,7 @@ function fn_search(val) {
         paging.count(sPage, cnt, '10', '5', comment.blank_list);
 
         studentService.getSudentList(sPage,'5',function (selList) {
-            console.log(selList);
+
             if (selList.length > 0) {
                 for (var i = 0; i < selList.length; i++) {
 

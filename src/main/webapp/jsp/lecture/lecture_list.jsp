@@ -4,12 +4,15 @@
 <%
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
 %>
+<script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureManager.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
 <script type="text/javascript">
 
     function init() {
-        fn_search("new");
+       // fn_search("new");
+        academyListSelectbox2("sel_academy","");
+        academy_sel_change();
     }
 
     function lecutre_detail_btn(lecture_id) {
@@ -26,16 +29,18 @@
         var paging = new Paging();
         var sPage = $("#sPage").val();
         var title = $("#search_value").val();
+        var office_id = getInputTextValue("office_id");
 
         if(val == "new") {
             sPage = "1";
         }
         dwr.util.removeAllRows("dataList");
 
+
         lectureService.getLectureInfoCount( function(cnt) {
             paging.count(sPage, cnt, '10', '5', comment.blank_list);
 
-            lectureService.getLectureInfoList(sPage, '5', '8', function (selList) {
+            lectureService.getLectureInfoList(sPage, '5', office_id, function (selList) {
                 if (selList.length > 0) {
                     for (var i = 0; i < selList.length; i++) {
 
@@ -72,15 +77,29 @@
             });
         });
     }
+
+    function academy_sel_change() {
+        var sel_academy  = getSelectboxValue("sel_academyList2");//관선택
+        if(sel_academy == undefined){
+            $("#office_id").val("");
+            fn_search("new");
+        }else{
+            var test = $("#office_id").val(sel_academy);
+            fn_search("new");
+        }
+    }
 </script>
 
 <body onload="init();">
+
 <form name="frm" id="frm" method="get">
     <input type="hidden" name="page_gbn" id="page_gbn">
     <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
     <input type="hidden" name="lecture_id" id="lecture_id" value="">
+    <input type="hidden" name="office_id" id="office_id" value="">
     <h1>강의상세정보리스트</h1>
     <div id="memberList">
+        <span id="sel_academy"></span>
         <table class="table_list" border="1">
             <colgroup>
                 <!-- <col width="2%" />-->

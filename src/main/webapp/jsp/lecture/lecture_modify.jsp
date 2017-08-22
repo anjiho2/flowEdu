@@ -56,7 +56,7 @@
         });
     }
 
-   /* //html 복제하기
+    //html 복제하기
     function trans_html() {
         var num = $(".clonedDiv").length;   //복사할 영역 클래스 길이
         var newNum = num + 1;
@@ -97,14 +97,15 @@
             $('#del_btn').attr('disabled', 'disabled');
         }
     }
-*/
+
     //강의정보 저장
-    function save_lecture_info() {
+    function modify_lecture_info() {
         var end_time_list = new Array();
         var start_time_list = new Array();
         var room_list = new Array();
         var day_list = new Array();
 
+        var lecture_id = getInputTextValue("lecture_id");
         var sel_academy  = getSelectboxValue("sel_academyList2");//관선택
         var manager      = getSelectboxValue("sel_teacherList2");//관리선생님
         var teacher      = getSelectboxValue("sel_teacherList");//담당선생님
@@ -160,7 +161,7 @@
             };
             detail_list.push(lecture_detail_info);
         }
-        lectureManager.modifyLectureInfo(lecture_info, detail_list, function (bl) {
+        lectureManager.modifyLectureInfo(lecture_info, detail_list, lecture_id, function (bl) {
             if(bl==true){
                 //TODO : 등록이 완료되면 강의 리스트로 이동시키는 기능 추가하기
             } else {
@@ -169,22 +170,55 @@
         });
     }
 
+
+
     function lecture_detail_List() {
         var lecture_id        = getInputTextValue("lecture_id");
         lectureService.getLectureInfo( lecture_id, function (selList) {
-            console.log(selList);
-                    academyListSelectbox2("sel_academy",office_id);
-                  /*  innerValue("member_name", cmpList.memberName);
-                    fnSetPhoneNo(member_phone1, member_phone2, member_phone3, cmpList.phoneNumber);
-                    innerValue("startDate", cmpList.memberBirthday);
-                    innerValue("member_address", cmpList.memberAddress);
-                    innerValue("member_email", cmpList.memberEmail);
-                    memberTypeSelectbox("l_memberType", cmpList.memberType);
-                    jobPositionSelectbox("l_jobPosition",cmpList.jobPositionId);
-                    academyListSelectbox("sel_academy", cmpList.officeId);
-                    flowEduTeamListSelectbox("l_FlowEduTeam",cmpList.teamId);
-                    innerValue("startSearchDate", cmpList.sexualAssultConfirmDate);
-                    innerValue("startSearchDate2", cmpList.educationRegDate);*/
+
+                    academyListSelectbox2("sel_academy", selList.officeId);
+                    lectureOperationTypeSelectbox("sel_lectureOperation",selList.lectureOperationType);
+                    lectureStatusSelectbox("sel_lectureStatus",selList.lectureStatus,"50");
+                    lectureStudentLimitSelectbox("sel_lectureStudentlimit",selList.lectureLimitStudent, "30");
+                    schoolSelectbox("student_grade", selList.lectureGrade, selList.schoolType);
+                    lectureSubjectSelectbox("sel_lectureSubject",selList.lectureSubject);
+                   // lectureLevelRadio("lecture_level","HIGH","");
+                    lecturePriceSelectbox("lecture_price", selList.lecturePriceId);
+                    teacherList(selList.officeId, "sel_member", selList.manageMemberId);
+                    teacherList2(selList.officeId,"sel_member2",selList.chargeMemberId);
+                    innerValue("lecture_name", selList.lectureName);
+                    innerValue("startDate", selList.lectureStartDate);
+                    innerValue("startDate2", selList.lectureEndDate);
+                  //lectureDaySelectbox("lectureDaySelectbox","");
+            //lectureRoomSelectbox(office_id,"lectureRoomSelectbox","");
+        });
+
+        lectureService.getLectureDetailInfoList( lecture_id, function (selList) {
+            var end_time_list = new Array();
+            var start_time_list = new Array();
+            var room_list = new Array();
+            var day_list = new Array();
+
+            if (selList.length > 0) {
+                console.log(selList);
+                for (var i = 0; i < selList.length; i++) {
+                    var cmpList = selList[i];
+                    if (selList != undefined && selList.length > 1) {
+
+                        if(i > 0)  trans_html();
+
+                        room_list.push(cmpList.lectureRoomId);
+                        day_list.push(cmpList.lectureDay);
+                        start_time_list.push(cmpList.startTime);
+                        end_time_list.push(cmpList.endTime);
+
+                        $('select[name="sel_lectureRoom[]"]').eq(i).val(room_list[i]);
+                        $('select[name="lecture_day[]"]').eq(i).val(day_list[i]);
+                        $('input[name="start_time[]"]').eq(i).val(start_time_list[i]);
+                        $('input[name="end_time[]"]').eq(i).val(end_time_list[i]);
+                    }
+                }
+            }
         });
     }
 
@@ -285,32 +319,38 @@
         </table>
     </div>
     <h2>강의 상세정보 입력</h2>
-    <table border="1">
-        <tr>
-            <th>강의실선택</th>
-            <td>
-                <span id="lectureRoomSelectbox"></span>
-            </td>
-        </tr>
-        <tr>
-            <th>강의시작시간</th>
-            <td id="start_time_input_1">
-                <input type="text" id="start_time_1" name="start_time[]">
-            </td>
-        </tr>
-        <tr>
-            <th>강의종료시간</th>
-            <td id="end_time_input_1">
-                <input type="text" id="end_time" name="end_time[]">
-            </td>
-        </tr>
-        <tr>
-            <th>강의요일</th>
-            <td>
-                <span id="lectureDaySelectbox"></span>
-            </td>
-        </tr>
-    </table>
+    <input type="button" value="추가" class="add_btn" id="addBtn" onclick="dupcheck_lecture_room();">
+    <input type="button" value="수정" onclick="modify_lecture_info();">
+    <div id="input1" class="clonedDiv">
+        <table border="1">
+            <tr>
+                <th>강의실선택</th>
+                <td>
+                    <span id="lectureRoomSelectbox"></span>
+                </td>
+            </tr>
+            <tr>
+                <th>강의시작시간</th>
+                <td id="start_time_input_1">
+                    <input type="text" id="start_time_1" name="start_time[]">
+                </td>
+            </tr>
+            <tr>
+                <th>강의종료시간</th>
+                <td id="end_time_input_1">
+                    <input type="text" id="end_time" name="end_time[]">
+                </td>
+            </tr>
+            <tr>
+                <th>강의요일</th>
+                <td>
+                    <span id="lectureDaySelectbox"></span>
+                </td>
+            </tr>
+            <tbody id="dataList"></tbody>
+        </table>
+        <br>
+    </div>
 
 </form>
 
