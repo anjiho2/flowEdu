@@ -30,6 +30,11 @@
         goPage("lecture","lecture_calendar");
     }
 
+    function lecture_apply_btn(lecture_id) {
+        innerValue("lecture_id", lecture_id);
+        goPage("lecture","lecture_apply");
+    }
+
     function fn_search(val) {
         var paging = new Paging();
         var sPage = $("#sPage").val();
@@ -55,6 +60,7 @@
                             var detailHTML = "<input type='button'  value='상세' onclick='lecutre_detail_btn(" + cmpList.lectureId + ");'/>";
                             var modifyHTML = "<input type='button'  value='수정' onclick='lecutre_modify_btn(" + cmpList.lectureId + ");'/>";
                             var calendarHTML = "<input type='button'  value='달력보기' onclick='lecutre_calendar_btn(" + cmpList.lectureId + ");'/>";
+                            var applyHTML = "<input type='button'  value='강의신청'onclick='lecture_apply_btn(" + cmpList.lectureId + ");' style='background:gray;'/>";
                             var cellData = [
 
                                 function(data) {return cmpList.officeName;},
@@ -69,11 +75,13 @@
                                 function(data) {return cmpList.lectureOperationType == 'MONTH' ? '월' : '횟수';},
                                 function(data) {return cmpList.lectureStartDate;},
                                 function(data) {return cmpList.lectureEndDate;},
+                                function(data) {return "null";},
                                 function(data) {return cmpList.lectureLimitStudent + "명";},
                                 function(data) {return convert_lecture_status(cmpList.lectureStatus);},
                                 function(data) {return detailHTML;},
                                 function(data) {return modifyHTML;},
-                                function(data) {return calendarHTML;}
+                                function(data) {return calendarHTML;},
+                                function(data) {return applyHTML;}
 
                             ];
                             dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
@@ -125,6 +133,8 @@
                 <col width="*" />
                 <col width="*" />
                 <col width="*" />
+                <col width="*" />
+                <col width="*" />
             </colgroup>
             <thead>
             <tr>
@@ -143,9 +153,11 @@
                 <th>강의기간단위</th>
                 <th>시작일</th>
                 <th>종료일</th>
+                <th>현재정원명</th>
                 <th>강의정원명</th>
                 <th>강의상태</th>
                 <th colspan="3"></th>
+                <th>강의신청</th>
             </tr>
             </thead>
             <tbody id="dataList"></tbody>
