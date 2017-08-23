@@ -16,6 +16,7 @@
             $("#lecture_name").html(sel.lectureName);
             $("#lecture_limit").html(sel.lectureLimitStudent);
         });
+
         studentList("new");
     }
 
@@ -35,6 +36,7 @@
 
                 if (selList.length > 0) {
                     for (var i = 0; i < selList.length; i++) {
+                        console.log(selList);
                         var cmpList = selList[i];
                         if (cmpList != undefined) {
                             //var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.studentId + "'/>";
@@ -53,6 +55,10 @@
             })
         });
         }
+        
+        function student_add(val) {
+            $('#sel_student > tbody:last').append('<tr><td>test</td></tr>');
+        }
 
     function add_student(val, val2) {
         var str = "";
@@ -62,26 +68,19 @@
         var tr = checkBtn.parent().parent();
         var td = tr.children();
 
-        var last_studentId = $('li[name="student_id[]"]').last().val();
-        if (last_studentId == val2) {
+        var studentIds = new Array();
+        $('li[name="student_id[]"]').each(function () {
+            studentIds.push($(this).val());
+        });
+        if ($.inArray(parseInt(val2), studentIds) != -1) {
             alert("똑같은 학생이 선택되었습니다.");
             return;
+        } else {
+            var append = "<li name='student_id[]' value='" + val2 + "'>" + td.eq(0).text() + "</li>";
+            $("#sel_student").append(append);
         }
-        var append = "<ul id='student_ul'>"
-             append += "<li name='student_id[]' value='" + val2 + "'>" + td.eq(0).text() + "</li>";
-             append +="</ul>"
-        $("#sel_student").append(append);
     }
 
-
-    function save_lecture_student() {
-
-        var itemids = $.makeArray($("li").map(function(){
-            return $(this).attr("value");
-    }));
-
-    console.log(itemids);
-    }
 </script>
 
 
@@ -118,8 +117,6 @@
     <div id="sel_student" style="width:278px;text-align:center;float:left;">
         [선택된 학생 목록]
     </div>
-
-    <input type="button" id="save_lecture_apply" value="저장" onclick="save_lecture_student();">
 
     <!--기존신청된학생들 리스트-->
     <div style="width:278px;text-align:center;float:left;">
