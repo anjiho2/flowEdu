@@ -44,8 +44,9 @@
                             var cellData = [
                                 //function(data) {return checkHTML;},
                                 function(data) {return cmpList.studentName;},
-                                function(data) {return convert_lecture_grade(cmpList.studentGrade);},
                                 function(data) {return cmpList.schoolName;},
+                                function(data) {return convert_school(cmpList.schoolType);},
+                                function(data) {return convert_lecture_grade(cmpList.studentGrade);},
                                 function(data) {return modifyHTML;}
                             ];
                             dwr.util.addRows("studentList", [0], cellData, {escapeHtml: false});
@@ -69,8 +70,9 @@
     <input type="hidden" name="page_gbn" id="page_gbn">
     <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
 
-   강의명   :  <span id="lecture_name"></span> 강의 신청page <br>
-   최대인원 :  <span id="lecture_limit"></span> 명
+    강의명   :  <span id="lecture_name"></span> 강의 신청page <br>
+    최대인원 :  <span id="lecture_limit"></span> 명 <br>
+    현재인원 :  <span id=""></span> 명
     <br>
     <br>
 
@@ -78,12 +80,21 @@
     <div style="width:278px;text-align:center;float:left;">
         <table class="student_list" border="1">
             <colgroup>
-                <col width="*" />
-                <col width="*" />
-                <col width="*" />
-                <col width="*" />
-                <col width="*" />
+                <col width="10%" />
+                <col width="35%" />
+                <col width="17%" />
+                <col width="18%" />
+                <col width="20%" />
             </colgroup>
+            <thead>
+            <tr>
+                <th>이름</th>
+                <th>학교이름</th>
+                <th>구분</th>
+                <th>학년</th>
+                <th>추가</th>
+            </tr>
+            </thead>
             <tbody id="studentList"></tbody>
             <tr>
                 <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
@@ -93,15 +104,49 @@
     </div>
 
     <!--선택된학생리스트-->
-    <div style="width:278px;text-align:center;float:left;">
-        <table id="sel_student" border="1" cellspacing="3">
+    <div style="width:280px;text-align:center;float:left;position:relative;left:50px;">
+        <table id="" border="1" cellspacing="3">
+            <colgroup>
+                <col width="10%" />
+                <col width="35%" />
+                <col width="17%" />
+                <col width="18%" />
+                <col width="20%" />
+            </colgroup>
+            <thead>
+            <tr>
+                <th>이름</th>
+                <th>학교이름</th>
+                <th>구분</th>
+                <th>학년</th>
+                <th>제거</th>
+            </tr>
+            </thead>
             <tbody></tbody>
         </table>
     </div>
 
     <!--기존신청된학생들 리스트-->
-    <div style="width:278px;text-align:center;float:left;">
-
+    <div style="width:280px;text-align:center;float:left;position:relative;left:110px;">
+        <table id="" border="1" cellspacing="3">
+            <colgroup>
+                <col width="10%" />
+                <col width="35%" />
+                <col width="17%" />
+                <col width="18%" />
+                <col width="20%" />
+            </colgroup>
+            <thead>
+            <tr>
+                <th>이름</th>
+                <th>학교이름</th>
+                <th>구분</th>
+                <th>학년</th>
+                <th>추가</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
 
     </div>
 
