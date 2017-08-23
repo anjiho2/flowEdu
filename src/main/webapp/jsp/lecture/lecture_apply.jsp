@@ -68,13 +68,17 @@
         var tr = checkBtn.parent().parent();
         var td = tr.children();
 
-        var last_studentId = $('li[name="student_id[]"]').last().val();
-        if (last_studentId == val2) {
+        var studentIds = new Array();
+        $('li[name="student_id[]"]').each(function () {
+            studentIds.push($(this).val());
+        });
+        if ($.inArray(parseInt(val2), studentIds) != -1) {
             alert("똑같은 학생이 선택되었습니다.");
             return;
+        } else {
+            var append = "<li name='student_id[]' value='" + val2 + "'>" + td.eq(0).text() + "</li>";
+            $("#sel_student").append(append);
         }
-        var append = "<li name='student_id[]' value='" + val2 + "'>" + td.eq(0).text() + "</li>";
-        $("#sel_student").append(append);
     }
 
 </script>
