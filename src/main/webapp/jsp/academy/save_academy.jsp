@@ -76,10 +76,8 @@
     }*/
 
 
-
-
 </script>
-<body onload="academyList();">
+<body onload="academyList();academyList2();">
 <form name="frm" method="get">
     <input type="hidden" name="office_id" id="office_id">
     <input type="hidden" name="page_gbn" id="page_gbn">
