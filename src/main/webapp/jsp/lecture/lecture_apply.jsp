@@ -40,7 +40,7 @@
                         var cmpList = selList[i];
                         if (cmpList != undefined) {
                             //var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.studentId + "'/>";
-                            var modifyHTML = "<input type='button'  name='addList' id='addList' value='추가' onclick='student_add(" + cmpList.studentId + ");'/>";
+                            var modifyHTML = "<input type='button'  name='addList' id='"+cmpList.studentId+"' class='checkBtn' value='추가' onclick='add_student($(this), this.id);'/>";
                             var cellData = [
                                 //function(data) {return checkHTML;},
                                 function(data) {return cmpList.studentName;},
@@ -59,6 +59,23 @@
         function student_add(val) {
             $('#sel_student > tbody:last').append('<tr><td>test</td></tr>');
         }
+
+    function add_student(val, val2) {
+        var str = "";
+        var tdArr = new Array();
+        var checkBtn = val;
+
+        var tr = checkBtn.parent().parent();
+        var td = tr.children();
+
+        var last_studentId = $('li[name="student_id[]"]').last().val();
+        if (last_studentId == val2) {
+            alert("똑같은 학생이 선택되었습니다.");
+            return;
+        }
+        var append = "<li name='student_id[]' value='" + val2 + "'>" + td.eq(0).text() + "</li>";
+        $("#sel_student").append(append);
+    }
 
 </script>
 
@@ -93,10 +110,8 @@
     </div>
 
     <!--선택된학생리스트-->
-    <div style="width:278px;text-align:center;float:left;">
-        <table id="sel_student" border="1" cellspacing="3">
-            <tbody></tbody>
-        </table>
+    <div id="sel_student" style="width:278px;text-align:center;float:left;">
+        [선택된 학생 목록]
     </div>
 
     <!--기존신청된학생들 리스트-->
@@ -104,9 +119,7 @@
 
 
     </div>
-
-
-
 </form>
 </body>
 </html>
+

@@ -89,7 +89,7 @@
 	</select>
 
 	<select id="getRegisteredLectureStudentCount" resultType="Integer">
-		SELECT count(lecture_rel_id) FROM LECUTRE_STUDENT_REL WHERE lecture_id = #{lectureId}
+		SELECT count(lecture_rel_id) FROM LECTURE_STUDENT_REL WHERE lecture_id = #{lectureId}
 	</select>
 	
 	<select id="getStudentListByLectureRegister" resultType="com.flowedu.dto.LectureStudentRelDto">
@@ -97,6 +97,13 @@
 		FROM LECTURE_STUDENT_REL A LEFT JOIN STUDENT B
 		ON A.student_id = B.student_id
 		WHERE A.lecture_id = #{lectureId}
+	</select>
+
+	<select id="getLectureStudentRel" resultType="Integer">
+		SELECT count(lecture_rel_id)
+		FROM LECTURE_STUDENT_REL
+		WHERE lecture_id = #{lectureId}
+		AND student_id = #{studentId}
 	</select>
 
 	<insert id="saveLectureRoom">

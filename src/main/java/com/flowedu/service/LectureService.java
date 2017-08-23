@@ -231,6 +231,41 @@ public class LectureService extends PagingSupport {
 
     /**
      * <PRE>
+     * 1. Comment : 강의에 학생을 넣을때 체크 기능
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .22
+     * </PRE>
+     * @param lectureId
+     * @param studentId
+     * @return (0 : 등록가능, 1 : 인원수 제한 걸렸을때, 2 : 해당 강의에 학생이 등록되어있을 때)
+     */
+    @Transactional(readOnly = true)
+    public int checkLectureStudentRel(Long lectureId, Long studentId) {
+        if (lectureId < 1L && studentId < 1L) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        LectureInfoDto lectureInfo = lectureMapper.getLectureInfo(lectureId);
+        if (lectureInfo != null) {
+            //학생 제한 숫자 정보 가져오기
+            int limitStudent = lectureInfo.getLectureLimitStudent();
+            //강의에 등록 되어있는 학생 수 가져오기
+            int registeredLectureStudentCount = lectureMapper.getRegisteredLectureStudentCount(lectureId);
+            //등록 할려는 학생 수 >= 제한 숫자 return 1;
+            if (registeredLectureStudentCount >= limitStudent) {
+                return 1;
+            } else {
+                //등록할려는 학생이 해당 강의에 등록되어있는지 확인
+                int isRegCount = lectureMapper.getLectureStudentRel(lectureId, studentId);
+                if (isRegCount == 1) {
+                    return 2;
+                }
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * <PRE>
      * 1. Comment : 강의 상세 정보
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .21
@@ -340,25 +375,23 @@ public class LectureService extends PagingSupport {
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .11
      * </PRE>
-     * @param lectureStudentRelDtoList
+     * @param studentIds
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public boolean saveLectureStudentRel(Long lectureId, List<LectureStudentRelDto> lectureStudentRelDtoList) {
-        if (lectureId < 1L || lectureStudentRelDtoList.size() == 0) {
+    public boolean saveLectureStudentRel(Long lectureId, List<Long> studentIds) {
+        if (lectureId < 1L || studentIds.size() == 0) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
-        LectureInfoDto lectureInfo = lectureMapper.getLectureInfo(lectureId);
-        if (lectureInfo != null) {
-            //학생 제한 숫자 정보 가져오기
-            int limitStudent = lectureInfo.getLectureLimitStudent();
-            //강의에 등록 되어있는 학생 수 가져오기
-            int registeredLectureStudentCount = lectureMapper.getRegisteredLectureStudentCount(lectureId);
-            //등록 할려는 학생 수 >= 제한 숫자 return fase;
-            if (registeredLectureStudentCount >= limitStudent) {
-               return false;
+        List<LectureStudentRelDto> Arr = new ArrayList<>();
+        for (Long studentId : studentIds) {
+            int checkCount = this.checkLectureStudentRel(lectureId, studentId);
+            if (checkCount == 1 || checkCount == 2) {
+                return false;
             }
+            LectureStudentRelDto dto = new LectureStudentRelDto(lectureId, studentId);
+            Arr.add(dto);
         }
-        lectureMapper.saveLectureStudentRel(lectureStudentRelDtoList);
+        lectureMapper.saveLectureStudentRel(Arr);
         return true;
     }
 
