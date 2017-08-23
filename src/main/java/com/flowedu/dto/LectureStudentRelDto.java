@@ -23,4 +23,11 @@ public class LectureStudentRelDto {
     private String studentName;
 
     private String schoolName;
+
+    public LectureStudentRelDto() {}
+
+    public LectureStudentRelDto(Long lectureId, Long studentId) {
+        this.lectureId = lectureId;
+        this.studentId = studentId;
+    }
 }
