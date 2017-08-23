@@ -448,16 +448,21 @@ public class LectureService extends PagingSupport {
         lectureMapper.modifyLectureDetailInfo(lectureDetailDto);
     }
 
+    /**
+     * <PRE>
+     * 1. Comment : 강의 상세 정보 수정(배열)
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .22
+     * </PRE>
+     * @param lectureDetailDtoList
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public void modifyLectureDetailInfoList(List<LectureDetailDto> lectureDetailDtoList) {
         if (lectureDetailDtoList.size() == 0) return;
-
         for (LectureDetailDto dto : lectureDetailDtoList)  {
             lectureMapper.modifyLectureDetailInfo(dto);
         }
     }
-
-
 
     /**
      * <PRE>

@@ -37,7 +37,7 @@ function fn_search(val) {
                         var cellData = [
                             //function(data) {return checkHTML;},
                             function(data) {return cmpList.studentName;},
-                            function(data) {return cmpList.studentGender;},
+                            function(data) {return genderTrans(cmpList.studentGender);},
                             function(data) {return cmpList.studentBirthday;},
                             function(data) {return cmpList.studentPhoneNumber;},
                             function(data) {return cmpList.homeTelNumber;},

@@ -48,7 +48,11 @@ public class LectureManager {
     }
 
     /**
-     * 
+     * <PRE>
+     * 1. Comment : 강의 기본 정보와 상세정보 한번에 수정
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .22
+     * </PRE>
      * @param lectureInfoDto
      * @param lectureDetailDtoList
      * @return
