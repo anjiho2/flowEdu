@@ -63,8 +63,6 @@ public class LectureManager {
         return true;
     }
 
-    //public List<LectureCalendarDto>
-
     public void test() {
         LectureInfoDto dto = new LectureInfoDto();
         dto.setLectureId(26L);

@@ -104,23 +104,25 @@
         var start_time_list = new Array();
         var room_list = new Array();
         var day_list = new Array();
+        var lecture_detail_id_list = new Array();
 
-        var lecture_id = getInputTextValue("lecture_id");
+        var lecture_id   = getInputTextValue("lecture_id");
         var sel_academy  = getSelectboxValue("sel_academyList2");//관선택
         var manager      = getSelectboxValue("sel_teacherList2");//관리선생님
         var teacher      = getSelectboxValue("sel_teacherList");//담당선생님
         var sel_price    = getSelectboxValue("sel_lecturePrice");//가격
         var lecture_name = getInputTextValue("lecture_name");//강의명
         var lecture_subject   =  getSelectboxValue("sel_lectureSubject"); //강의과목
-        var school_type  = get_radio_value("school_type");//학교구분
-        var sel_school   = getSelectboxValue("sel_school");//학년
+        var school_type    = get_radio_value("school_type");//학교구분
+        var sel_school     = getSelectboxValue("sel_school");//학년
         var lecture_level  = get_radio_value("lecture_level");//레벨
         var lecture_operation = getSelectboxValue("sel_lectureOperationTypeList");//강의기간단위
         var lecture_start  = getInputTextValue("startDate");//강의시작일
         var lecture_end    = getInputTextValue("startDate2");//강의종료일
         var lecture_student_limit   = getSelectboxValue("sel_lectureStudentLimitList");//강의인원수
         var lecture_state  = getSelectboxValue("sel_lectureStatusList");//강의상태
-        var lecture_info = {
+        var lecture_info   = {
+            lectureId : lecture_id,
             officeId: sel_academy,
             chargeMemberId: teacher,
             manageMemberId: manager,
@@ -149,73 +151,63 @@
         $('input[name="end_time[]"]').each(function () {
             end_time_list.push($(this).val());
         });
+        $('input[name="lecture_detail_id[]"]').each(function () {
+            lecture_detail_id_list.push($(this).val());
+        });
         var num = $('.clonedDiv').length;
         var detail_list = new Array();
+
 
         for(var i=0; i < num ; i++){
             var lecture_detail_info = {
                 lectureRoomId: room_list[i],
                 startTime: start_time_list[i],
                 endTime: end_time_list[i],
-                lectureDay: day_list[i]
+                lectureDay: day_list[i],
+                lectureDetailId :lecture_detail_id_list[i]
             };
             detail_list.push(lecture_detail_info);
         }
-        lectureManager.modifyLectureInfo(lecture_info, detail_list, lecture_id, function (bl) {
-            if(bl==true){
-                //TODO : 등록이 완료되면 강의 리스트로 이동시키는 기능 추가하기
-            } else {
-                alert(comment.error);
-            }
+        lectureManager.modifyLecture(lecture_info, detail_list, function (bl) {
+            alert(bl);
         });
+
     }
-
-
 
     function lecture_detail_List() {
         var lecture_id        = getInputTextValue("lecture_id");
         lectureService.getLectureInfo( lecture_id, function (selList) {
 
-                    academyListSelectbox2("sel_academy", selList.officeId);
-                    lectureOperationTypeSelectbox("sel_lectureOperation",selList.lectureOperationType);
-                    lectureStatusSelectbox("sel_lectureStatus",selList.lectureStatus,"50");
-                    lectureStudentLimitSelectbox("sel_lectureStudentlimit",selList.lectureLimitStudent, "30");
-                    schoolSelectbox("student_grade", selList.lectureGrade, selList.schoolType);
-                    lectureSubjectSelectbox("sel_lectureSubject",selList.lectureSubject);
-                   // lectureLevelRadio("lecture_level","HIGH","");
-                    lecturePriceSelectbox("lecture_price", selList.lecturePriceId);
-                    teacherList(selList.officeId, "sel_member", selList.manageMemberId);
-                    teacherList2(selList.officeId,"sel_member2",selList.chargeMemberId);
-                    innerValue("lecture_name", selList.lectureName);
-                    innerValue("startDate", selList.lectureStartDate);
-                    innerValue("startDate2", selList.lectureEndDate);
-                  //lectureDaySelectbox("lectureDaySelectbox","");
+            academyListSelectbox2("sel_academy", selList.officeId);
+            lectureOperationTypeSelectbox("sel_lectureOperation",selList.lectureOperationType);
+            lectureStatusSelectbox("sel_lectureStatus",selList.lectureStatus,"50");
+            lectureStudentLimitSelectbox("sel_lectureStudentlimit",selList.lectureLimitStudent, "30");
+            schoolSelectbox("student_grade", selList.lectureGrade, selList.schoolType);
+            lectureSubjectSelectbox("sel_lectureSubject",selList.lectureSubject);
+           // lectureLevelRadio("lecture_level","HIGH","");
+            lecturePriceSelectbox("lecture_price", selList.lecturePriceId);
+            teacherList(selList.officeId, "sel_member", selList.manageMemberId);
+            teacherList2(selList.officeId,"sel_member2",selList.chargeMemberId);
+            innerValue("lecture_name", selList.lectureName);
+            innerValue("startDate", selList.lectureStartDate);
+            innerValue("startDate2", selList.lectureEndDate);
+            //lectureDaySelectbox("lectureDaySelectbox","");
             //lectureRoomSelectbox(office_id,"lectureRoomSelectbox","");
         });
 
         lectureService.getLectureDetailInfoList( lecture_id, function (selList) {
-            var end_time_list = new Array();
-            var start_time_list = new Array();
-            var room_list = new Array();
-            var day_list = new Array();
 
             if (selList.length > 0) {
                 console.log(selList);
                 for (var i = 0; i < selList.length; i++) {
                     var cmpList = selList[i];
                     if (selList != undefined && selList.length > 1) {
-
                         if(i > 0)  trans_html();
-
-                        room_list.push(cmpList.lectureRoomId);
-                        day_list.push(cmpList.lectureDay);
-                        start_time_list.push(cmpList.startTime);
-                        end_time_list.push(cmpList.endTime);
-
-                        $('select[name="sel_lectureRoom[]"]').eq(i).val(room_list[i]);
-                        $('select[name="lecture_day[]"]').eq(i).val(day_list[i]);
-                        $('input[name="start_time[]"]').eq(i).val(start_time_list[i]);
-                        $('input[name="end_time[]"]').eq(i).val(end_time_list[i]);
+                        $('select[name="sel_lectureRoom[]"]').eq(i).val(cmpList.lectureRoomId);
+                        $('select[name="lecture_day[]"]').eq(i).val(cmpList.lectureDay);
+                        $('input[name="start_time[]"]').eq(i).val(cmpList.startTime);
+                        $('input[name="end_time[]"]').eq(i).val(cmpList.endTime);
+                        $('input[name="lecture_detail_id[]"]').eq(i).val(cmpList.lectureDetailId);
                     }
                 }
             }
@@ -323,6 +315,7 @@
     <input type="button" value="수정" onclick="modify_lecture_info();">
     <div id="input1" class="clonedDiv">
         <table border="1">
+            <input type="hidden" name="lecture_detail_id[]" value="">
             <tr>
                 <th>강의실선택</th>
                 <td>

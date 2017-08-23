@@ -21,7 +21,7 @@
                         var cmpList = selList[i];
                         if (cmpList != undefined) {
                             var cellData = [
-                                function(data) {return cmpList.lectureRoomId;},
+                                function(data) {return cmpList.officeName;},
                                 function(data) {return cmpList.officeName;},
                                 function(data) {return cmpList.startTime;},
                                 function(data) {return cmpList.endTime;},

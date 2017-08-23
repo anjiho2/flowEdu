@@ -110,17 +110,13 @@
 
     //강의정보 저장
     function save_lecture_info() {
-        var end_time_list = new Array();
-        var start_time_list = new Array();
-        var room_list = new Array();
-        var day_list = new Array();
 
         var sel_academy  = getSelectboxValue("sel_academyList2");//관선택
         var manager      = getSelectboxValue("sel_teacherList2");//관리선생님
         var teacher      = getSelectboxValue("sel_teacherList");//담당선생님
         var sel_price    = getSelectboxValue("sel_lecturePrice");//가격
         var lecture_name = getInputTextValue("lecture_name");//강의명
-        var lecture_subject   =  getSelectboxValue("sel_lectureSubject"); //강의과목
+        var lecture_subject   =  getSelectboxValue("sel_lectureSubject");//강의과목
         var school_type  = get_radio_value("school_type");//학교구분
         var sel_school   = getSelectboxValue("sel_school");//학년
         var lecture_level  = get_radio_value("lecture_level");//레벨
@@ -129,6 +125,7 @@
         var lecture_end    = getInputTextValue("startDate2");//강의종료일
         var lecture_student_limit   = getSelectboxValue("sel_lectureStudentLimitList");//강의인원수
         var lecture_state  = getSelectboxValue("sel_lectureStatusList");//강의상태
+
         var lecture_info = {
             officeId: sel_academy,
             chargeMemberId: teacher,
@@ -146,6 +143,11 @@
             schoolType: school_type
         };
 
+        var end_time_list = new Array();
+        var start_time_list = new Array();
+        var room_list = new Array();
+        var day_list = new Array();
+
         $('select[name="sel_lectureRoom[]"]').each(function () {
             room_list.push($(this).val());
         });
@@ -162,6 +164,15 @@
         var detail_list = new Array();
 
         for(var i=0; i < num ; i++){
+
+            //강의상세정보 강의시작/종료시간 유효성체크
+            var detail_compare_time = compareTime(start_time_list[i], end_time_list[i]);
+            if(detail_compare_time == false) {
+                alert("강의종료시간이 강의시작시간보다 작습니다.");
+                return false;
+            }
+
+            //배열에 값넣기 강의상세정보
             var lecture_detail_info = {
                 lectureRoomId: room_list[i],
                 startTime: start_time_list[i],
@@ -170,6 +181,17 @@
             };
             detail_list.push(lecture_detail_info);
         }
+
+        //강의 시작일&종료일 시간비교 유효성체크
+        var compare_time = compareTime(lecture_start,lecture_end);
+        if(compare_time == false) {
+            alert("강의종료일이 강의시작일보다 작습니다.");
+            return false;
+        }
+
+
+
+
         lectureManager.regLecture(lecture_info, detail_list, function (bl) {
             if(bl==true){
                 //TODO : 등록이 완료되면 강의 리스트로 이동시키는 기능 추가하기
@@ -178,7 +200,6 @@
             }
         });
     }
-
 
 </script>
 <body onload="init();">
