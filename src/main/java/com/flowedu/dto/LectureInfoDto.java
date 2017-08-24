@@ -66,6 +66,7 @@ public class LectureInfoDto {
 
     private Integer lecturePrice;
 
+    private Integer regCount;
 
 
 }

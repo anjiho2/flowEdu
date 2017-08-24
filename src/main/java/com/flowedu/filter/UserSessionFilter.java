@@ -29,9 +29,11 @@ public class UserSessionFilter extends DelegatingFilterProxy {
 
             FlowEduMemberDto dto = (FlowEduMemberDto)req.getSession().getAttribute("member_info");
             if (dto != null) {
-                FlowEduMemberDto flowEduMemberDto = memberService.getFlowEduMemberCheck(dto.getFlowMemberId());
-                UserSession.set(new FlowEduMemberDto(flowEduMemberDto.getFlowMemberId(), flowEduMemberDto.getMemberType()));
-                logger.info("userSession >>>>>>>>>>>>>>> " + flowEduMemberDto);
+                if (UserSession.get() == null) {
+                    FlowEduMemberDto flowEduMemberDto = memberService.getFlowEduMemberCheck(dto.getFlowMemberId());
+                    UserSession.set(new FlowEduMemberDto(flowEduMemberDto.getFlowMemberId(), flowEduMemberDto.getMemberType()));
+                    logger.info("userSession >>>>>>>>>>>>>>> " + flowEduMemberDto);
+                }
             }
             chain.doFilter(request, response);
         } catch (Exception e) {

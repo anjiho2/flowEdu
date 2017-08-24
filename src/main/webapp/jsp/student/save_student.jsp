@@ -291,7 +291,8 @@ function school_search_popup() {
         <tr>
             <th>메모</th>
             <td>
-                <input type="textarea" id="student_memo" >
+                <textarea id="student_memo" cols="20" rows="3"/></textarea>
+                <%--<input type="textarea" id="student_memo" >--%>
             </td>
         </tr>
         <tr>

@@ -35,6 +35,8 @@ public interface LectureMapper {
 
     int getLectureStudentRel(@Param("lectureId") Long lectureId, @Param("studentId") Long studentId);
 
+    List<LectureStudentRelByIdDto> getLectureStudentRelByStudentId(@Param("studentId") Long studentId);
+
     /** INSERT **/
     void saveLectureRoom(@Param("officeId") Long officeId, @Param("lectureRoomName") String lectureRoomName);
 
@@ -57,6 +59,6 @@ public interface LectureMapper {
 
     void modifyLecutreStatus(@Param("lectureId") Long lectureId, @Param("lectureStatus") String lectureStatus);
 
-    void modifyLectureStudentRel(@Param("lectureRelId") Long lectureRelId, @Param("lectureId") Long lectureId, @Param("studentId") Long studentId);
+    void modifyLectureStudentRel(@Param("lectureRelId") Long lectureRelId, @Param("lectureId") Long lectureId, @Param("studentId") Long studentId, @Param("addYn") boolean addYn);
 
 }

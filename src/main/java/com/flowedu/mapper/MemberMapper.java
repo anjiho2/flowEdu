@@ -1,5 +1,6 @@
 package com.flowedu.mapper;
 
+import com.flowedu.domain.MemberIdName;
 import com.flowedu.dto.FlowEduMemberDto;
 import com.flowedu.dto.FlowEduMemberListDto;
 import com.flowedu.dto.JobPositionDto;
@@ -26,6 +27,8 @@ public interface MemberMapper {
     Integer getMemberCount(@Param("phoneNumber") String phoneNumber);
 
     List<FlowEduMemberDto> getTeacherList(@Param("officeId") Long officeId);
+
+    List<MemberIdName> getMemberIdNameByMemberIds(@Param("memberIds") List<Long> memberIds);
 
     /** INSERT **/
     void saveFlowEduMember(FlowEduMemberDto flowEduMemberDto);

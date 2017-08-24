@@ -263,7 +263,7 @@
         <tr>
             <th>메모</th>
             <td>
-                <input type="textarea" id="student_memo" name="student_memo">
+                <textarea id="student_memo" cols="20" rows="3"/></textarea>
             </td>
         </tr>
         <tr>
