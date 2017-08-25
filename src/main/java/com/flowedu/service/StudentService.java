@@ -168,7 +168,7 @@ public class StudentService extends PagingSupport {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void saveStudentMemo(Long studentId, Long flowMemberId, String memoContent) {
-        
+
     }
 
     /**
