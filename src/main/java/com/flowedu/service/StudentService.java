@@ -166,6 +166,11 @@ public class StudentService extends PagingSupport {
         studentMapper.saveStudentInfo(dto);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveStudentMemo(Long studentId, Long flowMemberId, String memoContent) {
+        
+    }
+
     /**
      * <PRE>
      * 1. Comment : 학생정보 수정하기
