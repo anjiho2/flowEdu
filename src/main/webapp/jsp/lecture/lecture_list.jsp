@@ -15,24 +15,9 @@
         academy_sel_change();
     }
 
-    function lecutre_detail_btn(lecture_id) {
+    function lecture_page(lecture_id, lecture_type) {
         innerValue("lecture_id", lecture_id);
-        goPage("lecture","lecture_detail");
-    }
-
-    function lecutre_modify_btn(lecture_id) {
-        innerValue("lecture_id", lecture_id);
-        goPage("lecture","lecture_modify");
-    }
-
-    function lecutre_calendar_btn(lecture_id) {
-        innerValue("lecture_id", lecture_id);
-        goPage("lecture","lecture_calendar");
-    }
-
-    function lecture_apply_btn(lecture_id) {
-        innerValue("lecture_id", lecture_id);
-        goPage("lecture","lecture_apply");
+        goPage("lecture", lecture_type);
     }
 
     function fn_search(val) {
@@ -56,11 +41,10 @@
 
                         var cmpList = selList[i];
                         if (cmpList != undefined) {
-                            // var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.officeId + "'/>";
-                            var detailHTML = "<input type='button'  value='상세' onclick='lecutre_detail_btn(" + cmpList.lectureId + ");'/>";
-                            var modifyHTML = "<input type='button'  value='수정' onclick='lecutre_modify_btn(" + cmpList.lectureId + ");'/>";
-                            var calendarHTML = "<input type='button'  value='달력보기' onclick='lecutre_calendar_btn(" + cmpList.lectureId + ");'/>";
-                            var applyHTML = "<input type='button'  value='강의신청'onclick='lecture_apply_btn(" + cmpList.lectureId + ");' style='background:gray;'/>";
+                            var detailHTML = "<input type='button'  value='상세' id='"+cmpList.lectureId+"' onclick='lecture_page(this.id, "+ '"' + 'lecture_detail' + '"' + ");'/>";
+                            var modifyHTML = "<input type='button'  value='수정'  id='"+cmpList.lectureId+"' onclick='lecture_page(this.id, "+ '"' + 'lecture_modify' + '"' + ");''/>";
+                            var calendarHTML = "<input type='button'  value='달력보기'  id='"+cmpList.lectureId+"' onclick='lecture_page(this.id, "+ '"' + 'lecture_calendar' + '"' + ");''/>";
+                            var applyHTML = "<input type='button'  value='강의신청'id='"+cmpList.lectureId+"' onclick='lecture_page(this.id, "+ '"' + 'lecture_apply' + '"' + ");' style='background:gray;'/>";
                             var cellData = [
 
                                 function(data) {return cmpList.officeName;},
@@ -75,7 +59,7 @@
                                 function(data) {return cmpList.lectureOperationType == 'MONTH' ? '월' : '횟수';},
                                 function(data) {return cmpList.lectureStartDate;},
                                 function(data) {return cmpList.lectureEndDate;},
-                                function(data) {return "null";},
+                                function(data) {return cmpList.regCount + "명";},
                                 function(data) {return cmpList.lectureLimitStudent + "명";},
                                 function(data) {return convert_lecture_status(cmpList.lectureStatus);},
                                 function(data) {return detailHTML;},

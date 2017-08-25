@@ -20,6 +20,8 @@ public class LectureStudentRelDto {
     //  생성일
     private String createDate;
 
+    private boolean addYn;
+
     private String studentName;
 
     private String schoolName;

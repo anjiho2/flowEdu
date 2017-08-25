@@ -6,6 +6,7 @@ import com.flowedu.dto.*;
 import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
 import com.flowedu.mapper.LectureMapper;
+import com.flowedu.repository.MemberNameRepository;
 import com.flowedu.session.UserSession;
 import com.flowedu.util.DateUtils;
 import org.slf4j.Logger;
@@ -30,6 +31,9 @@ public class LectureService extends PagingSupport {
 
     @Autowired
     private LectureMapper lectureMapper;
+
+    @Autowired
+    private MemberNameRepository memberNameRepository;
 
     /**
      * <PRE>
@@ -280,6 +284,53 @@ public class LectureService extends PagingSupport {
 
     /**
      * <PRE>
+     * 1. Comment : 강의에 등록된 학생 리스트
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .11
+     * </PRE>
+     * @param lectureId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<LectureStudentRelDto> getStudentListByLectureRegister(Long lectureId) {
+        return lectureMapper.getStudentListByLectureRegister(lectureId);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 학생 아이디로 등록된 강의 리스트 가져오기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .24
+     * </PRE>
+     * @param studentId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<LectureStudentRelByIdDto> getLectureStudentRelById(Long studentId) {
+        List<LectureStudentRelByIdDto> Arr = lectureMapper.getLectureStudentRelByStudentId(studentId);
+        if (Arr != null) {
+            //담임 선생님, 관리 선생님 이름 주입하기
+            memberNameRepository.fillMemberNameAny(Arr);
+        }
+        return Arr;
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 학생 아이디로 등록된 강의 리스트 개수
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .25
+     * </PRE>
+     * @param studentId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public int getLectureStudentRelByStudentIdCount(Long studentId) {
+        return lectureMapper.getLectureStudentRelByStudentIdCount(studentId);
+    }
+
+    /**
+     * <PRE>
      * 1. Comment : 강의실 명 저장
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .09
@@ -397,20 +448,6 @@ public class LectureService extends PagingSupport {
 
     /**
      * <PRE>
-     * 1. Comment : 강의에 등록된 학생 리스트
-     * 2. 작성자 : 안지호
-     * 3. 작성일 : 2017. 08 .11
-     * </PRE>
-     * @param lectureId
-     * @return
-     */
-    @Transactional(readOnly = true)
-    public List<LectureStudentRelDto> getStudentListByLectureRegister(Long lectureId) {
-        return lectureMapper.getStudentListByLectureRegister(lectureId);
-    }
-
-    /**
-     * <PRE>
      * 1. Comment : 강의실 명 수정
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .09123
@@ -469,7 +506,7 @@ public class LectureService extends PagingSupport {
      * <PRE>
      * 1. Comment : 강의 상세 정보 수정
      * 2. 작성자 : 안지호
-     * 3. 작성일 : 2017. 08 .102
+     * 3. 작성일 : 2017. 08 .12
      * </PRE>
      * @param lectureDetailDto
      */
@@ -525,12 +562,11 @@ public class LectureService extends PagingSupport {
      * @param studentId
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void modifyLectureStudentRel(Long lectureRelId, Long lectureId, Long studentId) {
+    public void modifyLectureStudentRel(Long lectureRelId, Long lectureId, Long studentId, boolean addYn) {
         if (lectureRelId == null || lectureId == null || studentId == null) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
-        lectureMapper.modifyLectureStudentRel(lectureRelId, lectureId, studentId);
+        lectureMapper.modifyLectureStudentRel(lectureRelId, lectureId, studentId, addYn);
     }
-
 
 }

@@ -32,7 +32,8 @@
 
 	<select id="getLectureInfoList" resultType="com.flowedu.dto.LectureInfoDto">
 		SELECT A.*, B.member_name as charge_member_name, C.member_name as manage_member_name,
-			   D.office_name, E.lecture_price
+			   D.office_name, E.lecture_price,
+			   (SELECT count(lecture_rel_id) FROM LECTURE_STUDENT_REL WHERE lecture_id = A.lecture_id) as reg_count
 		FROM LECTURE_INFO A LEFT JOIN FLOWEDU_MEMBER B
 		ON A.charge_member_id = B.flow_member_id LEFT JOIN FLOWEDU_MEMBER C
 		ON A.manage_member_id = C.flow_member_id LEFT JOIN OFFICE D
@@ -89,7 +90,10 @@
 	</select>
 
 	<select id="getRegisteredLectureStudentCount" resultType="Integer">
-		SELECT count(lecture_rel_id) FROM LECTURE_STUDENT_REL WHERE lecture_id = #{lectureId}
+		SELECT count(lecture_rel_id)
+		FROM LECTURE_STUDENT_REL
+		WHERE lecture_id = #{lectureId}
+		AND add_yn = 1
 	</select>
 	
 	<select id="getStudentListByLectureRegister" resultType="com.flowedu.dto.LectureStudentRelDto">
@@ -97,6 +101,7 @@
 		FROM LECTURE_STUDENT_REL A LEFT JOIN STUDENT B
 		ON A.student_id = B.student_id
 		WHERE A.lecture_id = #{lectureId}
+		AND add_yn = 1
 	</select>
 
 	<select id="getLectureStudentRel" resultType="Integer">
@@ -104,6 +109,25 @@
 		FROM LECTURE_STUDENT_REL
 		WHERE lecture_id = #{lectureId}
 		AND student_id = #{studentId}
+		AND add_yn = 1
+	</select>
+
+	<select id="getLectureStudentRelByStudentId" resultType="com.flowedu.dto.LectureStudentRelByIdDto">
+		SELECT A.lecture_rel_id, A.lecture_id, A.add_yn, B.*, C.office_name, D.lecture_price
+		FROM LECTURE_STUDENT_REL A LEFT JOIN LECTURE_INFO B
+		ON A.lecture_id = B.lecture_id LEFT JOIN OFFICE C
+		ON B.office_id = C.office_id LEFT JOIN LECTURE_PRICE D
+		ON B.lecture_price_id = D.lecture_price_id
+		WHERE A.student_id =  #{studentId}
+	</select>
+
+	<select id="getLectureStudentRelByStudentIdCount" resultType="Integer">
+		SELECT count(A.lecture_rel_id)
+		FROM LECTURE_STUDENT_REL A LEFT JOIN LECTURE_INFO B
+		ON A.lecture_id = B.lecture_id LEFT JOIN OFFICE C
+		ON B.office_id = C.office_id LEFT JOIN LECTURE_PRICE D
+		ON B.lecture_price_id = D.lecture_price_id
+		WHERE A.student_id =  #{studentId}
 	</select>
 
 	<insert id="saveLectureRoom">
@@ -218,6 +242,7 @@
 		<set>
 			<if test="lectureId > 0">lecture_id = #{lectureId},</if>
 			<if test="studentId > 0">student_id = #{studentId}</if>
+			<if test="addYn ">student_id = #{studentId}</if>
 		</set>
 		WHERE lecture_rel_id = #{lectureRelId}
 	</update>

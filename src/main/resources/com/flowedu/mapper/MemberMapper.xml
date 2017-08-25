@@ -63,6 +63,15 @@
 		AND member_type LIKE CONCAT('TEACHER', '%')
 	</select>
 
+	<select id="getMemberIdNameByMemberIds" resultType="com.flowedu.domain.MemberIdName">
+		SELECT flow_member_id as member_id, member_name
+		FROM FLOWEDU_MEMBER
+		WHERE flow_member_id IN
+		<foreach collection="memberIds" item="memberId" separator="," open="(" close=")">
+			#{memberId}
+		</foreach>
+	</select>
+
 	<insert id="saveFlowEduMember" parameterType="com.flowedu.dto.FlowEduMemberDto">
 		INSERT INTO FLOWEDU_MEMBER
 		(
