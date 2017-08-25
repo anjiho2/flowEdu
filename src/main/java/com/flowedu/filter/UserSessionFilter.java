@@ -39,7 +39,6 @@ public class UserSessionFilter extends DelegatingFilterProxy {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Override

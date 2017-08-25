@@ -317,6 +317,20 @@ public class LectureService extends PagingSupport {
 
     /**
      * <PRE>
+     * 1. Comment : 학생 아이디로 등록된 강의 리스트 개수
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .25
+     * </PRE>
+     * @param studentId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public int getLectureStudentRelByStudentIdCount(Long studentId) {
+        return lectureMapper.getLectureStudentRelByStudentIdCount(studentId);
+    }
+
+    /**
+     * <PRE>
      * 1. Comment : 강의실 명 저장
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .09
@@ -492,7 +506,7 @@ public class LectureService extends PagingSupport {
      * <PRE>
      * 1. Comment : 강의 상세 정보 수정
      * 2. 작성자 : 안지호
-     * 3. 작성일 : 2017. 08 .102
+     * 3. 작성일 : 2017. 08 .12
      * </PRE>
      * @param lectureDetailDto
      */

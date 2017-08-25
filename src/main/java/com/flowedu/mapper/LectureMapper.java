@@ -37,6 +37,8 @@ public interface LectureMapper {
 
     List<LectureStudentRelByIdDto> getLectureStudentRelByStudentId(@Param("studentId") Long studentId);
 
+    int getLectureStudentRelByStudentIdCount(@Param("studentId") Long studentId);
+
     /** INSERT **/
     void saveLectureRoom(@Param("officeId") Long officeId, @Param("lectureRoomName") String lectureRoomName);
 
