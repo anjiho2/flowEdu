@@ -13,8 +13,9 @@
         //강의정보 가져오기
         var lecture_id = getInputTextValue("lecture_id");
         lectureService.getLectureInfo(lecture_id, function (sel) {
-            $("#lecture_name").html(sel.lectureName);
-            $("#lecture_limit").html(sel.lectureLimitStudent);
+            innerHTML("lecture_name", sel.lectureName);
+            innerHTML("lecture_limit", sel.lectureLimitStudent);
+            innerHTML("lecture_reg_count", sel.regCount);
         });
 
         //강의 기존신청된 학생들 리스트 가져오기
@@ -89,6 +90,7 @@
         var tr = checkBtn.parent().parent();
         var td = tr.children();
         var studentIds = new Array();
+        var count = getInnerHtmlValue("selected_count");
 
         lectureService.checkLectureStudentRel(lecture_id,val2, function (num) {
             if (num == 1){
@@ -105,8 +107,10 @@
                     alert("똑같은 학생이 선택되었습니다.");
                     return;
                 } else {
-                    var append = "<li name='student_id[]' value='" + val2 + "'>" + td.eq(0).text() + "</li>";
+                    var append = "<li name='student_id[]' value='" + val2 + "' id=student_li_"+ val2 + ">" + td.eq(0).text() + "&nbsp;<a id='"+val2+"' style='color:red;' onclick='remove_student(this.id);'>X</a></li>";
                     $("#sel_student").append(append);
+                    count++;
+                    innerHTML("selected_count", count);
                 }
             }
         });
@@ -126,6 +130,19 @@
             }
         });
     }
+
+    //선택된 학생 목록 삭제
+    function remove_student(val) {
+        var count = getInnerHtmlValue("selected_count");
+        var li_id = "student_li_" + val;
+        var li_value = getInputTextValue(li_id);
+        if (li_value != "") {
+            $("#"+li_id).remove();
+            count--;
+            if (count == 0) count = "0";
+            innerHTML("selected_count", count);
+        }
+    }
 </script>
 
 
@@ -137,7 +154,7 @@
 
     강의명   :  <span id="lecture_name"></span> 강의 신청page <br>
     최대인원 :  <span id="lecture_limit"></span> 명 <br>
-    현재인원 : <span id=""> </span> 명
+    현재인원 : <span id="lecture_reg_count"> </span> 명
     <br>
     <br>
 
@@ -162,7 +179,7 @@
 
     <!--선택된학생리스트-->
     <div id="sel_student" style="width:278px;text-align:center;float:left;">
-        [선택된 학생 목록]
+        [선택된 학생 목록]<span id="selected_count">0</span>명
         <input type="button" value="저장" onclick="save_lecture_student();">
     </div>
 

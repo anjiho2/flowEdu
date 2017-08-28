@@ -70,7 +70,8 @@
 
 	<select id="getLectureInfo" resultType="com.flowedu.dto.LectureInfoDto">
 		SELECT A.*, B.member_name as charge_member_name, C.member_name as manage_member_name,
-		D.office_name, E.lecture_price
+		D.office_name, E.lecture_price,
+		(SELECT count(lecture_rel_id) FROM LECTURE_STUDENT_REL WHERE lecture_id = A.lecture_id) as reg_count
 		FROM LECTURE_INFO A LEFT JOIN FLOWEDU_MEMBER B
 		ON A.charge_member_id = B.flow_member_id LEFT JOIN FLOWEDU_MEMBER C
 		ON A.manage_member_id = C.flow_member_id LEFT JOIN OFFICE D
@@ -92,8 +93,7 @@
 	<select id="getRegisteredLectureStudentCount" resultType="Integer">
 		SELECT count(lecture_rel_id)
 		FROM LECTURE_STUDENT_REL
-		WHERE lecture_id = #{lectureId}
-		AND add_yn = 1
+		WHERE lecture_id = #{lectureId} AND add_yn = 1
 	</select>
 	
 	<select id="getStudentListByLectureRegister" resultType="com.flowedu.dto.LectureStudentRelDto">
@@ -109,7 +109,6 @@
 		FROM LECTURE_STUDENT_REL
 		WHERE lecture_id = #{lectureId}
 		AND student_id = #{studentId}
-		AND add_yn = 1
 	</select>
 
 	<select id="getLectureStudentRelByStudentId" resultType="com.flowedu.dto.LectureStudentRelByIdDto">

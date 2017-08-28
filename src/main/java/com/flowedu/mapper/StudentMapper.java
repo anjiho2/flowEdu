@@ -18,5 +18,7 @@ public interface StudentMapper {
 
     void saveStudentInfo(StudentDto studentDto);
 
+    void saveStudentMemo(@Param("studentId") Long studentId, @Param("flowMemberId") Long flowMemberId, @Param("memoContent") String memoContent);
+
     void modifyStudentInfo(StudentDto studentDto);
 }

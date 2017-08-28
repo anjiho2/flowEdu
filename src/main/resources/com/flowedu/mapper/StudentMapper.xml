@@ -34,6 +34,13 @@
 		)
 	</insert>
 
+	<insert id="saveStudentMemo">
+		INSERT INTO STUDENT_MEMO
+		( student_id, flow_member_id, memo_content )
+		VALUES
+		( #{studentId}, #{flowMemberId}, #{memoContent} )
+	</insert>
+
 	<update id="modifyStudentInfo" parameterType="com.flowedu.dto.StudentDto">
 		UPDATE STUDENT
 		<set>
