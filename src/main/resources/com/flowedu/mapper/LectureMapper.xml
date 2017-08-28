@@ -241,7 +241,7 @@
 		<set>
 			<if test="lectureId > 0">lecture_id = #{lectureId},</if>
 			<if test="studentId > 0">student_id = #{studentId}</if>
-			<if test="addYn ">student_id = #{studentId}</if>
+			<if test="addYn != null">add_yn = #{addYn}</if>
 		</set>
 		WHERE lecture_rel_id = #{lectureRelId}
 	</update>
