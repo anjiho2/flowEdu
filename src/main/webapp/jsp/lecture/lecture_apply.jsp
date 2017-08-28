@@ -21,10 +21,9 @@
         lectureService.getStudentListByLectureRegister(lecture_id, function (selList) {
             if (selList.length > 0) {
                 for (var i = 0; i < selList.length; i++) {
-                console.log(selList);
                     var cmpList = selList[i];
                     if (cmpList != undefined) {
-                        var modifyHTML = "<input type='button'  name='addList' id='"+cmpList.studentId+"' class='checkBtn' value='-' onclick=''/>";
+                        var modifyHTML = "<input type='button'  name='addList' id='"+cmpList.lectureRelId+"' class='checkBtn' value='-' onclick='delete_student((this), this.id)'/>";
                         var cellData = [
                             function(data) {return cmpList.studentName;},
                             function(data) {return cmpList.schoolName;},
@@ -37,6 +36,11 @@
         });
 
         fn_search("new");
+    }
+
+    //강의에서 신청된학생 삭제
+    function delete_student() {
+
     }
 
     //학생리스트 가져오기
