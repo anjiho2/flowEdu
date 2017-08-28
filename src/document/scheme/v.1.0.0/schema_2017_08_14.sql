@@ -164,3 +164,17 @@ CREATE TABLE TEAM_INFO
         CONSTRAINT FLOWEDU_TEAM_INFO_ix1 UNIQUE (team_id)
     )
     ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS STUDENT_MEMO;
+CREATE TABLE STUDENT_MEMO
+(
+    student_memo_id bigint NOT NULL AUTO_INCREMENT COMMENT '메모 아이디',
+    student_id bigint NOT NULL COMMENT '학생 아이디',
+    flow_member_id bigint NOT NULL COMMENT '작성자 아이디',
+    memo_content VARCHAR(255) NOT NULL COMMENT '메모 내용',
+    create_date DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '생성일',
+    PRIMARY KEY (student_memo_id),
+    INDEX STUDENT_MEMO_ix1 (student_id),
+    INDEX STUDENT_MEMO_ix2 (flow_member_id)
+)
+    ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='학생 메모 저장';
