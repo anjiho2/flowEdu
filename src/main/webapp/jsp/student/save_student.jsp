@@ -34,6 +34,7 @@ function fn_search(val) {
                     if (cmpList != undefined) {
                         //var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.studentId + "'/>";
                         var modifyHTML = "<input type='button'  name='modify' id='modify' value='수정' onclick='student_modify(" + cmpList.studentId + ");'/>";
+                        var consultHTML = "<input type='button'  name='consult' id='consult' value='상담관리' onclick='student_consult(" + cmpList.studentId + ");'/>";
                         var cellData = [
                             //function(data) {return checkHTML;},
                             function(data) {return cmpList.studentName;},
@@ -49,8 +50,8 @@ function fn_search(val) {
                             function(data) {return cmpList.motherPhoneNumber;},
                             function(data) {return cmpList.fatherName;},
                             function(data) {return cmpList.fatherPhoneNumber;},
-
-                            function(data) {return modifyHTML;}
+                            function(data) {return modifyHTML;},
+                            function(data) {return consultHTML;},
                         ];
                         dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
                     }
@@ -189,6 +190,11 @@ function student_modify(student_id) { //수정페이지 이동
     goPage('student', 'modify_student');
 }
 
+function student_consult(student_id) {
+    innerValue("student_id", student_id);
+    goPage('student', 'consult_student');
+}
+
 
 function school_search_popup() {
     var school_type =  $(":input:radio[name=school_type]:checked").val();
@@ -202,7 +208,7 @@ function school_search_popup() {
 }
 </script>
 <body onload="init();">
-<form name="frm" id="frm" method="get">
+<form name="frm" id="frm" method="post">
     <input type="hidden" name="student_id" id="student_id">
     <input type="hidden" id="school"  value="">
     <input type="hidden" id="fileName" value="">
@@ -351,6 +357,7 @@ function school_search_popup() {
             <col width="*" />
             <col width="*" />
             <col width="*" />
+            <col width="*" />
         </colgroup>
         <thead>
         <tr>
@@ -371,6 +378,7 @@ function school_search_popup() {
             <th>학부모(부)이름</th>
             <th>학부모(부)전화번호</th>
             <th>수정</th>
+            <th>상담관리</th>
         </tr>
         </thead>
         <tbody id="dataList"></tbody>
