@@ -1,6 +1,7 @@
 package com.flowedu.mapper;
 
 import com.flowedu.dto.StudentDto;
+import com.flowedu.dto.StudentMemoDto;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -15,6 +16,10 @@ public interface StudentMapper {
     int getSudentListCount();
 
     List<StudentDto> getSudentList(@Param("start") int start, @Param("end") int end);
+
+    int getStudentMemoListCount(@Param("studentId") Long studentId);
+
+    List<StudentMemoDto> getStudentMemoList(@Param("start") int start, @Param("end") int end, @Param("studentId") Long studentId);
 
     void saveStudentInfo(StudentDto studentDto);
 

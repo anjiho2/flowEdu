@@ -22,4 +22,7 @@ public class StudentMemoDto {
 
     //  생성일
     private String createDate;
+
+    // 작성자 이름
+    private String memberName;
 }

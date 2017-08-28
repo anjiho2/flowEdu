@@ -67,9 +67,9 @@
 		<convert converter="bean" match="com.flowedu.dto.LectureStudentRelDto"/>
 		<convert converter="bean" match="com.flowedu.dto.CalendarJsonDto"/>
 		<convert converter="bean" match="com.flowedu.dto.LectureStudentRelByIdDto"/>
+		<convert converter="bean" match="com.flowedu.dto.StudentMemoDto"/>
 		<!-- define -->
 
-		
 		
 	</allow>
 

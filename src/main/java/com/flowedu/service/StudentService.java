@@ -5,6 +5,7 @@ import com.flowedu.config.SchoolSearchConfigHoler;
 import com.flowedu.define.datasource.SchoolType;
 import com.flowedu.dto.PagingDto;
 import com.flowedu.dto.StudentDto;
+import com.flowedu.dto.StudentMemoDto;
 import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
 import com.flowedu.mapper.StudentMapper;
@@ -144,6 +145,38 @@ public class StudentService extends PagingSupport {
 
     /**
      * <PRE>
+     * 1. Comment : 학생 메모 리스트 개수
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .28
+     * </PRE>
+     * @param studentId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public int getStudentMemoListCount(Long studentId) {
+        return studentMapper.getStudentMemoListCount(studentId);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 학생 메모 리스트 가져오기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .28
+     * </PRE>
+     * @param sPage
+     * @param pageListCount
+     * @param studentId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<StudentMemoDto> getStudentMemoList(int sPage, int pageListCount, Long studentId) {
+        PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
+        List<StudentMemoDto> list = studentMapper.getStudentMemoList(pagingDto.getStart(), pageListCount, studentId);
+        return list;
+    }
+
+    /**
+     * <PRE>
      * 1. Comment : 학생정보 입력하기
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .08
@@ -166,9 +199,22 @@ public class StudentService extends PagingSupport {
         studentMapper.saveStudentInfo(dto);
     }
 
+    /**
+     * <PRE>
+     * 1. Comment : 학생 메모 저장하기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .28
+     * </PRE>
+     * @param studentId
+     * @param flowMemberId
+     * @param memoContent
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public void saveStudentMemo(Long studentId, Long flowMemberId, String memoContent) {
-
+        if (studentId < 1L && flowMemberId < 1L ) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        studentMapper.saveStudentMemo(studentId, flowMemberId, memoContent);
     }
 
     /**
