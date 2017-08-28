@@ -24,7 +24,7 @@
                 for (var i = 0; i < selList.length; i++) {
                     var cmpList = selList[i];
                     if (cmpList != undefined) {
-                        var modifyHTML = "<input type='button'  name='addList' id='"+cmpList.lectureRelId+"' class='checkBtn' value='-' onclick='delete_student((this), this.id)'/>";
+                        var modifyHTML = "<input type='button'  name='addList' id='"+cmpList.lectureRelId+"' class='checkBtn' value='-' onclick='delete_student(this.id)'/>";
                         var cellData = [
                             function(data) {return cmpList.studentName;},
                             function(data) {return cmpList.schoolName;},
@@ -40,8 +40,12 @@
     }
 
     //강의에서 신청된학생 삭제
-    function delete_student() {
-
+    function delete_student(val) {
+        alert(val);
+        lectureService.modifyLectureStudentRel(val, 0, 0, false, function () {
+            alert("삭제되었습니다.");
+            location.reload();
+        });
     }
 
     //학생리스트 가져오기
