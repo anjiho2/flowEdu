@@ -109,6 +109,7 @@
 		FROM LECTURE_STUDENT_REL
 		WHERE lecture_id = #{lectureId}
 		AND student_id = #{studentId}
+		AND add_yn = 1
 	</select>
 
 	<select id="getLectureStudentRelByStudentId" resultType="com.flowedu.dto.LectureStudentRelByIdDto">
