@@ -16,6 +16,20 @@
 		LIMIT #{start}, #{end}
 	</select>
 
+	<select id="getStudentMemoListCount" resultType="Integer">
+		SELECT count(student_memo_id)
+		FROM STUDENT_MEMO
+		WHERE student_id = #{studentId}
+	</select>
+
+	<select id="getStudentMemoList" resultType="com.flowedu.dto.StudentMemoDto">
+		SELECT A.*, B.member_name
+		FROM STUDENT_MEMO A LEFT JOIN FLOWEDU_MEMBER B
+		ON A.flow_member_id = B.flow_member_id
+		WHERE student_id = #{studentId}
+		LIMIT #{start}, #{end}
+	</select>
+
 	<insert id="saveStudentInfo" parameterType="com.flowedu.dto.StudentDto">
 		INSERT INTO STUDENT
 		(
@@ -30,7 +44,6 @@
 			#{studentPhoneNumber}, #{studentEmail}, #{schoolName}, #{schoolType}, #{studentGrade},
 			#{studentPhotoFile}, #{studentPhotoUrl}, #{studentMemo}, #{motherName},
 			#{motherPhoneNumber}, #{fatherName}, #{fatherPhoneNumber}, #{parentPassword}
-
 		)
 	</insert>
 
