@@ -166,6 +166,7 @@
                 lectureDay: day_list[i],
                 lectureDetailId :lecture_detail_id_list[i]
             };
+
             detail_list.push(lecture_detail_info);
         }
         lectureManager.modifyLecture(lecture_info, detail_list, function (bl) {
@@ -195,13 +196,11 @@
             //lectureRoomSelectbox(office_id,"lectureRoomSelectbox","");
         });
 
-        lectureService.getLectureDetailInfoList( lecture_id, function (selList) {
-
+        lectureService.getLectureDetailInfoList(lecture_id, function (selList) {
             if (selList.length > 0) {
-                console.log(selList);
                 for (var i = 0; i < selList.length; i++) {
                     var cmpList = selList[i];
-                    if (selList != undefined && selList.length > 1) {
+                    if (selList != undefined && selList.length > 0) {
                         if(i > 0)  trans_html();
                         $('select[name="sel_lectureRoom[]"]').eq(i).val(cmpList.lectureRoomId);
                         $('select[name="lecture_day[]"]').eq(i).val(cmpList.lectureDay);
@@ -210,6 +209,8 @@
                         $('input[name="lecture_detail_id[]"]').eq(i).val(cmpList.lectureDetailId);
                     }
                 }
+            } else {
+                $('input[name="lecture_detail_id[]"]').eq(0).val('<%=lecture_id%>');
             }
         });
     }
