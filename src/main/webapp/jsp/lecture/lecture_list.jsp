@@ -38,15 +38,15 @@
             lectureService.getLectureInfoList(sPage, '5', office_id, function (selList) {
                 if (selList.length > 0) {
                     for (var i = 0; i < selList.length; i++) {
-
                         var cmpList = selList[i];
                         if (cmpList != undefined) {
                             var detailHTML = "<input type='button'  value='상세' id='"+cmpList.lectureId+"' onclick='lecture_page(this.id, "+ '"' + 'lecture_detail' + '"' + ");'/>";
                             var modifyHTML = "<input type='button'  value='수정'  id='"+cmpList.lectureId+"' onclick='lecture_page(this.id, "+ '"' + 'lecture_modify' + '"' + ");''/>";
                             var calendarHTML = "<input type='button'  value='달력보기'  id='"+cmpList.lectureId+"' onclick='lecture_page(this.id, "+ '"' + 'lecture_calendar' + '"' + ");''/>";
-                            var applyHTML = "<input type='button'  value='강의신청'id='"+cmpList.lectureId+"' onclick='lecture_page(this.id, "+ '"' + 'lecture_apply' + '"' + ");' style='background:gray;'/>";
-                            var cellData = [
+                            var applyHTML = "<input type='button'  value='강의신청' id='"+cmpList.lectureId+"' onclick='lecture_page(this.id, "+ '"' + 'lecture_apply' + '"' + ");' style='background:gray;'/>";
 
+
+                            var cellData = [
                                 function(data) {return cmpList.officeName;},
                                 function(data) {return cmpList.manageMemberName;},
                                 function(data) {return cmpList.chargeMemberName;},
@@ -66,7 +66,6 @@
                                 function(data) {return modifyHTML;},
                                 function(data) {return calendarHTML;},
                                 function(data) {return applyHTML;}
-
                             ];
                             dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
                         }
@@ -119,6 +118,7 @@
                 <col width="*" />
                 <col width="*" />
                 <col width="*" />
+                <col width="*" />
             </colgroup>
             <thead>
             <tr>
@@ -142,6 +142,7 @@
                 <th>강의상태</th>
                 <th colspan="3"></th>
                 <th>강의신청</th>
+                <th>출석체크</th>
             </tr>
             </thead>
             <tbody id="dataList"></tbody>

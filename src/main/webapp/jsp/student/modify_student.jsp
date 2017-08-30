@@ -3,12 +3,16 @@
 <%@include file="/common/jsp/top.jsp" %>
 <%
     Long student_id = Long.parseLong(request.getParameter("student_id"));
+    String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
+    FlowEduMemberDto flowEduMemberDto = (FlowEduMemberDto)session.getAttribute("member_info");
+    Long memberId = flowEduMemberDto.getFlowMemberId();
 %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
 <script>
     function init() {
         schoolSelectbox("student_grade","", "");
         studentList();
+        fn_search("new");
     }
 
     function studentList() {
@@ -37,8 +41,9 @@
                     innerValue("father_name", selList.fatherName);
         });
     }
-    
-    function save_student() {
+
+    //수정
+    function modify_student() {
         var check = new isCheck();
         var student_id        = getInputTextValue("student_id");
         /*
@@ -160,6 +165,54 @@
         }
     }
 
+
+    //상담저장
+    function studentMemo() {
+
+        var student_id  = getInputTextValue("student_id");
+        var consultMemo = getInputTextValue("consultMemo");
+
+        studentService.saveStudentMemo(student_id,'<%=memberId%>', consultMemo, function () {
+            alert("상담저장완료");
+            location.reload();
+        });
+    }
+
+    //상담리스트 가져오기
+    function fn_search(val) {
+        var paging = new Paging();
+        var sPage = $("#sPage").val();
+        var student_id = getInputTextValue("student_id");
+
+        if(val == "new") {
+            sPage = "1";
+        }
+        dwr.util.removeAllRows("consultList");
+
+        studentService.getStudentMemoListCount(student_id, function(cnt) {
+            paging.count(sPage, cnt, '10', '5', comment.blank_list);
+
+            studentService.getStudentMemoList(sPage, '5', student_id, function (selList) {
+
+                if (selList.length > 0) {
+                    for (var i = 0; i < selList.length; i++) {
+                        var cmpList = selList[i];
+                        if (cmpList != undefined) {
+                            var contentHTML = "<a href='javascript:void(0);' id="+cmpList.studentMemoId+">"+ellipsis(cmpList.memoContent, 10)+"</a>";
+                            var cellData = [
+                                function(data) {return contentHTML},
+                                function(data) {return cmpList.memberName;},
+                                function(data) {return cmpList.createDate;}
+                            ];
+                            dwr.util.addRows("consultList", [0], cellData, {escapeHtml: false});
+                        }
+                    }
+                }
+
+            });
+        });
+    }
+
     function school_radio(school_grade) {
         schoolSelectbox("student_grade","", school_grade);
     }
@@ -174,6 +227,7 @@
         var param = "?school_type="+school_type;
         gfn_winPop(750,200,"jsp/popup/school_search_popup.jsp",param);
     }
+
 </script>
 <body onload="init();">
 <form name="frm" id="frm" method="get">
@@ -181,6 +235,8 @@
     <input type="hidden" id="fileName" name="fileName" value="">
     <input type="hidden" id="fileUrl" name="fileUrl" value="">
     <input type="hidden" id="student_id" name="student_id" value="<%=student_id%>">
+    <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
+    <input type="hidden" name="page_gbn" id="page_gbn">
     <h1>학생정보입력 수정page</h1>
     <table>
 
@@ -303,6 +359,40 @@
 
     </table>
     <tbody id="dataList"></tbody>
-    <input type="button" value="수정" onclick="save_student();">
+    <input type="button" value="수정" onclick="modify_student();"><br>
+
+    <div style="float:left;">
+        <textarea id="consultMemo" style="width:30%;height:100px;"></textarea>
+        <input type="button" value="상담저장" onclick="studentMemo();">
+    </div>
+
+    <div style="float:left;">
+        <h1>상담list</h1>
+        <table class="table_list" border="1">
+            <colgroup>
+                <!-- <col width="2%" />-->
+                <col width="*" />
+                <col width="*" />
+                <col width="*" />
+            </colgroup>
+            <thead>
+            <tr>
+                <!--<th>
+                    <input type="checkbox" id="chkAll" onclick="javascript:checkall('chkAll');">
+                </th>-->
+                <th>상담내용</th>
+                <th>담당선생님</th>
+                <th>상담날짜</th>
+            </tr>
+            </thead>
+            <tbody id="consultList"></tbody>
+            <tr>
+                <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
+            </tr>
+            <!--<input type="button" value="삭제" onclick="Delete();">-->
+        </table>
+        <%@ include file="/common/inc/com_pageNavi.inc" %>
+    </div>
 </form>
+
 </body>

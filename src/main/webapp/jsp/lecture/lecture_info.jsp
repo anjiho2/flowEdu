@@ -346,25 +346,6 @@
 </form>
 
 
-<style type="text/css">
-    * {margin:0; padding:0;}
-    li {float:left; list-style:none; margin:1px;}
-    li a {display:block; width:130px; height:35px; background:#c00; color:#fff; border1px solid blue; font-size:13px; font-family:"돋움";font-weight:bold;
-        text-align:center; padding-top:7px; text-decoration:none;}
-    li a span {display:block;}
-    li a:hover {text-decoration:none;}
-</style>
-
-
-<ul style="width:950px;">
-    <li><a href="http://www.phoneseason.com/board/view?id=notice&seq=122"><span>기종별검색</span></a></li>
-    <li><a href="http://www.phoneseason.com/goods/catalog?code=0027"><span>신상품</span></a></li>
-    <li><a href="http://www.phoneseason.com/goods/search?sort=newly&search_text=%EC%8B%A0%EA%B8%B0%EC%A2%85&old_search_text=%EC%8B%A0%EA%B8%B0%EC%A2%85"><span>신기종입고</span></a></li>
-    <li><a href="http://www.phoneseason.com/goods/catalog?code=0029"><span>초특가 SALE</span></a></li>
-    <li><a href="http://www.phoneseason.com/order/cart"><span>장바구니</span></a></li>
-    <li><a href="http://www.phoneseason.com/mypage/order_catalog"><span>주문 / 배송조회</span></a></li>
-    <li><a href="#"><span>★ 즐겨찾기</span></a></li>
-</ul>
 
 
 </body>

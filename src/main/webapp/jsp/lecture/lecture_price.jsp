@@ -112,7 +112,6 @@
         </table>
         <input type="button" value="삭제" onclick="Delete();">
     </div>
-
 </form>
 </body>
 </html>

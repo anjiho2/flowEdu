@@ -16,16 +16,16 @@
             innerHTML("lecture_name", sel.lectureName);
             innerHTML("lecture_limit", sel.lectureLimitStudent);
             innerHTML("lecture_reg_count", sel.regCount);
+            innerValue("max_student_count", sel.lectureLimitStudent);
         });
 
         //강의 기존신청된 학생들 리스트 가져오기
         lectureService.getStudentListByLectureRegister(lecture_id, function (selList) {
             if (selList.length > 0) {
                 for (var i = 0; i < selList.length; i++) {
-                console.log(selList);
                     var cmpList = selList[i];
                     if (cmpList != undefined) {
-                        var modifyHTML = "<input type='button'  name='addList' id='"+cmpList.studentId+"' class='checkBtn' value='-' onclick=''/>";
+                        var modifyHTML = "<input type='button'  name='addList' id='"+cmpList.lectureRelId+"' class='checkBtn' value='-' onclick='delete_student(this.id)'/>";
                         var cellData = [
                             function(data) {return cmpList.studentName;},
                             function(data) {return cmpList.schoolName;},
@@ -38,6 +38,21 @@
         });
 
         fn_search("new");
+    }
+
+    //강의에서 신청된학생 삭제
+    function delete_student(val) {
+       if(confirm("삭제 하시겠습니까?")){
+           lectureService.modifyLectureStudentRel(val, 0, 0, false, function () {
+               alert("삭제되었습니다.");
+               location.reload();
+           });
+       }
+    }
+
+    function detail_student_page(student_id) {
+        innerValue("student_id", student_id);
+        goPage('student', 'modify_student');
     }
 
     //학생리스트 가져오기
@@ -61,9 +76,10 @@
                         if (cmpList != undefined) {
                             //var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.studentId + "'/>";
                             var modifyHTML = "<input type='button'  name='addList' id='"+cmpList.studentId+"' class='checkBtn' value='추가' onclick='add_student($(this), this.id);'/>";
+                            var detailStudent = "<a href='javascript:void(0);' onclick='detail_student_page("+cmpList.studentId+")' >"+cmpList.studentName+"</a>"
                             var cellData = [
-                                //function(data) {return checkHTML;},
-                                function(data) {return cmpList.studentName;},
+                                function(data) {return detailStudent;},
+                                //function(data) {return cmpList.studentName;},
                                 function(data) {return convert_lecture_grade(cmpList.studentGrade);},
                                 function(data) {return cmpList.schoolName;},
                                 function(data) {return modifyHTML;}
@@ -87,9 +103,11 @@
         var td = tr.children();
         var studentIds = new Array();
         var count = getInnerHtmlValue("selected_count");
+        var limitCount = getInputTextValue("max_student_count");
+        var regCount = getInnerHtmlValue("lecture_reg_count");
 
         lectureService.checkLectureStudentRel(lecture_id,val2, function (num) {
-            if (num == 1){
+            if (num == 1 || ( (parseInt(count) + parseInt(regCount)) >= limitCount) ){
                 alert("강의 최대인원 초과되었습니다.");
                 return false;
             }else if(num == 2){
@@ -113,18 +131,21 @@
 
     }
 
+
     function save_lecture_student() {
+        if (confirm(comment.isInsert)) {
+            var studentIds = $.makeArray($('li[name="student_id[]"]').map(function () {
+                return $(this).val();
+            }));
 
-        var studentIds = $.makeArray($('li[name="student_id[]"]').map(function () {
-            return $(this).val();
-        }));
-
-        var lecture_id=getInputTextValue("lecture_id");
-        lectureService.saveLectureStudentRel(lecture_id, studentIds, function (bl) {
-            if(bl==true){
-                alert("등록되었습니다.");
-            }
-        });
+            var lecture_id = getInputTextValue("lecture_id");
+            lectureService.saveLectureStudentRel(lecture_id, studentIds, function (bl) {
+                if (bl == true) {
+                    alert("등록되었습니다.");
+                    isReloadPage(true);
+                }
+            });
+        }
     }
 
     //선택된 학생 목록 삭제
@@ -146,7 +167,9 @@
 <form name="frm" id="frm" method="get">
     <input type="hidden" name="lecture_id" id="lecture_id" value="<%=lecture_id%>">
     <input type="hidden" name="page_gbn" id="page_gbn">
+    <input type="hidden" name="student_id" id="student_id">
     <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
+    <input type="hidden" id="max_student_count">
 
     강의명   :  <span id="lecture_name"></span> 강의 신청page <br>
     최대인원 :  <span id="lecture_limit"></span> 명 <br>
