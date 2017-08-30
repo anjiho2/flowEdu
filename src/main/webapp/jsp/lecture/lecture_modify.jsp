@@ -40,20 +40,23 @@
     }
     //강의실 중복 체크
     function dupcheck_lecture_room() {
+        var detailId = $('input[name="lecture_detail_id[]"]').eq(0).val();
         var sel_lectureRoom = $('select[name="sel_lectureRoom[]"]').last().val();
-        var sel_lectureDay  = $('select[name="lecture_day[]"]').last().val();
-        var start_time      = $('input[name="start_time[]"]').last().val();
-        var end_time        = $('input[name="end_time[]"]').last().val();
+        var sel_lectureDay = $('select[name="lecture_day[]"]').last().val();
+        var start_time = $('input[name="start_time[]"]').last().val();
+        var end_time = $('input[name="end_time[]"]').last().val();
 
-        lectureService.checkDuplicateLectureDetail(sel_lectureRoom, start_time, end_time, sel_lectureDay, function (bl) {
-            if(bl==true){
-                alert("등록할수없는 시간대와 강의실 입니다.\n다른 시간대와 강의실을 선택하세요.");
-                $('input[name="start_time[]"]').last().val("");
-                $('input[name="end_time[]"]').last().val("");
-            } else {
-                trans_html();
-            }
-        });
+        if (detailId == null) {
+            lectureService.checkDuplicateLectureDetail(sel_lectureRoom, start_time, end_time, sel_lectureDay, function (bl) {
+                if (bl == true) {
+                    alert("등록할수없는 시간대와 강의실 입니다.\n다른 시간대와 강의실을 선택하세요.");
+                    $('input[name="start_time[]"]').last().val("");
+                    $('input[name="end_time[]"]').last().val("");
+                }
+            });
+        }else{
+            trans_html();
+        }
     }
 
     //html 복제하기
