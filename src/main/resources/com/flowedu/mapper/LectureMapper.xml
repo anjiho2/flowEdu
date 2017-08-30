@@ -242,7 +242,7 @@
 	<update id="modifyLectureDetailInfo" parameterType="com.flowedu.dto.LectureDetailDto">
 		UPDATE LECTURE_DETAIL_INFO
 		<set>
-			<if test="lectureId > 0">lecutre_id = #{lectureId},</if>
+			<if test="lectureId > 0">lecture_id = #{lectureId},</if>
 			<if test="lectureRoomId > 0">lecture_room_id = #{lectureRoomId},</if>
 			<if test="startTime != ''">start_time = #{startTime},</if>
 			<if test="endTime != ''">end_time = #{endTime},</if>
