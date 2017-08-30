@@ -164,7 +164,8 @@
                 startTime: start_time_list[i],
                 endTime: end_time_list[i],
                 lectureDay: day_list[i],
-                lectureDetailId :lecture_detail_id_list[i]
+                lectureDetailId :lecture_detail_id_list[i],
+                lectureId:lecture_id
             };
 
             detail_list.push(lecture_detail_info);
@@ -209,8 +210,6 @@
                         $('input[name="lecture_detail_id[]"]').eq(i).val(cmpList.lectureDetailId);
                     }
                 }
-            } else {
-                $('input[name="lecture_detail_id[]"]').eq(0).val('<%=lecture_id%>');
             }
         });
     }
