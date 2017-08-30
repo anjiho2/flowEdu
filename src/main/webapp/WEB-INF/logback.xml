@@ -23,8 +23,8 @@
     </appender>
     
 	<logger name="org.mybatis" level="trace" />
-    <logger name="com.challabros.birdletter.admin.mapper" level="DEBUG"/>
-    <logger name="com.challabros.birdletter.admin.service.INFO" level="INFO"/>
+    <logger name="com.flowedu.mapper" level="DEBUG"/>
+    <logger name="com.flowedu.service.INFO" level="INFO"/>
 
     <root level="DEBUG">
         <appender-ref ref="STDOUT" />

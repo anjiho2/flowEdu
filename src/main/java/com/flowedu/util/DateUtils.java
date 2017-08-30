@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import com.flowedu.define.datasource.LectureDay;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -587,12 +588,29 @@ public class DateUtils {
 		return strMonth;
 	}
 
+	/**
+	 * 요일 구하기
+	 * @param date (2011-01-01)
+	 * @param dateType (yyyy-MM-dd)
+	 * @return 1 ~ 7
+	 * @throws Exception
+	 */
+	public static int getDateDay(String date, String dateType) throws Exception {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(dateType);
+		Date nDate = dateFormat.parse(date);
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(nDate);
+
+		return calendar.get(Calendar.DAY_OF_WEEK);
+	}
+
 
 	
 	
 	public static void main(String[] args) throws Exception {
-		System.out.print(dateToStr(DateUtil.getJavaDate(42796)));
-
+		int day = getDateDay("2017-08-29", "yyyy-MM-dd");
+		System.out.print(LectureDay.getLectureDayCode(day-1).toString());
 	}
 	
 }

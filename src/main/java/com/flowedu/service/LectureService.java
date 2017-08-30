@@ -9,6 +9,7 @@ import com.flowedu.mapper.LectureMapper;
 import com.flowedu.repository.MemberNameRepository;
 import com.flowedu.session.UserSession;
 import com.flowedu.util.DateUtils;
+import com.flowedu.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,6 +138,26 @@ public class LectureService extends PagingSupport {
 
     /**
      * <PRE>
+     * 1. Comment : 출석 종류 리스트
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08. 30
+     * </PRE>
+     * @return
+     */
+    public List<HashMap<String, Object>> getLectureAttendTypeList() {
+        List<HashMap<String, Object>> Arr = new ArrayList<>();
+
+        for (int i=0; i<LectureAttendType.values().length; i++) {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("attendCode", LectureAttendType.getLectureAttendTypeCode(i).toString());
+            map.put("attendName", LectureAttendType.getLectureAttendTypeName(i));
+            Arr.add(map);
+        }
+        return Arr;
+    }
+
+    /**
+     * <PRE>
      * 1. Comment : 강의실 리스트 가져오기
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .09
@@ -147,7 +168,6 @@ public class LectureService extends PagingSupport {
     @Transactional(readOnly = true)
     public List<LectureRoomDto> getLectureRoomList(Long officeId) {
         return lectureMapper.getLectureRoomList(officeId);
-
     }
 
     /**
@@ -331,6 +351,28 @@ public class LectureService extends PagingSupport {
 
     /**
      * <PRE>
+     * 1. Comment : 출석 체크 하는 리스트
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .29
+     * </PRE>
+     * @param lectureId
+     * @return
+     * @throws Exception
+     */
+    @Transactional(readOnly = true)
+    public List<LectureAttendDto> getLectureAttendList(Long lectureId) throws Exception {
+        List<LectureAttendDto> Arr = new ArrayList<>();
+        String day = LectureDay.getLectureDayCode(
+                DateUtils.getDateDay(
+                        Util.returnToDate("yyyy-MM-dd"), "yyyy-MM-dd"
+                    ) - 1
+                ).toString();
+        Arr = lectureMapper.getLectureAttendList(lectureId, day);
+        return Arr;
+    }
+
+    /**
+     * <PRE>
      * 1. Comment : 강의실 명 저장
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .09
@@ -448,6 +490,29 @@ public class LectureService extends PagingSupport {
 
     /**
      * <PRE>
+     * 1. Comment : 출석 저장
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .29
+     * </PRE>
+     * @param lectureId
+     * @param studentId
+     * @param attendType
+     * @throws Exception
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveLectureAttend(Long lectureId, Long studentId, String attendType) throws Exception {
+        if (lectureId == null && studentId == null) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        String attendDay = LectureDay.getLectureDayCode(
+                DateUtils.getDateDay(
+                        Util.returnToDate("yyyy-MM-dd"), "yyyy-MM-dd"
+                ) - 1 ).toString();
+        lectureMapper.saveLectureAttend(lectureId, studentId, attendType, attendDay);
+    }
+
+    /**
+     * <PRE>
      * 1. Comment : 강의실 명 수정
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .09123
@@ -529,8 +594,13 @@ public class LectureService extends PagingSupport {
     @Transactional(propagation = Propagation.REQUIRED)
     public void modifyLectureDetailInfoList(List<LectureDetailDto> lectureDetailDtoList) {
         if (lectureDetailDtoList.size() == 0) return;
-        for (LectureDetailDto dto : lectureDetailDtoList)  {
-            lectureMapper.modifyLectureDetailInfo(dto);
+        List<LectureDetailDto> Arr = lectureMapper.getLectureDetailInfoList(lectureDetailDtoList.get(0).getLectureId());
+        if (Arr.size() == 0) {
+            lectureMapper.saveLectureDetailList(lectureDetailDtoList);
+        } else {
+            for (LectureDetailDto dto : lectureDetailDtoList)  {
+                lectureMapper.modifyLectureDetailInfo(dto);
+            }
         }
     }
 

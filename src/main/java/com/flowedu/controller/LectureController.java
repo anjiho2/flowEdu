@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class LectureController {
 
     @RequestMapping(value={"/lecture","/lecture/{page_gbn}"})
-    public ModelAndView member(@RequestParam(value="page_gbn", required=false)String page_gbn) throws Exception {
+    public ModelAndView lecture(@RequestParam(value="page_gbn", required=false)String page_gbn) throws Exception {
         ModelAndView mvc = new ModelAndView();
         page_gbn = Util.isNullValue(page_gbn, "");
 
