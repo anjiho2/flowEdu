@@ -54,6 +54,8 @@ public interface LectureMapper {
 
     void saveLectureAttend(@Param("lectureId") Long lectureId, @Param("studentId") Long studentId, @Param("attendType") String attendType, @Param("attendDay") String attendDay);
 
+    void saveLectureAttendList(@Param("attendList") List<LectureAttendDto> lectureAttendDtoList);
+
     /** UPDATE **/
     void modifyLectureRoom(@Param("lectureRoomId") Long lectureRoomId, @Param("officeId") Long officeId, @Param("lectureRoomName") String lectureRoomName);
 
