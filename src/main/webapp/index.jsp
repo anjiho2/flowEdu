@@ -83,32 +83,6 @@
     <input type="text" id="phoneNumber">
     <input type="password" id="memberPass" name="memberPass">
     <input type="button" id="loginBtn" value="로그인" onclick="loginCheck();">
-    <!--
-    <table border="1" id="test_table">
-        <tr>
-            <td>이름</td>
-            <td>학교</td>
-            <td>확인</td>
-        </tr>
-        <tr>
-            <td>안지호</td>
-            <td>테스트학교</td>
-            <td><input type="button" id="1" class="checkBtn" value="선택" ></td>
-        </tr>
-        <tr>
-            <td>안지호2</td>
-            <td>테스트학교2</td>
-            <td><input type="button" id="2" class="checkBtn" value="선택"></td>
-        </tr>
-    </table>
-
-    <div>
-        선택된 학생
-        <div id="sel_student">
-
-        </div>
-    </div>
-    -->
 
 <%
     } else {

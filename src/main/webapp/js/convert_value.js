@@ -34,11 +34,11 @@ function convert_lecture_subject(val) {
 
 function convert_lecture_level(val) {
 	var str = "";
-	if ("HIGH") {
+	if (val == "HIGH") {
 		str = "상";
-	} else if ("MIDDLE") {
+	} else if (val == "MIDDLE") {
         str = "중";
-	}  else if ("LOW") {
+	}  else if (val == "LOW") {
         str = "하";
     }
     return str;
@@ -52,12 +52,12 @@ function convert_lecture_grade(val) {
 }
 
 function convert_lecture_status(val) {
-	var str = "";
-    if ("OPEN") {
+    var str = "";
+    if (val == "OPEN") {
         str = "개강";
-    } else if ("CANCEL") {
+    } else if (val == "CANCEL") {
         str = "휴강";
-    }  else if ("CLOSE") {
+    }  else if (val == "CLOSE") {
         str = "폐강";
     }
     return str;

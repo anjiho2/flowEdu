@@ -35,11 +35,11 @@
         <mybatis.spring.version>1.2.2</mybatis.spring.version>
          -->
 	</properties>
-	<!--
+
 	<repositories>
 		<repository>
 			<id>central</id>
-			<url>http://106.240.100.50:8081/nexus/content/groups/public</url>
+			<url>http://192.168.0.201:8081/nexus/content/groups/public</url>
 			<releases><enabled>true</enabled></releases>
 			<snapshots><enabled>true</enabled></snapshots>
 		</repository>
@@ -48,12 +48,12 @@
 	<pluginRepositories>
 		<pluginRepository>
 			<id>central</id>
-			<url>http://106.240.100.50:8081/nexus/content/groups/public</url>
+			<url>http://192.168.0.201:8081/nexus/content/groups/public</url>
 			<releases><enabled>true</enabled></releases>
 			<snapshots><enabled>true</enabled></snapshots>
 		</pluginRepository>
 	</pluginRepositories>
-		-->
+
 	<build>
 		<finalName>flowEdu</finalName>
 

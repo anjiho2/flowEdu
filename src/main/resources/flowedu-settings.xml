@@ -26,10 +26,19 @@
         </server>
     </servers>
 
+    <mirrors>
+        <mirror>
+            <id>nexus</id>
+            <mirrorOf>*</mirrorOf>
+            <url>http://192.168.0.201:8081/nexus/content/groups/public</url>
+        </mirror>
+    </mirrors>
+
 
     <localRepository>
         <!--/Users/challa_mac/Documents/dev/ChallaBros/BirdLetter/maven-repo-->
         /Users/jihoan/Documents/dev/challabros/birdletter/maven-repo
+        <!--nexus-->
     </localRepository>
 
     <profiles>

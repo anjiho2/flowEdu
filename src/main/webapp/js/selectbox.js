@@ -466,3 +466,24 @@ function schoolSelectbox(tag_id, val, school_grade) {
 	innerHTML(tag_id, html);
 
 }
+
+/**
+ * 출석 상태 종류 선택 셀렉트 박스
+ * @param tag_id
+ * @param val
+ */
+function attendTypeSelectbox(tag_id, val) {
+    lectureService.getLectureAttendTypeList(function (list) {
+        var html = "<select id='sel_attendType'>";
+        html += "<option value=''>▶선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].attendCode == val) {
+                html += "<option value="+list[i].attendCode+" selected>"+ list[i].attendName +"</option>";
+            } else {
+                html += "<option value="+list[i].attendCode+">"+ list[i].attendName +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
