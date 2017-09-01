@@ -40,11 +40,20 @@
                     for (var i = 0; i < selList.length; i++) {
                         var cmpList = selList[i];
                         if (cmpList != undefined) {
+                            //cmpList.lectureStartDate
+                            //cmpList.lectureEndDate
                             var detailHTML = "<input type='button'  value='상세' id='"+cmpList.lectureId+"' onclick='lecture_page(this.id, "+ '"' + 'lecture_detail' + '"' + ");'/>";
                             var modifyHTML = "<input type='button'  value='수정'  id='"+cmpList.lectureId+"' onclick='lecture_page(this.id, "+ '"' + 'lecture_modify' + '"' + ");''/>";
                             var calendarHTML = "<input type='button'  value='달력보기'  id='"+cmpList.lectureId+"' onclick='lecture_page(this.id, "+ '"' + 'lecture_calendar' + '"' + ");''/>";
                             var applyHTML = "<input type='button'  value='강의신청' id='"+cmpList.lectureId+"' onclick='lecture_page(this.id, "+ '"' + 'lecture_apply' + '"' + ");' style='background:gray;'/>";
 
+
+                            //출첵버튼
+                            if(compareTime_startend(today(),cmpList.lectureStartDate,cmpList.lectureEndDate)){
+                                var attendHTML = "<input type='button'  value='출첵' id='"+cmpList.lectureId+"' onclick='lecture_page(this.id, "+ '"' + 'lecture_attend' + '"' + ");'/>";
+                            }else{
+                                 var attendHTML = "";
+                            }
 
                             var cellData = [
                                 function(data) {return cmpList.officeName;},
@@ -65,7 +74,8 @@
                                 function(data) {return detailHTML;},
                                 function(data) {return modifyHTML;},
                                 function(data) {return calendarHTML;},
-                                function(data) {return applyHTML;}
+                                function(data) {return applyHTML;},
+                                function(data) {return attendHTML;}
                             ];
                             dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
                         }

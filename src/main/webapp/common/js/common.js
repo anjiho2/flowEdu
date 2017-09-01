@@ -1585,6 +1585,14 @@ function compareTime(now, afterTime) {
 	return boolean;
 }
 
+function compareTime_startend(now, start, end) {
+    var boolean = false;
+    if( (now >= start) && (now <= end)) {
+    	boolean = true;
+	}
+    return boolean;
+}
+
 /**
  * 오늘보다 입력날자가 오늘보다 미래의 날짜면 true
  * @param today
