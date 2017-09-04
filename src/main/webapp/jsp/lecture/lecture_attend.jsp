@@ -10,22 +10,29 @@
 function init() {
     attendTypeSelectbox("l_attendType",""); //출석타입 셀렉박스
     var lecture_id = getInputTextValue("lecture_id");
-
     //강의 학생리스트 불러오기
-    lectureService.getStudentListByLectureRegister(lecture_id, function (selList) {
+    lectureService.getLectureAttendList(lecture_id, function (selList) {
         if(selList.length > 0){
             for(var i =0 ; i < selList.length; i++){
                 var cmpList = selList[i];
-                if (cmpList != undefined) {{
-                    var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.studentId + "'/>";
+                //attendtype이 없는 학생들 리스트
+                if(cmpList.attendType == null){
+                    if (cmpList != undefined) {
+                        var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.studentId + "'/>";
+                        var cellData = [
+                            function(data) {return cmpList.studentName;},
+                          //  function(data) {return cmpList.schoolName;},
+                            function(data) {return checkHTML;}
+                        ];
+                        dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
+                    }
+                }else{ //출석 or 지각체크된 학생들 리스트
                     var cellData = [
                         function(data) {return cmpList.studentName;},
-                        function(data) {return cmpList.schoolName;},
-                        function(data) {return checkHTML;}
+                        function(data) {return convert_attend(cmpList.attendType);},
                     ];
-                    dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
+                    dwr.util.addRows("attend_dataList", [0], cellData, {escapeHtml: false});
                 }
-            }
             }
         }
     });
@@ -35,26 +42,38 @@ function init() {
 function save_attend() {
     var lecture_id = getInputTextValue("lecture_id");
     var sel_attendType = getSelectboxValue("sel_attendType");
-   // var attendType = "ATTEND";
+    var data_list = new Array();
+
+    if(sel_attendType == "" || sel_attendType == undefined){
+        alert("출석타입을 선택해주세요.");
+        focusInputText("sel_attendType");
+        return;
+    }
 
     $("input[name=chk]:checked").each(function() {
-        var studentId = $(this).val();
+        var studentIds = $(this).val();
 
-        if (studentId == "") {
+        if (studentIds == "") {
             alert(comment.blank_check);
             return;
         }
 
-        lectureService.saveLectureAttend(lecture_id, studentId, sel_attendType ,function() {
-            alert("출석체크 완료.");
-        });
+        var data ={
+            lectureId:lecture_id,
+            studentId:studentIds,
+            attendType:sel_attendType
+        };
+        data_list.push(data);
+    });
+    lectureService.saveLectureAttendList(data_list, function() {
+        alert("출석체크 완료.");
+        isReloadPage(true);
     });
 }
 </script>
 
 <body onload="init();">
 <form name="frm" id="frm" method="get">
-
     <div>
         <span id="l_attendType"></span>
         <table>
@@ -62,13 +81,11 @@ function save_attend() {
             <input type="hidden" name="lecture_id" id="lecture_id" value="<%=lecture_id%>">
             <colgroup>
                 <col width="*" />
-                <col width="*" />
                 <col width="2%" />
             </colgroup>
             <thead>
             <tr style="">
                 <th>학생이름</th>
-                <th>학생학교</th>
                 <th><input type="checkbox" id="chkAll" onclick="javascript:checkall('chkAll');"></th>
             </tr>
             </thead>
@@ -79,6 +96,25 @@ function save_attend() {
     <div>
         <input type="button" value="출석저장" onclick="save_attend();">
     </div>
+
+    <div>
+        <h1>출석체크된 학생리스트</h1>
+        <table>
+            <colgroup>
+                <col width="*" />
+                <col width="*" />
+
+            </colgroup>
+            <thead>
+            <tr style="">
+                <th>학생이름</th>
+                <th>결과</th>
+            </tr>
+            </thead>
+            <tbody id="attend_dataList"></tbody>
+        </table>
+    </div>
+
 </form>
 </body>
 </html>

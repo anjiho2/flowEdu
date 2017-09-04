@@ -62,3 +62,12 @@ function convert_lecture_status(val) {
     }
     return str;
 }
+
+function convert_attend(val) {
+    var str = "";
+    if(val == "ATTEND") str ="출석";
+    else if(val == "LATE") str = "지각";
+    else if(val == "ABSENT") str = "결석";
+
+    return str;
+}

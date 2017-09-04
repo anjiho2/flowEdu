@@ -38,11 +38,6 @@ public class LectureService extends PagingSupport {
     @Autowired
     private MemberNameRepository memberNameRepository;
 
-    public void test() {
-        RabbitmqClient client = new RabbitmqClient();
-        logger.info("info >>>>>>>>>>>>>" + client.helloWorldQueue());
-    }
-
     /**
      * <PRE>
      * 1. Comment : 요일 리스트 가져오기
