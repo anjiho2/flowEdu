@@ -1,5 +1,8 @@
 package com.flowedu.define.datasource;
 
+import com.flowedu.util.DateUtils;
+import com.flowedu.util.Util;
+
 /**
  * Created by jihoan on 2017. 8. 9..
  */
@@ -47,6 +50,10 @@ public enum LectureDay {
             }
         }
         return null;
+    }
+
+    public static String getDay() throws Exception {
+        return getLectureDayCode( DateUtils.getDateDay( Util.returnToDate("yyyy-MM-dd"), "yyyy-MM-dd" ) - 1 ).toString();
     }
 
     public static int size() {

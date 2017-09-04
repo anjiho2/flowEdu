@@ -6,12 +6,14 @@ import com.flowedu.dto.*;
 import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
 import com.flowedu.mapper.LectureMapper;
+import com.flowedu.rabbitmq.RabbitmqClient;
 import com.flowedu.repository.MemberNameRepository;
 import com.flowedu.session.UserSession;
 import com.flowedu.util.DateUtils;
 import com.flowedu.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -35,6 +37,11 @@ public class LectureService extends PagingSupport {
 
     @Autowired
     private MemberNameRepository memberNameRepository;
+
+    public void test() {
+        RabbitmqClient client = new RabbitmqClient();
+        logger.info("info >>>>>>>>>>>>>" + client.helloWorldQueue());
+    }
 
     /**
      * <PRE>
@@ -490,20 +497,18 @@ public class LectureService extends PagingSupport {
 
     /**
      * <PRE>
-     * 1. Comment : 출석 저장(배열)
+     * 1. Comment : 출석 저장
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .29
      * 4. 수정일 : 2017. 09. 01
      * </PRE>
-     * @param lectureAttendDtoList
+     * * @param lectureAttendDtoList
      * @throws Exception
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public void saveLectureAttendList(List<LectureAttendDto> lectureAttendDtoList) throws Exception {
-        if (lectureAttendDtoList == null) {
-            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
-        }
-        if (lectureAttendDtoList.size() == 0 ) return;
+        if (lectureAttendDtoList == null || lectureAttendDtoList.size() == 0) return;
+
         List<LectureAttendDto> LectureAttendDtoArr = new LectureAttendDto().consume(lectureAttendDtoList);
         lectureMapper.saveLectureAttendList(LectureAttendDtoArr);
     }
