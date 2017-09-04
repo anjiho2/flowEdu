@@ -490,32 +490,29 @@ public class LectureService extends PagingSupport {
 
     /**
      * <PRE>
-     * 1. Comment : 출석 저장
+     * 1. Comment : 출석 저장(배열)
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .29
+     * 4. 수정일 : 2017. 09. 01
      * </PRE>
-     * @param lectureId
-     * @param studentId
-     * @param attendType
+     * @param lectureAttendDtoList
      * @throws Exception
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void saveLectureAttend(Long lectureId, Long studentId, String attendType) throws Exception {
-        if (lectureId == null && studentId == null) {
+    public void saveLectureAttendList(List<LectureAttendDto> lectureAttendDtoList) throws Exception {
+        if (lectureAttendDtoList == null) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
-        String attendDay = LectureDay.getLectureDayCode(
-                DateUtils.getDateDay(
-                        Util.returnToDate("yyyy-MM-dd"), "yyyy-MM-dd"
-                ) - 1 ).toString();
-        lectureMapper.saveLectureAttend(lectureId, studentId, attendType, attendDay);
+        if (lectureAttendDtoList.size() == 0 ) return;
+        List<LectureAttendDto> LectureAttendDtoArr = new LectureAttendDto().consume(lectureAttendDtoList);
+        lectureMapper.saveLectureAttendList(LectureAttendDtoArr);
     }
 
     /**
      * <PRE>
      * 1. Comment : 강의실 명 수정
      * 2. 작성자 : 안지호
-     * 3. 작성일 : 2017. 08 .09123
+     * 3. 작성일 : 2017. 08 .09
      * </PRE>
      * @param lectureRoomId
      * @param lectureRoomName

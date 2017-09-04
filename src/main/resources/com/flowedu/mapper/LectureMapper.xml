@@ -199,7 +199,16 @@
 		INSERT INTO LECTURE_ATTEND
 		(lecture_id, student_id, attend_day, attend_type)
 		VALUES
-		()
+		(#{lectureId}, #{studentId}, #{attendDay}, #{attendType})
+	</insert>
+
+	<insert id="saveLectureAttendList" parameterType="com.flowedu.dto.LectureAttendDto">
+		INSERT INTO LECTURE_ATTEND
+		(lecture_id, student_id, attend_day, attend_type)
+		VALUES
+		<foreach collection="attendList" item="values" separator=",">
+			(#{values.lectureId}, #{values.studentId}, #{values.attendDay}, #{values.attendType})
+		</foreach>
 	</insert>
 
 	<update id="modifyLectureRoom">
