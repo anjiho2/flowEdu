@@ -48,8 +48,8 @@
                             var applyHTML = "<input type='button'  value='강의신청' id='"+cmpList.lectureId+"' onclick='lecture_page(this.id, "+ '"' + 'lecture_apply' + '"' + ");' style='background:gray;'/>";
 
 
-                            //출첵버튼
-                            if(compareTime_startend(today(),cmpList.lectureStartDate,cmpList.lectureEndDate)){
+                            //출첵버튼 && 강의상태가 개강인것만
+                            if(compareTime_startend(today(),cmpList.lectureStartDate,cmpList.lectureEndDate) && cmpList.lectureStatus == "OPEN"){
                                 var attendHTML = "<input type='button'  value='출첵' id='"+cmpList.lectureId+"' onclick='lecture_page(this.id, "+ '"' + 'lecture_attend' + '"' + ");'/>";
                             }else{
                                  var attendHTML = "";
@@ -102,9 +102,9 @@
 
 <form name="frm" id="frm" method="get">
     <input type="hidden" name="page_gbn" id="page_gbn">
-    <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
+    <input type="hidden"  id="sPage" value="<%=sPage%>">
     <input type="hidden" name="lecture_id" id="lecture_id" value="">
-    <input type="hidden" name="office_id" id="office_id" value="">
+    <input type="hidden"  id="office_id" value="">
     <h1>강의상세정보리스트</h1>
     <div id="memberList">
         <span id="sel_academy"></span>

@@ -8,7 +8,10 @@
 <script type="text/javascript">
 
 function init() {
+    attendTypeSelectbox("l_attendType",""); //출석타입 셀렉박스
     var lecture_id = getInputTextValue("lecture_id");
+
+    //강의 학생리스트 불러오기
     lectureService.getStudentListByLectureRegister(lecture_id, function (selList) {
         if(selList.length > 0){
             for(var i =0 ; i < selList.length; i++){
@@ -28,11 +31,11 @@ function init() {
     });
 }
 
-
+//저장
 function save_attend() {
     var lecture_id = getInputTextValue("lecture_id");
-    var attendType = "ATTEND";
-
+    var sel_attendType = getSelectboxValue("sel_attendType");
+   // var attendType = "ATTEND";
 
     $("input[name=chk]:checked").each(function() {
         var studentId = $(this).val();
@@ -41,7 +44,8 @@ function save_attend() {
             alert(comment.blank_check);
             return;
         }
-        lectureService.saveLectureAttend(lecture_id, studentId, attendType ,function() {
+
+        lectureService.saveLectureAttend(lecture_id, studentId, sel_attendType ,function() {
             alert("출석체크 완료.");
         });
     });
@@ -52,6 +56,7 @@ function save_attend() {
 <form name="frm" id="frm" method="get">
 
     <div>
+        <span id="l_attendType"></span>
         <table>
             <input type="hidden" name="page_gbn" id="page_gbn">
             <input type="hidden" name="lecture_id" id="lecture_id" value="<%=lecture_id%>">
