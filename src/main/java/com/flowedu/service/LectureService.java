@@ -6,21 +6,18 @@ import com.flowedu.dto.*;
 import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
 import com.flowedu.mapper.LectureMapper;
-import com.flowedu.rabbitmq.RabbitmqClient;
 import com.flowedu.repository.MemberNameRepository;
 import com.flowedu.session.UserSession;
 import com.flowedu.util.DateUtils;
 import com.flowedu.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,11 +34,6 @@ public class LectureService extends PagingSupport {
 
     @Autowired
     private MemberNameRepository memberNameRepository;
-
-    public void test() {
-        RabbitmqClient client = new RabbitmqClient();
-        logger.info("info >>>>>>>>>>>>>" + client.helloWorldQueue());
-    }
 
     /**
      * <PRE>
