@@ -37,7 +37,8 @@ function fn_search(val) {//운영자,선생님 리스트불러오기
                         var modifyHTML = "<input type='button'  name='modify' id='modify' value='수정' onclick='member_modify(" + cmpList.flowMemberId + ");'/>";
                         var cellData = [
                          //   function(data) {return checkHTML;},
-                            function(data) {return cmpList.memberType=="OPERATOR"?"운영자":"선생님";},
+
+                            function(data) {return convert_memberType(cmpList.memberType);},
                             function(data) {return cmpList.memberName;},
                             function(data) {return cmpList.phoneNumber;},
                             function(data) {return cmpList.memberBirthday;},
@@ -73,7 +74,6 @@ function save_member() { // 운영자.선생님정보등록
     if(check.input("member_address", comment.input_member_address) == false) return;
     if(check.input("member_email", comment.input_member_email)     == false) return;
     if(check.input("startSearchDate", comment.input_member_startSearchDate)   == false) return;
-    if(check.input("startSearchDate2", comment.input_member_startSearchDate2) == false) return;
 
     var member_name          = getInputTextValue("member_name");//직원명
     var member_phone1        = getInputTextValue("member_phone1");
@@ -91,9 +91,15 @@ function save_member() { // 운영자.선생님정보등록
     var sel_memberType       = getSelectboxValue("sel_memberType");
     var memtype = $("#sel_memberType option:selected").text();
     var isEmail = fn_isemail(member_email);//이메일 유효성 검사
-
     if (isEmail == true) return false;
 
+    var memtypeval = getSelectboxValue("sel_memberType");
+
+    if(memtypeval != "TEACHER" || memtypeval != "TEACHER_MANAGE"){ //선생님일때는 교육청안해도됨
+        if(check.input("startSearchDate2", comment.input_member_startSearchDate2) == false) return;
+    }else{
+        startSearchDate2 = "";
+    }
     memberService.isMember(member_allphone, function (bl) {
         if(bl==true){
             alert("이미 가입된 전화번호가 있습니다.");
@@ -204,12 +210,6 @@ function Delete() { //운영자|선생님정보 삭제
             <th>교육청 강사등록일자</th>
             <td>
                 <input type="text" id="startSearchDate2" >
-            </td>
-        </tr>
-        <tr>
-            <th>수정</th>
-            <td>
-
             </td>
         </tr>
     </table>
