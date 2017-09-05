@@ -13,13 +13,10 @@ function init() {
 }
 
 function fn_search(val) {
-
     var paging = new Paging();
     var sPage = $("#sPage").val();
-    var title = $("#search_value").val();
-    if(val == "new") {
-        sPage = "1";
-    }
+    if(val == "new") sPage = "1";
+
     dwr.util.removeAllRows("dataList");
 
     studentService.getSudentListCount( function (cnt) {
@@ -59,7 +56,7 @@ function fn_search(val) {
     });
 }
 
-function save_student() {
+function save_student() {저장
 
     var check = new isCheck();
     /*
@@ -76,7 +73,6 @@ function save_student() {
     if(check.input("student_grade", comment.input_member_name)   == false) return;
     if(check.input("schoolname", comment.input_member_name)   == false) return;
     */
-
 
     var data = new FormData();
     $.each($('#attachFile')[0].files, function(i, file) {

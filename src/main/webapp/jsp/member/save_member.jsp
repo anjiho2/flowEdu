@@ -8,21 +8,19 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type="text/javascript">
 function init() {
-    memberTypeSelectbox("l_memberType", "");
-    jobPositionSelectbox("l_jobPosition","");
-    academyListSelectbox("sel_academy","");
-    flowEduTeamListSelectbox("l_FlowEduTeam","");
-
+    memberTypeSelectbox("l_memberType", "");//직원타입
+    jobPositionSelectbox("l_jobPosition","");//직책리스트
+    academyListSelectbox("sel_academy","");//학원리스트
+    flowEduTeamListSelectbox("l_FlowEduTeam","");//소속팀리스트
     fn_search("new");
 }
-function fn_search(val) {
+
+function fn_search(val) {//운영자,선생님 리스트불러오기
     var paging = new Paging();
     var sPage = $("#sPage").val();
-    var title = $("#search_value").val();
 
-    if(val == "new") {
-       sPage = "1";
-    }
+    if(val == "new") sPage = "1";
+
     dwr.util.removeAllRows("dataList");
 
     memberService.getFlowEduMemberListCount( function(cnt) {
@@ -77,33 +75,31 @@ function save_member() { // 운영자.선생님정보등록
     if(check.input("startSearchDate", comment.input_member_startSearchDate)   == false) return;
     if(check.input("startSearchDate2", comment.input_member_startSearchDate2) == false) return;
 
-    var member_name          = getInputTextValue("member_name");
+    var member_name          = getInputTextValue("member_name");//직원명
     var member_phone1        = getInputTextValue("member_phone1");
     var member_phone2        = getInputTextValue("member_phone2");
     var member_phone3        = getInputTextValue("member_phone3");
-    var member_allphone      = member_phone1+member_phone2+member_phone3;
-    var startDate            = getInputTextValue("startDate");
-    var member_address       = getInputTextValue("member_address");
-    var member_email         = getInputTextValue("member_email");
-    var startSearchDate      = getInputTextValue("startSearchDate");
-    var startSearchDate2     = getInputTextValue("startSearchDate2");
-
+    var member_allphone      = member_phone1+member_phone2+member_phone3;//핸드폰번호
+    var startDate            = getInputTextValue("startDate");//생년월일
+    var member_address       = getInputTextValue("member_address");//주소
+    var member_email         = getInputTextValue("member_email");//이메일
+    var startSearchDate      = getInputTextValue("startSearchDate");//성범죄경력조회확인일자
+    var startSearchDate2     = getInputTextValue("startSearchDate2");//교육청강사등록일자
     var sel_academy          = getSelectboxValue("sel_academyList");
     var l_FlowEduTeam        = getSelectboxValue("l_FlowEduTeam");
     var sel_jobPosition      = getSelectboxValue("sel_jobPosition");
     var sel_memberType       = getSelectboxValue("sel_memberType");
-
     var memtype = $("#sel_memberType option:selected").text();
-    var isEmail = fn_isemail(member_email);
-    if (isEmail == true) {
-        return false;
-    }
+    var isEmail = fn_isemail(member_email);//이메일 유효성 검사
+
+    if (isEmail == true) return false;
 
     memberService.isMember(member_allphone, function (bl) {
         if(bl==true){
             alert("이미 가입된 전화번호가 있습니다.");
             return false;
         }else{
+            //저장
             memberService.saveFlowEduMember(sel_academy,l_FlowEduTeam,sel_jobPosition,member_allphone,member_phone3,member_name,
                 startDate,member_address,member_email,startSearchDate,startSearchDate2,sel_memberType,function () {
                     alert(memtype + " 정보가 등록 되었습니다.");
@@ -131,6 +127,7 @@ function Delete() { //운영자|선생님정보 삭제
     location.reload();
 }
 </script>
+
 <body onload="init();">
 <form name="frm" id="frm" method="get">
     <input type="hidden" name="member_id" id="member_id">
@@ -239,9 +236,6 @@ function Delete() { //운영자|선생님정보 삭제
         </colgroup>
         <thead>
         <tr>
-           <!-- <th>
-                <input type="checkbox" id="chkAll" onclick="javascript:checkall('chkAll');">
-            </th>-->
             <th>직원선택</th>
             <th>직원명</th>
             <th>직원핸드폰번호</th>
@@ -260,7 +254,6 @@ function Delete() { //운영자|선생님정보 삭제
         <tr>
             <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
         </tr>
-        <!--input type="button" value="삭제" onclick="Delete();">-->
     </table>
     <%@ include file="/common/inc/com_pageNavi.inc" %>
 </div>
