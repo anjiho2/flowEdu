@@ -21,12 +21,9 @@ function fn_search(val) {
 
     studentService.getSudentListCount( function (cnt) {
         paging.count(sPage, cnt, '10', '5', comment.blank_list);
-
         studentService.getSudentList(sPage,'5',function (selList) {
-
             if (selList.length > 0) {
                 for (var i = 0; i < selList.length; i++) {
-
                     var cmpList = selList[i];
                     if (cmpList != undefined) {
                         //var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.studentId + "'/>";
@@ -56,29 +53,25 @@ function fn_search(val) {
     });
 }
 
-function save_student() {저장
+function save_student() { //저장
 
     var check = new isCheck();
-    /*
-    if(check.input("student_name", comment.input_member_name)   == false) return;
+
+  /*  if(check.input("student_name", comment.input_member_name)   == false) return;
     if($(":input:radio[name=student_name]:checked").val()==null) return;
-    if(check.input("startDate", comment.input_member_name)   == false) return;
-    if(check.input("student_phone1", comment.input_member_name)   == false) return;
-    if(check.input("student_phone2", comment.input_member_name)   == false) return;
-    if(check.input("student_phone3", comment.input_member_name)   == false) return;
-    if(check.input("student_tel1", comment.input_member_name)   == false) return;
-    if(check.input("student_tel2", comment.input_member_name)   == false) return;
-    if(check.input("student_tel3", comment.input_member_name)   == false) return;
-    if(check.input("student_email", comment.input_member_name)   == false) return;
-    if(check.input("student_grade", comment.input_member_name)   == false) return;
-    if(check.input("schoolname", comment.input_member_name)   == false) return;
-    */
+    if(check.input("startDate", comment.input_member_startDate)   == false) return;
+    if(check.input("student_grade", comment.input_student_grade)   == false) return;
+    if(check.input("mother_name", comment.input_mother_name)   == false) return;
+    if(check.input("mother_phone1", comment.input_mother_tel1)   == false) return;
+    if(check.input("mother_phone2", comment.input_mother_tel2)   == false) return;
+    if(check.input("mother_phone3", comment.input_mother_tel3)   == false) return;*/
 
     var data = new FormData();
     $.each($('#attachFile')[0].files, function(i, file) {
         data.append('file-' + i, file);
     });
     var attachFile = fn_clearFilePath($('#attachFile').val());
+
     if (attachFile != "") { //학생사진 업로드시
         $.ajax({
             url: "<%=webRoot%>/file/upload.do",
@@ -91,7 +84,6 @@ function save_student() {저장
             success: function(data) {
                 var fileName = data.result.file_name;
                 var fileUrl = data.result.file_url;
-
                 var mother_phone3   = getInputTextValue("mother_phone3");
                 var student_name    = getInputTextValue("student_name");
                 var gender          = get_radio_value("student_gender");
@@ -190,7 +182,7 @@ function student_consult(student_id) {
 }
 
 
-function school_search_popup() {
+function school_search_popup() {//학교검색
     var school_type =  $(":input:radio[name=school_type]:checked").val();
 
     if(school_type == null){
@@ -202,7 +194,7 @@ function school_search_popup() {
 }
 </script>
 <body onload="init();">
-<form name="frm" id="frm" method="post">
+<form name="frm" id="frm" method="get">
     <input type="hidden" name="student_id" id="student_id">
     <input type="hidden" id="school"  value="">
     <input type="hidden" id="fileName" value="">
@@ -224,20 +216,20 @@ function school_search_popup() {
             </td>
         </tr>
         <tr>
-            <th>학생이름</th>
+            <th>학생이름*</th>
             <td>
                 <input type="text" id="student_name">
             </td>
         </tr>
         <tr>
-            <th>성별</th>
+            <th>성별*</th>
             <td>
                 <input type="radio" name="student_gender" value="MALE" checked>남
                 <input type="radio" name="student_gender" value="FEMAIE">여
             </td>
         </tr>
         <tr>
-            <th>학생생일</th>
+            <th>학생생일*</th>
             <td>
                 <input type="text" id="startDate" >
             </td>
@@ -253,7 +245,7 @@ function school_search_popup() {
             </td>
         </tr>
         <tr>
-            <th>전화번호</th>
+            <th>집전화</th>
             <td>
                 <input type="text" size="2"  id="student_tel1" maxlength="3" onkeyup="js_tab_order(this,frm.student_tel2,3)">
                 -
@@ -283,7 +275,7 @@ function school_search_popup() {
             </td>
         </tr>
         <tr>
-            <th>학년</th>
+            <th>학년*</th>
             <td>
                 <span id="student_grade"></span>
             </td>
@@ -296,13 +288,13 @@ function school_search_popup() {
             </td>
         </tr>
         <tr>
-            <th>학부모(모)이름</th>
+            <th>학부모(모)이름*</th>
             <td>
                 <input type="text" id="mother_name" >
             </td>
         </tr>
         <tr>
-            <th>학부모(모)전화번호</th>
+            <th>학부모(모)전화번호*</th>
             <td>
                 <input type="text" size="2" id="mother_phone1"  maxlength="3" onkeyup="js_tab_order(this,frm.mother_phone2,3)">
                 -
@@ -361,7 +353,7 @@ function school_search_popup() {
             <th>성별</th>
             <th>학생생일</th>
             <th>학생폰번호</th>
-            <th>학생전화번호</th>
+            <th>집전화</th>
             <th>이메일</th>
             <th>학년</th>
             <th>학교이름</th>

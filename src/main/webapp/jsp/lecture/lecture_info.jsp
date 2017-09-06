@@ -1,7 +1,11 @@
 <%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/common/jsp/top.jsp" %>
+<%
+    FlowEduMemberDto flowEduMemberDto = (FlowEduMemberDto)session.getAttribute("member_info");
+    String memberName = flowEduMemberDto.getMemberName();
 
+%>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureManager.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
@@ -26,6 +30,8 @@
         if(val == undefined || val == "") office_id = 0;
         else office_id = val;
 
+        var test =  <%=memberName%>;
+        alert(test);
         academyListSelectbox2("sel_academy",office_id);
         lectureOperationTypeSelectbox("sel_lectureOperation","");
         lectureStatusSelectbox("sel_lectureStatus","","50");
@@ -42,6 +48,7 @@
     }
     // 관 선택시 onChange
     function academy_sel_change(val) {
+
         init(val);
     }
     //학년 구분에 따른 학년 셀렉트 박스 변경
@@ -209,7 +216,7 @@
     }
 </script>
 <body onload="init();">
-<form name="frm" id="frm" method="post">
+<form name="frm" id="frm" method="get">
     <input type="hidden" name="page_gbn" id="page_gbn">
     <div id="navi">
         <div id="menu1">

@@ -45,24 +45,18 @@
     //수정
     function modify_student() {
         var check = new isCheck();
-        var student_id        = getInputTextValue("student_id");
-        /*
-         if(check.input("student_name", comment.input_member_name)   == false) return;
-         if($(":input:radio[name=student_name]:checked").val()==null) return;
-         if(check.input("startDate", comment.input_member_name)   == false) return;
-         if(check.input("student_phone1", comment.input_member_name)   == false) return;
-         if(check.input("student_phone2", comment.input_member_name)   == false) return;
-         if(check.input("student_phone3", comment.input_member_name)   == false) return;
-         if(check.input("student_tel1", comment.input_member_name)   == false) return;
-         if(check.input("student_tel2", comment.input_member_name)   == false) return;
-         if(check.input("student_tel3", comment.input_member_name)   == false) return;
-         if(check.input("student_email", comment.input_member_name)   == false) return;
-         if(check.input("student_grade", comment.input_member_name)   == false) return;
-         if(check.input("schoolname", comment.input_member_name)   == false) return;
-         */
-
-
+        var student_id   = getInputTextValue("student_id");
         var data = new FormData();
+
+        if(check.input("student_name", comment.input_member_name)   == false) return;
+        if($(":input:radio[name=student_name]:checked").val()==null) return;
+        if(check.input("startDate", comment.input_member_startDate)   == false) return;
+        if(check.input("student_grade", comment.input_student_grade)   == false) return;
+        if(check.input("mother_name", comment.input_mother_name)   == false) return;
+        if(check.input("mother_phone1", comment.input_mother_tel1)   == false) return;
+        if(check.input("mother_phone2", comment.input_mother_tel2)   == false) return;
+        if(check.input("mother_phone3", comment.input_mother_tel3)   == false) return;
+
         $.each($('#attachFile')[0].files, function(i, file) {
             data.append('file-' + i, file);
         });
@@ -123,7 +117,8 @@
                 }
             });
         } else { //학생사진 없을때
-
+            var fileName = data.result.file_name;
+            var fileUrl = data.result.file_url;
             var mother_phone3    = getInputTextValue("mother_phone3");
             var student_name    = getInputTextValue("student_name");
             var gender          = get_radio_value("student_gender");
@@ -141,6 +136,8 @@
             var school_type =  $(":input:radio[name=school_type]:checked").val();
 
             var data = {
+                studentPhotoFile:fileName, //파일명
+                studentPhotoUrl:fileUrl, //경로
                 studentId:student_id,
                 studentName:student_name,
                 studentPassword:mother_phone3,
@@ -165,35 +162,26 @@
         }
     }
 
-
-    //상담저장
-    function studentMemo() {
-
+    function studentMemo() {//상담저장
         var student_id  = getInputTextValue("student_id");
         var consultMemo = getInputTextValue("consultMemo");
-
         studentService.saveStudentMemo(student_id,'<%=memberId%>', consultMemo, function () {
             alert("상담저장완료");
             location.reload();
         });
     }
 
-    //상담리스트 가져오기
-    function fn_search(val) {
+    function fn_search(val) {//상담리스트 가져오기
         var paging = new Paging();
         var sPage = $("#sPage").val();
         var student_id = getInputTextValue("student_id");
 
-        if(val == "new") {
-            sPage = "1";
-        }
+        if(val == "new") sPage = "1";
         dwr.util.removeAllRows("consultList");
 
         studentService.getStudentMemoListCount(student_id, function(cnt) {
             paging.count(sPage, cnt, '10', '5', comment.blank_list);
-
-            studentService.getStudentMemoList(sPage, '5', student_id, function (selList) {
-
+            studentService.getStudentMemoList(sPage, '5', student_id, function (selList) { //상담리스트
                 if (selList.length > 0) {
                     for (var i = 0; i < selList.length; i++) {
                         var cmpList = selList[i];
@@ -217,7 +205,7 @@
         schoolSelectbox("student_grade","", school_grade);
     }
 
-    function school_search_popup() {
+    function school_search_popup() { //학교검색
         var school_type =  $(":input:radio[name=school_type]:checked").val();
 
         if(school_type == null){
@@ -252,20 +240,20 @@
             </td>
         </tr>
         <tr>
-            <th>학생이름</th>
+            <th>학생이름*</th>
             <td>
                 <input type="text" id="student_name" name="student_name">
             </td>
         </tr>
         <tr>
-            <th>성별</th>
+            <th>성별*</th>
             <td>
                 <input type="radio" name="student_gender" value="MALE">남
                 <input type="radio" name="student_gender" value="FEMALE">여
             </td>
         </tr>
         <tr>
-            <th>학생생일</th>
+            <th>학생생일*</th>
             <td>
                 <input type="text" id="startDate" name="startDate" >
             </td>
@@ -281,7 +269,7 @@
             </td>
         </tr>
         <tr>
-            <th>전화번호</th>
+            <th>집전화</th>
             <td>
                 <input type="text" size="2" name="student_tel1" id="student_tel1" maxlength="3" onkeyup="js_tab_order(this,frm.student_tel2,3)">
                 -
@@ -305,7 +293,7 @@
             </td>
         </tr>
         <tr>
-            <th>학년</th>
+            <th>학년*</th>
             <td>
                 <span id="student_grade"></span>
             </td>
@@ -323,13 +311,13 @@
             </td>
         </tr>
         <tr>
-            <th>학부모(모)이름</th>
+            <th>학부모(모)이름*</th>
             <td>
                 <input type="text" id="mother_name" name="mother_name">
             </td>
         </tr>
         <tr>
-            <th>학부모(모)전화번호</th>
+            <th>학부모(모)전화번호*</th>
             <td>
                 <input type="text" size="2" id="mother_phone1" name="mother_phone1" maxlength="3" onkeyup="js_tab_order(this,frm.mother_phone2,3)">
                 -

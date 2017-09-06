@@ -20,24 +20,19 @@ function fn_search(val) {//운영자,선생님 리스트불러오기
     var sPage = $("#sPage").val();
 
     if(val == "new") sPage = "1";
-
     dwr.util.removeAllRows("dataList");
 
     memberService.getFlowEduMemberListCount( function(cnt) {
         paging.count(sPage, cnt, '10', '5', comment.blank_list);
-
         memberService.getFlowEduMemberList(sPage, '5', function (selList) {
-
             if (selList.length > 0) {
                 for (var i = 0; i < selList.length; i++) {
-
                     var cmpList = selList[i];
                     if (cmpList != undefined) {
                        // var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.officeId + "'/>";
                         var modifyHTML = "<input type='button'  name='modify' id='modify' value='수정' onclick='member_modify(" + cmpList.flowMemberId + ");'/>";
                         var cellData = [
                          //   function(data) {return checkHTML;},
-
                             function(data) {return convert_memberType(cmpList.memberType);},
                             function(data) {return cmpList.memberName;},
                             function(data) {return cmpList.phoneNumber;},
@@ -55,7 +50,6 @@ function fn_search(val) {//운영자,선생님 리스트불러오기
                     }
                 }
             }
-
         });
     });
 }
@@ -95,11 +89,15 @@ function save_member() { // 운영자.선생님정보등록
 
     var memtypeval = getSelectboxValue("sel_memberType");
 
-    if(memtypeval != "TEACHER" || memtypeval != "TEACHER_MANAGE"){ //선생님일때는 교육청안해도됨
+    if(memtypeval == "OPERATOR" || memtypeval == "ADMIN"){ //운영자 , 관리자 일경우만 교육청강사등록일자 빈값 확인
         if(check.input("startSearchDate2", comment.input_member_startSearchDate2) == false) return;
-    }else{
-        startSearchDate2 = "";
+    }else if(memtypeval == "TEACHER" || memtypeval == "TEACHER_MANAGE"){//담당선생님 ,관리선생님인 경우 교육청강사등록 null값처리
+        var date2 =  getInputTextValue("startSearchDate2");
+        if(date2 == "" || date2 == undefined ){
+            startSearchDate2 = "";
+        }
     }
+
     memberService.isMember(member_allphone, function (bl) {
         if(bl==true){
             alert("이미 가입된 전화번호가 있습니다.");
