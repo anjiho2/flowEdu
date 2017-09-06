@@ -89,13 +89,10 @@ function save_member() { // 운영자.선생님정보등록
 
     var memtypeval = getSelectboxValue("sel_memberType");
 
-    if(memtypeval == "OPERATOR" || memtypeval == "ADMIN"){ //운영자 , 관리자 일경우만 교육청강사등록일자 빈값 확인
-        if(check.input("startSearchDate2", comment.input_member_startSearchDate2) == false) return;
-    }else if(memtypeval == "TEACHER" || memtypeval == "TEACHER_MANAGE"){//담당선생님 ,관리선생님인 경우 교육청강사등록 null값처리
-        var date2 =  getInputTextValue("startSearchDate2");
-        if(date2 == "" || date2 == undefined ){
-            startSearchDate2 = "";
-        }
+    if(memtypeval == "TEACHER" || memtypeval == "TEACHER_MANAGE"){
+        startSearchDate2 = null;
+    }else{
+        if(check.input("startSearchDate", comment.input_member_startSearchDate2)   == false) return;
     }
 
     memberService.isMember(member_allphone, function (bl) {

@@ -4,7 +4,6 @@
 <%
     FlowEduMemberDto flowEduMemberDto = (FlowEduMemberDto)session.getAttribute("member_info");
     String memberName = flowEduMemberDto.getMemberName();
-
 %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureManager.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
