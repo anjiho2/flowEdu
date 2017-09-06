@@ -43,13 +43,14 @@
 		ON A.team_id = C.team_id LEFT JOIN JOB_POSITION_INFO D
 		ON A.job_position_id = D.job_position_id
 		WHERE A.member_type != 'ADMIN'
+		ORDER BY A.office_id ASC
 		LIMIT #{start}, #{end}
 	</select>
 	
 	<select id="getJobPositionList" resultType="com.flowedu.dto.JobPositionDto">
 		SELECT * FROM JOB_POSITION_INFO
 	</select>
-
+W
 	<select id="getMemberCount" parameterType="String" resultType="Integer">
 		SELECT count(flow_member_id) as cnt
 		FROM FLOWEDU_MEMBER
