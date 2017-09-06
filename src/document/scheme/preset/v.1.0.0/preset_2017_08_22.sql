@@ -29,3 +29,6 @@ INSERT INTO TEAM_INFO (team_id, team_name) VALUES (3, '3팀');
 INSERT INTO TEAM_INFO (team_id, team_name) VALUES (4, '4팀');
 INSERT INTO TEAM_INFO (team_id, team_name) VALUES (5, '5팀');
 
+INSERT INTO FLOWEDU_MEMBER (flow_member_id, office_id, team_id, phone_number, member_password, member_name, member_birthday, member_address, member_email, sexual_assult_confirm_date, education_reg_date, member_type, create_date, job_position_id) VALUES (3, 3, 1, '1', 'QgftPCP4UdMo6JctU7IyEg==', '개발계정', '2012-01-01', '경기도 성남시 분당구 수내동', 'test@test.com', '2012-01-01', '2012-01-01', 'ADMIN', '2017-08-04 17:26:44', 1);
+
+

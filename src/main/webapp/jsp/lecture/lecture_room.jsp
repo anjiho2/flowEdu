@@ -17,7 +17,7 @@ function save_room() {
 
     lectureService.saveLectureRoom(academyId,lectureName, function () {
         alert("저장되었습니다.");
-        location.reload();
+        isReloadPage(true)
     });
 }
 

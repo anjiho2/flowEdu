@@ -62,10 +62,6 @@
         });
     });
 
-
-
-
-
 </script>
 <body onload="init();">
 <form name="frm" method="post">
@@ -83,7 +79,6 @@
     <input type="text" id="phoneNumber">
     <input type="password" id="memberPass" name="memberPass">
     <input type="button" id="loginBtn" value="로그인" onclick="loginCheck();">
-
 <%
     } else {
 %>
