@@ -20,7 +20,11 @@
         var academy_phone3          = getInputTextValue("academy_phone3");
         var academy_allphone        = academy_phone1+academy_phone2+academy_phone3;
         var academy_address         = getInputTextValue("academy_address");
-        var academy_fax             = getInputTextValue("academy_fax");
+
+        var academy_fax1 = getInputTextValue("academy_fax1");
+        var academy_fax2 = getInputTextValue("academy_fax2");
+        var academy_fax3 = getInputTextValue("academy_fax3");
+        var academy_fax  = academy_fax1 + academy_fax2 + academy_fax3;
 
         academyService.saveAcademy(academy_name,academy_directorname,academy_address,academy_allphone,academy_fax,function () {
             alert("학원정보가 등록 되었습니다.");
@@ -114,8 +118,13 @@
         <tr>
             <th>팩스번호</th>
             <td>
-                <input type="text" id="academy_fax">
+                <input type="text" size="2" id="academy_fax1">
+                -
+                <input type="text" size="5" id="academy_fax2">
+                -
+                <input type="text" size="5" id="academy_fax3">
             </td>
+
         </tr>
     </table>
     <input type="button" value="등록" onclick="save_academy();">

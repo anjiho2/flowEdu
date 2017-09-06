@@ -32,7 +32,7 @@
 
         academyService.modifyAcademy(officeId, academy_name, academy_directorname, academy_address, academy_allphone, academy_fax,function () {
             alert("학원정보가 수정 되었습니다.");
-            isReloadPage(true);
+            goPage("academy","save_academy");
 
         });
     }
