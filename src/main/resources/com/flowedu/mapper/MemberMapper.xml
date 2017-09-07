@@ -50,7 +50,7 @@
 	<select id="getJobPositionList" resultType="com.flowedu.dto.JobPositionDto">
 		SELECT * FROM JOB_POSITION_INFO
 	</select>
-W
+
 	<select id="getMemberCount" parameterType="String" resultType="Integer">
 		SELECT count(flow_member_id) as cnt
 		FROM FLOWEDU_MEMBER
