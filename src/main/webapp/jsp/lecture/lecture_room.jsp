@@ -10,11 +10,8 @@ function init() {
     lecture_roomList();
 }
 function save_room() {
-
     var lectureName = getInputTextValue("lectureName");
     var academyId = getSelectboxValue("sel_academyList");
-
-
     lectureService.saveLectureRoom(academyId,lectureName, function () {
         alert("저장되었습니다.");
         isReloadPage(true)
@@ -22,12 +19,10 @@ function save_room() {
 }
 
 function lecture_roomList() {
-
    lectureService.getLectureRoomList( function (selList) {
         console.log(selList);
         if (selList.length > 0) {
             for (var i = 0; i < selList.length; i++) {
-
                 var cmpList = selList[i];
                 if (cmpList != undefined) {
                     var cellData = [
@@ -64,7 +59,6 @@ function academy_sel_change(val) {
                     }
                 }
             }
-
         });
 }
 </script>
@@ -102,51 +96,6 @@ function academy_sel_change(val) {
         </table>
         <input type="button" value="삭제" onclick="Delete();">
     </div>
-
 </form>
-<!--
-<style type="text/css">
-
-    #test td:link,td:visited
-    {
-        display:block;
-        width:120px;
-        font-weight:bold;
-        color:#FFFFFF;
-        background-color:#da1111;
-        text-align:center;
-        padding:4px;
-        text-decoration:none;
-        text-transform:uppercase;
-    }
-    #test td:hover,td:active
-    {
-        background-color:#273824;
-    }
-</style>
-
-
-
-<div style="list-style:none;">
-    <table id="test" width="950px;" height="35px;" cellpadding="0" cellspacing="0" border="0" align="center" style="background-color:#da1111;text-align:center;">
-        <tr>
-            <td width="140" align="center"><a>기종별검색</a></td>
-            <td width="135" align="center"><a>신상품</a></td>
-            <td width="135" align="center"><a>신기종입고</a></td>
-            <td width="135" align="center"><a>초특가 SALE</a></td>
-            <td width="135" align="center"><a>장바구니</a></td>
-            <td width="135" align="center"><a>주문 / 배송조회</a></td>
-            <td width="135" align="center"><a>★ 즐겨찾기</a></td>
-        </tr>
-    </table>
-    <!--<ul id="test" style="list-style:none;">
-        <li><a href="http://www.phoneseason.com/board/view?id=notice&seq=122"><span>기종별검색</span></a></li>
-        <li><a href="http://www.phoneseason.com/goods/catalog?code=0027"><span>신상품</span></a></li>
-        <li><a href="http://www.phoneseason.com/goods/search?sort=newly&search_text=%EC%8B%A0%EA%B8%B0%EC%A2%85&old_search_text=%EC%8B%A0%EA%B8%B0%EC%A2%85"><span>신기종입고</span></a></li>
-        <li><a href="http://www.phoneseason.com/goods/catalog?code=0029"><span>초특가 SALE</span></a></li>
-        <li><a href="http://www.phoneseason.com/order/cart"><span>장바구니</span></a></li>
-        <li><a href="http://www.phoneseason.com/mypage/order_catalog"><span>주문 / 배송조회</span></a></li>
-        <li><a href="#"><span>★ 즐겨찾기</span></a></li>
-    </ul>-->
 </body>
 </html>
