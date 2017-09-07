@@ -90,9 +90,10 @@ function save_member() { // 운영자.선생님정보등록
     var memtypeval = getSelectboxValue("sel_memberType");
 
     if(memtypeval == "TEACHER" || memtypeval == "TEACHER_MANAGE"){
-        startSearchDate2 = null;
+        //startSearchDate2 = null;
+        if(check.input("startSearchDate2", comment.input_member_startSearchDate2)  == false) return;
     }else{
-        if(check.input("startSearchDate", comment.input_member_startSearchDate2)   == false) return;
+        startSearchDate2 = null;
     }
 
     memberService.isMember(member_allphone, function (bl) {
