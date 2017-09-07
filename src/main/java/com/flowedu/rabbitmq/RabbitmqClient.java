@@ -3,12 +3,14 @@ package com.flowedu.rabbitmq;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 /**
  * Created by jihoan on 2017. 9. 5..
  */
+@Component
 public class RabbitmqClient {
 
     public static String HOST = "192.168.0.201";
