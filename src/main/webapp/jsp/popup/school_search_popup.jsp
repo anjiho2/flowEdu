@@ -10,17 +10,19 @@
     var school_type = "<%=sch_type%>";
     function school_type_name() {
         var school_name;
-        if(school_type == "elem_list"){
-            school_name = "초등학교";
-        }else if(school_type == "midd_list"){
-            school_name = "중학교";
-        }else{
-            school_name = "고등학교";
-        }
+        if(school_type == "elem_list")  school_name = "초등학교";
+        else if(school_type == "midd_list") school_name = "중학교";
+        else school_name = "고등학교";
         innerHTML("l_school_name", school_name);
     }
+    
+    function school_name_html() { //부모창에 input값넣기
+        var school_name = getInnerHtmlValue("a_school_name");
+        window.opener.document.getElementById("schoolname").value = school_name;
+        self.close();
+    }
 
-    function school_search() {
+    function school_search() {//학교검색
         var region =  getSelectboxValue("inputregion");
         var searchSchoolName = getInputTextValue("schoo_name");
        if(region==""){
@@ -30,16 +32,12 @@
            alert("학교명을 입력해 주세요.");
            return false;
        }
-
-
         studentService.getApiSchoolName(school_type, region, searchSchoolName, function (schoolName) {
-            if (schoolName == null) {
-                alert("검색된 학교가 없습니다.")
+            if(schoolName == null){
+                alert("학교검색없음");
                 return;
-            } else {
-                window.opener.document.getElementById("schoolname").value = remove_double_quotation(schoolName);
-                self.close();
             }
+            innerHTML("a_school_name", schoolName ? remove_double_quotation(schoolName) : "학교검색없음");
         });
     }
 
@@ -82,6 +80,11 @@
             <input type="text" id="schoo_name" onkeypress="javascript:if(event.keyCode == 13){school_search(); return false;}">
         </td>
             <input type="button" value="검색" onclick="school_search();">
+        <br>
+        <td>
+            <a href="javascript:void(0);" onclick="school_name_html();" id="a_school_name"></a>
+        </td>
     <tr>
+
 </form>
 </body>
