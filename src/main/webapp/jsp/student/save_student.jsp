@@ -192,15 +192,6 @@ function school_search_popup() {//학교검색
     var param = "?school_type="+school_type;
      gfn_winPop(750,200,"jsp/popup/school_search_popup.jsp",param);
 }
-
-function studentMemo() {//상담저장
-    var student_id  = getInputTextValue("student_id");
-    var consultMemo = getInputTextValue("consultMemo");
-    studentService.saveStudentMemo(student_id, consultMemo, function () {
-        alert("상담저장완료");
-        location.reload();
-    });
-}
 </script>
 <body onload="init();">
 <form name="frm" id="frm" method="get">
@@ -329,95 +320,55 @@ function studentMemo() {//상담저장
                 <input type="text" size="5" id="father_phone3" maxlength="4">
             </td>
         </tr>
-
-
     </table>
     <input type="button" value="등록" onclick="save_student();">
 
-
-    <br><br>
-    <div>
-        <textarea id="consultMemo" cols="50" rows="5" ></textarea>
-        <input type="button" value="상담저장" onclick="studentMemo();">
-    </div>
-
-    <br>
-    <div style="float:left;">
-        <h1>상담list</h1>
-        <table class="table_list" border="1">
-            <colgroup>
-                <!-- <col width="2%" />-->
-                <col width="*" />
-                <col width="*" />
-                <col width="*" />
-            </colgroup>
-            <thead>
-            <tr>
-                <!--<th>
-                    <input type="checkbox" id="chkAll" onclick="javascript:checkall('chkAll');">
-                </th>-->
-                <th>상담내용</th>
-                <th>담당선생님</th>
-                <th>상담날짜</th>
-            </tr>
-            </thead>
-            <tbody id="consultList"></tbody>
-            <tr>
-                <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
-            </tr>
-            <!--<input type="button" value="삭제" onclick="Delete();">-->
-        </table>
-        <%@ include file="/common/inc/com_pageNavi.inc" %>
-    </div>
-
-
-<%--<h1>학생정보입력 list</h1>--%>
-<%--<div id="memberList">--%>
-    <%--<table class="table_list" border="1">--%>
-        <%--<colgroup>--%>
-           <%--<!-- <col width="2%" />-->--%>
-            <%--<col width="*" />--%>
-            <%--<col width="*" />--%>
-            <%--<col width="*" />--%>
-            <%--<col width="*" />--%>
-            <%--<col width="*" />--%>
-            <%--<col width="*" />--%>
-            <%--<col width="*" />--%>
-            <%--<col width="*" />--%>
-            <%--<col width="*" />--%>
-            <%--<col width="*" />--%>
-            <%--<col width="*" />--%>
-            <%--<col width="*" />--%>
-        <%--</colgroup>--%>
-        <%--<thead>--%>
-        <%--<tr>--%>
-            <%--<!--<th>--%>
-                <%--<input type="checkbox" id="chkAll" onclick="javascript:checkall('chkAll');">--%>
-            <%--</th>-->--%>
-            <%--<th>학생이름</th>--%>
-            <%--<th>성별</th>--%>
-            <%--<th>학생생일</th>--%>
-            <%--<th>학생폰번호</th>--%>
-            <%--<th>집전화</th>--%>
-            <%--<th>이메일</th>--%>
-            <%--<th>학년</th>--%>
-            <%--<th>학교이름</th>--%>
-            <%--<th>메모</th>--%>
-            <%--<th>학부모(모)이름</th>--%>
-            <%--<th>학부모(모)전화번호</th>--%>
-            <%--<th>학부모(부)이름</th>--%>
-            <%--<th>학부모(부)전화번호</th>--%>
-            <%--<th>수정</th>--%>
-        <%--</tr>--%>
-        <%--</thead>--%>
-        <%--<tbody id="dataList"></tbody>--%>
-        <%--<tr>--%>
-            <%--<td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>--%>
-        <%--</tr>--%>
-        <%--<!--<input type="button" value="삭제" onclick="Delete();">-->--%>
-    <%--</table>--%>
-    <%--<%@ include file="/common/inc/com_pageNavi.inc" %>--%>
-    <%----%>
+<h1>학생정보입력 list</h1>
+<div id="memberList">
+    <table class="table_list" border="1">
+        <colgroup>
+           <!-- <col width="2%" />-->
+            <col width="*" />
+            <col width="*" />
+            <col width="*" />
+            <col width="*" />
+            <col width="*" />
+            <col width="*" />
+            <col width="*" />
+            <col width="*" />
+            <col width="*" />
+            <col width="*" />
+            <col width="*" />
+            <col width="*" />
+        </colgroup>
+        <thead>
+        <tr>
+            <!--<th>
+                <input type="checkbox" id="chkAll" onclick="javascript:checkall('chkAll');">
+            </th>-->
+            <th>학생이름</th>
+            <th>성별</th>
+            <th>학생생일</th>
+            <th>학생폰번호</th>
+            <th>집전화</th>
+            <th>이메일</th>
+            <th>학년</th>
+            <th>학교이름</th>
+            <th>메모</th>
+            <th>학부모(모)이름</th>
+            <th>학부모(모)전화번호</th>
+            <th>학부모(부)이름</th>
+            <th>학부모(부)전화번호</th>
+            <th>수정</th>
+        </tr>
+        </thead>
+        <tbody id="dataList"></tbody>
+        <tr>
+            <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
+        </tr>
+        <!--<input type="button" value="삭제" onclick="Delete();">-->
+    </table>
+    <%@ include file="/common/inc/com_pageNavi.inc" %>
 </div>
 </form>
 </body>
