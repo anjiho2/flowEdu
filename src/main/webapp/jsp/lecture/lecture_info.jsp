@@ -28,6 +28,7 @@
         var office_id;
         if(val == undefined || val == "") office_id = 0;
         else office_id = val;
+
         academyListSelectbox2("sel_academy",office_id);
         lectureOperationTypeSelectbox("sel_lectureOperation","");
         lectureStatusSelectbox("sel_lectureStatus","","50");
@@ -40,9 +41,11 @@
         teacherList2(office_id,"sel_member2","");
         lectureDaySelectbox("lectureDaySelectbox","");
         lectureRoomSelectbox(office_id,"lectureRoomSelectbox","");
+
     }
     // 관 선택시 onChange
     function academy_sel_change(val) {
+
         init(val);
     }
     //학년 구분에 따른 학년 셀렉트 박스 변경
@@ -55,6 +58,7 @@
         var sel_lectureDay  = $('select[name="lecture_day[]"]').last().val();
         var start_time      = $('input[name="start_time[]"]').last().val();
         var end_time        = $('input[name="end_time[]"]').last().val();
+
         lectureService.checkDuplicateLectureDetail(sel_lectureRoom, start_time, end_time, sel_lectureDay, function (bl) {
             if(bl==true){
                 alert("등록할수없는 시간대와 강의실 입니다.\n다른 시간대와 강의실을 선택하세요.");
@@ -171,6 +175,7 @@
                 alert("강의종료시간이 강의시작시간보다 작습니다.");
                 return false;
             }
+
             //배열에 값넣기 강의상세정보
             var lecture_detail_info = {
                 lectureRoomId: room_list[i],
@@ -180,12 +185,17 @@
             };
             detail_list.push(lecture_detail_info);
         }
+
         //강의 시작일&종료일 시간비교 유효성체크
         var compare_time = compareTime(lecture_start,lecture_end);
         if(compare_time == false) {
             alert("강의종료일이 강의시작일보다 작습니다.");
             return false;
         }
+
+
+
+
         lectureManager.regLecture(lecture_info, detail_list, function (bl) {
             if(bl==true){
                 //TODO : 등록이 완료되면 강의 리스트로 이동시키는 기능 추가하기
