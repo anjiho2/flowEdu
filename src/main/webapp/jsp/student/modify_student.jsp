@@ -347,11 +347,13 @@
     <tbody id="dataList"></tbody>
     <input type="button" value="수정" onclick="modify_student();"><br>
 
+    <br>
     <div style="float:left;">
         <textarea id="consultMemo" style="width:30%;height:100px;"></textarea>
         <input type="button" value="상담저장" onclick="studentMemo();">
     </div>
 
+    <br>
     <div style="float:left;">
         <h1>상담list</h1>
         <table class="table_list" border="1">

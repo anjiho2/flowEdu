@@ -3,12 +3,14 @@ package com.flowedu.service;
 import com.flowedu.config.PagingSupport;
 import com.flowedu.config.SchoolSearchConfigHoler;
 import com.flowedu.define.datasource.SchoolType;
+import com.flowedu.define.datasource.StudentMemoType;
 import com.flowedu.dto.PagingDto;
 import com.flowedu.dto.StudentDto;
 import com.flowedu.dto.StudentMemoDto;
 import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
 import com.flowedu.mapper.StudentMapper;
+import com.flowedu.session.UserSession;
 import com.flowedu.util.GsonJsonReader;
 import com.flowedu.util.JsonBuilder;
 import com.flowedu.util.JsonParser;
@@ -60,6 +62,18 @@ public class StudentService extends PagingSupport {
             HashMap<String, Object> map = new HashMap<>();
             map.put("schoolTypeCode", SchoolType.getSchoolTypeCode(i).toString());
             map.put("schoolTypeName", SchoolType.getSchoolTypeName(i));
+            Arr.add(map);
+        }
+        return Arr;
+    }
+
+    public List<HashMap<String, Object>> getStudentMemoTypeList() {
+        List<HashMap<String, Object>> Arr = new ArrayList<>();
+
+        for (int i = 0; i < StudentMemoType.values().length; i++) {
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("memoCode", StudentMemoType.getStudentMemoTypeCode(i).toString());
+            map.put("memoName", StudentMemoType.getStudentMemoTypeName(i));
             Arr.add(map);
         }
         return Arr;
@@ -207,14 +221,14 @@ public class StudentService extends PagingSupport {
      * 3. 작성일 : 2017. 08 .28
      * </PRE>
      * @param studentId
-     * @param flowMemberId
      * @param memoContent
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void saveStudentMemo(Long studentId, Long flowMemberId, String memoContent) {
-        if (studentId < 1L && flowMemberId < 1L ) {
+    public void saveStudentMemo(Long studentId, String memoContent) {
+        if (studentId < 1L) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
+        Long flowMemberId = UserSession.flowMemberId();
         studentMapper.saveStudentMemo(studentId, flowMemberId, memoContent);
     }
 

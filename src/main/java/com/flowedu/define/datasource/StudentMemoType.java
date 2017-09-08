@@ -28,8 +28,11 @@ public enum StudentMemoType {
     }
 
     public static String getStudentMemoTypeName(int studentMemoTypceCode) {
+        for (StudentMemoType type : StudentMemoType.values()) {
+            if (type.equals(getStudentMemoTypeCode(studentMemoTypceCode))) {
+                return type.studentMemoTypeName.toString();
+            }
+        }
         return null;
     }
-
-
 }
