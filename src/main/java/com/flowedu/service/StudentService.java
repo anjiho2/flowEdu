@@ -190,6 +190,11 @@ public class StudentService extends PagingSupport {
         return list;
     }
 
+    @Transactional(readOnly = true)
+    public List<StudentMemoDto> getStudentMemoLastThree(Long studentId) {
+        return studentMapper.getStudentMemoList(0, 3, studentId);
+    }
+
     /**
      * <PRE>
      * 1. Comment : 학생정보 입력하기

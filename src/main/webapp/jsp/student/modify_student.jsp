@@ -13,7 +13,8 @@
         schoolSelectbox("student_grade","", "");
         studentMemoTypeRadio("l_memoType", "REG", "");
         studentList();
-        fn_search("new");
+        //fn_search("new");
+        student_memo_list();
     }
 
     function studentList() {
@@ -170,8 +171,8 @@
             location.reload();
         });
     }
-
-    function fn_search(val) {//상담리스트 가져오기
+    /*
+    function fn_search(val) {
         var paging = new Paging();
         var sPage = $("#sPage").val();
         var student_id = getInputTextValue("student_id");
@@ -201,6 +202,21 @@
                 }
 
             });
+        });
+    }
+    */
+    //상담리스트 가져오기(최근 3건만)
+    function student_memo_list() {
+        var student_id = getInputTextValue("student_id");
+        studentService.getStudentMemoLastThree(student_id, function (memoList) {
+            if (memoList.length < 0) return;
+            dwr.util.addRows("consultList", memoList, [
+                function(data) {return data.memoContent},
+                function(data) {return data.memberName;},
+                function(data) {return convert_memo_type(data.memoType);},
+                function(data) {return getDateTimeSplitComma(data.createDate);},
+                function(data) {return data.processYn == false ? "<input type='button' value='처리하기' id="+data.studentMemoId+" onclick='changeProccessYn(this.id);'>" : "처리완료";}
+            ], {escapeHtml:false} );
         });
     }
 
@@ -397,7 +413,6 @@
             </tr>
             <!--<input type="button" value="삭제" onclick="Delete();">-->
         </table>
-        <%@ include file="/common/inc/com_pageNavi.inc" %>
     </div>
 
 </form>

@@ -44,6 +44,17 @@
 		LIMIT #{start}, #{end}
 	</select>
 
+	<select id="getStudentMemoLastThree" resultType="com.flowedu.dto.StudentMemoDto">
+		SELECT A.*, B.member_name
+		FROM STUDENT_MEMO A LEFT JOIN FLOWEDU_MEMBER B
+		ON A.flow_member_id = B.flow_member_id
+		WHERE student_id = #{studentId}
+		ORDER BY A.create_date DESC
+		LIMIT 0, 2
+	</select>
+
+
+
 	<insert id="saveStudentInfo" parameterType="com.flowedu.dto.StudentDto">
 		INSERT INTO STUDENT
 		(
