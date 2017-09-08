@@ -12,6 +12,7 @@ import com.flowedu.mapper.StudentMapper;
 import com.flowedu.util.GsonJsonReader;
 import com.flowedu.util.JsonBuilder;
 import com.flowedu.util.JsonParser;
+import com.flowedu.util.Util;
 import com.google.api.client.json.Json;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -91,7 +92,7 @@ public class StudentService extends PagingSupport {
      */
     @Transactional(readOnly = true)
     public int getSudentListCount(String gubun, String studentName) {
-        return studentMapper.getSudentListCount(gubun, studentName);
+        return studentMapper.getSudentListCount(Util.isNullValue(gubun, ""), Util.isNullValue(studentName, ""));
     }
 
     /**
@@ -107,7 +108,7 @@ public class StudentService extends PagingSupport {
     @Transactional(readOnly = true)
     public List<StudentDto> getSudentList(int sPage, int pageListCount, String gubun, String studentName) {
         PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
-        List<StudentDto> list = studentMapper.getSudentList(pagingDto.getStart(), pageListCount, gubun, studentName);
+        List<StudentDto> list = studentMapper.getSudentList(pagingDto.getStart(), pageListCount, Util.isNullValue(gubun, ""), Util.isNullValue(studentName, ""));
         return list;
     }
 
