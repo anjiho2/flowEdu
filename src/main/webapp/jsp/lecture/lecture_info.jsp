@@ -29,8 +29,6 @@
         if(val == undefined || val == "") office_id = 0;
         else office_id = val;
 
-        var test =  <%=memberName%>;
-        alert(test);
         academyListSelectbox2("sel_academy",office_id);
         lectureOperationTypeSelectbox("sel_lectureOperation","");
         lectureStatusSelectbox("sel_lectureStatus","","50");

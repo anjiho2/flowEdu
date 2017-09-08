@@ -27,8 +27,8 @@
 var page_gbn = "<%=page_gbn%>";
 function init() {
 	with(document.frm) {
-		action = "<%=webRoot%>/login.do";
-		page_gbn.value = "after";
+		action = "<%=webRoot%>/dashboard.do";
+		page_gbn.value = "dashboard_list";
 		submit();
 	}
 }

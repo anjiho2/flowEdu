@@ -37,8 +37,8 @@
 
     <localRepository>
         <!--/Users/challa_mac/Documents/dev/ChallaBros/BirdLetter/maven-repo-->
-        /Users/jihoan/Documents/dev/challabros/birdletter/maven-repo
-        <!--nexus-->
+        <!--/Users/jihoan/Documents/dev/challabros/birdletter/maven-repo-->
+        nexus
     </localRepository>
 
     <profiles>
