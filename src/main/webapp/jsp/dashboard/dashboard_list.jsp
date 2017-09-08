@@ -50,18 +50,6 @@
             })
         });
     }
-
-    $(document).ready(function(){
-        $("input[name=searchBook]").keydown(function (key) {
-            if(key.keyCode == 13){//키가 13이면 실행 (엔터는 13)
-                searchBook();
-            }
-        });
-        searchBook = function (){
-            alert($("input[name=searchBook]").val());
-        };
-    });
-
 </script>
 <body>
 <form name="frm" method="get">
