@@ -50,6 +50,18 @@
             })
         });
     }
+
+    $(document).ready(function(){
+        $("input[name=searchBook]").keydown(function (key) {
+            if(key.keyCode == 13){//키가 13이면 실행 (엔터는 13)
+                searchBook();
+            }
+        });
+        searchBook = function (){
+            alert($("input[name=searchBook]").val());
+        };
+    });
+
 </script>
 <body>
 <form name="frm" method="get">
@@ -85,7 +97,7 @@
                         <input type="radio" name="school_type" value="high_list" onclick="school_radio(this.value);">고등학교
                     </td>
                     <td>
-                        <input type="text" id="student_name" placeholder="학생이름입력">
+                        <input type="text" id="student_name" placeholder="학생이름입력" onkeypress="javascript:if(event.keyCode == 13){fn_search('new'); return false;}" >
                         <input type="button" value="검색" onclick="fn_search('new');">
                     </td>
                 </tr>
