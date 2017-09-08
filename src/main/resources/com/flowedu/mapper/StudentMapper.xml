@@ -9,10 +9,24 @@
 
 	<select id="getSudentListCount" resultType="Integer">
 		SELECT count(student_id) FROM STUDENT
+		WHERE 1=1
+		<if test="gubun != ''">
+			AND school_type = #{gubun}
+		</if>
+		<if test="studentName != ''">
+			AND student_name LIKE CONCAT (#{studentName}, '%')
+		</if>
 	</select>
 
 	<select id="getSudentList" resultType="com.flowedu.dto.StudentDto">
 		SELECT * FROM STUDENT
+		WHERE 1=1
+		<if test="gubun != ''">
+			AND school_type = #{gubun}
+		</if>
+		<if test="studentName != ''">
+			AND student_name LIKE CONCAT (#{studentName}, '%')
+		</if>
 		LIMIT #{start}, #{end}
 	</select>
 

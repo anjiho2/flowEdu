@@ -13,9 +13,9 @@ public interface StudentMapper {
 
     StudentDto getStudentInfo(@Param("studentId") Long studentId);
 
-    int getSudentListCount();
+    int getSudentListCount(@Param("gubun") String gubun, @Param("studentName") String studentName);
 
-    List<StudentDto> getSudentList(@Param("start") int start, @Param("end") int end);
+    List<StudentDto> getSudentList(@Param("start") int start, @Param("end") int end, @Param("gubun") String gubun, @Param("studentName") String studentName);
 
     int getStudentMemoListCount(@Param("studentId") Long studentId);
 
