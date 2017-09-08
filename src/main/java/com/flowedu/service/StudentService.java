@@ -90,8 +90,8 @@ public class StudentService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public int getSudentListCount() {
-        return studentMapper.getSudentListCount();
+    public int getSudentListCount(String gubun, String studentName) {
+        return studentMapper.getSudentListCount(gubun, studentName);
     }
 
     /**
@@ -105,9 +105,9 @@ public class StudentService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public List<StudentDto> getSudentList(int sPage, int pageListCount) {
+    public List<StudentDto> getSudentList(int sPage, int pageListCount, String gubun, String studentName) {
         PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
-        List<StudentDto> list = studentMapper.getSudentList(pagingDto.getStart(), pageListCount);
+        List<StudentDto> list = studentMapper.getSudentList(pagingDto.getStart(), pageListCount, gubun, studentName);
         return list;
     }
 
