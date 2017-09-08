@@ -224,12 +224,12 @@ public class StudentService extends PagingSupport {
      * @param memoContent
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void saveStudentMemo(Long studentId, String memoContent) {
+    public void saveStudentMemo(Long studentId, String memoContent, String memoType) {
         if (studentId < 1L) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
         Long flowMemberId = UserSession.flowMemberId();
-        studentMapper.saveStudentMemo(studentId, flowMemberId, memoContent);
+        studentMapper.saveStudentMemo(studentId, flowMemberId, memoContent, memoType);
     }
 
     /**
@@ -255,6 +255,11 @@ public class StudentService extends PagingSupport {
                 studentDto.getFatherName(), studentDto.getFatherPhoneNumber()
         );
         studentMapper.modifyStudentInfo(dto);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void modifyMemoProcessYn(Long studentMemoId, boolean processYn) {
+        studentMapper.modifyMemoProcessYn(studentMemoId, processYn);
     }
 
 }

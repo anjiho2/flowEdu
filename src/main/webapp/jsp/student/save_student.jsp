@@ -320,8 +320,11 @@ function school_search_popup() {//학교검색
                 <input type="text" size="5" id="father_phone3" maxlength="4">
             </td>
         </tr>
+
+
     </table>
     <input type="button" value="등록" onclick="save_student();">
+
 
 <h1>학생정보입력 list</h1>
 <div id="memberList">

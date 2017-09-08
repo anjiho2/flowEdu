@@ -25,4 +25,8 @@ public class StudentMemoDto {
 
     // 작성자 이름
     private String memberName;
+
+    private String memoType;
+
+    private boolean processYn;
 }

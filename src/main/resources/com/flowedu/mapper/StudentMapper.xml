@@ -63,9 +63,9 @@
 
 	<insert id="saveStudentMemo">
 		INSERT INTO STUDENT_MEMO
-		( student_id, flow_member_id, memo_content )
+		( student_id, flow_member_id, memo_content, memo_type )
 		VALUES
-		( #{studentId}, #{flowMemberId}, #{memoContent} )
+		( #{studentId}, #{flowMemberId}, #{memoContent}, #{memoType} )
 	</insert>
 
 	<update id="modifyStudentInfo" parameterType="com.flowedu.dto.StudentDto">
@@ -92,6 +92,12 @@
 		<where>
 			student_id = #{studentId}
 		</where>
+	</update>
+
+	<update id="modifyMemoProcessYn">
+		UPDATE STUDENT_MEMO
+		SET process_yn = #{processYn}
+		WHERE student_memo_id = #{studentMemoId}
 	</update>
 
 </mapper>

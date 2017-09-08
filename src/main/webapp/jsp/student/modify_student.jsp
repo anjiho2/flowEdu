@@ -11,6 +11,7 @@
 <script>
     function init() {
         schoolSelectbox("student_grade","", "");
+        studentMemoTypeRadio("l_memoType", "REG", "");
         studentList();
         fn_search("new");
     }
@@ -163,7 +164,8 @@
     function studentMemo() {//상담저장
         var student_id  = getInputTextValue("student_id");
         var consultMemo = getInputTextValue("consultMemo");
-        studentService.saveStudentMemo(student_id,'<%=memberId%>', consultMemo, function () {
+        var memoType = get_radio_value("memo_type");
+        studentService.saveStudentMemo(student_id, consultMemo, memoType, function () {
             alert("상담저장완료");
             location.reload();
         });
@@ -185,10 +187,13 @@
                         var cmpList = selList[i];
                         if (cmpList != undefined) {
                             var contentHTML = "<a href='javascript:void(0);' id="+cmpList.studentMemoId+">"+ellipsis(cmpList.memoContent, 10)+"</a>";
+                            var proccessHTML = "<input type='button' value='처리하기' id="+cmpList.studentMemoId+" onclick='changeProccessYn(this.id);'>";
                             var cellData = [
-                                function(data) {return contentHTML},
+                                function(data) {return cmpList.memoContent},
                                 function(data) {return cmpList.memberName;},
-                                function(data) {return cmpList.createDate;}
+                                function(data) {return convert_memo_type(cmpList.memoType);},
+                                function(data) {return getDateTimeSplitComma(cmpList.createDate);},
+                                function(data) {return cmpList.processYn == false ? proccessHTML : "처리완료";}
                             ];
                             dwr.util.addRows("consultList", [0], cellData, {escapeHtml: false});
                         }
@@ -214,6 +219,13 @@
         gfn_winPop(750,200,"jsp/popup/school_search_popup.jsp",param);
     }
 
+    // 처리하기 버튼
+    function changeProccessYn(studentMemoId) {
+        if (confirm("처리하시겠습니까?")) {
+            studentService.modifyMemoProcessYn(studentMemoId, true);
+            isReloadPage(true)
+        }
+    }
 </script>
 <body onload="init();">
 <form name="frm" id="frm" method="get">
@@ -347,9 +359,11 @@
     <tbody id="dataList"></tbody>
     <input type="button" value="수정" onclick="modify_student();"><br>
 
-    <br>
-    <div style="float:left;">
-        <textarea id="consultMemo" style="width:30%;height:100px;"></textarea>
+
+    <br><br>
+    <span id="l_memoType"></span>
+    <div>
+        <textarea id="consultMemo" cols="50" rows="5" placeholder="상담내용을 입력하세요"></textarea>
         <input type="button" value="상담저장" onclick="studentMemo();">
     </div>
 
@@ -362,6 +376,8 @@
                 <col width="*" />
                 <col width="*" />
                 <col width="*" />
+                <col width="*" />
+                <col width="*" />
             </colgroup>
             <thead>
             <tr>
@@ -369,8 +385,10 @@
                     <input type="checkbox" id="chkAll" onclick="javascript:checkall('chkAll');">
                 </th>-->
                 <th>상담내용</th>
-                <th>담당선생님</th>
+                <th>상담자</th>
+                <th>상담구분</th>
                 <th>상담날짜</th>
+                <th>처리여부</th>
             </tr>
             </thead>
             <tbody id="consultList"></tbody>
@@ -381,6 +399,7 @@
         </table>
         <%@ include file="/common/inc/com_pageNavi.inc" %>
     </div>
+
 </form>
 
 </body>

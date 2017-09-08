@@ -82,3 +82,14 @@ function convert_memberType(val) {
 
     return str;
 }
+
+function convert_memo_type(val) {
+    var str = "";
+    if(val == "REG") str ="등록";
+    else if(val == "NORAML") str = "일반";
+    else if(val == "STUDY") str = "학습";
+    else if(val == "PERIOD") str = "정기";
+
+    return str;
+
+}
