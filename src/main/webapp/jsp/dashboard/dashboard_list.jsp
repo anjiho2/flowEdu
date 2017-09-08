@@ -10,9 +10,51 @@
     nav{margin-top: 20px;padding: 10px 0;border-top: 1px solid #969696;border-bottom: 1px solid #969696;}
     img {max-width: 100%;}
 </style>
+<script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
+<script>
+    function student_modify(student_id) { //수정페이지 이동
+        innerValue("student_id", student_id);
+        goPage('student', 'modify_student');
+    }
+    function fn_search(val) {
+        var paging = new Paging();
+        var sPage = $("#sPage").val();
+        var school_type = get_radio_value("school_type");
+        var student_name = getInputTextValue("student_name");
+
+        if(val == "new") sPage = "1";
+        dwr.util.removeAllRows("dataList");
+        gfn_emptyView("H", "");
+
+        studentService.getSudentListCount(school_type, student_name, function (cnt) {
+            paging.count(sPage, cnt, '10', '5', comment.blank_list);
+            studentService.getSudentList(sPage,'5', school_type, student_name, function (selList) {
+                if (selList.length > 0) {
+                    for (var i = 0; i < selList.length; i++) {
+                        var cmpList = selList[i];
+                        if (cmpList != undefined) {
+                            var modifyHTML = "<input type='button'  name='modify' id='modify' value='상세' onclick='student_modify(" + cmpList.studentId + ");'/>";
+                            var cellData = [
+                                function(data) {return cmpList.studentName;},
+                                function(data) {return cmpList.motherName;},
+                                function(data) {return cmpList.studentPhoneNumber;},
+                                function(data) {return cmpList.motherPhoneNumber;},
+                                function(data) {return cmpList.schoolName;},
+                                function(data) {return convert_lecture_grade(cmpList.studentGrade);},
+                                function(data) {return modifyHTML;}
+                            ];
+                            dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
+                        }
+                    }
+                }
+            })
+        });
+    }
+</script>
 <body>
 <form name="frm" method="get">
     <input type="hidden" name="page_gbn" id="page_gbn">
+    <input type="hidden" id="student_id" name="student_id">
     <div id="fixed-menu"><!--상담-->
         <nav>
             <ul>
@@ -34,7 +76,6 @@
         </nav>
     </div>
     <div id="main-content"><!--content-->
-        <form name="frm" id="frm" method="get">
             <table>
                 <h1>학생검색</h1>
                 <tr>
@@ -45,7 +86,7 @@
                     </td>
                     <td>
                         <input type="text" id="student_name" placeholder="학생이름입력">
-                        <input type="button" value="검색">
+                        <input type="button" value="검색" onclick="fn_search('new');">
                     </td>
                 </tr>
             </table>
@@ -81,7 +122,6 @@
                 </table>
                 <%@ include file="/common/inc/com_pageNavi.inc" %>
             </div>
-        </form>
     </div>
 </form>
 </body>
