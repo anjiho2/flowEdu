@@ -21,6 +21,8 @@ public interface StudentMapper {
 
     List<StudentMemoDto> getStudentMemoList(@Param("start") int start, @Param("end") int end, @Param("studentId") Long studentId);
 
+    List<StudentMemoDto> getStudentMemoLastThree(@Param("studentId") Long studentId);
+
     void saveStudentInfo(StudentDto studentDto);
 
     void saveStudentMemo(@Param("studentId") Long studentId, @Param("flowMemberId") Long flowMemberId, @Param("memoContent") String memoContent, @Param("memoType") String memoType);
