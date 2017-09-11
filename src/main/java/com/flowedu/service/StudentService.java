@@ -216,10 +216,6 @@ public class StudentService extends PagingSupport {
     public List<StudentMemoReplyDto> getStudentMemoReplyList(int sPage, int pageListCount, Long studentMemoId) {
         PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
         List<StudentMemoReplyDto> list = studentMapper.getStudentMemoReplyList(pagingDto.getStart(), pageListCount, studentMemoId);
-        this.
-
-
-
         return list;
     }
 
