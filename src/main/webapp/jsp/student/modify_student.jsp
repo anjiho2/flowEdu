@@ -227,21 +227,37 @@
         }
     }
 </script>
+<style type="text/css">
+    nav ul{padding-top:10px;}
+    nav ul li {display:inline;border-left:1px solid #999;font:bold 12px Dotum;padding:0 10px;}
+    nav ul li:first-child{border-left:none;}
+    nav ul li:hover{color:#ff0000;cursor:pointer;}
+</style>
 <body onload="init();">
 <form name="frm" id="frm" method="get">
-    <input type="hidden" id="school" name="school" value="">
-    <input type="hidden" id="fileName" name="fileName" value="">
-    <input type="hidden" id="fileUrl" name="fileUrl" value="">
+    <input type="hidden" id="school"  value="">
+    <input type="hidden" id="fileName"  value="">
+    <input type="hidden" id="fileUrl"  value="">
     <input type="hidden" id="student_id" name="student_id" value="<%=student_id%>">
     <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
     <input type="hidden" name="page_gbn" id="page_gbn">
-    <h1>학생정보입력 수정page</h1>
+    <div><!--상단메뉴-->
+        <nav>
+            <ul>
+                <li onclick="goPage('student', 'lecture_student')">수강이력</li>
+                <li>학습관리</li>
+                <li>상담관리</li>
+                <li>셔틀버스</li>
+                <li>수강료납부</li>
+            </ul>
+        </nav>
+    </div><!--상단메뉴끝-->
+    <h1>학생정보입력 상세정보/수정 page</h1>
     <table>
-
         <tr>
             <th>학생사진</th>
             <td>
-                <input type="file" id="attachFile" name="attachFile" onchange="preViewImage(this, 'modify_preView', 'preview');">
+                <input type="file" id="attachFile" onchange="preViewImage(this, 'modify_preView', 'preview');">
             </td>
         </tr>
         <tr id="preview" style="display: none;">
@@ -252,7 +268,7 @@
         <tr>
             <th>학생이름*</th>
             <td>
-                <input type="text" id="student_name" name="student_name">
+                <input type="text" id="student_name">
             </td>
         </tr>
         <tr>
@@ -265,33 +281,33 @@
         <tr>
             <th>학생생일*</th>
             <td>
-                <input type="text" id="startDate" name="startDate" >
+                <input type="text" id="startDate" >
             </td>
         </tr>
         <tr>
             <th>핸드폰번호</th>
             <td>
-                <input type="text" size="2" name="student_phone1" id="student_phone1" maxlength="3" onkeyup="js_tab_order(this,frm.student_phone2,3)">
+                <input type="text" size="2"  id="student_phone1" maxlength="3" onkeyup="js_tab_order(this,frm.student_phone2,3)">
                 -
-                <input type="text" size="5" name="student_phone2" id="student_phone2" maxlength="4" onkeyup="js_tab_order(this,frm.student_phone3,4)">
+                <input type="text" size="5"  id="student_phone2" maxlength="4" onkeyup="js_tab_order(this,frm.student_phone3,4)">
                 -
-                <input type="text" size="5" name="student_phone3" id="student_phone3" maxlength="4">
+                <input type="text" size="5" id="student_phone3" maxlength="4">
             </td>
         </tr>
         <tr>
             <th>집전화</th>
             <td>
-                <input type="text" size="2" name="student_tel1" id="student_tel1" maxlength="3" onkeyup="js_tab_order(this,frm.student_tel2,3)">
+                <input type="text" size="2"  id="student_tel1" maxlength="3" onkeyup="js_tab_order(this,frm.student_tel2,3)">
                 -
-                <input type="text" size="5" name="student_tel2" id="student_tel2" maxlength="4" onkeyup="js_tab_order(this,frm.student_tel3,4)">
+                <input type="text" size="5"  id="student_tel2" maxlength="4" onkeyup="js_tab_order(this,frm.student_tel3,4)">
                 -
-                <input type="text" size="5" name="student_tel3"  id="student_tel3" maxlength="4">
+                <input type="text" size="5"   id="student_tel3" maxlength="4">
             </td>
         </tr>
         <tr>
             <th>이메일</th>
             <td>
-                <input type="text" id="student_email" name="student_email">
+                <input type="text" id="student_email" ">
             </td>
         </tr>
         <tr>
@@ -311,7 +327,7 @@
         <tr>
             <th>학교이름</th>
             <td>
-                <input type="text" id="schoolname" name="schoolname" onclick="school_search_popup();">
+                <input type="text" id="schoolname"  onclick="school_search_popup();">
             </td>
         </tr>
         <tr>
@@ -323,34 +339,34 @@
         <tr>
             <th>학부모(모)이름*</th>
             <td>
-                <input type="text" id="mother_name" name="mother_name">
+                <input type="text" id="mother_name" >
             </td>
         </tr>
         <tr>
             <th>학부모(모)전화번호*</th>
             <td>
-                <input type="text" size="2" id="mother_phone1" name="mother_phone1" maxlength="3" onkeyup="js_tab_order(this,frm.mother_phone2,3)">
+                <input type="text" size="2" id="mother_phone1"  maxlength="3" onkeyup="js_tab_order(this,frm.mother_phone2,3)">
                 -
-                <input type="text" size="5" id="mother_phone2" name="mother_phone2" maxlength="4" onkeyup="js_tab_order(this,frm.mother_phone3,4)">
+                <input type="text" size="5" id="mother_phone2"  maxlength="4" onkeyup="js_tab_order(this,frm.mother_phone3,4)">
                 -
-                <input type="text" size="5" id="mother_phone3" name="mother_phone3" maxlength="4">
+                <input type="text" size="5" id="mother_phone3" maxlength="4">
             </td>
         </tr>
 
         <tr>
             <th>학부모(부)이름</th>
             <td>
-                <input type="text" id="father_name" name="father_name">
+                <input type="text" id="father_name" >
             </td>
         </tr>
         <tr>
             <th>학부모(부)전화번호</th>
             <td>
-                <input type="text" size="2" id="father_phone1" name="father_phone1" maxlength="3" onkeyup="js_tab_order(this,frm.father_phone2,3)">
+                <input type="text" size="2" id="father_phone1"  maxlength="3" onkeyup="js_tab_order(this,frm.father_phone2,3)">
                 -
-                <input type="text" size="5" id="father_phone2" name="father_phone2" maxlength="4" onkeyup="js_tab_order(this,frm.father_phone3,4)">
+                <input type="text" size="5" id="father_phone2"  maxlength="4" onkeyup="js_tab_order(this,frm.father_phone3,4)">
                 -
-                <input type="text" size="5" id="father_phone3" name="father_phone3" maxlength="4">
+                <input type="text" size="5" id="father_phone3"  maxlength="4">
             </td>
         </tr>
 
@@ -366,13 +382,11 @@
         <textarea id="consultMemo" cols="50" rows="5" placeholder="상담내용을 입력하세요"></textarea>
         <input type="button" value="상담저장" onclick="studentMemo();">
     </div>
-
     <br>
     <div style="float:left;">
         <h1>상담list</h1>
         <table class="table_list" border="1">
             <colgroup>
-                <!-- <col width="2%" />-->
                 <col width="*" />
                 <col width="*" />
                 <col width="*" />
@@ -381,9 +395,6 @@
             </colgroup>
             <thead>
             <tr>
-                <!--<th>
-                    <input type="checkbox" id="chkAll" onclick="javascript:checkall('chkAll');">
-                </th>-->
                 <th>상담내용</th>
                 <th>상담자</th>
                 <th>상담구분</th>
@@ -395,7 +406,6 @@
             <tr>
                 <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
             </tr>
-            <!--<input type="button" value="삭제" onclick="Delete();">-->
         </table>
         <%@ include file="/common/inc/com_pageNavi.inc" %>
     </div>
