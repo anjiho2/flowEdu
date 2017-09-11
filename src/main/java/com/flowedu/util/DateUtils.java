@@ -609,8 +609,7 @@ public class DateUtils {
 	
 	
 	public static void main(String[] args) throws Exception {
-		int day = getDateDay("2017-08-29", "yyyy-MM-dd");
-		System.out.print(LectureDay.getLectureDayCode(day-1).toString());
+		System.out.print(getMonth("yyyy-MM", 0));
 	}
 	
 }

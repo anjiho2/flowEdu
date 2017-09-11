@@ -392,7 +392,7 @@
     <input type="button" value="수정" onclick="modify_student();"><br>
 
 
-    <br><br>
+    <br>
     <span id="l_memoType"></span>
     <div>
         <textarea id="consultMemo" cols="50" rows="5" placeholder="상담내용을 입력하세요"></textarea>
@@ -400,7 +400,7 @@
     </div>
     <br>
     <div style="float:left;">
-        <h1>상담list</h1>
+        <h1>최근 상담 3건</h1>
         <table class="table_list" border="1">
             <colgroup>
                 <col width="*" />

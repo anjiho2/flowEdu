@@ -6,7 +6,9 @@ package com.flowedu.define.datasource;
 public enum LectureAttendType {
     ATTEND(0, "출석"),
     LATE(1, "지각"),
-    ABSENT(2, "결석");
+    ABSENT(2, "결석"),
+    LEAVE(3, "조퇴"),
+    MAKEUP(4, "보강출석");
 
     int attendTypeCode;
 

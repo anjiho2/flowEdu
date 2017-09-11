@@ -31,29 +31,61 @@
 	</select>
 
 	<select id="getStudentMemoListCount" resultType="Integer">
-		SELECT count(student_memo_id)
-		FROM STUDENT_MEMO
-		WHERE student_id = #{studentId}
+		SELECT count(A.student_memo_id)
+		FROM STUDENT_MEMO LEFT JOIN FLOWEDU_MEMBER B
+		ON A.flow_member_id = B.flow_member_id
+		WHERE 1=1
+		<if test="studentId >0">
+			AND A.student_id = #{studentId}
+		</if>
+		<if test="searchDate != ''">
+			AND DATE_FORMAT(A.create_date, '%Y-%m-%d') = DATE_FORMAT(#{searchDate}, '%Y-%m-%d')
+		</if>
+		<if test="memoType != ''">
+			AND A.memo_type = #{memoType}
+		</if>
+		<if test="memberName != ''">
+			AND B.member_name LIKE CONCAT ('%', #{memberName}, '%')
+		</if>
+		<if test="memoContent != ''">
+			AND A.memo_content LIKE CONCAT ('%', #{memoContent}, '%')
+		</if>
 	</select>
 
 	<select id="getStudentMemoList" resultType="com.flowedu.dto.StudentMemoDto">
 		SELECT A.*, B.member_name
 		FROM STUDENT_MEMO A LEFT JOIN FLOWEDU_MEMBER B
 		ON A.flow_member_id = B.flow_member_id
-		WHERE student_id = #{studentId}
+		WHERE 1=1
+		<if test="studentId > 0">
+			AND student_id = #{studentId}
+		</if>
+		<if test="searchDate != ''">
+			AND DATE_FORMAT(A.create_date, '%Y-%m-%d') = DATE_FORMAT(#{searchDate}, '%Y-%m-%d')
+		</if>
+		<if test="memoType != ''">
+			AND A.memo_type = #{memoType}
+		</if>
+		<if test="memberName != ''">
+			AND B.member_name LIKE CONCAT ('%', #{memberName}, '%')
+		</if>
+		<if test="memoContent != ''">
+			AND A.memo_content LIKE CONCAT ('%', #{memoContent}, '%')
+		</if>
 		LIMIT #{start}, #{end}
 	</select>
 
-	<select id="getStudentMemoLastThree" resultType="com.flowedu.dto.StudentMemoDto">
+	<select id="getStudentMemoReplyList" resultType="com.flowedu.dto.StudentMemoReplyDto">
 		SELECT A.*, B.member_name
-		FROM STUDENT_MEMO A LEFT JOIN FLOWEDU_MEMBER B
+		FROM STUDENT_MEMO_REPLY A LEFT JOIN FLOWEDU_MEMBER B
 		ON A.flow_member_id = B.flow_member_id
-		WHERE student_id = #{studentId}
-		ORDER BY A.create_date DESC
-		LIMIT 0, 2
+		WHERE 1=1
+		<if test="studentMemoId > 0">
+			AND student_memo_id = #{studentMemoId}
+		</if>
+		AND delete_yn = 0
+		LIMIT #{start}, #{end}
 	</select>
-
-
 
 	<insert id="saveStudentInfo" parameterType="com.flowedu.dto.StudentDto">
 		INSERT INTO STUDENT

@@ -19,9 +19,11 @@ public interface LectureMapper {
 
     Integer getLecturePriceCount(@Param("lecturePrice") int lecturePrice);
 
-    List<LectureInfoDto> getLectureInfoList(@Param("start") int start, @Param("end") int end, @Param("officeId") Long officeId, @Param("flowMemberId") Long flowMemberId, @Param("memberType") String memberType);
+    List<LectureInfoDto> getLectureInfoList(@Param("start") int start, @Param("end") int end, @Param("officeId") Long officeId, @Param("flowMemberId") Long flowMemberId,
+                                            @Param("memberType") String memberType, @Param("chargeMemberId") Long chargeMemberId, @Param("schoolType") String schoolType, @Param("lectureGrade") int lectureGrade);
 
-    int getLectureInfoCount();
+    int getLectureInfoCount(@Param("officeId") Long officeId, @Param("flowMemberId") Long flowMemberId, @Param("memberType") String memberType,
+                            @Param("chargeMemberId") Long chargeMemberId, @Param("schoolType") String schoolType, @Param("lectureGrade") int lectureGrade);
 
     List<LectureDetailDto> getLectureDetailInfoList(@Param("lectureId") Long lectureId);
 
@@ -40,6 +42,10 @@ public interface LectureMapper {
     int getLectureStudentRelByStudentIdCount(@Param("studentId") Long studentId);
 
     List<LectureAttendDto> getLectureAttendList(@Param("lectureId") Long lectureId, @Param("day") String day);
+
+    Integer getLectureAttendListByStudentIdCount(@Param("studentId") Long studentId, @Param("searchMonth") String searchMonth);
+
+    List<LectureAttendDto> getLectureAttendListByStudentId(@Param("studentId") Long studentId, @Param("searchMonth") String searchMonth);
 
     /** INSERT **/
     void saveLectureRoom(@Param("officeId") Long officeId, @Param("lectureRoomName") String lectureRoomName);
@@ -68,5 +74,7 @@ public interface LectureMapper {
     void modifyLecutreStatus(@Param("lectureId") Long lectureId, @Param("lectureStatus") String lectureStatus);
 
     void modifyLectureStudentRel(@Param("lectureRelId") Long lectureRelId, @Param("lectureId") Long lectureId, @Param("studentId") Long studentId, @Param("addYn") boolean addYn);
+
+    void modifyAttendComment(@Param("lectureAttendId") Long lectureAttendId, @Param("attendType") String attendType, @Param("attendModifyComment") String attendModifyComment);
 
 }

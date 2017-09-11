@@ -199,6 +199,7 @@
         lectureManager.regLecture(lecture_info, detail_list, function (bl) {
             if(bl==true){
                 //TODO : 등록이 완료되면 강의 리스트로 이동시키는 기능 추가하기
+                lecture_go('lecture_list');
             } else {
                 alert(comment.error);
             }
