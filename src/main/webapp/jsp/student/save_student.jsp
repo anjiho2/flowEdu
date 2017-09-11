@@ -8,10 +8,10 @@
 <script type="text/javascript">
 
 function init() {
-    fn_search("new");
+   // fn_search("new");
     schoolSelectbox("student_grade","", "");
 }
-
+/*
 function fn_search(val) {
     var paging = new Paging();
     var sPage = $("#sPage").val();
@@ -52,7 +52,7 @@ function fn_search(val) {
         })
     });
 }
-
+*/
 function save_student() { //저장
 
     var check = new isCheck();
@@ -325,13 +325,13 @@ function school_search_popup() {//학교검색
     </table>
     <input type="button" value="등록" onclick="save_student();">
 
-
+<!--
 <h1>학생정보입력 list</h1>
 <div id="memberList">
     <table class="table_list" border="1">
         <colgroup>
            <!-- <col width="2%" />-->
-            <col width="*" />
+           <!--<col width="*" />
             <col width="*" />
             <col width="*" />
             <col width="*" />
@@ -349,7 +349,7 @@ function school_search_popup() {//학교검색
             <!--<th>
                 <input type="checkbox" id="chkAll" onclick="javascript:checkall('chkAll');">
             </th>-->
-            <th>학생이름</th>
+            <!--<th>학생이름</th>
             <th>성별</th>
             <th>학생생일</th>
             <th>학생폰번호</th>
@@ -369,8 +369,8 @@ function school_search_popup() {//학교검색
         <tr>
             <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
         </tr>
-        <!--<input type="button" value="삭제" onclick="Delete();">-->
-    </table>
+
+    </table>-->
     <%@ include file="/common/inc/com_pageNavi.inc" %>
 </div>
 </form>
