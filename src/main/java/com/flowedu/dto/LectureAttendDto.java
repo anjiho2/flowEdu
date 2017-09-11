@@ -34,6 +34,10 @@ public class LectureAttendDto {
 
     private String studentName;
 
+    private String attendModifyComment;
+
+    private String modifyDate;
+
     public LectureAttendDto() {}
 
     public List<LectureAttendDto> consume(List<LectureAttendDto> lectureAttendDtoList) throws Exception {

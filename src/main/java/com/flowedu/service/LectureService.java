@@ -191,10 +191,10 @@ public class LectureService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public List<LectureInfoDto> getLectureInfoList(int sPage, int pageListCount, Long officeId) {
+    public List<LectureInfoDto> getLectureInfoList(int sPage, int pageListCount, Long officeId, Long chargeMemberId, String schoolType, int lectureGrade) {
         PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
         List<LectureInfoDto> Arr = lectureMapper.getLectureInfoList(
-                pagingDto.getStart(), pageListCount, officeId, UserSession.flowMemberId(), UserSession.memberType());
+                pagingDto.getStart(), pageListCount, officeId, UserSession.flowMemberId(), UserSession.memberType(), chargeMemberId, schoolType, lectureGrade);
         return Arr;
     }
 
@@ -207,8 +207,8 @@ public class LectureService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public int getLectureInfoCount() {
-        return lectureMapper.getLectureInfoCount();
+    public int getLectureInfoCount(Long officeId, Long chargeMemberId, String schoolType, int lectureGrade) {
+        return lectureMapper.getLectureInfoCount(officeId, UserSession.flowMemberId(), UserSession.memberType(), chargeMemberId, schoolType, lectureGrade);
     }
 
     /**
@@ -317,7 +317,7 @@ public class LectureService extends PagingSupport {
 
     /**
      * <PRE>
-     * 1. Comment : 학생 아이디로 등록된 강의 리스트 가져오기
+     * 1. Comment : 학생 아이디로 등록된 강의 리스트 가져오기(최근 3개월)
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .24
      * </PRE>
@@ -367,6 +367,43 @@ public class LectureService extends PagingSupport {
                     ) - 1
                 ).toString();
         Arr = lectureMapper.getLectureAttendList(lectureId, day);
+        return Arr;
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 검색 월(yyyy-MM)과 학생의 아이디로 출석 결과 개수
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 09 .11
+     * </PRE>
+     * @param studentId
+     * @param searchMonth
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public int getLectureAttendListByStudentIdCount(Long studentId, String searchMonth) {
+        if ("".equals(searchMonth) || searchMonth == null) {
+            searchMonth = Util.returnToDate("yyyy-MM");
+        }
+        return lectureMapper.getLectureAttendListByStudentIdCount(studentId, searchMonth);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 검색 월(yyyy-MM)과 학생의 아이디로 출석 리스트
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 09 .11
+     * </PRE>
+     * @param studentId
+     * @param searchMonth
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<LectureAttendDto> getLectureAttendListByStudentId(Long studentId, String searchMonth) {
+        if ("".equals(searchMonth) || searchMonth == null) {
+            searchMonth = Util.returnToDate("yyyy-MM");
+        }
+        List<LectureAttendDto> Arr = lectureMapper.getLectureAttendListByStudentId(studentId, searchMonth);
         return Arr;
     }
 
@@ -631,6 +668,14 @@ public class LectureService extends PagingSupport {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
         lectureMapper.modifyLectureStudentRel(lectureRelId, lectureId, studentId, addYn);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void modifyAttendComment(Long lectureAttendId, String attendType, String attendModifyComment) {
+        if (lectureAttendId == null) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        lectureMapper.modifyAttendComment(lectureAttendId, attendType, attendModifyComment);
     }
 
 }

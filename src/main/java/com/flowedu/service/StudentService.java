@@ -7,6 +7,7 @@ import com.flowedu.define.datasource.StudentMemoType;
 import com.flowedu.dto.PagingDto;
 import com.flowedu.dto.StudentDto;
 import com.flowedu.dto.StudentMemoDto;
+import com.flowedu.dto.StudentMemoReplyDto;
 import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
 import com.flowedu.mapper.StudentMapper;
@@ -168,8 +169,11 @@ public class StudentService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public int getStudentMemoListCount(Long studentId) {
-        return studentMapper.getStudentMemoListCount(studentId);
+    public int getStudentMemoListCount(Long studentId, String searchDate, String memoType, String memberName, String memoContent) {
+        return studentMapper.getStudentMemoListCount(
+                studentId, Util.isNullValue(searchDate, ""), Util.isNullValue(memoType, ""),
+                Util.isNullValue(memberName, ""), Util.isNullValue(memoContent, "")
+        );
     }
 
     /**
@@ -184,15 +188,39 @@ public class StudentService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public List<StudentMemoDto> getStudentMemoList(int sPage, int pageListCount, Long studentId) {
+    public List<StudentMemoDto> getStudentMemoList(int sPage, int pageListCount, Long studentId, String searchDate,
+                                                   String memoType, String memberName, String memoContent) {
         PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
-        List<StudentMemoDto> list = studentMapper.getStudentMemoList(pagingDto.getStart(), pageListCount, studentId);
+        List<StudentMemoDto> list = studentMapper.getStudentMemoList(
+                pagingDto.getStart(), pageListCount, studentId, Util.isNullValue(searchDate, ""),
+                Util.isNullValue(memoType, ""), Util.isNullValue(memberName, ""), Util.isNullValue(memoContent, "")
+        );
         return list;
     }
 
+    /**
+     * <PRE>
+     * 1. Comment : 학생 메모 리스트 가져오기(최근 3건)
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .28
+     * </PRE>
+     * @param studentId
+     * @return
+     */
     @Transactional(readOnly = true)
     public List<StudentMemoDto> getStudentMemoLastThree(Long studentId) {
-        return studentMapper.getStudentMemoList(0, 3, studentId);
+        return studentMapper.getStudentMemoList(0, 3, studentId, "", "", "", "");
+    }
+
+    @Transactional(readOnly = true)
+    public List<StudentMemoReplyDto> getStudentMemoReplyList(int sPage, int pageListCount, Long studentMemoId) {
+        PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
+        List<StudentMemoReplyDto> list = studentMapper.getStudentMemoReplyList(pagingDto.getStart(), pageListCount, studentMemoId);
+        this.
+
+
+
+        return list;
     }
 
     /**

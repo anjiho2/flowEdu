@@ -46,6 +46,12 @@
 		<if test="memberType == 'TEACHER' or memberType == 'TEACHER_MANAGE'">
 			AND A.charge_member_id = #{flowMemberId} OR A.manage_member_id = #{flowMemberId}
 		</if>
+        <if test="chargeMemberId != ''">
+            AND A.charge_member_id = #{chargeMemberId}
+        </if>
+        <if test="schoolType != '' and lectureGrade > 0">
+            AND A.school_type = #{schoolType} AND A.lecture_grade = #{lectureGrade}
+        </if>
 		LIMIT #{start}, #{end}
 	</select>
 
@@ -56,6 +62,19 @@
 		ON A.manage_member_id = C.flow_member_id LEFT JOIN OFFICE D
 		ON A.office_id = D.office_id LEFT JOIN LECTURE_PRICE E
 		ON A.lecture_price_id = E.lecture_price_id
+		WHERE 1=1
+        <if test="officeId > 0">
+            AND  A.office_id = #{officeId}
+        </if>
+        <if test="memberType == 'TEACHER' or memberType == 'TEACHER_MANAGE'">
+            AND A.charge_member_id = #{flowMemberId} OR A.manage_member_id = #{flowMemberId}
+        </if>
+        <if test="chargeMemberId != ''">
+            AND A.charge_member_id = #{chargeMemberId}
+        </if>
+        <if test="schoolType != '' and lectureGrade != ''">
+            AND A.school_type = #{schoolType} AND A.lecture_grade = #{lectureGrade}
+        </if>
 	</select>
 
 	<select id="getLectureDetailInfoList" parameterType="Long" resultType="com.flowedu.dto.LectureDetailDto">
@@ -129,6 +148,7 @@
 		ON B.office_id = C.office_id LEFT JOIN LECTURE_PRICE D
 		ON B.lecture_price_id = D.lecture_price_id
 		WHERE A.student_id =  #{studentId}
+		AND DATE_FORMAT(A.create_date, '%Y-%m-%d') BETWEEN (DATE_FORMAT(NOW(), '%Y-%m-%d') - INTERVAL 2 MONTH) AND DATE_FORMAT(NOW(), '%Y-%m-%d')
 	</select>
 
 	<select id="getLectureAttendList" resultType="com.flowedu.dto.LectureAttendDto">
@@ -144,6 +164,21 @@
 		) Z LEFT OUTER JOIN LECTURE_ATTEND ZZ
 		ON Z. student_id = ZZ.student_id
 		AND ZZ.attend_day = #{day}
+	</select>
+
+    <select id="getLectureAttendListByStudentIdCount" resultType="Integer">
+        SELECT count(lecture_attend_id)
+        FROM LECTURE_ATTEND
+        WHERE student_id = #{studentId}
+        AND DATE_FORMAT(attend_date, '%Y-%m') = #{searchMonth}
+    </select>
+
+	<select id="getLectureAttendListByStudentId" resultType="com.flowedu.dto.LectureAttendDto">
+		SELECT A.*, B.lecture_name
+		FROM LECTURE_ATTEND A LEFT JOIN LECTURE_INFO B
+		ON A.lecture_id = B.lecture_id
+		WHERE A.student_id = #{studentId}
+		AND DATE_FORMAT(A.attend_date, '%Y-%m') = #{searchMonth}
 	</select>
 
 	<insert id="saveLectureRoom">
@@ -273,10 +308,20 @@
 		UPDATE LECTURE_STUDENT_REL
 		<set>
 			<if test="lectureId > 0">lecture_id = #{lectureId},</if>
-			<if test="studentId > 0">student_id = #{studentId}</if>
+			<if test="studentId > 0">student_id = #{studentId},</if>
 			<if test="addYn != null">add_yn = #{addYn}</if>
 		</set>
 		WHERE lecture_rel_id = #{lectureRelId}
+	</update>
+
+	<update id="modifyAttendComment">
+		UPDATE LECTURE_ATTEND
+		<set>
+			<if test="attendModifyComment != ''">attend_modify_comment = #{attendModifyComment},</if>
+			<if test="attendType != ''">attend_type = #{attendType},</if>
+			modify_date = now()
+		</set>
+		WHERE lecture_attend_id = #{lectureAttendId}
 	</update>
 
 </mapper>
