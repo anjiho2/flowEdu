@@ -25,6 +25,7 @@ function fn_search(val) {
     lectureService.getLectureStudentRelByStudentIdCount(student_id, function(cnt) {
         paging.count(sPage, cnt, '10', '5', comment.blank_list);
 
+        //학생의 수강이력 가져오기
         lectureService.getLectureStudentRelById(student_id, function (selList) {
             if (selList.length > 0) {
                 for (var i = 0; i < selList.length; i++) {
@@ -61,23 +62,6 @@ function lecture_apply() {
     <h1><%=student_id%>학생 수강리스트</h1>
     <div>
         <input type="button" value="강의신청" onclick="lecture_apply();">
-    </div>
-    <div>
-        <tr>
-            <div>
-                <span>
-                    <input type="text" class="inpType"  id="startDate" >
-                    시작일
-                </span>
-                <span>~</span>
-
-                <span>
-                    <input type="text" class="inpType"id="startDate2" >
-                    종료일
-                </span>
-                <input type="button" value="검색">
-            </div>
-        </tr>
     </div>
     <div>
         <table border="1" width="500px">

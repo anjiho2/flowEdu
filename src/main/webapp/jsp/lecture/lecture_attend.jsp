@@ -27,9 +27,12 @@ function init() {
                         dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
                     }
                 }else{ //출석 or 지각체크된 학생들 리스트
+//                    //'" + cmpList.studentId + "'
+                    var modifyHTML = "<input type='button' value='수정' onclick='' style='font-size:8pt;height:20px;' />";
                     var cellData = [
                         function(data) {return cmpList.studentName;},
                         function(data) {return convert_attend(cmpList.attendType);},
+                        function(data) {return modifyHTML;},
                     ];
                     dwr.util.addRows("attend_dataList", [0], cellData, {escapeHtml: false});
                 }
@@ -71,7 +74,9 @@ function save_attend() {
     });
 }
 </script>
+<style>
 
+</style>
 <body onload="init();">
 <form name="frm" id="frm" method="get">
     <div>
@@ -103,7 +108,6 @@ function save_attend() {
             <colgroup>
                 <col width="*" />
                 <col width="*" />
-
             </colgroup>
             <thead>
             <tr style="">

@@ -11,10 +11,7 @@
 <script>
     function init() {
         schoolSelectbox("student_grade","", "");
-        studentMemoTypeRadio("l_memoType", "REG", "");
         studentList();
-        //fn_search("new");
-        student_memo_list();
     }
 
     function studentList() {
@@ -162,15 +159,6 @@
         }
     }
 
-    function studentMemo() {//상담저장
-        var student_id  = getInputTextValue("student_id");
-        var consultMemo = getInputTextValue("consultMemo");
-        var memoType = get_radio_value("memo_type");
-        studentService.saveStudentMemo(student_id, consultMemo, memoType, function () {
-            alert("상담저장완료");
-            location.reload();
-        });
-    }
     /*
     function fn_search(val) {
         var paging = new Paging();
@@ -205,21 +193,6 @@
         });
     }
     */
-    //상담리스트 가져오기(최근 3건만)
-    function student_memo_list() {
-        var student_id = getInputTextValue("student_id");
-        studentService.getStudentMemoLastThree(student_id, function (memoList) {
-            if (memoList.length < 0) return;
-            dwr.util.addRows("consultList", memoList, [
-                function(data) {return data.memoContent},
-                function(data) {return data.memberName;},
-                function(data) {return convert_memo_type(data.memoType);},
-                function(data) {return getDateTimeSplitComma(data.createDate);},
-                function(data) {return data.processYn == false ? "<input type='button' value='처리하기' id="+data.studentMemoId+" onclick='changeProccessYn(this.id);'>" : "처리완료";}
-            ], {escapeHtml:false} );
-        });
-    }
-
     function school_radio(school_grade) {
         schoolSelectbox("student_grade","", school_grade);
     }
@@ -262,7 +235,7 @@
             <ul>
                 <li onclick="goPage('student', 'lecture_student')">수강이력</li>
                 <li>학습관리</li>
-                <li>상담관리</li>
+                <li onclick="goPage('student', 'memo_student')">상담관리</li>
                 <li>셔틀버스</li>
                 <li>수강료납부</li>
             </ul>
@@ -390,41 +363,6 @@
     </table>
     <tbody id="dataList"></tbody>
     <input type="button" value="수정" onclick="modify_student();"><br>
-
-
-    <br>
-    <span id="l_memoType"></span>
-    <div>
-        <textarea id="consultMemo" cols="50" rows="5" placeholder="상담내용을 입력하세요"></textarea>
-        <input type="button" value="상담저장" onclick="studentMemo();">
-    </div>
-    <br>
-    <div style="float:left;">
-        <h1>최근 상담 3건</h1>
-        <table class="table_list" border="1">
-            <colgroup>
-                <col width="*" />
-                <col width="*" />
-                <col width="*" />
-                <col width="*" />
-                <col width="*" />
-            </colgroup>
-            <thead>
-            <tr>
-                <th>상담내용</th>
-                <th>상담자</th>
-                <th>상담구분</th>
-                <th>상담날짜</th>
-                <th>처리여부</th>
-            </tr>
-            </thead>
-            <tbody id="consultList"></tbody>
-            <tr>
-                <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
-            </tr>
-        </table>
-    </div>
-
 </form>
 
 </body>

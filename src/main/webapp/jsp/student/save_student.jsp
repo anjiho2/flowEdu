@@ -225,7 +225,7 @@ function school_search_popup() {//학교검색
             <th>성별*</th>
             <td>
                 <input type="radio" name="student_gender" value="MALE" checked>남
-                <input type="radio" name="student_gender" value="FEMAIE">여
+                <input type="radio" name="student_gender" value="FEMALE">여
             </td>
         </tr>
         <tr>

@@ -70,7 +70,7 @@
                             }
                             var cellData = [
                                 function(data) {return cmpList.officeName;},
-                                function(data) {return convert_lecture_subject(cmpList.lectureSubject);},
+                                function(data) {return cmpList.lectureName;},
                                 function(data) {return cmpList.chargeMemberName;},
                                 function(data) {return cmpList.lectureStartDate;},
                                 function(data) {return cmpList.lectureEndDate;},
