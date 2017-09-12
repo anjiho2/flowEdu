@@ -44,6 +44,7 @@ var comment = {
 
 		load_data : "데이타를 불러오는중..",
 
+    	input_academy_group : "그룹명을 선택하세요.",
 		input_academy_name : "학원명을 입력해주세요.",
         input_academy_directorname : "학원원장명을 입력해주세요.",
 		input_academy_phone1 : "핸드폰번호 입력해주세요.",

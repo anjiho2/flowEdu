@@ -26,11 +26,17 @@ public interface StudentMapper {
 
     List<StudentMemoReplyDto> getStudentMemoReplyList(@Param("start") int start, @Param("end") int end, @Param("studentMemoId") Long studentMemoId);
 
+    StudentMemoDto getStudentMemoByStudentMemoId(@Param("studentMemoId") Long studentMemoId);
+
     void saveStudentInfo(StudentDto studentDto);
 
     void saveStudentMemo(@Param("studentId") Long studentId, @Param("flowMemberId") Long flowMemberId, @Param("memoContent") String memoContent, @Param("memoType") String memoType);
 
+    void saveStudentMemoReply(@Param("studentMemoId") Long studentMemoId, @Param("flowMemberId") Long flowMemberId, @Param("replyContent") String replyContent);
+
     void modifyStudentInfo(StudentDto studentDto);
 
     void modifyMemoProcessYn(@Param("studentMemoId") Long studentMemoId, @Param("processYn") boolean processYn);
+
+    void modifyStudentMemoReply(@Param("studentMemoReplyId") Long studentMemoReplyId, @Param("replyContent") String replyContent, @Param("deleteYn") boolean deleteYn);
 }

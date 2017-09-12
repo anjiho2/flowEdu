@@ -46,22 +46,6 @@
         }
     }
 
-    $(document).ready(function () {
-        $(".checkBtn").click(function (event) {
-            alert(event.target.id);
-            var str = "";
-            var tdArr = new Array();
-            var checkBtn = $(this);
-
-            var tr = checkBtn.parent().parent();
-            var td = tr.children();
-
-            console.log("클릭한 Row의 모든 데이터 : "+tr.text());
-            var append = "<div>" + td.eq(0).text() + "</div>";
-            $("#sel_student").append(append);
-        });
-    });
-
 </script>
 <body onload="init();">
 <form name="frm" method="post">

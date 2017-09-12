@@ -4,6 +4,7 @@ import com.flowedu.config.PagingSupport;
 import com.flowedu.config.SchoolSearchConfigHoler;
 import com.flowedu.define.datasource.SchoolType;
 import com.flowedu.define.datasource.StudentMemoType;
+import com.flowedu.domain.StudentMemo;
 import com.flowedu.dto.PagingDto;
 import com.flowedu.dto.StudentDto;
 import com.flowedu.dto.StudentMemoDto;
@@ -212,11 +213,25 @@ public class StudentService extends PagingSupport {
         return studentMapper.getStudentMemoList(0, 3, studentId, "", "", "", "");
     }
 
+    /**
+     * <PRE>
+     * 1. Comment : 메모상세정보와 상제 정보의 댓글 가져오기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 09 .11
+     * </PRE>
+     * @param sPage
+     * @param pageListCount
+     * @param studentMemoId
+     * @return
+     */
     @Transactional(readOnly = true)
-    public List<StudentMemoReplyDto> getStudentMemoReplyList(int sPage, int pageListCount, Long studentMemoId) {
+    public StudentMemo getStudentMemoReplyList(int sPage, int pageListCount, Long studentMemoId) {
         PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
+        StudentMemoDto studentMemoDto = studentMapper.getStudentMemoByStudentMemoId(studentMemoId);
         List<StudentMemoReplyDto> list = studentMapper.getStudentMemoReplyList(pagingDto.getStart(), pageListCount, studentMemoId);
-        return list;
+        StudentMemo studentMemo = new StudentMemo(studentMemoDto, list);
+
+        return studentMemo;
     }
 
     /**
@@ -263,6 +278,24 @@ public class StudentService extends PagingSupport {
 
     /**
      * <PRE>
+     * 1. Comment : 학생 메모 댓글 저장
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 09 .11
+     * </PRE>
+     * @param studentMemoId
+     * @param replyContent
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveStudentMemoReply(Long studentMemoId, String replyContent) {
+        if (studentMemoId == null) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        studentMapper.saveStudentMemoReply(studentMemoId, UserSession.flowMemberId(), replyContent);
+
+    }
+
+    /**
+     * <PRE>
      * 1. Comment : 학생정보 수정하기
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .08
@@ -289,6 +322,24 @@ public class StudentService extends PagingSupport {
     @Transactional(propagation = Propagation.REQUIRED)
     public void modifyMemoProcessYn(Long studentMemoId, boolean processYn) {
         studentMapper.modifyMemoProcessYn(studentMemoId, processYn);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 메모 댓글 수정
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 09 .11
+     * </PRE>
+     * @param studentMemoReplyId
+     * @param replyContent
+     * @param deleteYn
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void modifyStudentMemoReply(Long studentMemoReplyId, String replyContent, boolean deleteYn) {
+        if (studentMemoReplyId == null) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        studentMapper.modifyStudentMemoReply(studentMemoReplyId, replyContent, deleteYn);
     }
 
 }

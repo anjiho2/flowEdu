@@ -1,5 +1,6 @@
 package com.flowedu.service;
 
+import com.flowedu.dto.AcademyGroupDto;
 import com.flowedu.dto.FlowEduTeamDto;
 import com.flowedu.dto.OfficeDto;
 import com.flowedu.error.FlowEduErrorCode;
@@ -35,6 +36,11 @@ public class AcademyService {
         return officeMapper.getAcademyList(officeId);
     }
 
+    @Transactional(readOnly = true)
+    public List<AcademyGroupDto> getAcademyGroup() {
+        return officeMapper.getAcademyGroup();
+    }
+
     /**
      * <PRE>
      * 1. Comment : 학원정보 저장
@@ -49,10 +55,10 @@ public class AcademyService {
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public void saveAcademy(String officeName, String officeDirectorName, String officeAddress,
-        String officeTelNumber, String officeFaxNumber) {
+        String officeTelNumber, String officeFaxNumber, int academyGroupId) {
 
         OfficeDto officeDto = new OfficeDto(
-            officeName, officeDirectorName, officeTelNumber, officeAddress, officeFaxNumber
+            officeName, officeDirectorName, officeTelNumber, officeAddress, officeFaxNumber, academyGroupId
         );
         officeMapper.saveAcademy(officeDto);
     }
@@ -72,12 +78,12 @@ public class AcademyService {
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public void modifyAcademy(Long officeId, String officeName, String officeDirectorName, String officeAddress,
-        String officeTelNumber, String officeFaxNumber) {
+        String officeTelNumber, String officeFaxNumber, int academyGroupId) {
         if (officeId == null || officeId < 1L) {
             throw new FlowEduException(FlowEduErrorCode.INTERNAL_ERROR);
         }
         OfficeDto officeDto = new OfficeDto(
-            officeId, officeName, officeDirectorName, officeTelNumber, officeAddress, officeFaxNumber
+            officeId, officeName, officeDirectorName, officeTelNumber, officeAddress, officeFaxNumber, academyGroupId
         );
         officeMapper.modifyAcademy(officeDto);
     }

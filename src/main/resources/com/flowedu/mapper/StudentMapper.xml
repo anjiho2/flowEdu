@@ -87,6 +87,16 @@
 		LIMIT #{start}, #{end}
 	</select>
 
+	<select id="getStudentMemoByStudentMemoId" resultType="com.flowedu.dto.StudentMemoDto">
+		SELECT A.*, B.member_name
+		FROM STUDENT_MEMO A LEFT JOIN FLOWEDU_MEMBER B
+		ON A.flow_member_id = B.flow_member_id
+		WHERE 1=1
+		<if test="studentMemoId > 0">
+			AND A.student_memo_id = #{studentMemoId}
+		</if>
+	</select>
+
 	<insert id="saveStudentInfo" parameterType="com.flowedu.dto.StudentDto">
 		INSERT INTO STUDENT
 		(
@@ -109,6 +119,13 @@
 		( student_id, flow_member_id, memo_content, memo_type )
 		VALUES
 		( #{studentId}, #{flowMemberId}, #{memoContent}, #{memoType} )
+	</insert>
+
+	<insert id="saveStudentMemoReply">
+		INSERT INTO STUDENT_MEMO_REPLY
+		(student_memo_id, flow_member_id, reply_content)
+		VALUES
+		(#{studentMemoId}, #{flowMemberId}, #{replyContent})
 	</insert>
 
 	<update id="modifyStudentInfo" parameterType="com.flowedu.dto.StudentDto">
@@ -141,6 +158,15 @@
 		UPDATE STUDENT_MEMO
 		SET process_yn = #{processYn}
 		WHERE student_memo_id = #{studentMemoId}
+	</update>
+
+	<update id="modifyStudentMemoReply">
+		UPDATE STUDENT_MEMO_REPLY
+		<set>
+			<if test="replyContent != ''">reply_content = #{replyContent},</if>
+			<if test="replyContent != ''">delete_yn = #{deleteYn}</if>
+		</set>
+		WHERE student_memo_reply_id = #{studentMemoReplyId}
 	</update>
 
 </mapper>

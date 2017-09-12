@@ -70,6 +70,8 @@
 		<convert converter="bean" match="com.flowedu.dto.StudentMemoDto"/>
 		<convert converter="bean" match="com.flowedu.dto.LectureAttendDto"/>
 		<convert converter="bean" match="com.flowedu.dto.StudentMemoReplyDto"/>
+		<convert converter="bean" match="com.flowedu.domain.StudentMemo"/>
+		<convert converter="bean" match="com.flowedu.dto.AcademyGroupDto"/>
 		<!-- define -->
 
 		

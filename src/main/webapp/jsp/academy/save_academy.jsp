@@ -5,6 +5,7 @@
     function save_academy() { //학원정보 저장
         var check = new isCheck();
 
+        if(check.selectbox("sel_academyGroup", comment.input_academy_group) == false) return;   //학원그룹명 추가로 기능 추가 (2017.09.12 안지호)
         if(check.input("academy_name", comment.input_academy_name) == false) return;
         if(check.input("academy_directorname", comment.input_academy_directorname) == false) return;
         if(check.input("academy_phone1", comment.input_academy_phone1) == false) return;
@@ -25,8 +26,9 @@
         var academy_fax2 = getInputTextValue("academy_fax2");
         var academy_fax3 = getInputTextValue("academy_fax3");
         var academy_fax  = academy_fax1 + academy_fax2 + academy_fax3;
+        var academy_group_id = getSelectboxValue("sel_academyGroup");   //학원그룹명 추가로 기능 추가 (2017.09.12 안지호)
 
-        academyService.saveAcademy(academy_name,academy_directorname,academy_address,academy_allphone,academy_fax,function () {
+        academyService.saveAcademy(academy_name, academy_directorname, academy_address, academy_allphone, academy_fax, academy_group_id, function () {
             alert("학원정보가 등록 되었습니다.");
             location.reload();
         });
@@ -35,7 +37,7 @@
    function academy_modify(officeid) { //수정페이지 이동
         innerValue("office_id", officeid);
         goPage('academy', 'modify_academy');
-}
+    }
 
     function academyList() { //학원정보리스트 가져오기
         academyService.getAcademyList(0, function (selList) {
@@ -48,6 +50,7 @@
 
                         var cellData = [
                            // function(data) {return checkHTML;},
+                            function(data) {return cmpList.academyGroupName;},  //학원그룹명 추가로 기능 추가 (2017.09.12 안지호)
                             function(data) {return cmpList.officeName;},
                             function(data) {return cmpList.officeDirectorName;},
                             function(data) {return cmpList.officeTelNumber;},
@@ -81,12 +84,18 @@
 
 
 </script>
-<body onload="academyList();academyList2();">
+<body onload="academyList();academyGroupSelectbox('academy_group', '');">
 <form name="frm" method="get">
     <input type="hidden" name="office_id" id="office_id">
     <input type="hidden" name="page_gbn" id="page_gbn">
     <h1>학원정보입력page</h1>
     <table>
+        <tr>
+            <th>그룹명</th>
+            <td>
+                <span id="academy_group"></span>
+            </td>
+        </tr>
         <tr>
             <th>관명</th>
             <td>
@@ -142,12 +151,14 @@
             <col width="*" />
             <col width="*" />
             <col width="*" />
+            <col width="*" />
         </colgroup>
         <thead>
         <tr>
             <!--<th>
                 <input type="checkbox" id="chkAll" onclick="javascript:checkall('chkAll');">
             </th>-->
+            <th>그룹명</th>
             <th>관명</th>
             <th>원장명</th>
             <th>관전화번호</th>

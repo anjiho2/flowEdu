@@ -9,43 +9,47 @@
 <script>
     function save_academy() { //학원정보 수정 저장
 
-        alert("수정하시겠습니까?");
-        var officeId                = getInputTextValue("officeId");
-        var check = new isCheck();
+        if (confirm(comment.isUpdate)) {
+            var officeId                = getInputTextValue("officeId");
+            var check = new isCheck();
 
-        if(check.input("academy_name", comment.input_academy_name) == false) return;
-        if(check.input("academy_directorname", comment.input_academy_directorname) == false) return;
-        if(check.input("academy_phone1", comment.input_academy_phone1) == false) return;
-        if(check.input("academy_phone2", comment.input_academy_phone2) == false) return;
-        if(check.input("academy_phone3", comment.input_academy_phone3) == false) return;
-        if(check.input("academy_address", comment.input_academy_address) == false) return;
-        if(check.input("academy_fax", comment.input_academy_fax) == false) return;
+            if(check.selectbox("sel_academyGroup", comment.input_academy_group) == false) return;   //학원그룹명 추가로 기능 추가 (2017.09.12 안지호)
+            if(check.input("academy_name", comment.input_academy_name) == false) return;
+            if(check.input("academy_directorname", comment.input_academy_directorname) == false) return;
+            if(check.input("academy_phone1", comment.input_academy_phone1) == false) return;
+            if(check.input("academy_phone2", comment.input_academy_phone2) == false) return;
+            if(check.input("academy_phone3", comment.input_academy_phone3) == false) return;
+            if(check.input("academy_address", comment.input_academy_address) == false) return;
+            if(check.input("academy_fax", comment.input_academy_fax) == false) return;
 
-        var academy_name                = getInputTextValue("academy_name");
-        var academy_directorname    = getInputTextValue("academy_directorname");
-        var academy_phone1   = getInputTextValue("academy_phone1");
-        var academy_phone2   = getInputTextValue("academy_phone2");
-        var academy_phone3   = getInputTextValue("academy_phone3");
-        var academy_allphone  = academy_phone1+academy_phone2+academy_phone3;
-        var academy_address   = getInputTextValue("academy_address");
-        var academy_fax           = getInputTextValue("academy_fax");
+            var academy_name                = getInputTextValue("academy_name");
+            var academy_directorname    = getInputTextValue("academy_directorname");
+            var academy_phone1   = getInputTextValue("academy_phone1");
+            var academy_phone2   = getInputTextValue("academy_phone2");
+            var academy_phone3   = getInputTextValue("academy_phone3");
+            var academy_allphone  = academy_phone1+academy_phone2+academy_phone3;
+            var academy_address   = getInputTextValue("academy_address");
+            var academy_fax           = getInputTextValue("academy_fax");
+            var academy_group_id = getSelectboxValue("sel_academyGroup");   //학원그룹명 추가로 기능 추가 (2017.09.12 안지호)
 
-        academyService.modifyAcademy(officeId, academy_name, academy_directorname, academy_address, academy_allphone, academy_fax,function () {
-            alert("학원정보가 수정 되었습니다.");
-            goPage("academy","save_academy");
+            academyService.modifyAcademy(officeId, academy_name, academy_directorname, academy_address, academy_allphone, academy_fax, academy_group_id ,function () {
+                alert("학원정보가 수정 되었습니다.");
+                goPage("academy","save_academy");
 
-        });
+            });
+        }
     }
 
     function academyList() { //학원정보가져오기
-
         var officeId        = getInputTextValue("officeId");
+
         academyService.getAcademyList(officeId, function (selList) {
          if (selList.length > 0) {
              for (var i=0; i<selList.length; i++) {
                  var cmpList = selList[i];
+                 academyGroupSelectbox("academy_group", cmpList.academyGroupId);   //학원그룹명 추가로 기능 추가 (2017.09.12 안지호)
                  innerValue("academy_name", cmpList.officeName);
-                innerValue("academy_directorname", cmpList.officeDirectorName);
+                 innerValue("academy_directorname", cmpList.officeDirectorName);
                  innerValue("academy_address", cmpList.officeAddress);
                  innerValue("academy_fax", cmpList.officeFaxNumber);
 
@@ -61,6 +65,12 @@
         <input type="hidden" name="officeId" id="officeId" value="<%=officeId%>" >
         <h1>학원정보입력page</h1>
         <table>
+            <tr>
+                <th>그룹명</th>
+                <td>
+                    <span id="academy_group"></span>
+                </td>
+            </tr>
             <tr>
                 <th>관명</th>
                 <td>
