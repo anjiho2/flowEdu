@@ -670,6 +670,16 @@ public class LectureService extends PagingSupport {
         lectureMapper.modifyLectureStudentRel(lectureRelId, lectureId, studentId, addYn);
     }
 
+    /**
+     * <PRE>
+     * 1. Comment : 출석값 변경
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 09 .12
+     * </PRE>
+     * @param lectureAttendId
+     * @param attendType
+     * @param attendModifyComment
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public void modifyAttendComment(Long lectureAttendId, String attendType, String attendModifyComment) {
         if (lectureAttendId == null) {

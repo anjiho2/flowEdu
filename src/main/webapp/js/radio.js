@@ -39,3 +39,22 @@ function studentMemoTypeRadio(tag_id, val, on_click) {
         innerHTML(tag_id, html);
     });
 }
+
+/**
+ * 성별선택 라디오
+ * @param tag_id
+ * @param gender
+ * @param on_click
+ */
+function genderRadio(tag_id, gender, on_click) {
+    var male_check = "";
+    var female_check = "";
+
+    if (gender == "MALE") male_check = "checked";
+    else if (gender == "FEMALE") female_check = "checked";
+
+    var radio = "<input type='radio' name='gender_type' value='MALE' onclick=" + "'" + on_click + "'" + male_check + ">남 &nbsp;";
+    radio += "<input type='radio' name='gender_type' value='FEMALE' onclick=" + "'" + on_click + "'" + female_check + ">여";
+
+    innerHTML(tag_id, radio);
+}
