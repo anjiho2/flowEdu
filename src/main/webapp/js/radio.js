@@ -22,7 +22,7 @@ function lectureLevelRadio(tag_id, val, on_click) {
 }
 
 /**
- * 강의 레벨 선택 라디오 박스
+ * 메모 종류 선택 라디오 박스
  * @param tag_id
  * @param val
  * @param on_click
@@ -33,7 +33,7 @@ function studentMemoTypeRadio(tag_id, val, on_click) {
         var check = "";
         for (var i=0; i<list.length; i++) {
             list[i].memoCode == val ? check = "checked" : check = "";
-            html += "<input type='radio' name='memo_type' value=" + list[i].memoCode + " onclick=" + "'" + on_click + "'" + check + ">" + list[i].memoName;
+            html += "<input type='radio' name='memo_type' value=" + list[i].memoCode + " onclick=" + "'" + on_click + "'" + check + ">" + list[i].memoName + "&nbsp;";
         }
         html += "</select>";
         innerHTML(tag_id, html);
