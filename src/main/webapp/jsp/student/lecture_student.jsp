@@ -44,6 +44,10 @@ function fn_search(val) {
 
 }
 
+function lecture_apply() {
+    goPage("lecture","lecture_list");
+}
+
 </script>
 <style>
     .inpType{padding-left:6px;height:24px;line-height:24px;border:1px solid #dbdbdb}
@@ -56,7 +60,7 @@ function fn_search(val) {
     <input type="hidden"  id="sPage" value="<%=sPage%>">
     <h1><%=student_id%>학생 수강리스트</h1>
     <div>
-        <input type="button" value="강의신청">
+        <input type="button" value="강의신청" onclick="lecture_apply();">
     </div>
     <div>
         <tr>

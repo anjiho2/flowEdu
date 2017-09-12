@@ -40,13 +40,13 @@
 		ON A.office_id = D.office_id LEFT JOIN LECTURE_PRICE E
 		ON A.lecture_price_id = E.lecture_price_id
 		WHERE 1=1
-		<if test="officeId > 0">
+		<if test="officeId > 0 or officeId != null">
 			AND  A.office_id = #{officeId}
 		</if>
 		<if test="memberType == 'TEACHER' or memberType == 'TEACHER_MANAGE'">
 			AND A.charge_member_id = #{flowMemberId} OR A.manage_member_id = #{flowMemberId}
 		</if>
-        <if test="chargeMemberId != ''">
+        <if test="chargeMemberId > 0 or chargeMemberId != null">
             AND A.charge_member_id = #{chargeMemberId}
         </if>
         <if test="schoolType != '' and lectureGrade > 0">
@@ -63,13 +63,13 @@
 		ON A.office_id = D.office_id LEFT JOIN LECTURE_PRICE E
 		ON A.lecture_price_id = E.lecture_price_id
 		WHERE 1=1
-        <if test="officeId > 0">
+        <if test="officeId > 0 or officeId != null">
             AND  A.office_id = #{officeId}
         </if>
         <if test="memberType == 'TEACHER' or memberType == 'TEACHER_MANAGE'">
             AND A.charge_member_id = #{flowMemberId} OR A.manage_member_id = #{flowMemberId}
         </if>
-        <if test="chargeMemberId != ''">
+        <if test="chargeMemberId > 0 or chargeMemberId != null">
             AND A.charge_member_id = #{chargeMemberId}
         </if>
         <if test="schoolType != '' and lectureGrade != ''">
