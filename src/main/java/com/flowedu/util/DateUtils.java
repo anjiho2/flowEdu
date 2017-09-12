@@ -21,6 +21,8 @@ public class DateUtils {
 	
 	public final static DateTimeZone TIME_ZONE = DateTimeZone.getDefault();
 	public final static String DF_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+	public final static String DF_MONTH_PATTERN = "yyyy-MM";
+	public final static String DF_DATE_PATTERN = "yyyy-MM-dd";
 	
 	public static Date now() {
 		DateTime dt = new DateTime(TIME_ZONE);

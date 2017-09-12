@@ -69,6 +69,14 @@ public class StudentService extends PagingSupport {
         return Arr;
     }
 
+    /**
+     * <PRE>
+     * 1. Comment : 메모 타입 정보 가져오기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 09 .12
+     * </PRE>
+     * @return
+     */
     public List<HashMap<String, Object>> getStudentMemoTypeList() {
         List<HashMap<String, Object>> Arr = new ArrayList<>();
 
@@ -319,6 +327,15 @@ public class StudentService extends PagingSupport {
         studentMapper.modifyStudentInfo(dto);
     }
 
+    /**
+     * <PRE>
+     * 1. Comment : 메모 상태 변경
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 09 .12
+     * </PRE>
+     * @param studentMemoId
+     * @param processYn
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public void modifyMemoProcessYn(Long studentMemoId, boolean processYn) {
         studentMapper.modifyMemoProcessYn(studentMemoId, processYn);

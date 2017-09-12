@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,8 +27,6 @@ import java.util.List;
  */
 @Service
 public class LectureService extends PagingSupport {
-
-    private final Logger logger = LoggerFactory.getLogger(LectureService.class);
 
     @Autowired
     private LectureMapper lectureMapper;
@@ -363,7 +362,7 @@ public class LectureService extends PagingSupport {
         List<LectureAttendDto> Arr = new ArrayList<>();
         String day = LectureDay.getLectureDayCode(
                 DateUtils.getDateDay(
-                        Util.returnToDate("yyyy-MM-dd"), "yyyy-MM-dd"
+                        Util.returnToDate(DateUtils.DF_DATE_PATTERN), DateUtils.DF_DATE_PATTERN
                     ) - 1
                 ).toString();
         Arr = lectureMapper.getLectureAttendList(lectureId, day);
@@ -382,8 +381,8 @@ public class LectureService extends PagingSupport {
      */
     @Transactional(readOnly = true)
     public int getLectureAttendListByStudentIdCount(Long studentId, String searchMonth) {
-        if ("".equals(searchMonth) || searchMonth == null) {
-            searchMonth = Util.returnToDate("yyyy-MM");
+        if ("".equals(Util.isNullValue(searchMonth, ""))) {
+            searchMonth = Util.returnToDate(DateUtils.DF_MONTH_PATTERN);
         }
         return lectureMapper.getLectureAttendListByStudentIdCount(studentId, searchMonth);
     }
@@ -400,8 +399,8 @@ public class LectureService extends PagingSupport {
      */
     @Transactional(readOnly = true)
     public List<LectureAttendDto> getLectureAttendListByStudentId(Long studentId, String searchMonth) {
-        if ("".equals(searchMonth) || searchMonth == null) {
-            searchMonth = Util.returnToDate("yyyy-MM");
+        if ("".equals(Util.isNullValue(searchMonth, ""))) {
+            searchMonth = Util.returnToDate(DateUtils.DF_MONTH_PATTERN);
         }
         List<LectureAttendDto> Arr = lectureMapper.getLectureAttendListByStudentId(studentId, searchMonth);
         return Arr;

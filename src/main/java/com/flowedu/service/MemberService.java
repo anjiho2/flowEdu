@@ -163,6 +163,15 @@ public class MemberService extends PagingSupport {
         return memberMapper.getTeacherList(officeId);
     }
 
+    /**
+     * <PRE>
+     * 1. Comment : 사용자 정보 가져오기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .16
+     * </PRE>
+     * @param flowMemberId
+     * @return
+     */
     @Transactional(readOnly = true)
     public FlowEduMemberDto getFlowEduMemberCheck(Long flowMemberId) {
         return memberMapper.getFlowEduMemberCheck(flowMemberId);
