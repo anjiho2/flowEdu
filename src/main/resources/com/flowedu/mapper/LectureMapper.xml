@@ -40,18 +40,21 @@
 		ON A.office_id = D.office_id LEFT JOIN LECTURE_PRICE E
 		ON A.lecture_price_id = E.lecture_price_id
 		WHERE 1=1
-		<if test="officeId > 0 or officeId != null">
+		<if test="officeId > 0">
 			AND  A.office_id = #{officeId}
 		</if>
 		<if test="memberType == 'TEACHER' or memberType == 'TEACHER_MANAGE'">
 			AND A.charge_member_id = #{flowMemberId} OR A.manage_member_id = #{flowMemberId}
 		</if>
-        <if test="chargeMemberId > 0 or chargeMemberId != null">
+        <if test="chargeMemberId > 0">
             AND A.charge_member_id = #{chargeMemberId}
         </if>
-        <if test="schoolType != '' and lectureGrade > 0">
-            AND A.school_type = #{schoolType} AND A.lecture_grade = #{lectureGrade}
+        <if test="schoolType != ''">
+            AND A.school_type = #{schoolType}
         </if>
+		<if test="lectureGrade > 0">
+			AND A.lecture_grade = #{lectureGrade}
+		</if>
 		LIMIT #{start}, #{end}
 	</select>
 
@@ -63,18 +66,21 @@
 		ON A.office_id = D.office_id LEFT JOIN LECTURE_PRICE E
 		ON A.lecture_price_id = E.lecture_price_id
 		WHERE 1=1
-        <if test="officeId > 0 or officeId != null">
+        <if test="officeId > 0">
             AND  A.office_id = #{officeId}
         </if>
         <if test="memberType == 'TEACHER' or memberType == 'TEACHER_MANAGE'">
             AND A.charge_member_id = #{flowMemberId} OR A.manage_member_id = #{flowMemberId}
         </if>
-        <if test="chargeMemberId > 0 or chargeMemberId != null">
+        <if test="chargeMemberId > 0">
             AND A.charge_member_id = #{chargeMemberId}
         </if>
-        <if test="schoolType != '' and lectureGrade != ''">
-            AND A.school_type = #{schoolType} AND A.lecture_grade = #{lectureGrade}
-        </if>
+		<if test="schoolType != ''">
+			AND A.school_type = #{schoolType}
+		</if>
+		<if test="lectureGrade > 0">
+			AND A.lecture_grade = #{lectureGrade}
+		</if>
 	</select>
 
 	<select id="getLectureDetailInfoList" parameterType="Long" resultType="com.flowedu.dto.LectureDetailDto">

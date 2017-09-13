@@ -11,15 +11,15 @@
 <script type="text/javascript">
 
     function init(val) {
-
-        var office_id = 0;
-        if (val != undefined) {
-             office_id = getInputTextValue("office_id");
+        var office_id;
+        if (val == "" || val == undefined) {
+            office_id = 0;
+        } else {
+            office_id = getInputTextValue("office_id");
         }
         schoolSelectbox("student_grade","", "");
         academyListSelectbox2("sel_academy", office_id);
         teacherList(office_id, "sel_member", "");
-        //academy_sel_change();
         fn_search("new");
     }
 
@@ -36,7 +36,7 @@
         var schoolType = get_radio_value("school_type");
         var lectureGrade = getSelectboxValue("sel_school");
 
-        if(office_id == undefined && chargeMemberId == undefined && schoolType == undefined && lectureGrade == undefined ){
+        if(office_id == undefined || chargeMemberId == undefined || schoolType == undefined || lectureGrade == undefined ){
             office_id = 0;
             chargeMemberId = 0;
             schoolType = "";
@@ -46,6 +46,8 @@
             sPage = "1";
         }
         dwr.util.removeAllRows("dataList");
+
+        gfn_emptyView("H", "");
 
         lectureService.getLectureInfoCount(office_id, chargeMemberId, schoolType, lectureGrade, function(cnt) {
             paging.count(sPage, cnt, '10', '5', comment.blank_list);
