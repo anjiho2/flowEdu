@@ -32,14 +32,14 @@
 
 	<select id="getStudentMemoListCount" resultType="Integer">
 		SELECT count(A.student_memo_id)
-		FROM STUDENT_MEMO LEFT JOIN FLOWEDU_MEMBER B
+		FROM STUDENT_MEMO A LEFT JOIN FLOWEDU_MEMBER B
 		ON A.flow_member_id = B.flow_member_id
 		WHERE 1=1
 		<if test="studentId >0">
 			AND A.student_id = #{studentId}
 		</if>
 		<if test="searchDate != ''">
-			AND DATE_FORMAT(A.create_date, '%Y-%m-%d') = DATE_FORMAT(#{searchDate}, '%Y-%m-%d')
+			AND DATE_FORMAT(A.create_date, '%Y-%m') = #{searchDate}
 		</if>
 		<if test="memoType != ''">
 			AND A.memo_type = #{memoType}
@@ -61,7 +61,7 @@
 			AND student_id = #{studentId}
 		</if>
 		<if test="searchDate != ''">
-			AND DATE_FORMAT(A.create_date, '%Y-%m-%d') = DATE_FORMAT(#{searchDate}, '%Y-%m-%d')
+			AND DATE_FORMAT(A.create_date, '%Y-%m') = #{searchDate}
 		</if>
 		<if test="memoType != ''">
 			AND A.memo_type = #{memoType}
@@ -72,6 +72,7 @@
 		<if test="memoContent != ''">
 			AND A.memo_content LIKE CONCAT ('%', #{memoContent}, '%')
 		</if>
+		ORDER BY A.create_date DESC
 		LIMIT #{start}, #{end}
 	</select>
 
