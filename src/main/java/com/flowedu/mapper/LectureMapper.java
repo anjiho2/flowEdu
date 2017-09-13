@@ -47,6 +47,8 @@ public interface LectureMapper {
 
     List<LectureAttendDto> getLectureAttendListByStudentId(@Param("studentId") Long studentId, @Param("searchMonth") String searchMonth);
 
+    LectureStudentRelByIdDto getLectureStudentRelInfo(@Param("lectureRelId") Long lectureRelId);
+
     /** INSERT **/
     void saveLectureRoom(@Param("officeId") Long officeId, @Param("lectureRoomName") String lectureRoomName);
 

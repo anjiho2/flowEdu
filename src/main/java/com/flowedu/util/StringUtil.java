@@ -222,6 +222,15 @@ public class StringUtil {
 		str =str.replaceAll(match, " ");
 		return str;
 	}
+
+	public static String convertParmeterStr(String str, String encoding) throws UnsupportedEncodingException {
+		String convertStr = "";
+		if (!"".equals(str)) {
+			convertStr = new String(str.getBytes("8859_1"), encoding);
+		}
+		return convertStr;
+	}
+
 	public static void main(String[] args) {
 		/*
 		String z=x.replace("\"", "");

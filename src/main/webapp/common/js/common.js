@@ -1911,3 +1911,7 @@ function remove_double_quotation(val) {
     var removed_str =   val.replace(/"/g, "");
 	return removed_str;
 }
+
+function get_month_lastday(year, month) {
+	return new Date(year, month, 0).getDate();
+}

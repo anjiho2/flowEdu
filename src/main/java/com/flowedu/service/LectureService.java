@@ -406,6 +406,11 @@ public class LectureService extends PagingSupport {
         return Arr;
     }
 
+    @Transactional(readOnly = true)
+    public LectureStudentRelByIdDto getLectureStudentRelInfo(Long lectureRelId) {
+        return lectureMapper.getLectureStudentRelInfo(lectureRelId);
+    }
+
     /**
      * <PRE>
      * 1. Comment : 강의실 명 저장

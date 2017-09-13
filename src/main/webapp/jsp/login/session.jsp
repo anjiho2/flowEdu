@@ -34,7 +34,7 @@ function init() {
 }
 </script>
 <body onload="init();">
-<form name="frm" method="post">
+<form name="frm" method="get">
 	<input type="hidden" name="page_gbn">
 </form>
 </body>

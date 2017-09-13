@@ -16,11 +16,17 @@ public class LectureStudentRelByIdDto implements MemberNameContain {
 
     private boolean addYn;
 
+    private boolean paymentYn;
+
+    private String paymentDate;
+
     private Long officeId;
 
     private Long chargeMemberId;
 
     private Long manageMemberId;
+
+    private Long lecturePriceId;
 
     private Integer lecturePrice;
 
@@ -49,6 +55,8 @@ public class LectureStudentRelByIdDto implements MemberNameContain {
     private String chargeMemberName;
 
     private String manageMemberName;
+
+    private String createDate;
 
     @Override
     public Long manageMemberId() {

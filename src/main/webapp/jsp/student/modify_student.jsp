@@ -4,8 +4,6 @@
 <%
     Long student_id = Long.parseLong(request.getParameter("student_id"));
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
-    FlowEduMemberDto flowEduMemberDto = (FlowEduMemberDto)session.getAttribute("member_info");
-    Long memberId = flowEduMemberDto.getFlowMemberId();
 %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
 <script>
@@ -216,12 +214,6 @@
         }
     }
 </script>
-<style type="text/css">
-    nav ul{padding-top:10px;}
-    nav ul li {display:inline;border-left:1px solid #999;font:bold 12px Dotum;padding:0 10px;}
-    nav ul li:first-child{border-left:none;}
-    nav ul li:hover{color:#ff0000;cursor:pointer;}
-</style>
 <body onload="init();">
 <form name="frm" id="frm" method="get">
     <input type="hidden" id="school"  value="">
@@ -230,17 +222,7 @@
     <input type="hidden" id="student_id" name="student_id" value="<%=student_id%>">
     <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
     <input type="hidden" name="page_gbn" id="page_gbn">
-    <div><!--상단메뉴-->
-        <nav>
-            <ul>
-                <li onclick="goPage('student', 'lecture_student')">수강이력</li>
-                <li>학습관리</li>
-                <li onclick="goPage('student', 'memo_student')">상담관리</li>
-                <li>셔틀버스</li>
-                <li>수강료납부</li>
-            </ul>
-        </nav>
-    </div><!--상단메뉴끝-->
+    <%@include file="/common/jsp/user_top_menu.jsp"%>
     <h1>학생정보입력 상세정보/수정 page</h1>
     <table>
         <tr>
@@ -257,7 +239,7 @@
         <tr>
             <th>학생이름*</th>
             <td>
-                <input type="text" id="student_name">
+                <input type="text" name="student_name" id="student_name">
             </td>
         </tr>
         <tr>

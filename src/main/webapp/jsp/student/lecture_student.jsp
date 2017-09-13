@@ -1,9 +1,12 @@
 <%@ page import="com.flowedu.util.Util" %>
+<%@ page import="java.net.URLDecoder" %>
+<%@ page import="com.flowedu.util.StringUtil" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/common/jsp/top.jsp" %>
 <%
     Long student_id = Long.parseLong(request.getParameter("student_id"));
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
+    String student_name = StringUtil.convertParmeterStr(request.getParameter("student_name"), "UTF-8");
 %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
@@ -57,9 +60,11 @@ function lecture_apply() {
 <body onload="init();">
 <form name="frm" id="frm" method="get">
     <input type="hidden" name="page_gbn" id="page_gbn">
-    <input type="hidden" id="studentId" value="<%=student_id%>">
+    <input type="hidden" id="studentId" name="student_id" value="<%=student_id%>">
+    <input type="hidden" name="student_name" value="<%=student_name%>">
     <input type="hidden"  id="sPage" value="<%=sPage%>">
-    <h1><%=student_id%>학생 수강리스트</h1>
+    <%@include file="/common/jsp/user_top_menu.jsp"%>
+    <h1><%=student_name%> 수강리스트</h1>
     <div>
         <input type="button" value="강의신청" onclick="lecture_apply();">
     </div>
