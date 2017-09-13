@@ -504,3 +504,20 @@ function academyGroupSelectbox(tag_id, val) {
     });
 
 }
+
+
+function studentmemoTypeSelectbox(tag_id, val) {
+    studentService.getStudentMemoTypeList(function (list) {
+        var html = "<select id='sel_memoType'>";
+        html += "<option value=''>▶선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].memoCode == val) {
+                html += "<option value="+list[i].memoCode+" selected>"+ list[i].memoName +"</option>";
+            } else {
+                html += "<option value="+list[i].memoCode +">"+ list[i].memoName  +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}

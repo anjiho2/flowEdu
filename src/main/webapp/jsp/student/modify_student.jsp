@@ -12,6 +12,8 @@
     function init() {
         schoolSelectbox("student_grade","", "");
         studentList();
+        student_memo_list();
+
     }
 
     function studentList() {
@@ -215,6 +217,20 @@
             isReloadPage(true)
         }
     }
+    //상담리스트
+    function student_memo_list() {
+        var student_id = getInputTextValue("student_id");
+        studentService.getStudentMemoLastThree(student_id, function (memoList) {
+            if (memoList.length < 0) return;
+            dwr.util.addRows("consultList", memoList, [
+                function(data) {return data.memoContent},
+                function(data) {return data.memberName;},
+                function(data) {return convert_memo_type(data.memoType);},
+                function(data) {return getDateTimeSplitComma(data.createDate);},
+                function(data) {return data.processYn == false ? "<input type='button' value='처리하기' id="+data.studentMemoId+" onclick='changeProccessYn(this.id);'>" : "처리완료";}
+            ], {escapeHtml:false} );
+        });
+    }
 </script>
 <style type="text/css">
     nav ul{padding-top:10px;}
@@ -363,6 +379,31 @@
     </table>
     <tbody id="dataList"></tbody>
     <input type="button" value="수정" onclick="modify_student();"><br>
+    <div style="float:left;">
+        <h1>최근 상담 3건</h1>
+        <table class="table_list" border="1">
+            <colgroup>
+                <col width="*" />
+                <col width="*" />
+                <col width="*" />
+                <col width="*" />
+                <col width="*" />
+            </colgroup>
+            <thead>
+            <tr>
+                <th>상담내용</th>
+                <th>상담자</th>
+                <th>상담구분</th>
+                <th>상담날짜</th>
+                <th>처리여부</th>
+            </tr>
+            </thead>
+            <tbody id="consultList"></tbody>
+            <tr>
+                <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
+            </tr>
+        </table>
+    </div>
 </form>
 
 </body>
