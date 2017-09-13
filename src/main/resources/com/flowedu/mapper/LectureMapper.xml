@@ -144,7 +144,9 @@
 		ON B.office_id = C.office_id LEFT JOIN LECTURE_PRICE D
 		ON B.lecture_price_id = D.lecture_price_id
 		WHERE A.student_id =  #{studentId}
-		AND DATE_FORMAT(A.create_date, '%Y-%m-%d') BETWEEN (DATE_FORMAT(NOW(), '%Y-%m-%d') - INTERVAL 2 MONTH) AND DATE_FORMAT(NOW(), '%Y-%m-%d')
+		<if test="type == 'MOMTH'">
+			AND DATE_FORMAT(A.create_date, '%Y-%m-%d') BETWEEN (DATE_FORMAT(NOW(), '%Y-%m-%d') - INTERVAL 2 MONTH) AND DATE_FORMAT(NOW(), '%Y-%m-%d')
+		</if>
 	</select>
 
 	<select id="getLectureStudentRelByStudentIdCount" resultType="Integer">
@@ -154,7 +156,9 @@
 		ON B.office_id = C.office_id LEFT JOIN LECTURE_PRICE D
 		ON B.lecture_price_id = D.lecture_price_id
 		WHERE A.student_id =  #{studentId}
-		AND DATE_FORMAT(A.create_date, '%Y-%m-%d') BETWEEN (DATE_FORMAT(NOW(), '%Y-%m-%d') - INTERVAL 2 MONTH) AND DATE_FORMAT(NOW(), '%Y-%m-%d')
+		<if test="type == 'MOMTH'">
+			AND DATE_FORMAT(A.create_date, '%Y-%m-%d') BETWEEN (DATE_FORMAT(NOW(), '%Y-%m-%d') - INTERVAL 2 MONTH) AND DATE_FORMAT(NOW(), '%Y-%m-%d')
+		</if>
 	</select>
 
 	<select id="getLectureStudentRelInfo" resultType="com.flowedu.dto.LectureStudentRelByIdDto">

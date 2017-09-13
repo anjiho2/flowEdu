@@ -7,7 +7,6 @@
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
     String student_name = StringUtil.convertParmeterStr(request.getParameter("student_name"), "UTF-8");
 %>
-<script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
 <script>
 
@@ -25,12 +24,12 @@ function fn_search(val) {
     }
     gfn_emptyView("H", "");
 
-    lectureService.getLectureStudentRelByStudentIdCount(student_id, function(cnt) {
-        paging.count(sPage, cnt, '10', '5', comment.blank_list);
+    lectureService.getLecturePaymentListCount(student_id, function(cnt) {
+        paging.count(sPage, cnt, 10, 10, comment.blank_list);
 
         dwr.util.removeAllRows("dataList");
 
-        lectureService.getLectureStudentRelById(student_id, function (selList) {
+        lectureService.getLecturePaymentList(student_id, function (selList) {
             if (selList.length < 0) return;
             dwr.util.addRows("dataList", selList, [
                 function(data) {return data.lectureName},
@@ -62,7 +61,7 @@ function cacl_lecture_price(lecture_rel_id) {
 
         innerHTML("l_lecturePrice", addThousandSeparatorCommas(relInfo.lecturePrice)+"원");
         innerHTML("l_calcLecturePrice", addThousandSeparatorCommas(roundMarks(calcLecturePrice * minusDay))+"원");
-        gfn_display("payBtn", true);
+        gfn_display("payment_div", true);
     });
 }
 </script>
@@ -110,8 +109,10 @@ function cacl_lecture_price(lecture_rel_id) {
         <%@ include file="/common/inc/com_pageNavi.inc" %>
     </div>
     <br>
-    강의 가격 : <span id="l_lecturePrice"></span><br>
-    등록일 기준 결제 가격 : <span id="l_calcLecturePrice"></span><br>
-    <input type="button" value="결제하기" id="payBtn" style="display: none;">
+    <div id="payment_div" style="display: none;">
+        강의 가격 : <span id="l_lecturePrice"></span><br>
+        등록일 기준 결제 가격 : <span id="l_calcLecturePrice"></span><br>
+        <input type="button" value="결제하기" id="payBtn">
+    </div>
 </form>
 </body>

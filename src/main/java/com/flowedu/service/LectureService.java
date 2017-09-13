@@ -325,7 +325,7 @@ public class LectureService extends PagingSupport {
      */
     @Transactional(readOnly = true)
     public List<LectureStudentRelByIdDto> getLectureStudentRelById(Long studentId) {
-        List<LectureStudentRelByIdDto> Arr = lectureMapper.getLectureStudentRelByStudentId(studentId);
+        List<LectureStudentRelByIdDto> Arr = lectureMapper.getLectureStudentRelByStudentId(studentId, "MONTH");
         if (Arr != null) {
             //담임 선생님, 관리 선생님 이름 주입하기
             memberNameRepository.fillMemberNameAny(Arr);
@@ -335,7 +335,7 @@ public class LectureService extends PagingSupport {
 
     /**
      * <PRE>
-     * 1. Comment : 학생 아이디로 등록된 강의 리스트 개수
+     * 1. Comment : 학생 아이디로 등록된 강의 리스트 개수(최근 3개월)
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .25
      * </PRE>
@@ -344,7 +344,40 @@ public class LectureService extends PagingSupport {
      */
     @Transactional(readOnly = true)
     public int getLectureStudentRelByStudentIdCount(Long studentId) {
-        return lectureMapper.getLectureStudentRelByStudentIdCount(studentId);
+        return lectureMapper.getLectureStudentRelByStudentIdCount(studentId, "MONTH");
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 학생 아이디로 결제 관련 수강 리스트 개수
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 09 .13
+     * </PRE>
+     * @param studentId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<LectureStudentRelByIdDto> getLecturePaymentList(Long studentId) {
+        List<LectureStudentRelByIdDto> Arr = lectureMapper.getLectureStudentRelByStudentId(studentId, "");
+        if (Arr != null) {
+            //담임 선생님, 관리 선생님 이름 주입하기
+            memberNameRepository.fillMemberNameAny(Arr);
+        }
+        return Arr;
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 학생 아이디로 결제 관련 수강 리스트 개수
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 09 .13
+     * </PRE>
+     * @param studentId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public int getLecturePaymentListCount(Long studentId) {
+        return lectureMapper.getLectureStudentRelByStudentIdCount(studentId, "");
     }
 
     /**
