@@ -13,13 +13,14 @@ function init() {
 
 //댓글저장
 function save_memo_reply() {
-
-    //y(Long studentMemoId, String replyContent)
-
-
-    studentService.saveStudentMemoReply(function () {
-        
-    })
+    var student_memo_id = getInputTextValue("student_memo_id");
+    var reply_content = getInputTextValue("reply_content");
+    if (confirm("댓글 등록하시겠습니까?")) {
+        studentService.saveStudentMemoReply(student_memo_id, reply_content, function () {
+            alert("등록되었습니다.");
+            location.reload();
+        });
+    }
 }
 
 function fn_search(val) {
@@ -29,11 +30,11 @@ function fn_search(val) {
         studentService.getStudentMemoReplyList(sPage, 10, student_memo_id, function (selList) {
 
             /*상담내용*/
-            innerValue("member_name", selList.studentMemoDto.memberName);
-            innerValue("create_date", selList.studentMemoDto.createDate);
-            innerValue("process_yn", selList.studentMemoDto.processYn);
-            innerValue("memo_content", selList.studentMemoDto.memoContent);
-            innerValue("memo_type", selList.studentMemoDto.memoType);
+            innerHTML("member_name", selList.studentMemoDto.memberName);
+            innerHTML("create_date", selList.studentMemoDto.createDate);
+            innerHTML("process_yn", selList.studentMemoDto.processYn);
+            innerHTML("memo_content", selList.studentMemoDto.memoContent);
+            innerHTML("memo_type", selList.studentMemoDto.memoType);
 
             /*상담-댓글리스트*/
             if (selList.studentMemoReplyDtoList.length > 0) {
@@ -58,42 +59,44 @@ function fn_search(val) {
     <input type="hidden" name="page_gbn" id="page_gbn">
     <input type="hidden"  id="sPage" value="<%=sPage%>">
     <span id="l_memoType"></span>
-    <div>
         <h1>상담상세</h1>
-        <table border="1">
-            <tr>
-                <td>상담자</td>
-                <td><input type="text" id="member_name"></td>
-            </tr>
-            <tr>
-                <td>상담구분</td>
-                <td><input type="text" id="memo_type"></td>
-            </tr>
-            <tr>
-                <td>상담날짜</td>
-                <td><input type="text" id="create_date"></td>
-            </tr>
-            <tr>
-                <td>처리여부</td>
-                <td><input type="text" id="process_yn"></td>
-            </tr>
-            <tr>
-                <td>상담내용</td>
-                <td><textarea id="memo_content"></textarea></td>
-            </tr>
-        </table>
-        <table>
-            <h1>댓글쓰기</h1>
-            <thead>
-            <div>
-                <td><textarea id="memo_reply"></textarea></td>
-                <td><input type="button" value="작성" onclick="save_memo_reply();"></td>
+
+             <div style="position: relative; left: 0px; top: 50px;">
+                 <table border="1">
+                    <tr>
+                        <td>상담자</td>
+                        <td><span id="member_name"></span></td>
+                    </tr>
+                    <tr>
+                        <td>상담구분</td>
+                        <td><span id="memo_type"></span></td>
+                    </tr>
+                    <tr>
+                        <td>상담날짜</td>
+                        <td><span id="create_date"></span></td>
+                    </tr>
+                    <tr>
+                        <td>처리여부</td>
+                        <td><span id="process_yn"></span></td>
+                    </tr>
+                    <tr>
+                        <td>상담내용</td>
+                        <td><span id="memo_content"></span></td>
+                    </tr>
+                 </table>
             </div>
-                댓글리스트
-                <td><span id="l_memo_reply"></span></td>
-            </thead>
-            <tbody id="dataList"></tbody>
-        </table>
-    </div>
+            <div style="position: relative; left: 0px; top: 100px;">
+                <table border="1">
+                <tr>
+                    <td><span id="l_memo_reply"></span></td>
+                </tr>
+                    <tbody id="dataList"></tbody>
+                </table>
+                    <tr>
+                        <td><textarea id="reply_content"></textarea></td>
+                        <td><input type="button" value="작성" onclick="save_memo_reply();"></td>
+                    </tr>
+            </div>
+
 </form>
 </body>
