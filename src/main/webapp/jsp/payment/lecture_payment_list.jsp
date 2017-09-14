@@ -8,6 +8,7 @@
     String student_name = StringUtil.convertParmeterStr(request.getParameter("student_name"), "UTF-8");
 %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
+<script type='text/javascript' src='/flowEdu/dwr/interface/paymentService.js'></script>
 <script>
 
 function init() {
@@ -38,13 +39,13 @@ function fn_search(val) {
                 function(data) {return data.lectureStartDate;},
                 function(data) {return data.lectureEndDate;},
                 function(data) {return data.paymentYn == false ? "미납" : "수납완료";},
-                function(data) {return data.paymentDate;},
+                function(data) {return data.paymentDate == undefined ? "" : getDateTimeSplitComma(data.paymentDate);},
                 function(data) {return data.paymentYn == false ? "<input type='button' value='수납' id='"+ data.lectureRelId + "' onclick='javascript:cacl_lecture_price(this.id);' >" : ""}
             ], {escapeHtml:false});
         });
     });
 }
-
+//수납버튼 이벤트
 function cacl_lecture_price(lecture_rel_id) {
     lectureService.getLectureStudentRelInfo(lecture_rel_id, function(relInfo) {
         var regDate = getDateTimeSplitComma(relInfo.createDate);
@@ -59,10 +60,21 @@ function cacl_lecture_price(lecture_rel_id) {
         var minusDay = lastDay - regDay;
         var calcLecturePrice = relInfo.lecturePrice / lastDay;
 
+        innerValue("lecture_rel_id", lecture_rel_id);
         innerHTML("l_lecturePrice", addThousandSeparatorCommas(relInfo.lecturePrice)+"원");
         innerHTML("l_calcLecturePrice", addThousandSeparatorCommas(roundMarks(calcLecturePrice * minusDay))+"원");
         gfn_display("payment_div", true);
     });
+}
+
+function payment_lecture() {
+    var lectureRelId = getInputTextValue("lecture_rel_id");
+    if (confirm("결제하시겠습니까?")) {
+        paymentService.paymentLecture(lectureRelId, function () {
+            alert("결제완료됬습니다.");
+            isReloadPage(true);
+        });
+    }
 }
 </script>
 <style>
@@ -110,6 +122,7 @@ function cacl_lecture_price(lecture_rel_id) {
     </div>
     <br>
     <div id="payment_div" style="display: none;">
+        <input type="hidden" id="lecture_rel_id">
         강의 가격 : <span id="l_lecturePrice"></span><br>
         등록일 기준 결제 가격 : <span id="l_calcLecturePrice"></span><br>
         <input type="button" value="결제하기" id="payBtn">
