@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flowedu.mapper.LogMapper">
+
+	<insert id="saveLecturePaymentLog" parameterType="com.flowedu.dto.LecturePaymentLogDto">
+		INSERT INTO LECTURE_PAYMENT_LOG
+		(lecture_name, payment_price, student_name, member_name)
+		VALUES
+	 	(#{lectureName}, #{paymentPrice}, #{studentName}, #{memberName})
+	</insert>
+
+</mapper>

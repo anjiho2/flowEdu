@@ -45,7 +45,7 @@ public class LoginService {
         Long flowMemberId = loginMapper.findFlowEduMember(phoneNumber, Aes256.encrypt(password), memberType);
         if (flowMemberId != null) {
             dto = memberMapper.getFlowEduMemberCheck(flowMemberId);
-            UserSession.set(new FlowEduMemberDto(dto.getFlowMemberId(), dto.getMemberType()));
+            UserSession.set(new FlowEduMemberDto(dto.getFlowMemberId(), dto.getMemberType(), dto.getMemberName()));
             return dto;
         }
         return dto;

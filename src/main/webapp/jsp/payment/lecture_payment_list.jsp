@@ -38,9 +38,9 @@ function fn_search(val) {
                 function(data) {return addThousandSeparatorCommas(data.lecturePrice);},
                 function(data) {return data.lectureStartDate;},
                 function(data) {return data.lectureEndDate;},
-                function(data) {return data.paymentYn == false ? "미납" : "수납완료";},
                 function(data) {return data.paymentDate == undefined ? "" : getDateTimeSplitComma(data.paymentDate);},
-                function(data) {return data.paymentYn == false ? "<input type='button' value='수납' id='"+ data.lectureRelId + "' onclick='javascript:cacl_lecture_price(this.id);' >" : ""}
+                function(data) {return data.paymentYn == false ? "<input type='button' value='수납하기' id='"+ data.lectureRelId + "' onclick='javascript:cacl_lecture_price(this.id);' >": "수납완료";},
+                //function(data) {return data.paymentYn == false ? "<input type='button' value='수납하기' id='"+ data.lectureRelId + "' onclick='javascript:cacl_lecture_price(this.id);' >" : ""}
             ], {escapeHtml:false});
         });
     });
@@ -61,16 +61,18 @@ function cacl_lecture_price(lecture_rel_id) {
         var calcLecturePrice = relInfo.lecturePrice / lastDay;
 
         innerValue("lecture_rel_id", lecture_rel_id);
-        innerHTML("l_lecturePrice", addThousandSeparatorCommas(relInfo.lecturePrice)+"원");
-        innerHTML("l_calcLecturePrice", addThousandSeparatorCommas(roundMarks(calcLecturePrice * minusDay))+"원");
+        innerValue("payment_price", roundMarks(calcLecturePrice * minusDay));
+        innerHTML("l_lecturePrice", addThousandSeparatorCommas(relInfo.lecturePrice));
+        innerHTML("l_calcLecturePrice", addThousandSeparatorCommas(roundMarks(calcLecturePrice * minusDay)));
         gfn_display("payment_div", true);
     });
 }
 
 function payment_lecture() {
     var lectureRelId = getInputTextValue("lecture_rel_id");
-    if (confirm("결제하시겠습니까?")) {
-        paymentService.paymentLecture(lectureRelId, function () {
+    var paymentPrice = getInputTextValue("payment_price");
+    if (confirm(paymentPrice + "을 결제하시겠습니까?")) {
+        paymentService.paymentLecture(lectureRelId, '<%=student_name%>' , paymentPrice, function () {
             alert("결제완료됬습니다.");
             isReloadPage(true);
         });
@@ -98,7 +100,6 @@ function payment_lecture() {
                 <col width="*" />
                 <col width="*" />
                 <col width="*" />
-                <col width="*" />
             </colgroup>
             <thead>
             <tr>
@@ -107,9 +108,8 @@ function payment_lecture() {
                 <th>강의료</th>
                 <th>강의시일</th>
                 <th>강의종료일</th>
-                <th>수납여부</th>
                 <th>수납일</th>
-                <th></th>
+                <th>수납여부</th>
             </tr>
             </thead>
             <tbody id="dataList"></tbody>
@@ -123,9 +123,10 @@ function payment_lecture() {
     <br>
     <div id="payment_div" style="display: none;">
         <input type="hidden" id="lecture_rel_id">
-        강의 가격 : <span id="l_lecturePrice"></span><br>
-        등록일 기준 결제 가격 : <span id="l_calcLecturePrice"></span><br>
-        <input type="button" value="결제하기" id="payBtn">
+        <input type="hidden" id="payment_price">
+        강의 가격 : <span id="l_lecturePrice"></span>원<br>
+        등록일 기준 결제 가격 : <span id="l_calcLecturePrice"></span>원<br>
+        <input type="button" value="결제하기" id="payBtn" onclick="javascript:payment_lecture();">
     </div>
 </form>
 </body>

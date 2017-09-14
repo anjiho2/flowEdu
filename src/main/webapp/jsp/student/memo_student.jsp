@@ -50,7 +50,6 @@
                         var cmpList = selList[i];
                         if (cmpList == undefined) {
                         } else
-
                             var memoHTML = "<a href='javascript:void(0);'  onclick='go_reply("+ '"' + 'student' + '"' + ","+ '"' + 'detail_memo_student' + '"' + ","+ '"' + cmpList.studentMemoId + '"' + ");' />"+cmpList.memoContent+"</a>";
                             var cellData = [
                                 //cmpList.memoContent;

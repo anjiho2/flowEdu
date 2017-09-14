@@ -67,6 +67,9 @@
                 <admin.db.url>jdbc:mysql://192.168.0.201:3306/flowedu</admin.db.url>
                 <admin.db.username>root</admin.db.username>
                 <admin.db.password>flowedu3400</admin.db.password>
+                <log.db.url>jdbc:mysql://192.168.0.201:3306/flowedu_log</log.db.url>
+                <log.db.username>root</log.db.username>
+                <log.db.password>flowedu3400</log.db.password>
                 <logger.root>/Users/jihoan/Downloads/</logger.root>
                 <logger.level>DEBUG</logger.level>
                 <logger.name>STDOUT</logger.name>

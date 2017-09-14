@@ -11,6 +11,10 @@
     <entry key="admin.db.username">${admin.db.username}</entry>
     <entry key="admin.db.password">${admin.db.password}</entry>
 
+    <entry key="log.db.url">${log.db.url}</entry>
+    <entry key="log.db.username">${log.db.username}</entry>
+    <entry key="log.db.password">${log.db.password}</entry>
+
     <entry key="logger.root">${logger.root}</entry>
     <entry key="logger.level">${logger.level}</entry>
     <entry key="logger.name">${logger.name}</entry>
