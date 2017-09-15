@@ -7,12 +7,15 @@
 	String webRoot = request.getContextPath();
 	String serverName = request.getServerName();
 	String memberName = "";
+	Long memberId  = 0L;
 	//VersionConfigHolder holder = new VersionConfigHolder();
 	String version = VersionConfigHolder.gerVersion();
 
 	if (session.getAttribute("member_info") != null) {
 		FlowEduMemberDto flowEduMemberDto = (FlowEduMemberDto) session.getAttribute("member_info");
 		 memberName = flowEduMemberDto.getMemberName();
+		 memberId = flowEduMemberDto.getFlowMemberId();
+
 	}
 %>
 <!DOCTYPE html>

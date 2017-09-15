@@ -63,7 +63,7 @@
                 <li onclick="goPage('member', 'save_member')">운영자/선생님정보</li>
                 <li onclick="goPage('lecture', 'lecture_info')">강의관리</li>
                 <li><input type="button" id="logoutBtn" value="로그아웃" onclick="goLogout();"></li>
-                <li> <%=memberName%>님 반갑습니다.</li>
+                <li><a href="javascript:void(0);" onclick="goPage('member','login_member_modify')"><%=memberName%></a>님 반갑습니다.</li>
             </ul>
         </nav>
     </div>
