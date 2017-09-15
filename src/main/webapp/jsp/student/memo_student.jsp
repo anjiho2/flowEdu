@@ -14,7 +14,7 @@
         fn_search("new");
     }
 
-    function studentMemo() {//상담저장
+    function studentMemo(){//상담저장
         var student_id  = getInputTextValue("student_id");
         var consultMemo = getInputTextValue("consultMemo");
         var memoType = get_radio_value("memo_type");

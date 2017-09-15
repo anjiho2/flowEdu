@@ -21,6 +21,8 @@ public class MemberController {
             mvc.setViewName("/member/save_member");
         }else if("modify_member".equals(page_gbn)){
             mvc.setViewName("/member/modify_member");
+        }else if("login_member_modify".equals(page_gbn)){
+            mvc.setViewName("/member/login_member_modify");
         }
         return mvc;
     }
