@@ -216,27 +216,26 @@ public class StringUtil {
 		}
 		return false;
 	}
-	
+
+	public static String StringReplace(String str){
+		String match = "[^\uAC00-\uD7A3xfe0-9a-zA-Z\\s]";
+		str =str.replaceAll(match, " ");
+		return str;
+	}
+
+	public static String convertParmeterStr(String str, String encoding) throws UnsupportedEncodingException {
+		String convertStr = "";
+		if (!"".equals(str)) {
+			convertStr = new String(str.getBytes("8859_1"), encoding);
+		}
+		return convertStr;
+	}
+
 	public static void main(String[] args) {
-		if (isSpecialCharacter("사랑")) {
-			System.out.println("1");
-		} else {
-			System.out.println("2");	
-		}
-		System.out.println(isSpecialCharacter("사랑"));
 		/*
-		String[] strArr = new String[25000];
-		ArrayList<String> arrList = new ArrayList<String>();
-		for (int i=0; i<strArr.length; i++) {
-			strArr[i] = Integer.toString(i);
-			arrList.add(strArr[i]);
-		}
-		ArrayList<ArrayList<String>> arrToList = gerArrayList(arrList, 1000);
-		for (int i=0; i<arrToList.size(); i++) {
-			System.out.println("arrTotList.get("+i+") = "+ arrToList.get(i));
-		}
+		String z=x.replace("\"", "");
+		System.out.println(z);
 		*/
-		
 		
 	}
 

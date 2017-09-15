@@ -2,7 +2,7 @@
 <%@include file="/common/jsp/top.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/loginService.js'></script>
-
+<script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
 <script type="text/javascript">
 
     var check = new isCheck();
@@ -45,7 +45,7 @@
             submit();
         }
     }
-    
+
 </script>
 <body onload="init();">
 <form name="frm" method="post">
@@ -61,7 +61,7 @@
 %>
     <span id="l_memberType"></span>
     <input type="text" id="phoneNumber">
-    <input type="password" id="memberPass" name="memberPass">
+    <input type="password" id="memberPass" name="memberPass" onkeypress="javascript:if(event.keyCode == 13){loginCheck(); return false;}">
     <input type="button" id="loginBtn" value="로그인" onclick="loginCheck();">
 <%
     } else {
@@ -71,5 +71,6 @@
     }
 %>
 </form>
+<%--<script type='text/javascript' src='<%=webRoot%>/js/monthpicker.js'></script>--%>
 </body>
 </html>

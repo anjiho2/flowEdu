@@ -8,7 +8,7 @@ public abstract class PagingSupport {
         int page_cnt = pageInList;
         int srow = page_cnt * (sPage - 1) + 1;
 
-        int start = srow;
+        int start = srow - 1;
         int end = page_cnt * sPage;
 
         PagingDto paging = new PagingDto(start, end);

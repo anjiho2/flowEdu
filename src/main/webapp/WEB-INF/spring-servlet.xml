@@ -17,24 +17,20 @@
   		http://www.directwebremoting.org/schema/spring-dwr http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd
   		">
 
+	<tx:annotation-driven proxy-target-class="true"/>
+
   	<!-- 세션 인터셉터 설정 -->
 
-	<!--<mvc:interceptors>-->
-		<!--<mvc:interceptor>-->
-			<!--<mvc:mapping path="/user.do"/>-->
-   			<!--<mvc:mapping path="/dashboard.do"/>-->
-   			<!--<mvc:mapping path="/item.do"/>-->
-   			<!--<mvc:mapping path="/sale.do"/>-->
-   			<!--<mvc:mapping path="/statistics.do"/>-->
-   			<!--<mvc:mapping path="/noti.do"/>-->
-   			<!--<mvc:mapping path="/push.do"/>-->
-   			<!--<mvc:mapping path="/square.do"/>-->
-   			<!--<mvc:mapping path="/gift.do"/>-->
-   			<!--<mvc:mapping path="/heart.do"/>-->
-   			<!--<mvc:mapping path="/version.do"/>-->
-   			<!--<bean class="SessionInterceptor"/>-->
-		<!--</mvc:interceptor>-->
-	<!--</mvc:interceptors>-->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/academy.do"/>
+			<mvc:mapping path="/lecture.do"/>
+			<mvc:mapping path="/member.do"/>
+			<mvc:mapping path="/student.do"/>
+			<mvc:mapping path="/file.do"/>
+   			<bean class="com.flowedu.config.SessionInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
 
   	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="50000000" />

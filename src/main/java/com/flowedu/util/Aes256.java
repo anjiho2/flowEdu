@@ -47,13 +47,7 @@ public class Aes256 {
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args) throws Exception {
-		String mode = "encrypt";
-		String text = "{result:true}";
-		String encText = "1234";
-		String decText = "b+mP5oZmP6BYxVzF";
-		encText = Aes256.encrypt(encText);
-		System.out.println("enc::" + encText);
-		decText = Aes256.decrypt("YeRiVTxg/jiXOLgCNKCO39SR6JREZhBkzlFjFKWlAwycycJjiNhSD8Uvm7QABBTCi2K1noHjzKKULhF37IgFYA==");
-		System.out.println("dec::" + decText);
+		String str = "QgftPCP4UdMo6JctU7IyEg==";
+		System.out.print("result :: " + Aes256.decrypt(str));
 	}
 }

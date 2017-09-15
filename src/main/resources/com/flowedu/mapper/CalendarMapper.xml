@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flowedu.mapper.CalendarMapper">
+
+	<select id="getCalendarInfoByLecture" parameterType="Long" resultType="com.flowedu.dto.CalendarLectureInfoDto">
+		SELECT A.*, B.lecture_name, B.lecture_start_date, B.lecture_end_date, B.lecture_operation_type, C.office_name, D.lecture_room_name
+		FROM LECTURE_DETAIL_INFO A LEFT JOIN LECTURE_INFO B
+		ON A.lecture_id = B.lecture_id LEFT JOIN OFFICE C
+		ON B.office_id = C.office_id LEFT JOIN LECTURE_ROOM_INFO D
+		ON A.lecture_room_id = D.lecture_room_id
+		WHERE A.lecture_id = #{lectureId}
+	</select>
+
+
+</mapper>

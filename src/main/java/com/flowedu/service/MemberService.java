@@ -1,11 +1,12 @@
 package com.flowedu.service;
 
+import com.flowedu.config.PagingSupport;
 import com.flowedu.define.datasource.MemberType;
-import com.flowedu.dto.FlowEduMemberDto;
-import com.flowedu.dto.MemberTypeDto;
+import com.flowedu.dto.*;
 import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
 import com.flowedu.mapper.MemberMapper;
+import com.flowedu.mapper.OfficeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -18,10 +19,13 @@ import java.util.List;
  * Created by jihoan on 2017. 8. 4..
  */
 @Service
-public class MemberService {
+public class MemberService extends PagingSupport {
 
     @Autowired
     private MemberMapper memberMapper;
+
+    @Autowired
+    private OfficeMapper officeMapper;
 
     /**
      * <PRE>
@@ -49,7 +53,7 @@ public class MemberService {
 
     /**
      * <PRE>
-     * 1. Comment : 멤버 타입 리스트 가져오기
+     * 1. Comment : 멤버 정보 가져오기
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .04
      * </PRE>
@@ -57,11 +61,120 @@ public class MemberService {
      * @return
      */
     @Transactional(readOnly = true)
-    public FlowEduMemberDto getFlowEduMember(Long flowMemberId) {
+    public List<FlowEduMemberListDto> getFlowEduMember(Long flowMemberId) {
         if (flowMemberId == null || flowMemberId == 0L) {
             throw new FlowEduException(FlowEduErrorCode.INTERNAL_ERROR);
         }
         return memberMapper.getFlowEduMember(flowMemberId);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 페이징 관련 멤버 개수 가져오기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .07
+     * </PRE>
+     * @return Integer
+     */
+    @Transactional(readOnly = true)
+    public int getFlowEduMemberListCount() {
+        return memberMapper.getFlowEduMemberListCount();
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 페이징 관련 멤버 리스트 가져오기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .07
+     * </PRE>
+     * @param sPage
+     * @param pageListCount
+     * @return FlowEduMemberListDto
+     */
+    @Transactional(readOnly = true)
+    public List<FlowEduMemberListDto> getFlowEduMemberList(int sPage, int pageListCount) {
+        PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
+        List<FlowEduMemberListDto> list = memberMapper.getFlowEduMemberList(pagingDto.getStart(), pageListCount);
+        return list;
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 팀 리스트
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .07
+     * </PRE>
+     * @param teamId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<FlowEduTeamDto> getFlowEduTeamList(Integer teamId) {
+        return officeMapper.getFlowEduTeamList(teamId);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 직책 리스트
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .07
+     * </PRE>
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<JobPositionDto> getJobPositionList() {
+        return memberMapper.getJobPositionList();
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 핸드폰 중복된 멤버가 있는지 확인
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .07
+     * </PRE>
+     * @param phoneNumber
+     * @return 있으면 false, 없으면 true
+     */
+    @Transactional(readOnly = true)
+    public boolean isMember(String phoneNumber) {
+        if ("".equals(phoneNumber)) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        int memberCount = memberMapper.getMemberCount(phoneNumber);
+        if (memberCount == 0) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 선생님 리스트 받아오기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .16
+     * </PRE>
+     * @param officeId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<FlowEduMemberDto> getTeacherList(Long officeId) {
+        if (officeId == null) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        return memberMapper.getTeacherList(officeId);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 사용자 정보 가져오기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 08 .16
+     * </PRE>
+     * @param flowMemberId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public FlowEduMemberDto getFlowEduMemberCheck(Long flowMemberId) {
+        return memberMapper.getFlowEduMemberCheck(flowMemberId);
     }
 
     /**
@@ -84,14 +197,14 @@ public class MemberService {
      * @throws Exception
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void saveFlowEduMember(Long officeId, Integer teamId, String phoneNumber, String memberPassword, String memberName,
+    public void saveFlowEduMember(Long officeId, Integer teamId, Integer jobPositionId, String phoneNumber, String memberPassword, String memberName,
         String memberBirthDay, String memberAddress, String memeberEmail, String sexualAssultConfirmDate,
         String educationRegDate, String memberType) throws Exception {
         if (officeId == null) {
             throw new FlowEduException(FlowEduErrorCode.INTERNAL_ERROR);
         }
         FlowEduMemberDto dto = new FlowEduMemberDto(
-            officeId, teamId, phoneNumber,  memberName, memberBirthDay, memberAddress,
+            officeId, teamId, jobPositionId,  phoneNumber,  memberName, memberBirthDay, memberAddress,
                 memberPassword, memeberEmail, sexualAssultConfirmDate, educationRegDate, memberType
         );
         memberMapper.saveFlowEduMember(dto);
@@ -118,14 +231,14 @@ public class MemberService {
      * @throws Exception
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void modifyFlowEduMember(Long flowMemberId, Long officeId, Integer teamId, String phoneNumber, String memberPassword, String memberName,
-        String memberBirthDay, String memberAddress, String memeberEmail, String sexualAssultConfirmDate,
-        String educationRegDate, String memberType) throws Exception {
+    public void modifyFlowEduMember(Long flowMemberId, Long officeId, Integer teamId, Integer jobPositionId, String phoneNumber,
+        String memberPassword, String memberName, String memberBirthDay, String memberAddress, String memeberEmail,
+        String sexualAssultConfirmDate, String educationRegDate, String memberType) throws Exception {
         if (flowMemberId == null || flowMemberId == 0L) {
             throw new FlowEduException(FlowEduErrorCode.INTERNAL_ERROR);
         }
         FlowEduMemberDto dto = new FlowEduMemberDto(
-                flowMemberId, officeId, teamId, phoneNumber,  memberName, memberBirthDay, memberAddress,
+                flowMemberId, officeId, teamId, jobPositionId, phoneNumber,  memberName, memberBirthDay, memberAddress,
                 memberPassword, memeberEmail, sexualAssultConfirmDate, educationRegDate, memberType
         );
         memberMapper.modifyFlowEduMember(dto);

@@ -3,6 +3,7 @@ package com.flowedu.util;
 import com.flowedu.dto.FlowEduMemberDto;
 import com.flowedu.mapper.MemberMapper;
 import com.flowedu.service.MemberService;
+import com.flowedu.session.UserSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class CreateSESSION {
 		dto.setMemberType(request.getParameter("member_type"));
 
 		logger.info("sesssion_info >>> " + dto);
+
+		UserSession.set(dto);
 
 		request.setAttribute("memberInfo", dto);
 		return dto;

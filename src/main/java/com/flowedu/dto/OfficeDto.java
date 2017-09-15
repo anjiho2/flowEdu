@@ -28,13 +28,30 @@ public class OfficeDto {
     //  생성일
     private String createDate;
 
+    private int academyGroupId;
+
+    private String academyGroupName;
+
     public OfficeDto() {}
 
-    public OfficeDto(String officeName, String officeDirectorName, String officeTelNumber, String officeAddress, String officeFaxNumber) {
+    public OfficeDto(String officeName, String officeDirectorName, String officeTelNumber, String officeAddress,
+                     String officeFaxNumber, int academyGroupId) {
         this.officeName = officeName;
         this.officeDirectorName = officeDirectorName;
         this.officeTelNumber = officeTelNumber;
         this.officeAddress = officeAddress;
         this.officeFaxNumber = officeFaxNumber;
+        this.academyGroupId = academyGroupId;
+    }
+
+    public OfficeDto(Long officeId, String officeName, String officeDirectorName, String officeTelNumber,
+        String officeAddress, String officeFaxNumber, int academyGroupId) {
+        this.officeId = officeId;
+        this.officeName = officeName;
+        this.officeDirectorName = officeDirectorName;
+        this.officeTelNumber = officeTelNumber;
+        this.officeAddress = officeAddress;
+        this.officeFaxNumber = officeFaxNumber;
+        this.academyGroupId = academyGroupId;
     }
 }

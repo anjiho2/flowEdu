@@ -19,7 +19,9 @@
     <util:properties id="config" location="classpath:properties.xml" />
     
     <tx:annotation-driven transaction-manager="transactionManager"/>
-    
+
+    <tx:annotation-driven proxy-target-class="true"/>
+
     <context:component-scan base-package="com.flowedu">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
         <context:exclude-filter type="annotation" expression="org.aspectj.lang.annotation.Aspect" />
@@ -45,10 +47,16 @@
                 p:password="#{config['admin.db.password']}"
                 p:url="#{config['admin.db.url']}"/>
 
+    <bean id="logDataSource" parent="parentDataSource"
+          p:username="#{config['log.db.username']}"
+          p:password="#{config['log.db.password']}"
+          p:url="#{config['log.db.url']}"/>
+
 	<bean id="routingDataSource" class="com.flowedu.define.datasource.RoutingDataSource">
 		<property name="targetDataSources">
 			<map key-type="com.flowedu.define.datasource.DataSourceType">
-				<entry key="ADMIN" value-ref="adminDataSource"/>
+                <entry key="ADMIN" value-ref="adminDataSource"/>
+                <entry key="LOG" value-ref="logDataSource"/>
 			</map>
 		</property>
 		<property name="defaultTargetDataSource" ref="adminDataSource"/>
@@ -92,6 +100,9 @@
     </bean>
     
 	<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+
+    <!-- Filter -->
+    <bean id="userSessionFilter" class="com.flowedu.filter.UserSessionFilter"/>
 	
 	<!-- ========================= SERVICE OBJECT DEFINITIONS ======================== -->	
   	<!--<bean id="userService" class="com.challabros.birdletter.admin.service.UserService"/>-->

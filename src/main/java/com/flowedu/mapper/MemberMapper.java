@@ -1,7 +1,12 @@
 package com.flowedu.mapper;
 
+import com.flowedu.domain.MemberIdName;
 import com.flowedu.dto.FlowEduMemberDto;
+import com.flowedu.dto.FlowEduMemberListDto;
+import com.flowedu.dto.JobPositionDto;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * Created by jihoan on 2017. 8. 4..
@@ -9,7 +14,21 @@ import org.apache.ibatis.annotations.Param;
 public interface MemberMapper {
 
     /** SELECT **/
-    FlowEduMemberDto getFlowEduMember(@Param("flowMemberId") Long flowMemberId);
+    List<FlowEduMemberListDto> getFlowEduMember(@Param("flowMemberId") Long flowMemberId);
+
+    FlowEduMemberDto getFlowEduMemberCheck(@Param("flowMemberId") Long flowMemberId);
+
+    Integer getFlowEduMemberListCount();
+
+    List<FlowEduMemberListDto> getFlowEduMemberList(@Param("start") int start, @Param("end") int end);
+
+    List<JobPositionDto> getJobPositionList();
+
+    Integer getMemberCount(@Param("phoneNumber") String phoneNumber);
+
+    List<FlowEduMemberDto> getTeacherList(@Param("officeId") Long officeId);
+
+    List<MemberIdName> getMemberIdNameByMemberIds(@Param("memberIds") List<Long> memberIds);
 
     /** INSERT **/
     void saveFlowEduMember(FlowEduMemberDto flowEduMemberDto);

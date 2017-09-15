@@ -1,11 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<html>
-<input type="button" class="button silver-gradient glossy" id="user_top_menu_0" value="사용자 상세정보" onclick="javascript:goUserDetail('modify');">&nbsp;&nbsp;
-<input type="button" class="button silver-gradient glossy" id="user_top_menu_1" value="사용자 새정보" onclick="javascript:goUser('letterBirdList');">&nbsp;&nbsp;
-<input type="button" class="button silver-gradient glossy" id="user_top_menu_2" value="아이템 구매내역" onclick="javascript:goUser('userItemBuyList');">&nbsp;&nbsp;
-<input type="button" class="button silver-gradient glossy" id="user_top_menu_3" value="콘 구매내역" onclick="javascript:goUser('cornBuyLog');">&nbsp;&nbsp;
-<input type="button" class="button silver-gradient glossy" id="user_top_menu_4" value="팝콘 구매내역" onclick="javascript:goUser('popcornBuyLog');">&nbsp;&nbsp;
-<!-- <input type="button" class="button silver-gradient glossy" id="user_top_menu_5" value="아이템 선물하기" onclick="javascript:goUser('itemPresent');">&nbsp;&nbsp; -->
-<!-- <input type="button" class="button silver-gradient glossy" id="user_top_menu_6" value="메세지 발송목록" onclick="javascript:goLetter('letterSendList');"> -->
-<br><br>
-</html>
+<style type="text/css">
+    nav ul{padding-top:10px;}
+    nav ul li {display:inline;border-left:1px solid #999;font:bold 12px Dotum;padding:0 10px;}
+    nav ul li:first-child{border-left:none;}
+    nav ul li:hover{color:#ff0000;cursor:pointer;}
+</style>
+<!--상단메뉴-->
+<div>
+    <nav>
+        <ul>
+            <li onclick="goPage('student', 'modify_student')">학생정보/수정</li>
+            <li onclick="goPage('student', 'lecture_student')">수강이력</li>
+            <li>학습관리</li>
+            <li onclick="goPage('student', 'memo_student')">상담관리</li>
+            <li>셔틀버스</li>
+            <li onclick="goPage('payment', 'lecture_payment_list')">수강료납부</li>
+        </ul>
+    </nav>
+</div>
+<!--상단메뉴끝-->

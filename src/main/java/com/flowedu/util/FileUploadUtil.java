@@ -6,7 +6,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by jihoan on 2017. 7. 24..
@@ -77,7 +79,8 @@ public class FileUploadUtil {
      * @param savePath
      * @return
      */
-    public static String fileUploadYmdLocation(MultipartHttpServletRequest request, String savePath) {
+    public static Map<String, Object> fileUploadYmdLocation(MultipartHttpServletRequest request, String savePath) {
+        Map<String, Object> map = new HashMap<>();
         String fileName = "";
 
         Iterator<String> it = request.getFileNames();
@@ -113,6 +116,7 @@ public class FileUploadUtil {
                     if (!todayDirectory.isDirectory()) {
                         todayDirectory.mkdirs();
                     }
+                    map.put("file_url", DateUtils.getNowYear()+"/"+mmdd);
                     if (originalFileName != null || !"".equals(originalFileName)) {
                         File serverFile = new File(FileUtil.concatPath(todayDirectory.toString(), finalFileName));
                         multipartFile.transferTo(serverFile);
@@ -122,6 +126,7 @@ public class FileUploadUtil {
 
                         fileName = serverFile.getName();
                     }
+                    map.put("file_name", fileName);
                 }
             }
         } catch (UnsupportedEncodingException e) {
@@ -129,6 +134,6 @@ public class FileUploadUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return fileName;
+        return map;
     }
 }

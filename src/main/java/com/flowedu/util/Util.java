@@ -998,8 +998,7 @@ public class Util {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		long l = Math.round(Double.parseDouble("40009.5940131981"));
-		System.out.println("result : " + l);
+
 	 }
 }
 

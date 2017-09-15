@@ -1585,6 +1585,14 @@ function compareTime(now, afterTime) {
 	return boolean;
 }
 
+function compareTime_startend(now, start, end) {
+    var boolean = false;
+    if( (now >= start) && (now <= end)) {
+    	boolean = true;
+	}
+    return boolean;
+}
+
 /**
  * 오늘보다 입력날자가 오늘보다 미래의 날짜면 true
  * @param today
@@ -1870,3 +1878,40 @@ var SOFOHashMap = function()
 		return this.obj[keys[Idx]];
 	};
 };
+
+//핸드폰번호 text자동넘김
+function js_tab_order(arg, nextname, len) {
+    if (arg.value.length == len) {
+        nextname.focus()
+        return;
+    }
+}
+
+
+//라디오버튼 값가져오기
+function get_radio_value(name){
+    var radio_value = $(":input:radio[name= "+ name +" ]:checked").val();
+    return radio_value;
+}
+
+
+//폰번호 가져오기
+function get_allphonenum(phone1,phone2,phone3) {
+	var phonenum1 = $("#"+phone1).val();
+	var phonenum2 = $("#"+phone2).val();
+	var phonenum3 = $("#"+phone3).val();
+
+	var all_phonenum = phonenum1 + phonenum2 + phonenum3;
+
+	return all_phonenum;
+}
+
+//쌍따옴표 제거
+function remove_double_quotation(val) {
+    var removed_str =   val.replace(/"/g, "");
+	return removed_str;
+}
+
+function get_month_lastday(year, month) {
+	return new Date(year, month, 0).getDate();
+}

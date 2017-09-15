@@ -27,14 +27,14 @@
 var page_gbn = "<%=page_gbn%>";
 function init() {
 	with(document.frm) {
-		action = "<%=webRoot%>/login.do";
-		page_gbn.value = "after";
+		action = "<%=webRoot%>/dashboard.do";
+		page_gbn.value = "dashboard_list";
 		submit();
 	}
 }
 </script>
 <body onload="init();">
-<form name="frm" method="post">
+<form name="frm" method="get">
 	<input type="hidden" name="page_gbn">
 </form>
 </body>

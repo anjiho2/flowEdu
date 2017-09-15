@@ -8,6 +8,11 @@
 		<convert converter="bean" match="com.flowedu.service.LoginService"/>
 		<convert converter="bean" match="com.flowedu.service.MemberService"/>
 		<convert converter="bean" match="com.flowedu.service.AcademyService"/>
+		<convert converter="bean" match="com.flowedu.service.StudentService"/>
+		<convert converter="bean" match="com.flowedu.service.LectureService"/>
+		<convert converter="bean" match="com.flowedu.manager.LectureManager"/>
+		<convert converter="bean" match="com.flowedu.service.CalendarService"/>
+		<convert converter="bean" match="com.flowedu.service.PaymentService"/>
 
 
 		<create creator="spring" javascript="loginService">
@@ -25,18 +30,56 @@
 			<param name="beanName" value="academyService" />
 		</create>
 
+		<create creator="spring" javascript="studentService">
+			<param name="class" value="com.flowedu.service.StudentService"/>
+			<param name="beanName" value="studentService" />
+		</create>
 
-		
+		<create creator="spring" javascript="lectureService">
+			<param name="class" value="com.flowedu.service.LectureService"/>
+			<param name="beanName" value="lectureService" />
+		</create>
+
+		<create creator="spring" javascript="lectureManager">
+			<param name="class" value="com.flowedu.manager.LectureManager"/>
+			<param name="beanName" value="lectureManager" />
+		</create>
+
+		<create creator="spring" javascript="calendarService">
+			<param name="class" value="com.flowedu.service.CalendarService"/>
+			<param name="beanName" value="calendarService" />
+		</create>
+
+		<create creator="spring" javascript="paymentService">
+			<param name="class" value="com.flowedu.service.PaymentService"/>
+			<param name="beanName" value="paymentService" />
+		</create>
+
+
 		<!-- ========================= MANAGER ======================== -->
 
 		<!--  dto 선언 -->
 		<convert converter="bean" match="com.flowedu.dto.FlowEduMemberDto"/>
+		<convert converter="bean" match="com.flowedu.dto.FlowEduMemberListDto"/>
+		<convert converter="bean" match="com.flowedu.dto.FlowEduTeamDto"/>
 		<convert converter="bean" match="com.flowedu.dto.MemberTypeDto"/>
 		<convert converter="bean" match="com.flowedu.dto.OfficeDto"/>
-
+		<convert converter="bean" match="com.flowedu.dto.JobPositionDto"/>
+		<convert converter="bean" match="com.flowedu.dto.StudentDto"/>
+		<convert converter="bean" match="com.flowedu.dto.LectureRoomDto"/>
+		<convert converter="bean" match="com.flowedu.dto.LecturePriceDto"/>
+		<convert converter="bean" match="com.flowedu.dto.LectureInfoDto"/>
+		<convert converter="bean" match="com.flowedu.dto.LectureDetailDto"/>
+		<convert converter="bean" match="com.flowedu.dto.LectureStudentRelDto"/>
+		<convert converter="bean" match="com.flowedu.dto.CalendarJsonDto"/>
+		<convert converter="bean" match="com.flowedu.dto.LectureStudentRelByIdDto"/>
+		<convert converter="bean" match="com.flowedu.dto.StudentMemoDto"/>
+		<convert converter="bean" match="com.flowedu.dto.LectureAttendDto"/>
+		<convert converter="bean" match="com.flowedu.dto.StudentMemoReplyDto"/>
+		<convert converter="bean" match="com.flowedu.domain.StudentMemo"/>
+		<convert converter="bean" match="com.flowedu.dto.AcademyGroupDto"/>
 		<!-- define -->
 
-		
 		
 	</allow>
 

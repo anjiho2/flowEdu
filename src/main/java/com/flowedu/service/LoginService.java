@@ -2,9 +2,11 @@ package com.flowedu.service;
 
 import com.flowedu.config.PagingSupport;
 import com.flowedu.dto.FlowEduMemberDto;
+import com.flowedu.dto.FlowEduMemberListDto;
 import com.flowedu.dto.PagingDto;
 import com.flowedu.mapper.LoginMapper;
 import com.flowedu.mapper.MemberMapper;
+import com.flowedu.session.UserSession;
 import com.flowedu.util.Aes256;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +44,8 @@ public class LoginService {
         FlowEduMemberDto dto = new FlowEduMemberDto();
         Long flowMemberId = loginMapper.findFlowEduMember(phoneNumber, Aes256.encrypt(password), memberType);
         if (flowMemberId != null) {
-            dto = memberMapper.getFlowEduMember(flowMemberId);
+            dto = memberMapper.getFlowEduMemberCheck(flowMemberId);
+            UserSession.set(new FlowEduMemberDto(dto.getFlowMemberId(), dto.getMemberType(), dto.getMemberName()));
             return dto;
         }
         return dto;

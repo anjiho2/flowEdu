@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flowedu.mapper.StudentMapper">
+
+	<select id="getStudentInfo" resultType="com.flowedu.dto.StudentDto">
+		SELECT * FROM STUDENT
+		WHERE student_id = #{studentId}
+	</select>
+
+	<select id="getSudentListCount" resultType="Integer">
+		SELECT count(student_id) FROM STUDENT
+		WHERE 1=1
+		<if test="gubun != ''">
+			AND school_type = #{gubun}
+		</if>
+		<if test="studentName != ''">
+			AND student_name LIKE CONCAT (#{studentName}, '%')
+		</if>
+	</select>
+
+	<select id="getSudentList" resultType="com.flowedu.dto.StudentDto">
+		SELECT * FROM STUDENT
+		WHERE 1=1
+		<if test="gubun != ''">
+			AND school_type = #{gubun}
+		</if>
+		<if test="studentName != ''">
+			AND student_name LIKE CONCAT (#{studentName}, '%')
+		</if>
+		LIMIT #{start}, #{end}
+	</select>
+
+	<select id="getStudentMemoListCount" resultType="Integer">
+		SELECT count(A.student_memo_id)
+		FROM STUDENT_MEMO A LEFT JOIN FLOWEDU_MEMBER B
+		ON A.flow_member_id = B.flow_member_id
+		WHERE 1=1
+		<if test="studentId >0">
+			AND A.student_id = #{studentId}
+		</if>
+		<if test="searchDate != ''">
+			AND DATE_FORMAT(A.create_date, '%Y-%m') = #{searchDate}
+		</if>
+		<if test="memoType != ''">
+			AND A.memo_type = #{memoType}
+		</if>
+		<if test="memberName != ''">
+			AND B.member_name LIKE CONCAT ('%', #{memberName}, '%')
+		</if>
+		<if test="memoContent != ''">
+			AND A.memo_content LIKE CONCAT ('%', #{memoContent}, '%')
+		</if>
+	</select>
+
+	<select id="getStudentMemoList" resultType="com.flowedu.dto.StudentMemoDto">
+		SELECT A.*, B.member_name,
+		(SELECT count(student_memo_id) FROM STUDENT_MEMO_REPLY WHERE student_memo_id = A.student_memo_id AND delete_yn = 0) as reply_count
+		FROM STUDENT_MEMO A LEFT JOIN FLOWEDU_MEMBER B
+		ON A.flow_member_id = B.flow_member_id
+		WHERE 1=1
+		<if test="studentId > 0">
+			AND student_id = #{studentId}
+		</if>
+		<if test="searchDate != ''">
+			AND DATE_FORMAT(A.create_date, '%Y-%m') = #{searchDate}
+		</if>
+		<if test="memoType != ''">
+			AND A.memo_type = #{memoType}
+		</if>
+		<if test="memberName != ''">
+			AND B.member_name LIKE CONCAT ('%', #{memberName}, '%')
+		</if>
+		<if test="memoContent != ''">
+			AND A.memo_content LIKE CONCAT ('%', #{memoContent}, '%')
+		</if>
+		ORDER BY A.create_date DESC
+		LIMIT #{start}, #{end}
+	</select>
+
+	<select id="getStudentMemoReplyList" resultType="com.flowedu.dto.StudentMemoReplyDto">
+		SELECT A.*, B.member_name
+		FROM STUDENT_MEMO_REPLY A LEFT JOIN FLOWEDU_MEMBER B
+		ON A.flow_member_id = B.flow_member_id
+		WHERE 1=1
+		<if test="studentMemoId > 0">
+			AND student_memo_id = #{studentMemoId}
+		</if>
+		AND delete_yn = 0
+		LIMIT #{start}, #{end}
+	</select>
+
+	<select id="getStudentMemoByStudentMemoId" resultType="com.flowedu.dto.StudentMemoDto">
+		SELECT A.*, B.member_name
+		FROM STUDENT_MEMO A LEFT JOIN FLOWEDU_MEMBER B
+		ON A.flow_member_id = B.flow_member_id
+		WHERE 1=1
+		<if test="studentMemoId > 0">
+			AND A.student_memo_id = #{studentMemoId}
+		</if>
+	</select>
+
+	<insert id="saveStudentInfo" parameterType="com.flowedu.dto.StudentDto">
+		INSERT INTO STUDENT
+		(
+			student_name, student_password, student_gender, student_birthday, home_tel_number,
+			student_phone_number, student_email, school_name, school_type, student_grade,
+			student_photo_file, student_photo_url, student_memo, mother_name,
+			mother_phone_number, father_name, father_phone_number, parent_password
+		)
+		VALUES
+		(
+			#{studentName}, #{studentPassword}, #{studentGender}, #{studentBirthday}, #{homeTelNumber},
+			#{studentPhoneNumber}, #{studentEmail}, #{schoolName}, #{schoolType}, #{studentGrade},
+			#{studentPhotoFile}, #{studentPhotoUrl}, #{studentMemo}, #{motherName},
+			#{motherPhoneNumber}, #{fatherName}, #{fatherPhoneNumber}, #{parentPassword}
+		)
+	</insert>
+
+	<insert id="saveStudentMemo">
+		INSERT INTO STUDENT_MEMO
+		( student_id, flow_member_id, memo_content, memo_type )
+		VALUES
+		( #{studentId}, #{flowMemberId}, #{memoContent}, #{memoType} )
+	</insert>
+
+	<insert id="saveStudentMemoReply">
+		INSERT INTO STUDENT_MEMO_REPLY
+		(student_memo_id, flow_member_id, reply_content)
+		VALUES
+		(#{studentMemoId}, #{flowMemberId}, #{replyContent})
+	</insert>
+
+	<update id="modifyStudentInfo" parameterType="com.flowedu.dto.StudentDto">
+		UPDATE STUDENT
+		<set>
+			<if test="studentName != ''">student_name = #{studentName},</if>
+			<if test="studentPassword != ''">student_password = #{studentPassword},</if>
+			<if test="studentGender != ''">student_gender = #{studentGender},</if>
+			<if test="studentBirthday != ''">student_birthday = #{studentBirthday},</if>
+			<if test="homeTelNumber != ''">home_tel_number = #{homeTelNumber},</if>
+			<if test="studentPhoneNumber != ''">student_phone_number = #{studentPhoneNumber},</if>
+			<if test="studentEmail != ''">student_email = #{studentEmail},</if>
+			<if test="schoolName != ''">school_name = #{schoolName},</if>
+			<if test="schoolType != ''">school_type = #{schoolType},</if>
+			<if test="studentGrade != ''">student_grade = #{studentGrade},</if>
+			<if test="studentPhotoFile != ''">student_photo_file = #{studentPhotoFile},</if>
+			<if test="studentPhotoUrl != ''">student_photo_url = #{studentPhotoUrl},</if>
+			<if test="studentMemo != ''">student_memo = #{studentMemo},</if>
+			<if test="motherName != ''">mother_name = #{motherName},</if>
+			<if test="motherPhoneNumber != ''">mother_phone_number = #{motherPhoneNumber},</if>
+			<if test="fatherName != ''">father_name = #{fatherName},</if>
+			<if test="fatherPhoneNumber != ''">father_phone_number = #{fatherPhoneNumber},</if>
+		</set>
+		<where>
+			student_id = #{studentId}
+		</where>
+	</update>
+
+	<update id="modifyMemoProcessYn">
+		UPDATE STUDENT_MEMO
+		SET process_yn = #{processYn}
+		WHERE student_memo_id = #{studentMemoId}
+	</update>
+
+	<update id="modifyStudentMemoReply">
+		UPDATE STUDENT_MEMO_REPLY
+		<set>
+			<if test="replyContent != ''">reply_content = #{replyContent},</if>
+			<if test="replyContent != ''">delete_yn = #{deleteYn}</if>
+		</set>
+		WHERE student_memo_reply_id = #{studentMemoReplyId}
+	</update>
+
+</mapper>

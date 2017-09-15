@@ -15,6 +15,7 @@ hs_err_pid*
 ## intelliJ ##
 .idea/
 *.iml
+nexus/
 
 ## eclipse
 target/

@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import com.flowedu.define.datasource.LectureDay;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -20,6 +21,8 @@ public class DateUtils {
 	
 	public final static DateTimeZone TIME_ZONE = DateTimeZone.getDefault();
 	public final static String DF_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+	public final static String DF_MONTH_PATTERN = "yyyy-MM";
+	public final static String DF_DATE_PATTERN = "yyyy-MM-dd";
 	
 	public static Date now() {
 		DateTime dt = new DateTime(TIME_ZONE);
@@ -587,12 +590,28 @@ public class DateUtils {
 		return strMonth;
 	}
 
+	/**
+	 * 요일 구하기
+	 * @param date (2011-01-01)
+	 * @param dateType (yyyy-MM-dd)
+	 * @return 1 ~ 7
+	 * @throws Exception
+	 */
+	public static int getDateDay(String date, String dateType) throws Exception {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(dateType);
+		Date nDate = dateFormat.parse(date);
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(nDate);
+
+		return calendar.get(Calendar.DAY_OF_WEEK);
+	}
+
 
 	
 	
 	public static void main(String[] args) throws Exception {
-		System.out.print(dateToStr(DateUtil.getJavaDate(42796)));
-
+		System.out.print(getMonth("yyyy-MM", 0));
 	}
 	
 }
