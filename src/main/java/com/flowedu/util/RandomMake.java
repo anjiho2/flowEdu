@@ -108,11 +108,21 @@ public class RandomMake {
 		}
 		return sb.toString();
 	 }
+
+	 public static String getRandomPassword() {
+		 String[] str = {"a","b","c","d","e","f","g","h","i","j","k",
+				 "l","m","n","o","p","q","r","s","t","u","v",
+				 "w","x","y","z","0","1","2","3","4","5","6","7","8","9"};
+		 StringBuffer sb = new StringBuffer();
+		 Random rn = new Random();
+		 for (int i = 0; i < 8; i++) {
+			 sb.append(str[rn.nextInt(36)]);
+		 }
+		 return sb.toString();
+	 }
 	
 	public static void main(String[] args) {
-		for (int i = 1; i < 300; i++) {
-			System.out.println(getCornIdx(300));	
-		} 
+		System.out.print(getRandomPassword());
 		
 	}
 }

@@ -47,10 +47,16 @@
                 p:password="#{config['admin.db.password']}"
                 p:url="#{config['admin.db.url']}"/>
 
+    <bean id="logDataSource" parent="parentDataSource"
+          p:username="#{config['log.db.username']}"
+          p:password="#{config['log.db.password']}"
+          p:url="#{config['log.db.url']}"/>
+
 	<bean id="routingDataSource" class="com.flowedu.define.datasource.RoutingDataSource">
 		<property name="targetDataSources">
 			<map key-type="com.flowedu.define.datasource.DataSourceType">
-				<entry key="ADMIN" value-ref="adminDataSource"/>
+                <entry key="ADMIN" value-ref="adminDataSource"/>
+                <entry key="LOG" value-ref="logDataSource"/>
 			</map>
 		</property>
 		<property name="defaultTargetDataSource" ref="adminDataSource"/>

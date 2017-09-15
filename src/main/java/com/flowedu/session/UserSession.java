@@ -25,4 +25,8 @@ public class UserSession {
     public static String memberType() {
         return local.get().getMemberType();
     }
+
+    public static String memberName() {
+        return local.get().getMemberName();
+    }
 }

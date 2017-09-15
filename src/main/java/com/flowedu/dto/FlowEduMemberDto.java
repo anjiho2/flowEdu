@@ -91,8 +91,9 @@ public class FlowEduMemberDto implements Serializable {
         this.memberType = memberType;
     }
 
-    public FlowEduMemberDto(Long flowMemberId, String memberType) {
+    public FlowEduMemberDto(Long flowMemberId, String memberType, String memberName) {
         this.flowMemberId = flowMemberId;
         this.memberType = memberType;
+        this.memberName = memberName;
     }
 }

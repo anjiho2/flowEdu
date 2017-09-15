@@ -53,7 +53,8 @@
 	</select>
 
 	<select id="getStudentMemoList" resultType="com.flowedu.dto.StudentMemoDto">
-		SELECT A.*, B.member_name
+		SELECT A.*, B.member_name,
+		(SELECT count(student_memo_id) FROM STUDENT_MEMO_REPLY WHERE student_memo_id = A.student_memo_id AND delete_yn = 0) as reply_count
 		FROM STUDENT_MEMO A LEFT JOIN FLOWEDU_MEMBER B
 		ON A.flow_member_id = B.flow_member_id
 		WHERE 1=1

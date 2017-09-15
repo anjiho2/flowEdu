@@ -73,6 +73,21 @@
 		</foreach>
 	</select>
 
+	<select id="findFlowEduMember" resultType="Long">
+		SELECT flow_member_id
+		FROM FLOWEDU_MEMBER
+		WHERE 1=1
+		<if test="phoneNumber != ''">
+			AND phone_number = #{phoneNumber}
+		</if>
+		<if test="password != ''">
+			AND member_password = #{password}
+		</if>
+		<if test="email != ''">
+			AND member_email = #{email}
+		</if>
+	</select>
+
 	<insert id="saveFlowEduMember" parameterType="com.flowedu.dto.FlowEduMemberDto">
 		INSERT INTO FLOWEDU_MEMBER
 		(
@@ -102,6 +117,16 @@
 			<if test="sexualAssultConfirmDate != ''">sexual_assult_confirm_date = #{sexualAssultConfirmDate},</if>
 			<if test="educationRegDate != ''">education_reg_date = #{educationRegDate},</if>
 			<if test="memberType != ''">member_type = #{memberType}</if>
+		</set>
+		<where>
+			flow_member_id = #{flowMemberId}
+		</where>
+	</update>
+	
+	<update id="modifyFlowMemberPassword">
+		UPDATE FLOWEDU_MEMBER
+		<set>
+			<if test="password != ''">member_password = #{password}</if>
 		</set>
 		<where>
 			flow_member_id = #{flowMemberId}

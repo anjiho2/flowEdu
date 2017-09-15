@@ -7,6 +7,6 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface PaymentMapper {
 
-    void paymentLecture(@Param("lectureRelId") Long lectureRelId);
+    int paymentLecture(@Param("lectureRelId") Long lectureRelId);
 
 }
