@@ -30,7 +30,7 @@
         <mirror>
             <id>nexus</id>
             <mirrorOf>*</mirrorOf>
-            <url>http://192.168.0.201:8081/nexus/content/groups/public</url>
+            <url>http://211.111.239.32:8081/nexus/content/groups/public</url>
         </mirror>
     </mirrors>
 
