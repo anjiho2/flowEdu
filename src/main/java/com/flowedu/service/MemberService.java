@@ -7,6 +7,9 @@ import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
 import com.flowedu.mapper.MemberMapper;
 import com.flowedu.mapper.OfficeMapper;
+import com.flowedu.session.UserSession;
+import com.flowedu.util.Aes256;
+import com.flowedu.util.RandomMake;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -179,6 +182,28 @@ public class MemberService extends PagingSupport {
 
     /**
      * <PRE>
+     * 1. Comment : 비밀번호 찾기 후 임시비밀번호 발급하기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 09 .15
+     * </PRE>
+     * @param phoneNumber
+     * @param email
+     * @return
+     * @throws Exception
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public String findFlowEduMemberPassword(String phoneNumber, String email) throws Exception {
+        Long findMemberId = memberMapper.findFlowEduMember(phoneNumber, "", email);
+        if (findMemberId == UserSession.flowMemberId()) {
+            String changePassword = RandomMake.getRandomPassword();
+            memberMapper.modifyFlowMemberPassword(findMemberId, Aes256.encrypt(changePassword));
+            return changePassword;
+        }
+        return null;
+    }
+
+    /**
+     * <PRE>
      * 1. Comment : 운영자, 선생님정보 저장
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .04
@@ -242,6 +267,31 @@ public class MemberService extends PagingSupport {
                 memberPassword, memeberEmail, sexualAssultConfirmDate, educationRegDate, memberType
         );
         memberMapper.modifyFlowEduMember(dto);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 비밀번호 변경하기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 09 .15
+     * </PRE>
+     * @param phoneNumber
+     * @param existPassword
+     * @param modifyPassword
+     * @return ( 1 : 기존 비밀번호가 틀렸을때, 0 : 변경 성공 )
+     * @throws Exception
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public int modifyFlowMemberPassword(String phoneNumber, String existPassword, String modifyPassword) throws Exception {
+        if ("".equals(phoneNumber)) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        Long memberId = memberMapper.findFlowEduMember(phoneNumber, Aes256.encrypt(existPassword), "");
+        if (memberId == null) {
+            return 1;
+        }
+        memberMapper.modifyFlowMemberPassword(memberId, Aes256.encrypt(modifyPassword));
+        return 0;
     }
 
     /**

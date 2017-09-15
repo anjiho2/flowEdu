@@ -16,6 +16,7 @@ hs_err_pid*
 .idea/
 *.iml
 nexus/
+flowedu-settings.xml
 
 ## eclipse
 target/
