@@ -10,7 +10,7 @@ module.exports = {
   entry: {
     polyfills:[`${jsRoot}/polyfills`],
     index:[`${jsRoot}/index`],
-    style: [`${cssRoot}/normalize.css`, `${cssRoot}/awesome/font-awesome.scss`, `${cssRoot}/common.scss`],
+    style: [`${cssRoot}/normalize.css`, `${cssRoot}/awesome/font-awesome.scss`, __dirname + '/src/main/webapp/calendar/css/fullcalendar.css', `${cssRoot}/common.scss`],
   },
   output: {
     path: root + '/dist',
@@ -52,6 +52,20 @@ module.exports = {
           "fallback": "style-loader",
           "publicPath": ""
         })
+      },
+      {
+          "include": [
+              path.join(__dirname + '/src/main/webapp/calendar/css/')
+          ],
+          test: /\.css$/,
+          use: ExtractTextPlugin.extract({
+              "use": [
+                  { loader: 'css-loader', options: { importLoaders: 1 , sourceMap: false} },
+                  { loader: "postcss-loader", options:{plugins: [autoprefixer, cssnano]}}
+              ],
+              "fallback": "style-loader",
+              "publicPath": ""
+          })
       },
       {
         "include": [
