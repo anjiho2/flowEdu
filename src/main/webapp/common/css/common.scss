@@ -3,11 +3,53 @@ a{ text-decoration: none; color: inherit;}
 ul, li{list-style-type: none;}
 table{border-collapse:collapse;border-spacing:0}
 
-html{ height: 100%;}
-body{
-  height: 100%;
+
+@font-face{font-family:'Noto Sans';
+  font-style:normal;
+  font-weight:700;
+  src:url(../fonts/notokr-medium.eot);
+  src:url(../fonts/notokr-medium.eot?#iefix) format('embedded-opentype'),
+  url(../fonts/notokr-medium.woff2) format('woff2'),
+  url(../fonts/notokr-medium.woff) format('woff'),
+  url(../fonts/notokr-medium.ttf) format('truetype')
 }
 
+@font-face{font-family:'Noto Sans';
+  font-style:normal;
+  font-weight:400;
+  src:url(../fonts/notokr-regular.eot);
+  src:url(../fonts/notokr-regular.eot?#iefix) format('embedded-opentype'),
+  url(../fonts/notokr-regular.woff2) format('woff2'),
+  url(../fonts/notokr-regular.woff) format('woff'),
+  url(../fonts/notokr-regular.ttf) format('truetype');
+}
+
+@font-face {font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 300;
+  src:url(../fonts/notokr-demilight.eot);
+  src:url(../fonts/notokr-demilight.eot?#iefix) format('embedded-opentype'),
+  url(../fonts/notokr-demilight.woff2) format('woff2'),
+  url(../fonts/notokr-demilight.woff) format('woff'),
+  url(../fonts/notokr-demilight.ttf) format('truetype');
+}
+
+html{ height: 100%;}
+body{
+  height: 100%;font-family:'AppleSDGothicNeo-Light','HelveticaNeue-Light','Noto Sans', '맑은 고딕', MalgunGothic,sans-serif;
+  font-weight: 300;
+}
+
+button{ background-color: #fff;border-radius: 0; border-width:0; font-size:inherit;box-sizing: border-box; outline: none;box-shadow: none;padding:0; text-align: center;}
+
+button.btn_pack{
+  height: 36px; padding:0 10px; color: #ffffff; background-color: #515356;border-radius:18px; font-size: 12px; font-weight: 700; min-width: 100px;
+  &.orange{ background-color: #ff6200;}
+  &.blue{ background-color: #03a9f4;}
+  &.white{ background-color: #fff; border:2px solid #e6ecef; color: #a1b2ba;}
+}
+
+h3.title_t1{ font-size: 18px; font-weight: 400;}
 #wrap{
   display: flex; height: 100%;
 }
@@ -30,4 +72,59 @@ body{
   background-color: #f4f7f9; display: flex; flex:1 1 auto;flex-direction: column;
 
 }
-.gnb{flex:0 0 75px; background-color: #fefefe;}
+
+.top_area{
+  padding:0px 30px;
+  background-color: #fefefe;
+  .gnb{
+    display: flex;padding:5px 0px; position: relative;justify-content: space-between; align-items:center;
+    .total_search button{ color: #a0b1b9; font-size:20px;height:30px;width:40px; text-align: center;}
+    .my_box{
+      > button{ position: relative; font-size: 13px; font-weight: 700; color: #37474f;padding:5px;}
+      .my_menu{
+        position: absolute;padding:3px 8px; min-width:150px; right: 0; background-color: #fff;border-radius: 5px; border:1px solid #d9e2e6; margin-top: 10px;box-shadow: 0 0 10px -2px rgba(0,0,0,.1);
+        li{
+          +li{ border-top:1px solid #d9e2e6;}
+        }
+        a{ display: block;padding:10px; font-size: 13px;}
+      }
+    }
+  }
+  .out_box{
+    max-width:1180px;width:calc(100% - 20px); margin: 24px auto 0;
+  }
+  h2{  font-size: 22px; margin-bottom: 10px; font-weight: 300;}
+  nav.depth2{
+    border-bottom:1px solid #e9edef; display: flex;
+    a{ font-size: 14px; line-height: 22px; padding: 13px 17px; color: #78909c; position: relative; overflow: hidden;
+      &:before{ content: ''; left: 17px; right: 17px; bottom: -3px; position: absolute;height:3px; background-color: #03a9f4;}
+      &:hover{color: #263238;}
+      &.on{
+        color: #263238;
+        &:before{ bottom:0;}
+      }
+    }
+  }
+}
+.content{
+  max-width:1180px;width:calc(100% - 20px); margin: 40px auto 50px;
+  >h3.title_t1{ margin-bottom: 12px;}
+}
+
+div.tb_t1{
+  overflow: hidden;border-radius: 4px;
+  table{
+    width: 100%;
+    th, td{}
+    th{ background-color: #eaeef0; color: #78909c; padding:14px 10px; font-size: 14px; font-weight: 700; text-align: left;}
+    td{padding:14px 10px; background-color: #fefefe; border-bottom:1px solid #e9edef; font-size: 13px; line-height: 20px;
+      .link{ color: #03a9f4;}
+      .title { color: #263238; font-size: 15px; line-height: 19px;}
+      span.mini{color: #90a4ae; font-size: 12px; display: block; line-height: 14px;
+        &+.title{ margin-top: 4px;}
+      }
+    }
+    .center{ text-align: center;}
+    .right{ text-align: right;}
+  }
+}
