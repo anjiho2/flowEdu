@@ -30,11 +30,15 @@ public interface MemberMapper {
 
     List<MemberIdName> getMemberIdNameByMemberIds(@Param("memberIds") List<Long> memberIds);
 
+    Long findFlowEduMember(@Param("phoneNumber") String phoneNumber, @Param("password") String password, @Param("email") String email);
+
     /** INSERT **/
     void saveFlowEduMember(FlowEduMemberDto flowEduMemberDto);
 
     /** UPDATE **/
     void modifyFlowEduMember(FlowEduMemberDto flowEduMemberDto);
+
+    void modifyFlowMemberPassword(@Param("flowMemberId") Long flowMemberId, @Param("password") String password);
 
     /** DELETE **/
     void deleteFlowEduMember(@Param("flowMemberId") Long flowMemberId);

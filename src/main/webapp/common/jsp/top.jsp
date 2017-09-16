@@ -7,19 +7,22 @@
 	String webRoot = request.getContextPath();
 	String serverName = request.getServerName();
 	String memberName = "";
+	Long memberId  = 0L;
 	//VersionConfigHolder holder = new VersionConfigHolder();
 	String version = VersionConfigHolder.gerVersion();
 
 	if (session.getAttribute("member_info") != null) {
 		FlowEduMemberDto flowEduMemberDto = (FlowEduMemberDto) session.getAttribute("member_info");
 		 memberName = flowEduMemberDto.getMemberName();
+		 memberId = flowEduMemberDto.getFlowMemberId();
+
 	}
 %>
 <!DOCTYPE html>
 <!--  jquery plugin -->
-<script type='text/javascript' src="<%=webRoot%>/common/js/jquery-1.11.3.min.js"></script>
-<script type='text/javascript' src="<%=webRoot%>/calendar/lib/moment.min.js"/>
-<script type='text/javascript' src="<%=webRoot%>/calendar/lib/locale-all.js"/>
+<script type='text/javascript' src="<%=webRoot%>/common/js/jquery-2.2.4.min.js"></script>
+<script type='text/javascript' src="<%=webRoot%>/calendar/lib/moment.min.js"></script>
+<script type='text/javascript' src="<%=webRoot%>/calendar/lib/locale-all.js"></script>
 
 <%--
 <link rel="stylesheet" href="<%=webRoot%>/Bootstrap/css/bootstrap.min.css">
@@ -31,9 +34,7 @@
 
 <!-- 공통 유틸 스크립트 -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
 <link rel="stylesheet" href="calendar/css/fullcalendar.css">
-
 
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src='//cdn.rawgit.com/fgelinas/timepicker/master/jquery.ui.timepicker.js'></script>
