@@ -20,3 +20,4 @@ flowedu-settings.xml
 
 ## eclipse
 target/
+node_modules/
