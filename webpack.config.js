@@ -10,7 +10,13 @@ module.exports = {
   entry: {
     polyfills:[`${jsRoot}/polyfills`],
     index:[`${jsRoot}/index`],
-    style: [`${cssRoot}/normalize.css`, `${cssRoot}/awesome/font-awesome.scss`, __dirname + '/src/main/webapp/calendar/css/fullcalendar.css', `${cssRoot}/common.scss`],
+    style: [
+      `${cssRoot}/normalize.css`,
+      `${cssRoot}/awesome/font-awesome.scss`,
+      __dirname + '/src/main/webapp/calendar/css/fullcalendar.css',
+      `${cssRoot}/bootstrap/bootstrap.scss`,
+      `${cssRoot}/common.scss`
+    ]
   },
   output: {
     path: root + '/dist',
