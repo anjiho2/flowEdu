@@ -5,6 +5,7 @@
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
+<body>
     <div class="container">
         <%@include file="/common/jsp/titleArea.jsp" %>
         <section class="content">
@@ -123,3 +124,4 @@
         </section>
     </div>
 <%@include file="/common/jsp/footer.jsp" %>
+</body>

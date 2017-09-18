@@ -2,6 +2,8 @@
 <%
     int depth1 = 5;
     int depth2 = 3;
+    System.out.println("depth1 ::: " + depth1);
+    System.out.println("depth2 ::: " + depth2);
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
