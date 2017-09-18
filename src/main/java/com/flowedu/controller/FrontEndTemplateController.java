@@ -15,6 +15,10 @@ public class FrontEndTemplateController {
 
         if("dashboard".equals(page_gbn)){
             mvc.setViewName("/templates/dashboard");
+        } else if("tableList".equals(page_gbn)){
+            mvc.setViewName("/templates/tableList");
+        } else if("formType1".equals(page_gbn)){
+            mvc.setViewName("/templates/formType1");
         }
         return mvc;
     }
