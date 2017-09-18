@@ -255,7 +255,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="">집전화번호</label>
+                    <label>집전화번호</label>
                     <div class="inputs">
                         <input type="text" size="2" id="student_tel1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.student_tel2,3)">&nbsp;-&nbsp;
                         <input type="text" size="5" id="student_tel2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.student_tel3,4)">&nbsp;-&nbsp;

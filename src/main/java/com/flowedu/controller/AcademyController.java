@@ -21,6 +21,8 @@ public class AcademyController {
             mvc.setViewName("/academy/save_academy");
         }else if("modify_academy".equals(page_gbn)){
             mvc.setViewName("/academy/modify_academy");
+        }else if("list_academy".equals(page_gbn)){
+            mvc.setViewName("/academy/list_academy");
         }
         return mvc;
     }
