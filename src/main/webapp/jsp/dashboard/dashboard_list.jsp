@@ -28,8 +28,7 @@
                     for (var i = 0; i < selList.length; i++) {
                         var cmpList = selList[i];
                         if (cmpList != undefined) {
-                            var modifyHTML = "<button class='btn_pack white type='button' onclick='student_modify(" + cmpList.studentId + ");'><span class='fa fa-info'></span> 상세정보</button>";
-                            //var modifyHTML = "<input type='button'  name='modify' id='modify' value='상세' onclick='student_modify(" + cmpList.studentId + ");'/>";
+                            var modifyHTML = "<button class='btn_pack white type='button' onclick='student_modify(" + cmpList.studentId + ");'>상세정보</button>";
                             var cellData = [
                                 function(data) {return cmpList.studentName;},
                                 function(data) {return cmpList.motherName;},
@@ -73,14 +72,13 @@
             <div class="tb_t1" id="memberList">
                 <table>
                     <colsgroup>
-                        <!-- <col width="2%" />-->
                         <col width="*" />
                         <col width="*" />
                         <col width="*" />
                         <col width="*" />
                         <col width="*" />
                         <col width="*" />
-                        <col width="*" />
+                        <col width="110">
                     </colsgroup>
                     <tr>
                         <th>이름</th>
@@ -95,7 +93,6 @@
                     <tr>
                         <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
                     </tr>
-                    <!--<input type="button" value="삭제" onclick="Delete();">-->
                 </table>
                 <%@ include file="/common/inc/com_pageNavi.inc" %>
             </div>
