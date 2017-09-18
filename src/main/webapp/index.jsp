@@ -47,6 +47,43 @@
     }
 
 </script>
+<style>
+    body{
+        background: #b7b7b7;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00589F', endColorstr='#0073CF', GradientType=0);
+        background: -webkit-linear-gradient(to bottom, #b7b7b7 50%, #b7b7b7) !important;
+        background: -moz-linear-gradient(to bottom, #b7b7b7 50%, #b7b7b7) !important;
+        background: -ms-linear-gradient(to bottom, #b7b7b7 50%, #b7b7b7) !important;
+        background: -o-linear-gradient(to bottom, #b7b7b7 50%, #b7b7b7) !important;
+        background: linear-gradient(to bottom, #b7b7b7 50%, #b7b7b7) !important;
+        color: white;
+    }
+
+    div.well{
+        height: 250px;
+    }
+
+    .Absolute-Center {
+        margin: auto;
+        position: absolute;
+        top: 0; left: 0; bottom: 0; right: 0;
+    }
+
+    .Absolute-Center.is-Responsive {
+        width: 50%;
+        height: 50%;
+        min-width: 200px;
+        max-width: 400px;
+        padding: 40px;
+    }
+
+    #logo-container{
+        margin: auto;
+        margin-bottom: 10px;
+        width:200px;
+        height:30px;
+    }
+</style>
 <body onload="init();">
 <form name="frm" method="post">
 <input type="hidden" id="flow_member_id" name="flow_member_id" />
@@ -59,14 +96,41 @@
 <%
     if (session.getAttribute("member_info") == null) {
 %>
-    <span id="l_memberType"></span>
-    <input type="text" id="phoneNumber">
-    <input type="password" id="memberPass" name="memberPass" onkeypress="javascript:if(event.keyCode == 13){loginCheck(); return false;}">
-    <input type="button" id="loginBtn" value="로그인" onclick="loginCheck();">
+<!--
+        <div >
+            <span id="l_memberType"></span>
+            <input type="text" id="phoneNumber">
+            <input type="password" id="memberPass" name="memberPass" onkeypress="javascript:if(event.keyCode == 13){loginCheck(); return false;}">
+            <input type="button" id="loginBtn" value="로그인" onclick="loginCheck();">
+        </div>-->
+    <div class="container">
+        <div class="row">
+            <div class="Absolute-Center is-Responsive">
+              <div id="logo-container">플로우교육 관리자</div>
+                <div class="col-sm-12 col-md-10 col-md-offset-1">
+                    <form action="" id="loginForm">
+                        <span id="l_memberType"></span>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input class="form-control" type="text" id="phoneNumber" />
+                        </div>
+                        <div class="form-group input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input class="form-control" type="password"  id="memberPass" name="memberPass" onkeypress="javascript:if(event.keyCode == 13){loginCheck(); return false;}" />
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn_pack blue s2" onclick="loginCheck();">로그인</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <%
     } else {
 %>
-    <input type="button" id="logoutBtn" value="로그아웃" onclick="goLogout();">
+    <input type="button" id="logoutBtn" value="로그아웃" class="btn_pack blue s2"  onclick="goLogout();">
 <%
     }
 %>
