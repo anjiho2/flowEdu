@@ -447,7 +447,7 @@ function pagingListSelectbox4(val, tagName) {
 //학교구분별 학년 셀렉트박스
 function schoolSelectbox(tag_id, val, school_grade) {
 	var count = 0;
-    var html = "<select id='sel_school'>";
+    var html = "<select id='sel_school' class='form-control'>";
     html += "<option value=''>▶선택</option>";
     //초등(6)
 	if(school_grade == "elem_list" || school_grade == ""){
