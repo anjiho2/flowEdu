@@ -1,17 +1,14 @@
-<%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/common/jsp/top.jsp" %>
 
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
-<script>
-    <%=memberId%>
-</script>
+
 <body>
 <form name="frm" id="frm" method="get">
     <div>
     <table>
-        <h3><%=memberName%> 님의 회원정보 수정page</h3>
+        <h3>회원정보 수정page</h3>
             <h4>비밀번호 변경</h4>
             <tr>
                 <th>ID :</th>
