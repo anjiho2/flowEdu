@@ -43,48 +43,57 @@
 
 </script>
 <body onload="school_type_name();">
-<form>
-    <tr>
-        <th>학교구분</th>
-        <td>
-           [ <span id="l_school_name"></span> ]
-        </td>
-        <br>
-        <th>지역</th>
-        <td>
-            <select title="선택" name="inputregion" id="inputregion" style="padding: 5px;width:30%;">
-                <option value="">전체</option>
-                <option value="100260">서울특별시</option>
-                <option value="100267">부산광역시</option>
-                <option value="100269">인천광역시</option>
-                <option value="100272">대구광역시</option>
-                <option value="100275">광주광역시</option>
-                <option value="100271">대전광역시</option>
-                <option value="100273">울산광역시</option>
-                <option value="100704">세종특별자치시</option>
-                <option value="100276" selected>경기도</option>
-                <option value="100278">강원도</option>
-                <option value="100281">충청남도</option>
-                <option value="100280">충청북도</option>
-                <option value="100285">경상북도</option>
-                <option value="100291">경상남도</option>
-                <option value="100282">전라북도</option>
-                <option value="100283">전라남도</option>
-                <option value="100292">제주특별자치도</option>
-                <option value="100771">해외거주</option>
-            </select>
-        </td>
-        <br>
-        <th>학교이름</th>
-        <td>
-            <input type="text" id="schoo_name" onkeypress="javascript:if(event.keyCode == 13){school_search(); return false;}">
-        </td>
-            <input type="button" value="검색" onclick="school_search();">
-        <br>
-        <td>
+<div class="container">
+    <%--<%@include file="/common/jsp/depth_menu.jsp" %>--%>
+</div>
+</section>
+<section class="content">
+    <h3 class="title_t1">학교 검색</h3>
+    <form name="frm" method="get">
+        <div class="form-group row">
+            <label>학교구분</label>
+            <div> [ <span id="l_school_name"></span> ]</div>
+        </div>
+        <div class="form-group row">
+            <label>지역</label>
+            <div>
+                <select title="선택" name="inputregion" id="inputregion" class="form-control" style="width: 120px;">
+                    <option value="">전체</option>
+                    <option value="100260">서울특별시</option>
+                    <option value="100267">부산광역시</option>
+                    <option value="100269">인천광역시</option>
+                    <option value="100272">대구광역시</option>
+                    <option value="100275">광주광역시</option>
+                    <option value="100271">대전광역시</option>
+                    <option value="100273">울산광역시</option>
+                    <option value="100704">세종특별자치시</option>
+                    <option value="100276" selected>경기도</option>
+                    <option value="100278">강원도</option>
+                    <option value="100281">충청남도</option>
+                    <option value="100280">충청북도</option>
+                    <option value="100285">경상북도</option>
+                    <option value="100291">경상남도</option>
+                    <option value="100282">전라북도</option>
+                    <option value="100283">전라남도</option>
+                    <option value="100292">제주특별자치도</option>
+                    <option value="100771">해외거주</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label>학교이름</label>
+            <div><input type="text" id="schoo_name" class="form-control" style="width: 140px;" onkeypress="javascript:if(event.keyCode == 13){school_search(); return false;}"></div>
+        </div>
+        <div class="bot_btns">
+            <button class="btn_pack blue s2" type="button"  onclick="school_search();">검색</button>
+        </div>
+        <div class="form-group row"></div>
+        <div class="form-group row">
+            <label>검색결과</label>
             <a href="javascript:void(0);" onclick="school_name_html();" id="a_school_name"></a>
-        </td>
-    <tr>
-
-</form>
+        </div>
+    </form>
+</section>
+</div>
+<%@include file="/common/jsp/footer.jsp" %>
 </body>

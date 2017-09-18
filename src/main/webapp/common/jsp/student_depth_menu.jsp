@@ -1,7 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%
-    int depth2 = 1;
-%>
 <nav class="depth2">
     <a href="javascript:goPage('student', 'modify_student');" <%=depth2 == 1 ? "class=\"on\"" : ""%>>학생정보/수정</a>
     <a href="javascript:goPage('student', 'lecture_student');" <%=depth2 == 2 ? "class=\"on\"" : ""%>>수강이력</a>

@@ -3,6 +3,7 @@
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
 <%
+    int depth2 = 1;
     Long student_id = Long.parseLong(request.getParameter("student_id"));
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
 %>
@@ -172,7 +173,7 @@
             return false;
         }
         var param = "?school_type="+school_type;
-        gfn_winPop(750,200,"jsp/popup/school_search_popup.jsp",param);
+        gfn_winPop(550,400,"jsp/popup/school_search_popup.jsp",param);
     }
 
     // 처리하기 버튼
@@ -217,7 +218,6 @@
             <div>
                 <label class="custom-file">
                     <input type="file" id="attachFile"  onchange="preViewImage(this, 'modify_preView', 'preview');" class="custom-file-input" required>
-                    <%--<input type="file" id="attachFile"  onchange="preViewImage(this, 'modify_preView', 'preview');" >--%>
                     <span class="custom-file-control"></span>
                 </label>
             </div>
@@ -351,172 +351,8 @@
                     <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
                 </tr>
             </table>
-            <%@ include file="/common/inc/com_pageNavi.inc" %>
         </div>
 </section>
 </div>
 <%@include file="/common/jsp/footer.jsp" %>
 </body>
-
-
-<!--
-<body onload="init();">
-<form name="frm" id="frm" method="get">
-    <input type="hidden" id="school"  value="">
-    <input type="hidden" id="fileName"  value="">
-    <input type="hidden" id="fileUrl"  value="">
-    <input type="hidden" id="student_id" name="student_id" value="<%=student_id%>">
-    <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
-    <input type="hidden" name="page_gbn" id="page_gbn">
-    <%--<%@include file="/common/jsp/user_top_menu.jsp"%>--%>
-    <h1>학생정보입력 상세정보/수정 page</h1>
-    <table>
-        <tr>
-            <th>학생사진</th>
-            <td>
-                <input type="file" id="attachFile" onchange="preViewImage(this, 'modify_preView', 'preview');">
-            </td>
-        </tr>
-        <tr id="preview" style="display: none;">
-            <td>
-                <img id="modify_preView" src="" width="80px" height="80px">
-            </td>
-        </tr>
-        <tr>
-            <th>학생이름*</th>
-            <td>
-                <input type="text" name="student_name" id="student_name">
-            </td>
-        </tr>
-        <tr>
-            <th>성별*</th>
-            <td>
-                <input type="radio" name="student_gender" value="MALE">남
-                <input type="radio" name="student_gender" value="FEMALE">여
-            </td>
-        </tr>
-        <tr>
-            <th>학생생일*</th>
-            <td>
-                <input type="text" id="startDate" >
-            </td>
-        </tr>
-        <tr>
-            <th>핸드폰번호</th>
-            <td>
-                <input type="text" size="2"  id="student_phone1" maxlength="3" onkeyup="js_tab_order(this,frm.student_phone2,3)">
-                -
-                <input type="text" size="5"  id="student_phone2" maxlength="4" onkeyup="js_tab_order(this,frm.student_phone3,4)">
-                -
-                <input type="text" size="5" id="student_phone3" maxlength="4">
-            </td>
-        </tr>
-        <tr>
-            <th>집전화</th>
-            <td>
-                <input type="text" size="2"  id="student_tel1" maxlength="3" onkeyup="js_tab_order(this,frm.student_tel2,3)">
-                -
-                <input type="text" size="5"  id="student_tel2" maxlength="4" onkeyup="js_tab_order(this,frm.student_tel3,4)">
-                -
-                <input type="text" size="5"   id="student_tel3" maxlength="4">
-            </td>
-        </tr>
-        <tr>
-            <th>이메일</th>
-            <td>
-                <input type="text" id="student_email" ">
-            </td>
-        </tr>
-        <tr>
-            <th>학교구분</th>
-            <td>
-                <input type="radio" name="school_type" value="elem_list" onclick="school_radio(this.value);">초등학교
-                <input type="radio" name="school_type" value="midd_list" onclick="school_radio(this.value);">중학교
-                <input type="radio" name="school_type" value="high_list" onclick="school_radio(this.value);">고등학교
-            </td>
-        </tr>
-        <tr>
-            <th>학년*</th>
-            <td>
-                <span id="student_grade"></span>
-            </td>
-        </tr>
-        <tr>
-            <th>학교이름</th>
-            <td>
-                <input type="text" id="schoolname"  onclick="school_search_popup();">
-            </td>
-        </tr>
-        <tr>
-            <th>메모</th>
-            <td>
-                <textarea id="student_memo" cols="20" rows="3"/></textarea>
-            </td>
-        </tr>
-        <tr>
-            <th>학부모(모)이름*</th>
-            <td>
-                <input type="text" id="mother_name" >
-            </td>
-        </tr>
-        <tr>
-            <th>학부모(모)전화번호*</th>
-            <td>
-                <input type="text" size="2" id="mother_phone1"  maxlength="3" onkeyup="js_tab_order(this,frm.mother_phone2,3)">
-                -
-                <input type="text" size="5" id="mother_phone2"  maxlength="4" onkeyup="js_tab_order(this,frm.mother_phone3,4)">
-                -
-                <input type="text" size="5" id="mother_phone3" maxlength="4">
-            </td>
-        </tr>
-
-        <tr>
-            <th>학부모(부)이름</th>
-            <td>
-                <input type="text" id="father_name" >
-            </td>
-        </tr>
-        <tr>
-            <th>학부모(부)전화번호</th>
-            <td>
-                <input type="text" size="2" id="father_phone1"  maxlength="3" onkeyup="js_tab_order(this,frm.father_phone2,3)">
-                -
-                <input type="text" size="5" id="father_phone2"  maxlength="4" onkeyup="js_tab_order(this,frm.father_phone3,4)">
-                -
-                <input type="text" size="5" id="father_phone3"  maxlength="4">
-            </td>
-        </tr>
-
-
-    </table>
-    <tbody id="dataList"></tbody>
-    <input type="button" value="수정" onclick="modify_student();"><br>
-    <div style="float:left;">
-        <h1>최근 상담 3건</h1>
-        <table class="table_list" border="1">
-            <colgroup>
-                <col width="*" />
-                <col width="*" />
-                <col width="*" />
-                <col width="*" />
-                <col width="*" />
-            </colgroup>
-            <thead>
-            <tr>
-                <th>상담내용</th>
-                <th>상담자</th>
-                <th>상담구분</th>
-                <th>상담날짜</th>
-                <th>처리여부</th>
-            </tr>
-            </thead>
-            <tbody id="consultList"></tbody>
-            <tr>
-                <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
-            </tr>
-        </table>
-    </div>
-</form>
-
-</body>
--->
