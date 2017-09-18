@@ -5,11 +5,13 @@
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
+<body>
     <div class="container">
         <%@include file="/common/jsp/titleArea.jsp" %>
         <section class="content">
             <h3 class="title_t1">Form Type1</h3>
-            <form class="form_st1" name="frm">
+            <form class="form_st1" name="frm" method="get">
+                <input type="hidden" name="page_gbn" id="page_gbn">
                 <div class="form-group row">
                     <label>학생사진</label>
                     <div>
@@ -123,3 +125,4 @@
         </section>
     </div>
 <%@include file="/common/jsp/footer.jsp" %>
+</body>
