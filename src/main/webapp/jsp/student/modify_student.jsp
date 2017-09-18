@@ -1,6 +1,7 @@
 <%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/common/jsp/top.jsp" %>
+<%@include file="/common/jsp/header.jsp" %>
 <%
     Long student_id = Long.parseLong(request.getParameter("student_id"));
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
@@ -159,40 +160,6 @@
         }
     }
 
-    /*
-    function fn_search(val) {
-        var paging = new Paging();
-        var sPage = $("#sPage").val();
-        var student_id = getInputTextValue("student_id");
-
-        if(val == "new") sPage = "1";
-        dwr.util.removeAllRows("consultList");
-
-        studentService.getStudentMemoListCount(student_id, function(cnt) {
-            paging.count(sPage, cnt, '10', '5', comment.blank_list);
-            studentService.getStudentMemoList(sPage, '5', student_id, function (selList) { //상담리스트
-                if (selList.length > 0) {
-                    for (var i = 0; i < selList.length; i++) {
-                        var cmpList = selList[i];
-                        if (cmpList != undefined) {
-                            var contentHTML = "<a href='javascript:void(0);' id="+cmpList.studentMemoId+">"+ellipsis(cmpList.memoContent, 10)+"</a>";
-                            var proccessHTML = "<input type='button' value='처리하기' id="+cmpList.studentMemoId+" onclick='changeProccessYn(this.id);'>";
-                            var cellData = [
-                                function(data) {return cmpList.memoContent},
-                                function(data) {return cmpList.memberName;},
-                                function(data) {return convert_memo_type(cmpList.memoType);},
-                                function(data) {return getDateTimeSplitComma(cmpList.createDate);},
-                                function(data) {return cmpList.processYn == false ? proccessHTML : "처리완료";}
-                            ];
-                            dwr.util.addRows("consultList", [0], cellData, {escapeHtml: false});
-                        }
-                    }
-                }
-
-            });
-        });
-    }
-    */
     function school_radio(school_grade) {
         schoolSelectbox("student_grade","", school_grade);
     }
@@ -225,11 +192,174 @@
                 function(data) {return data.memberName;},
                 function(data) {return convert_memo_type(data.memoType);},
                 function(data) {return getDateTimeSplitComma(data.createDate);},
-                function(data) {return data.processYn == false ? "<input type='button' value='처리하기' id="+data.studentMemoId+" onclick='changeProccessYn(this.id);'>" : "처리완료";}
+                function(data) {return data.processYn == false ? "<button class='btn_pack white' type='button' id="+data.studentMemoId+" onclick='changeProccessYn(this.id);'>처리하기</button>" : "처리완료";}
             ], {escapeHtml:false} );
         });
     }
 </script>
+<body onload="init();">
+<div class="container">
+    <%@include file="/common/jsp/titleArea.jsp" %>
+    <%@include file="/common/jsp/student_depth_menu.jsp" %>
+</div>
+</section>
+<section class="content">
+    <h3 class="title_t1">학생정보/수정</h3>
+    <form name="frm" id="frm" method="get" class="form_st1">
+        <input type="hidden" id="school"  value="">
+        <input type="hidden" id="fileName"  value="">
+        <input type="hidden" id="fileUrl"  value="">
+        <input type="hidden" id="student_id" name="student_id" value="<%=student_id%>">
+        <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
+        <input type="hidden" name="page_gbn" id="page_gbn">
+        <div class="form-group row">
+            <label>학생사진</label>
+            <div>
+                <label class="custom-file">
+                    <input type="file" id="attachFile"  onchange="preViewImage(this, 'modify_preView', 'preview');" class="custom-file-input" required>
+                    <%--<input type="file" id="attachFile"  onchange="preViewImage(this, 'modify_preView', 'preview');" >--%>
+                    <span class="custom-file-control"></span>
+                </label>
+            </div>
+        </div>
+        <div class="form-group row" id="preview" style="display: none;">
+            <label>학생사진미리보기</label>
+            <div>
+                <label class="custom-file">
+                    <img id="modify_preView" src="" width="100px" height="100px">
+                </label>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label>학생이름<b>*</b></label>
+            <div><input type="text" class="form-control" id="student_name" style="width:150px;"></div>
+        </div>
+        <div class="form-outer-group">
+            <div class="form-group row">
+                <label>성별<b>*</b></label>
+                <div>
+                    <div class="checkbox_t1">
+                        <label><input type="radio" name="student_gender" value="MALE" checked><span>남자</span></label>
+                        <label><input type="radio" name="student_gender" value="FEMALE"><span>여자</span></label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label>생일<b>*</b></label>
+                <div><input type="text" id="startDate" class="form-control date-picker" style="width:200px;"></div>
+            </div>
+        </div>
+        <div class="form-outer-group">
+            <div class="form-group row">
+                <label>핸드폰번호</label>
+                <div class="inputs">
+                    <input type="text" size="2" id="student_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.student_phone2,3)">&nbsp;-&nbsp;
+                    <input type="text" size="5" id="student_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.student_phone3,4)">&nbsp;-&nbsp;
+                    <input type="text" size="5" id="student_phone3" class="form-control" maxlength="4">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="">집전화번호</label>
+                <div class="inputs">
+                    <input type="text" size="2" id="student_tel1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.student_tel2,3)">&nbsp;-&nbsp;
+                    <input type="text" size="5" id="student_tel2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.student_tel3,4)">&nbsp;-&nbsp;
+                    <input type="text" size="5" id="student_tel3" class="form-control" maxlength="4">
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label>이메일</label>
+            <div><input type="email" class="form-control datepicker" id="student_email" style="width:422px;"></div>
+        </div>
+        <div class="form-outer-group">
+            <div class="form-group row">
+                <label>학교구분</label>
+                <div class="checkbox_t1">
+                    <label><input type="radio" name="school_type" class="form-control" value="elem_list"  onclick="school_radio(this.value);" checked><span>초등학교</span></label>
+                    <label><input type="radio" name="school_type" class="form-control" value="midd_list"  onclick="school_radio(this.value);"><span>중학교</span></label>
+                    <label><input type="radio" name="school_type" class="form-control" value="high_list"  onclick="school_radio(this.value);"><span>고등학교</span></label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label>학교이름</label>
+                <div><input type="text" class="form-control" id="schoolname" onclick="school_search_popup();"></div>
+            </div>
+            <div class="form-group row">
+                <label>학년</label>
+                <div>
+                    <span id="student_grade"></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label>메모</label>
+            <div><textarea class="form-control"  id="student_memo" rows="5"></textarea></div>
+        </div>
+        <div class="form-outer-group">
+            <div class="form-group row">
+                <label>학부모(모)이름<b>*</b></label>
+                <div><input type="text" class="form-control" id="mother_name"></div>
+            </div>
+            <div class="form-group row">
+                <label>학부모(모)전화번호<b>*</b></label>
+                <div class="inputs">
+                    <input type="text" size="2" id="mother_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.mother_phone2,3)">&nbsp;-&nbsp;
+                    <input type="text" size="5" id="mother_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.mother_phone3,4)">&nbsp;-&nbsp;
+                    <input type="text" size="5" id="mother_phone3" class="form-control" maxlength="4" >
+                </div>
+            </div>
+        </div>
+        <div class="form-outer-group">
+            <div class="form-group row">
+                <label>학부모(부)이름</label>
+                <div><input type="text" class="form-control" id="father_name"></div>
+            </div>
+            <div class="form-group row">
+                <label>학부모(부)전화번호</label>
+                <div class="inputs">
+                    <input type="text" size="2" id="father_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.father_phone2,3)">&nbsp;-&nbsp;
+                    <input type="text" size="5" id="father_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.father_phone3,4)">&nbsp;-&nbsp;
+                    <input type="text" size="5" id="father_phone3" class="form-control" maxlength="4">
+                </div>
+            </div>
+        </div>
+        <div class="bot_btns">
+            <button class="btn_pack blue s2" type="button"  onclick="modify_student();">수정</button>
+        </div>
+    </form>
+</section>
+<section class="content">
+    <h3 class="title_t1">최근 상담 3건</h3>
+        <div class="tb_t1">
+            <table>
+                <colsgroup>
+                    <col width="*" />
+                    <col width="*" />
+                    <col width="*" />
+                    <col width="*" />
+                    <col width="110">
+                </colsgroup>
+                <tr>
+                    <th>상담내용</th>
+                    <th>상담자</th>
+                    <th>상담구분</th>
+                    <th>상담날짜</th>
+                    <th>처리여부</th>
+                </tr>
+                <tbody id="consultList"></tbody>
+                <tr>
+                    <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
+                </tr>
+            </table>
+            <%@ include file="/common/inc/com_pageNavi.inc" %>
+        </div>
+</section>
+</div>
+<%@include file="/common/jsp/footer.jsp" %>
+</body>
+
+
+<!--
 <body onload="init();">
 <form name="frm" id="frm" method="get">
     <input type="hidden" id="school"  value="">
@@ -238,7 +368,7 @@
     <input type="hidden" id="student_id" name="student_id" value="<%=student_id%>">
     <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
     <input type="hidden" name="page_gbn" id="page_gbn">
-    <%@include file="/common/jsp/user_top_menu.jsp"%>
+    <%--<%@include file="/common/jsp/user_top_menu.jsp"%>--%>
     <h1>학생정보입력 상세정보/수정 page</h1>
     <table>
         <tr>
@@ -389,3 +519,4 @@
 </form>
 
 </body>
+-->

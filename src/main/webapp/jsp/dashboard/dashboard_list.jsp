@@ -28,7 +28,7 @@
                     for (var i = 0; i < selList.length; i++) {
                         var cmpList = selList[i];
                         if (cmpList != undefined) {
-                            var modifyHTML = "<button class='btn_pack white type='button' onclick='student_modify(" + cmpList.studentId + ");'>상세정보</button>";
+                            var modifyHTML = "<button class='btn_pack white' type='button' onclick='student_modify(" + cmpList.studentId + ");'>상세정보</button>";
                             var cellData = [
                                 function(data) {return cmpList.studentName;},
                                 function(data) {return cmpList.motherName;},
