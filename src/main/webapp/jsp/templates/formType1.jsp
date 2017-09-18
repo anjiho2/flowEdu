@@ -1,13 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%
-    int depth1 = 5;
-    int depth2 = 2;
-%>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
 <body>
     <div class="container">
         <%@include file="/common/jsp/titleArea.jsp" %>
+        <%@include file="/common/jsp/depth_menu.jsp" %>
+    </div>
+    </section>
         <section class="content">
             <h3 class="title_t1">Form Type1</h3>
             <form class="form_st1" name="frm" method="get">
