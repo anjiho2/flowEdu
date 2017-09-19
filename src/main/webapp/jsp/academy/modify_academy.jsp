@@ -1,11 +1,12 @@
 <%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@include file="/common/jsp/top.jsp" %>
-<%@include file="/common/jsp/header.jsp" %>
 <%
     Long officeId = Long.parseLong(request.getParameter("office_id"));
+    int depth1 = 3;
     int depth2 = 2;
 %>
+<%@include file="/common/jsp/top.jsp" %>
+<%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script>
     function modify_academy() { //학원정보 수정 저장
