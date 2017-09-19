@@ -508,7 +508,7 @@ function academyGroupSelectbox(tag_id, val) {
 
 function studentmemoTypeSelectbox(tag_id, val) {
     studentService.getStudentMemoTypeList(function (list) {
-        var html = "<select id='sel_memoType'>";
+        var html = "<select id='sel_memoType' class='form-control'>";
         html += "<option value=''>▶선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].memoCode == val) {

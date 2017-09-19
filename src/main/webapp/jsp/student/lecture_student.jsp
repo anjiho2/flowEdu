@@ -1,13 +1,15 @@
 <%@ page import="com.flowedu.util.Util" %>
-<%@ page import="java.net.URLDecoder" %>
 <%@ page import="com.flowedu.util.StringUtil" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@include file="/common/jsp/top.jsp" %>
 <%
+    int depth1 = 2;
+    int depth2 = 2;
     Long student_id = Long.parseLong(request.getParameter("student_id"));
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
     String student_name = StringUtil.convertParmeterStr(request.getParameter("student_name"), "UTF-8");
 %>
+<%@include file="/common/jsp/top.jsp" %>
+<%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
 <script>
@@ -25,6 +27,8 @@ function fn_search(val) {
         sPage = "1";
     }
     dwr.util.removeAllRows("dataList");
+    gfn_emptyView("H", "");
+
     lectureService.getLectureStudentRelByStudentIdCount(student_id, function(cnt) {
         paging.count(sPage, cnt, '10', '5', comment.blank_list);
 
@@ -53,44 +57,43 @@ function lecture_apply() {
 }
 
 </script>
-<style>
-    .inpType{padding-left:6px;height:24px;line-height:24px;border:1px solid #dbdbdb}
-
-</style>
 <body onload="init();">
-<form name="frm" id="frm" method="get">
-    <input type="hidden" name="page_gbn" id="page_gbn">
-    <input type="hidden" id="studentId" name="student_id" value="<%=student_id%>">
-    <input type="hidden" name="student_name" value="<%=student_name%>">
-    <input type="hidden"  id="sPage" value="<%=sPage%>">
-    <%@include file="/common/jsp/user_top_menu.jsp"%>
-    <h1><%=student_name%> 수강리스트</h1>
-    <div>
-        <input type="button" value="강의신청" onclick="lecture_apply();">
-    </div>
-    <div>
-        <table border="1" width="500px">
-            <colgroup>
-                <col width="*" />
-                <col width="*" />
-                <col width="*" />
-                <col width="*" />
-            </colgroup>
-            <thead>
-            <tr>
-                <th>강의명</th>
-                <th>담당선생님</th>
-                <th>강의시작일</th>
-                <th>강의종료일</th>
-            </tr>
-            </thead>
-            <tbody id="dataList"></tbody>
-            <tr>
-                <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
-            </tr>
-            <!--<input type="button" value="삭제" onclick="Delete();">-->
-        </table>
-        <%@ include file="/common/inc/com_pageNavi.inc" %>
-    </div>
-</form>
+<div class="container">
+    <%@include file="/common/jsp/titleArea.jsp" %>
+    <%@include file="/common/jsp/student_depth_menu.jsp" %>
+</div>
+</section>
+<section class="content">
+    <h3 class="title_t1"><%=student_name%>학생 수강 이력</h3>
+    <form name="frm" method="get">
+        <input type="hidden" name="page_gbn" id="page_gbn">
+        <input type="hidden" id="studentId" name="student_id" value="<%=student_id%>">
+        <input type="hidden" name="student_name" value="<%=student_name%>">
+        <input type="hidden"  id="sPage" value="<%=sPage%>">
+        <div class="tb_t1">
+            <table>
+                <colsgroup>
+                    <col width="*" />
+                    <col width="*" />
+                    <col width="*" />
+                    <col width="*" />
+                </colsgroup>
+                <tr>
+                    <th>강의명</th>
+                    <th>담당선생님</th>
+                    <th>강의시작일</th>
+                    <th>강의종료일</th>
+                </tr>
+                <tbody id="dataList"></tbody>
+                <tr>
+                    <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
+                </tr>
+            </table>
+            <div class="form-group row"></div>
+            <%@ include file="/common/inc/com_pageNavi.inc" %>
+        </div>
+    </form>
+</section>
+</div>
+<%@include file="/common/jsp/footer.jsp" %>
 </body>

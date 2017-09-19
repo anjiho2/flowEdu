@@ -29,13 +29,13 @@ function lectureLevelRadio(tag_id, val, on_click) {
  */
 function studentMemoTypeRadio(tag_id, val, on_click) {
     studentService.getStudentMemoTypeList(function (list) {
-        var html = "";
+        var html = "<div class='checkbox_t1'>";
         var check = "";
         for (var i=0; i<list.length; i++) {
             list[i].memoCode == val ? check = "checked" : check = "";
-            html += "<input type='radio' name='memo_type' value=" + list[i].memoCode + " onclick=" + "'" + on_click + "'" + check + ">" + list[i].memoName + "&nbsp;";
+            html += "<label><input type='radio' name='memo_type' value=" + list[i].memoCode + " onclick=" + "'" + on_click + "'" + check + "><span>" + list[i].memoName + "</span></label>";
         }
-        html += "</select>";
+        html += "</div>";
         innerHTML(tag_id, html);
     });
 }

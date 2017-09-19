@@ -1,11 +1,12 @@
 <%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@include file="/common/jsp/top.jsp" %>
-<%@include file="/common/jsp/header.jsp" %>
 <%
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
+    int depth1 = 3;
     int depth2 = 1;
 %>
+<%@include file="/common/jsp/top.jsp" %>
+<%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type="text/javascript">
     function save_academy() { //학원정보 저장

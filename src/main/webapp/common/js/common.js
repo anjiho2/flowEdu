@@ -8,7 +8,7 @@ var webRoot = "";
 function gfn_emptyView(gubun,str){
 	if (gubun == "H") {
 		emptys.innerHTML = "<td colspan='30'></td>";
-  		emptys.style.height = "0"; 
+  		emptys.style.height = "0";
   		emptys.style.visibility = "hidden";
 		emptys.style.display = "none";
   	 }else{
