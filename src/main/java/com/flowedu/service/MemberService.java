@@ -194,7 +194,7 @@ public class MemberService extends PagingSupport {
     @Transactional(propagation = Propagation.REQUIRED)
     public String findFlowEduMemberPassword(String phoneNumber, String email) throws Exception {
         Long findMemberId = memberMapper.findFlowEduMember(phoneNumber, "", email);
-        if (findMemberId == UserSession.flowMemberId()) {
+        if (findMemberId != null) {
             String changePassword = RandomMake.getRandomPassword();
             memberMapper.modifyFlowMemberPassword(findMemberId, Aes256.encrypt(changePassword));
             return changePassword;
