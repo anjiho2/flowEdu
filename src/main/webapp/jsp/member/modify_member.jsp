@@ -1,11 +1,12 @@
 <%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@include file="/common/jsp/top.jsp" %>
-<%@include file="/common/jsp/header.jsp" %>
 <%
+    int depth1 = 4;
     int depth2 = 2;
     Long member_id = Long.parseLong(request.getParameter("member_id"));
 %>
+<%@include file="/common/jsp/top.jsp" %>
+<%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script>

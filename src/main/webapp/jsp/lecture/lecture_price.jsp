@@ -64,21 +64,7 @@
 
         });
     }
-    /*
-    function Delete() { //강의가격삭제
-        $("input[name=chk]:checked").each(function() {
-            var lecture_price_id = $(this).val();
 
-            if (lecture_price_id == "") {
-                alert(comment.blank_check);
-                return;
-            }
-            lectureService.deleteAcademy(officeid, function() {});
-        });
-        alert(comment.success_delete);
-        location.reload();
-    }
-    */
 </script>
 <body onload="init();">
 <form name="frm" id="frm" method="get">

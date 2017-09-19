@@ -1,11 +1,12 @@
 <%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@include file="/common/jsp/top.jsp" %>
-<%@include file="/common/jsp/header.jsp" %>
 <%
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
+    int depth1 = 4;
     int depth2 = 1;
 %>
+<%@include file="/common/jsp/top.jsp" %>
+<%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type="text/javascript">
@@ -28,6 +29,7 @@ function fn_search(val) {//운영자,선생님 리스트불러오기
         paging.count(sPage, cnt, '10', '10', comment.blank_list);
         memberService.getFlowEduMemberList(sPage, '10', function (selList) {
             if (selList.length > 0) {
+                console.log(selList);
                 for (var i = 0; i < selList.length; i++) {
                     var cmpList = selList[i];
                     if (cmpList != undefined) {
@@ -88,7 +90,7 @@ function member_modify(member_id) { //수정페이지 이동
                 <col width="*" />
                 <col width="*" />
                 <col width="*" />
-                <col width="*" />
+                <col width="110" />
             </colgroup>
             <thead>
             <tr>

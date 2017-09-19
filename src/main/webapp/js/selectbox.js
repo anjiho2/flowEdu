@@ -48,7 +48,7 @@ function academyListSelectbox(tag_id, val) { //소속부서(학원)리스트
 
 function academyListSelectbox2(tag_id, val) { //소속부서(학원)리스트
     academyService.getAcademyList(function(list) {
-        var html = "<select id='sel_academyList2' onchange='academy_sel_change(this.value);' >";
+        var html = "<select id='sel_academyList2' onchange='academy_sel_change(this.value);' class='form-control'>";
         html += "<option value=''>▶선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].officeId == val) {
@@ -85,7 +85,7 @@ function flowEduTeamListSelectbox(tag_id, val) { //소속팀 리스트
  */
 function lectureDaySelectbox(tag_id, val) {
 	lectureService.getLectureDayList(function (list) {
-		var html = "<select id='sel_lectureDayList' name='lecture_day[]'>";
+		var html = "<select id='sel_lectureDayList' name='lecture_day[]' class='form-control'>";
 		html += "<option value=''>▶요일선택</option>";
 		for (var i=0; i<list.length; i++) {
 			if (list[i].dayCode == val) {
@@ -106,7 +106,7 @@ function lectureDaySelectbox(tag_id, val) {
  */
 function lectureStatusSelectbox(tag_id, val) {
     lectureService.getLectureStatusList(function (list) {
-        var html = "<select id='sel_lectureStatusList'>";
+        var html = "<select id='sel_lectureStatusList' class='form-control'>";
         html += "<option value=''>▶강의상태선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].statusCode == val) {
@@ -127,7 +127,7 @@ function lectureStatusSelectbox(tag_id, val) {
  */
 function lectureOperationTypeSelectbox(tag_id, val) {
     lectureService.getLectureOperationTypeList(function (list) {
-        var html = "<select id='sel_lectureOperationTypeList'>";
+        var html = "<select id='sel_lectureOperationTypeList' class='form-control'>";
         html += "<option value=''>▶운영형태선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].operationTypeCode == val) {
@@ -148,7 +148,7 @@ function lectureOperationTypeSelectbox(tag_id, val) {
  * @param limitCount
  */
 function lectureStudentLimitSelectbox(tag_id, val, limitCount) {
-    var html = "<select id='sel_lectureStudentLimitList'>";
+    var html = "<select id='sel_lectureStudentLimitList' class='form-control'>";
     html += "<option value=''>▶인원수선택</option>";
     for (var i=1; i<=limitCount; i++) {
         if (i == val) {
@@ -169,7 +169,7 @@ function lectureStudentLimitSelectbox(tag_id, val, limitCount) {
  */
 function teacherList(office_id, tag_id, val) {
     memberService.getTeacherList(office_id, function (list) {
-        var html = "<select id='sel_teacherList'>";
+        var html = "<select id='sel_teacherList' class='form-control'>";
         html += "<option value=''>▶선생님선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].flowMemberId == val) {
@@ -185,7 +185,7 @@ function teacherList(office_id, tag_id, val) {
 
 function teacherList2(office_id, tag_id, val) {
     memberService.getTeacherList(office_id, function (list) {
-        var html = "<select id='sel_teacherList2'>";
+        var html = "<select id='sel_teacherList2' class='form-control'>";
         html += "<option value=''>▶선생님선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].flowMemberId == val) {
@@ -206,7 +206,7 @@ function teacherList2(office_id, tag_id, val) {
  */
 function lectureSubjectSelectbox(tag_id, val) {
     lectureService.getLectureSubjectList(function (list) {
-        var html = "<select id='sel_lectureSubject'>";
+        var html = "<select id='sel_lectureSubject' class='form-control'>";
         html += "<option value=''>▶과목선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].subjectCode == val) {
@@ -227,7 +227,7 @@ function lectureSubjectSelectbox(tag_id, val) {
  */
 function lecturePriceSelectbox(tag_id, val) {
     lectureService.getLecturePriceList(function (list) {
-        var html = "<select id='sel_lecturePrice'>";
+        var html = "<select id='sel_lecturePrice' class='form-control'>";
         html += "<option value=''>▶가격선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].lecturePriceId == val) {
@@ -243,7 +243,7 @@ function lecturePriceSelectbox(tag_id, val) {
 
 function lectureRoomSelectbox(office_id, tag_id, val) {
     lectureService.getLectureRoomList(office_id, function (list) {
-        var html = "<select id='sel_lectureRoom' name='sel_lectureRoom[]'>";
+        var html = "<select id='sel_lectureRoom' name='sel_lectureRoom[]' class='form-control'>";
         html += "<option value=''>▶강의실선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].lectureRoomId == val) {
