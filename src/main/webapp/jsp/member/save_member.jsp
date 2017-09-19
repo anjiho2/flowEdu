@@ -1,8 +1,10 @@
 <%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/common/jsp/top.jsp" %>
+<%@include file="/common/jsp/header.jsp" %>
 <%
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
+    int depth2 = 2;
 %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
@@ -12,47 +14,8 @@ function init() {
     jobPositionSelectbox("l_jobPosition","");//직책리스트
     academyListSelectbox("sel_academy","");//학원리스트
     flowEduTeamListSelectbox("l_FlowEduTeam","");//소속팀리스트
-    fn_search("new");
 }
 
-function fn_search(val) {//운영자,선생님 리스트불러오기
-    var paging = new Paging();
-    var sPage = $("#sPage").val();
-
-    if(val == "new") sPage = "1";
-    dwr.util.removeAllRows("dataList");
-
-    memberService.getFlowEduMemberListCount( function(cnt) {
-        paging.count(sPage, cnt, '10', '5', comment.blank_list);
-        memberService.getFlowEduMemberList(sPage, '5', function (selList) {
-            if (selList.length > 0) {
-                for (var i = 0; i < selList.length; i++) {
-                    var cmpList = selList[i];
-                    if (cmpList != undefined) {
-                       // var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.officeId + "'/>";
-                        var modifyHTML = "<input type='button'  name='modify' id='modify' value='수정' onclick='member_modify(" + cmpList.flowMemberId + ");'/>";
-                        var cellData = [
-                         //   function(data) {return checkHTML;},
-                            function(data) {return convert_memberType(cmpList.memberType);},
-                            function(data) {return cmpList.memberName;},
-                            function(data) {return cmpList.phoneNumber;},
-                            function(data) {return cmpList.memberBirthday;},
-                            function(data) {return ellipsis(cmpList.memberAddress, 5);},
-                            function(data) {return cmpList.memberEmail;},
-                            function(data) {return cmpList.jobPositionName;},
-                            function(data) {return cmpList.officeName;},
-                            function(data) {return cmpList.teamName;},
-                            function(data) {return cmpList.sexualAssultConfirmDate;},
-                            function(data) {return cmpList.educationRegDate;},
-                            function(data) {return modifyHTML;}
-                        ];
-                        dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
-                    }
-                }
-            }
-        });
-    });
-}
 function save_member() { // 운영자.선생님정보등록
     var check = new isCheck();
 
@@ -105,118 +68,92 @@ function save_member() { // 운영자.선생님정보등록
             memberService.saveFlowEduMember(sel_academy,l_FlowEduTeam,sel_jobPosition,member_allphone,member_phone3,member_name,
                 startDate,member_address,member_email,startSearchDate,startSearchDate2,sel_memberType,function () {
                     alert(memtype + " 정보가 등록 되었습니다.");
-                    location.reload();
+                    goPage("member","list_member");
             });
         }
     });
 }
-function member_modify(member_id) { //수정페이지 이동
-    innerValue("member_id", member_id);
-    goPage('member', 'modify_member');
-}
 
-function Delete() { //운영자|선생님정보 삭제
-    $("input[name=chk]:checked").each(function() {
-        var officeid = $(this).val();
-
-        if (officeid == "") {
-            alert(comment.blank_check);
-            return;
-        }
-        academyService.deleteAcademy(officeid, function() {});
-    });
-    alert(comment.success_delete);
-    location.reload();
-}
 </script>
-
+<style><%--성범죄확인일자/교육청강사등록일자로인한 style예외처리--%>
+    .form-group.row>label {-webkit-box-flex: 0;-ms-flex: 0 0 140px;flex: 0 0 187px;}
+</style>
 <body onload="init();">
-<form name="frm" id="frm" method="get">
+<div class="container">
+    <%@include file="/common/jsp/titleArea.jsp" %>
+    <%@include file="/common/jsp/member_top_menu.jsp" %>
+</div>
+</section>
+<section class="content">
+    <h3 class="title_t1">운영자/선생님정보입력</h3>
+    <form name="frm" method="get" class="form_st1">
     <input type="hidden" name="member_id" id="member_id">
     <input type="hidden" name="page_gbn" id="page_gbn">
     <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
-    <h1>운영자/선생님정보입력page</h1>
-    <table>
-        <tr>
-            <th>직원타입</th>
-            <td>
-                <span id="l_memberType"></span>
-            </td>
-        </tr>
-        <tr>
-            <th>직원명</th>
-            <td>
-                <input type="text" id="member_name">
-            </td>
-        </tr>
-        <tr>
-            <th>핸드폰번호</th>
-            <td>
-                <input type="text" size="2" id="member_phone1" maxlength="3" onkeyup="js_tab_order(this,frm.member_phone2,3)">
-                -
-                <input type="text" size="5" id="member_phone2" maxlength="4" onkeyup="js_tab_order(this,frm.member_phone3,4)">
-                -
-                <input type="text" size="5" id="member_phone3" maxlength="4">
-            </td>
-        </tr>
-        <tr>
-            <th>생년월일</th>
-            <td>
-                <input type="text" id="startDate" >
-            </td>
-        </tr>
-
-        <tr>
-            <th>주소</th>
-            <td>
-                <input type="text" id="member_address">
-            </td>
-        </tr>
-        <tr>
-            <th>이메일</th>
-            <td>
-                <input type="text" id="member_email">
-            </td>
-        </tr>
-        <tr>
-            <th>직책</th>
-            <td>
-                <span id="l_jobPosition"></span>
-            </td>
-        </tr>
-        <tr>
-            <th>소속부서(학원)</th>
-            <td>
-                <span id="sel_academy"></span>
-            </td>
-        </tr>
-        <tr>
-            <th>소속팀</th>
-            <td>
-                <span id="l_FlowEduTeam"></span>
-            </td>
-        </tr>
-        <tr>
-            <th>성범죄경력조회 확인일자</th>
-            <td>
-                <input type="text" id="startSearchDate" >
-            </td>
-        </tr>
-        <tr>
-            <th>교육청 강사등록일자</th>
-            <td>
-                <input type="text" id="startSearchDate2" >
-            </td>
-        </tr>
-    </table>
-    <input type="button" value="등록" onclick="save_member();">
-
-
+        <div class="form-group row">
+            <label>직원타입<b>*</b></label>
+            <div><span id="l_memberType"></span></div>
+        </div>
+        <div class="form-group row">
+            <label>직원명<b>*</b></label>
+            <div><input type="text" class="form-control" id="member_name" style="width:150px;"></div>
+        </div>
+        <div class="form-group row">
+            <label>생년월일<b>*</b></label>
+            <div><input type="text" id="startDate" class="form-control date-picker" style="width:200px;"></div>
+        </div>
+        <div class="form-outer-group">
+            <div class="form-group row">
+                <label>핸드폰번호</label>
+                <div class="inputs">
+                    <input type="text" id="member_phone1" class="form-control" maxlength="3" style="width:30px;" onkeyup="js_tab_order(this,frm.member_phone2,3)">&nbsp;-&nbsp;
+                    <input type="text" id="member_phone2" class="form-control" maxlength="4" style="width:35px;" onkeyup="js_tab_order(this,frm.member_phone3,4)">&nbsp;-&nbsp;
+                    <input type="text" id="member_phone3" class="form-control" maxlength="4"  style="width:35px;">
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label>주소<b>*</b></label>
+            <div><input type="text" class="form-control" id="member_address"></div>
+        </div>
+        <div class="form-group row">
+            <label>이메일</label>
+            <div><input type="email" class="form-control datepicker" id="member_email" style="width:422px;"></div>
+        </div>
+        <div class="form-group row">
+            <label>직책<b>*</b></label>
+            <div><span id="l_jobPosition"></span></div>
+        </div>
+        <div class="form-group row">
+            <label>소속부서(학원)<b>*</b></label>
+            <div><span id="sel_academy"></span></div>
+        </div>
+        <div class="form-group row">
+            <label>소속팀<b>*</b></label>
+            <div><span id="l_FlowEduTeam"></span></div>
+        </div>
+        <div class="form-group row">
+            <label>성범죄경력조회 확인일자<b>*</b></label>
+            <div><input type="text" id="startSearchDate" class="form-control date-picker" style="width:200px;"></div>
+        </div>
+        <div class="form-group row">
+            <label>교육청 강사등록일자<b>*</b></label>
+            <div><input type="text" id="startSearchDate2" class="form-control date-picker" style="width:200px;"></div>
+        </div>
+        <div class="bot_btns">
+            <button class="btn_pack blue s2" type="button"  onclick="save_member();">저장</button>
+        </div>
+    </form>
+</section>
+</div>
+<%@include file="/common/jsp/footer.jsp" %>
+</body>
+<!--
 <h1>운영자/선생님정보 LIST</h1>
 <div id="memberList">
     <table class="table_list" border="1">
         <colgroup>
-           <!-- <col width="2%" />-->
+           <!-- <col width="2%" />
             <col width="*" />
             <col width="*" />
             <col width="*" />
@@ -250,9 +187,5 @@ function Delete() { //운영자|선생님정보 삭제
         <tr>
             <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
         </tr>
-    </table>
-    <%@ include file="/common/inc/com_pageNavi.inc" %>
-</div>
-</form>
-</body>
-</html>
+    </table>-->
+

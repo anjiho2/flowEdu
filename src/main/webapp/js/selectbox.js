@@ -16,7 +16,7 @@ function memberTypeSelectbox(tag_id, val) {
 
 function jobPositionSelectbox(tag_id, val) { //직책 리스트
     memberService.getJobPositionList(function(list) {
-        var html = "<select id='sel_jobPosition'>";
+        var html = "<select id='sel_jobPosition' class='form-control'>";
         html += "<option value=''>▶선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].jobPositionId == val) {
@@ -32,7 +32,7 @@ function jobPositionSelectbox(tag_id, val) { //직책 리스트
 
 function academyListSelectbox(tag_id, val) { //소속부서(학원)리스트
     academyService.getAcademyList(function(list) {
-        var html = "<select id='sel_academyList'>";
+        var html = "<select id='sel_academyList' class='form-control'>";
         html += "<option value=''>▶선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].officeId == val) {
@@ -64,7 +64,7 @@ function academyListSelectbox2(tag_id, val) { //소속부서(학원)리스트
 
 function flowEduTeamListSelectbox(tag_id, val) { //소속팀 리스트
     memberService.getFlowEduTeamList(function(list) {
-        var html = "<select id='sel_FlowEduTeamList'>";
+        var html = "<select id='sel_FlowEduTeamList' class='form-control'>";
         html += "<option value=''>▶선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].teamId == val) {
@@ -490,7 +490,7 @@ function attendTypeSelectbox(tag_id, val) {
 
 function academyGroupSelectbox(tag_id, val) {
     academyService.getAcademyGroup(function (list) {
-        var html = "<select id='sel_academyGroup'>";
+        var html = "<select id='sel_academyGroup' class='form-control'>";
         html += "<option value=''>▶선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].academyGroupId == val) {

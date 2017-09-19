@@ -8,6 +8,10 @@
 %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type="text/javascript">
+    function init() {
+        academyGroupSelectbox('academy_group', '');
+        academyListSelectbox("academy_name","");//학원리스트
+    }
     function save_academy() { //학원정보 저장
         var check = new isCheck();
 
@@ -40,7 +44,7 @@
         });
     }
 </script>
-<body onload="academyList();academyGroupSelectbox('academy_group', '');">
+<body onload="init();">
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
     <%@include file="/common/jsp/academy_top_menu.jsp" %>
@@ -58,59 +62,37 @@
         </div>
         <div class="form-group row">
             <label>관명<b>*</b></label>
-            <div><span id="academy_name"></span></div>
+            <div><input type="text" class="form-control" id="academy_name" style="width:150px;"></div>
         </div>
-            <!--
-                <table>
-                    <tr>
-                        <th>그룹명</th>
-                        <td>
-                            <span id="academy_group"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>관명</th>
-                        <td>
-                            <input type="text" id="academy_name">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>원장이름</th>
-                        <td>
-                            <input type="text" id="academy_directorname">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>관 전화번호</th>
-                        <td>
-                            <input type="text" size="2" id="academy_phone1" maxlength="3" onkeyup="js_tab_order(this,frm.academy_phone2,3)">
-                            -
-                            <input type="text" size="5" id="academy_phone2" maxlength="4" onkeyup="js_tab_order(this,frm.academy_phone3,4)">
-                            -
-                            <input type="text" size="5" id="academy_phone3" maxlength="4">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>주소</th>
-                        <td>
-                            <input type="text" id="academy_address">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>팩스번호</th>
-                        <td>
-                            <input type="text" size="2" id="academy_fax1">
-                            -
-                            <input type="text" size="5" id="academy_fax2">
-                            -
-                            <input type="text" size="5" id="academy_fax3">
-                        </td>
-
-                    </tr>
-                </table>
-                <input type="button" value="등록" onclick="save_academy();">
-            -->
-
+        <div class="form-group row">
+            <label>원장이름<b>*</b></label>
+            <div><input type="text" class="form-control" id="academy_directorname" style="width:150px;"></div>
+        </div>
+        <div class="form-outer-group">
+            <div class="form-group row">
+                <label>관 전화번호</label>
+                <div class="inputs">
+                    <input type="text"  id="academy_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.academy_phone2,3)" style="width:100px;">&nbsp;-&nbsp;
+                    <input type="text"  id="academy_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.academy_phone3,4)" style="width:100px;">&nbsp;-&nbsp;
+                    <input type="text"  id="academy_phone3" class="form-control" maxlength="4" style="width:100px;">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label>팩스번호</label>
+                <div class="inputs">
+                    <input type="text"  id="academy_fax1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.academy_fax2,3)" style="width:100px;">&nbsp;-&nbsp;
+                    <input type="text"  id="academy_fax2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.academy_fax3,4)" style="width:100px;">&nbsp;-&nbsp;
+                    <input type="text"  id="academy_fax3" class="form-control" maxlength="4" style="width:100px;">
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label>관 주소<b>*</b></label>
+            <div><input type="text" class="form-control" id="academy_address" ></div>
+        </div>
+        <div class="bot_btns">
+            <button class="btn_pack blue s2" type="button"  onclick="save_academy();">등록</button>
+        </div>
             <%@ include file="/common/inc/com_pageNavi.inc" %>
         </div>
     </form>

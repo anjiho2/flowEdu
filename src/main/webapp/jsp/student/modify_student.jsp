@@ -13,7 +13,6 @@
         schoolSelectbox("student_grade","", "");
         studentList();
         student_memo_list();
-
     }
 
     function studentList() {
@@ -21,9 +20,7 @@
         studentService.getStudentInfo(student_id, function (selList) {
                     var file_url = 'C:/dev/download/'+selList.studentPhotoUrl+"/"+selList.studentPhotoFile;
                     $("#modify_preView").attr("src", file_url);
-                    if(file_url != null) {
-                        gfn_display("preview", true);
-                    }
+                    if(file_url != null) gfn_display("preview", true);
 
                     innerValue("student_name", selList.studentName);
                     innerValue("startDate", selList.studentBirthday);
@@ -259,7 +256,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="">집전화번호</label>
+                <label>집전화번호</label>
                 <div class="inputs">
                     <input type="text" size="2" id="student_tel1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.student_tel2,3)">&nbsp;-&nbsp;
                     <input type="text" size="5" id="student_tel2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.student_tel3,4)">&nbsp;-&nbsp;

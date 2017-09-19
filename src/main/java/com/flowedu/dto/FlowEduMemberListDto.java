@@ -41,7 +41,7 @@ public class FlowEduMemberListDto {
     //  성범죄경력조회 확인일자
     private String sexualAssultConfirmDate;
 
-    //  교육정 강사등록일자
+    //  교육청 강사등록일자
     private String educationRegDate;
 
     //  운영자, 선생님인지 구분
