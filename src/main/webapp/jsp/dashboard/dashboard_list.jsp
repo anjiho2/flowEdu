@@ -1,10 +1,11 @@
 <%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@include file="/common/jsp/top.jsp" %>
-<%@include file="/common/jsp/header.jsp" %>
 <%
+    int depth1 = 1;
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
 %>
+<%@include file="/common/jsp/top.jsp" %>
+<%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
 <script>
     function student_modify(student_id) { //수정페이지 이동
@@ -15,6 +16,7 @@
         var paging = new Paging();
         var sPage = $("#sPage").val();
         var school_type = get_radio_value("school_type");
+        //var school_type = "high_list";
         var student_name = getInputTextValue("student_name");
 
         if(val == "new") sPage = "1";
@@ -22,8 +24,8 @@
         gfn_emptyView("H", "");
 
         studentService.getSudentListCount(school_type, student_name, function (cnt) {
-            paging.count(sPage, cnt, '10', '5', comment.blank_list);
-            studentService.getSudentList(sPage,'5', school_type, student_name, function (selList) {
+            paging.count(sPage, cnt, '10', '10', comment.blank_list);
+            studentService.getSudentList(sPage, '10', school_type, student_name, function (selList) {
                 if (selList.length > 0) {
                     for (var i = 0; i < selList.length; i++) {
                         var cmpList = selList[i];
@@ -52,14 +54,15 @@
     <%@include file="/common/jsp/titleArea.jsp" %>
     <h2>대시보드</h2>
     <%--<%@include file="/common/jsp/depth_menu.jsp" %>--%>
-    </div>
-    </section>
+</div>
+</section>
     <section class="content">
         <h3 class="title_t1">학생 검색</h3>
         <form name="frm" method="get">
             <input type="hidden" name="page_gbn" id="page_gbn">
             <input type="hidden" id="student_id" name="student_id">
             <input type="hidden"  id="sPage" value="<%=sPage%>">
+
             <div class="form-group row">
                 <div class="checkbox_t1">
                     <label><input type="radio" name="school_type" value="elem_list" checked><span>초등학교</span></label>
@@ -69,7 +72,8 @@
                     <button class="btn_pack blue" type="button" onclick="fn_search('new');">검색</button>
                 </div>
             </div>
-            <div class="tb_t1" id="memberList">
+
+            <div class="tb_t1">
                 <table>
                     <colsgroup>
                         <col width="*" />
@@ -94,6 +98,7 @@
                         <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
                     </tr>
                 </table>
+                <div class="form-group row"></div>
                 <%@ include file="/common/inc/com_pageNavi.inc" %>
             </div>
         </form>

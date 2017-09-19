@@ -1,12 +1,13 @@
 <%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@include file="/common/jsp/top.jsp" %>
-<%@include file="/common/jsp/header.jsp" %>
 <%
+    int depth1 = 2;
     int depth2 = 1;
     Long student_id = Long.parseLong(request.getParameter("student_id"));
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
 %>
+<%@include file="/common/jsp/top.jsp" %>
+<%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
 <script>
     function init() {
@@ -186,7 +187,7 @@
         studentService.getStudentMemoLastThree(student_id, function (memoList) {
             if (memoList.length < 0) return;
             dwr.util.addRows("consultList", memoList, [
-                function(data) {return data.memoContent},
+                function(data) {return ellipsis(data.memoContent, 20)},
                 function(data) {return data.memberName;},
                 function(data) {return convert_memo_type(data.memoType);},
                 function(data) {return getDateTimeSplitComma(data.createDate);},
@@ -229,7 +230,7 @@
         </div>
         <div class="form-group row">
             <label>학생이름<b>*</b></label>
-            <div><input type="text" class="form-control" id="student_name" style="width:150px;"></div>
+            <div><input type="text" class="form-control" id="student_name" name="student_name" style="width:150px;"></div>
         </div>
         <div class="form-outer-group">
             <div class="form-group row">

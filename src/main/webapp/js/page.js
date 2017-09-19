@@ -74,3 +74,8 @@ function lecture_go(val) {
         goPage('lecture','lecture_list');
 	}
 }
+
+function prepare() {
+	alert("기능준비중입니다.");
+	return;
+}
