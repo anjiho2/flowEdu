@@ -431,7 +431,7 @@ function pagingListSelectbox3(val, tagName) {
 	$("#"+tagName).html(selectbox);
 }
 
-function pagingListSelectbox4(val, tagName) {
+function pagingListSelectbox4(val, tagName) { 
 	var selectbox = "<select class='select_small' id='sel_pagingCnt4' onChange='javascript:fn_search4("+ '"'+"new"+'"'+");'>";
 	for (var i=10; i<=40; i+=10) {
 		if (i == val) {
