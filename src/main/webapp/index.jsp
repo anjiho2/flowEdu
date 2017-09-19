@@ -46,6 +46,11 @@
         }
     }
 
+    //비밀번호 찾기 팝업
+    function password_search_popup() {
+        gfn_winPop(550,400,"jsp/popup/find_password_popup.jsp", "");
+    }
+
 </script>
 <style>
     body{
@@ -106,20 +111,23 @@
     <div class="container">
         <div class="row">
             <div class="Absolute-Center is-Responsive">
-              <div id="logo-container">플로우교육 관리자</div>
-                <div class="col-sm-12 col-md-10 col-md-offset-1">
+              <div id="logo-container" align="center">플로우교육 관리자</div>
+                <div class="col-sm-12 col-md-10 col-md-offset-1" align="center">
                     <form action="" id="loginForm">
-                        <span id="l_memberType"></span>
-                        <div class="form-group input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input class="form-control" type="text" id="phoneNumber" />
+                        <div class="form-group input-group" style="width: 50%;">
+                            <span id="l_memberType" ></span>
                         </div>
-                        <div class="form-group input-group">
+                        <div class="form-group input-group"  style="width: 50%;">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input class="form-control" type="text" id="phoneNumber" placeholder="아이디"/>
+                        </div>
+                        <div class="form-group input-group"  style="width: 50%;">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                            <input class="form-control" type="password"  id="memberPass" name="memberPass" onkeypress="javascript:if(event.keyCode == 13){loginCheck(); return false;}" />
+                            <input class="form-control" type="password"  id="memberPass" name="memberPass" onkeypress="javascript:if(event.keyCode == 13){loginCheck(); return false;}" placeholder="비밀번호"/>
                         </div>
                         <div class="form-group">
                             <button type="button" class="btn_pack blue s2" onclick="loginCheck();">로그인</button>
+                            <button type="button" class="btn_pack blue s2" onclick="password_search_popup();">비밀번호 찾기</button>
                         </div>
                     </form>
                 </div>
@@ -135,6 +143,5 @@
     }
 %>
 </form>
-<%--<script type='text/javascript' src='<%=webRoot%>/js/monthpicker.js'></script>--%>
 </body>
 </html>
