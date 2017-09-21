@@ -24,7 +24,7 @@
             if (selList.length > 0) {
                 for (var i=0; i<selList.length; i++) {
                     var cmpList = selList[i];
-                    memberTypeSelectbox("l_memberType", cmpList.flowMemberId);
+                    memberTypeSelectbox("l_memberType", cmpList.memberType);
                     jobPositionSelectbox("l_jobPosition", cmpList.jobPositionId);
                     academyListSelectbox("sel_academy", cmpList.officeId);
                     flowEduTeamListSelectbox("l_FlowEduTeam", cmpList.teamId);

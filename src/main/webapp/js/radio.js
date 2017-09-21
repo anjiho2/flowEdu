@@ -6,7 +6,7 @@
  */
 function lectureLevelRadio(tag_id, val, on_click) {
     lectureService.getLectureLevelList(function (list) {
-    	var html = "";
+        var html = "<div class='checkbox_t1'>";
     	var check = "";
         for (var i=0; i<list.length; i++) {
             if (list[i].levelCode == val) {
@@ -14,9 +14,9 @@ function lectureLevelRadio(tag_id, val, on_click) {
             } else {
 				check = "";
             }
-            html += "<input type='radio' name='lecture_level' value=" + list[i].levelCode + " onclick=" + "'" + on_click + "'" + check + ">" + list[i].levelName;
+            html += "<label><input type='radio' name='lecture_level' value=" + list[i].levelCode + " onclick=" + "'" + on_click + "'" + check + "><span>" + list[i].levelName+ "</span></label>";;
         }
-        html += "</select>";
+        html += "</div>";
         innerHTML(tag_id, html);
     });
 }

@@ -32,7 +32,7 @@ function jobPositionSelectbox(tag_id, val) { //직책 리스트
 
 function academyListSelectbox(tag_id, val) { //소속부서(학원)리스트
     academyService.getAcademyList(function(list) {
-        var html = "<select id='sel_academyList' class='form-control'>";
+        var html = "<select id='sel_academyList' onchange='academy_sel_change(this.value);' class='form-control'>";
         html += "<option value=''>▶선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].officeId == val) {
@@ -431,7 +431,7 @@ function pagingListSelectbox3(val, tagName) {
 	$("#"+tagName).html(selectbox);
 }
 
-function pagingListSelectbox4(val, tagName) { 
+function pagingListSelectbox4(val, tagName) {
 	var selectbox = "<select class='select_small' id='sel_pagingCnt4' onChange='javascript:fn_search4("+ '"'+"new"+'"'+");'>";
 	for (var i=10; i<=40; i+=10) {
 		if (i == val) {

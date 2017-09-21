@@ -21,10 +21,11 @@
                     var cmpList = selList[i];
                     if (cmpList != undefined) {
                         var modifyHTML = "<button class='btn_pack white' type='button' id='modify' onclick='academy_modify(" + cmpList.officeId + ");'/>수정</button>";
+                        var acaName = "<span class='mini'>"+cmpList.academyGroupName+"</span><div class='title'>"+cmpList.officeName+"</div>";
                         var cellData = [
-                            // function(data) {return checkHTML;},
-                            function(data) {return cmpList.academyGroupName;},  //학원그룹명 추가로 기능 추가 (2017.09.12 안지호)
-                            function(data) {return cmpList.officeName;},
+                             function(data) {return acaName;},
+                            //function(data) {return cmpList.academyGroupName;},  //학원그룹명 추가로 기능 추가 (2017.09.12 안지호)
+                            //function(data) {return cmpList.officeName;},
                             function(data) {return cmpList.officeDirectorName;},
                             function(data) {return cmpList.officeAddress;},
                             function(data) {return cmpList.officeTelNumber;},
@@ -54,8 +55,6 @@
         <div class="tb_t1">
             <table>
                 <colgroup>
-                    <!--<col width="2%" />-->
-                    <col width="*" />
                     <col width="*" />
                     <col width="*" />
                     <col width="*" />
@@ -66,8 +65,7 @@
                 </colgroup>
                 <thead>
                 <tr>
-                    <th>그룹명</th>
-                    <th>관명</th>
+                    <th>그룹 / 관</th>
                     <th>원장명</th>
                     <th>주소</th>
                     <th>관전화번호</th>

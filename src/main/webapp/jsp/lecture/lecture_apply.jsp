@@ -1,13 +1,15 @@
 <%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@include file="/common/jsp/top.jsp" %>
-<script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
 <%
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
     Long lecture_id = Long.parseLong(request.getParameter("lecture_id"));
+    int depth1 = 5;
+    int depth2 = 1;
 %>
-
+<%@include file="/common/jsp/top.jsp" %>
+<%@include file="/common/jsp/header.jsp" %>
+<script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
+<script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
 <script type="text/javascript">
     function init() {
         //강의정보 가져오기
@@ -161,26 +163,36 @@
         }
     }
 </script>
-
-
 <body onload="init();">
+<div class="container">
+    <%@include file="/common/jsp/titleArea.jsp" %>
+    <%@include file="/common/jsp/lecture_top_menu.jsp" %>
+</div>
+</section>
+<section class="content">
+    <h3 class="title_t1">수강신청</h3>
 <form name="frm" id="frm" method="get">
     <input type="hidden" name="lecture_id" id="lecture_id" value="<%=lecture_id%>">
     <input type="hidden" name="page_gbn" id="page_gbn">
     <input type="hidden" name="student_id" id="student_id">
     <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
     <input type="hidden" id="max_student_count">
-
+<!--
     강의명   :  <span id="lecture_name"></span> 강의 신청page <br>
     최대인원 :  <span id="lecture_limit"></span> 명 <br>
     현재인원 : <span id="lecture_reg_count"> </span> 명
     <br>
     <br>
-
+-->
+    <div class="tb_t1">
+        강의명   :  <span id="lecture_name"></span> 강의<br>
+        최대인원 :  <span id="lecture_limit"></span> 명 <br>
+        현재인원 : <span id="lecture_reg_count"> </span> 명
+    </div>
     <!--학생리스트-->
-    <div style="width:278px;text-align:center;float:left;">
+    <div class="tb_t1">
         [학생 목록]
-        <table class="student_list" border="1">
+        <table>
             <colgroup>
                 <col width="*" />
                 <col width="*" />
@@ -195,21 +207,20 @@
         </table>
         <%@ include file="/common/inc/com_pageNavi.inc" %>
     </div>
-
     <!--선택된학생리스트-->
-    <div id="sel_student" style="width:278px;text-align:center;float:left;">
+    <div class="tb_t1" id="sel_student">
         [선택된 학생 목록]<span id="selected_count">0</span>명
         <input type="button" value="저장" onclick="save_lecture_student();">
     </div>
 
     <!--기존신청된학생들 리스트-->
-    <div style="width:200px;text-align:center;float:left;">
+    <div class="tb_t1">
         [기존신청된 학생 목록]
-        <table class="student_list" border="1">
+        <table><!--class="student_list"-->
             <tbody id="exist_studentList"></tbody>
         </table>
     </div>
 </form>
+</section>
 </body>
 </html>
-
