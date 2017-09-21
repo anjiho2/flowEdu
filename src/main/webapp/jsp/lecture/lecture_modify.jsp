@@ -322,8 +322,8 @@
     </div>
     <div class="form-group row"></div>
     <form name="lecture_detail" class="form_st1">
-        <div class="clonedDiv">
-            <div class="form-group row" id="input1"><!--강의상세정보-->
+        <div class="clonedDiv"  id="input1">
+            <div class="form-group row"><!--강의상세정보-->
                 <div class="checkbox_t1">
                     <label id="lectureRoomSelectbox"></label>
                     <label id="start_time_input_1"><input type="text" class="form-control date-picker" id="start_time_1" name="start_time[]" placeholder="강의시작시간"></label>
