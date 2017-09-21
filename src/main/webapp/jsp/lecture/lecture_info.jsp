@@ -297,8 +297,8 @@
             <div class="form-group row" id="input1"><!--강의상세정보-->
                 <div class="checkbox_t1">
                     <label id="lectureRoomSelectbox"></label>
-                    <label><input type="text" class="form-control date-picker" id="start_time_1" name="start_time[]" placeholder="강의시작시간"></label>
-                    <label><input type="text" class="form-control date-picker" id="end_time" name="end_time[]" placeholder="강의종료시간"></label>
+                    <label id="start_time_input_1"><input type="text" class="form-control date-picker" id="start_time_1" name="start_time[]" placeholder="강의시작시간"></label>
+                    <label id="end_time_input_1"><input type="text" class="form-control date-picker" id="end_time" name="end_time[]" placeholder="강의종료시간"></label>
                     <label id="lectureDaySelectbox"></label>
                 </div>
             </div>
