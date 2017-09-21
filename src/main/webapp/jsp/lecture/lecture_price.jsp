@@ -44,7 +44,7 @@
     function modify_price(val) {
         var lecturePriceId =  "price_"+val;
         var priceButton = "modify_"+val;
-        var modify_price = getInputTextValue(lecturePriceId);
+        var modify_price = uncomma(getInputTextValue(lecturePriceId));
         lectureService.modifyLecutrePrice( val, modify_price, function () {
              alert("가격이 수정되었습니다.");
              location.reload();
@@ -68,6 +68,7 @@
 
         });
     }
+
     function change_price(val) {
         var lecturePriceId =  "change_"+val;
         var priceButton = "modify_"+val;
@@ -76,14 +77,15 @@
         $("#price_"+val).removeAttr("disabled");
         $("#price_"+val).css("border","1px solid rgba(0,0,0,.15)");
     }
+
     function lecture_priceList() {
         lectureService.getLecturePriceList( function (selList) {
             if (selList.length > 0) {
                 for (var i = 0; i < selList.length; i++) {
                     var cmpList = selList[i];
                     if (cmpList != undefined) {
-                        var money = cmpList.lecturePrice.toLocaleString(); //금액 콤마 표시함수
-                        var inputHTML = "<input type='text' class='form-control' id='price_"+cmpList.lecturePriceId+"' value='"+money+"' style='border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;' disabled>";
+                        //var money = cmpList.lecturePrice.toLocaleString(); //금액 콤마 표시함수
+                        var inputHTML = "<input type='text' class='form-control' id='price_"+cmpList.lecturePriceId+"' value='"+ addThousandSeparatorCommas(cmpList.lecturePrice)  +"' style='border:none;border-right:0px; border-top:0px; boder-left:0px; boder-bottom:0px;' disabled>";
                         var modifyHTML = "<button class='btn_pack white ' type='button' id='modify_"+cmpList.lecturePriceId+"' onclick='change_price(" + cmpList.lecturePriceId + ");'/>변경</button><button class='btn_pack white' type='button'   id='change_"+cmpList.lecturePriceId+"' onclick='modify_price(" + cmpList.lecturePriceId + ");' style='display:none;'/>수정</button>";
 
                         var cellData = [

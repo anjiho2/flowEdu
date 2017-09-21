@@ -164,7 +164,6 @@
         var num = $('.clonedDiv').length;
         var detail_list = new Array();
 
-
         for(var i=0; i < num ; i++){
             var lecture_detail_info = {
                 lectureRoomId: room_list[i],
@@ -316,19 +315,21 @@
 <!------------------------강의상세정보시작--------------------------------->
 <section class="content">
     <h3 class="title_t1">강의시간표설정</h3>
-    <input type="hidden" name="lecture_detail_id[]" value=""><!--강의상세정보아이디-->
     <div class="bot_btns">
         <button class="btn_pack blue s2" type="button" id="addBtn"  onclick="dupcheck_lecture_room();">추가</button>
         <button class="btn_pack blue s2" type="button"  onclick="modify_lecture_info();">저장</button>
     </div>
     <div class="form-group row"></div>
     <form name="lecture_detail" class="form_st1">
-        <div class="form-group row clonedDiv" id="input1"><!--강의상세정보-->
-            <div class="checkbox_t1">
-                <label id="lectureRoomSelectbox"></label>
-                <label><input type="text" class="form-control date-picker" id="start_time_1" name="start_time[]" placeholder="강의시작시간"></label>
-                <label><input type="text" class="form-control date-picker" id="end_time" name="end_time[]" placeholder="강의종료시간"></label>
-                <label id="lectureDaySelectbox"></label>
+        <div class="clonedDiv"  id="input1">
+            <input type="hidden" name="lecture_detail_id[]"><!--강의상세정보아이디-->
+            <div class="form-group row"><!--강의상세정보-->
+                <div class="checkbox_t1">
+                    <label id="lectureRoomSelectbox"></label>
+                    <label id="start_time_input_1"><input type="text" class="form-control date-picker" id="start_time_1" name="start_time[]" placeholder="강의시작시간"></label>
+                    <label id="end_time_input_1"><input type="text" class="form-control date-picker" id="end_time" name="end_time[]" placeholder="강의종료시간"></label>
+                    <label id="lectureDaySelectbox"></label>
+                </div>
             </div>
         </div>
     </form>
