@@ -142,7 +142,19 @@ public class MemberService extends PagingSupport {
         if ("".equals(phoneNumber)) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
-        int memberCount = memberMapper.getMemberCount(phoneNumber);
+        int memberCount = memberMapper.getMemberCount(phoneNumber, "");
+        if (memberCount == 0) {
+            return false;
+        }
+        return true;
+    }
+
+    @Transactional(readOnly = true)
+    public boolean isMemberByPassword(String phoneNumber, String password) throws Exception {
+        if ("".equals(phoneNumber)) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        int memberCount = memberMapper.getMemberCount(phoneNumber, Aes256.encrypt(password));
         if (memberCount == 0) {
             return false;
         }

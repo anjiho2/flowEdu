@@ -30,11 +30,11 @@ function goMain() {
 <body>
 <form name="frm" method="post">
 <input type="hidden" name="page_gbn" id="page_gbn">
-<img alt="" src="<%=webRoot%>/img/404_error_guide_web.jpg">
+<img alt="" src="">
 	<div style="z-index:20;position:absolute;left:45%;top:85%;margin-left:0px;margin-top:5px;background:#fff;">
 		<ul >
 			<li>
-				<a class="button" href="javascript:goMain();" style="margin-right:30px;">메인 페이지 이동</a>
+				<%--<a class="button" href="javascript:goMain();" style="margin-right:30px;">메인 페이지 이동</a>--%>
 				<a class="button" href="javascript:history.go(-1);">이전 페이지 이동</a>
 			</li>
 		</ul>

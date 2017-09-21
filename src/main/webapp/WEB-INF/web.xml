@@ -104,5 +104,9 @@
     <error-code>500</error-code>
     <location>/common/error/error500.jsp</location>
   </error-page>
+  <error-page>
+    <error-code>901</error-code>
+    <location>/index.jsp</location>
+  </error-page>
   <distributable/>
 </web-app>

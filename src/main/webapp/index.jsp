@@ -1,3 +1,4 @@
+<%@ page import="java.io.PrintWriter" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/common/jsp/top.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
@@ -45,10 +46,9 @@
             submit();
         }
     }
-
     //비밀번호 찾기 팝업
     function password_search_popup() {
-        gfn_winPop(550,400,"jsp/popup/find_password_popup.jsp", "");
+        gfn_winPop(550, 400, "jsp/popup/find_password_popup.jsp", "");
     }
 
 </script>
@@ -101,13 +101,6 @@
 <%
     if (session.getAttribute("member_info") == null) {
 %>
-<!--
-        <div >
-            <span id="l_memberType"></span>
-            <input type="text" id="phoneNumber">
-            <input type="password" id="memberPass" name="memberPass" onkeypress="javascript:if(event.keyCode == 13){loginCheck(); return false;}">
-            <input type="button" id="loginBtn" value="로그인" onclick="loginCheck();">
-        </div>-->
     <div class="container">
         <div class="row">
             <div class="Absolute-Center is-Responsive">
@@ -137,8 +130,13 @@
 
 <%
     } else {
+        System.out.print("========================================");
 %>
-    <input type="button" id="logoutBtn" value="로그아웃" class="btn_pack blue s2"  onclick="goLogout();">
+
+    <script>
+        goPage("dashboard", "dashboard_list");
+    </script>
+    <%--<input type="button" id="logoutBtn" value="로그아웃" class="btn_pack blue s2"  onclick="goLogout();">--%>
 <%
     }
 %>

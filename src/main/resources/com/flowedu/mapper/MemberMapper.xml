@@ -55,6 +55,9 @@
 		SELECT count(flow_member_id) as cnt
 		FROM FLOWEDU_MEMBER
 		WHERE phone_number = #{phoneNumber}
+		<if test="memberPass != ''">
+			AND member_password = #{memberPass}
+		</if>
 	</select>
 
 	<select id="getTeacherList" resultType="com.flowedu.dto.FlowEduMemberListDto">

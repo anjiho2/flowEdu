@@ -79,7 +79,7 @@
     <aop:aspectj-autoproxy>
     	<aop:include name="datasourceAspect"/>
     </aop:aspectj-autoproxy>
-    
+
     <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="routingDataSource"/>
         <property name="typeAliasesPackage" value="com.challabros.birdletter.admin.dto"/>

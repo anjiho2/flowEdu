@@ -221,9 +221,7 @@
             <div class="form-group row" id="preview" style="display: none;">
                 <label>학생사진미리보기</label>
                 <div>
-                    <label class="custom-file">
-                        <img id="modify_preView" src="" width="100px" height="100px">
-                    </label>
+                    <img id="modify_preView" src="" width="100px" height="100px">
                 </div>
             </div>
             <div class="form-group row">

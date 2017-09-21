@@ -2,6 +2,7 @@ package com.flowedu.config;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -21,15 +22,22 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
 		// TODO Auto-generated method stub
+		boolean result = false;
+		HttpSession session = request.getSession(false);
 		try {
-			if (request.getSession().getAttribute("member_info") == null) {
-				response.sendRedirect(request.getContextPath());
+			if (session == null || request.getSession().getAttribute("member_info") == null) {
+				//response.sendRedirect(request.getContextPath());
+				response.sendError(901);
 				return false;
+			} else {
+				result = true;
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
+			return false;
 		}
-		return true;
+		return result;
 	}
 
 	@Override

@@ -28,6 +28,8 @@
 			<mvc:mapping path="/member.do"/>
 			<mvc:mapping path="/student.do"/>
 			<mvc:mapping path="/file.do"/>
+			<mvc:mapping path="/dashboard.do"/>
+			<mvc:mapping path="/lecture.do"/>
    			<bean class="com.flowedu.config.SessionInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>

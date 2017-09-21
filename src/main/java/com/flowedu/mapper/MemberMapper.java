@@ -24,7 +24,7 @@ public interface MemberMapper {
 
     List<JobPositionDto> getJobPositionList();
 
-    Integer getMemberCount(@Param("phoneNumber") String phoneNumber);
+    Integer getMemberCount(@Param("phoneNumber") String phoneNumber, @Param("memberPass") String memberPass);
 
     List<FlowEduMemberDto> getTeacherList(@Param("officeId") Long officeId);
 

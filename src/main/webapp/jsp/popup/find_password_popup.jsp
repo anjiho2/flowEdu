@@ -39,9 +39,9 @@
             <label>이메일</label>
             <div><input type="text" class="form-control" id="member_email"></div>
         </div>
-        <div class="bot_btns">
+        <div class="bot_btns" align="right">
             <button class="btn_pack blue s2" type="button"  onclick="find_password();">찾기</button>
-            <button class="btn_pack blue s2" type="button"  onclick="javscript:self.close();">닫기</button>
+            <button class="btn_pack white s2" type="button"  onclick="javscript:self.close();">닫기</button>
         </div>
         <div class="form-group row"></div>
         <div class="form-group row" id="temporaryPassword_div" style="display: none;">
