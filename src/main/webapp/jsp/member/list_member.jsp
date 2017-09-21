@@ -78,7 +78,6 @@ function member_modify(member_id) { //수정페이지 이동
     <div class="tb_t1">
         <table>
             <colgroup>
-               <!-- <col width="2%" />-->
                 <col width="*" />
                 <col width="*" />
                 <col width="*" />

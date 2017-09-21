@@ -1,9 +1,11 @@
-<%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@include file="/common/jsp/top.jsp" %>
 <%
     Long lecture_id = Long.parseLong(request.getParameter("lecture_id"));
+    int depth1 = 5;
+    int depth2 = 2;
 %>
+<%@include file="/common/jsp/top.jsp" %>
+<%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureManager.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
@@ -223,136 +225,108 @@
 
 </script>
 <body onload="init(); lecture_detail_List();">
-<form name="frm" id="frm" method="post">
+<div class="container">
+    <%@include file="/common/jsp/titleArea.jsp" %>
+    <%@include file="/common/jsp/lecture_top_menu.jsp" %>
+</div>
+</section>
+<section class="content">
+    <h3 class="title_t1">강의정보수정</h3>
+    <form name="frm" method="get" class="form_st1">
     <input type="hidden" name="page_gbn" id="page_gbn">
     <input type="hidden" name="lecture_id" id="lecture_id" value="<%=lecture_id%>">
-    <div id="lectureInfo">
-        <h1>강의정보입력</h1>
-        <table>
-            <tr>
-                <th>관선택</th>
-                <td>
-                    <span id="sel_academy"></span>
-                </td>
-            </tr>
-            <tr>
-                <th>관리선생님</th>
-                <td>
-                    <span id="sel_member2"></span>
-                </td>
-            </tr>
-            <tr>
-                <th>담당선생님</th>
-                <td>
-                    <span id="sel_member"></span>
-                </td>
-            </tr>
-            <tr>
-                <th>가격</th>
-                <td>
-                    <span id="lecture_price"></span>
-                </td>
-            </tr>
-            <tr>
-                <th>강의명</th>
-                <td>
-                    <input type="text" id="lecture_name">
-                </td>
-            </tr>
-            <tr>
-                <th>강의과목</th>
-                <td>
-                    <span id="sel_lectureSubject"> </span>
-                </td>
-            </tr>
-            <tr>
-                <th>학교구분</th>
-                <td>
-                    <input type="radio" name="school_type" value="elem_list" onclick="school_radio(this.value);" checked>초등학교
-                    <input type="radio" name="school_type" value="midd_list" onclick="school_radio(this.value);">중학교
-                    <input type="radio" name="school_type" value="high_list" onclick="school_radio(this.value);">고등학교
-                </td>
-            </tr>
-            <tr>
-                <th>학년</th>
-                <td>
-                    <span id="student_grade"></span>
-                </td>
-            </tr>
-            <tr>
-                <th>레벨</th>
-                <td>
-                    <span id="lecture_level"></span>
-                </td>
-            </tr>
-            <tr>
-                <th>강의기간단위</th>
-                <td>
-                    <span id="sel_lectureOperation"></span>
-                </td>
-            </tr>
-            <tr>
-                <th>시작일</th>
-                <td>
-                    <input type="text" id="startDate">
-                </td>
-            </tr>
-            <tr>
-                <th>종료일</th>
-                <td>
-                    <input type="text" id="startDate2">
-                </td>
-            </tr>
-            <tr>
-                <th>강의정원명</th>
-                <td>
-                    <span id="sel_lectureStudentlimit"></span>
-                </td>
-            </tr>
-            <tr>
-                <th>강의상태</th>
-                <td>
-                    <span id="sel_lectureStatus"></span>
-                </td>
-            </tr>
-        </table>
+        <div class="form-group row">
+            <label>관선택<b>*</b></label>
+            <div><span id="sel_academy"></span></div>
+        </div>
+        <div class="form-group row">
+            <label>관리선생님<b>*</b></label>
+            <div><span id="sel_member2"></span></div>
+        </div>
+        <div class="form-group row">
+            <label>담당선생님<b>*</b></label>
+            <div><span id="sel_member"></span></div>
+        </div>
+        <div class="form-group row">
+            <label>가격<b>*</b></label>
+            <div><span id="lecture_price"></span></div>
+        </div>
+        <div class="form-group row">
+            <label>강의명<b>*</b></label>
+            <div><input type="text" class="form-control" id="lecture_name" style="width:150px;"></div>
+        </div>
+        <div class="form-group row">
+            <label>강의과목<b>*</b></label>
+            <div><span id="sel_lectureSubject"></span></div>
+        </div>
+        <div class="form-outer-group">
+            <div class="form-group row">
+                <label>학교구분<b>*</b></label>
+                <div>
+                    <div class="checkbox_t1">
+                        <label><input type="radio" name="school_type" value="elem_list" onclick="school_radio(this.value);" checked><span>초등학교</span></label>
+                        <label><input type="radio" name="school_type" value="midd_list" onclick="school_radio(this.value);"><span>중학교</span></label>
+                        <label><input type="radio" name="school_type" value="high_list" onclick="school_radio(this.value);"><span>고등학교</span></label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label>학년<b>*</b></label>
+                <div><span id="student_grade"></span></div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label>레벨<b>*</b></label>
+            <span id="lecture_level"></span>
+        </div>
+        <div class="form-group row">
+            <label>강의기간단위<b>*</b></label>
+            <div><span id="sel_lectureOperation"></span></div>
+        </div>
+        <div class="form-group row">
+            <label>시작일<b>*</b></label>
+            <div><input type="text" id="startDate" class="form-control date-picker" style="width:200px;"></div>
+        </div>
+        <div class="form-group row">
+            <label>종료일<b>*</b></label>
+            <div><input type="text" id="startDate2" class="form-control date-picker" style="width:200px;"></div>
+        </div>
+        <div class="form-group row">
+            <label>강의정원명<b>*</b></label>
+            <div><span id="sel_lectureStudentlimit"></span></div>
+        </div>
+        <div class="form-group row">
+            <label>강의상태<b>*</b></label>
+            <div><span id="sel_lectureStatus"></span></div>
+        </div>
+    </form>
+</section>
+<!------------------------강의상세정보시작--------------------------------->
+<section class="content">
+    <h3 class="title_t1">강의상세정보입력</h3>
+    <div class="bot_btns">
+        <button class="btn_pack blue s2" type="button" id="addBtn"  onclick="dupcheck_lecture_room();">추가</button>
+        <button class="btn_pack blue s2" type="button"  onclick="save_lecture_info();">저장</button>
     </div>
-    <h2>강의 상세정보 입력</h2>
-    <input type="button" value="추가" class="add_btn" id="addBtn" onclick="dupcheck_lecture_room();">
-    <input type="button" value="수정" onclick="modify_lecture_info();">
-    <div id="input1" class="clonedDiv">
-        <table border="1">
-            <input type="hidden" name="lecture_detail_id[]" value="">
-            <tr>
-                <th>강의실선택</th>
-                <td>
-                    <span id="lectureRoomSelectbox"></span>
-                </td>
-            </tr>
-            <tr>
-                <th>강의시작시간</th>
-                <td id="start_time_input_1">
-                    <input type="text" id="start_time_1" name="start_time[]">
-                </td>
-            </tr>
-            <tr>
-                <th>강의종료시간</th>
-                <td id="end_time_input_1">
-                    <input type="text" id="end_time" name="end_time[]">
-                </td>
-            </tr>
-            <tr>
-                <th>강의요일</th>
-                <td>
-                    <span id="lectureDaySelectbox"></span>
-                </td>
-            </tr>
-            <tbody id="dataList"></tbody>
-        </table>
-        <br>
+    <div class="form-outer-group clonedDiv" id="input1">
+        <div class="form-group row">
+            <label>강의실선택</label>
+            <div><span id="lectureRoomSelectbox"></span></div>
+        </div>
+        <div class="form-group row">
+            <label>강의시작시간</label>
+            <div><input type="text" id="start_time_1" name="start_time[]" class="form-control date-picker" style="width:200px;"></div>
+        </div>
+        <div class="form-group row">
+            <label>강의종료시간</label>
+            <div><input type="text" id="end_time" name="end_time[]" class="form-control date-picker" style="width:200px;"></div>
+        </div>
+        <div class="form-group row">
+            <label>강의실선택</label>
+            <div><span id="lectureDaySelectbox"></span></div>
+        </div>
     </div>
-
-</form>
-
+</section>
+</div>
+<%@include file="/common/jsp/footer.jsp" %>
 </body>
-</html>
