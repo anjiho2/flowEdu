@@ -164,7 +164,6 @@
         var num = $('.clonedDiv').length;
         var detail_list = new Array();
 
-
         for(var i=0; i < num ; i++){
             var lecture_detail_info = {
                 lectureRoomId: room_list[i],
@@ -316,7 +315,7 @@
 <!------------------------강의상세정보시작--------------------------------->
 <section class="content">
     <h3 class="title_t1">강의시간표설정</h3>
-    <input type="hidden" name="lecture_detail_id[]" value=""><!--강의상세정보아이디-->
+    <input type="hidden" name="lecture_detail_id[]"><!--강의상세정보아이디-->
     <div class="bot_btns">
         <button class="btn_pack blue s2" type="button" id="addBtn"  onclick="dupcheck_lecture_room();">추가</button>
         <button class="btn_pack blue s2" type="button"  onclick="modify_lecture_info();">저장</button>
