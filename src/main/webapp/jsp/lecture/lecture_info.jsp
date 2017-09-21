@@ -292,8 +292,8 @@
     </div>
     <div class="form-group row"></div>
     <form name="lecture_detail" class="form_st1">
-        <input type="hidden" name="lecture_detail_id[]" value=""><!--강의상세정보아이디-->
         <div class="clonedDiv" id="input1">
+            <input type="hidden" name="lecture_detail_id[]" value=""><!--강의상세정보아이디-->
             <div class="form-group row"><!--강의상세정보-->
                 <div class="checkbox_t1">
                     <label id="lectureRoomSelectbox"></label>

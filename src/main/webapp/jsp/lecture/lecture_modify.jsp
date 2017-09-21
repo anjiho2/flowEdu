@@ -315,7 +315,6 @@
 <!------------------------강의상세정보시작--------------------------------->
 <section class="content">
     <h3 class="title_t1">강의시간표설정</h3>
-    <input type="hidden" name="lecture_detail_id[]"><!--강의상세정보아이디-->
     <div class="bot_btns">
         <button class="btn_pack blue s2" type="button" id="addBtn"  onclick="dupcheck_lecture_room();">추가</button>
         <button class="btn_pack blue s2" type="button"  onclick="modify_lecture_info();">저장</button>
@@ -323,6 +322,7 @@
     <div class="form-group row"></div>
     <form name="lecture_detail" class="form_st1">
         <div class="clonedDiv"  id="input1">
+            <input type="hidden" name="lecture_detail_id[]"><!--강의상세정보아이디-->
             <div class="form-group row"><!--강의상세정보-->
                 <div class="checkbox_t1">
                     <label id="lectureRoomSelectbox"></label>
