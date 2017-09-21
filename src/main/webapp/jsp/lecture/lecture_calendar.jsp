@@ -17,7 +17,6 @@
     $(document).ready(function() {
         // page is now ready, initialize the calendar...
         calendarService.getCalendarLectureInfo(lectureId, function (calendarInfo) {
-
             $('#calendar').fullCalendar({
                 lang:'ko',
                 header: {
