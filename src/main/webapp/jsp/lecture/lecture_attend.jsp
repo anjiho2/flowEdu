@@ -1,12 +1,13 @@
-<%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@include file="/common/jsp/top.jsp" %>
 <%
     Long lecture_id = Long.parseLong(request.getParameter("lecture_id"));
+    int depth1 = 5;
+    int depth2 = 2;
 %>
+<%@include file="/common/jsp/top.jsp" %>
+<%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
 <script type="text/javascript">
-
 function init() {
     attendTypeSelectbox("l_attendType",""); //출석타입 셀렉박스
     var lecture_id = getInputTextValue("lecture_id");
@@ -78,47 +79,55 @@ function save_attend() {
 
 </style>
 <body onload="init();">
-<form name="frm" id="frm" method="get">
-    <div>
-        <span id="l_attendType"></span>
-        <table>
-            <input type="hidden" name="page_gbn" id="page_gbn">
-            <input type="hidden" name="lecture_id" id="lecture_id" value="<%=lecture_id%>">
-            <colgroup>
-                <col width="*" />
-                <col width="2%" />
-            </colgroup>
-            <thead>
-            <tr style="">
-                <th>학생이름</th>
-                <th><input type="checkbox" id="chkAll" onclick="javascript:checkall('chkAll');"></th>
-            </tr>
-            </thead>
-            <tbody id="dataList"></tbody>
-        </table>
-    </div>
+<div class="container">
+    <%@include file="/common/jsp/titleArea.jsp" %>
+    <%@include file="/common/jsp/lecture_top_menu.jsp" %>
+</div>
+</section>
+<section class="content">
+    <h3 class="title_t1">출석체크</h3>
+    <form name="frm" method="get" class="form_st1">
+        <div>
+            <span id="l_attendType"></span>
+            <table>
+                <input type="hidden" name="page_gbn" id="page_gbn">
+                <input type="hidden" name="lecture_id" id="lecture_id" value="<%=lecture_id%>">
+                <colgroup>
+                    <col width="*" />
+                    <col width="2%" />
+                </colgroup>
+                <thead>
+                <tr style="">
+                    <th>학생이름</th>
+                    <th><input type="checkbox" id="chkAll" onclick="javascript:checkall('chkAll');"></th>
+                </tr>
+                </thead>
+                <tbody id="dataList"></tbody>
+            </table>
+        </div>
 
-    <div>
-        <input type="button" value="출석저장" onclick="save_attend();">
-    </div>
+        <div>
+            <input type="button" value="출석저장" onclick="save_attend();">
+        </div>
 
-    <div>
-        <h1>출석체크된 학생리스트</h1>
-        <table>
-            <colgroup>
-                <col width="*" />
-                <col width="*" />
-            </colgroup>
-            <thead>
-            <tr style="">
-                <th>학생이름</th>
-                <th>결과</th>
-            </tr>
-            </thead>
-            <tbody id="attend_dataList"></tbody>
-        </table>
-    </div>
-
-</form>
+       <!-- <div>
+            <h1>출석체크된 학생리스트</h1>
+            <table>
+                <colgroup>
+                    <col width="*" />
+                    <col width="*" />
+                </colgroup>
+                <thead>
+                <tr style="">
+                    <th>학생이름</th>
+                    <th>결과</th>
+                </tr>
+                </thead>
+                <tbody id="attend_dataList"></tbody>
+            </table>
+        </div>-->
+    </form>
+</section>
+</div>
+<%@include file="/common/jsp/footer.jsp" %>
 </body>
-</html>

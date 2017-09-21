@@ -87,9 +87,11 @@
                 hourText: '시',
                 minuteText: '분'
             });
+
+
         $.timepicker.setDefaults($.timepicker.regional['ko']);
         //복제시 삭제 버튼 추가
-        newElem.find('#lectureRoomSelectbox').after("<input type='button' class='btn_less1' onclick='del_html();' value='삭제' id='del_btn'/>")
+        newElem.find('#lectureDaySelectbox').after("<button class='btn_pack white' type='button' style='min-width:36px;' onclick='del_html();'>X</button>")
         $("#input" + num).after(newElem);
     }
 
@@ -239,25 +241,29 @@
             <label>관선택<b>*</b></label>
             <div><span id="sel_academy"></span></div>
         </div>
-        <div class="form-group row">
-            <label>관리선생님<b>*</b></label>
-            <div><span id="sel_member2"></span></div>
+        <div class="form-outer-group">
+            <div class="form-group row">
+                <label>관리선생님<b>*</b></label>
+                <div><span id="sel_member2"></span></div>
+            </div>
+            <div class="form-group row">
+                <label>담당선생님<b>*</b></label>
+                <div><span id="sel_member"></span></div>
+            </div>
         </div>
-        <div class="form-group row">
-            <label>담당선생님<b>*</b></label>
-            <div><span id="sel_member"></span></div>
-        </div>
-        <div class="form-group row">
-            <label>가격<b>*</b></label>
-            <div><span id="lecture_price"></span></div>
-        </div>
-        <div class="form-group row">
-            <label>강의명<b>*</b></label>
-            <div><input type="text" class="form-control" id="lecture_name" style="width:150px;"></div>
-        </div>
-        <div class="form-group row">
-            <label>강의과목<b>*</b></label>
-            <div><span id="sel_lectureSubject"></span></div>
+        <div class="form-outer-group">
+            <div class="form-group row">
+                <label>강의명<b>*</b></label>
+                <div><input type="text" class="form-control" id="lecture_name"></div>
+            </div>
+            <div class="form-group row">
+                <label>강의과목<b>*</b></label>
+                <div><span id="sel_lectureSubject"></span></div>
+            </div>
+            <div class="form-group row">
+                <label>강의기간단위<b>*</b></label>
+                <div><span id="sel_lectureOperation"></span></div>
+            </div>
         </div>
         <div class="form-outer-group">
             <div class="form-group row">
@@ -275,57 +281,57 @@
                 <div><span id="student_grade"></span></div>
             </div>
         </div>
-        <div class="form-group row">
-            <label>레벨<b>*</b></label>
-            <span id="lecture_level"></span>
+        <div class="form-outer-group">
+            <div class="form-group row">
+                <label>가격<b>*</b></label>
+                <div><span id="lecture_price"></span></div>
+            </div>
+            <div class="form-group row">
+                <label>레벨<b>*</b></label>
+                <span id="lecture_level"></span>
+            </div>
         </div>
-        <div class="form-group row">
-            <label>강의기간단위<b>*</b></label>
-            <div><span id="sel_lectureOperation"></span></div>
+        <div class="form-outer-group">
+            <div class="form-group row">
+                <label>시작일<b>*</b></label>
+                <div><input type="text" id="startDate" class="form-control date-picker" style="width:200px;"></div>
+            </div>
+            <div class="form-group row">
+                <label>종료일<b>*</b></label>
+                <div><input type="text" id="startDate2" class="form-control date-picker" style="width:200px;"></div>
+            </div>
         </div>
-        <div class="form-group row">
-            <label>시작일<b>*</b></label>
-            <div><input type="text" id="startDate" class="form-control date-picker" style="width:200px;"></div>
-        </div>
-        <div class="form-group row">
-            <label>종료일<b>*</b></label>
-            <div><input type="text" id="startDate2" class="form-control date-picker" style="width:200px;"></div>
-        </div>
-        <div class="form-group row">
-            <label>강의정원명<b>*</b></label>
-            <div><span id="sel_lectureStudentlimit"></span></div>
-        </div>
-        <div class="form-group row">
-            <label>강의상태<b>*</b></label>
-            <div><span id="sel_lectureStatus"></span></div>
+        <div class="form-outer-group">
+            <div class="form-group row">
+                <label>강의정원명<b>*</b></label>
+                <div><span id="sel_lectureStudentlimit"></span></div>
+            </div>
+            <div class="form-group row">
+                <label>강의상태<b>*</b></label>
+                <div><span id="sel_lectureStatus"></span></div>
+            </div>
         </div>
     </form>
 </section>
 <!------------------------강의상세정보시작--------------------------------->
 <section class="content">
-    <h3 class="title_t1">강의상세정보입력</h3>
+    <h3 class="title_t1">강의시간표설정</h3>
+    <input type="hidden" name="lecture_detail_id[]" value=""><!--강의상세정보아이디-->
     <div class="bot_btns">
         <button class="btn_pack blue s2" type="button" id="addBtn"  onclick="dupcheck_lecture_room();">추가</button>
-        <button class="btn_pack blue s2" type="button"  onclick="save_lecture_info();">저장</button>
+        <button class="btn_pack blue s2" type="button"  onclick="modify_lecture_info();">저장</button>
     </div>
-    <div class="form-outer-group clonedDiv" id="input1">
-        <div class="form-group row">
-            <label>강의실선택</label>
-            <div><span id="lectureRoomSelectbox"></span></div>
+    <div class="form-group row"></div>
+    <form name="lecture_detail" class="form_st1">
+        <div class="form-group row clonedDiv" id="input1"><!--강의상세정보-->
+            <div class="checkbox_t1">
+                <label id="lectureRoomSelectbox"></label>
+                <label><input type="text" class="form-control date-picker" id="start_time_1" name="start_time[]" placeholder="강의시작시간"></label>
+                <label><input type="text" class="form-control date-picker" id="end_time" name="end_time[]" placeholder="강의종료시간"></label>
+                <label id="lectureDaySelectbox"></label>
+            </div>
         </div>
-        <div class="form-group row">
-            <label>강의시작시간</label>
-            <div><input type="text" id="start_time_1" name="start_time[]" class="form-control date-picker" style="width:200px;"></div>
-        </div>
-        <div class="form-group row">
-            <label>강의종료시간</label>
-            <div><input type="text" id="end_time" name="end_time[]" class="form-control date-picker" style="width:200px;"></div>
-        </div>
-        <div class="form-group row">
-            <label>강의실선택</label>
-            <div><span id="lectureDaySelectbox"></span></div>
-        </div>
-    </div>
+    </form>
 </section>
 </div>
 <%@include file="/common/jsp/footer.jsp" %>

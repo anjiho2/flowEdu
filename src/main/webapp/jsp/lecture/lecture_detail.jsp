@@ -70,6 +70,7 @@
             </table>
             <%@ include file="/common/inc/com_pageNavi.inc" %>
         </div>
+        <div class="form-group row"></div>
         <div class="bot_btns">
             <button class="btn_pack blue s2" type="button"  onclick="goPage('lecture','lecture_list')">목록가기</button>
             <button class="btn_pack blue s2" type="button"  onclick="goPage('lecture','lecture_modify')">수정</button>

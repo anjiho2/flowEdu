@@ -58,7 +58,7 @@
                             //<button class='btn_pack blue s2' type='button'  onclick="modify_member();">저장</button>
                             var detailHTML = "<button class='btn_pack white' style='min-width:75px;' type='button' id='"+cmpList.lectureId+"' onclick='lecture_page(this.id, "+ '"' + 'lecture_detail' + '"' + ");'/>상세</button>";
                             //var modifyHTML = "<button class='btn_pack white' style='min-width:75px;' type='button' id='"+cmpList.lectureId+"' onclick='lecture_page(this.id, "+ '"' + 'lecture_modify' + '"' + ");''/>수정</button>";
-                            //var calendarHTML = "<input type='button'  value='달력보기'  id='"+cmpList.lectureId+"' onclick='lecture_page(this.id, "+ '"' + 'lecture_calendar' + '"' + ");''/>";
+                            var calendarHTML = "<button class='btn_pack white' style='min-width:75px;'    id='"+cmpList.lectureId+"' onclick='lecture_page(this.id, "+ '"' + 'lecture_calendar' + '"' + ");''/>달력보기</button>";
                             var applyHTML = "<button class='btn_pack white' style='min-width:75px;' type='button'  id='"+cmpList.lectureId+"' onclick='lecture_page(this.id, "+ '"' + 'lecture_apply' + '"' + ");' style='background:gray;'/>강의신청</button>";
 
                             //출첵버튼 && 강의상태가 개강인것만
@@ -75,9 +75,8 @@
                                 function(data) {return cmpList.lectureEndDate;},
                                 function(data) {return cmpList.regCount + "명";},
                                 function(data) {return cmpList.lectureLimitStudent + "명";},
-
                                 function(data) {return detailHTML;},
-                               //function(data) {return calendarHTML;},
+                                function(data) {return calendarHTML;},
                                 function(data) {return applyHTML;},
                                 function(data) {return attendHTML;}
                             ];
@@ -134,6 +133,7 @@
                 <col width="*" />
                 <col width="*" />
                 <col width="*" />
+                <col width="*" />
             </colgroup>
             <thead>
             <tr>
@@ -145,7 +145,7 @@
                 <th>현재정원명</th>
                 <th>강의정원명</th>
                 <th>상세/수정</th>
-                <!--<th>달력보기</th>-->
+                <th>달력보기</th>
                 <th>강의신청</th>
                 <th>출첵</th>
             </tr>
