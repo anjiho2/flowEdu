@@ -58,6 +58,7 @@
         //시간 시간과 종료시간 비교 (2017. 09. 22 안지호)
         if (!compareTime(start_time, end_time)) {
             alert("강의 시간이 잘못되었습니다.\n시작시간은 종료시간보더 전이여야 합니다.");
+            $('input[name="start_time[]"]').last().focus();
             return;
         }
         //추가버튼을 누를때 추가전의 값과 시간 비교 기능 추가 (2017. 09. 22 안지호)
@@ -65,6 +66,10 @@
             if ((sel_lectureDay == sel_pre_lectureDay) && (sel_lectureRoom == sel_pre_lectureRoom)) {
                 if ((start_time < pre_end_time) && (end_time > pre_start_time)) {
                     alert("추가할수없는 시간대와 강의실 입니다.\n다른 시간대와 강의실을 선택하세요.");
+                    $('select[name="sel_lectureRoom[]"]').last().val("");
+                    $('select[name="lecture_day[]"]').last().val("");
+                    $('input[name="start_time[]"]').last().val("");
+                    $('input[name="end_time[]"]').last().val("");
                     return;
                 }
             }

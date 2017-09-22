@@ -3,6 +3,7 @@
 <!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN" "http://getahead.org/dwr//dwr30.dtd">
 
 <dwr>
+
 	<allow>
 		<!-- ========================= SERVICE ======================== -->
 		<convert converter="bean" match="com.flowedu.service.LoginService"/>
@@ -80,7 +81,7 @@
 		<convert converter="bean" match="com.flowedu.dto.AcademyGroupDto"/>
 		<!-- define -->
 
-		
+
 	</allow>
 
 </dwr>

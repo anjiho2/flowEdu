@@ -48,10 +48,46 @@
         var start_time = $('input[name="start_time[]"]').last().val();
         var end_time = $('input[name="end_time[]"]').last().val();
 
+        if(sel_lectureRoom == "" || sel_lectureDay == "" || start_time == "" || end_time == ""){
+            alert("강의시간표 상세정보를 입력해 주세요.");
+            return;
+        }
+        //시간 시간과 종료시간 비교 (2017. 09. 22 안지호)
+        if (!compareTime(start_time, end_time)) {
+            alert("강의 시간이 잘못되었습니다.\n시작시간은 종료시간보더 전이여야 합니다.");
+            $('input[name="start_time[]"]').last().focus();
+            return;
+        }
+        //추가버튼 누를때 추가전의 모든 배열 값과 비교 기능 추가. (2017. 09. 22 안지호)
+        var lecture_detail_len = getInputTextValue("lecture_detail_len");
+        var add_lecture_detail_len = $(".clonedDiv").length;
+
+        if (add_lecture_detail_len > lecture_detail_len) {
+            for (var i = 0; i < lecture_detail_len; i++) {
+                var sel_pre_lectureRoom = $('select[name="sel_lectureRoom[]"]').eq(i).val();
+                var sel_pre_lectureDay = $('select[name="lecture_day[]"]').eq(i).val();
+                var pre_start_time = $('input[name="start_time[]"]').eq(i).val();
+                var pre_end_time = $('input[name="end_time[]"]').eq(i).val();
+
+                if ((sel_lectureDay == sel_pre_lectureDay) && (sel_lectureRoom == sel_pre_lectureRoom)) {
+                    if ((start_time < pre_end_time) && (end_time > pre_start_time)) {
+                        alert("추가할수없는 시간대와 강의실 입니다.\n다른 시간대와 강의실을 선택하세요.");
+                        $('select[name="sel_lectureRoom[]"]').last().val("");
+                        $('select[name="lecture_day[]"]').last().val("");
+                        $('input[name="start_time[]"]').last().val("");
+                        $('input[name="end_time[]"]').last().val("");
+                        return;
+                    }
+                }
+            }
+        }
+
         if (detailId == null) {
             lectureService.checkDuplicateLectureDetail(sel_lectureRoom, start_time, end_time, sel_lectureDay, function (bl) {
                 if (bl == true) {
                     alert("등록할수없는 시간대와 강의실 입니다.\n다른 시간대와 강의실을 선택하세요.");
+                    $('select[name="sel_lectureRoom[]"]').last().val("");
+                    $('select[name="lecture_day[]"]').last().val("");
                     $('input[name="start_time[]"]').last().val("");
                     $('input[name="end_time[]"]').last().val("");
                 }
@@ -176,14 +212,16 @@
 
             detail_list.push(lecture_detail_info);
         }
-        lectureManager.modifyLecture(lecture_info, detail_list, function (bl) {
-            if(bl == true){
-                alert("강의정보 수정이 완료되었습니다.");
-                goPage("lecture","lecture_list");
-            }else{
-                alert("강의정보 저장중 오류발생하였습니다. 관리자문의 부탁드립니다.");
-            }
-        });
+        if (confirm(comment.isUpdate)) {
+            lectureManager.modifyLecture(lecture_info, detail_list, function (bl) {
+                if(bl == true){
+                    alert("강의정보 수정이 완료되었습니다.");
+                    goPage("lecture","lecture_list");
+                }else{
+                    alert("강의정보 저장중 오류발생하였습니다. 관리자문의 부탁드립니다.");
+                }
+            });
+        }
     }
 
     function lecture_detail_List() {
@@ -209,6 +247,7 @@
 
         lectureService.getLectureDetailInfoList(lecture_id, function (selList) {
             if (selList.length > 0) {
+                innerValue("lecture_detail_len", selList.length);
                 for (var i = 0; i < selList.length; i++) {
                     var cmpList = selList[i];
                     if (selList != undefined && selList.length > 0) {
@@ -236,6 +275,7 @@
     <form name="frm" method="get" class="form_st1">
     <input type="hidden" name="page_gbn" id="page_gbn">
     <input type="hidden" name="lecture_id" id="lecture_id" value="<%=lecture_id%>">
+    <input type="hidden" id="lecture_detail_len">
         <div class="form-group row">
             <label>관선택<b>*</b></label>
             <div><span id="sel_academy"></span></div>
@@ -317,7 +357,7 @@
     <h3 class="title_t1">강의시간표설정</h3>
     <div class="bot_btns">
         <button class="btn_pack blue s2" type="button" id="addBtn"  onclick="dupcheck_lecture_room();">추가</button>
-        <button class="btn_pack blue s2" type="button"  onclick="modify_lecture_info();">저장</button>
+        <button class="btn_pack blue s2" type="button"  onclick="modify_lecture_info();">수정</button>
     </div>
     <div class="form-group row"></div>
     <form name="lecture_detail" class="form_st1">

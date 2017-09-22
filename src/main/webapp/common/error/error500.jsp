@@ -40,8 +40,8 @@ function goMain() {
 						<hr>
 						<p>대신에 다음과 같은 방법을 시도하십시오.</p>
 						<ul>
-							<li><a class="button" href="<%=webRoot%>/index.jsp" style="margin-right:30px;">로그인 페이지 이동</a></li>
-							<li><a class="button" href="javascript:goMain();" style="margin-right:30px;">메인 페이지 이동</a></li>
+							<li><a class="button" href="<%=webRoot%>" style="margin-right:30px;">로그인 페이지 이동</a></li>
+							<%--<li><a class="button" href="javascript:goMain();" style="margin-right:30px;">메인 페이지 이동</a></li>--%>
 							<li><a class="button" href="javascript:history.go(-1);">이전 페이지 이동</a></li>
 						</ul>
 					</div>
