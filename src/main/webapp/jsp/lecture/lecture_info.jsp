@@ -40,10 +40,10 @@
     }
     //강의실 중복 체크
     function dupcheck_lecture_room() {
-        var sel_lectureRoom = $('select[name="sel_lectureRoom[]"]').last().val();
-        var sel_lectureDay  = $('select[name="lecture_day[]"]').last().val();
-        var start_time      = $('input[name="start_time[]"]').last().val();
-        var end_time        = $('input[name="end_time[]"]').last().val();
+        var sel_lectureRoom = get_array_last_value_by_name("select", "sel_lectureRoom[]");
+        var sel_lectureDay  = get_array_last_value_by_name("select", "lecture_day[]");
+        var start_time  = get_array_last_value_by_name("input", "start_time[]");
+        var end_time  = get_array_last_value_by_name("input", "end_time[]");
 
         var div_len = $(".clonedDiv").length;
         var sel_pre_lectureRoom = $('select[name="sel_lectureRoom[]"]').eq(div_len-2).val();
@@ -162,23 +162,11 @@
             schoolType: school_type
         };
 
-        var end_time_list = new Array();
-        var start_time_list = new Array();
-        var room_list = new Array();
-        var day_list = new Array();
+        var end_time_list = get_array_values_by_name("input", "end_time[]");
+        var start_time_list = get_array_values_by_name("input", "start_time[]");
+        var room_list = get_array_values_by_name("select", "sel_lectureRoom[]");
+        var day_list = get_array_values_by_name("select", "lecture_day[]");
 
-        $('select[name="sel_lectureRoom[]"]').each(function () {
-            room_list.push($(this).val());
-        });
-        $('select[name="lecture_day[]"]').each(function () {
-            day_list.push($(this).val());
-        });
-        $('input[name="start_time[]"]').each(function () {
-            start_time_list.push($(this).val());
-        });
-        $('input[name="end_time[]"]').each(function () {
-            end_time_list.push($(this).val());
-        });
         var num = $('.clonedDiv').length;
         var detail_list = new Array();
 
@@ -200,9 +188,9 @@
         }
 
         //강의 시작일&종료일 시간비교 유효성체크
-        var compare_time = compareTime(lecture_start,lecture_end);
-        if(compare_time == false) {
+        if(!compareTime(lecture_start,lecture_end)) {
             alert("강의종료일이 강의시작일보다 작습니다.");
+            focusInputText("startDate");
             return false;
         }
 

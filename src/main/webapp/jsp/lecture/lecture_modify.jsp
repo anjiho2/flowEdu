@@ -43,10 +43,10 @@
     //강의실 중복 체크
     function dupcheck_lecture_room() {
         var detailId = $('input[name="lecture_detail_id[]"]').eq(0).val();
-        var sel_lectureRoom = $('select[name="sel_lectureRoom[]"]').last().val();
-        var sel_lectureDay = $('select[name="lecture_day[]"]').last().val();
-        var start_time = $('input[name="start_time[]"]').last().val();
-        var end_time = $('input[name="end_time[]"]').last().val();
+        var sel_lectureRoom = get_array_last_value_by_name("select", "sel_lectureRoom[]");
+        var sel_lectureDay  = get_array_last_value_by_name("select", "lecture_day[]");
+        var start_time  = get_array_last_value_by_name("input", "start_time[]");
+        var end_time  = get_array_last_value_by_name("input", "end_time[]");
 
         if(sel_lectureRoom == "" || sel_lectureDay == "" || start_time == "" || end_time == ""){
             alert("강의시간표 상세정보를 입력해 주세요.");
@@ -61,7 +61,7 @@
         //추가버튼 누를때 추가전의 모든 배열 값과 비교 기능 추가. (2017. 09. 22 안지호)
         var lecture_detail_len = getInputTextValue("lecture_detail_len");
         var add_lecture_detail_len = $(".clonedDiv").length;
-
+        //새로 추가 입력 시도가 있을떄만
         if (add_lecture_detail_len > lecture_detail_len) {
             for (var i = 0; i < lecture_detail_len; i++) {
                 var sel_pre_lectureRoom = $('select[name="sel_lectureRoom[]"]').eq(i).val();
@@ -143,10 +143,6 @@
 
     //강의정보 저장
     function modify_lecture_info() {
-        var end_time_list = new Array();
-        var start_time_list = new Array();
-        var room_list = new Array();
-        var day_list = new Array();
         var lecture_detail_id_list = new Array();
 
         var lecture_id   = getInputTextValue("lecture_id");
@@ -182,21 +178,11 @@
             schoolType: school_type
         };
 
-        $('select[name="sel_lectureRoom[]"]').each(function () {
-            room_list.push($(this).val());
-        });
-        $('select[name="lecture_day[]"]').each(function () {
-            day_list.push($(this).val());
-        });
-        $('input[name="start_time[]"]').each(function () {
-            start_time_list.push($(this).val());
-        });
-        $('input[name="end_time[]"]').each(function () {
-            end_time_list.push($(this).val());
-        });
-        $('input[name="lecture_detail_id[]"]').each(function () {
-            lecture_detail_id_list.push($(this).val());
-        });
+        var end_time_list = get_array_values_by_name("input", "end_time[]");
+        var start_time_list = get_array_values_by_name("input", "start_time[]");
+        var room_list = get_array_values_by_name("select", "sel_lectureRoom[]");
+        var day_list = get_array_values_by_name("select", "lecture_day[]");
+
         var num = $('.clonedDiv').length;
         var detail_list = new Array();
 

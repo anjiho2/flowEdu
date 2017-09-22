@@ -1920,3 +1920,27 @@ function uncomma(str) {
     str = String(str);
     return str.replace(/[^\d]+/g, '');
 }
+//태그 네임 배열의 마지막값 가져오기
+function get_array_last_value_by_name(type, name) {
+	var val = "";
+	if (type == "select") {
+		val = $("select[name="+ '"' + name + '"' + "]").last().val();
+	} else if (type == "input") {
+        val = $("input[name="+ '"' + name + '"' + "]").last().val();
+	}
+	return val;
+}
+//태그 네임 배열 값 가져오기
+function get_array_values_by_name(type, name) {
+	var array = new Array();
+    if (type == "select") {
+        $("select[name="+ '"' + name + '"' + "]").each(function () {
+			array.push($(this).val());
+        });
+    } else if (type == "input") {
+        $("input[name="+ '"' + name + '"' + "]").each(function () {
+            array.push($(this).val());
+        });
+	}
+    return array;
+}
