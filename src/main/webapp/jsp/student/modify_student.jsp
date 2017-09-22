@@ -19,25 +19,26 @@
     function studentList() {
         var student_id        = getInputTextValue("student_id");
         studentService.getStudentInfo(student_id, function (selList) {
-                    var file_url = 'C:/dev/download/'+selList.studentPhotoUrl+"/"+selList.studentPhotoFile;
-                    $("#modify_preView").attr("src", file_url);
-                    if(file_url != null) gfn_display("preview", true);
 
-                    innerValue("student_name", selList.studentName);
-                    innerValue("startDate", selList.studentBirthday);
-                    $('input:radio[name=student_gender]:input[value=' + selList.studentGender + ']').attr("checked", true);
-                    $('input:radio[name=school_type]:input[value=' + selList.schoolType + ']').attr("checked", true);
-                    innerValue("sel_school", selList.studentGrade);
-                    fnSetPhoneNo(student_phone1, student_phone2, student_phone3, selList.studentPhoneNumber);
-                    fnSetPhoneNo(student_tel1,   student_tel2,   student_tel3,   selList.homeTelNumber);
-                    fnSetPhoneNo(mother_phone1,  mother_phone2,  mother_phone3,  selList.motherPhoneNumber);
-                    fnSetPhoneNo(father_phone1,  father_phone2,  father_phone3,  selList.fatherPhoneNumber);
-                    innerValue("student_email", selList.studentEmail);
-                    innerValue("student_grade", selList.memberAddress);
-                    innerValue("schoolname", selList.schoolName);
-                    innerValue("student_memo", selList.studentMemo);
-                    innerValue("mother_name", selList.motherName);
-                    innerValue("father_name", selList.fatherName);
+            var file_url = 'C:/dev/download/'+selList.studentPhotoUrl+"/"+selList.studentPhotoFile;
+            $("#modify_preView").attr("src", file_url);
+            if(file_url != null) gfn_display("preview", true);
+
+            innerValue("student_name", selList.studentName);
+            innerValue("startDate", selList.studentBirthday);
+            genderRadio("l_gender", selList.studentGender, "");
+            $('input:radio[name=school_type]:input[value=' + selList.schoolType + ']').attr("checked", true);
+            innerValue("sel_school", selList.studentGrade);
+            fnSetPhoneNo(student_phone1, student_phone2, student_phone3, selList.studentPhoneNumber);
+            fnSetPhoneNo(student_tel1,   student_tel2,   student_tel3,   selList.homeTelNumber);
+            fnSetPhoneNo(mother_phone1,  mother_phone2,  mother_phone3,  selList.motherPhoneNumber);
+            fnSetPhoneNo(father_phone1,  father_phone2,  father_phone3,  selList.fatherPhoneNumber);
+            innerValue("student_email", selList.studentEmail);
+            innerValue("student_grade", selList.memberAddress);
+            innerValue("schoolname", selList.schoolName);
+            innerValue("student_memo", selList.studentMemo);
+            innerValue("mother_name", selList.motherName);
+            innerValue("father_name", selList.fatherName);
         });
     }
 
@@ -46,15 +47,6 @@
         var check = new isCheck();
         var student_id   = getInputTextValue("student_id");
         var data = new FormData();
-
-      /*  if(check.input("student_name", comment.input_member_name)   == false) return;
-        if($(":input:radio[name=student_name]:checked").val()==null) return;
-        if(check.input("startDate", comment.input_member_startDate)   == false) return;
-        if(check.input("student_grade", comment.input_student_grade)   == false) return;
-        if(check.input("mother_name", comment.input_mother_name)   == false) return;
-        if(check.input("mother_phone1", comment.input_mother_tel1)   == false) return;
-        if(check.input("mother_phone2", comment.input_mother_tel2)   == false) return;
-        if(check.input("mother_phone3", comment.input_mother_tel3)   == false) return;*/
 
         $.each($('#attachFile')[0].files, function(i, file) {
             data.append('file-' + i, file);
@@ -75,7 +67,7 @@
 
                     var mother_phone3   = getInputTextValue("mother_phone3");
                     var student_name    = getInputTextValue("student_name");
-                    var gender          = get_radio_value("student_gender");
+                    var gender          = get_radio_value("gender_type");
                     var startDate       = getInputTextValue("startDate");
                     var student_phonenum = get_allphonenum("student_phone1","student_phone2","student_phone3");
                     var student_telnum  = get_allphonenum("student_tel1","student_tel2","student_tel3");
@@ -109,16 +101,18 @@
                         fatherName:father_name,
                         fatherPhoneNumber:father_phonenum,
                     };
-                    studentService.modifyStudentInfo(data,function () {
-                        alert("학생정보가 수정 되었습니다.");
-                        location.reload();
-                    });
+                    if (confirm(comment.isUpdate)) {
+                        studentService.modifyStudentInfo(data,function () {
+                            alert(comment.success_update);
+                            isReloadPage(true);
+                        });
+                    }
                 }
             });
         } else { //학생사진 없을때
             var mother_phone3    = getInputTextValue("mother_phone3");
             var student_name    = getInputTextValue("student_name");
-            var gender          = get_radio_value("student_gender");
+            var gender          = get_radio_value("gender_type");
             var startDate       = getInputTextValue("startDate");
             var student_phonenum= get_allphonenum("student_phone1","student_phone2","student_phone3");
             var student_telnum  = get_allphonenum("student_tel1","student_tel2","student_tel3");
@@ -152,10 +146,12 @@
                 fatherName:father_name,
                 fatherPhoneNumber:father_phonenum,
             };
-            studentService.modifyStudentInfo(data,function () {
-                alert("학생정보가 수정 되었습니다.");
-                location.reload();
-            });
+            if (confirm(comment.isUpdate)) {
+                studentService.modifyStudentInfo(data,function () {
+                    alert(comment.success_update);
+                    isReloadPage(true);
+                });
+            }
         }
     }
 
@@ -234,10 +230,11 @@
             <div class="form-group row">
                 <label>성별<b>*</b></label>
                 <div>
-                    <div class="checkbox_t1">
+                        <span id="l_gender"></span>
+                        <!--
                         <label><input type="radio" name="student_gender" value="MALE" checked><span>남자</span></label>
                         <label><input type="radio" name="student_gender" value="FEMALE"><span>여자</span></label>
-                    </div>
+                        -->
                 </div>
             </div>
             <div class="form-group row">

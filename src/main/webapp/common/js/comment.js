@@ -18,6 +18,7 @@ var comment = {
 		isSend : "발송하시겠습니까?",
 		isCancel : "취소하시겠습니까?",
 		isSave : "저장하시겠습니까?",
+		isChange : "변경하시겠습니까?",
 
 		select_member : "멤버 종류를 선택하세요.",
 		select_search_list : "검색종류를 선택하세요.",
@@ -42,6 +43,7 @@ var comment = {
 		success_process : "완료됬습니다.",
 		success_delete : "삭제됬습니다.",
 		success_cancel : "취소됬습니다.",
+		success_update : "수정됬습니다.",
 
 		load_data : "데이타를 불러오는중..",
 
@@ -76,5 +78,6 @@ var comment = {
     	input_member_startSearchDate2: "교육청 강사등록일자를 선택해주세요.",
 
     	input_student_grade:"학생의 학년을 선택해주세요.",
+		input_student_name : "학생 이름을 입력하세요.",
 }
 

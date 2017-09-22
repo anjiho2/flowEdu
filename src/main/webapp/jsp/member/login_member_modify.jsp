@@ -8,48 +8,65 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/loginService.js'></script>
 <script type='text/javascript'>
     var memberPhoneNumber = '<%=phoneNumber%>';
+    //기존 비밀번호 체크
     function memberPassCheck() {
         var memberPassword = getInputTextValue("memberPass");
+
         memberService.isMemberByPassword(memberPhoneNumber, memberPassword, function (bl) {
             var passMent = "";
             var checekColor = "";
             if (bl == false) {
                 passMent = "비밀번호가 틀렸습니다.";
                 checekColor = "red";
+                //innerValue("isPass", false);
+                focusInputText("memberPass");
             } else {
                 passMent = "비밀번호가 일치합니다.";
                 checekColor = "green";
+                innerValue("isPass", true);
             }
             innerHTML("l_passAert", passMent);
             innerHTMLAddColor("l_passAert", checekColor);
         });
     }
-
-    function modify_password() {
-        var memberPass = getInputTextValue("memberPass");
-        var reNewPassword = getInputTextValue("reNewPass");
-
-        memberService.modifyFlowMemberPassword(memberPhoneNumber, memberPass, reNewPassword, function (result) {
-            if (result == 0) {
-                alert("비밀번호가 변경되었습니다.");
-                goPage("dashboard", "dashboard_list");
-            } else {
-                alert(comment.error);
-            }
-        });
-    }
-
+    //새로운 비밀번호 일치여부 체크
     $(function () {
         $("#reNewPass").keyup(function () {
             if ($("#newPass").val() == $("#reNewPass").val()) {
                 innerHTML("l_newPassAert", "비밀번호가 일치합니다.");
                 innerHTMLAddColor("l_newPassAert", "green");
+                innerValue("isNewPass", true);
             } else {
                 innerHTML("l_newPassAert", "비밀번호가 일치하지 않습니다.");
                 innerHTMLAddColor("l_newPassAert", "red");
+                innerValue("isNewPass", false);
             }
         });
     });
+    //비밀번호 변경
+    function modify_password() {
+        var isPass = getInputTextValue("isPass");
+        var isNewPass = getInputTextValue("isNewPass");
+        var memberPass = getInputTextValue("memberPass");
+        var reNewPassword = getInputTextValue("reNewPass");
+
+        if (!isNewPass) {
+            alert("새로운 비밀번호가 일치하지 않습니다.");
+            focusInputText("reNewPass");
+            return;
+        }
+        if (confirm(comment.isChange)) {
+            memberService.modifyFlowMemberPassword(memberPhoneNumber, memberPass, reNewPassword, function (result) {
+                if (result == 0) {
+                    alert("비밀번호가 변경되었습니다.");
+                    goPage("dashboard", "dashboard_list");
+                } else if (result == 1) {
+                    alert("기존 비밀번호가 틀렸습니다.");
+                    return;
+                }
+            });
+        }
+    }
 </script>
 <body>
 <div class="container">
@@ -62,6 +79,7 @@
     <form name="frm" method="get" class="form_st1">
         <input type="hidden" name="page_gbn" id="page_gbn">
         <input type="hidden" id="isPass">
+        <input type="hidden" id="isNewPass">
         <div class="form-group row" >
             <label>아이디</label>
             <div ><span id="l_memberId"><%=phoneNumber%></span></div>

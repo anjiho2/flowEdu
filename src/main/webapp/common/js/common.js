@@ -1900,9 +1900,7 @@ function get_allphonenum(phone1,phone2,phone3) {
 	var phonenum1 = $("#"+phone1).val();
 	var phonenum2 = $("#"+phone2).val();
 	var phonenum3 = $("#"+phone3).val();
-	alert(phonenum1);
 	var all_phonenum = phonenum1 + phonenum2 + phonenum3;
-
 	return all_phonenum;
 }
 

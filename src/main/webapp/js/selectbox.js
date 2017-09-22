@@ -505,7 +505,6 @@ function academyGroupSelectbox(tag_id, val) {
 
 }
 
-
 function studentmemoTypeSelectbox(tag_id, val) {
     studentService.getStudentMemoTypeList(function (list) {
         var html = "<select id='sel_memoType' class='form-control'>";

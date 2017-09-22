@@ -11,67 +11,23 @@
     function init() {
         schoolSelectbox("student_grade","", "");
     }
-    /*
-     function fn_search(val) {
-     var paging = new Paging();
-     var sPage = $("#sPage").val();
-     if(val == "new") sPage = "1";
 
-     dwr.util.removeAllRows("dataList");
-
-     studentService.getSudentListCount( function (cnt) {
-     paging.count(sPage, cnt, '10', '5', comment.blank_list);
-     studentService.getSudentList(sPage,'5',function (selList) {
-     if (selList.length > 0) {
-     for (var i = 0; i < selList.length; i++) {
-     var cmpList = selList[i];
-     if (cmpList != undefined) {
-     //var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.studentId + "'/>";
-     var modifyHTML = "<input type='button'  name='modify' id='modify' value='수정' onclick='student_modify(" + cmpList.studentId + ");'/>";
-     var cellData = [
-     //function(data) {return checkHTML;},
-     function(data) {return cmpList.studentName;},
-     function(data) {return genderTrans(cmpList.studentGender);},
-     function(data) {return cmpList.studentBirthday;},
-     function(data) {return cmpList.studentPhoneNumber;},
-     function(data) {return cmpList.homeTelNumber;},
-     function(data) {return cmpList.studentEmail;},
-     function(data) {return convert_lecture_grade(cmpList.studentGrade);},
-     function(data) {return cmpList.schoolName;},
-     function(data) {return cmpList.studentMemo;},
-     function(data) {return cmpList.motherName;},
-     function(data) {return cmpList.motherPhoneNumber;},
-     function(data) {return cmpList.fatherName;},
-     function(data) {return cmpList.fatherPhoneNumber;},
-     function(data) {return modifyHTML;}
-     ];
-     dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
-     }
-     }
-     }
-     })
-     });
-     }
-     */
     function save_student() { //저장
-
         var check = new isCheck();
 
-        /*  if(check.input("student_name", comment.input_member_name)   == false) return;
-         if($(":input:radio[name=student_name]:checked").val()==null) return;
+         if(check.input("student_name", comment.input_student_name)   == false) return;
          if(check.input("startDate", comment.input_member_startDate)   == false) return;
-         if(check.input("student_grade", comment.input_student_grade)   == false) return;
+         if(check.input("sel_school", comment.input_student_grade)   == false) return;
          if(check.input("mother_name", comment.input_mother_name)   == false) return;
          if(check.input("mother_phone1", comment.input_mother_tel1)   == false) return;
          if(check.input("mother_phone2", comment.input_mother_tel2)   == false) return;
-         if(check.input("mother_phone3", comment.input_mother_tel3)   == false) return;*/
+         if(check.input("mother_phone3", comment.input_mother_tel3)   == false) return;
 
         var data = new FormData();
         $.each($('#attachFile')[0].files, function(i, file) {
             data.append('file-' + i, file);
         });
         var attachFile = fn_clearFilePath($('#attachFile').val());
-        alert(attachFile);
 
         if (attachFile != "") { //학생사진 업로드시
             $.ajax({
@@ -120,11 +76,12 @@
                         fatherName:father_name,
                         fatherPhoneNumber:father_phonenum,
                     };
-
-                    studentService.saveStudentInfo(data,function () {
-                        alert("학생정보가 등록 되었습니다.");
-                        location.reload();
-                    });
+                    if (confirm(comment.isSave)) {
+                        studentService.saveStudentInfo(data, function () {
+                            alert("학생정보가 등록 되었습니다.");
+                            location.reload();
+                        });
+                    }
                 }
             });
         } else { //학생사진 없을때
@@ -161,13 +118,15 @@
                 fatherName:father_name,
                 fatherPhoneNumber:father_phonenum,
             };
-            studentService.saveStudentInfo(data,function () {
-                alert("학생정보가 등록 되었습니다.");
-                location.reload();
-            });
+            if (confirm(comment.isSave)) {
+                studentService.saveStudentInfo(data,function () {
+                    alert("학생정보가 등록 되었습니다.");
+                    isReloadPage(true);
+                });
+            }
         }
-
     }
+
     function school_radio(school_grade) {
         schoolSelectbox("student_grade","", school_grade);
     }
