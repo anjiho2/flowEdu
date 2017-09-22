@@ -44,10 +44,32 @@
         var sel_lectureDay  = $('select[name="lecture_day[]"]').last().val();
         var start_time      = $('input[name="start_time[]"]').last().val();
         var end_time        = $('input[name="end_time[]"]').last().val();
+
+        var div_len = $(".clonedDiv").length;
+        var sel_pre_lectureRoom = $('select[name="sel_lectureRoom[]"]').eq(div_len-2).val();
+        var sel_pre_lectureDay  = $('select[name="lecture_day[]"]').eq(div_len-2).val();
+        var pre_start_time      = $('input[name="start_time[]"]').eq(div_len-2).val()
+        var pre_end_time        = $('input[name="end_time[]"]').eq(div_len-2).val();
+
         if(sel_lectureRoom == "" || sel_lectureDay == "" || start_time == "" || end_time == ""){
-            alert("상세정보를 입력해 주세요.");
+            alert("강의시간표 상세정보를 입력해 주세요.");
             return;
         }
+        //시간 시간과 종료시간 비교 (2017. 09. 22 안지호)
+        if (!compareTime(start_time, end_time)) {
+            alert("강의 시간이 잘못되었습니다.\n시작시간은 종료시간보더 전이여야 합니다.");
+            return;
+        }
+        //추가버튼을 누를때 추가전의 값과 시간 비교 기능 추가 (2017. 09. 22 안지호)
+        if (div_len > 1) {
+            if ((sel_lectureDay == sel_pre_lectureDay) && (sel_lectureRoom == sel_pre_lectureRoom)) {
+                if ((start_time < pre_end_time) && (end_time > pre_start_time)) {
+                    alert("추가할수없는 시간대와 강의실 입니다.\n다른 시간대와 강의실을 선택하세요.");
+                    return;
+                }
+            }
+        }
+
         lectureService.checkDuplicateLectureDetail(sel_lectureRoom, start_time, end_time, sel_lectureDay, function (bl) {
             if(bl==true){
                 alert("등록할수없는 시간대와 강의실 입니다.\n다른 시간대와 강의실을 선택하세요.");
@@ -103,7 +125,6 @@
 
     //강의정보 저장
     function save_lecture_info() {
-
         var sel_academy  = getSelectboxValue("sel_academyList2");//관선택
         var manager      = getSelectboxValue("sel_teacherList2");//관리선생님
         var teacher      = getSelectboxValue("sel_teacherList");//담당선생님
@@ -157,14 +178,12 @@
         var detail_list = new Array();
 
         for(var i=0; i < num ; i++){
-
             //강의상세정보 강의시작/종료시간 유효성체크
             var detail_compare_time = compareTime(start_time_list[i], end_time_list[i]);
             if(detail_compare_time == false) {
                 alert("강의종료시간이 강의시작시간보다 작습니다.");
                 return false;
             }
-
             //배열에 값넣기 강의상세정보
             var lecture_detail_info = {
                 lectureRoomId: room_list[i],
@@ -186,15 +205,16 @@
             alert("상세정보를 입력해 주세요.");
             return;
         }
-
-        lectureManager.regLecture(lecture_info, detail_list, function (bl) {
-            if(bl==true){
-                //TODO : 등록이 완료되면 강의 리스트로 이동시키는 기능 추가하기
-                lecture_go('lecture_list');
-            } else {
-                alert(comment.error);
-            }
-        });
+        if (confirm(comment.isSave)) {
+            lectureManager.regLecture(lecture_info, detail_list, function (bl) {
+                if(bl==true){
+                    //TODO : 등록이 완료되면 강의 리스트로 이동시키는 기능 추가하기
+                    lecture_go('lecture_list');
+                } else {
+                    alert(comment.error);
+                }
+            });
+        }
     }
 </script>
 <body onload="init();">

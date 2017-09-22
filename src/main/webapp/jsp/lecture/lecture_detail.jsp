@@ -27,7 +27,7 @@
                                 function(data) {return cmpList.officeName;},
                                 function(data) {return cmpList.startTime;},
                                 function(data) {return cmpList.endTime;},
-                                function(data) {return cmpList.lectureDay;}
+                                function(data) {return convert_day(cmpList.lectureDay);}
                             ];
                             dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
                         }

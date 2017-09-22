@@ -156,6 +156,7 @@
             </tr>
             <!--input type="button" value="삭제" onclick="Delete();">-->
         </table>
+        <div class="form-group row"></div>
         <%@ include file="/common/inc/com_pageNavi.inc" %>
     </div>
     </div>

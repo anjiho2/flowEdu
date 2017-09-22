@@ -17,6 +17,7 @@ var comment = {
 		isExcelDownload : "엑셀표를 다운로드 받으시겠습니까?",
 		isSend : "발송하시겠습니까?",
 		isCancel : "취소하시겠습니까?",
+		isSave : "저장하시겠습니까?",
 
 		select_member : "멤버 종류를 선택하세요.",
 		select_search_list : "검색종류를 선택하세요.",

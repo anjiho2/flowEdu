@@ -91,5 +91,32 @@ function convert_memo_type(val) {
     else if(val == "PERIOD") str = "정기";
 
     return str;
+}
 
+function convert_day(val) {
+    var str = "";
+    switch (val) {
+        case "MON":
+            str = "월요일";
+            break;
+        case "TUE":
+            str = "화요일";
+            break;
+        case "WEN":
+            str = "수요일";
+            break;
+        case "THU":
+            str = "목요일";
+            break;
+        case "FRI":
+            str = "금요일";
+            break;
+        case "SAT":
+            str = "토요일";
+            break;
+        case "SUN":
+            str = "일요일";
+            break;
+    }
+    return str;
 }
