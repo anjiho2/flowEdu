@@ -10,11 +10,13 @@
 	Long memberId = 0L;
 	String memberName = "";
 	String phoneNumber = "";
+	String memberType = "";
 	if (session.getAttribute("member_info") != null) {
 		FlowEduMemberDto flowEduMemberDto = (FlowEduMemberDto) session.getAttribute("member_info");
 		memberName = flowEduMemberDto.getMemberName();
 		memberId = flowEduMemberDto.getFlowMemberId();
 		phoneNumber = flowEduMemberDto.getPhoneNumber();
+		memberType = flowEduMemberDto.getMemberType();
 	}
 %>
 <script>
