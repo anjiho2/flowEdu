@@ -21,6 +21,15 @@ public class FrontEndTemplateController {
             mvc.setViewName("/templates/formType1");
         } else if("tileType1".equals(page_gbn)){
             mvc.setViewName("/templates/tileType1");
+        } else if("layerPopup".equals(page_gbn)){
+            mvc.setViewName("/templates/layerPopup");
+        }
+
+
+
+
+        else if("layer".equals(page_gbn)){
+            mvc.setViewName("/templates/layer");
         }
         return mvc;
     }
