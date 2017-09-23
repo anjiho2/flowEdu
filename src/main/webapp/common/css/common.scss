@@ -1,3 +1,4 @@
+@import './_var.scss';
 
 $blue: #03a9f4;
 $orange: #ff6200;
@@ -55,18 +56,21 @@ button.btn_pack{
 }
 
 
-h3.title_t1{ font-size: 18px; font-weight: 400;}
+h3.title_t1{ font-size: 18px; font-weight: 400; margin-top: 25px; margin-bottom: 15px;}
 #wrap{
   display: flex; height: 100%;
 }
 #header{
-  flex:0 0 250px; display: flex; background-color: #fff; z-index: 1;box-shadow: 3px 0 30px 0px rgba(0,0,0,0.2);flex-direction: column;
+  flex:0 0 250px; display: flex; background-color: #fff; z-index: 2;box-shadow: 3px 0 30px 0px rgba(0,0,0,0.2);flex-direction: column;
   nav{
     a{
       min-height: 56px; line-height: 56px;padding:0 5px 0 33px; display: block; position: relative; vertical-align: middle;
       span{ margin-right: 3px; display: inline-block; width: 30px; line-height:inherit;transition: color .3s ease; }
       &:before{ content: ''; position: absolute; top: 0; bottom: 0; left: -3px;width:3px; background-color: #03a9f4;transition: left .3s ease;}
       &:hover{
+        span{ color: #03a9f4;}
+      }
+      &.on{
         span{ color: #03a9f4;}
         &:before{left:0;}
       }
@@ -75,15 +79,14 @@ h3.title_t1{ font-size: 18px; font-weight: 400;}
 
 }
 .container{
-  background-color: #f4f7f9; display: flex; flex:1 1 auto;flex-direction: column; overflow: hidden; overflow: auto;
+  background-color: #f4f7f9; flex:1 1 auto;flex-direction: column; overflow: hidden; overflow: auto;
 
 }
 
 .top_area{
-  padding:0px 30px;
-  background-color: #fefefe;
+  background-color: #fefefe; position: sticky; top: -55px; z-index: 1;
   .gnb{
-    display: flex;padding:5px 0px; position: relative;justify-content: space-between; align-items:center;
+    display: flex;padding:5px 0px; position: relative;justify-content: space-between; align-items:center;margin:0 30px;
     .total_search button{ color: #a0b1b9; font-size:20px;height:30px;width:40px; text-align: center;}
     .my_box{
       > button{ position: relative; font-size: 13px; font-weight: 700; color: #37474f;padding:5px;}
@@ -178,3 +181,65 @@ div.tb_t1{
   }
 }
 
+.tile_t1{
+  ul{
+    display: flex;flex-wrap: wrap;margin:0 -8px;
+  }
+  li{
+    flex:0 0 25%;
+    >.in{
+      margin:8px; background-color: #fff;box-sizing: border-box; box-shadow: 0 0 10px rgba(0,0,0,0.15); display: block; position: relative;
+      >input[type=checkbox], input[type=radio]{
+        visibility: hidden; position: absolute;
+        &+.input_cover{
+          position: absolute; top: 0; bottom: 0; left: 0; right: 0;display: flex; align-items: center; justify-content: center; background-color: rgba(0,0,0,0.5);opacity: 0;
+          transition: opacity .25s ease-in-out;
+          span{
+            font-size: 22px;width:40px;height:40px; line-height: 40px;border-radius: 50%; top: 0; bottom: 0; right: 0; left: 0; margin: auto; text-align: center;
+            background-color: #c2c2c2; color: #666;
+            transition: background-color .25s ease-in-out, color .35s ease-in-out, opacity .25s ease-in-out;
+          }
+          &:hover{ opacity: 1;}
+        }
+        &:checked{
+          &+.input_cover{
+            background-color: rgba(0,0,0,0);border:1px solid $blue; opacity: 1;
+            span{
+              background-color: $blue; color: #fff; opacity: 0;
+            }
+            &:hover span{ opacity: 1;}
+          }
+        }
+      }
+    }
+  }
+  .img{
+    height:0; padding-top:72.25%; overflow: hidden; position: relative; background-color: #e5e5e5;
+    img{ visibility: hidden; position: absolute; top: 0; bottom: 0; left: 0; right: 0;}
+    .cover{
+      position: absolute; top: 0; bottom: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: center;
+      background-color: rgba(0,0,0,0.75); opacity: 0;transition: opacity .25s ease-in-out;
+      span{ color: #d9e2e6; font-size: 22px;}
+    }
+    &:only-child{ padding-top: 100%;}
+    &:hover .cover{ opacity: 1;}
+  }
+  .txt{
+    padding: 25px 25px 15px;
+    h4{font-size: 16px; color: #515255;}
+    p{ font-size: 13px; margin-top: 15px; line-height: 1.35; color: #b2b2b2; @include multi_ellipsis(3);}
+    button.detail{ margin-top: 12px; color: $blue;}
+  }
+}
+
+@media screen and (max-width:1200px){
+  .tile_t1 li{
+    flex:0 0 33.333%;
+  }
+}
+
+@media screen and (max-width:800px){
+  .tile_t1 li{
+    flex:0 0 50%;
+  }
+}

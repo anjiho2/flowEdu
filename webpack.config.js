@@ -9,7 +9,6 @@ const root = __dirname + '/src/main/webapp/common', jsRoot  = root + '/js', cssR
 module.exports = {
   entry: {
     polyfills:[`${jsRoot}/polyfills`],
-    index:[`${jsRoot}/index`],
     style: [
       `${cssRoot}/normalize.css`,
       `${cssRoot}/awesome/font-awesome.scss`,
