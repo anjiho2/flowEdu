@@ -9,7 +9,7 @@
     var check = new isCheck();
 
     function init() {
-        memberTypeSelectbox("l_memberType", "");
+        memberTypeSelectbox("l_memberType", "", "big");
     }
 
     function loginCheck() {
@@ -54,77 +54,38 @@
 </script>
 <style>
     body{
-        background: #b7b7b7;
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00589F', endColorstr='#0073CF', GradientType=0);
-        background: -webkit-linear-gradient(to bottom, #b7b7b7 50%, #b7b7b7) !important;
-        background: -moz-linear-gradient(to bottom, #b7b7b7 50%, #b7b7b7) !important;
-        background: -ms-linear-gradient(to bottom, #b7b7b7 50%, #b7b7b7) !important;
-        background: -o-linear-gradient(to bottom, #b7b7b7 50%, #b7b7b7) !important;
-        background: linear-gradient(to bottom, #b7b7b7 50%, #b7b7b7) !important;
-        color: white;
-    }
-
-    div.well{
-        height: 250px;
-    }
-
-    .Absolute-Center {
-        margin: auto;
-        position: absolute;
-        top: 0; left: 0; bottom: 0; right: 0;
-    }
-
-    .Absolute-Center.is-Responsive {
-        width: 50%;
-        height: 50%;
-        min-width: 200px;
-        max-width: 400px;
-        padding: 40px;
-    }
-
-    #logo-container{
-        margin: auto;
-        margin-bottom: 10px;
-        width:200px;
-        height:30px;
+        background: #e9eef1; display: flex;justify-content: center; align-items: center;
     }
 </style>
 <body onload="init();">
-<form name="frm" method="post">
-<input type="hidden" id="flow_member_id" name="flow_member_id" />
-<input type="hidden" id="office_id" name="office_id" />
-<input type="hidden" id="team_id" name="team_id" />
-<input type="hidden" id="phone_number" name="phone_number" />
-<input type="hidden" id="member_name" name="member_name" />
-<input type="hidden" id="member_type" name="member_type" />
-<input type="hidden" name="page_gbn" id="page_gbn">
 <%
     if (session.getAttribute("member_info") == null) {
 %>
-    <div class="container">
-        <div class="row">
-            <div class="Absolute-Center is-Responsive">
-              <div id="logo-container" align="center">플로우교육 관리자</div>
-                <div class="col-sm-12 col-md-10 col-md-offset-1" align="center">
-                    <form action="" id="loginForm">
-                        <div class="form-group input-group" style="width: 50%;">
-                            <span id="l_memberType" ></span>
-                        </div>
-                        <div class="form-group input-group"  style="width: 50%;">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <input class="form-control" type="text" id="phoneNumber" placeholder="아이디"/>
-                        </div>
-                        <div class="form-group input-group"  style="width: 50%;">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                            <input class="form-control" type="password"  id="memberPass" name="memberPass" onkeypress="javascript:if(event.keyCode == 13){loginCheck(); return false;}" placeholder="비밀번호"/>
-                        </div>
-                        <div class="form-group">
-                            <button type="button" class="btn_pack blue s2" onclick="loginCheck();">로그인</button>
-                            <button type="button" class="btn_pack blue s2" onclick="password_search_popup();">비밀번호 찾기</button>
-                        </div>
-                    </form>
+    <div class="modal_layout">
+        <h2 id="logo-container">플로우교육 관리자</h2>
+        <div class="cont">
+            <form name="frm" method="post">
+                <input type="hidden" id="flow_member_id" name="flow_member_id" />
+                <input type="hidden" id="office_id" name="office_id" />
+                <input type="hidden" id="team_id" name="team_id" />
+                <input type="hidden" id="phone_number" name="phone_number" />
+                <input type="hidden" id="member_name" name="member_name" />
+                <input type="hidden" id="member_type" name="member_type" />
+                <input type="hidden" name="page_gbn" id="page_gbn">
+                <div class="form-group input-group">
+                    <span id="l_memberType" ></span>
                 </div>
-            </div>
+                <div class="form-group input-group">
+                    <input class="form-control big" type="text" id="phoneNumber" placeholder="아이디"/>
+                </div>
+                <div class="form-group input-group">
+                    <input class="form-control big" type="password"  id="memberPass" name="memberPass" onkeypress="javascript:if(event.keyCode == 13){loginCheck(); return false;}" placeholder="비밀번호"/>
+                </div>
+                <div class="btns">
+                    <button type="button" class="btn_pack blue s2" onclick="loginCheck();">로그인</button>
+                </div>
+                <p>비밀번호를 찾으시려면 <a href="javascript:;"  onclick="password_search_popup();">여기</a>를 클릭해주세요.</p>
+            </form>
         </div>
     </div>
 
@@ -140,6 +101,5 @@
 <%
     }
 %>
-</form>
 </body>
 </html>

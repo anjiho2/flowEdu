@@ -23,6 +23,8 @@ public class FrontEndTemplateController {
             mvc.setViewName("/templates/tileType1");
         } else if("layerPopup".equals(page_gbn)){
             mvc.setViewName("/templates/layerPopup");
+        } else if("twoPartLayout".equals(page_gbn)){
+            mvc.setViewName("/templates/twoPartLayout");
         }
 
 

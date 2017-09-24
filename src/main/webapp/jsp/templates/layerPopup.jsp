@@ -13,9 +13,9 @@
         <section class="content">
             <h3 class="title_t1">Layer Popup</h3>
             <div class="btns">
-                <button class="btn_pack orange" id="popup1">기본 팝업</button>
-                <button class="btn_pack orange" id="popup2">팝업 옵션추가</button>
-                <button class="btn_pack orange" id="popup3">XHR 비동기 팝업</button>
+                <button class="btn_pack purple" id="popup1">기본 팝업</button>
+                <button class="btn_pack green" id="popup2">팝업 옵션추가</button>
+                <button class="btn_pack yellow" id="popup3">XHR 비동기 팝업</button>
             </div>
         </section>
     </div>
@@ -43,7 +43,7 @@
     });
     $("#popup2").on('click', function(){
         initPopup($("#test_layer"), {
-            onStart : function(t, showFn){alert('시작')}, //팝업 시작할때 실행되는 함수, 인자는 layer엘리먼트
+            onStart : function(t){alert('시작')}, //팝업 시작할때 실행되는 함수, 인자는 layer엘리먼트
             onClose : function(t){alert('닫힘 완료')}, //팝업 닫히고 나서 실행되는 팝업, 인자는 layer엘리먼트
             onLoad : function(t){alert('열림 완료')}, //팝업이 뜨고 나서 실행되는 팝업, 인자는 layer엘리먼트
             btnCloseCl : 'btn-close', //닫기버튼으로 사용할 엘리먼트의 클래스
