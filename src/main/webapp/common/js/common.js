@@ -1887,13 +1887,11 @@ function js_tab_order(arg, nextname, len) {
     }
 }
 
-
 //라디오버튼 값가져오기
 function get_radio_value(name){
     var radio_value = $(":input:radio[name= "+ name +" ]:checked").val();
     return radio_value;
 }
-
 
 //폰번호 가져오기
 function get_allphonenum(phone1,phone2,phone3) {
