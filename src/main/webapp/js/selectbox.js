@@ -1,6 +1,6 @@
-function memberTypeSelectbox(tag_id, val) {
+function memberTypeSelectbox(tag_id, val, cls) {
 	memberService.getMemberType(function(list) {
-		var html = "<select id='sel_memberType' class='form-control'>";
+		var html = "<select id='sel_memberType' class='form-control " + cls + "'>";
 		html += "<option value=''>▶선택</option>";
 		for (var i=0; i<list.length; i++) {
 			if (list[i].memberTypeCode == val) {

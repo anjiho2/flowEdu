@@ -16,22 +16,12 @@
             </ul>
         </div>
     </div>
-
     <div class="out_box">
-        <%--<h2>Front Templates</h2>--%>
-        <%--<nav class="depth2">--%>
-            <%--<a href="/flowEdu/template.do?page_gbn=dashboard" <%=depth2 == 1 ? "class=\"on\"" : ""%>>DashBoard</a>--%>
-            <%--<a href="/flowEdu/template.do?page_gbn=formType1" <%=depth2 == 2 ? "class=\"on\"" : ""%>>Forms</a>--%>
-            <%--<a href="/flowEdu/template.do?page_gbn=tableList" <%=depth2 == 3 ? "class=\"on\"" : ""%>>Table List</a>--%>
-        <%--</nav>--%>
 <script>
-    $(document).ready(function(){
+    $(function(){
         $("#my_menu_btn").click(function(){
-            if ($(".my_menu").css("display") == "none") {
-                $(".my_menu").show();
-            } else {
-                $(".my_menu").hide();
-            }
+            var menu = $(this).next('.my_menu');
+            menu[menu.css("display") === "none" ? 'show' : 'hide']();
         });
     });
 </script>

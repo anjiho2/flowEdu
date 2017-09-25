@@ -33,6 +33,7 @@
 <script type='text/javascript' src="<%=webRoot%>/js/selectbox.js?ver=<%=version%>"></script>
 <script type='text/javascript' src="<%=webRoot%>/common/js/comment.js?ver=<%=version%>"></script>
 <script type='text/javascript' src="<%=webRoot%>/common/js/common.js?ver=<%=version%>"></script>
+<script type='text/javascript' src="<%=webRoot%>/common/js/commonUI.js?ver=<%=version%>"></script>
 <script type='text/javascript' src="<%=webRoot%>/js/radio.js?ver=<%=version%>"></script>
 
 <!-- 페이징 관련 필수 스트립트 -->
