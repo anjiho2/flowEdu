@@ -41,7 +41,7 @@ function fn_search(val) {
             innerHTML("member_name", selList.studentMemoDto.memberName);
             innerHTML("create_date", getDateTimeSplitComma(selList.studentMemoDto.createDate));
             innerHTML("process_yn",  selList.studentMemoDto.processYn == false ? "미처리" : "처리완료");
-            innerValue("memo_content",selList.studentMemoDto.memoContent);
+            innerHTML("memo_content",selList.studentMemoDto.memoContent);
             innerHTML("memo_type", convert_memo_type(selList.studentMemoDto.memoType));
 
 
@@ -50,7 +50,7 @@ function fn_search(val) {
                 for (var i = 0; i < selList.studentMemoReplyDtoList.length; i++) {
                     var cmpList = selList.studentMemoReplyDtoList[i];
 
-                    if(<%=memberId%> == selList.studentMemoDto.flowMemberId){
+                    if('<%=memberId%>' == selList.studentMemoDto.flowMemberId){
                         var memoReply_del = "<input type='button'  value='삭제'  onclick='memoReply_delete("+ '"' + cmpList.studentMemoReplyId + '"' + ");'/>";
                          var memoReply_modify = "<input type='button' id='modify_"+cmpList.studentMemoReplyId+"' value='변경' onclick='change_memoReply(" + cmpList.studentMemoReplyId + ");'/><input type='button'   id='change_"+cmpList.studentMemoReplyId+"' value='수정' onclick='modify_memoReply(" + cmpList.studentMemoReplyId + ");' style='display:none;'/>";
                     }else{
@@ -121,54 +121,54 @@ function changeProccessYn() {
     <%@include file="/common/jsp/student_depth_menu.jsp" %>
 </div>
 </section>
-<section class="content">
-    <h3 class="title_t1"><%=student_name%>학생 상담 상세 내용</h3>
-    <form name="frm" method="get" class="form_st1">
-        <input type="hidden"  id="sPage" value="<%=sPage%>">
-        <input type="hidden" id="student_id" name="student_id" value="<%=student_id%>">
-        <input type="hidden" id="student_memo_id" value="<%=student_memo_id%>">
-        <input type="hidden" name="student_name" value="<%=student_name%>">
-        <input type="hidden" name="page_gbn" id="page_gbn">
-
-        <div class="form-group row">
-            <label>상담자</label>
-            <div><span id="member_name"></span></div>
+<form name="frm" method="get" class="form_st1">
+    <input type="hidden"  id="sPage" value="<%=sPage%>">
+    <input type="hidden" id="student_id" name="student_id" value="<%=student_id%>">
+    <input type="hidden" id="student_memo_id" value="<%=student_memo_id%>">
+    <input type="hidden" name="student_name" value="<%=student_name%>">
+    <input type="hidden" name="page_gbn" id="page_gbn">
+</form>
+<section class="content divide">
+    <div class="left">
+        <div class="tile_box">
+            <h3 class="title_t1">상담 상세 정보</h3>
+            <ul class="list_t1">
+                <li>
+                    <strong>상담자</strong>
+                    <div><p><span id="member_name"></span></p></div>
+                </li>
+                <li>
+                    <strong>상담구분</strong>
+                    <div><p><span id="memo_type"></span></p></div>
+                </li>
+                <li>
+                    <strong>상담날짜</strong>
+                    <div><p><span id="create_date"></span></p></div>
+                </li>
+                <li>
+                    <strong>상담내용</strong>
+                    <div><p><span id="memo_content"></span></p></div>
+                </li>
+                <li>
+                    <strong>처리여부</strong>
+                    <div>
+                        <p><span id="process_yn"></span></p>
+                    </div>
+                    <!--
+                    <div id="process_div" style="display: none;">
+                        <button class="btn_pack blue" type="button" onclick="changeProccessYn();">처리하기</button>
+                    </div>
+                    -->
+                </li>
+            </ul>
         </div>
-        <div class="form-group row">
-            <label>상담구분</label>
-            <div><span id="memo_type"></span></div>
-        </div>
-        <div class="form-group row">
-            <label>상담날짜</label>
-            <div><span id="create_date"></span></div>
-        </div>
-        <div class="form-group row">
-            <label>상담내용</label>
+        <div class="form-group row"></div>
+        <div id="process_div" style="display: none;" align="left">
             <div>
-                <textarea class="form-control"  id="memo_content" rows="5" disabled></textarea>
-                <%--<span id="memo_content"></span>--%>
+                <button class="btn_pack blue" type="button" onclick="changeProccessYn();">처리하기</button>
             </div>
         </div>
-        <div class="form-group row">
-            <label>처리여부</label>
-            <div><span id="process_yn"></span></div>
-            <div id="process_div" style="display: none;">
-                <button class="btn_pack blue s2" type="button" onclick="changeProccessYn();">처리하기</button>
-            </div>
-        </div>
-    </form>
-    <!--댓글 작성/리스트-->
-    <%--<div style="position: relative; left: 0px; top: 100px;">--%>
-    <%--<table border="1">--%>
-    <%--<tr>--%>
-    <%--<td><span id="l_memo_reply"></span></td>--%>
-    <%--</tr>--%>
-    <%--<tbody id="dataList"></tbody>--%>
-    <%--</table>--%>
-    <%--<textarea id="reply_content" placeholder="댓글을 작성해주세요."></textarea>--%>
-    <%--<input type="button" value="작성" onclick="save_memo_reply();">--%>
-    <%--</div>--%>
-    <%--<!--댓글 작성/리스트 끝-->--%>
+    </div>
 </section>
 </div>
 <%@include file="/common/jsp/footer.jsp" %>

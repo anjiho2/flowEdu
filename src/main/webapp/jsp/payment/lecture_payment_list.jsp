@@ -133,30 +133,65 @@ function payment_lecture() {
         <%--</div>--%>
     </form>
 </section>
-<section class="content" id="payment_section" style="display: none;">
-    <form name="payment_frm" class="form_st1">
-        <%--<h3 class="title_t1"><%=student_name%>학생 상담 등록</h3>--%>
-        <input type="hidden" id="lecture_rel_id">
-        <input type="hidden" id="payment_price">
-        <div class="form-outer-group">
-            <div class="form-group row">
-                <label>강의 가격</label>
-                <div><span id="l_lecturePrice"></span>원</div>
+<section class="content divide" id="payment_section" style="display: none;">
+    <div class="left">
+        <div class="tile_box">
+            <h3 class="title_t1">결제 정보</h3>
+            <%--<h3 class="title_t1"><%=student_name%>학생 상담 등록</h3>--%>
+            <input type="hidden" id="lecture_rel_id">
+            <input type="hidden" id="payment_price">
+            <ul class="list_t1">
+                <li>
+                    <strong>강의 가격</strong>
+                    <div><p><span id="l_lecturePrice"></span>원</p></div>
+                </li>
+                <li>
+                    <strong>수강일 수</strong>
+                    <div><p><span id="l_minusDay"></span>일</p></div>
+                </li>
+                <li>
+                    <strong>결제할 가격</strong>
+                    <div><p><span id="l_calcLecturePrice"></span>원</p></div>
+                </li>
+            </ul>
+            <!--
+            <div class="bot_btns">
+                <button class="btn_pack blue s2" type="button" onclick="payment_lecture();">결제하기</button>
             </div>
-            <div class="form-group row">
-                <label>수강일 수</label>
-                <div><span id="l_minusDay"></span>일</div>
-            </div>
+            -->
         </div>
-        <div class="form-group row">
-            <label>결제 가격</label>
-            <div><span id="l_calcLecturePrice"></span>원</div>
-        </div>
-        <div class="bot_btns">
+        <div class="form-group row"></div>
+        <div>
             <button class="btn_pack blue s2" type="button" onclick="payment_lecture();">결제하기</button>
         </div>
-    </form>
+    </div>
 </section>
+
+<%--<section class="content" id="payment_section" style="display: none;">--%>
+    <%--<form name="payment_frm" class="form_st1">--%>
+        <%--&lt;%&ndash;<h3 class="title_t1"><%=student_name%>학생 상담 등록</h3>&ndash;%&gt;--%>
+        <%--<input type="hidden" id="lecture_rel_id">--%>
+        <%--<input type="hidden" id="payment_price">--%>
+        <%--<div class="form-outer-group">--%>
+            <%--<div class="form-group row">--%>
+                <%--<label>강의 가격</label>--%>
+                <%--<div><span id="l_lecturePrice"></span>원</div>--%>
+            <%--</div>--%>
+            <%--<div class="form-group row">--%>
+                <%--<label>수강일 수</label>--%>
+                <%--<div><span id="l_minusDay"></span>일</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+        <%--<div class="form-group row">--%>
+            <%--<label>결제 가격</label>--%>
+            <%--<div><span id="l_calcLecturePrice"></span>원</div>--%>
+        <%--</div>--%>
+        <%--<div class="bot_btns">--%>
+            <%--<button class="btn_pack blue s2" type="button" onclick="payment_lecture();">결제하기</button>--%>
+        <%--</div>--%>
+    <%--</form>--%>
+<%--</section>--%>
+
 </div>
 <%@include file="/common/jsp/footer.jsp" %>
 </body>

@@ -144,13 +144,43 @@
 
     function school_search_popup() {//학교검색
         var school_type =  $(":input:radio[name=school_type]:checked").val();
+        var school_name = "";
+        if (school_type == "elem_list") {
+            school_name = "초등학교";
+        } else if (school_type == "midd_list") {
+            school_name = "중학교";
+        } else {
+            school_name = "고등학교";
+        }
+        innerHTML("l_schoolName", school_name);
+        initPopup($("#school_search_layer"));
+    }
 
-        if(school_type == null){
-            alert("학교구분을 선택해 주세요.");
+    function school_name_html() { //부모창에 input값넣기
+        var school_name = getInnerHtmlValue("a_school_name");
+        document.getElementById("schoolname").value = school_name;
+        $("#close_btn").trigger("click");
+    }
+
+    function school_search() {//학교검색
+        var school_type =  $(":input:radio[name=school_type]:checked").val();
+        var region =  getSelectboxValue("inputregion");
+        var searchSchoolName = getInputTextValue("schoo_name");
+        if(region==""){
+            alert("지역을 선택해 주세요.");
+            return false;
+        }else if(searchSchoolName == ""){
+            alert("학교명을 입력해 주세요.");
             return false;
         }
-        var param = "?school_type="+school_type;
-        gfn_winPop(750,200,"jsp/popup/school_search_popup.jsp",param);
+        studentService.getApiSchoolName(school_type, region, searchSchoolName, function (schoolName) {
+            gfn_display("search_result_div", true);
+            if(schoolName == null){
+                alert("학교검색 결과가 없습니다.");
+                return;
+            }
+            innerHTML("a_school_name", schoolName ? remove_double_quotation(schoolName) : "학교검색 결과가 없습니다.");
+        });
     }
 </script>
 <body onload="init();">
@@ -281,6 +311,58 @@
             </div>
         </form>
     </section>
+    <!-- 학교 검색 팝업 레이어 시작 -->
+    <div class="layer_popup_template apt_request_layer" id="school_search_layer" style="display: none;">
+        <div class="layer-title">
+            <h3>학교검색</h3>
+            <button id="close_btn" type="button" class="fa fa-close btn-close"></button>
+        </div>
+            <div class="layer-body">
+                <div class="cont">
+                    <form class="form_st1" name="frm2" method="get">
+                        <div class="form-group row">
+                            <label>학교구분</label> [ <span id="l_schoolName"></span> ]
+                        </div>
+                        <div class="form-group row">
+                            <label>지역</label>
+                            <select title="선택" name="inputregion" id="inputregion" class="form-control" style="width: 120px;">
+                                <option value="">전체</option>
+                                <option value="100260">서울특별시</option>
+                                <option value="100267">부산광역시</option>
+                                <option value="100269">인천광역시</option>
+                                <option value="100272">대구광역시</option>
+                                <option value="100275">광주광역시</option>
+                                <option value="100271">대전광역시</option>
+                                <option value="100273">울산광역시</option>
+                                <option value="100704">세종특별자치시</option>
+                                <option value="100276" selected>경기도</option>
+                                <option value="100278">강원도</option>
+                                <option value="100281">충청남도</option>
+                                <option value="100280">충청북도</option>
+                                <option value="100285">경상북도</option>
+                                <option value="100291">경상남도</option>
+                                <option value="100282">전라북도</option>
+                                <option value="100283">전라남도</option>
+                                <option value="100292">제주특별자치도</option>
+                                <option value="100771">해외거주</option>
+                            </select>
+                        </div>
+                        <div class="form-group row">
+                            <label>학교이름</label>
+                            <div><input type="text" id="schoo_name" class="form-control" style="width: 140px;" onkeypress="javascript:if(event.keyCode == 13){school_search(); return false;}"></div>
+                        </div>
+                        <div class="form-group row" style="display: none;" id="search_result_div">
+                            <label>검색결과</label>
+                            <a href="javascript:void(0);" onclick="school_name_html();" id="a_school_name"></a>
+                        </div>
+                </div>
+                <div class="bot_btns_t1">
+                    <button class="btn_pack btn-close" type="button">취소</button>
+                    <button class="btn_pack blue" type="button" onclick="school_search();">검색</button>
+                </div>
+            </div>
+    </div>
+    <!-- 학교 검색 팝업 레이어 끝 -->
 </div>
 <%@include file="/common/jsp/footer.jsp" %>
 </body>

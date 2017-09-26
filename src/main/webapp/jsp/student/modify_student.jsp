@@ -177,18 +177,80 @@
             isReloadPage(true)
         }
     }
-    //상담리스트
+
+    //최근상담 3건 리스트
     function student_memo_list() {
         var student_id = getInputTextValue("student_id");
         studentService.getStudentMemoLastThree(student_id, function (memoList) {
             if (memoList.length < 0) return;
-            dwr.util.addRows("consultList", memoList, [
-                function(data) {return ellipsis(data.memoContent, 20)},
-                function(data) {return data.memberName;},
-                function(data) {return convert_memo_type(data.memoType);},
-                function(data) {return getDateTimeSplitComma(data.createDate);},
-                function(data) {return data.processYn == false ? "<button class='btn_pack white' type='button' id="+data.studentMemoId+" onclick='changeProccessYn(this.id);'>처리하기</button>" : "처리완료";}
-            ], {escapeHtml:false} );
+            function fomatter(memoList) {
+                var processMent = "";
+                memoList.processYn == false ? processMent = "<button class='confirm' type='button' id="+memoList.studentMemoId+" onclick='changeProccessYn(this.id);'>처리하기</button>" : processMent = "<span><h4>처리완료</h4></span>";
+
+                return "<label></label>" +
+                            "<div>" +
+                                "<h4><span><i class='tag'>" + convert_memo_type(memoList.memoType) + "</i>" + memoList.memberName + "</span>"+
+                                "<em>" + getDateTimeSplitComma(memoList.createDate) + "</em></h4>"+
+                                "<p>" + ellipsis(memoList.memoContent, 30) + "</p>" +
+                                processMent +
+                            "</div>" +
+                            "<div class='manage'>" +
+                                "<button type='button' onclick='go_reply("+ '"' + 'student' + '"' + ","+ '"' + 'detail_memo_student' + '"' + ","+ '"' + memoList.studentMemoId + '"' + ");'>상세" +
+                            "</div>";
+            }
+            dwr.util.addOptions("dataList", memoList, fomatter, {escapeHtml:false});
+        });
+    }
+    //댓글 페이지 이동
+    function go_reply(mapping_value, page_value, memo_id) {
+        with(document.frm) {
+            if (mapping_value != "" && page_value != "") {
+                page_gbn.value = page_value;
+                student_memo_id.value = memo_id;
+            }
+            action = getContextPath()+"/"+mapping_value+".do";
+            submit();
+        }
+    }
+
+    function school_search_popup() {//학교검색
+        var school_type =  $(":input:radio[name=school_type]:checked").val();
+        var school_name = "";
+        if (school_type == "elem_list") {
+            school_name = "초등학교";
+        } else if (school_type == "midd_list") {
+            school_name = "중학교";
+        } else {
+            school_name = "고등학교";
+        }
+        innerHTML("l_schoolName", school_name);
+        initPopup($("#school_search_layer"));
+    }
+
+    function school_name_html() { //부모창에 input값넣기
+        var school_name = getInnerHtmlValue("a_school_name");
+        document.getElementById("schoolname").value = school_name;
+        $("#close_btn").trigger("click");
+    }
+
+    function school_search() {//학교검색
+        var school_type =  $(":input:radio[name=school_type]:checked").val();
+        var region =  getSelectboxValue("inputregion");
+        var searchSchoolName = getInputTextValue("schoo_name");
+        if(region==""){
+            alert("지역을 선택해 주세요.");
+            return false;
+        }else if(searchSchoolName == ""){
+            alert("학교명을 입력해 주세요.");
+            return false;
+        }
+        studentService.getApiSchoolName(school_type, region, searchSchoolName, function (schoolName) {
+            gfn_display("search_result_div", true);
+            if(schoolName == null){
+                alert("학교검색 결과가 없습니다.");
+                return;
+            }
+            innerHTML("a_school_name", schoolName ? remove_double_quotation(schoolName) : "학교검색 결과가 없습니다.");
         });
     }
 </script>
@@ -206,6 +268,7 @@
         <input type="hidden" id="fileUrl"  value="">
         <input type="hidden" id="student_id" name="student_id" value="<%=student_id%>">
         <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
+        <input type="hidden" name="student_memo_id" id="student_memo_id">
         <input type="hidden" name="page_gbn" id="page_gbn">
         <div class="form-group row">
             <label>학생사진</label>
@@ -321,31 +384,69 @@
         </div>
     </form>
 </section>
-<section class="content">
-    <h3 class="title_t1">최근 상담 3건</h3>
-        <div class="tb_t1">
-            <table>
-                <colsgroup>
-                    <col width="*" />
-                    <col width="*" />
-                    <col width="*" />
-                    <col width="*" />
-                    <col width="110">
-                </colsgroup>
-                <tr>
-                    <th>상담내용</th>
-                    <th>상담자</th>
-                    <th>상담구분</th>
-                    <th>상담날짜</th>
-                    <th>처리여부</th>
-                </tr>
-                <tbody id="consultList"></tbody>
-                <tr>
-                    <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
-                </tr>
-            </table>
+
+<section class="content divide">
+    <div class="left">
+        <div class="tile_box" style="width: 60%;">
+            <h3 class="title_t1">최근 상담 3건</h3>
+            <ul class="list_t2 checkbox_t2"  id="dataList">
+            </ul>
         </div>
+    </div>
 </section>
+
+<!-- 학교 검색 팝업 레이어 시작 -->
+<div class="layer_popup_template apt_request_layer" id="school_search_layer" style="display: none;">
+    <div class="layer-title">
+        <h3>학교검색</h3>
+        <button id="close_btn" type="button" class="fa fa-close btn-close"></button>
+    </div>
+    <div class="layer-body">
+        <div class="cont">
+            <form class="form_st1" name="frm2" method="get">
+                <div class="form-group row">
+                    <label>학교구분</label> [ <span id="l_schoolName"></span> ]
+                </div>
+                <div class="form-group row">
+                    <label>지역</label>
+                    <select title="선택" name="inputregion" id="inputregion" class="form-control" style="width: 120px;">
+                        <option value="">전체</option>
+                        <option value="100260">서울특별시</option>
+                        <option value="100267">부산광역시</option>
+                        <option value="100269">인천광역시</option>
+                        <option value="100272">대구광역시</option>
+                        <option value="100275">광주광역시</option>
+                        <option value="100271">대전광역시</option>
+                        <option value="100273">울산광역시</option>
+                        <option value="100704">세종특별자치시</option>
+                        <option value="100276" selected>경기도</option>
+                        <option value="100278">강원도</option>
+                        <option value="100281">충청남도</option>
+                        <option value="100280">충청북도</option>
+                        <option value="100285">경상북도</option>
+                        <option value="100291">경상남도</option>
+                        <option value="100282">전라북도</option>
+                        <option value="100283">전라남도</option>
+                        <option value="100292">제주특별자치도</option>
+                        <option value="100771">해외거주</option>
+                    </select>
+                </div>
+                <div class="form-group row">
+                    <label>학교이름</label>
+                    <div><input type="text" id="schoo_name" class="form-control" style="width: 140px;" onkeypress="javascript:if(event.keyCode == 13){school_search(); return false;}"></div>
+                </div>
+                <div class="form-group row" style="display: none;" id="search_result_div">
+                    <label>검색결과</label>
+                    <a href="javascript:void(0);" onclick="school_name_html();" id="a_school_name"></a>
+                </div>
+        </div>
+        <div class="bot_btns_t1">
+            <button class="btn_pack btn-close" type="button">취소</button>
+            <button class="btn_pack blue" type="button" onclick="school_search();">검색</button>
+        </div>
+    </div>
+</div>
+<!-- 학교 검색 팝업 레이어 끝 -->
 </div>
 <%@include file="/common/jsp/footer.jsp" %>
 </body>
