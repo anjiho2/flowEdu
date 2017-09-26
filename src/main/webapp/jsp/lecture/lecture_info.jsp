@@ -166,7 +166,6 @@
         var start_time_list = get_array_values_by_name("input", "start_time[]");
         var room_list = get_array_values_by_name("select", "sel_lectureRoom[]");
         var day_list = get_array_values_by_name("select", "lecture_day[]");
-
         var num = $('.clonedDiv').length;
         var detail_list = new Array();
 

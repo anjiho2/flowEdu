@@ -28,8 +28,8 @@ function init() {
                         dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
                     }
                 }else{ //출석 or 지각체크된 학생들 리스트
-//                    //'" + cmpList.studentId + "'
-                    var modifyHTML = "<input type='button' value='수정' onclick='' style='font-size:8pt;height:20px;' />";
+                    //<button class='btn_pack white' type='button' style='min-width:36px;' onclick='del_html();'>X</button>
+                    var modifyHTML = "<button class='btn_pack white' type='button' style='min-width:36px;' onclick=''/>수정</button>";
                     var cellData = [
                         function(data) {return cmpList.studentName;},
                         function(data) {return convert_attend(cmpList.attendType);},
@@ -75,59 +75,67 @@ function save_attend() {
     });
 }
 </script>
-<style>
 
-</style>
 <body onload="init();">
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
     <%@include file="/common/jsp/lecture_top_menu.jsp" %>
 </div>
 </section>
-<section class="content">
-    <h3 class="title_t1">출석체크</h3>
-    <form name="frm" method="get" class="form_st1">
-        <div>
-            <span id="l_attendType"></span>
-            <table>
-                <input type="hidden" name="page_gbn" id="page_gbn">
-                <input type="hidden" name="lecture_id" id="lecture_id" value="<%=lecture_id%>">
-                <colgroup>
-                    <col width="*" />
-                    <col width="2%" />
-                </colgroup>
-                <thead>
-                <tr style="">
-                    <th>학생이름</th>
-                    <th><input type="checkbox" id="chkAll" onclick="javascript:checkall('chkAll');"></th>
-                </tr>
-                </thead>
-                <tbody id="dataList"></tbody>
-            </table>
+<form name="frm" id="frm" method="get">
+<section class="content divide">
+    <div class="left">
+        <div class="tile_box">
+            <h3 class="title_t1">출석체크</h3>
+            <div>
+                <span id="l_attendType"></span>
+                <div class="tb_t1">
+                    <table>
+                        <input type="hidden" name="page_gbn" id="page_gbn">
+                        <input type="hidden" name="lecture_id" id="lecture_id" value="<%=lecture_id%>">
+                        <colgroup>
+                            <col width="*" />
+                            <col width="2%" />
+                        </colgroup>
+                        <thead>
+                        <tr style="">
+                            <th>학생이름</th>
+                            <th><input type="checkbox" id="chkAll" onclick="javascript:checkall('chkAll');"></th>
+                        </tr>
+                        </thead>
+                        <tbody id="dataList"></tbody>
+                    </table>
+                </div>
+                <button class="btn_pack white" type="button"  onclick="save_attend();">출석저장</button>
+            </div>
         </div>
-
-        <div>
-            <input type="button" value="출석저장" onclick="save_attend();">
+    </div>
+    <div class="right">
+        <div class="tile_box">
+            <h3 class="title_t1">출석체크된 학생리스트</h3>
+            <div class="tb_t1">
+                <table>
+                    <colgroup>
+                        <col width="*" />
+                        <col width="*" />
+                        <col width="*" />
+                    </colgroup>
+                    <thead>
+                    <tr style="">
+                        <th>학생이름</th>
+                        <th>결과</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody id="attend_dataList"></tbody>
+                </table>
+            </div>
         </div>
-
-       <!-- <div>
-            <h1>출석체크된 학생리스트</h1>
-            <table>
-                <colgroup>
-                    <col width="*" />
-                    <col width="*" />
-                </colgroup>
-                <thead>
-                <tr style="">
-                    <th>학생이름</th>
-                    <th>결과</th>
-                </tr>
-                </thead>
-                <tbody id="attend_dataList"></tbody>
-            </table>
-        </div>-->
-    </form>
+    </div>
 </section>
-</div>
+</form>
+</body>
+
+
 <%@include file="/common/jsp/footer.jsp" %>
 </body>

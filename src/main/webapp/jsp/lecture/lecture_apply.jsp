@@ -27,11 +27,11 @@
                 for (var i = 0; i < selList.length; i++) {
                     var cmpList = selList[i];
                     if (cmpList != undefined) {
-                        var modifyHTML = "<input type='button'  name='addList' id='"+cmpList.lectureRelId+"' class='checkBtn' value='-' onclick='delete_student(this.id)'/>";
+                        var delHTML = "<button class='btn_pack white' type='button' style='min-width:36px;' id='"+cmpList.lectureRelId+"' onclick='delete_student(this.id)'>X</button>";
                         var cellData = [
                             function(data) {return cmpList.studentName;},
                             function(data) {return cmpList.schoolName;},
-                            function(data) {return modifyHTML;}
+                            function(data) {return delHTML;}
                         ];
                         dwr.util.addRows("exist_studentList", [0], cellData, {escapeHtml: false});
                     }
@@ -44,12 +44,12 @@
 
     //강의에서 신청된학생 삭제
     function delete_student(val) {
-       if(confirm("삭제 하시겠습니까?")){
-           lectureService.modifyLectureStudentRel(val, 0, 0, false, function () {
-               alert("삭제되었습니다.");
-               location.reload();
-           });
-       }
+        if(confirm("삭제 하시겠습니까?")){
+            lectureService.modifyLectureStudentRel(val, 0, 0, false, function () {
+                alert("삭제되었습니다.");
+                location.reload();
+            });
+        }
     }
 
     function detail_student_page(student_id) {
@@ -76,8 +76,7 @@
 
                         var cmpList = selList[i];
                         if (cmpList != undefined) {
-                            //var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.studentId + "'/>";
-                            var modifyHTML = "<input type='button'  name='addList' id='"+cmpList.studentId+"' class='checkBtn' value='추가' onclick='add_student($(this), this.id);'/>";
+                            var modifyHTML = "<button class='btn_pack white' type='button' id='"+cmpList.studentId+"' style='min-width:36px;' onclick='add_student($(this), this.id);'/>┼</button>";
                             var detailStudent = "<a href='javascript:void(0);' onclick='detail_student_page("+cmpList.studentId+")' >"+cmpList.studentName+"</a>"
                             var cellData = [
                                 function(data) {return detailStudent;},
@@ -95,7 +94,6 @@
     }
 
     function add_student(val, val2) {
-
         var str = "";
         var tdArr = new Array();
         var checkBtn = val;
@@ -123,8 +121,9 @@
                     alert("똑같은 학생이 선택되었습니다.");
                     return;
                 } else {
-                    var append = "<li name='student_id[]' value='" + val2 + "' id=student_li_"+ val2 + ">" + td.eq(0).text() + "&nbsp;<a id='"+val2+"' style='color:red;' onclick='remove_student(this.id);'>X</a></li>";
-                    $("#sel_student").append(append);
+                                                                                                                                    //<button class='btn_pack white' type='button' style='min-width:36px;' id='"+val2+"' onclick='remove_student(this.id)'>X</button>";
+                    var append = "<li name='student_id[]' value='" + val2 + "' id=student_li_"+ val2 + ">" + td.eq(0).text() + "&nbsp;<button class='btn_pack white' type='button' style='min-width:36px;' id='"+val2+"' onclick='remove_student(this.id)'>X</button></li>";
+                    $("#sel_studentlist").append(append);
                     count++;
                     innerHTML("selected_count", count);
                 }
@@ -135,6 +134,10 @@
 
 
     function save_lecture_student() {
+
+        var Ids_length = $.makeArray($('li[name="student_id[]"]').map(function () {return $(this).val();}));
+        if(Ids_length == "") {alert("선택된 학생이 없습니다."); return;}
+
         if (confirm(comment.isInsert)) {
             var studentIds = $.makeArray($('li[name="student_id[]"]').map(function () {
                 return $(this).val();
@@ -169,58 +172,71 @@
     <%@include file="/common/jsp/lecture_top_menu.jsp" %>
 </div>
 </section>
-<section class="content">
-    <h3 class="title_t1">수강신청</h3>
 <form name="frm" id="frm" method="get">
-    <input type="hidden" name="lecture_id" id="lecture_id" value="<%=lecture_id%>">
-    <input type="hidden" name="page_gbn" id="page_gbn">
-    <input type="hidden" name="student_id" id="student_id">
-    <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
-    <input type="hidden" id="max_student_count">
-<!--
-    강의명   :  <span id="lecture_name"></span> 강의 신청page <br>
-    최대인원 :  <span id="lecture_limit"></span> 명 <br>
-    현재인원 : <span id="lecture_reg_count"> </span> 명
-    <br>
-    <br>
--->
-    <div class="tb_t1">
-        강의명   :  <span id="lecture_name"></span> 강의<br>
-        최대인원 :  <span id="lecture_limit"></span> 명 <br>
-        현재인원 : <span id="lecture_reg_count"> </span> 명
-    </div>
-    <!--학생리스트-->
-    <div class="tb_t1">
-        [학생 목록]
-        <table>
-            <colgroup>
-                <col width="*" />
-                <col width="*" />
-                <col width="*" />
-                <col width="*" />
-                <col width="*" />
-            </colgroup>
-            <tbody id="studentList"></tbody>
-            <tr>
-                <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
-            </tr>
-        </table>
-        <%@ include file="/common/inc/com_pageNavi.inc" %>
-    </div>
-    <!--선택된학생리스트-->
-    <div class="tb_t1" id="sel_student">
-        [선택된 학생 목록]<span id="selected_count">0</span>명
-        <input type="button" value="저장" onclick="save_lecture_student();">
-    </div>
-
-    <!--기존신청된학생들 리스트-->
-    <div class="tb_t1">
-        [기존신청된 학생 목록]
-        <table><!--class="student_list"-->
-            <tbody id="exist_studentList"></tbody>
-        </table>
-    </div>
-</form>
+    <section class="content">
+        <h3 class="title_t1">강의신청</h3>
+            <div class="tb_t1">
+                <table>
+                    <tr style="">
+                        <th> 강의명   :  <span id="lecture_name"></span></th>
+                        <th> 최대인원 :  <span id="lecture_limit"></span>명</th>
+                        <th> 현재인원 :  <span id="lecture_reg_count"> </span> 명</th>
+                    </tr>
+                </table>
+            </div>
+    </section>
+    <section class="content divide">
+        <div class="left">
+            <div class="tile_box">
+                <h3 class="title_t1">학생목록</h3>
+                <input type="hidden" name="lecture_id" id="lecture_id" value="<%=lecture_id%>">
+                <input type="hidden" name="page_gbn" id="page_gbn">
+                <input type="hidden" name="student_id" id="student_id">
+                <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
+                <input type="hidden" id="max_student_count">
+                <!--학생리스트-->
+                <div class="tb_t1">
+                    <table class="checkbox_t2">
+                        <colgroup>
+                            <col width="*" />
+                            <col width="*" />
+                            <col width="*" />
+                            <col width="*" />
+                            <col width="*" />
+                        </colgroup>
+                        <tbody id="studentList"></tbody>
+                        <tr>
+                            <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
+                        </tr>
+                    </table>
+                    <%@ include file="/common/inc/com_pageNavi.inc" %>
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <div class="tile_box">
+                <div class="form-group row">
+                    <div><h3 class="title_t1">신청목록</h3></div>
+                    <div> <span id="selected_count">0</span>명</div>
+                    <div><button class='btn_pack white' type='button' id='"+cmpList.lectureRelId+"' onclick="save_lecture_student();">저장</button></div>
+                </div>
+                <!--선택된학생리스트-->
+                <div class="tb_t1" id="sel_student">
+                    <ul class="list_t2 checkbox_t2" id="sel_studentlist">
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--기존신청된학생들 리스트-->
+        <div class="tb_t1">
+            <div class="tile_box">
+                <h3 class="title_t1">기존 수강중인 학생</h3>
+                <table><!--class="student_list"-->
+                    <tbody id="exist_studentList"></tbody>
+                </table>
+            </div>
+        </div>
 </section>
+</form>
 </body>
-</html>
+

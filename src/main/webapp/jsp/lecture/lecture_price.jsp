@@ -130,63 +130,65 @@
     <%@include file="/common/jsp/lecture_top_menu.jsp" %>
 </div>
 </section>
-<section class="content">
-    <h3 class="title_t1">수강료 등록/리스트</h3>
-    <form name="frm" id="frm" method="get">
-        <input type="hidden" name="page_gbn" id="page_gbn">
-        <div class="form-group row">
-                <input type="text" class="form-control" id="lecturePrice" style="width:200px;" placeholder="수강료">&nbsp;&nbsp;&nbsp;&nbsp;
-                <button class="btn_pack blue s2" type="button"  onclick="save_price();">등록</button>
-        </div>
-        <div class="tb_t1">
-            <table>
-                <colgroup>
-                    <col width="*" />
-                    <col width="*" />
-                </colgroup>
-                <thead>
-                <tr>
-                    <!--
-                    <th><input type="checkbox" id="chkAll" onclick="javascript:checkall('chkAll');"></th>-->
-                    <th>수강료</th>
-                    <th>수정/변경</th>
-                </tr>
-                </thead>
-                <tbody id="dataListPrice"></tbody>
-            </table>
-        </div>
-</section>
-<section class="content">
-    <h3 class="title_t1">강의반 등록</h3>
-        <div class="form-group row"><!--등록-->
-            <div class="checkbox_t1">
-                <label id="sel_academy"></label>
-                <label><input type="text" class="form-control" id="lectureName" placeholder="강의실명"></label>
-                <button class="btn_pack blue s2" type="button"  onclick="save_room();">등록</button>
+<section class="content divide">
+        <!--수강료-->
+        <div class="left">
+            <div class="tile_box">
+                <h3 class="title_t1">수강료 등록</h3>
+                <input type="hidden" name="page_gbn" id="page_gbn">
+                <div class="form-group row" style="width:82%;margin:40px auto;">
+                        <input type="text" class="form-control" id="lecturePrice" style="width:200px;" placeholder="수강료">&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button class="btn_pack blue s2" type="button"  onclick="save_price();">등록</button>
+                </div>
+                <div class="tb_t1" style="width:82%;margin:40px auto;">
+                    <table>
+                        <colgroup>
+                            <col width="*" />
+                            <col width="*" />
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>수강료</th>
+                            <th>수정/변경</th>
+                        </tr>
+                        </thead>
+                        <tbody id="dataListPrice"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
-        <div class="form-group row" style="width:200px;">
-            <div><span id="sel_academyList"></span></div>
+        <!--수강료끝-->
+        <!--강의반-->
+        <div class="right">
+            <div class="tile_box">
+                 <h3 class="title_t1">강의반 등록</h3>
+                    <div class="form-group row" style="width:82%;margin:40px auto;"><!--등록-->
+                            <label id="sel_academy"></label>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label><input type="text" class="form-control" id="lectureName" placeholder="강의실명"></label>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button class="btn_pack blue s2" type="button"  onclick="save_room();">등록</button>
+                    </div>
+                 <!--   <div class="form-group row" style="width:200px;">
+                        <div><span id="sel_academyList"></span></div>
+                    </div>-->
+                    <div class="tb_t1" style="width:82%;margin:40px auto;">
+                        <table>
+                            <colgroup>
+                                <col width="40%" />
+                                <col width="40%" />
+                                <col width="20%" />
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>관명</th>
+                                <th>강의실명</th>
+                            </tr>
+                            </thead>
+                            <tbody id="dataListRoom"></tbody>
+                        </table>
+                    </div>
+            </div>
         </div>
-        <div class="tb_t1">
-            <table>
-                <colgroup>
-                    <col width="40%" />
-                    <col width="40%" />
-                    <col width="20%" />
-                </colgroup>
-                <thead>
-                <tr>
-                    <th>관명</th>
-                    <th>강의실명</th>
-                </tr>
-                </thead>
-                <tbody id="dataListRoom"></tbody>
-            </table>
-        </div>
-    </form>
+    <!--강의반끝-->
 </section>
 </body>
-</html>
- <!--
--->
+
