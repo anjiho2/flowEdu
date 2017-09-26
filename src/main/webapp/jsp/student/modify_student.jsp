@@ -198,7 +198,7 @@
                                 "<button type='button' onclick='go_reply("+ '"' + 'student' + '"' + ","+ '"' + 'detail_memo_student' + '"' + ","+ '"' + memoList.studentMemoId + '"' + ");'>상세" +
                             "</div>";
             }
-            dwr.util.addOptions("dataList", memoList, fomatter, {escapeHtml:false} );
+            dwr.util.addOptions("dataList", memoList, fomatter, {escapeHtml:false});
         });
     }
     //댓글 페이지 이동
