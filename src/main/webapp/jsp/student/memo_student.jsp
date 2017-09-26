@@ -105,25 +105,25 @@
     <%@include file="/common/jsp/student_depth_menu.jsp" %>
 </div>
 </section>
-<section class="content">
-    <h3 class="title_t1"><%=student_name%>학생 상담 등록</h3>
-    <form name="frm" method="get">
-        <input type="hidden" id="student_id" name="student_id" value="<%=student_id%>">
-        <input type="hidden" name="student_name" value="<%=student_name%>">
-        <input type="hidden" name="page_gbn" id="page_gbn">
-        <input type="hidden"  id="sPage" value="<%=sPage%>">
-        <input type="hidden" name="student_memo_id" id="student_memo_id">
-
-        <div class="form-group row">
-            <span id="l_memoType"></span>
-        </div>
-        <div class="form-group row" style="width: 500px;">
-            <div><textarea class="form-control"  id="consultMemo" rows="5" placeholder="상담내용을 입력하세요"></textarea></div>
-        </div>
-        <div class="bot_btns">
-            <button class="btn_pack blue s2" type="button"  onclick="studentMemo();">저장</button>
-        </div>
-    </form>
+<section class="content divide">
+        <div class="left">
+        <form name="frm" method="get" class="form_st1">
+            <input type="hidden" id="student_id" name="student_id" value="<%=student_id%>">
+            <input type="hidden" name="student_name" value="<%=student_name%>">
+            <input type="hidden" name="page_gbn" id="page_gbn">
+            <input type="hidden"  id="sPage" value="<%=sPage%>">
+            <input type="hidden" name="student_memo_id" id="student_memo_id">
+            <h3 class="title_t1"><%=student_name%>학생 상담 등록</h3>
+            <div class="form-group row">
+                <span id="l_memoType"></span>
+            </div>
+            <div class="form-group row" style="width: 500px;">
+                <div><textarea class="form-control"  id="consultMemo" rows="5" placeholder="상담내용을 입력하세요"></textarea></div>
+            </div>
+            <div class="bot_btns" align="">
+                <button class="btn_pack blue s2" type="button"  onclick="studentMemo();">저장</button>
+            </div>
+        </form>
 </section>
 <section class="content">
     <h3 class="title_t1"><%=student_name%>학생 상담 리스트</h3>

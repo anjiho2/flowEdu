@@ -19,9 +19,17 @@
     <div class="out_box">
 <script>
     $(function(){
-        $("#my_menu_btn").click(function(){
+        $("#my_menu_btn").mouseover(function(){
             var menu = $(this).next('.my_menu');
-            menu[menu.css("display") === "none" ? 'show' : 'hide']();
+            //menu[menu.css("display") === "none" ? 'show' : 'hide']();
+            $(".my_menu").show();
         });
+        /*
+        $("#my_menu_btn").mouseleave(function(){
+            var menu = $(this).next('.my_menu');
+            //menu[menu.css("display") === "none" ? 'show' : 'hide']();
+            $(".my_menu").hide();
+        });
+        */
     });
 </script>

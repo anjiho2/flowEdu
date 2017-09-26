@@ -62,7 +62,7 @@
             <input type="hidden" name="page_gbn" id="page_gbn">
             <input type="hidden" id="student_id" name="student_id">
             <input type="hidden"  id="sPage" value="<%=sPage%>">
-
+        </form>
             <div class="form-group row">
                 <div class="checkbox_t1">
                     <label><input type="radio" name="school_type" value="elem_list" checked><span>초등학교</span></label>
@@ -101,7 +101,6 @@
                 <div class="form-group row"></div>
                 <%@ include file="/common/inc/com_pageNavi.inc" %>
             </div>
-        </form>
     </section>
 </div>
 <%@include file="/common/jsp/footer.jsp" %>
