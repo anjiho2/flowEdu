@@ -68,6 +68,8 @@ function convert_attend(val) {
     if(val == "ATTEND") str ="출석";
     else if(val == "LATE") str = "지각";
     else if(val == "ABSENT") str = "결석";
+    else if(val == "LEAVE") str = "조퇴";
+    else if(val == "MAKEUP") str = "보강출석";
 
     return str;
 }
