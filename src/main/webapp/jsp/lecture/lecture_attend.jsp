@@ -29,7 +29,7 @@ function init() {
                     }
                 }else{ //출석 or 지각체크된 학생들 리스트
                     //<button class='btn_pack white' type='button' style='min-width:36px;' onclick='del_html();'>X</button>
-                    var modifyHTML = "<button class='btn_pack white' type='button' style='min-width:36px;' onclick=''/>수정</button>";
+                    var modifyHTML = "<button class='btn_pack white' type='button' style='min-width:36px;' id='"+ cmpList.lectureAttendId +"'  onclick='attend_modify_popup(this.id);'/>수정</button>";
                     var cellData = [
                         function(data) {return cmpList.studentName;},
                         function(data) {return convert_attend(cmpList.attendType);},
@@ -74,6 +74,27 @@ function save_attend() {
         isReloadPage(true);
     });
 }
+
+//비밀번호 찾기 팝업
+function attend_modify_popup(attendId) {
+    innerValue("lectureAttendId", attendId);
+    attendTypeSelectbox2("l_attendTypePopup",""); //출석타입 셀렉박스
+    initPopup($("#attend_modify_layer"));
+}
+
+function attend_modify() {
+    var lectureAttendId = getInputTextValue("lectureAttendId");
+    var attendType = getSelectboxValue("sel_attendType2");
+    var comment = getInputTextValue("modify_comment");
+
+    if (confirm(comment.isUpdate)) {
+        lectureService.modifyAttendComment(lectureAttendId, attendType, comment, function () {
+            alert(comment.success_update);
+            isReloadPage(true);
+        });
+    }
+}
+
 </script>
 
 <body onload="init();">
@@ -83,6 +104,9 @@ function save_attend() {
 </div>
 </section>
 <form name="frm" id="frm" method="get">
+    <input type="hidden" name="page_gbn" id="page_gbn">
+    <input type="hidden" name="lecture_id" id="lecture_id" value="<%=lecture_id%>">
+</form>
 <section class="content divide">
     <div class="left">
         <div class="tile_box">
@@ -95,8 +119,6 @@ function save_attend() {
                 </div>
                 <div class="tb_t1">
                     <table>
-                        <input type="hidden" name="page_gbn" id="page_gbn">
-                        <input type="hidden" name="lecture_id" id="lecture_id" value="<%=lecture_id%>">
                         <colgroup>
                             <col width="2%" />
                             <col width="*" />
@@ -136,7 +158,32 @@ function save_attend() {
         </div>
     </div>
 </section>
-</form>
+<!-- 팝업 레이어 시작 -->
+<div class="layer_popup_template apt_request_layer" id="attend_modify_layer" style="display: none;">
+    <input type="hidden" id="lectureAttendId">
+    <div class="layer-title">
+        <h3>출석 사유 수정</h3>
+        <button class="fa fa-close btn-close"></button>
+    </div>
+    <div class="layer-body">
+        <form name="pop_frm" class="form_st1">
+            <div class="cont">
+                <div class="form-group">
+                    <span id="l_attendTypePopup"></span>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" id="modify_comment" placeholder="사유 입력">
+                </div>
+            </div>
+        </form>
+        <div class="bot_btns_t1">
+            <button class="btn_pack btn-close">취소</button>
+            <button class="btn_pack blue" type="button" onclick="attend_modify();">수정</button>
+        </div>
+    </div>
+</div>
+
+<!-- 팝업 레이어 끝 -->
 </body>
 
 
