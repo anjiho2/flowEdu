@@ -29,7 +29,7 @@ function init() {
                     }
                 }else{ //출석 or 지각체크된 학생들 리스트
                     //<button class='btn_pack white' type='button' style='min-width:36px;' onclick='del_html();'>X</button>
-                    var modifyHTML = "<button class='btn_pack white' type='button' style='min-width:36px;' id='"+ cmpList.lectureAttendId +"'  onclick='attend_modify_popup(this.id);'/>수정</button>";
+                    var modifyHTML = "<button class='btn_pack white' type='button' style='min-width:36px;' id='"+ cmpList.lectureAttendId +"'  onclick='attend_modify_popup(this.id, " + '"' + cmpList.attendType + '"' + ");'/>수정</button>";
                     var cellData = [
                         function(data) {return cmpList.studentName;},
                         function(data) {return convert_attend(cmpList.attendType);},
@@ -75,28 +75,26 @@ function save_attend() {
     });
 }
 
-//비밀번호 찾기 팝업
-function attend_modify_popup(attendId) {
+//출석 내용 수정 팝업
+function attend_modify_popup(attendId, attendType) {
     innerValue("lectureAttendId", attendId);
-    attendTypeSelectbox2("l_attendTypePopup",""); //출석타입 셀렉박스
+    attendTypeSelectbox2("l_attendTypePopup",attendType); //출석타입 셀렉박스
     initPopup($("#attend_modify_layer"));
 }
-
+//출석 내용 수정하기
 function attend_modify() {
     var lectureAttendId = getInputTextValue("lectureAttendId");
     var attendType = getSelectboxValue("sel_attendType2");
-    var comment = getInputTextValue("modify_comment");
+    var modify_comment = getInputTextValue("modify_comment");
 
     if (confirm(comment.isUpdate)) {
-        lectureService.modifyAttendComment(lectureAttendId, attendType, comment, function () {
+        lectureService.modifyAttendComment(lectureAttendId, attendType, modify_comment, function () {
             alert(comment.success_update);
             isReloadPage(true);
         });
     }
 }
-
 </script>
-
 <body onload="init();">
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
