@@ -21,15 +21,12 @@
     $(function(){
         $("#my_menu_btn").mouseover(function(){
             var menu = $(this).next('.my_menu');
-            //menu[menu.css("display") === "none" ? 'show' : 'hide']();
             $(".my_menu").show();
         });
-        /*
-        $("#my_menu_btn").mouseleave(function(){
+
+        $(".my_menu").mouseleave(function(){
             var menu = $(this).next('.my_menu');
-            //menu[menu.css("display") === "none" ? 'show' : 'hide']();
             $(".my_menu").hide();
         });
-        */
     });
 </script>

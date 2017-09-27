@@ -21,9 +21,9 @@ function init() {
                     if (cmpList != undefined) {
                         var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.studentId + "'/>";
                         var cellData = [
+                            function(data) {return checkHTML;},
                             function(data) {return cmpList.studentName;},
                           //  function(data) {return cmpList.schoolName;},
-                            function(data) {return checkHTML;}
                         ];
                         dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
                     }
@@ -88,25 +88,28 @@ function save_attend() {
         <div class="tile_box">
             <h3 class="title_t1">출석체크</h3>
             <div>
-                <span id="l_attendType"></span>
+                <div class="form-group row">
+                    <span id="l_attendType"></span>
+                    &nbsp;&nbsp;
+                    <button class="btn_pack blue" type="button"  onclick="save_attend();">출석저장</button>
+                </div>
                 <div class="tb_t1">
                     <table>
                         <input type="hidden" name="page_gbn" id="page_gbn">
                         <input type="hidden" name="lecture_id" id="lecture_id" value="<%=lecture_id%>">
                         <colgroup>
-                            <col width="*" />
                             <col width="2%" />
+                            <col width="*" />
                         </colgroup>
                         <thead>
                         <tr style="">
-                            <th>학생이름</th>
                             <th><input type="checkbox" id="chkAll" onclick="javascript:checkall('chkAll');"></th>
+                            <th>학생이름</th>
                         </tr>
                         </thead>
                         <tbody id="dataList"></tbody>
                     </table>
                 </div>
-                <button class="btn_pack white" type="button"  onclick="save_attend();">출석저장</button>
             </div>
         </div>
     </div>
