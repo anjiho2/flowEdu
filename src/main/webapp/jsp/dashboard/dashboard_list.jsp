@@ -24,7 +24,7 @@
         gfn_emptyView("H", "");
 
         studentService.getSudentListCount(school_type, student_name, function (cnt) {
-            paging.count(sPage, cnt, '10', '10', comment.blank_list);
+            paging.count2(sPage, cnt, '10', '10', comment.blank_list);
             studentService.getSudentList(sPage, '10', school_type, student_name, function (selList) {
                 if (selList.length > 0) {
                     for (var i = 0; i < selList.length; i++) {
@@ -99,7 +99,7 @@
                     </tr>
                 </table>
                 <div class="form-group row"></div>
-                <%@ include file="/common/inc/com_pageNavi.inc" %>
+                <%@ include file="/common/inc/com_pageNavi2.inc" %>
             </div>
     </section>
 </div>
