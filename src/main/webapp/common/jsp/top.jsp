@@ -47,7 +47,6 @@
 
 <%--<link rel="stylesheet" type="text/css" href="<%=webRoot%>/common/css/jquery.confirm.css"><!-- jquery alert css -->--%>
 
-
 <!-- 공통으로 쓰는 값 모여있는 스크립트 -->
 <script src="<%=webRoot%>/js/value.js?ver=<%=version%>"></script>
 <!-- 페이지 이동 스크립트 -->

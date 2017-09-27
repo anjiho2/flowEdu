@@ -187,15 +187,15 @@ function gfn_getPageNav_new2(totalPageCnt,printNum,curPage) {
 	var sHtml = '<ul class = "pagination">';
 	var ibefore = parseInt(curPage) - parseInt(printNum) ;
 	if (ibefore < 1) ibefore = 1;
-	sHtml += "<li><a href='javascript:gfn_fnList2(1)' >&laquo;</a></li>";
+	sHtml += "<li ><a href='javascript:gfn_fnList2(1)' >&laquo;</a></li>";
 	//sHtml += "<li><a href='javascript:gfn_fnList2(" + ibefore + ")' ><img src='"+webRoot+"/img/arrow2.png' border='0' align='absmiddle'></a></li>";
 	
 	for(var i=iStart; i<= iEnd; i++) {  
 		if(curPage== i) {
-			sHtml += "<li><a href='javascript:gfn_fnList2(" + i + ")' style='color:red'>" + i + "</a></li>";
+			sHtml += "<li ><a href='javascript:gfn_fnList2(" + i + ")' style='color:red'>" + i + "</a></li>";
             //sHtml += "<strong title=\"현재페이지\"> " + i + " </strong>  "; 
         } else { 
-            sHtml += "<li><a href='javascript:gfn_fnList2(" + i + ")'>" + i + "</a></li>";
+            sHtml += "<li ><a  href='javascript:gfn_fnList2(" + i + ")'>" + i + "</a></li>";
         }
 
         if(i!=iEnd) {// 마지막 라인에는 구분자를 뺌
@@ -206,7 +206,7 @@ function gfn_getPageNav_new2(totalPageCnt,printNum,curPage) {
 	if (inext > totalPageCnt) inext = totalPageCnt;
 	//sHtml += "<li><a href='javascript:gfn_fnList2(" + inext + ")' ><img src='"+webRoot+"/img/arrow3.png' border='0' align='absmiddle'></a></li>";
 	//sHtml += "<li><a href='javascript:gfn_fnList2(" + totalPageCnt + ")'><img src='"+webRoot+"/img/arrow4.png' border='0' align='absmiddle'></a></li>";
-    sHtml += "<li><a href='javascript:gfn_fnList2(" + totalPageCnt + ")'>&raquo;</a></li>";
+    sHtml += "<li ><a  href='javascript:gfn_fnList2(" + totalPageCnt + ")'>&raquo;</a></li>";
 	sHtml += "</ul>";
 	return sHtml; 
 }
