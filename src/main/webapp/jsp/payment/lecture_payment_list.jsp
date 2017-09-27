@@ -64,6 +64,7 @@ function cacl_lecture_price(lecture_rel_id) {
 
         innerValue("lecture_rel_id", lecture_rel_id);
         innerValue("payment_price", roundMarks(calcLecturePrice * minusDay));
+        innerHTML("l_lectureName", relInfo.lectureName);
         innerHTML("l_lecturePrice", addThousandSeparatorCommas(relInfo.lecturePrice));
         innerHTML("l_minusDay", minusDay);
         innerHTML("l_calcLecturePrice", addThousandSeparatorCommas(roundMarks(calcLecturePrice * minusDay)));
@@ -141,6 +142,10 @@ function payment_lecture() {
             <input type="hidden" id="lecture_rel_id">
             <input type="hidden" id="payment_price">
             <ul class="list_t1">
+                <li>
+                    <strong>강의 이름</strong>
+                    <div><p><span id="l_lectureName"></span></p></div>
+                </li>
                 <li>
                     <strong>강의 가격</strong>
                     <div><p><span id="l_lecturePrice"></span>원</p></div>
