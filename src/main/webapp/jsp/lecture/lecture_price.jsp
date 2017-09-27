@@ -130,6 +130,7 @@
     <%@include file="/common/jsp/lecture_top_menu.jsp" %>
 </div>
 </section>
+<form name="frm" id="frm" method="get">
 <section class="content divide">
         <!--수강료-->
         <div class="left">
@@ -190,5 +191,6 @@
         </div>
     <!--강의반끝-->
 </section>
+</form>
 </body>
 
