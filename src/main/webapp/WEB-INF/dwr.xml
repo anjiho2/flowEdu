@@ -14,6 +14,7 @@
 		<convert converter="bean" match="com.flowedu.manager.LectureManager"/>
 		<convert converter="bean" match="com.flowedu.service.CalendarService"/>
 		<convert converter="bean" match="com.flowedu.service.PaymentService"/>
+		<convert converter="bean" match="com.flowedu.service.ConsultService"/>
 
 
 		<create creator="spring" javascript="loginService">
@@ -54,6 +55,11 @@
 		<create creator="spring" javascript="paymentService">
 			<param name="class" value="com.flowedu.service.PaymentService"/>
 			<param name="beanName" value="paymentService" />
+		</create>
+
+		<create creator="spring" javascript="consultService">
+			<param name="class" value="com.flowedu.service.ConsultService"/>
+			<param name="beanName" value="consultService" />
 		</create>
 
 
