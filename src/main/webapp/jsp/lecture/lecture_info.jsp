@@ -55,6 +55,23 @@
             alert("강의시간표 상세정보를 입력해 주세요.");
             return;
         }
+
+        trans_html();
+     /* var sel_lectureRoom = get_array_last_value_by_name("select", "sel_lectureRoom[]");
+        var sel_lectureDay  = get_array_last_value_by_name("select", "lecture_day[]");
+        var start_time  = get_array_last_value_by_name("input", "start_time[]");
+        var end_time  = get_array_last_value_by_name("input", "end_time[]");
+
+        var div_len = $(".clonedDiv").length;
+        var sel_pre_lectureRoom = $('select[name="sel_lectureRoom[]"]').eq(div_len-2).val();
+        var sel_pre_lectureDay  = $('select[name="lecture_day[]"]').eq(div_len-2).val();
+        var pre_start_time      = $('input[name="start_time[]"]').eq(div_len-2).val()
+        var pre_end_time        = $('input[name="end_time[]"]').eq(div_len-2).val();
+
+        if(sel_lectureRoom == "" || sel_lectureDay == "" || start_time == "" || end_time == ""){
+            alert("강의시간표 상세정보를 입력해 주세요.");
+            return;
+        }
         //시간 시간과 종료시간 비교 (2017. 09. 22 안지호)
         if (!compareTime(start_time, end_time)) {
             alert("강의 시간이 잘못되었습니다.\n시작시간은 종료시간보더 전이여야 합니다.");
@@ -83,7 +100,7 @@
             } else {
                 trans_html();
             }
-        });
+        });*/
     }
 
     //html 복제하기

@@ -13,4 +13,5 @@
             <h3 class="title_t1">DashBoard</h3>
         </section>
     </div>
+
 <%@include file="/common/jsp/footer.jsp" %>

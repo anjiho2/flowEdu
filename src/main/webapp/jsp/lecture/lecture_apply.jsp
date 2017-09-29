@@ -212,6 +212,7 @@
                     <%@ include file="/common/inc/com_pageNavi.inc" %>
                 </div>
             </div>
+
         </div>
         <div class="right">
             <div class="tile_box">

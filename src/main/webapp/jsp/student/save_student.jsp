@@ -306,6 +306,20 @@
                     </div>
                 </div>
             </div>
+            <div class="form-outer-group">
+                <div class="form-group row">
+                    <label>기타 이름</label>
+                    <div><input type="text" class="form-control" id="etc_name"></div>
+                </div>
+                <div class="form-group row">
+                    <label>기타 전화번호</label>
+                    <div class="inputs">
+                        <input type="text" size="2" id="etc_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.father_phone2,3)">&nbsp;-&nbsp;
+                        <input type="text" size="5" id="etc_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.father_phone3,4)">&nbsp;-&nbsp;
+                        <input type="text" size="5" id="etc_phone3" class="form-control" maxlength="4">
+                    </div>
+                </div>
+            </div>
             <div class="bot_btns">
                 <button class="btn_pack blue s2" type="button"  onclick="save_student();">저장</button>
             </div>

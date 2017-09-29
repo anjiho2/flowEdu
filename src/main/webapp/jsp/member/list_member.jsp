@@ -11,10 +11,10 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type="text/javascript">
 function init() {
-    memberTypeSelectbox("l_memberType", "");//직원타입
-    jobPositionSelectbox("l_jobPosition","");//직책리스트
-    academyListSelectbox("sel_academy","");//학원리스트
-    flowEduTeamListSelectbox("l_FlowEduTeam","");//소속팀리스트
+    //memberTypeSelectbox("l_memberType", "");//직원타입
+    //jobPositionSelectbox("l_jobPosition","");//직책리스트
+    //academyListSelectbox("sel_academy","");//학원리스트
+    //flowEduTeamListSelectbox("l_FlowEduTeam","");//소속팀리스트
     fn_search("new");
 }
 
@@ -37,16 +37,16 @@ function fn_search(val) {//운영자,선생님 리스트불러오기
                         var cellData = [
                          //   function(data) {return checkHTML;},
                             function(data) {return convert_memberType(cmpList.memberType);},
+                            function(data) {return cmpList.jobPositionName;},
                             function(data) {return cmpList.memberName;},
                             function(data) {return cmpList.phoneNumber;},
-                            function(data) {return cmpList.memberBirthday;},
-                            function(data) {return ellipsis(cmpList.memberAddress, 5);},
+                            //function(data) {return cmpList.memberBirthday;},
+                            //function(data) {return ellipsis(cmpList.memberAddress, 5);},
                             function(data) {return cmpList.memberEmail;},
-                            function(data) {return cmpList.jobPositionName;},
                             function(data) {return cmpList.officeName;},
                             function(data) {return cmpList.teamName;},
-                            function(data) {return cmpList.sexualAssultConfirmDate;},
-                            function(data) {return cmpList.educationRegDate;},
+                           // function(data) {return cmpList.sexualAssultConfirmDate;},
+                            //function(data) {return cmpList.educationRegDate;},
                             function(data) {return modifyHTML;}
                         ];
                         dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
@@ -55,6 +55,10 @@ function fn_search(val) {//운영자,선생님 리스트불러오기
             }
         });
     });
+}
+
+function academy_sel_change() { //학원선택 검색
+    alert("1");
 }
 
 function member_modify(member_id) { //수정페이지 이동
@@ -71,6 +75,7 @@ function member_modify(member_id) { //수정페이지 이동
 </section>
 <section class="content">
     <h3 class="title_t1">운영자/선생님리스트</h3>
+    <span id="sel_academy"></span>
     <form name="frm" id="frm" method="get">
     <input type="hidden" name="member_id" id="member_id">
     <input type="hidden" name="page_gbn" id="page_gbn">
@@ -93,17 +98,17 @@ function member_modify(member_id) { //수정페이지 이동
             </colgroup>
             <thead>
             <tr>
-                <th>직원선택</th>
+                <th>직원타입</th>
+                <th>직책</th>
                 <th>직원명</th>
                 <th>직원핸드폰번호</th>
-                <th>생년월일</th>
-                <th>주소</th>
+               <!-- <th>생년월일</th>-->
+               <!-- <th>주소</th>-->
                 <th>이메일</th>
-                <th>직책</th>
                 <th>소속부서</th>
                 <th>소속팀</th>
-                <th>성범죄경력조회 확인일자</th>
-                <th>교육청 강사등록일자</th>
+               <!-- <th>성범죄경력조회 확인일자</th>
+                <th>교육청 강사등록일자</th>-->
                 <th>수정</th>
             </tr>
             </thead>

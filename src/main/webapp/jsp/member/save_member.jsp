@@ -99,11 +99,11 @@ function save_member() { // 운영자.선생님정보등록
             <label>직원명<b>*</b></label>
             <div><input type="text" class="form-control" id="member_name" style="width:150px;"></div>
         </div>
-        <div class="form-group row">
-            <label>생년월일<b>*</b></label>
-            <div><input type="text" id="startDate" class="form-control date-picker" style="width:200px;"></div>
-        </div>
         <div class="form-outer-group">
+            <div class="form-group row">
+                <label>생년월일<b>*</b></label>
+                <div><input type="text" id="startDate" class="form-control date-picker" style="width:200px;"></div>
+            </div>
             <div class="form-group row">
                 <label>핸드폰번호</label>
                 <div class="inputs">
@@ -121,25 +121,29 @@ function save_member() { // 운영자.선생님정보등록
             <label>이메일</label>
             <div><input type="email" class="form-control datepicker" id="member_email" style="width:422px;"></div>
         </div>
-        <div class="form-group row">
-            <label>직책<b>*</b></label>
-            <div><span id="l_jobPosition"></span></div>
+        <div class="form-outer-group">
+            <div class="form-group row">
+                <label>직책<b>*</b></label>
+                <div><span id="l_jobPosition"></span></div>
+            </div>
+            <div class="form-group row">
+                <label>소속부서(학원)<b>*</b></label>
+                <div><span id="sel_academy"></span></div>
+            </div>
+            <div class="form-group row">
+                <label>소속팀<b>*</b></label>
+                <div><span id="l_FlowEduTeam"></span></div>
+            </div>
         </div>
-        <div class="form-group row">
-            <label>소속부서(학원)<b>*</b></label>
-            <div><span id="sel_academy"></span></div>
-        </div>
-        <div class="form-group row">
-            <label>소속팀<b>*</b></label>
-            <div><span id="l_FlowEduTeam"></span></div>
-        </div>
-        <div class="form-group row">
-            <label>성범죄경력조회 확인일자<b>*</b></label>
-            <div><input type="text" id="startSearchDate" class="form-control date-picker" style="width:200px;"></div>
-        </div>
-        <div class="form-group row">
-            <label>교육청 강사등록일자<b>*</b></label>
-            <div><input type="text" id="startSearchDate2" class="form-control date-picker" style="width:200px;"></div>
+        <div class="form-outer-group">
+            <div class="form-group row">
+                <label>성범죄경력조회 확인일자<b>*</b></label>
+                <div><input type="text" id="startSearchDate" class="form-control date-picker" style="width:200px;"></div>
+            </div>
+            <div class="form-group row">
+                <label>교육청 강사등록일자<b>*</b></label>
+                <div><input type="text" id="startSearchDate2" class="form-control date-picker" style="width:200px;"></div>
+            </div>
         </div>
         <div class="bot_btns">
             <button class="btn_pack blue s2" type="button"  onclick="save_member();">저장</button>
