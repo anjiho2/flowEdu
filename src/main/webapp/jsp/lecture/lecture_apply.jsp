@@ -107,7 +107,7 @@
         var regCount = getInnerHtmlValue("lecture_reg_count");
 
         lectureService.checkLectureStudentRel(lecture_id,val2, function (num) {
-            if (num == 1 || ( (parseInt(count) + parseInt(regCount)) >= limitCount) ){
+            if (num == 1 || ( (parseInt(count)  + parseInt(regCount)) >= limitCount) ){
                 alert("강의 최대인원 초과되었습니다.");
                 return false;
             }else if(num == 2){
@@ -180,7 +180,7 @@
                     <tr style="">
                         <th> 강의명   :  <span id="lecture_name"></span></th>
                         <th> 최대인원 :  <span id="lecture_limit"></span>명</th>
-                        <th> 현재인원 :  <span id="lecture_reg_count"> </span> 명</th>
+                        <th> 현재인원 :  <span id="lecture_reg_count">0</span>명</th>
                     </tr>
                 </table>
             </div>

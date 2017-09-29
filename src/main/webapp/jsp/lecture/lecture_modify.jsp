@@ -53,7 +53,7 @@
             return;
         }
         //시간 시간과 종료시간 비교 (2017. 09. 22 안지호)
-        if (!compareTime(start_time, end_time)) {
+       /* if (!compareTime(start_time, end_time)) {
             alert("강의 시간이 잘못되었습니다.\n시작시간은 종료시간보더 전이여야 합니다.");
             $('input[name="start_time[]"]').last().focus();
             return;
@@ -80,8 +80,12 @@
                     }
                 }
             }
-        }
+        }*/
 
+        if (detailId != null) {
+            trans_html();
+        }
+        /*
         if (detailId == null) {
             lectureService.checkDuplicateLectureDetail(sel_lectureRoom, start_time, end_time, sel_lectureDay, function (bl) {
                 if (bl == true) {
@@ -95,6 +99,8 @@
         }else{
             trans_html();
         }
+        */
+
     }
 
     //html 복제하기
