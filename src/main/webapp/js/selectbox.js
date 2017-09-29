@@ -488,6 +488,22 @@ function attendTypeSelectbox(tag_id, val) {
     });
 }
 
+function attendTypeSelectbox2(tag_id, val) {
+    lectureService.getLectureAttendTypeList(function (list) {
+        var html = "<select id='sel_attendType2' class='form-control'>";
+        html += "<option value=''>▶선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].attendCode == val) {
+                html += "<option value="+list[i].attendCode+" selected>"+ list[i].attendName +"</option>";
+            } else {
+                html += "<option value="+list[i].attendCode+">"+ list[i].attendName +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
 function academyGroupSelectbox(tag_id, val) {
     academyService.getAcademyGroup(function (list) {
         var html = "<select id='sel_academyGroup' class='form-control'>";

@@ -171,7 +171,7 @@
 	</select>
 
 	<select id="getLectureAttendList" resultType="com.flowedu.dto.LectureAttendDto">
-		SELECT Z.student_id, Z.student_name, ZZ.attend_type, ZZ.attend_date
+		SELECT Z.student_id, Z.student_name, ZZ.lecture_attend_id, ZZ.attend_type, ZZ.attend_date
 		FROM (
 				SELECT A.*, C.student_name
 				FROM LECTURE_STUDENT_REL A LEFT JOIN LECTURE_DETAIL_INFO B
