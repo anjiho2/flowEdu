@@ -66,6 +66,10 @@ public class StudentDto {
     //  학부모 비밀번호
     private String parentPassword;
 
+    private String etcName;
+
+    private String etcPhoneNumber;
+
     //  생성일
     private String createDate;
 
@@ -74,7 +78,7 @@ public class StudentDto {
     public StudentDto(String studentName, String studentPassword, String studentGender, String studentBirthday, String homeTelNumber,
                       String studentPhoneNumber, String studentEmail, String schoolName, String schoolType, int studentGrade,
                       String studentPhotoFile, String studentPhotoUrl, String studentMemo, String motherName, String motherPhoneNumber,
-                      String fatherName, String fatherPhoneNumber) throws Exception {
+                      String fatherName, String fatherPhoneNumber, String etcName, String etcPhoneNumber) throws Exception {
         this.studentName = studentName;
         this.studentPassword = Aes256.encrypt(studentPassword);
         this.studentGender = studentGender;
@@ -92,12 +96,14 @@ public class StudentDto {
         this.motherPhoneNumber = motherPhoneNumber;
         this.fatherName = fatherName;
         this.fatherPhoneNumber = fatherPhoneNumber;
+        this.etcName = etcName;
+        this.etcPhoneNumber = etcPhoneNumber;
     }
 
     public StudentDto(Long studentId, String studentPasword, String studentName, String studentGender, String studentBirthday, String homeTelNumber,
                       String studentPhoneNumber, String studentEmail, String schoolName, String schoolType, int studentGrade,
                       String studentPhotoFile, String studentPhotoUrl, String studentMemo, String motherName, String motherPhoneNumber,
-                      String fatherName, String fatherPhoneNumber) throws Exception {
+                      String fatherName, String fatherPhoneNumber, String etcName, String etcPhoneNumber) throws Exception {
         this.studentId = studentId;
         this.studentPassword = Aes256.encrypt(studentPasword);
         this.studentName = studentName;
@@ -116,6 +122,8 @@ public class StudentDto {
         this.motherPhoneNumber = motherPhoneNumber;
         this.fatherName = fatherName;
         this.fatherPhoneNumber = fatherPhoneNumber;
+        this.etcName = etcName;
+        this.etcPhoneNumber = etcPhoneNumber;
     }
 
 }

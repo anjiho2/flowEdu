@@ -191,12 +191,14 @@
     </section>
     <section class="content">
         <h3 class="title_t1">학생정보입력</h3>
-        <form name="frm" id="frm" method="get" class="form_st1">
-            <input type="hidden" name="student_id" id="student_id">
+        <div class="form_st1">
+        <form name="frm" id="frm" method="get">
+            <input type="hidden" name="page_gbn" id="page_gbn">
+            <input type="hidden" name="student_id">
             <input type="hidden" id="school"  value="">
             <input type="hidden" id="fileName" value="">
             <input type="hidden" id="fileUrl" value="">
-            <input type="hidden" name="page_gbn" id="page_gbn">
+        </form>
             <div class="form-group row">
                 <label>학생사진</label>
                 <div>
@@ -323,7 +325,7 @@
             <div class="bot_btns">
                 <button class="btn_pack blue s2" type="button"  onclick="save_student();">저장</button>
             </div>
-        </form>
+        </div>
     </section>
     <!-- 학교 검색 팝업 레이어 시작 -->
     <div class="layer_popup_template apt_request_layer" id="school_search_layer" style="display: none;">

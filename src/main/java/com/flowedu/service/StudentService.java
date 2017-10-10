@@ -261,7 +261,7 @@ public class StudentService extends PagingSupport {
             studentDto.getStudentEmail(), studentDto.getSchoolName(), studentDto.getSchoolType(),
             studentDto.getStudentGrade(), studentDto.getStudentPhotoFile(), studentDto.getStudentPhotoUrl(),
             studentDto.getStudentMemo(), studentDto.getMotherName(), studentDto.getMotherPhoneNumber(),
-            studentDto.getFatherName(), studentDto.getFatherPhoneNumber()
+            studentDto.getFatherName(), studentDto.getFatherPhoneNumber(), studentDto.getEtcName(), studentDto.getEtcPhoneNumber()
         );
         studentMapper.saveStudentInfo(dto);
     }
@@ -322,7 +322,7 @@ public class StudentService extends PagingSupport {
                 studentDto.getStudentEmail(), studentDto.getSchoolName(), studentDto.getSchoolType(),
                 studentDto.getStudentGrade(), studentDto.getStudentPhotoFile(), studentDto.getStudentPhotoUrl(),
                 studentDto.getStudentMemo(), studentDto.getMotherName(), studentDto.getMotherPhoneNumber(),
-                studentDto.getFatherName(), studentDto.getFatherPhoneNumber()
+                studentDto.getFatherName(), studentDto.getFatherPhoneNumber(), studentDto.getEtcName(), studentDto.getEtcPhoneNumber()
         );
         studentMapper.modifyStudentInfo(dto);
     }

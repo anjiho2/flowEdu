@@ -19,6 +19,8 @@ public class ConsultController {
 
         if ("save_consult".equals(page_gbn)) {
             mvc.setViewName("/consult/save_consult");
+        } else if ("consult_list".equals(page_gbn)) {
+            mvc.setViewName("/consult/consult_list");
         }
         return mvc;
     }
