@@ -15,13 +15,13 @@
     function save_student() { //저장
         var check = new isCheck();
 
-         if(check.input("student_name", comment.input_student_name)   == false) return;
+        /* if(check.input("student_name", comment.input_student_name)   == false) return;
          if(check.input("startDate", comment.input_member_startDate)   == false) return;
          if(check.input("sel_school", comment.input_student_grade)   == false) return;
          if(check.input("mother_name", comment.input_mother_name)   == false) return;
          if(check.input("mother_phone1", comment.input_mother_tel1)   == false) return;
          if(check.input("mother_phone2", comment.input_mother_tel2)   == false) return;
-         if(check.input("mother_phone3", comment.input_mother_tel3)   == false) return;
+         if(check.input("mother_phone3", comment.input_mother_tel3)   == false) return;*/
 
         var data = new FormData();
         $.each($('#attachFile')[0].files, function(i, file) {
@@ -55,6 +55,9 @@
                     var father_name     = getInputTextValue("father_name");
                     var mother_phonenum = get_allphonenum("mother_phone1","mother_phone2","mother_phone3");
                     var father_phonenum = get_allphonenum("father_phone1","father_phone2","father_phone3");
+                    var etc_phonenum = get_allphonenum("etc_phone1","etc_phone2","etc_phone3");
+                    var etc_name     = getInputTextValue("etc_name");
+
                     var school_type =  $(":input:radio[name=school_type]:checked").val();
 
                     var data = {
@@ -75,6 +78,8 @@
                         motherPhoneNumber:mother_phonenum,
                         fatherName:father_name,
                         fatherPhoneNumber:father_phonenum,
+                        etcName:etc_name,
+                        etcPhoneNumber:etc_phonenum,
                     };
                     if (confirm(comment.isSave)) {
                         studentService.saveStudentInfo(data, function () {
@@ -99,6 +104,9 @@
             var father_name     = getInputTextValue("father_name");
             var mother_phonenum = get_allphonenum("mother_phone1","mother_phone2","mother_phone3");
             var father_phonenum = get_allphonenum("father_phone1","father_phone2","father_phone3");
+            var etc_phonenum = get_allphonenum("etc_phone1","etc_phone2","etc_phone3");
+            var etc_name     = getInputTextValue("etc_name");
+
             var school_type =  $(":input:radio[name=school_type]:checked").val();
 
             var data = {
@@ -117,6 +125,8 @@
                 motherPhoneNumber:mother_phonenum,
                 fatherName:father_name,
                 fatherPhoneNumber:father_phonenum,
+                etcName:etc_name,
+                etcPhoneNumber:etc_phonenum,
             };
             if (confirm(comment.isSave)) {
                 studentService.saveStudentInfo(data,function () {
@@ -124,7 +134,7 @@
                     isReloadPage(true);
                 });
             }
-        }
+        }8
     }
 
     function school_radio(school_grade) {
