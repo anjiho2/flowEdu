@@ -39,6 +39,7 @@
             innerValue("student_memo", selList.studentMemo);
             innerValue("mother_name", selList.motherName);
             innerValue("father_name", selList.fatherName);
+            $("input[name=student_name]").val(selList.studentName);
         });
     }
 
@@ -262,14 +263,16 @@
 </section>
 <section class="content">
     <h3 class="title_t1">학생정보/수정</h3>
-    <form name="frm" id="frm" method="get" class="form_st1">
+    <div class="form_st1">
+    <form name="frm" id="frm" method="get">
+        <input type="hidden" name="page_gbn" id="page_gbn">
         <input type="hidden" id="school"  value="">
         <input type="hidden" id="fileName"  value="">
         <input type="hidden" id="fileUrl"  value="">
         <input type="hidden" id="student_id" name="student_id" value="<%=student_id%>">
-        <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
         <input type="hidden" name="student_memo_id" id="student_memo_id">
-        <input type="hidden" name="page_gbn" id="page_gbn">
+        <input type="hidden" name="student_name">
+    </form>
         <div class="form-group row">
             <label>학생사진</label>
             <div>
@@ -287,7 +290,7 @@
         </div>
         <div class="form-group row">
             <label>학생이름<b>*</b></label>
-            <div><input type="text" class="form-control" id="student_name" name="student_name" style="width:150px;"></div>
+            <div><input type="text" class="form-control" id="student_name" style="width:150px;"></div>
         </div>
         <div class="form-outer-group">
             <div class="form-group row">
@@ -382,15 +385,14 @@
         <div class="bot_btns">
             <button class="btn_pack blue s2" type="button"  onclick="modify_student();">수정</button>
         </div>
-    </form>
+    </div>
 </section>
 
 <section class="content divide">
     <div class="left">
         <div class="tile_box" style="width: 60%;">
             <h3 class="title_t1">최근 상담 3건</h3>
-            <ul class="list_t2 checkbox_t2"  id="dataList">
-            </ul>
+            <ul class="list_t2 checkbox_t2"  id="dataList"></ul>
         </div>
     </div>
 </section>

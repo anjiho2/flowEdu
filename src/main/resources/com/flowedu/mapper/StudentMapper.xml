@@ -105,14 +105,16 @@
 			student_name, student_password, student_gender, student_birthday, home_tel_number,
 			student_phone_number, student_email, school_name, school_type, student_grade,
 			student_photo_file, student_photo_url, student_memo, mother_name,
-			mother_phone_number, father_name, father_phone_number, parent_password
+			mother_phone_number, father_name, father_phone_number, parent_password,
+			etc_name, etc_phone_number
 		)
 		VALUES
 		(
 			#{studentName}, #{studentPassword}, #{studentGender}, #{studentBirthday}, #{homeTelNumber},
 			#{studentPhoneNumber}, #{studentEmail}, #{schoolName}, #{schoolType}, #{studentGrade},
 			#{studentPhotoFile}, #{studentPhotoUrl}, #{studentMemo}, #{motherName},
-			#{motherPhoneNumber}, #{fatherName}, #{fatherPhoneNumber}, #{parentPassword}
+			#{motherPhoneNumber}, #{fatherName}, #{fatherPhoneNumber}, #{parentPassword},
+			#{etcName}, #{etcPhoneNumber}
 		)
 	</insert>
 
@@ -150,6 +152,8 @@
 			<if test="motherPhoneNumber != ''">mother_phone_number = #{motherPhoneNumber},</if>
 			<if test="fatherName != ''">father_name = #{fatherName},</if>
 			<if test="fatherPhoneNumber != ''">father_phone_number = #{fatherPhoneNumber},</if>
+			<if test="etcName != ''">etc_name = #{etcName},</if>
+			<if test="etcPhoneNumber != ''">etc_phone_number = #{etcPhoneNumber},</if>
 		</set>
 		<where>
 			student_id = #{studentId}
