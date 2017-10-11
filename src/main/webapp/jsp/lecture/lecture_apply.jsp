@@ -129,9 +129,7 @@
                 }
             }
         });
-
     }
-
 
     function save_lecture_student() {
 

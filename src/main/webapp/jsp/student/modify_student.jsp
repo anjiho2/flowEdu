@@ -39,6 +39,8 @@
             innerValue("student_memo", selList.studentMemo);
             innerValue("mother_name", selList.motherName);
             innerValue("father_name", selList.fatherName);
+            innerValue("etc_name", selList.etcName);
+            fnSetPhoneNo(etc_phone1,  etc_phone2,  etc_phone3,  selList.etcPhoneNumber);
             $("input[name=student_name]").val(selList.studentName);
         });
     }
@@ -81,6 +83,8 @@
                     var mother_phonenum = get_allphonenum("mother_phone1","mother_phone2","mother_phone3");
                     var father_phonenum = get_allphonenum("father_phone1","father_phone2","father_phone3");
                     var school_type =  $(":input:radio[name=school_type]:checked").val();
+                    var etc_phonenum = get_allphonenum("etc_phone1","etc_phone2","etc_phone3");
+                    var etc_name     = getInputTextValue("etc_name");
 
                     var data = {
                         studentId:student_id,
@@ -101,6 +105,8 @@
                         motherPhoneNumber:mother_phonenum,
                         fatherName:father_name,
                         fatherPhoneNumber:father_phonenum,
+                        etcName:etc_name,
+                        etcPhoneNumber:etc_phonenum,
                     };
                     if (confirm(comment.isUpdate)) {
                         studentService.modifyStudentInfo(data,function () {
@@ -126,6 +132,8 @@
             var mother_phonenum = get_allphonenum("mother_phone1","mother_phone2","mother_phone3");
             var father_phonenum = get_allphonenum("father_phone1","father_phone2","father_phone3");
             var school_type =  $(":input:radio[name=school_type]:checked").val();
+            var etc_phonenum = get_allphonenum("etc_phone1","etc_phone2","etc_phone3");
+            var etc_name     = getInputTextValue("etc_name");
 
             var data = {
                 studentPhotoFile:"", //파일명
@@ -146,6 +154,8 @@
                 motherPhoneNumber:mother_phonenum,
                 fatherName:father_name,
                 fatherPhoneNumber:father_phonenum,
+                etcName:etc_name,
+                etcPhoneNumber:etc_phonenum,
             };
             if (confirm(comment.isUpdate)) {
                 studentService.modifyStudentInfo(data,function () {
@@ -379,6 +389,20 @@
                     <input type="text" size="2" id="father_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.father_phone2,3)">&nbsp;-&nbsp;
                     <input type="text" size="5" id="father_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.father_phone3,4)">&nbsp;-&nbsp;
                     <input type="text" size="5" id="father_phone3" class="form-control" maxlength="4">
+                </div>
+            </div>
+        </div>
+        <div class="form-outer-group">
+            <div class="form-group row">
+                <label>기타 이름</label>
+                <div><input type="text" class="form-control" id="etc_name"></div>
+            </div>
+            <div class="form-group row">
+                <label>기타 전화번호</label>
+                <div class="inputs">
+                    <input type="text" size="2" id="etc_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.etc_phone2,3)">&nbsp;-&nbsp;
+                    <input type="text" size="5" id="etc_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.etc_phone3,4)">&nbsp;-&nbsp;
+                    <input type="text" size="5" id="etc_phone3" class="form-control" maxlength="4">
                 </div>
             </div>
         </div>
