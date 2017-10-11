@@ -38,9 +38,8 @@
             innerValue("schoolname", selList.schoolName);
             innerValue("student_memo", selList.studentMemo);
             innerValue("mother_name", selList.motherName);
-            innerValue("etc_name", selList.etcName);
-            fnSetPhoneNo(etc_phone1,  etc_phone2,  etc_phone3,  selList.etcPhoneNumber);
-
+            innerValue("father_name", selList.fatherName);
+            $("input[name=student_name]").val(selList.studentName);
         });
     }
 
@@ -81,8 +80,6 @@
                     var father_name     = getInputTextValue("father_name");
                     var mother_phonenum = get_allphonenum("mother_phone1","mother_phone2","mother_phone3");
                     var father_phonenum = get_allphonenum("father_phone1","father_phone2","father_phone3");
-                    var etc_phonenum    = get_allphonenum("etc_phone1","etc_phone2","etc_phone3");
-                    var etc_name        = getInputTextValue("etc_name");
                     var school_type =  $(":input:radio[name=school_type]:checked").val();
 
                     var data = {
@@ -104,8 +101,6 @@
                         motherPhoneNumber:mother_phonenum,
                         fatherName:father_name,
                         fatherPhoneNumber:father_phonenum,
-                        etcName:etc_name,
-                        etcPhoneNumber:etc_phonenum,
                     };
                     if (confirm(comment.isUpdate)) {
                         studentService.modifyStudentInfo(data,function () {
@@ -130,9 +125,7 @@
             var father_name     = getInputTextValue("father_name");
             var mother_phonenum = get_allphonenum("mother_phone1","mother_phone2","mother_phone3");
             var father_phonenum = get_allphonenum("father_phone1","father_phone2","father_phone3");
-            var etc_phonenum    = get_allphonenum("etc_phone1","etc_phone2","etc_phone3");
-            var etc_name        = getInputTextValue("etc_name");
-            var school_type     =  $(":input:radio[name=school_type]:checked").val();
+            var school_type =  $(":input:radio[name=school_type]:checked").val();
 
             var data = {
                 studentPhotoFile:"", //파일명
@@ -153,8 +146,6 @@
                 motherPhoneNumber:mother_phonenum,
                 fatherName:father_name,
                 fatherPhoneNumber:father_phonenum,
-                etcPhoneNumber:etc_phonenum,
-                etcName:etc_name,
             };
             if (confirm(comment.isUpdate)) {
                 studentService.modifyStudentInfo(data,function () {
@@ -272,14 +263,16 @@
 </section>
 <section class="content">
     <h3 class="title_t1">학생정보/수정</h3>
-    <form name="frm" id="frm" method="get" class="form_st1">
+    <div class="form_st1">
+    <form name="frm" id="frm" method="get">
+        <input type="hidden" name="page_gbn" id="page_gbn">
         <input type="hidden" id="school"  value="">
         <input type="hidden" id="fileName"  value="">
         <input type="hidden" id="fileUrl"  value="">
         <input type="hidden" id="student_id" name="student_id" value="<%=student_id%>">
-        <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
         <input type="hidden" name="student_memo_id" id="student_memo_id">
-        <input type="hidden" name="page_gbn" id="page_gbn">
+        <input type="hidden" name="student_name">
+    </form>
         <div class="form-group row">
             <label>학생사진</label>
             <div>
@@ -297,7 +290,7 @@
         </div>
         <div class="form-group row">
             <label>학생이름<b>*</b></label>
-            <div><input type="text" class="form-control" id="student_name" name="student_name" style="width:150px;"></div>
+            <div><input type="text" class="form-control" id="student_name" style="width:150px;"></div>
         </div>
         <div class="form-outer-group">
             <div class="form-group row">
@@ -389,32 +382,17 @@
                 </div>
             </div>
         </div>
-        <div class="form-outer-group">
-            <div class="form-group row">
-                <label>기타 이름</label>
-                <div><input type="text" class="form-control" id="etc_name"></div>
-            </div>
-            <div class="form-group row">
-                <label>기타 전화번호</label>
-                <div class="inputs">
-                    <input type="text" size="2" id="etc_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.father_phone2,3)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="etc_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.father_phone3,4)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="etc_phone3" class="form-control" maxlength="4">
-                </div>
-            </div>
-        </div>
         <div class="bot_btns">
             <button class="btn_pack blue s2" type="button"  onclick="modify_student();">수정</button>
         </div>
-    </form>
+    </div>
 </section>
 
 <section class="content divide">
     <div class="left">
         <div class="tile_box" style="width: 60%;">
             <h3 class="title_t1">최근 상담 3건</h3>
-            <ul class="list_t2 checkbox_t2"  id="dataList">
-            </ul>
+            <ul class="list_t2 checkbox_t2"  id="dataList"></ul>
         </div>
     </div>
 </section>

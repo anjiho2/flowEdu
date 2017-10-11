@@ -1,11 +1,18 @@
 package com.flowedu.mapper;
 
+import com.flowedu.dto.EarlyConsultMemoDto;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * Created by jihoan on 2017. 9. 29..
  */
 public interface ConsultMapper {
+
+    int earlyConsultMemoCount();
+
+    List<EarlyConsultMemoDto> selectEarlyConsultMemoList(@Param("start") int start, @Param("limit") int limit);
 
     void saveEarlyConsultMemo(@Param("phoneNumber") String phoneNumber, @Param("memoType") String memoType, @Param("content") String content, @Param("memberId") Long memberId);
 

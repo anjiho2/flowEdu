@@ -12,6 +12,7 @@
         innerValue("student_id", student_id);
         goPage('student', 'modify_student');
     }
+
     function fn_search(val) {
         var paging = new Paging();
         var sPage = $("#sPage").val();

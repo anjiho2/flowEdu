@@ -121,7 +121,7 @@ function changeProccessYn() {
     <%@include file="/common/jsp/student_depth_menu.jsp" %>
 </div>
 </section>
-<form name="frm" method="get" class="form_st1">
+<form name="frm" method="get">
     <input type="hidden"  id="sPage" value="<%=sPage%>">
     <input type="hidden" id="student_id" name="student_id" value="<%=student_id%>">
     <input type="hidden" id="student_memo_id" value="<%=student_memo_id%>">
