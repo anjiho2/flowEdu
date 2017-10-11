@@ -99,6 +99,15 @@
 		</if>
 	</select>
 
+	<select id="getStudentByPhoneNumber" resultType="Integer">
+		SELECT count(student_id)
+		FROM STUDENT
+		WHERE student_phone_number IN (#{phoneNumber})
+		OR mother_phone_number IN (#{phoneNumber})
+		OR father_phone_number IN (#{phoneNumber})
+		OR etc_phone_number IN (#{phoneNumber})
+	</select>
+
 	<insert id="saveStudentInfo" parameterType="com.flowedu.dto.StudentDto">
 		INSERT INTO STUDENT
 		(

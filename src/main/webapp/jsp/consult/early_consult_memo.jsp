@@ -23,23 +23,22 @@
         //gfn_emptyView("H", "");
 
         consultService.earlyConsultMemoCount(function (cnt) {
-            paging.count(sPage, cnt, 2, 2, comment.blank_list);
+            paging.count(sPage, cnt, 5, 5, comment.blank_list);
 
-            consultService.selectEarlyConsultMemoList(sPage, 2, function (memoList) {
+            consultService.selectEarlyConsultMemoList(sPage, 5, function (memoList) {
                 if (memoList.length < 1) return;
 
                 function formatter(memoList) {
-                    memoList.processYn == false ? processMent = "<button class='confirm' type='button' id="+memoList.earlyConsultMemoId+" onclick='changeProccessYn(this.id);'>처리하기</button>" : processMent = "<span><h4>처리완료</h4></span>";
-
                     return "<label></label>" +
                             "<div>" +
                                 "<h4><span><i class='tag'>" + convert_memo_type(memoList.memoType) + "</i>" + memoList.memberName + "</span>"+
                                 "<em>" + getDateTimeSplitComma(memoList.createDate) + "</em></h4>"+
                                 "<p>" + ellipsis(memoList.memoContent, 30) + "</p>" +
-                                processMent +
+                                   "<h4><em>전화번호 : " + fn_tel_tag(memoList.phoneNumber) + "</em></h4>" +
                             "</div>" +
                             "<div class='manage'>" +
-                                "<button type='button' onclick='go_reply("+ '"' + 'student' + '"' + ","+ '"' + 'detail_memo_student' + '"' + ","+ '"' + memoList.earlyConsultMemoId + '"' + ");'>상세" +
+                                "<button type='button' onclick='goStudentReg("+ '"' + 'student' + '"' + ","+ '"' + 'save_student' + '"' + ","+ '"' + memoList.phoneNumber + '"' + ");'>학생등록" +
+                                "<button type='button' onclick='deleteConsultMemo("+ memoList.earlyConsultMemoId + ");'>삭제" +
                             "</div>";
                 }
                 dwr.util.addOptions("dataList", memoList, formatter, {escapeHtml:false});
@@ -64,6 +63,47 @@
             });
         }
     }
+    //전화번로 입력시 등록되어 있는 전화번호인지 확인
+    function isStudent() {
+        var phoneNumber = getInputTextValue("student_phone1") + getInputTextValue("student_phone2") + getInputTextValue("student_phone3");
+        studentService.isStudentByPhoneNumber(phoneNumber, function (bl) {
+            if (bl == true) {
+                alert("학생정보에 등록되어있는 전화번호 입니다.");
+                focusInputText("student_phone1");
+                return;
+            } else {
+                alert("신규 전화번호 입니다.");
+                focusInputText("consultMemo");
+            }
+        });
+    }
+    //학생 등록 페이지 이동
+    function goStudentReg(mapping_value, page_value, phone_number_value) {
+        studentService.isStudentByPhoneNumber(phone_number_value, function (bl) {
+            if (bl == true) {
+                alert("이미 학생정보에 등록되어있는 전화번호 입니다.");
+                return;
+            }
+            with (document.frm) {
+                if (mapping_value != "" && page_value != "") {
+                    page_gbn.value = page_value;
+                    phone_number.value = phone_number_value;
+                    consult_yn.value = true
+                }
+                action = getContextPath() + "/" + mapping_value + ".do";
+                submit();
+            }
+        });
+    }
+    //초기 상담 메모 삭제
+    function deleteConsultMemo(consultMemoId) {
+        if (confirm(comment.isDelete)) {
+            consultService.deleteEarlyConsultMemo(consultMemoId, function () {
+                alert(comment.success_delete);
+                isReloadPage(true);
+            });
+        }
+    }
 </script>
 <body onload="init();">
 <div class="container">
@@ -74,7 +114,9 @@
 <section class="content divide">
     <form name="frm" method="get">
         <input type="hidden" name="page_gbn">
-        <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
+        <input type="hidden" name="phone_number">
+        <input type="hidden" name="consult_yn">
+        <input type="hidden" id="sPage" value="<%=sPage%>">
     </form>
     <div class="left">
         <div class="form_st1">
@@ -86,7 +128,7 @@
                 <div class="inputs">
                     <input type="text" size="2" id="student_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this, student_phone2, 3)" placeholder="핸드폰 번호">&nbsp;-&nbsp;
                     <input type="text" size="5" id="student_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this, student_phone3, 4)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="student_phone3" class="form-control" maxlength="4">
+                    <input type="text" size="5" id="student_phone3" class="form-control" maxlength="4" onblur="isStudent();">
                 </div>
             </div>
             <div class="form-group row">

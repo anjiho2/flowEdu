@@ -1,7 +1,10 @@
+<%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
     int depth1 = 2;
     int depth2 = 2;
+    String newRegPhoneNumber = Util.isNullValue(request.getParameter("phone_number"), "");
+    Boolean consultYn = Boolean.valueOf(Util.isNullValue(request.getParameter("consult_yn"), ""));
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
@@ -9,6 +12,14 @@
 <script type="text/javascript">
 
     function init() {
+        // 신규 상담에서 학생 등록 할때
+        var newRegPhoneNumber = '<%=newRegPhoneNumber%>';
+        if (newRegPhoneNumber != "") {
+            fnSetPhoneNo("mother_phone1", "mother_phone2", "mother_phone3", newRegPhoneNumber);
+            $("#mother_phone1").attr("disabled", true);
+            $("#mother_phone2").attr("disabled", true);
+            $("#mother_phone3").attr("disabled", true);
+        }
         schoolSelectbox("student_grade","", "");
     }
 

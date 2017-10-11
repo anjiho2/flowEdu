@@ -244,6 +244,27 @@ public class StudentService extends PagingSupport {
 
     /**
      * <PRE>
+     * 1. Comment : 특정 전화번호로 학생, 엄마, 아빠, 기타 전화번호중 존재하는 번호인지 확인하기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 09 .11
+     * </PRE>
+     * @param phoneNumber
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public boolean isStudentByPhoneNumber(String phoneNumber) {
+        if ("".equals(phoneNumber)) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        int result = studentMapper.getStudentByPhoneNumber(phoneNumber);
+        if (result == 0) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * <PRE>
      * 1. Comment : 학생정보 입력하기
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .08

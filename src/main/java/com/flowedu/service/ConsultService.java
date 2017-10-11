@@ -7,6 +7,7 @@ import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
 import com.flowedu.mapper.ConsultMapper;
 import com.flowedu.session.UserSession;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -70,6 +71,22 @@ public class ConsultService extends PagingSupport {
         }
         Long memberId = UserSession.flowMemberId();
         consultMapper.saveEarlyConsultMemo(phoneNumber, memoType, content, memberId);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void updateEarlyConsultMemoCompleteYn(Long earlyConsultMemoId, Boolean completeYn) {
+        if (earlyConsultMemoId == null) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        consultMapper.updateEarlyConsultMemoCompleteYn(earlyConsultMemoId, completeYn);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void deleteEarlyConsultMemo(Long earlyConsultMemoId) {
+        if (earlyConsultMemoId == null) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        consultMapper.deleteEarlyConsultMemo(earlyConsultMemoId);
     }
 
 }

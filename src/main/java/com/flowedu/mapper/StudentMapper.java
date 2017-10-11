@@ -28,6 +28,8 @@ public interface StudentMapper {
 
     StudentMemoDto getStudentMemoByStudentMemoId(@Param("studentMemoId") Long studentMemoId);
 
+    int getStudentByPhoneNumber(@Param("phoneNumber") String phoneNumber);
+
     void saveStudentInfo(StudentDto studentDto);
 
     void saveStudentMemo(@Param("studentId") Long studentId, @Param("flowMemberId") Long flowMemberId, @Param("memoContent") String memoContent, @Param("memoType") String memoType);

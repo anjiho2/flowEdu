@@ -6,7 +6,7 @@
         <nav id="lnb" class="depth1">
             <a href="javascript:goPage('dashboard', 'dashboard_list')" <%=depth1 == 1 ? "class='on'" : ""%>><span class="fa fa-home "  ></span>대시보드</a>
             <a href="javascript:goPage('student', 'save_student')" <%=depth1 == 2 ? "class='on'" : ""%>><span class="fa fa-user"></span>학생관리</a>
-            <a href="javascript:goPage('consult', 'save_consult')" <%=depth1 == 3 ? "class='on'" : ""%>><span class="fa fa-headphones"></span>초기상담</a>
+            <a href="javascript:goPage('consult', 'early_consult_memo')" <%=depth1 == 3 ? "class='on'" : ""%>><span class="fa fa-headphones"></span>초기상담</a>
             <% if (memberType.equals("ADMIN") || memberType.equals("OPERATOR")) {  %>
                 <a href="javascript:goPage('academy', 'list_academy')" <%=depth1 == 4 ? "class='on'" : ""%>><span class="fa fa-university"></span>학원정보</a>
                 <a href="javascript:goPage('member', 'list_member')" <%=depth1 == 5 ? "class='on'" : ""%>><span class="fa fa-address-card"></span>운영자/선생님정보</a>
