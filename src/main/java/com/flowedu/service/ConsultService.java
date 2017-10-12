@@ -73,6 +73,15 @@ public class ConsultService extends PagingSupport {
         consultMapper.saveEarlyConsultMemo(phoneNumber, memoType, content, memberId);
     }
 
+    /**
+     * <PRE>
+     * 1. Comment : 초기 상담 내용 상태 변경
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 10 .11
+     * </PRE>
+     * @param earlyConsultMemoId
+     * @param completeYn
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public void updateEarlyConsultMemoCompleteYn(Long earlyConsultMemoId, Boolean completeYn) {
         if (earlyConsultMemoId == null) {
@@ -81,6 +90,14 @@ public class ConsultService extends PagingSupport {
         consultMapper.updateEarlyConsultMemoCompleteYn(earlyConsultMemoId, completeYn);
     }
 
+    /**
+     * <PRE>
+     * 1. Comment : 초기 상담 삭제
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 10 .11
+     * </PRE>
+     * @param earlyConsultMemoId
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public void deleteEarlyConsultMemo(Long earlyConsultMemoId) {
         if (earlyConsultMemoId == null) {
