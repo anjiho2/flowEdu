@@ -203,6 +203,39 @@
             innerHTML("a_school_name", schoolName ? remove_double_quotation(schoolName) : "학교검색 결과가 없습니다.");
         });
     }
+
+    function student_excel_upload_popup() {
+        initPopup($("#student_excel_upload_layer"));
+    }
+
+    function student_excel_upload() {
+        var check = new isCheck();
+        var data = new FormData();
+
+        $.each($("#excel_file")[0].files, function (i, file) {
+            data.append("excel_file", file);
+        });
+        var excel_file = fn_clearFilePath($("#excel_file").val());
+
+        if (check.value(excel_file, comment.select_excel_file) == false) return;
+
+        if (confirm(comment.isInsert)) {
+            if (excel_file != null) {
+                $.ajax({
+                    url : "<%=webRoot%>/excel_read/student_info.do",
+                    method : "POST",
+                    dataType : "JSON",
+                    data : data,
+                    cache : false,
+                    proccessData : false,
+                    contentType : false,
+                    success : function (data) {
+                        alert(data.result);
+                    }
+                });
+            }
+        }
+    }
 </script>
 <body onload="init();">
 <div class="container">
@@ -345,6 +378,7 @@
             </div>
             <div class="bot_btns">
                 <button class="btn_pack blue s2" type="button"  onclick="save_student();">저장</button>
+                <button class="btn_pack blue s2" type="button"  onclick="student_excel_upload_popup();">엑셀 업로드 하기</button>
             </div>
         </div>
     </section>
@@ -392,6 +426,7 @@
                             <label>검색결과</label>
                             <a href="javascript:void(0);" onclick="school_name_html();" id="a_school_name"></a>
                         </div>
+                    </form>
                 </div>
                 <div class="bot_btns_t1">
                     <button class="btn_pack btn-close" type="button">취소</button>
@@ -400,6 +435,26 @@
             </div>
     </div>
     <!-- 학교 검색 팝업 레이어 끝 -->
+<!-- 학생 엑셀 업로드 팝업 레이어 시작 -->
+<div class="layer_popup_template apt_request_layer" id="student_excel_upload_layer" style="display: none;">
+    <div class="layer-title">
+        <h3>학생 정보 엑셀 입력</h3>
+        <button id="close_btn2" type="button" class="fa fa-close btn-close"></button>
+    </div>
+    <div class="layer-body">
+        <div class="cont">
+            <div class="form_st1">
+                <label class="custom-file">
+                    <input type="file" id="excel_file"  class="custom-file-input">
+                    <span class="custom-file-control"></span>
+                </label>
+                <button class="btn_pack blue" type="button" onclick="student_excel_upload();">업로드</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 학교 검색 팝업 레이어 끝 -->
+
 </div>
 <%@include file="/common/jsp/footer.jsp" %>
 </body>

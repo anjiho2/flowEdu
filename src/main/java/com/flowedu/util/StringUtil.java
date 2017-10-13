@@ -126,10 +126,18 @@ public class StringUtil {
 		return leavedStr;
 	}
 	
-	public static String leaveLastStrNum(String str, int num) {
+	public static String leaveStartStrNum(String str, int num) {
 		String leavedStr = "";
 		if (!"".equals(str)) {
 			leavedStr = str.substring(0, str.length() - num);
+		}
+		return leavedStr;
+	}
+
+	public static String leaveLastStrNum(String str, int num) {
+		String leavedStr = "";
+		if (!"".equals(str)) {
+			leavedStr = str.substring(str.length() - num, str.length());
 		}
 		return leavedStr;
 	}
@@ -232,10 +240,8 @@ public class StringUtil {
 	}
 
 	public static void main(String[] args) {
-		/*
-		String z=x.replace("\"", "");
-		System.out.println(z);
-		*/
+		String str = "0123456789";
+		System.out.print(leaveLastStrNum(str, 4));
 		
 	}
 
