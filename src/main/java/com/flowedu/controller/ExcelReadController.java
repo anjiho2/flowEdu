@@ -12,6 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by jihoan on 2017. 10. 13..
@@ -23,22 +25,38 @@ public class ExcelReadController {
     @Autowired
     private ExcelReadService excelReadService;
 
+    /**
+     * <PRE>
+     * 1. Comment : 학생 정보 엑셀 업로드 입력 기능
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 10 .16
+     * </PRE>
+     * @param servletRequest
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/student_info", method = RequestMethod.POST)
     public @ResponseBody String readStudentExcel(MultipartHttpServletRequest servletRequest) throws Exception {
         MultipartFile excelFile = servletRequest.getFile("excel_file");
 
+        Map<String, Object> resultEntity = new HashMap<>();
+        String result = null;
+        String phoneNumber = null;
         if (excelFile == null || excelFile.isEmpty()) {
-            return new JsonBuilder().add("result", "엑셀파일을 선택 해 주세요.").build();
+            result = "EMPTY_FILE";
         }
         File destFile = new File(excelFile.getOriginalFilename());
         excelFile.transferTo(destFile);
-        String result = excelReadService.readStudentExcel(destFile);
+        result = excelReadService.readStudentExcel(destFile);
         if ("VALUE_EMPTY".equals(result)) {
-            return new JsonBuilder().add("result", "필수값이 없어나 값이 잘못되었습니다.").build();
+            result = "VALUE_EMPTY";
         } else if (result.contains("MOTHER")) {
             String[] results = StringUtil.stringSplit(result, "_");
-            return new JsonBuilder().add("result", results[1] + " 전화번호는 이미 엄마 전화번호에 등록되어있는 전화번호 입니다.").build();
+            result = "MOTHER";
+            phoneNumber = results[1];
         }
-        return new JsonBuilder().add("result", "완료됬습니다.").build();
+        resultEntity.put("code", result);
+        resultEntity.put("phoneNumber", phoneNumber);
+        return new JsonBuilder().add("result", resultEntity).build();
     }
 }

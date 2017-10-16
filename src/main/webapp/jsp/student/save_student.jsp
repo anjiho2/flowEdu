@@ -9,7 +9,7 @@
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
-<script type="text/javascript">
+<script type="text/javascript" charset="UTF-8">
 
     function init() {
         // 신규 상담에서 학생 등록 할때
@@ -210,13 +210,11 @@
 
     function student_excel_upload() {
         var check = new isCheck();
-        var data = new FormData();
+        var formData = new FormData();
 
-        $.each($("#excel_file")[0].files, function (i, file) {
-            data.append("excel_file", file);
-        });
+        formData.append("excel_file", $("#excel_file")[0].files[0]);
+
         var excel_file = fn_clearFilePath($("#excel_file").val());
-
         if (check.value(excel_file, comment.select_excel_file) == false) return;
 
         if (confirm(comment.isInsert)) {
@@ -225,16 +223,35 @@
                     url : "<%=webRoot%>/excel_read/student_info.do",
                     method : "POST",
                     dataType : "JSON",
-                    data : data,
-                    cache : false,
-                    proccessData : false,
-                    contentType : false,
+                    data : formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
                     success : function (data) {
-                        alert(data.result);
+                        console.log(data.result.code);
+                        if (data.result.code == "EMPTY_FILE") {
+                            alert("엑셀파일을 선택 해 주세요.");
+                        } else if (data.result.code == "VALUE_EMPTY") {
+                            alert("필수값이 없어나 값이 잘못되었습니다.");
+                        } else if (data.result.code == "MOTHER") {
+                            alert("[" + data.result.phoneNumber + "]전화번호는 이미 엄마 전화번호에 등록되어있는 전화번호 입니다.");
+                        } else {
+                            alert(comment.success_process);
+                        }
+                        isReloadPage(true);
+                    },
+                    error : function (data) {
+                        alert(data)
                     }
                 });
             }
         }
+    }
+
+    function excel_file_onchange() {
+        var excel_file = fn_clearFilePath($("#excel_file").val());
+        innerHTML("l_excel_file", $("#excel_file").val());
+        gfn_display("custom-file", false);
     }
 </script>
 <body onload="init();">
@@ -436,6 +453,7 @@
     </div>
     <!-- 학교 검색 팝업 레이어 끝 -->
 <!-- 학생 엑셀 업로드 팝업 레이어 시작 -->
+<form method="post" name="excel_frm">
 <div class="layer_popup_template apt_request_layer" id="student_excel_upload_layer" style="display: none;">
     <div class="layer-title">
         <h3>학생 정보 엑셀 입력</h3>
@@ -444,15 +462,17 @@
     <div class="layer-body">
         <div class="cont">
             <div class="form_st1">
-                <label class="custom-file">
-                    <input type="file" id="excel_file"  class="custom-file-input">
+                <label class="custom-file" id="custom-file">
+                    <input type="file" id="excel_file"  class="custom-file-input" onchange="excel_file_onchange();">
                     <span class="custom-file-control"></span>
                 </label>
+                <span id="l_excel_file"></span>
                 <button class="btn_pack blue" type="button" onclick="student_excel_upload();">업로드</button>
             </div>
         </div>
     </div>
 </div>
+</form>
 <!-- 학교 검색 팝업 레이어 끝 -->
 
 </div>

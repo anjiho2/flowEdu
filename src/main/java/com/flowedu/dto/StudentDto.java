@@ -1,6 +1,7 @@
 package com.flowedu.dto;
 
 import com.flowedu.util.Aes256;
+import com.flowedu.util.StringUtil;
 import lombok.Data;
 
 /**
@@ -87,7 +88,7 @@ public class StudentDto {
         this.studentPhoneNumber = studentPhoneNumber;
         this.studentEmail = studentEmail;
         this.schoolName = schoolName;
-        this.schoolType = schoolType;
+        this.schoolType = convertToSchoolType(schoolType);
         this.studentGrade = studentGrade;
         this.studentPhotoFile = studentPhotoFile;
         this.studentPhotoUrl = studentPhotoUrl;
@@ -124,6 +125,21 @@ public class StudentDto {
         this.fatherPhoneNumber = fatherPhoneNumber;
         this.etcName = etcName;
         this.etcPhoneNumber = etcPhoneNumber;
+    }
+
+    private String convertToSchoolType(String korStr) {
+        String engStr = null;
+        boolean isKorean = StringUtil.isKorean(korStr);
+        if (isKorean) {
+            if ("초등학교".equals(korStr)) {
+                engStr = "elem_list";
+            } else if ("중학교".equals(korStr)) {
+                engStr = "midd_list";
+            } else {
+                engStr = "high_list";
+            }
+        }
+        return engStr;
     }
 
 }

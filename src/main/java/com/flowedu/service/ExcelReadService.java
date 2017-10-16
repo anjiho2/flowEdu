@@ -24,6 +24,16 @@ public class ExcelReadService {
     @Autowired
     private StudentMapper studentMapper;
 
+    /**
+     * <PRE>
+     * 1. Comment : 학생 정보 엑셀 추출 후 저장하기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 10 .16
+     * </PRE>
+     * @param destFile
+     * @return
+     * @throws Exception
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public String readStudentExcel(File destFile) throws Exception {
         ExcelReadOption excelReadOption = new ExcelReadOption();
