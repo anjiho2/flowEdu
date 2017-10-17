@@ -42,7 +42,7 @@ public class PaymentService {
         LecturePaymentLogDto paymentLogDto = new LecturePaymentLogDto(
                 dto.getLectureName(), paymentPrice, studentName, UserSession.memberName()
         );
-        logService.lecturePaymentLog(paymentLogDto);
+        //logService.lecturePaymentLog(paymentLogDto);
     }
 
 }

@@ -239,6 +239,13 @@ public class StringUtil {
 		return convertStr;
 	}
 
+	public static boolean isEmpty(String txt) {
+		if (txt == null || "".equals(txt.trim())) {
+			return true;
+		}
+		return false;
+	}
+
 	public static void main(String[] args) {
 		String str = "0123456789";
 		System.out.print(leaveLastStrNum(str, 4));
