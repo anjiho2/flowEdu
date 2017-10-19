@@ -144,8 +144,8 @@
                     alert("학생정보가 등록 되었습니다.");
                     isReloadPage(true);
                 });
-            }
-        }8
+    }
+    }8
     }
 
     function school_radio(school_grade) {
