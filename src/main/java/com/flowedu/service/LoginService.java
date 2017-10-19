@@ -27,6 +27,9 @@ public class LoginService {
     @Autowired
     private MemberMapper memberMapper;
 
+    @Autowired
+    private LogService logService;
+
     /**
      * <PRE>
      * 1. Comment : 유저가 있는지 확인
@@ -46,6 +49,7 @@ public class LoginService {
         if (flowMemberId != null) {
             dto = memberMapper.getFlowEduMemberCheck(flowMemberId);
             UserSession.set(new FlowEduMemberDto(dto.getFlowMemberId(), dto.getMemberType(), dto.getMemberName()));
+            logService.memberLoginLog(dto);
             return dto;
         }
         return dto;

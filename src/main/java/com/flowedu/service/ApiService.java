@@ -13,11 +13,15 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by jihoan on 2017. 10. 17..
  */
 public abstract class ApiService {
+
+    protected static final Logger logger = LoggerFactory.getLogger(ApiService.class);
 
     /**
      * restful url response
@@ -34,10 +38,12 @@ public abstract class ApiService {
         HttpDelete httpDelete;
         HttpGet httpGet;
 
+        logger.info("call url ------------> " + url);
+
         try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
             if (requestMethod.equals(RequestMethod.REQUEST_METHOD_POST)) {
                 httpPost = new HttpPost(url);
-                StringEntity entity = new StringEntity(jsonBody.toString());
+                StringEntity entity = new StringEntity(jsonBody.toString(), "UTF-8");
                 httpPost.addHeader("content-type", "application/json");
                 httpPost.setEntity(entity);
                 response = httpClient.execute(httpPost);
@@ -53,11 +59,14 @@ public abstract class ApiService {
             }
             String requestBody = EntityUtils.toString(response.getEntity(), "UTF-8");
             int httpStatusCode = response.getStatusLine().getStatusCode();
+
+            logger.info("http status code -----------------> " + httpStatusCode);
+
             if (httpStatusCode != 200) {
                 throw new FlowEduException(response.getStatusLine().getStatusCode());
             }
             requestApi = new RequestApi(requestBody, httpStatusCode);
-
+            logger.info("response result -----------------> " + requestApi.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -6,6 +6,7 @@ import com.flowedu.define.datasource.DataSource;
 import com.flowedu.define.datasource.DataSourceType;
 import com.flowedu.define.datasource.RequestMethod;
 import com.flowedu.domain.RequestApi;
+import com.flowedu.dto.FlowEduMemberDto;
 import com.flowedu.dto.LecturePaymentLogDto;
 import com.flowedu.mapper.LectureMapper;
 import com.flowedu.mapper.LogMapper;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.HashMap;
 
@@ -35,7 +37,19 @@ public class LogService extends ApiService {
      */
     public RequestApi lecturePaymentLog(LecturePaymentLogDto lecturePaymentLogDto) throws Exception {
         String jsonStr = GsonJsonUtil.convertToJsonString(lecturePaymentLogDto);
-        RequestApi requestApi = responseRestfulApi(concatURI("log", "payment"), RequestMethod.REQUEST_METHOD_PUT, jsonStr);
+        RequestApi requestApi = responseRestfulApi(concatURI("log", "payment"), RequestMethod.REQUEST_METHOD_POST, jsonStr);
+        return requestApi;
+    }
+
+    /**
+     * 회원 로그인 로그 저장
+     * @param flowEduMemberDto
+     * @return
+     * @throws Exception
+     */
+    public RequestApi memberLoginLog(FlowEduMemberDto flowEduMemberDto) throws Exception {
+        String jsonStr = GsonJsonUtil.convertToJsonString(flowEduMemberDto);
+        RequestApi requestApi = responseRestfulApi(concatURI("log", "login_log"), RequestMethod.REQUEST_METHOD_POST, jsonStr);
         return requestApi;
     }
 }

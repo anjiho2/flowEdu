@@ -76,9 +76,13 @@ function payment_lecture() {
     var lectureRelId = getInputTextValue("lecture_rel_id");
     var paymentPrice = getInputTextValue("payment_price");
     if (confirm(addThousandSeparatorCommas(paymentPrice) + "원을 결제하시겠습니까?")) {
-        paymentService.paymentLecture(lectureRelId, '<%=student_name%>' , paymentPrice, function () {
-            alert("결제완료됬습니다.");
-            isReloadPage(true);
+        paymentService.paymentLecture(lectureRelId, '<%=student_name%>' , paymentPrice, function (result) {
+            if (result == 200) {
+                alert("결제완료됬습니다.");
+                isReloadPage(true);
+            } else {
+                alert(comment.error);
+            }
         });
     }
 }

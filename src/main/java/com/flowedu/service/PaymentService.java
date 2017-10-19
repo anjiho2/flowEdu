@@ -1,8 +1,6 @@
 package com.flowedu.service;
 
-import com.flowedu.define.datasource.DataSource;
-import com.flowedu.define.datasource.DataSourceType;
-import com.flowedu.dto.FlowEduMemberDto;
+import com.flowedu.domain.RequestApi;
 import com.flowedu.dto.LecturePaymentLogDto;
 import com.flowedu.dto.LectureStudentRelByIdDto;
 import com.flowedu.error.FlowEduErrorCode;
@@ -10,7 +8,7 @@ import com.flowedu.error.FlowEduException;
 import com.flowedu.mapper.LectureMapper;
 import com.flowedu.mapper.PaymentMapper;
 import com.flowedu.session.UserSession;
-import lombok.Data;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -31,18 +29,29 @@ public class PaymentService {
     @Autowired
     private LogService logService;
 
+    /**
+     * 결제하기 기능
+     * @param lectureRelId
+     * @param studentName
+     * @param paymentPrice
+     * @return
+     * @throws Exception
+     */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void paymentLecture(Long lectureRelId, String studentName, int paymentPrice) throws Exception {
+    public int paymentLecture(Long lectureRelId, String studentName, int paymentPrice) throws Exception {
         if (lectureRelId == null) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
         int result = paymentMapper.paymentLecture(lectureRelId);
         LectureStudentRelByIdDto dto = lectureMapper.getLectureStudentRelInfo(lectureRelId);
-        if (result == 0 || dto == null) return;
+        if (result == 0 || dto == null) {
+            return 0;
+        }
         LecturePaymentLogDto paymentLogDto = new LecturePaymentLogDto(
                 dto.getLectureName(), paymentPrice, studentName, UserSession.memberName()
         );
-        logService.lecturePaymentLog(paymentLogDto); 
+        RequestApi requestApi = logService.lecturePaymentLog(paymentLogDto);
+        return requestApi.getHttpStatusCode();
     }
 
 }
