@@ -31,8 +31,8 @@ public class PaymentService {
     @Autowired
     private LogService logService;
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void paymentLecture(Long lectureRelId, String studentName, int paymentPrice) {
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void paymentLecture(Long lectureRelId, String studentName, int paymentPrice) throws Exception {
         if (lectureRelId == null) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
@@ -42,7 +42,7 @@ public class PaymentService {
         LecturePaymentLogDto paymentLogDto = new LecturePaymentLogDto(
                 dto.getLectureName(), paymentPrice, studentName, UserSession.memberName()
         );
-        //logService.lecturePaymentLog(paymentLogDto);
+        logService.lecturePaymentLog(paymentLogDto); 
     }
 
 }

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringUtil {
 	
@@ -244,6 +246,24 @@ public class StringUtil {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * 문자열안에 특정 문자가 몇개인지 확인하기
+	 * @param val
+	 * @param val2
+	 * @return
+	 */
+	public static int strMatchCount(String val, String val2) {
+		Pattern p = Pattern.compile(val2);
+		Matcher m = p.matcher(val);
+		int count  = 0;
+		for( int i = 0; m.find(i); i = m.end()){
+			if(count < 4){
+				count++;
+			}
+		}
+		return count;
 	}
 
 	public static void main(String[] args) {

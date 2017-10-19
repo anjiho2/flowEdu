@@ -53,70 +53,13 @@ public class GsonJsonUtil {
     }
 
     /**
-     * restful api 방식 url 콜 후 stringbody로 리턴값 받기
-     * @param url
-     * @param jsonStr
-     * @param requestMethod
+     * jsonString으로 만들기
+     * @param t
+     * @param <T>
      * @return
+     * @throws Exception
      */
-    public static String restfulApi(String url, String jsonStr, RequestMethod requestMethod) {
-        String resultJsonStr = null;
-        HttpPost post = null;
-        HttpPut put = null;
-        HttpDelete delete = null;
-        HttpGet get = null;
-        HttpResponse response = null;
-        try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()){
-            if (requestMethod.equals(RequestMethod.REQUEST_METHOD_POST)) {
-                post = new HttpPost(url);
-                StringEntity entity = new StringEntity(jsonStr.toString());
-                post.addHeader("content-type", "application/json");
-                post.setEntity(entity);
-                response = httpClient.execute(post);
-            } else if (requestMethod.equals(RequestMethod.REQUEST_METHOD_PUT)) {
-                put = new HttpPut(url);
-                response = httpClient.execute(put);
-            } else if (requestMethod.equals(RequestMethod.REQUEST_METHOD_DELETE)) {
-                delete = new HttpDelete(url);
-                response = httpClient.execute(delete);
-            } else if (requestMethod.equals(RequestMethod.REQUEST_METHOD_GET)) {
-                get = new HttpGet(url);
-                response = httpClient.execute(get);
-            }
-            resultJsonStr = EntityUtils.toString(response.getEntity(), "UTF-8");
-
-            if (response.getStatusLine().getStatusCode() != 200) {
-                throw new FlowEduException(FlowEduErrorCode.INTERNAL_ERROR);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return resultJsonStr;
-    }
-
-    /**
-     * flowdeu-api url 만들기
-     * @param paths
-     * @return
-     */
-    public static String concatURI(String... paths) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(FlowEduApiConfigHolder.getFlowEduApiUrl());
-        for (String path : paths) {
-            if (path == null) continue;
-            path = path.trim();
-            path = "/" + path;
-            builder.append(path);
-        }
-        return builder.toString();
-    }
-
     public static<T> String convertToJsonString(T t) throws Exception {
         return new ObjectMapper().writeValueAsString(t);
     }
-
-    public static void main(String[] args) {
-
-    }
-
 }
