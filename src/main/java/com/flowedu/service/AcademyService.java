@@ -34,7 +34,7 @@ public class AcademyService {
     @Transactional(readOnly = true)
     public List<OfficeDto> getAcademyList(Long officeId) {
         return officeMapper.getAcademyList(officeId);
-    }
+    } 
 
     /**
      * <PRE>
