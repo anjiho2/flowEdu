@@ -17,10 +17,8 @@ public class ConsultController {
         ModelAndView mvc = new ModelAndView();
         page_gbn = Util.isNullValue(page_gbn, "");
 
-        if ("save_consult".equals(page_gbn)) {
-            mvc.setViewName("/consult/save_consult");
-        } else if ("consult_list".equals(page_gbn)) {
-            mvc.setViewName("/consult/consult_list");
+        if ("early_consult_memo".equals(page_gbn)) {
+            mvc.setViewName("consult/early_consult_memo");
         }
         return mvc;
     }

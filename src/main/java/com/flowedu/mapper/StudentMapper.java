@@ -28,7 +28,13 @@ public interface StudentMapper {
 
     StudentMemoDto getStudentMemoByStudentMemoId(@Param("studentMemoId") Long studentMemoId);
 
+    int getStudentByPhoneNumber(@Param("phoneNumber") String phoneNumber);
+
+    int motherPhoneNumberCount(@Param("motherPhoneNumber") String motherPhoneNumber);
+
     void saveStudentInfo(StudentDto studentDto);
+
+    void saveStudentInfoList(@Param("studentList") List<StudentDto> studentDtoList);
 
     void saveStudentMemo(@Param("studentId") Long studentId, @Param("flowMemberId") Long flowMemberId, @Param("memoContent") String memoContent, @Param("memoType") String memoType);
 

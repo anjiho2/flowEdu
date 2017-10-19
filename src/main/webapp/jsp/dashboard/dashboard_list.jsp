@@ -35,8 +35,8 @@
                             var cellData = [
                                 function(data) {return cmpList.studentName;},
                                 function(data) {return cmpList.motherName;},
-                                function(data) {return cmpList.studentPhoneNumber;},
-                                function(data) {return cmpList.motherPhoneNumber;},
+                                function(data) {return fn_tel_tag(cmpList.studentPhoneNumber);},
+                                function(data) {return fn_tel_tag(cmpList.motherPhoneNumber);},
                                 function(data) {return cmpList.schoolName;},
                                 function(data) {return convert_lecture_grade(cmpList.studentGrade);},
                                 function(data) {return modifyHTML;}

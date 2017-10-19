@@ -645,11 +645,14 @@ function HideSearch()
    	
    	//전화번호 태그 붙이기
    	function fn_tel_tag(tel_no){
+        if(tel_no == ""){
+        	tel_no = null;
+        }
    		if(tel_no == null){
-     		return;
+     		return "";
     	}
    		if(tel_no.length == 0){
-     		return;
+     		return "";
     	}
 
     	var chkHandPhone = tel_no.substring(0,2);

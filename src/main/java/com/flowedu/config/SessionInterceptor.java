@@ -25,10 +25,15 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 		boolean result = false;
 		HttpSession session = request.getSession(false);
 		try {
-			if (session == null || request.getSession().getAttribute("member_info") == null) {
-				//response.sendRedirect(request.getContextPath());
-				response.sendError(901);
-				return false;
+			boolean isSessionUse = SessionUseConfigHolder.getSessionUseYn();
+			if (isSessionUse) {
+				if (session == null || request.getSession().getAttribute("member_info") == null) {
+					//response.sendRedirect(request.getContextPath());
+					response.sendError(901);
+					return false;
+				} else {
+					result = true;
+				}
 			} else {
 				result = true;
 			}

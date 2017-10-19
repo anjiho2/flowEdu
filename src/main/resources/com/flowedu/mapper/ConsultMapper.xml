@@ -10,6 +10,7 @@
         SELECT A.*, B.member_name
         FROM EARLY_CONSULT_MEMO A LEFT JOIN FLOWEDU_MEMBER B
         ON A.create_member_id = B.flow_member_id
+        ORDER BY A.create_date DESC
         LIMIT #{start}, #{limit}
     </select>
 
@@ -19,5 +20,15 @@
          VALUES
         (#{phoneNumber}, #{memoType}, #{content}, #{memberId})
     </insert>
+
+    <update id="updateEarlyConsultMemoCompleteYn">
+        UPDATE EARLY_CONSULT_MEMO
+        SET complete_yn = #{completeYn}
+        WHERE early_consult_memo_id = #{earlyConsultMemoId}
+    </update>
+
+    <delete id="deleteEarlyConsultMemo">
+        DELETE FROM EARLY_CONSULT_MEMO WHERE early_consult_memo_id = #{earlyConsultMemoId}
+    </delete>
 
 </mapper>

@@ -13,7 +13,7 @@ import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
 import com.flowedu.mapper.StudentMapper;
 import com.flowedu.session.UserSession;
-import com.flowedu.util.GsonJsonReader;
+import com.flowedu.util.GsonJsonUtil;
 import com.flowedu.util.JsonBuilder;
 import com.flowedu.util.JsonParser;
 import com.flowedu.util.Util;
@@ -157,7 +157,7 @@ public class StudentService extends PagingSupport {
         String url = schoolSearchApiUrl + "?apiKey=" + schoolSearchApikey + "&svcType=api&svcCode=SCHOOL&contentType=json&gubun="
                 + gubun + "&region=" + region + "&searchSchulNm=" + URLEncoder.encode(searchScoolName, "UTF-8");
 
-        JsonObject jsonStr = GsonJsonReader.readJsonFromUrl(url);
+        JsonObject jsonStr = GsonJsonUtil.readJsonFromUrl(url);
         JsonObject firstJsonObjet = jsonStr.getAsJsonObject("dataSearch");
         JsonArray jsonArray = firstJsonObjet.getAsJsonArray("content");
         if (jsonArray.size() == 0) {
@@ -240,6 +240,27 @@ public class StudentService extends PagingSupport {
         StudentMemo studentMemo = new StudentMemo(studentMemoDto, list);
 
         return studentMemo;
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 특정 전화번호로 학생, 엄마, 아빠, 기타 전화번호중 존재하는 번호인지 확인하기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 09 .11
+     * </PRE>
+     * @param phoneNumber
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public boolean isStudentByPhoneNumber(String phoneNumber) {
+        if ("".equals(phoneNumber)) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        int result = studentMapper.getStudentByPhoneNumber(phoneNumber);
+        if (result == 0) {
+            return false;
+        }
+        return true;
     }
 
     /**

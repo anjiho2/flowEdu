@@ -16,6 +16,10 @@ public interface ConsultMapper {
 
     void saveEarlyConsultMemo(@Param("phoneNumber") String phoneNumber, @Param("memoType") String memoType, @Param("content") String content, @Param("memberId") Long memberId);
 
+    void updateEarlyConsultMemoCompleteYn(@Param("earlyConsultMemoId") Long earlyConsultMemoId, @Param("completeYn") Boolean completeYn);
+
+    void deleteEarlyConsultMemo(@Param("earlyConsultMemoId") Long earlyConsultMemoId);
+
 
 
 

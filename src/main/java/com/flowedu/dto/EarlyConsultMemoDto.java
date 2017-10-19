@@ -20,5 +20,7 @@ public class EarlyConsultMemoDto {
 
     private String createDate;
 
+    private boolean completeYn;
+
     private String memberName;
 }

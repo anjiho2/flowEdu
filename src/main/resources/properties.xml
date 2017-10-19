@@ -31,4 +31,8 @@
 
     <entry key="school.search.api.key">${school.search.api.key}</entry>
     <entry key="school.search.api.url">${school.search.api.url}</entry>
+
+    <entry key="flowedu.api.url">${flowedu.api.url}</entry>
+
+    <entry key="session.use.yn">${session.use.yn}</entry>
 </properties>

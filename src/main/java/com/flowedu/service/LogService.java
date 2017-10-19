@@ -1,16 +1,22 @@
 package com.flowedu.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.flowedu.config.FlowEduApiConfigHolder;
 import com.flowedu.define.datasource.DataSource;
 import com.flowedu.define.datasource.DataSourceType;
+import com.flowedu.define.datasource.RequestMethod;
 import com.flowedu.dto.LecturePaymentLogDto;
-import com.flowedu.dto.LectureStudentRelByIdDto;
 import com.flowedu.mapper.LectureMapper;
 import com.flowedu.mapper.LogMapper;
-import com.flowedu.session.UserSession;
+import com.flowedu.util.GsonJsonUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
 
 /**
  * Created by jihoan on 2017. 9. 14..
@@ -18,16 +24,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class LogService {
 
-    @Autowired
-    private LectureMapper lectureMapper;
+    protected static final Logger logger = LoggerFactory.getLogger(LogService.class);
 
-    @Autowired
-    private LogMapper logMapper;
-
-    @DataSource(DataSourceType.LOG)
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void lecturePaymentLog(LecturePaymentLogDto lecturePaymentLogDto) {
-        if (lecturePaymentLogDto == null) return;
-        logMapper.saveLecturePaymentLog(lecturePaymentLogDto);
+    public String lecturePaymentLog(LecturePaymentLogDto lecturePaymentLogDto) throws Exception {
+        String json = GsonJsonUtil.convertToJsonString(lecturePaymentLogDto);
+        String resultStr = GsonJsonUtil.restfulApi(GsonJsonUtil.concatURI("log", "payment"), json, RequestMethod.REQUEST_METHOD_POST);
+        return resultStr;
     }
 }
