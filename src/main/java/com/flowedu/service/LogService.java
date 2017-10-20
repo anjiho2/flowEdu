@@ -1,6 +1,7 @@
 package com.flowedu.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.flowedu.api.dto.MemberLoginLogDto;
 import com.flowedu.config.FlowEduApiConfigHolder;
 import com.flowedu.define.datasource.DataSource;
 import com.flowedu.define.datasource.DataSourceType;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 
 /**
@@ -47,8 +49,11 @@ public class LogService extends ApiService {
      * @return
      * @throws Exception
      */
-    public RequestApi memberLoginLog(FlowEduMemberDto flowEduMemberDto) throws Exception {
-        String jsonStr = GsonJsonUtil.convertToJsonString(flowEduMemberDto);
+    public RequestApi memberLoginLog(FlowEduMemberDto flowEduMemberDto, String connectIp) throws Exception {
+        MemberLoginLogDto memberLoginLogDto = new MemberLoginLogDto(
+                flowEduMemberDto.getFlowMemberId(), flowEduMemberDto.getMemberName(), connectIp
+        );
+        String jsonStr = GsonJsonUtil.convertToJsonString(memberLoginLogDto);
         RequestApi requestApi = responseRestfulApi(concatURI("log", "login_log"), RequestMethod.REQUEST_METHOD_POST, jsonStr);
         return requestApi;
     }

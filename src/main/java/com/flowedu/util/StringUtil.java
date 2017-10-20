@@ -1,5 +1,9 @@
 package com.flowedu.util;
 
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -267,9 +271,7 @@ public class StringUtil {
 	}
 
 	public static void main(String[] args) {
-		String str = "0123456789";
-		System.out.print(leaveLastStrNum(str, 4));
-		
+
 	}
 
 }

@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/common/jsp/top.jsp" %>
+<script type="text/javascript" src="http://jsgetip.appspot.com"></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/loginService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
 <script type="text/javascript">
-
     var check = new isCheck();
 
     function init() {
@@ -15,12 +15,13 @@
         var phoneNumber = getInputTextValue("phoneNumber");
         var pass = getInputTextValue("memberPass");
         var memberType = getSelectboxValue("sel_memberType");
+        var connectIp = ip();
 
         if (check.selectbox("sel_memberType", comment.select_member) == false) return;
         if (check.input("phoneNumber", comment.insert_id) == false) return;
         if (check.input("memberPass", comment.insert_password) == false) return;
 
-        loginService.isMember(phoneNumber, pass, memberType, function(data) {
+        loginService.isMember(phoneNumber, pass, memberType, connectIp, function(data) {
             console.log(data);
             if (data.phoneNumber != null ) {
                 loginOk(data);
