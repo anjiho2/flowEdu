@@ -1,20 +1,21 @@
 package com.flowedu.error;
 
 public class FlowEduException extends RuntimeException {
-	public FlowEduException(int errorCode)
-    {
+
+    private final int errorCode;
+    private String message;
+
+	public FlowEduException(int errorCode) {
         this.errorCode = errorCode;
         message = null;
     }
 
-    public FlowEduException(int errorCode, String message)
-    {
+    public FlowEduException(int errorCode, String message) {
         this(errorCode);
         this.message = message;
     }
 
-    public FlowEduException(FlowEduErrorCode flowEduErrorCode)
-    {
+    public FlowEduException(FlowEduErrorCode flowEduErrorCode) {
         errorCode = flowEduErrorCode.code();
         message = flowEduErrorCode.msg();
     }
@@ -34,6 +35,4 @@ public class FlowEduException extends RuntimeException {
         return message;
     }
 
-    private final int errorCode;
-    private String message;
 }

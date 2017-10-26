@@ -1,9 +1,7 @@
 package com.flowedu.service;
 
-import com.flowedu.config.PagingSupport;
+import com.flowedu.api.service.LogService;
 import com.flowedu.dto.FlowEduMemberDto;
-import com.flowedu.dto.FlowEduMemberListDto;
-import com.flowedu.dto.PagingDto;
 import com.flowedu.mapper.LoginMapper;
 import com.flowedu.mapper.MemberMapper;
 import com.flowedu.session.UserSession;
@@ -11,10 +9,6 @@ import com.flowedu.util.Aes256;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Member;
-import java.util.List;
 
 /**
  * Created by jihoan on 2017. 7. 6..

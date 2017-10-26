@@ -22,7 +22,6 @@
         if (check.input("memberPass", comment.insert_password) == false) return;
 
         loginService.isMember(phoneNumber, pass, memberType, connectIp, function(data) {
-            console.log(data);
             if (data.phoneNumber != null ) {
                 loginOk(data);
             } else {
@@ -105,35 +104,36 @@
             </form>
         </div>
     </div>
-
-<div class="layer_popup_template apt_request_layer" id="test_layer" style="display: none;">
-    <div class="layer-title">
-        <h3>비밀번호 찾기</h3>
-        <button class="fa fa-close btn-close"></button>
-    </div>
-    <div class="layer-body">
-        <form name="pop_frm" class="form_st1">
-        <div class="cont">
-            <div class="form-group row">
-                <div class="inputs">
-                    <input type="text" size="2" id="student_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this, pop_frm.student_phone2, 3)" placeholder="핸드폰 번호">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="student_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this, pop_frm.student_phone3, 4)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="student_phone3" class="form-control" maxlength="4">
+    <!-- 비밀번호 찾기 레이어 시작 -->
+    <div class="layer_popup_template apt_request_layer" id="test_layer" style="display: none;">
+        <div class="layer-title">
+            <h3>비밀번호 찾기</h3>
+            <button class="fa fa-close btn-close"></button>
+        </div>
+        <div class="layer-body">
+            <form name="pop_frm" class="form_st1">
+            <div class="cont">
+                <div class="form-group row">
+                    <div class="inputs">
+                        <input type="text" size="2" id="student_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this, pop_frm.student_phone2, 3)" placeholder="핸드폰 번호">&nbsp;-&nbsp;
+                        <input type="text" size="5" id="student_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this, pop_frm.student_phone3, 4)">&nbsp;-&nbsp;
+                        <input type="text" size="5" id="student_phone3" class="form-control" maxlength="4">
+                    </div>
+                </div>
+                <div class="form-group"><div><input type="email" class="form-control" id="member_email" placeholder="이메일"></div></div>
+                <div class="form-group row" id="temporaryPassword_div" style="display: none;">
+                    <label>임시비밀번호</label>
+                    <span id="l_temporaryPassword"></span>
                 </div>
             </div>
-            <div class="form-group"><div><input type="email" class="form-control" id="member_email" placeholder="이메일"></div></div>
-            <div class="form-group row" id="temporaryPassword_div" style="display: none;">
-                <label>임시비밀번호</label>
-                <span id="l_temporaryPassword"></span>
+            </form>
+            <div class="bot_btns_t1">
+                <button class="btn_pack btn-close">취소</button>
+                <button class="btn_pack blue" type="button" onclick="find_password();">찾기</button>
             </div>
         </div>
-        </form>
-        <div class="bot_btns_t1">
-            <button class="btn_pack btn-close">취소</button>
-            <button class="btn_pack blue" type="button" onclick="find_password();">찾기</button>
-        </div>
     </div>
-</div>
+    <!-- 비밀번호 찾기 레이어 끝 -->
 <%
     } else {
         System.out.print("========================================");
@@ -142,7 +142,6 @@
     <script>
         goPage("dashboard", "dashboard_list");
     </script>
-    <%--<input type="button" id="logoutBtn" value="로그아웃" class="btn_pack blue s2"  onclick="goLogout();">--%>
 <%
     }
 %>

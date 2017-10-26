@@ -1,4 +1,4 @@
-package com.flowedu.service;
+package com.flowedu.api.service;
 
 import com.flowedu.config.FlowEduApiConfigHolder;
 import com.flowedu.define.datasource.RequestMethod;

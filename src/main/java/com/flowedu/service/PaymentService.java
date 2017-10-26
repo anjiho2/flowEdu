@@ -1,5 +1,6 @@
 package com.flowedu.service;
 
+import com.flowedu.api.service.LogService;
 import com.flowedu.domain.RequestApi;
 import com.flowedu.dto.LecturePaymentLogDto;
 import com.flowedu.dto.LectureStudentRelByIdDto;

@@ -1,27 +1,14 @@
-package com.flowedu.service;
+package com.flowedu.api.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flowedu.api.dto.MemberLoginLogDto;
-import com.flowedu.config.FlowEduApiConfigHolder;
-import com.flowedu.define.datasource.DataSource;
-import com.flowedu.define.datasource.DataSourceType;
 import com.flowedu.define.datasource.RequestMethod;
 import com.flowedu.domain.RequestApi;
 import com.flowedu.dto.FlowEduMemberDto;
 import com.flowedu.dto.LecturePaymentLogDto;
-import com.flowedu.mapper.LectureMapper;
-import com.flowedu.mapper.LogMapper;
 import com.flowedu.util.GsonJsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 
 /**
  * Created by jihoan on 2017. 9. 14..

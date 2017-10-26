@@ -1,7 +1,6 @@
 package com.flowedu.filter;
 
 import com.flowedu.dto.FlowEduMemberDto;
-import com.flowedu.service.LogService;
 import com.flowedu.service.MemberService;
 import com.flowedu.session.UserSession;
 import org.slf4j.Logger;
