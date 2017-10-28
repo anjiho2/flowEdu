@@ -51,8 +51,9 @@ body{
 
 button{ background-color: #fff;border-radius: 0; border-width:0; font-size:inherit;box-sizing: border-box; outline: none;box-shadow: none;padding:0; text-align: center;cursor: pointer;}
 
+input, select, textarea, option, button{font-family:'AppleSDGothicNeo-Light','HelveticaNeue-Light','Noto Sans', '맑은 고딕', MalgunGothic,sans-serif;}
 button.btn_pack{
-  height: 36px; padding:0 10px; color: #ffffff; background-color: #515356;border-radius:18px; font-size: 12px; font-weight: 700; min-width: 100px;
+  height: 36px; padding:0 10px; color: #ffffff; background-color: #515356;border-radius:6px; font-size: 12px; font-weight: 700; min-width: 100px;
   &.s2{ min-width: 140px; height: 40px; font-size: 14px;border-radius: 20px; font-weight: 400;}
   &.orange{ background-color: $orange;}
   &.blue{ background-color: $blue;}
@@ -168,6 +169,13 @@ div.tb_t1{
     display: flex; align-items:center;
     > input[type=text]{ flex:1 1 auto;}
   }
+  .flex{
+    display: flex;
+    > *{
+      &+*{ margin-left: 10px;}
+    }
+    button.btn_pack{ min-width:inherit; white-space: nowrap;padding-left:15px;padding-right:15px;}
+  }
 }
 .form-outer-group{
   display: flex;margin:0px -15px; overflow: hidden;
@@ -177,6 +185,9 @@ div.tb_t1{
 }
 .form-control.big{
   padding: .75rem .75rem;
+}
+.form-control.underline{
+  border-radius:0;border-width:0 0 1px 0;
 }
 select.form-control.big:not([size]):not([multiple]) {
   height: calc(2.5rem + 2px);
@@ -210,7 +221,7 @@ select.form-control.big:not([size]):not([multiple]) {
     i{ font-style: normal; position: absolute; left: -8px; top: -8px; z-index: 2; background-color: #ffd800; font-size:12px; text-align: center; width: 17px; height: 17px; line-height: 17px; border-radius: 50%;}
     span{
       display: block;box-sizing: border-box;
-      width:30px; height: 30px;border-radius: 50%; background-color: #fff;border:2px solid $green;
+      width:30px; height: 30px;border-radius: 50%; background-color: #fff;border:2px solid $blue;
       font-size: 18px;
       line-height: 26px;
       transition: border-color .15s ease-in-out, color .15s ease-in-out;
@@ -218,7 +229,7 @@ select.form-control.big:not([size]):not([multiple]) {
     }
     input[type=checkbox], input[type=radio]{
       position: absolute; left: 10px; top: 10px;
-      &:checked + span{ color: $green;}
+      &:checked + span{ color: #838383; border-color: #838383;}
     }
   }
 }
@@ -277,7 +288,7 @@ select.form-control.big:not([size]):not([multiple]) {
 
 /*layer-popup*/
 .layer_popup_template{max-width:100%;width: 768px;background-color: #fff;position: fixed;top: 0;left: 0;right: 0;margin: auto;z-index: 11;visibility: hidden;opacity: 0;
-  flex-direction: column;display: flex; overflow: hidden; overflow-y: auto;border-radius: 3px;
+  flex-direction: column;display: flex; overflow: hidden; overflow-y: auto;border-radius: 8px;
   > div.has_scroll{flex-direction: column;}
   &.on{visibility: visible;opacity: 1;}
   .layer-title{
@@ -338,8 +349,8 @@ ul.list_t1{
 }
 ul.list_t2{
   >li{
-    display: flex;padding:10px 0; align-items: center;
-    > label{flex: 0 0 auto; margin-right: 20px;}
+    display: flex;padding:10px 0;
+    > label{flex: 0 0 auto; margin-right: 20px; }
     > div{ flex:1 1 auto; }
     > div.manage{
       flex: 0 0 auto; margin-left: 10px; visibility: hidden; opacity: 0;
@@ -360,8 +371,8 @@ ul.list_t2{
     }
   }
   h4{
-    font-size: 14px; margin-bottom: 4px; color: #90a4ae; line-height: 20px; font-weight: normal; display: flex;
-    span{ flex:1 1 auto;}
+    font-size: 12px; margin-bottom: 4px; color: #90a4ae; line-height: 20px; font-weight: normal; display: flex;
+    span{ flex:1 1 auto;text-align: right; margin-right: 10px;}
     i{color: $blue; font-style: normal; margin-right: 7px;}
     em{ font-style: normal; font-size: 12px; text-align: right;}
   }
@@ -369,6 +380,59 @@ ul.list_t2{
   button.confirm{ font-size: 13px; color: $orange; margin-top: 8px; text-decoration: underline;}
 }
 
+.layout_dashboard{
+  display: flex;flex-wrap: wrap;
+  >section{
+    flex: 0 0 50%; display: flex;
+    >.in{
+      margin:5px; background-color: #fff;border-radius:4px; padding: 10px; min-height: 300px; display: flex; flex-direction: column;flex:1;
+      >.top{ flex:1;}
+      >.bot{ text-align: right; position: relative;padding-top:10px; margin-top: 10px;
+      }
+    }
+  }
+  h3{
+    font-size: 17px; font-weight: lighter; margin-bottom: 12px;
+    span{ margin-right: 6px;}
+  }
+  .form-group.row>label{ font-size: 13px; color: #838383; flex:0 0 80px;}
+  input.my_name{ font-weight: bold; color: $blue;}
+  .class_list{
+    tbody tr:first-child td{ color: $blue;}
+  }
+  .price{
+    h4{
+      font-size: 26px;margin: 20px 13px 10px; color: $blue;
+      small{ vertical-align: top; font-size: 12px; font-weight: normal; margin-left: 4px; line-height: 1.25; display: inline-block; margin-top: 3px; color: #333;}
+    }
+    .pay{
+      box-sizing: border-box;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: #fff;
+      border: 2px solid $blue;
+      font-size: 11px;
+      line-height: 22px;
+      transition: border-color .15s ease-in-out,color .15s ease-in-out;
+      color: $blue;
+      text-align: center;
+      position: relative;
+    }
+  }
+}
+
+.into_gate{
+  display: flex; flex: 1;
+  > div{
+    flex: 1;margin:0 5px; background-color: #fff; padding: 15px;border-radius:7px; text-align: center; display: flex; align-items: center;justify-content: center;
+    >.in{ text-align: center; display: block;}
+    h3{ margin-top: 15px; font-weight: lighter;}
+    h4{ font-size: 140px; color: #8b8b8b;transition: color .25s ease;
+      &:hover{ color: $blue;}
+    }
+  }
+}
 
 @media screen and (max-width:1200px){
   .tile_t1 li{
