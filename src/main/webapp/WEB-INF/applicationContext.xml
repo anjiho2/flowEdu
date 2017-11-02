@@ -111,7 +111,7 @@
   	<!-- ========================= BUSINESS OBJECT DEFINITIONS MANAGER ======================== -->
 
   	<!-- ========================= CONFIG OBJECT DEFINITIONS CONFIG ======================== -->
-  	<!--<bean id="QuartzConfigHolder" class="QuartzConfigHolder"/>-->
+  	<bean id="ConfigHolder" class="com.flowedu.config.ConfigHolder"/>
   	
   	<!-- ========================= CRONQUARTZ DEFINITIONS ======================== -->
   	<!--

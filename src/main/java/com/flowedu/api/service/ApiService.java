@@ -1,6 +1,6 @@
 package com.flowedu.api.service;
 
-import com.flowedu.config.FlowEduApiConfigHolder;
+import com.flowedu.config.ConfigHolder;
 import com.flowedu.define.datasource.RequestMethod;
 import com.flowedu.domain.RequestApi;
 import com.flowedu.error.FlowEduException;
@@ -80,7 +80,7 @@ public abstract class ApiService {
      */
     public String concatURI(String... paths) {
         StringBuilder builder = new StringBuilder();
-        builder.append(FlowEduApiConfigHolder.getFlowEduApiUrl());
+        builder.append(ConfigHolder.getFlowEduApiUrl());
         for (String path : paths) {
             if (path == null) continue;
             path = path.trim();

@@ -1,5 +1,4 @@
-<%@page import="com.flowedu.config.VersionConfigHolder"%>
-<%@ page import="com.flowedu.dto.FlowEduMemberDto" %>
+<%@ page import="com.flowedu.config.ConfigHolder" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/common/jsp/common.jsp" %>
@@ -7,7 +6,7 @@
 	String webRoot = request.getContextPath();
 	String serverName = request.getServerName();
 	//VersionConfigHolder holder = new VersionConfigHolder();
-	String version = VersionConfigHolder.gerVersion();
+	String version = ConfigHolder.gerVersion();
 %>
 <!DOCTYPE html>
 

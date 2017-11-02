@@ -25,7 +25,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 		boolean result = false;
 		HttpSession session = request.getSession(false);
 		try {
-			boolean isSessionUse = SessionUseConfigHolder.getSessionUseYn();
+			boolean isSessionUse = ConfigHolder.getSessionUseYn();
 			if (isSessionUse) {
 				if (session == null || request.getSession().getAttribute("member_info") == null) {
 					//response.sendRedirect(request.getContextPath());

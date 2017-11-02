@@ -1,7 +1,7 @@
 package com.flowedu.service;
 
+import com.flowedu.config.ConfigHolder;
 import com.flowedu.config.PagingSupport;
-import com.flowedu.config.SchoolSearchConfigHoler;
 import com.flowedu.define.datasource.SchoolType;
 import com.flowedu.define.datasource.StudentMemoType;
 import com.flowedu.domain.StudentMemo;
@@ -14,18 +14,12 @@ import com.flowedu.error.FlowEduException;
 import com.flowedu.mapper.StudentMapper;
 import com.flowedu.session.UserSession;
 import com.flowedu.util.GsonJsonUtil;
-import com.flowedu.util.JsonBuilder;
 import com.flowedu.util.JsonParser;
 import com.flowedu.util.Util;
-import com.google.api.client.json.Json;
+
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.json.simple.JSONObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -152,8 +146,8 @@ public class StudentService extends PagingSupport {
         if ("".equals(gubun) && region == null) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
-        String schoolSearchApikey = SchoolSearchConfigHoler.getSchoolSearchApiKey();
-        String schoolSearchApiUrl = SchoolSearchConfigHoler.getSchoolSearchApiUrl();
+        String schoolSearchApikey = ConfigHolder.getSchoolSearchApiKey();
+        String schoolSearchApiUrl = ConfigHolder.getSchoolSearchApiUrl();
         String url = schoolSearchApiUrl + "?apiKey=" + schoolSearchApikey + "&svcType=api&svcCode=SCHOOL&contentType=json&gubun="
                 + gubun + "&region=" + region + "&searchSchulNm=" + URLEncoder.encode(searchScoolName, "UTF-8");
 
