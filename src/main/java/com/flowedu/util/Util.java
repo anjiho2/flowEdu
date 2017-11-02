@@ -28,6 +28,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * <PRE>
  * 1. ClassName : Util
@@ -996,9 +998,8 @@ public class Util {
 		int rewardPopcorn = (int)((corn * 10 ) * Float.valueOf(String.format("%.2f", calcPercent)));
 		return rewardPopcorn;
 	}
-	
-	public static void main(String[] args) throws Exception {
 
+	public static void main(String[] args) throws Exception {
 	 }
 }
 
