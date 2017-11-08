@@ -725,4 +725,22 @@ public class LectureService extends PagingSupport {
         lectureMapper.modifyAttendComment(lectureAttendId, attendType, attendModifyComment);
     }
 
+    /**
+     * <PRE>
+     * 1. Comment : 결재금액 업데이트 하기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 11 .08
+     * </PRE>
+     * @param lectureRelId
+     * @param paymentPrice
+     * @param calcType
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void calcLecturePaymentPrice(Long lectureRelId, int paymentPrice, String calcType) {
+        if (lectureRelId == null && "".equals(calcType)) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        lectureMapper.calcLecturePaymentPrice(lectureRelId, paymentPrice, calcType);
+    }
+
 }

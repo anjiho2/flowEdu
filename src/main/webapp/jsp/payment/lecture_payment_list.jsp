@@ -45,6 +45,7 @@ function fn_search(val) {
                 function(data) {return addThousandSeparatorCommas(data.lecturePrice);},
                 function(data) {return data.lectureStartDate;},
                 function(data) {return data.lectureEndDate;},
+                function(data) {return data.paymentYn == false && data.paymentPrice == 0 ? "결재금액 책정전" : addThousandSeparatorCommas(data.paymentPrice)},
                 function(data) {return data.paymentDate == undefined ? "" : getDateTimeSplitComma(data.paymentDate);},
                 function(data) {return data.paymentYn == false ? "<button class='btn_pack white' type='button' id='"+ data.lectureRelId + "' onclick='javascript:cacl_lecture_price(this.id);'>수납하기</button>" : "수납완료";},
             ], {escapeHtml:false});
@@ -110,7 +111,7 @@ function Button4_onclick() {
 
     if (Radio4.checked)
         kisPosOcx.inTranCode = "CR";
-
+    /*
     if (Radio5.checked) {
         kisPosOcx.inTranCode = "H1";
         kisPosOcx.inTranGubun = "1";
@@ -130,6 +131,7 @@ function Button4_onclick() {
         kisPosOcx.inTranCode = "H1";
         kisPosOcx.inTranGubun = "4";
     }
+    */
 
     kisPosOcx.inTranAmt = Text_TranAmt.value;
     kisPosOcx.inVatAmt = Text_VatAmt.value;
@@ -212,6 +214,7 @@ function Button4_onclick() {
                     <col width="*" />
                     <col width="*" />
                     <col width="*" />
+                    <col width="*" />
                     <col width="110" />
                 </colsgroup>
                 <tr>
@@ -220,6 +223,7 @@ function Button4_onclick() {
                     <th>강의료</th>
                     <th>강의시일</th>
                     <th>강의종료일</th>
+                    <th>결제할 금액</th>
                     <th>수납일</th>
                     <th>수납여부</th>
                 </tr>
@@ -334,18 +338,21 @@ function Button4_onclick() {
     <input id="Radio2" name="R1" type="radio" value="V2" />신용취소<br /><br />
     <input id="Radio3" name="R1" type="radio" value="V3" />현금영수증승인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input id="Radio4" name="R1" type="radio" value="V4" />현금영수증취소<br /><br />
+    <!--
     <input id="Radio5" name="R1" type="radio" value="V5" />현금IC승인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input id="Radio6" name="R1" type="radio" value="V6" />현금IC취소&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input id="Radio7" name="R1" type="radio" value="V7" />현금IC결과조회&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input id="Radio8" name="R1" type="radio" value="V8" />현금IC잔액조회<br />
+    -->
     <input id="Button_CF" type="button" value="CAT연동 결제요청 (0xCF)" onclick="return Button4_onclick()" />
 </div>
-<div>
+<div style="display: none;">
     <input id="Checkbox1" checked="checked" type="checkbox" />기본영수증출력&nbsp;&nbsp;&nbsp;
     <input id="Checkbox2" checked="checked" type="checkbox" />메시지출력&nbsp;&nbsp;&nbsp;
     <input id="Checkbox3" checked="checked" type="checkbox" />버튼출력<br />
+</div>
 <div>
-    <textarea id="TextArea1" name="S1"></textarea></div>
+    <textarea id="TextArea1" name="S1" cols="50" rows="20"></textarea>
 </div>
 <%@include file="/common/jsp/footer.jsp" %>
 </body>

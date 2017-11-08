@@ -79,4 +79,6 @@ public interface LectureMapper {
 
     void modifyAttendComment(@Param("lectureAttendId") Long lectureAttendId, @Param("attendType") String attendType, @Param("attendModifyComment") String attendModifyComment);
 
+    void calcLecturePaymentPrice(@Param("lectureRelId") Long lectureRelId, @Param("paymentPrice") int paymentPrice, @Param("calcType") String calcType);
+
 }

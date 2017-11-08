@@ -17,12 +17,13 @@
 <script type='text/javascript' src="<%=webRoot%>/calendar/lib/moment.min.js"></script>
 <script type='text/javascript' src="<%=webRoot%>/calendar/js/fullcalendar.js"></script>
 <script type='text/javascript' src="<%=webRoot%>/calendar/lib/locale-all.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <!-- dwr 필수 스트립트 -->
 <script type='text/javascript' src="<%=webRoot%>/dwr/engine.js"></script>
 <script type='text/javascript' src="<%=webRoot%>/dwr/util.js"></script>
 
-<script src='cdn.rawgit.com/fgelinas/timepicker/master/jquery.ui.timepicker.js'></script>
+<script src='//cdn.rawgit.com/fgelinas/timepicker/master/jquery.ui.timepicker.js'></script>
 <script type='text/javascript' src="<%=webRoot%>/js/jquery.mtz.monthpicker.js"></script>
 <script type='text/javascript' src="<%=webRoot%>/js/datepicker.js"></script>
 
