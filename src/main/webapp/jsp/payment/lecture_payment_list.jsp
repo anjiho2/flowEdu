@@ -333,5 +333,8 @@ function Button4_onclick() {
     <input id="Radio1" checked="checked" name="R1" type="radio" value="V1" />신용승인
     <input id="Button_CF" type="button" value="CAT연동 결제요청 (0xCF)" onclick="return Button4_onclick()" />
 </div>
+<div>
+    <textarea id="TextArea1" name="S1"></textarea></div>
+</div>
 <%@include file="/common/jsp/footer.jsp" %>
 </body>
