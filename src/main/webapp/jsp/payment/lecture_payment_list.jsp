@@ -341,6 +341,10 @@ function Button4_onclick() {
     <input id="Button_CF" type="button" value="CAT연동 결제요청 (0xCF)" onclick="return Button4_onclick()" />
 </div>
 <div>
+    <input id="Checkbox1" checked="checked" type="checkbox" />기본영수증출력&nbsp;&nbsp;&nbsp;
+    <input id="Checkbox2" checked="checked" type="checkbox" />메시지출력&nbsp;&nbsp;&nbsp;
+    <input id="Checkbox3" checked="checked" type="checkbox" />버튼출력<br />
+<div>
     <textarea id="TextArea1" name="S1"></textarea></div>
 </div>
 <%@include file="/common/jsp/footer.jsp" %>
