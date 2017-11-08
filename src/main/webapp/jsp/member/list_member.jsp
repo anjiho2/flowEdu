@@ -29,7 +29,6 @@ function fn_search(val) {//운영자,선생님 리스트불러오기
         paging.count(sPage, cnt, '10', '10', comment.blank_list);
         memberService.getFlowEduMemberList(sPage, '10', function (selList) {
             if (selList.length > 0) {
-                console.log(selList);
                 for (var i = 0; i < selList.length; i++) {
                     var cmpList = selList[i];
                     if (cmpList != undefined) {

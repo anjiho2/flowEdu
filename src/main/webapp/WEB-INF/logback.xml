@@ -4,6 +4,7 @@
   ~ This software is the proprietary information of BirdLetter.
   -->
 
+
 <configuration scan="true" scanPeriod="30 seconds">
     <timestamp key="byDay" datePattern="yyyy-MM-dd"/>
     <!--<property name="LOG_HOME" value="${}" />-->

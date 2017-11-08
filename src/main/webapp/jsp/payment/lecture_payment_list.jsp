@@ -14,6 +14,10 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/paymentService.js'></script>
 <script>
 
+if (get_browser_type() != "IE") {
+    alert("크롬이나 사파리에서는 결제기능이 안됩니다.\n익스플로러로 실행해주세요.");
+}
+
 function init() {
     fn_search("new");
 }
@@ -86,7 +90,106 @@ function payment_lecture() {
         });
     }
 }
+
+function Button4_onclick() {
+    //CF 요청
+    kisPosOcx.Init();
+    kisPosOcx.inSpecType = "CATUPLOAD";
+
+    kisPosOcx.inCatPortNo = Text_port.value;
+    kisPosOcx.inCatBaudRate = Text_BaudRate.value;
+
+    if (Radio1.checked)
+        kisPosOcx.inTranCode = "D1";
+
+    if (Radio2.checked)
+        kisPosOcx.inTranCode = "D2";
+
+    if (Radio3.checked)
+        kisPosOcx.inTranCode = "CC";
+
+    if (Radio4.checked)
+        kisPosOcx.inTranCode = "CR";
+
+    if (Radio5.checked) {
+        kisPosOcx.inTranCode = "H1";
+        kisPosOcx.inTranGubun = "1";
+    }
+
+    if (Radio6.checked) {
+        kisPosOcx.inTranCode = "H1";
+        kisPosOcx.inTranGubun = "2";
+    }
+
+    if (Radio7.checked) {
+        kisPosOcx.inTranCode = "H1";
+        kisPosOcx.inTranGubun = "3";
+    }
+
+    if (Radio7.checked) {
+        kisPosOcx.inTranCode = "H1";
+        kisPosOcx.inTranGubun = "4";
+    }
+
+    kisPosOcx.inTranAmt = Text_TranAmt.value;
+    kisPosOcx.inVatAmt = Text_VatAmt.value;
+    kisPosOcx.inSvcAmt = Text_SvcAmt.value;
+    kisPosOcx.inInstallment = Text_Installment.value;
+    kisPosOcx.inOrgAuthDate = Text_OrgAuthDate.value;
+    kisPosOcx.inOrgAuthNo = Text_OrgAuthNo.value;
+
+    if(Checkbox1.checked)
+        kisPosOcx.inPrintYN = "Y";
+    else
+        kisPosOcx.inPrintYN = "N";
+
+    if (Checkbox2.checked)
+        kisPosOcx.inCatMessageYN = "Y";
+    else
+        kisPosOcx.inCatMessageYN = "N";
+
+    if (Checkbox2.checked)
+        kisPosOcx.inCatBtnYN = "Y";
+    else
+        kisPosOcx.inCatBtnYN = "N";
+
+    var reVal =  kisPosOcx.KIS_Approval();
+
+    alert(reVal);
+
+    if (reVal == 0) {
+        var strTemp2 = "단말기번호 : [" + kisPosOcx.outCatId + "]"
+            + "\n카드번호 : [" + kisPosOcx.outCardNo + "]"
+            + "\n할부개월 : [" + kisPosOcx.outInstallment + "]"
+            + "\n거래금액 : [" + kisPosOcx.outTranAmt + "]"
+            + "\n부가세액 : [" + kisPosOcx.outVatAmt + "]"
+            + "\n봉사료 : [" + kisPosOcx.outSvcAmt + "]"
+            + "\n승인번호 : [" + kisPosOcx.outAuthNo + "]"
+            + "\n거래일자 : [" + kisPosOcx.outReplyDate + "]"
+            + "\n매입사코드 : [" + kisPosOcx.outAccepterCode + "]"
+            + "\n매입사명 : [" + kisPosOcx.outAccepterName + "]"
+            + "\n발급사코드 : [" + kisPosOcx.outIssuerCode + "]"
+            + "\n발급사명 : [" + kisPosOcx.outIssuerName + "]"
+            + "\n거래일련번호 : [" + kisPosOcx.outTranNo + "]"
+            + "\n가맹점번호 : [" + kisPosOcx.outMerchantRegNo + "]"
+            + "\n메세지 : [" + kisPosOcx.outDisplayMsg + "]"
+            + "\n화면표시 : [" + kisPosOcx.outDisplayMsg2 + "]"
+            + "\n알림1 : [" + kisPosOcx.outReplyMsg1 + "]"
+            + "\n알림2 : [" + kisPosOcx.outReplyMsg2 + "]"
+            + "\n알림3 : [" + kisPosOcx.outReplyMsg3 + "]"
+            + "\n알림4 : [" + kisPosOcx.outReplyMsg4 + "]"
+            + "\n잔액 : [" + kisPosOcx.out0x41JanAmt + "]"
+            + "\n비과세 : [" + kisPosOcx.out0x41TaxFreeAmt + "]"
+            + "\n거래구분 : [" + kisPosOcx.out0x41TranGubun + "]"
+            + "\n응답코드 : [" + kisPosOcx.out0x41ReplyCode + "]"
+            + "\nNextUploadData : [" + kisPosOcx.out0x41NextUploadData + "]"
+            + "\n거래로그 : [" + kisPosOcx.outRecvData + "]"
+
+        TextArea1.value = strTemp2;
+    }
+}
 </script>
+<object id="kisPosOcx" classid="clsid:5C41929F-BAD3-4302-83DE-FA68ABAFF8B7" width="100" height="50" name="kisPosOcx"></object>
 <body onload="init();">
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
@@ -201,6 +304,34 @@ function payment_lecture() {
     <%--</form>--%>
 <%--</section>--%>
 
+<div>
+    <br />
+    연결포트번호(COM)             <input id="Text_port" type="text" value="1" /> 전송속도<input
+        id="Text_BaudRate" type="text" value="9600" /><br />
+</div>
+<div>
+    <br />
+    결제금액&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Text_TranAmt" type="text" value="1004" /><br />
+    <br />
+    봉사료&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Text_SvcAmt" type="text" value="0" /><br />
+    <br />
+    부가세액&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Text_VatAmt" type="text" value="0" /><br />
+    <br />
+    할부개월&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Text_Installment" type="text" value="00" /> (현금영수증:&nbsp; 01법인, 02개인)<br />
+    <br />
+    원거래일자&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Text_OrgAuthDate" type="text" /><br />
+    <br />
+    원승인번호 &nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Text_OrgAuthNo" type="text" /><br />
+</div>
+<div>
+    <input id="Radio1" checked="checked" name="R1" type="radio" value="V1" />신용승인
+    <input id="Button_CF" type="button" value="CAT연동 결제요청 (0xCF)" onclick="return Button4_onclick()" />
 </div>
 <%@include file="/common/jsp/footer.jsp" %>
 </body>

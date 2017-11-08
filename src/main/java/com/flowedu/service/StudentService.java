@@ -255,7 +255,7 @@ public class StudentService extends PagingSupport {
             return false;
         }
         return true;
-    }
+}
 
     /**
      * <PRE>

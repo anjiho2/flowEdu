@@ -1943,3 +1943,22 @@ function get_array_values_by_name(type, name) {
 	}
     return array;
 }
+
+function get_browser_type() {
+    var browser = "";
+    var ua = window.navigator.userAgent;
+    if(ua.indexOf('MSIE') > 0 || ua.indexOf('Trident') > 0)
+        browser = "IE";
+    else if(ua.indexOf('Opera') > 0 || ua.indexOf('OPR') > 0)
+        browser = "Opera";
+    else if(ua.indexOf('Firefix') > 0)
+        browser = "Firefox";
+    else if(ua.indexOf('Safari') > 0) {
+        if(ua.indexOf('Chrome') > 0)
+		browser = "Chrome";
+        else
+			browser = "Safari";
+    }
+    return browser;
+    //document.write(b);
+}

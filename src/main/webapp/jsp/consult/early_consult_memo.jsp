@@ -65,6 +65,7 @@
     }
     //전화번로 입력시 등록되어 있는 전화번호인지 확인
     function isStudent() {
+        if (getInputTextValue("student_phone1") == "" || getInputTextValue("student_phone2") == "" || getInputTextValue("student_phone3") == "") return;
         var phoneNumber = getInputTextValue("student_phone1") + getInputTextValue("student_phone2") + getInputTextValue("student_phone3");
         studentService.isStudentByPhoneNumber(phoneNumber, function (bl) {
             if (bl == true) {
