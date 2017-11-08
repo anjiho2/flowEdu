@@ -330,7 +330,14 @@ function Button4_onclick() {
     <input id="Text_OrgAuthNo" type="text" /><br />
 </div>
 <div>
-    <input id="Radio1" checked="checked" name="R1" type="radio" value="V1" />신용승인
+    <input id="Radio1" checked="checked" name="R1" type="radio" value="V1" />신용승인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Radio2" name="R1" type="radio" value="V2" />신용취소<br /><br />
+    <input id="Radio3" name="R1" type="radio" value="V3" />현금영수증승인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Radio4" name="R1" type="radio" value="V4" />현금영수증취소<br /><br />
+    <input id="Radio5" name="R1" type="radio" value="V5" />현금IC승인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Radio6" name="R1" type="radio" value="V6" />현금IC취소&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Radio7" name="R1" type="radio" value="V7" />현금IC결과조회&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Radio8" name="R1" type="radio" value="V8" />현금IC잔액조회<br />
     <input id="Button_CF" type="button" value="CAT연동 결제요청 (0xCF)" onclick="return Button4_onclick()" />
 </div>
 <div>
