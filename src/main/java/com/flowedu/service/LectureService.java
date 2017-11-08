@@ -2,6 +2,7 @@ package com.flowedu.service;
 
 import com.flowedu.config.PagingSupport;
 import com.flowedu.define.datasource.*;
+import com.flowedu.domain.CalcLecturePayment;
 import com.flowedu.dto.*;
 import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
@@ -740,7 +741,8 @@ public class LectureService extends PagingSupport {
         if (lectureRelId == null && "".equals(calcType)) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
-        lectureMapper.calcLecturePaymentPrice(lectureRelId, paymentPrice, calcType);
+        CalcLecturePayment calcLecturePayment = new CalcLecturePayment(lectureRelId, paymentPrice, calcType);
+        lectureMapper.calcLecturePaymentPrice(calcLecturePayment);
     }
 
 }

@@ -100,15 +100,16 @@ function Button4_onclick() {
     kisPosOcx.inCatPortNo = Text_port.value;
     kisPosOcx.inCatBaudRate = Text_BaudRate.value;
 
+    //신용승인
     if (Radio1.checked)
         kisPosOcx.inTranCode = "D1";
-
+    //신용취소
     if (Radio2.checked)
         kisPosOcx.inTranCode = "D2";
-
+    //현금영수증 승인
     if (Radio3.checked)
         kisPosOcx.inTranCode = "CC";
-
+    //현금영수증 취소
     if (Radio4.checked)
         kisPosOcx.inTranCode = "CR";
     /*
@@ -160,6 +161,14 @@ function Button4_onclick() {
     alert(reVal);
 
     if (reVal == 0) {
+        alert(kisPosOcx.inTranCode);
+        var lectureRelId = getInputTextValue("lecture_rel_id");
+        var paymentPrice = outTranAmt;
+
+        lectureService.calcLecturePaymentPrice(lectureRelId, paymentPrice, "MINUS", function() {
+            alert("결제 완료 되었습니다.")
+        });
+
         var strTemp2 = "단말기번호 : [" + kisPosOcx.outCatId + "]"
             + "\n카드번호 : [" + kisPosOcx.outCardNo + "]"
             + "\n할부개월 : [" + kisPosOcx.outInstallment + "]"
