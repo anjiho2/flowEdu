@@ -351,5 +351,9 @@
 		</set>
 		WHERE lecture_rel_id = #{lectureRelId}
 	</update>
+	
+	<update id="modifyLectureStudentRelPaymentYn">
+		UPDATE LECTURE_STUDENT_REL
+	</update>
 
 </mapper>

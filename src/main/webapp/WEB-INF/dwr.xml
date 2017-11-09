@@ -93,6 +93,7 @@
 		<convert converter="bean" match="com.flowedu.dto.AcademyGroupDto"/>
 		<convert converter="bean" match="com.flowedu.dto.EarlyConsultMemoDto"/>
 		<!-- define -->
+		<convert converter="bean" match="com.flowedu.domain.KisPosOcx"/>
 
 
 	</allow>

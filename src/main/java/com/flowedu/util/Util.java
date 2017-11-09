@@ -1001,7 +1001,7 @@ public class Util {
 	}
 
 	public static void main(String[] args) throws Exception {
-		System.out.print(KisPosAuthType.getKisPosAuthTypeName(KisPosAuthType.CC));
+		System.out.print(KisPosAuthType.getKisPosAuthTypeName(KisPosAuthType.CC.toString()));
 	 }
 }
 

@@ -1,5 +1,6 @@
 package com.flowedu.domain;
 
+import com.flowedu.define.datasource.KisPosAuthType;
 import lombok.Data;
 
 /**

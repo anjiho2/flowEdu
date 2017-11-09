@@ -6,17 +6,9 @@ import com.flowedu.domain.RequestApi;
 import com.flowedu.dto.FlowEduMemberDto;
 import com.flowedu.dto.LecturePaymentLogDto;
 import com.flowedu.util.GsonJsonUtil;
-import com.flowedu.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.NativeWebRequest;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by jihoan on 2017. 9. 14..

@@ -77,11 +77,27 @@ function cacl_lecture_price(lecture_rel_id) {
     });
 }
 
-function payment_lecture() {
+function payment_lecture(paymentResult) {
     var lectureRelId = getInputTextValue("lecture_rel_id");
     var paymentPrice = getInputTextValue("payment_price");
+    var studentName = '<%=student_name%>';
+    var paymentResult = {
+        catId:90100546,
+        cardNo:546112,
+        installMent:"00",
+        transAmt:1004,
+        authNo:30001098,
+        replyDate:171108114815,
+        accepterCode:"012",
+        issureCode:"012",
+        issureName:"NH체크카드",
+        transNo:"0002",
+        merchantRegNo:106709207,
+        recvData:"?D190100546C546112001004030001098171108114815012NH카드012NH체크카드1067092070002?",
+        authType:"CC"
+    };
     if (confirm(addThousandSeparatorCommas(paymentPrice) + "원을 결제하시겠습니까?")) {
-        paymentService.paymentLecture(lectureRelId, '<%=student_name%>' , paymentPrice, function (result) {
+        paymentService.paymentLecture(lectureRelId, studentName, paymentPrice, "MINUS", paymentResult, function (result) {
             if (result == 200) {
                 alert("결제완료됬습니다.");
                 isReloadPage(true);
@@ -161,14 +177,24 @@ function Button4_onclick() {
     alert(reVal);
 
     if (reVal == 0) {
-        alert(kisPosOcx.inTranCode);
-        var lectureRelId = getInputTextValue("lecture_rel_id");
-        var paymentPrice = outTranAmt;
-
-        lectureService.calcLecturePaymentPrice(lectureRelId, paymentPrice, "MINUS", function() {
-            alert("결제 완료 되었습니다.")
-        });
-
+        /*
+        var paymentResult = {
+            catId:outCatId,
+            cardNo:outCardNo,
+            installMent:outInstallment,
+            transAmt:outTranAmt,
+            authNo:outAuthNo,
+            replyDate:outReplyDate,
+            accepterCode:outAccepterCode,
+            issureCode:outIssuerCode,
+            issureName:outIssuerName,
+            transNo:outTranNo,
+            merchantRegNo:outMerchantRegNo,
+            recvData:outRecvData,
+            authType:kisPosOcx.inTranCode
+        };
+        payment_lecture(paymentResult);
+        */
         var strTemp2 = "단말기번호 : [" + kisPosOcx.outCatId + "]"
             + "\n카드번호 : [" + kisPosOcx.outCardNo + "]"
             + "\n할부개월 : [" + kisPosOcx.outInstallment + "]"

@@ -15,9 +15,9 @@ public enum KisPosAuthType {
         this.authName = authName;
     }
 
-    public static String getKisPosAuthTypeName(KisPosAuthType kisPosAuthType) {
+    public static String getKisPosAuthTypeName(String kisPosAuthType) {
         for (KisPosAuthType authType : KisPosAuthType.values()) {
-            if (authType.toString().equals(kisPosAuthType.toString())) {
+            if (authType.toString().equals(kisPosAuthType)) {
                 return authType.authName;
             }
         }
