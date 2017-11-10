@@ -127,6 +127,9 @@
             </div>
         </div>
         </form>
+
+
+
         <div class="bot_btns_t1">
             <button class="btn_pack btn-close">취소</button>
             <button class="btn_pack blue" type="button" onclick="find_password();">찾기</button>

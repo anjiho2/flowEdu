@@ -27,3 +27,4 @@ public class AcademyController {
         return mvc;
     }
 }
+
