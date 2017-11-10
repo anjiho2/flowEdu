@@ -78,8 +78,11 @@ function cacl_lecture_price(lecture_rel_id) {
 }
 
 function payment_lecture(paymentResult) {
+    var check = new isCheck();
+    if (check.input("l_calcLecturePrice", "결제할 금액을 입력하세요") == false) return;
+
     var lectureRelId = getInputTextValue("lecture_rel_id");
-    var paymentPrice = getInputTextValue("payment_price");
+    var paymentPrice = getInputTextValue("l_calcLecturePrice");
     var studentName = '<%=student_name%>';
     var paymentResult = {
         catId:90100546,
@@ -96,6 +99,12 @@ function payment_lecture(paymentResult) {
         recvData:"?D190100546C546112001004030001098171108114815012NH카드012NH체크카드1067092070002?",
         authType:"CC"
     };
+    lectureService.getLectureStudentRelInfo(lectureRelId, function(info) {
+        alert(info.paymentYn);
+        if (!info.paymentYn && info.paymentPrice == 0) {
+            paymentService.formulateLecturePrice(lectureRelId, paymentPrice);
+        }
+    });
     if (confirm(addThousandSeparatorCommas(paymentPrice) + "원을 결제하시겠습니까?")) {
         paymentService.paymentLecture(lectureRelId, studentName, paymentPrice, "MINUS", paymentResult, function (result) {
             if (result == 200) {
@@ -173,6 +182,7 @@ function Button4_onclick() {
         kisPosOcx.inCatBtnYN = "N";
 
     var reVal =  kisPosOcx.KIS_Approval();
+    //alert(kisPosOcx.inTranCode);
 
     alert(reVal);
 
@@ -259,7 +269,7 @@ function Button4_onclick() {
                     <th>강의시일</th>
                     <th>강의종료일</th>
                     <th>결제할 금액</th>
-                    <th>수납일</th>
+                    <th>수납완료일</th>
                     <th>수납여부</th>
                 </tr>
                 <tbody id="dataList"></tbody>
@@ -302,7 +312,8 @@ function Button4_onclick() {
                 </li>
                 <li>
                     <strong>결제할 가격</strong>
-                    <div><p><span id="l_calcLecturePrice"></span>원</p></div>
+                    <%--<div><p><span id="l_calcLecturePrice"></span>원</p></div>--%>
+                    <div><input type="text" id="l_calcLecturePrice"></div>
                 </li>
             </ul>
             <!--
@@ -389,5 +400,35 @@ function Button4_onclick() {
 <div>
     <textarea id="TextArea1" name="S1" cols="50" rows="20"></textarea>
 </div>
+
+<!-- 비밀번호 찾기 레이어 시작 -->
+<div class="layer_popup_template apt_request_layer" id="price_layer" style="display: none;">
+    <div class="layer-title">
+        <h3>결제금액 책정</h3>
+        <button class="fa fa-close btn-close"></button>
+    </div>
+    <div class="layer-body">
+        <form name="pop_frm" class="form_st1">
+            <div class="cont">
+                <div class="form-group row">
+                    <div class="inputs">
+                        <span id=""></span>
+                    </div>
+                </div>
+                <div class="form-group"><div><input type="email" class="form-control" id="member_email" placeholder="이메일"></div></div>
+                <div class="form-group row" id="temporaryPassword_div" style="display: none;">
+                    <label>임시비밀번호</label>
+                    <span id="l_temporaryPassword"></span>
+                </div>
+            </div>
+        </form>
+        <div class="bot_btns_t1">
+            <button class="btn_pack btn-close">취소</button>
+            <button class="btn_pack blue" type="button" onclick="find_password();">찾기</button>
+        </div>
+    </div>
+</div>
+<!-- 비밀번호 찾기 레이어 끝 -->
+
 <%@include file="/common/jsp/footer.jsp" %>
 </body>

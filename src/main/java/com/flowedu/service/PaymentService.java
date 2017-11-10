@@ -1,6 +1,7 @@
 package com.flowedu.service;
 
 import com.flowedu.api.service.LogService;
+import com.flowedu.define.datasource.CalcType;
 import com.flowedu.domain.CalcLecturePayment;
 import com.flowedu.domain.KisPosOcx;
 import com.flowedu.domain.RequestApi;
@@ -37,7 +38,8 @@ public class PaymentService {
      * @param lectureRelId
      * @param studentName
      * @param paymentPrice
-     * @return
+     * @param paymentPrice
+     * @param kisPosOcx
      * @throws Exception
      */
     @Transactional(propagation = Propagation.REQUIRED)
@@ -60,6 +62,24 @@ public class PaymentService {
         );
         RequestApi requestApi = logService.lecturePaymentLog(lecturePaymentLogDto);
         return requestApi.getHttpStatusCode();
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 강의 가격 책정하기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 11 .09
+     * </PRE>
+     * @param lectureRelId
+     * @param price
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void formulateLecturePrice(Long lectureRelId, int price) {
+        if (lectureRelId == null) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        CalcLecturePayment calcLecturePayment = new CalcLecturePayment(lectureRelId, price, CalcType.PLUS.toString());
+        lectureMapper.calcLecturePaymentPrice(calcLecturePayment);
     }
 
 }
