@@ -1,6 +1,6 @@
 package com.flowedu.controller;
 
-import com.flowedu.config.FileUploadConfigHolder;
+import com.flowedu.config.ConfigHolder;
 import com.flowedu.util.FileUploadUtil;
 import com.flowedu.util.JsonBuilder;
 import org.springframework.stereotype.Controller;
@@ -28,6 +28,6 @@ public class FileController {
     }
 
     public String getFileUploadRoot() {
-        return FileUploadConfigHolder.uploadRoot();
+        return ConfigHolder.uploadRoot();
     }
 }

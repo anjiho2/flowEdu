@@ -1,9 +1,7 @@
 package com.flowedu.service;
 
-import com.flowedu.config.PagingSupport;
+import com.flowedu.api.service.LogService;
 import com.flowedu.dto.FlowEduMemberDto;
-import com.flowedu.dto.FlowEduMemberListDto;
-import com.flowedu.dto.PagingDto;
 import com.flowedu.mapper.LoginMapper;
 import com.flowedu.mapper.MemberMapper;
 import com.flowedu.session.UserSession;
@@ -11,9 +9,6 @@ import com.flowedu.util.Aes256;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.lang.reflect.Member;
-import java.util.List;
 
 /**
  * Created by jihoan on 2017. 7. 6..
@@ -26,6 +21,9 @@ public class LoginService {
 
     @Autowired
     private MemberMapper memberMapper;
+
+    @Autowired
+    private LogService logService;
 
     /**
      * <PRE>
@@ -40,12 +38,13 @@ public class LoginService {
      * @throws Exception
      */
     @Transactional(readOnly = true)
-    public FlowEduMemberDto isMember(String phoneNumber, String password, String memberType) throws Exception {
+    public FlowEduMemberDto isMember(String phoneNumber, String password, String memberType, String connectIp) throws Exception {
         FlowEduMemberDto dto = new FlowEduMemberDto();
         Long flowMemberId = loginMapper.findFlowEduMember(phoneNumber, Aes256.encrypt(password), memberType);
         if (flowMemberId != null) {
             dto = memberMapper.getFlowEduMemberCheck(flowMemberId);
             UserSession.set(new FlowEduMemberDto(dto.getFlowMemberId(), dto.getMemberType(), dto.getMemberName()));
+            logService.memberLoginLog(dto, connectIp);
             return dto;
         }
         return dto;

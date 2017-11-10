@@ -61,7 +61,6 @@ function save_attend() {
             alert(comment.blank_check);
             return;
         }
-
         var data ={
             lectureId:lecture_id,
             studentId:studentIds,
@@ -183,7 +182,5 @@ function attend_modify() {
 
 <!-- 팝업 레이어 끝 -->
 </body>
-
-
 <%@include file="/common/jsp/footer.jsp" %>
-</body>
+

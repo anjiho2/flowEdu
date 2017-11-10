@@ -26,6 +26,12 @@ public class LectureStudentRelDto {
 
     private String schoolName;
 
+    private Integer paymentPrice;
+
+    private boolean paymentYn;
+
+    private String paymentDate;
+
     public LectureStudentRelDto() {}
 
     public LectureStudentRelDto(Long lectureId, Long studentId) {

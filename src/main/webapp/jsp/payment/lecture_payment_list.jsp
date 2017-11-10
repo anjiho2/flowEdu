@@ -14,6 +14,10 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/paymentService.js'></script>
 <script>
 
+if (get_browser_type() != "IE") {
+    alert("크롬이나 사파리에서는 결제기능이 안됩니다.\n익스플로러로 실행해주세요.");
+}
+
 function init() {
     fn_search("new");
 }
@@ -41,6 +45,7 @@ function fn_search(val) {
                 function(data) {return addThousandSeparatorCommas(data.lecturePrice);},
                 function(data) {return data.lectureStartDate;},
                 function(data) {return data.lectureEndDate;},
+                function(data) {return data.paymentYn == false && data.paymentPrice == 0 ? "결재금액 책정전" : addThousandSeparatorCommas(data.paymentPrice)},
                 function(data) {return data.paymentDate == undefined ? "" : getDateTimeSplitComma(data.paymentDate);},
                 function(data) {return data.paymentYn == false ? "<button class='btn_pack white' type='button' id='"+ data.lectureRelId + "' onclick='javascript:cacl_lecture_price(this.id);'>수납하기</button>" : "수납완료";},
             ], {escapeHtml:false});
@@ -72,17 +77,166 @@ function cacl_lecture_price(lecture_rel_id) {
     });
 }
 
-function payment_lecture() {
+function payment_lecture(paymentResult) {
+    var check = new isCheck();
+    if (check.input("l_calcLecturePrice", "결제할 금액을 입력하세요") == false) return;
+
     var lectureRelId = getInputTextValue("lecture_rel_id");
-    var paymentPrice = getInputTextValue("payment_price");
+    var paymentPrice = getInputTextValue("l_calcLecturePrice");
+    var studentName = '<%=student_name%>';
+    var paymentResult = {
+        catId:90100546,
+        cardNo:546112,
+        installMent:"00",
+        transAmt:1004,
+        authNo:30001098,
+        replyDate:171108114815,
+        accepterCode:"012",
+        issureCode:"012",
+        issureName:"NH체크카드",
+        transNo:"0002",
+        merchantRegNo:106709207,
+        recvData:"?D190100546C546112001004030001098171108114815012NH카드012NH체크카드1067092070002?",
+        authType:"CC"
+    };
+    lectureService.getLectureStudentRelInfo(lectureRelId, function(info) {
+        alert(info.paymentYn);
+        if (!info.paymentYn && info.paymentPrice == 0) {
+            paymentService.formulateLecturePrice(lectureRelId, paymentPrice);
+        }
+    });
     if (confirm(addThousandSeparatorCommas(paymentPrice) + "원을 결제하시겠습니까?")) {
-        paymentService.paymentLecture(lectureRelId, '<%=student_name%>' , paymentPrice, function () {
-            alert("결제완료됬습니다.");
-            isReloadPage(true);
+        paymentService.paymentLecture(lectureRelId, studentName, paymentPrice, "MINUS", paymentResult, function (result) {
+            if (result == 200) {
+                alert("결제완료됬습니다.");
+                isReloadPage(true);
+            } else {
+                alert(comment.error);
+            }
         });
     }
 }
+
+function Button4_onclick() {
+    //CF 요청
+    kisPosOcx.Init();
+    kisPosOcx.inSpecType = "CATUPLOAD";
+
+    kisPosOcx.inCatPortNo = Text_port.value;
+    kisPosOcx.inCatBaudRate = Text_BaudRate.value;
+
+    //신용승인
+    if (Radio1.checked)
+        kisPosOcx.inTranCode = "D1";
+    //신용취소
+    if (Radio2.checked)
+        kisPosOcx.inTranCode = "D2";
+    //현금영수증 승인
+    if (Radio3.checked)
+        kisPosOcx.inTranCode = "CC";
+    //현금영수증 취소
+    if (Radio4.checked)
+        kisPosOcx.inTranCode = "CR";
+    /*
+    if (Radio5.checked) {
+        kisPosOcx.inTranCode = "H1";
+        kisPosOcx.inTranGubun = "1";
+    }
+
+    if (Radio6.checked) {
+        kisPosOcx.inTranCode = "H1";
+        kisPosOcx.inTranGubun = "2";
+    }
+
+    if (Radio7.checked) {
+        kisPosOcx.inTranCode = "H1";
+        kisPosOcx.inTranGubun = "3";
+    }
+
+    if (Radio7.checked) {
+        kisPosOcx.inTranCode = "H1";
+        kisPosOcx.inTranGubun = "4";
+    }
+    */
+
+    kisPosOcx.inTranAmt = Text_TranAmt.value;
+    kisPosOcx.inVatAmt = Text_VatAmt.value;
+    kisPosOcx.inSvcAmt = Text_SvcAmt.value;
+    kisPosOcx.inInstallment = Text_Installment.value;
+    kisPosOcx.inOrgAuthDate = Text_OrgAuthDate.value;
+    kisPosOcx.inOrgAuthNo = Text_OrgAuthNo.value;
+
+    if(Checkbox1.checked)
+        kisPosOcx.inPrintYN = "Y";
+    else
+        kisPosOcx.inPrintYN = "N";
+
+    if (Checkbox2.checked)
+        kisPosOcx.inCatMessageYN = "Y";
+    else
+        kisPosOcx.inCatMessageYN = "N";
+
+    if (Checkbox2.checked)
+        kisPosOcx.inCatBtnYN = "Y";
+    else
+        kisPosOcx.inCatBtnYN = "N";
+
+    var reVal =  kisPosOcx.KIS_Approval();
+    //alert(kisPosOcx.inTranCode);
+
+    alert(reVal);
+
+    if (reVal == 0) {
+        /*
+        var paymentResult = {
+            catId:outCatId,
+            cardNo:outCardNo,
+            installMent:outInstallment,
+            transAmt:outTranAmt,
+            authNo:outAuthNo,
+            replyDate:outReplyDate,
+            accepterCode:outAccepterCode,
+            issureCode:outIssuerCode,
+            issureName:outIssuerName,
+            transNo:outTranNo,
+            merchantRegNo:outMerchantRegNo,
+            recvData:outRecvData,
+            authType:kisPosOcx.inTranCode
+        };
+        payment_lecture(paymentResult);
+        */
+        var strTemp2 = "단말기번호 : [" + kisPosOcx.outCatId + "]"
+            + "\n카드번호 : [" + kisPosOcx.outCardNo + "]"
+            + "\n할부개월 : [" + kisPosOcx.outInstallment + "]"
+            + "\n거래금액 : [" + kisPosOcx.outTranAmt + "]"
+            + "\n부가세액 : [" + kisPosOcx.outVatAmt + "]"
+            + "\n봉사료 : [" + kisPosOcx.outSvcAmt + "]"
+            + "\n승인번호 : [" + kisPosOcx.outAuthNo + "]"
+            + "\n거래일자 : [" + kisPosOcx.outReplyDate + "]"
+            + "\n매입사코드 : [" + kisPosOcx.outAccepterCode + "]"
+            + "\n매입사명 : [" + kisPosOcx.outAccepterName + "]"
+            + "\n발급사코드 : [" + kisPosOcx.outIssuerCode + "]"
+            + "\n발급사명 : [" + kisPosOcx.outIssuerName + "]"
+            + "\n거래일련번호 : [" + kisPosOcx.outTranNo + "]"
+            + "\n가맹점번호 : [" + kisPosOcx.outMerchantRegNo + "]"
+            + "\n메세지 : [" + kisPosOcx.outDisplayMsg + "]"
+            + "\n화면표시 : [" + kisPosOcx.outDisplayMsg2 + "]"
+            + "\n알림1 : [" + kisPosOcx.outReplyMsg1 + "]"
+            + "\n알림2 : [" + kisPosOcx.outReplyMsg2 + "]"
+            + "\n알림3 : [" + kisPosOcx.outReplyMsg3 + "]"
+            + "\n알림4 : [" + kisPosOcx.outReplyMsg4 + "]"
+            + "\n잔액 : [" + kisPosOcx.out0x41JanAmt + "]"
+            + "\n비과세 : [" + kisPosOcx.out0x41TaxFreeAmt + "]"
+            + "\n거래구분 : [" + kisPosOcx.out0x41TranGubun + "]"
+            + "\n응답코드 : [" + kisPosOcx.out0x41ReplyCode + "]"
+            + "\nNextUploadData : [" + kisPosOcx.out0x41NextUploadData + "]"
+            + "\n거래로그 : [" + kisPosOcx.outRecvData + "]"
+
+        TextArea1.value = strTemp2;
+    }
+}
 </script>
+<object id="kisPosOcx" classid="clsid:5C41929F-BAD3-4302-83DE-FA68ABAFF8B7" width="100" height="50" name="kisPosOcx"></object>
 <body onload="init();">
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
@@ -105,6 +259,7 @@ function payment_lecture() {
                     <col width="*" />
                     <col width="*" />
                     <col width="*" />
+                    <col width="*" />
                     <col width="110" />
                 </colsgroup>
                 <tr>
@@ -113,7 +268,8 @@ function payment_lecture() {
                     <th>강의료</th>
                     <th>강의시일</th>
                     <th>강의종료일</th>
-                    <th>수납일</th>
+                    <th>결제할 금액</th>
+                    <th>수납완료일</th>
                     <th>수납여부</th>
                 </tr>
                 <tbody id="dataList"></tbody>
@@ -156,7 +312,8 @@ function payment_lecture() {
                 </li>
                 <li>
                     <strong>결제할 가격</strong>
-                    <div><p><span id="l_calcLecturePrice"></span>원</p></div>
+                    <%--<div><p><span id="l_calcLecturePrice"></span>원</p></div>--%>
+                    <div><input type="text" id="l_calcLecturePrice"></div>
                 </li>
             </ul>
             <!--
@@ -197,6 +354,81 @@ function payment_lecture() {
     <%--</form>--%>
 <%--</section>--%>
 
+<div>
+    <br />
+    연결포트번호(COM)             <input id="Text_port" type="text" value="1" /> 전송속도<input
+        id="Text_BaudRate" type="text" value="9600" /><br />
 </div>
+<div>
+    <br />
+    결제금액&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Text_TranAmt" type="text" value="1004" /><br />
+    <br />
+    봉사료&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Text_SvcAmt" type="text" value="0" /><br />
+    <br />
+    부가세액&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Text_VatAmt" type="text" value="0" /><br />
+    <br />
+    할부개월&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Text_Installment" type="text" value="00" /> (현금영수증:&nbsp; 01법인, 02개인)<br />
+    <br />
+    원거래일자&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Text_OrgAuthDate" type="text" /><br />
+    <br />
+    원승인번호 &nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Text_OrgAuthNo" type="text" /><br />
+</div>
+<div>
+    <input id="Radio1" checked="checked" name="R1" type="radio" value="V1" />신용승인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Radio2" name="R1" type="radio" value="V2" />신용취소<br /><br />
+    <input id="Radio3" name="R1" type="radio" value="V3" />현금영수증승인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Radio4" name="R1" type="radio" value="V4" />현금영수증취소<br /><br />
+    <!--
+    <input id="Radio5" name="R1" type="radio" value="V5" />현금IC승인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Radio6" name="R1" type="radio" value="V6" />현금IC취소&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Radio7" name="R1" type="radio" value="V7" />현금IC결과조회&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <input id="Radio8" name="R1" type="radio" value="V8" />현금IC잔액조회<br />
+    -->
+    <input id="Button_CF" type="button" value="CAT연동 결제요청 (0xCF)" onclick="return Button4_onclick()" />
+</div>
+<div style="display: none;">
+    <input id="Checkbox1" checked="checked" type="checkbox" />기본영수증출력&nbsp;&nbsp;&nbsp;
+    <input id="Checkbox2" checked="checked" type="checkbox" />메시지출력&nbsp;&nbsp;&nbsp;
+    <input id="Checkbox3" checked="checked" type="checkbox" />버튼출력<br />
+</div>
+<div>
+    <textarea id="TextArea1" name="S1" cols="50" rows="20"></textarea>
+</div>
+
+<!-- 비밀번호 찾기 레이어 시작 -->
+<div class="layer_popup_template apt_request_layer" id="price_layer" style="display: none;">
+    <div class="layer-title">
+        <h3>결제금액 책정</h3>
+        <button class="fa fa-close btn-close"></button>
+    </div>
+    <div class="layer-body">
+        <form name="pop_frm" class="form_st1">
+            <div class="cont">
+                <div class="form-group row">
+                    <div class="inputs">
+                        <span id=""></span>
+                    </div>
+                </div>
+                <div class="form-group"><div><input type="email" class="form-control" id="member_email" placeholder="이메일"></div></div>
+                <div class="form-group row" id="temporaryPassword_div" style="display: none;">
+                    <label>임시비밀번호</label>
+                    <span id="l_temporaryPassword"></span>
+                </div>
+            </div>
+        </form>
+        <div class="bot_btns_t1">
+            <button class="btn_pack btn-close">취소</button>
+            <button class="btn_pack blue" type="button" onclick="find_password();">찾기</button>
+        </div>
+    </div>
+</div>
+<!-- 비밀번호 찾기 레이어 끝 -->
+
 <%@include file="/common/jsp/footer.jsp" %>
 </body>

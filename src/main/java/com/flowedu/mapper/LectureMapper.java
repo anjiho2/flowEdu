@@ -1,5 +1,6 @@
 package com.flowedu.mapper;
 
+import com.flowedu.domain.CalcLecturePayment;
 import com.flowedu.dto.*;
 import org.apache.ibatis.annotations.Param;
 
@@ -78,5 +79,7 @@ public interface LectureMapper {
     void modifyLectureStudentRel(@Param("lectureRelId") Long lectureRelId, @Param("lectureId") Long lectureId, @Param("studentId") Long studentId, @Param("addYn") boolean addYn);
 
     void modifyAttendComment(@Param("lectureAttendId") Long lectureAttendId, @Param("attendType") String attendType, @Param("attendModifyComment") String attendModifyComment);
+
+    void calcLecturePaymentPrice(CalcLecturePayment calcLecturePayment);
 
 }

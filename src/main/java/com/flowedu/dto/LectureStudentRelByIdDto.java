@@ -58,6 +58,8 @@ public class LectureStudentRelByIdDto implements MemberNameContain {
 
     private String createDate;
 
+    private Integer paymentPrice;
+
     @Override
     public Long manageMemberId() {
         return manageMemberId;

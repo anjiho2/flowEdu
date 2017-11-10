@@ -15,6 +15,7 @@ import java.util.Locale;
 import java.util.SimpleTimeZone;
 import java.util.StringTokenizer;
 
+import com.flowedu.define.datasource.KisPosAuthType;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -27,6 +28,8 @@ import org.joda.time.format.DateTimeFormatter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * <PRE>
@@ -996,9 +999,9 @@ public class Util {
 		int rewardPopcorn = (int)((corn * 10 ) * Float.valueOf(String.format("%.2f", calcPercent)));
 		return rewardPopcorn;
 	}
-	
-	public static void main(String[] args) throws Exception {
 
+	public static void main(String[] args) throws Exception {
+		System.out.print(KisPosAuthType.getKisPosAuthTypeName(KisPosAuthType.CC.toString()));
 	 }
 }
 

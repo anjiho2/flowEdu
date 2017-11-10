@@ -52,9 +52,9 @@
         var memoType = get_radio_value("memo_type");
         var content = getInputTextValue("consultMemo");
 
-        if ( check.input("student_phone1", "전화번호롤 입력하세요.") == false
-            || check.input("student_phone2", "전화번호롤 입력하세요.") == false
-            || check.input("student_phone3", "전화번호롤 입력하세요.") == false ) return;
+        if ( check.input("student_phone1", comment.input_member_tel1) == false
+            || check.input("student_phone2", comment.input_member_tel1) == false
+            || check.input("student_phone3", comment.input_member_tel1) == false ) return;
 
         if (confirm(comment.isSave)) {
             consultService.saveEarlyConsultMemo(phoneNumber, memoType, content, function () {
@@ -65,6 +65,7 @@
     }
     //전화번로 입력시 등록되어 있는 전화번호인지 확인
     function isStudent() {
+        if (getInputTextValue("student_phone1") == "" || getInputTextValue("student_phone2") == "" || getInputTextValue("student_phone3") == "") return;
         var phoneNumber = getInputTextValue("student_phone1") + getInputTextValue("student_phone2") + getInputTextValue("student_phone3");
         studentService.isStudentByPhoneNumber(phoneNumber, function (bl) {
             if (bl == true) {

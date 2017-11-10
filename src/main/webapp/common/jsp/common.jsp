@@ -1,4 +1,4 @@
-<%@ page import="org.apache.http.HttpStatus" %>
+<%@ page import="com.flowedu.dto.FlowEduMemberDto" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@	taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%
@@ -8,9 +8,9 @@
 	request.setAttribute("webRoot", contextPath);
 
 	Long memberId = 0L;
-	String memberName = "";
-	String phoneNumber = "";
-	String memberType = "";
+	String memberName = null;
+	String phoneNumber = null;
+	String memberType = null;
 	if (session.getAttribute("member_info") != null) {
 		FlowEduMemberDto flowEduMemberDto = (FlowEduMemberDto) session.getAttribute("member_info");
 		memberName = flowEduMemberDto.getMemberName();
