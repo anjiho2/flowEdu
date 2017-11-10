@@ -54,7 +54,22 @@ function fn_search(val) {
 }
 //수납버튼 이벤트
 function cacl_lecture_price(lecture_rel_id) {
-    lectureService.getLectureStudentRelInfo(lecture_rel_id, function(relInfo) {
+    //결제 금액이 책정 되었는지 확인
+    lectureService.getLectureStudentRelInfo(lecture_rel_id, function(info) {
+        if (info.paymentYn == false && info.paymentPrice == 0) {
+            gfn_display("payment_section", false);
+            alert("총 결제금액이 책정되지 않았습니다.\n총 결제금액을 책정해주세요.");
+            innerValue("formulate_lecture_rel_id", lecture_rel_id);
+            initPopup($("#formulate_price_layer"));
+            return;
+        } else {
+            showLectureStudentRelInfo(lecture_rel_id);
+        }
+    });
+}
+//결제정보 영역 보여주가
+function showLectureStudentRelInfo(lectureRelId) {
+    lectureService.getLectureStudentRelInfo(lectureRelId, function(relInfo) {
         var regDate = getDateTimeSplitComma(relInfo.createDate);
         var splDate = gfn_split(regDate, " ");
         var splDate2 = gfn_split(splDate[0], "-");
@@ -72,11 +87,23 @@ function cacl_lecture_price(lecture_rel_id) {
         innerHTML("l_lectureName", relInfo.lectureName);
         innerHTML("l_lecturePrice", addThousandSeparatorCommas(relInfo.lecturePrice));
         innerHTML("l_minusDay", minusDay);
-        innerHTML("l_calcLecturePrice", addThousandSeparatorCommas(roundMarks(calcLecturePrice * minusDay)));
+        if (relInfo.paymentPrice > 0) {
+            innerValue("l_calcLecturePrice", addThousandSeparatorCommas(relInfo.paymentPrice));
+        }
         gfn_display("payment_section", true);
     });
 }
-
+//결재금액 책정하기
+function formulateLecturePrice() {
+    var formulatePrice = getInputTextValue("formulate_price");
+    var lectureRelId = getInputTextValue("formulate_lecture_rel_id");
+    paymentService.formulateLecturePrice(lectureRelId, formulatePrice, function () {
+        alert("결제할 가격이 책정되었습니다.");
+        close_popup("formulate_price_layer")
+        showLectureStudentRelInfo(lectureRelId);
+    });
+}
+//결제하기 비지니스 로직
 function payment_lecture(paymentResult) {
     var check = new isCheck();
     if (check.input("l_calcLecturePrice", "결제할 금액을 입력하세요") == false) return;
@@ -84,60 +111,40 @@ function payment_lecture(paymentResult) {
     var lectureRelId = getInputTextValue("lecture_rel_id");
     var paymentPrice = getInputTextValue("l_calcLecturePrice");
     var studentName = '<%=student_name%>';
-    var paymentResult = {
-        catId:90100546,
-        cardNo:546112,
-        installMent:"00",
-        transAmt:1004,
-        authNo:30001098,
-        replyDate:171108114815,
-        accepterCode:"012",
-        issureCode:"012",
-        issureName:"NH체크카드",
-        transNo:"0002",
-        merchantRegNo:106709207,
-        recvData:"?D190100546C546112001004030001098171108114815012NH카드012NH체크카드1067092070002?",
-        authType:"CC"
-    };
-    lectureService.getLectureStudentRelInfo(lectureRelId, function(info) {
-        alert(info.paymentYn);
-        if (!info.paymentYn && info.paymentPrice == 0) {
-            paymentService.formulateLecturePrice(lectureRelId, paymentPrice);
+
+    paymentService.paymentLecture(lectureRelId, studentName, paymentPrice, "MINUS", paymentResult, function (result) {
+        if (result == 200) {
+            alert("결제완료됬습니다.");
+            isReloadPage(true);
+        } else {
+            alert(comment.error);
         }
     });
-    if (confirm(addThousandSeparatorCommas(paymentPrice) + "원을 결제하시겠습니까?")) {
-        paymentService.paymentLecture(lectureRelId, studentName, paymentPrice, "MINUS", paymentResult, function (result) {
-            if (result == 200) {
-                alert("결제완료됬습니다.");
-                isReloadPage(true);
-            } else {
-                alert(comment.error);
-            }
-        });
-    }
 }
+//KisPos단말기로 결제 값 보내기(결제버튼)
+function kisPosPayment() {
+    var paymentPrice = getInputTextValue("l_calcLecturePrice");
+    if (confirm(addThousandSeparatorCommas(paymentPrice) + "원을 결제하시겠습니까?")) {
+        //CF 요청
+        kisPosOcx.Init();
+        kisPosOcx.inSpecType = "CATUPLOAD";
 
-function Button4_onclick() {
-    //CF 요청
-    kisPosOcx.Init();
-    kisPosOcx.inSpecType = "CATUPLOAD";
+        kisPosOcx.inCatPortNo = Text_port.value;
+        kisPosOcx.inCatBaudRate = Text_BaudRate.value;
 
-    kisPosOcx.inCatPortNo = Text_port.value;
-    kisPosOcx.inCatBaudRate = Text_BaudRate.value;
-
-    //신용승인
-    if (Radio1.checked)
-        kisPosOcx.inTranCode = "D1";
-    //신용취소
-    if (Radio2.checked)
-        kisPosOcx.inTranCode = "D2";
-    //현금영수증 승인
-    if (Radio3.checked)
-        kisPosOcx.inTranCode = "CC";
-    //현금영수증 취소
-    if (Radio4.checked)
-        kisPosOcx.inTranCode = "CR";
-    /*
+        //신용승인
+        if (Radio1.checked)
+            kisPosOcx.inTranCode = "D1";
+        //신용취소
+        if (Radio2.checked)
+            kisPosOcx.inTranCode = "D2";
+        //현금영수증 승인
+        if (Radio3.checked)
+            kisPosOcx.inTranCode = "CC";
+        //현금영수증 취소
+        if (Radio4.checked)
+            kisPosOcx.inTranCode = "CR";
+        /*
     if (Radio5.checked) {
         kisPosOcx.inTranCode = "H1";
         kisPosOcx.inTranGubun = "1";
@@ -158,8 +165,7 @@ function Button4_onclick() {
         kisPosOcx.inTranGubun = "4";
     }
     */
-
-    kisPosOcx.inTranAmt = Text_TranAmt.value;
+    kisPosOcx.inTranAmt = paymentPrice;
     kisPosOcx.inVatAmt = Text_VatAmt.value;
     kisPosOcx.inSvcAmt = Text_SvcAmt.value;
     kisPosOcx.inInstallment = Text_Installment.value;
@@ -182,57 +188,29 @@ function Button4_onclick() {
         kisPosOcx.inCatBtnYN = "N";
 
     var reVal =  kisPosOcx.KIS_Approval();
-    //alert(kisPosOcx.inTranCode);
-
-    alert(reVal);
 
     if (reVal == 0) {
-        /*
         var paymentResult = {
-            catId:outCatId,
-            cardNo:outCardNo,
-            installMent:outInstallment,
-            transAmt:outTranAmt,
-            authNo:outAuthNo,
-            replyDate:outReplyDate,
-            accepterCode:outAccepterCode,
-            issureCode:outIssuerCode,
-            issureName:outIssuerName,
-            transNo:outTranNo,
-            merchantRegNo:outMerchantRegNo,
-            recvData:outRecvData,
-            authType:kisPosOcx.inTranCode
+            catId:kisPosOcx.outCatId,
+            cardNo: kisPosOcx.outCardNo, installMent:kisPosOcx.outInstallment,
+            transAmt: kisPosOcx.outTranAmt, authNo:kisPosOcx.outAuthNo,
+            replyDate: kisPosOcx.outReplyDate, accepterCode:kisPosOcx.outAccepterCode,
+            issureCode: kisPosOcx.outIssuerCode, issureName:kisPosOcx.outIssuerName,
+            transNo: kisPosOcx.outTranNo, merchantRegNo:kisPosOcx.outMerchantRegNo,
+            recvData: kisPosOcx.outRecvData, authType:kisPosOcx.inTranCode
         };
         payment_lecture(paymentResult);
-        */
-        var strTemp2 = "단말기번호 : [" + kisPosOcx.outCatId + "]"
-            + "\n카드번호 : [" + kisPosOcx.outCardNo + "]"
-            + "\n할부개월 : [" + kisPosOcx.outInstallment + "]"
-            + "\n거래금액 : [" + kisPosOcx.outTranAmt + "]"
-            + "\n부가세액 : [" + kisPosOcx.outVatAmt + "]"
-            + "\n봉사료 : [" + kisPosOcx.outSvcAmt + "]"
-            + "\n승인번호 : [" + kisPosOcx.outAuthNo + "]"
-            + "\n거래일자 : [" + kisPosOcx.outReplyDate + "]"
-            + "\n매입사코드 : [" + kisPosOcx.outAccepterCode + "]"
-            + "\n매입사명 : [" + kisPosOcx.outAccepterName + "]"
-            + "\n발급사코드 : [" + kisPosOcx.outIssuerCode + "]"
-            + "\n발급사명 : [" + kisPosOcx.outIssuerName + "]"
-            + "\n거래일련번호 : [" + kisPosOcx.outTranNo + "]"
-            + "\n가맹점번호 : [" + kisPosOcx.outMerchantRegNo + "]"
-            + "\n메세지 : [" + kisPosOcx.outDisplayMsg + "]"
-            + "\n화면표시 : [" + kisPosOcx.outDisplayMsg2 + "]"
-            + "\n알림1 : [" + kisPosOcx.outReplyMsg1 + "]"
-            + "\n알림2 : [" + kisPosOcx.outReplyMsg2 + "]"
-            + "\n알림3 : [" + kisPosOcx.outReplyMsg3 + "]"
-            + "\n알림4 : [" + kisPosOcx.outReplyMsg4 + "]"
-            + "\n잔액 : [" + kisPosOcx.out0x41JanAmt + "]"
-            + "\n비과세 : [" + kisPosOcx.out0x41TaxFreeAmt + "]"
-            + "\n거래구분 : [" + kisPosOcx.out0x41TranGubun + "]"
-            + "\n응답코드 : [" + kisPosOcx.out0x41ReplyCode + "]"
-            + "\nNextUploadData : [" + kisPosOcx.out0x41NextUploadData + "]"
-            + "\n거래로그 : [" + kisPosOcx.outRecvData + "]"
-
-        TextArea1.value = strTemp2;
+        } else if (reVal == -3) {
+            alert("POS기기에서 취소하였습니다." + "에러코드 : " + reVal);
+        } else if (reVal == -2) {
+            alert("단말기 종료로 취소되었습니다." + "에러코드 : " + reVal);
+        } else if (reVal == -1) {
+            alert("단말기가 다른 동작중입니다.\n담당자에게 문의하세요." + "에러코드 : " + reVal);
+        } else if (reVal == 1) {
+            alert("단말기번호가 상이합니다.\n담당자에게 문의하세요." + "에러코드 : " + reVal);
+        } else {
+            alert("알수없는 에러가 발생되었습니다.\n담당자에게 문의하세요." + "에러코드 : " + reVal);
+        }
     }
 }
 </script>
@@ -324,7 +302,7 @@ function Button4_onclick() {
         </div>
         <div class="form-group row"></div>
         <div>
-            <button class="btn_pack blue s2" type="button" onclick="payment_lecture();">결제하기</button>
+            <button class="btn_pack blue s2" type="button" onclick="Button4_onclick();">결제하기</button>
         </div>
     </div>
 </section>
@@ -402,7 +380,8 @@ function Button4_onclick() {
 </div>
 
 <!-- 비밀번호 찾기 레이어 시작 -->
-<div class="layer_popup_template apt_request_layer" id="price_layer" style="display: none;">
+<div class="layer_popup_template apt_request_layer" id="formulate_price_layer" style="display: none;">
+    <input type="hidden" id="formulate_lecture_rel_id">
     <div class="layer-title">
         <h3>결제금액 책정</h3>
         <button class="fa fa-close btn-close"></button>
@@ -415,16 +394,12 @@ function Button4_onclick() {
                         <span id=""></span>
                     </div>
                 </div>
-                <div class="form-group"><div><input type="email" class="form-control" id="member_email" placeholder="이메일"></div></div>
-                <div class="form-group row" id="temporaryPassword_div" style="display: none;">
-                    <label>임시비밀번호</label>
-                    <span id="l_temporaryPassword"></span>
-                </div>
+                <div class="form-group"><div><input type="email" class="form-control" id="formulate_price" placeholder="책정할 금액입력"></div></div>
             </div>
         </form>
         <div class="bot_btns_t1">
             <button class="btn_pack btn-close">취소</button>
-            <button class="btn_pack blue" type="button" onclick="find_password();">찾기</button>
+            <button class="btn_pack blue" type="button" onclick="formulateLecturePrice();">책정하기</button>
         </div>
     </div>
 </div>

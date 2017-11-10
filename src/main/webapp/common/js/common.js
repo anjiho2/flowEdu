@@ -1943,7 +1943,7 @@ function get_array_values_by_name(type, name) {
 	}
     return array;
 }
-
+//브라우저 종류 값 가져오기
 function get_browser_type() {
     var browser = "";
     var ua = window.navigator.userAgent;
@@ -1961,4 +1961,9 @@ function get_browser_type() {
     }
     return browser;
     //document.write(b);
+}
+
+function close_popup(popupLayerId) {
+    gfn_display(popupLayerId, false);
+    $(".bg-layer").hide();
 }
