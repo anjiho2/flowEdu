@@ -997,21 +997,17 @@ public class Util {
 
 	public static void main(String[] args) throws Exception {
 		Enumeration ports = CommPortIdentifier.getPortIdentifiers();
+		ArrayList portList = new ArrayList();
+		String portArray[] = null;
 		while (ports.hasMoreElements()) {
 			CommPortIdentifier port = (CommPortIdentifier) ports.nextElement();
-			String type;
-			switch (port.getPortType()) {
-				case CommPortIdentifier.PORT_PARALLEL:
-					type = "Parallel";
-					break;
-				case CommPortIdentifier.PORT_SERIAL:
-					type = "Serial";
-					break;
-				default: /// Shouldn't happen
-					type = "Unknown";
-					break;
+			if (port.getPortType() == CommPortIdentifier.PORT_SERIAL) {
+				portList.add(port.getName());
 			}
-			System.out.println(port.getName() + ": " + type);
+		}
+		portArray = (String[]) portList.toArray(new String[0]);
+		for (int i=0; i<portArray.length; i++) {
+			System.out.print(portArray[i]);
 		}
 	}
 }
