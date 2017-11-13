@@ -23,9 +23,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import javax.comm.CommPortIdentifier;
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * <PRE>
  * 1. ClassName : Util
@@ -996,19 +993,7 @@ public class Util {
 	}
 
 	public static void main(String[] args) throws Exception {
-		Enumeration ports = CommPortIdentifier.getPortIdentifiers();
-		ArrayList portList = new ArrayList();
-		String portArray[] = null;
-		while (ports.hasMoreElements()) {
-			CommPortIdentifier port = (CommPortIdentifier) ports.nextElement();
-			if (port.getPortType() == CommPortIdentifier.PORT_SERIAL) {
-				portList.add(port.getName());
-			}
-		}
-		portArray = (String[]) portList.toArray(new String[0]);
-		for (int i=0; i<portArray.length; i++) {
-			System.out.print(portArray[i]);
-		}
+
 	}
 }
 

@@ -198,8 +198,9 @@ function kisPosPayment() {
             issureCode: kisPosOcx.outIssuerCode, issureName:kisPosOcx.outIssuerName,
             transNo: kisPosOcx.outTranNo, merchantRegNo:kisPosOcx.outMerchantRegNo,
             recvData: kisPosOcx.outRecvData, authType:kisPosOcx.inTranCode
-        };
+            };
         payment_lecture(paymentResult);
+
         } else if (reVal == -3) {
             alert("POS기기에서 취소하였습니다." + "에러코드 : " + reVal);
         } else if (reVal == -2) {
@@ -209,7 +210,7 @@ function kisPosPayment() {
         } else if (reVal == 1) {
             alert("단말기번호가 상이합니다.\n담당자에게 문의하세요." + "에러코드 : " + reVal);
         } else {
-            alert("알수없는 에러가 발생되었습니다.\n담당자에게 문의하세요." + "에러코드 : " + reVal);
+            alert("연결포트 번호를 확인하세요." + "에러코드 : " + reVal);
         }
     }
 }
@@ -290,19 +291,13 @@ function kisPosPayment() {
                 </li>
                 <li>
                     <strong>결제할 가격</strong>
-                    <%--<div><p><span id="l_calcLecturePrice"></span>원</p></div>--%>
                     <div><input type="text" id="l_calcLecturePrice"></div>
                 </li>
             </ul>
-            <!--
-            <div class="bot_btns">
-                <button class="btn_pack blue s2" type="button" onclick="payment_lecture();">결제하기</button>
-            </div>
-            -->
         </div>
         <div class="form-group row"></div>
         <div>
-            <button class="btn_pack blue s2" type="button" onclick="Button4_onclick();">결제하기</button>
+            <button class="btn_pack blue s2" type="button" onclick="kisPosPayment();">결제하기</button>
         </div>
     </div>
 </section>
