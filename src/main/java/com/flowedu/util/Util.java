@@ -7,13 +7,7 @@ import java.security.SecureRandom;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.SimpleTimeZone;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import com.flowedu.define.datasource.KisPosAuthType;
 import org.apache.http.HttpResponse;
@@ -29,6 +23,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import javax.comm.CommPortIdentifier;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -1001,7 +996,23 @@ public class Util {
 	}
 
 	public static void main(String[] args) throws Exception {
-		System.out.print(KisPosAuthType.getKisPosAuthTypeName(KisPosAuthType.CC.toString()));
-	 }
+		Enumeration ports = CommPortIdentifier.getPortIdentifiers();
+		while (ports.hasMoreElements()) {
+			CommPortIdentifier port = (CommPortIdentifier) ports.nextElement();
+			String type;
+			switch (port.getPortType()) {
+				case CommPortIdentifier.PORT_PARALLEL:
+					type = "Parallel";
+					break;
+				case CommPortIdentifier.PORT_SERIAL:
+					type = "Serial";
+					break;
+				default: /// Shouldn't happen
+					type = "Unknown";
+					break;
+			}
+			System.out.println(port.getName() + ": " + type);
+		}
+	}
 }
 
