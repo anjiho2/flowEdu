@@ -14,10 +14,13 @@ import com.flowedu.mapper.PaymentMapper;
 import com.flowedu.session.UserSession;
 
 import com.flowedu.util.SerialPortUtil;
+import gnu.io.CommPortIdentifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Enumeration;
 
 /**
  * Created by jihoan on 2017. 9. 14..
@@ -84,7 +87,17 @@ public class PaymentService {
     }
 
     public int test() {
-        return SerialPortUtil.getSerialPortNumber();
+        int portNumber = 0;
+        Enumeration enumeration = CommPortIdentifier.getPortIdentifiers();
+
+        if (enumeration.hasMoreElements() == true) {
+            while (enumeration.hasMoreElements()) {
+                CommPortIdentifier first = (CommPortIdentifier) enumeration.nextElement();
+                String str = first.getName().substring(3, 4);
+                portNumber = Integer.parseInt(str);
+            }
+        }
+        return portNumber;
     }
 
 }
