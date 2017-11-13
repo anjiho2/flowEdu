@@ -13,6 +13,7 @@ import com.flowedu.mapper.LectureMapper;
 import com.flowedu.mapper.PaymentMapper;
 import com.flowedu.session.UserSession;
 
+import com.flowedu.util.SerialPortUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -80,6 +81,10 @@ public class PaymentService {
         }
         CalcLecturePayment calcLecturePayment = new CalcLecturePayment(lectureRelId, price, CalcType.PLUS.toString());
         lectureMapper.calcLecturePaymentPrice(calcLecturePayment);
+    }
+
+    public int test() {
+        return SerialPortUtil.getSerialPortNumber();
     }
 
 }

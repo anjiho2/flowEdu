@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import com.flowedu.define.datasource.KisPosAuthType;
+import gnu.io.CommPortIdentifier;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -993,7 +994,16 @@ public class Util {
 	}
 
 	public static void main(String[] args) throws Exception {
-
+		try {
+			Enumeration e = CommPortIdentifier.getPortIdentifiers();
+			System.out.println("get() -------------------------------" + e.hasMoreElements());
+			while (e.hasMoreElements()) {
+				CommPortIdentifier first = (CommPortIdentifier) e.nextElement();
+				System.out.println("COM name : " + first.getName());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
 
