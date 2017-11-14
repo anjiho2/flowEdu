@@ -82,7 +82,7 @@ function showLectureStudentRelInfo(lectureRelId) {
         var minusDay = lastDay - regDay;
         var calcLecturePrice = relInfo.lecturePrice / lastDay;
 
-        innerValue("lecture_rel_id", lecture_rel_id);
+        innerValue("lecture_rel_id", lectureRelId);
         innerValue("payment_price", roundMarks(calcLecturePrice * minusDay));
         innerHTML("l_lectureName", relInfo.lectureName);
         innerHTML("l_lecturePrice", addThousandSeparatorCommas(relInfo.lecturePrice));
@@ -129,21 +129,18 @@ function kisPosPayment() {
         kisPosOcx.Init();
         kisPosOcx.inSpecType = "CATUPLOAD";
 
-        kisPosOcx.inCatPortNo = Text_port.value;
+        //kisPosOcx.inCatPortNo = Text_port.value;
+        kisPosOcx.inCatPortNo = getSelectboxValue("posPort");
         kisPosOcx.inCatBaudRate = Text_BaudRate.value;
 
         //신용승인
-        if (Radio1.checked)
-            kisPosOcx.inTranCode = "D1";
+        if (Radio1.checked) kisPosOcx.inTranCode = "D1";
         //신용취소
-        if (Radio2.checked)
-            kisPosOcx.inTranCode = "D2";
+        if (Radio2.checked) kisPosOcx.inTranCode = "D2";
         //현금영수증 승인
-        if (Radio3.checked)
-            kisPosOcx.inTranCode = "CC";
+        if (Radio3.checked) kisPosOcx.inTranCode = "CC";
         //현금영수증 취소
-        if (Radio4.checked)
-            kisPosOcx.inTranCode = "CR";
+        if (Radio4.checked) kisPosOcx.inTranCode = "CR";
         /*
     if (Radio5.checked) {
         kisPosOcx.inTranCode = "H1";
@@ -166,11 +163,11 @@ function kisPosPayment() {
     }
     */
     kisPosOcx.inTranAmt = paymentPrice;
-    kisPosOcx.inVatAmt = Text_VatAmt.value;
-    kisPosOcx.inSvcAmt = Text_SvcAmt.value;
+    kisPosOcx.inVatAmt = 0;
+    kisPosOcx.inSvcAmt = 0;
     kisPosOcx.inInstallment = Text_Installment.value;
-    kisPosOcx.inOrgAuthDate = Text_OrgAuthDate.value;
-    kisPosOcx.inOrgAuthNo = Text_OrgAuthNo.value;
+    kisPosOcx.inOrgAuthDate = "";
+    kisPosOcx.inOrgAuthNo = "";
 
     if(Checkbox1.checked)
         kisPosOcx.inPrintYN = "Y";
@@ -210,13 +207,69 @@ function kisPosPayment() {
         } else if (reVal == 1) {
             alert("단말기번호가 상이합니다.\n담당자에게 문의하세요." + "에러코드 : " + reVal);
         } else {
-            alert("연결포트 번호를 확인하세요." + "에러코드 : " + reVal);
+            alert("결제 포스기기가 열결되있지 않거나\n연결포트 번호를 확인하세요." + "에러코드 : " + reVal);
+            focusInputText("posPort");
         }
     }
 }
+
 </script>
 <object id="kisPosOcx" classid="clsid:5C41929F-BAD3-4302-83DE-FA68ABAFF8B7" width="100" height="50" name="kisPosOcx"></object>
-<body onload="init();">
+<object id="SPortX" style="display: none" data="data:application/x-oleobject;ba.se64,RlDpFMe+0ka543SxrRSsZQAHAABPAwAATwMAAA==" classid="clsid:14E95046-BEC7-46D2-B9E3-74B1AD14AC65" viewastext codebase="..\CAB\sport.cab"></object>
+<script>
+    //COM포트 정보 가져오기 IE에서만 작동 (serial_activex 가 설치되어있어야함)
+    var SPAxLoaded,  txtTermBuf, CForm1;
+    var CRLF = '\n';
+    var SPort = document.getElementById("SPortX");
+
+    var SERIAL_DTR_CONTROL = 1;
+    var SERIAL_DTR_HANDSHAKE = 2;
+    var SERIAL_RTS_CONTROL = 64;
+    var SERIAL_RTS_HANDSHAKE = 128;
+    var SERIAL_CTS_HANDSHAKE = 8;
+    var SERIAL_DSR_HANDSHAKE = 16;
+    var SERIAL_AUTO_TRANSMIT = 1;
+    var SERIAL_AUTO_RECEIVE = 2;
+
+    function addPort(port) {
+        var portList = CForm1.elements["posPort"];
+        var intPort =  port.replace(/[^0-9]/g,"");
+
+        if (document.createElement){
+            var newPort = document.createElement("OPTION");
+            newPort.text = intPort + "번포트";
+            newPort.value  = intPort;
+            (portList.options.add) ? portList.options.add(newPort) : portList.add(newPort, null);
+        } else{
+            // for NN3.x-4.x
+            portList.options[i] = new Option(port, port, false, false);
+        }
+    }
+
+    function InitPort() {
+        //SPort = document.getElementById("SPortX");
+        CForm1 = document.frm2;
+        SPAxLoaded = false;
+
+        if(SPort == null){
+            SPAxLoaded = false;
+            alert('Serial Port Control was not loaded');
+        } else{
+            SPAxLoaded = true;
+            SPort.Parity = 0; //NOPARITY
+            SPort.StopBits = 0; //1.5 STOPBITS
+            SPort.BaudRate = 110;
+            SPort.HandShake = SERIAL_DTR_CONTROL;
+            SPort.FlowReplace = SERIAL_RTS_CONTROL;
+
+            for (var i = 0; i < SPort.CountPorts; i++){
+                addPort(SPort.GetPortName(i));
+            }
+        }
+    }
+
+</script>
+<body onload="init();InitPort();">
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
     <%@include file="/common/jsp/student_depth_menu.jsp" %>
@@ -259,24 +312,21 @@ function kisPosPayment() {
             <div class="form-group row"></div>
             <%@ include file="/common/inc/com_pageNavi.inc" %>
         </div>
-
-        <%--<div id="payment_div" style="display: none;">--%>
-            <%--<input type="hidden" id="lecture_rel_id">--%>
-            <%--<input type="hidden" id="payment_price">--%>
-            <%--강의 가격 : <span id="l_lecturePrice"></span>원<br>--%>
-            <%--등록일 기준 결제 가격 : <span id="l_calcLecturePrice"></span>원<br>--%>
-            <%--<input type="button" value="결제하기" id="payBtn" onclick="javascript:payment_lecture();">--%>
-        <%--</div>--%>
     </form>
 </section>
 <section class="content divide" id="payment_section" style="display: none;">
+    <form name="frm2">
     <div class="left">
         <div class="tile_box">
             <h3 class="title_t1">결제 정보</h3>
-            <%--<h3 class="title_t1"><%=student_name%>학생 상담 등록</h3>--%>
             <input type="hidden" id="lecture_rel_id">
             <input type="hidden" id="payment_price">
             <ul class="list_t1">
+                <li>
+                    <strong>POS포트</strong>
+                    <div><select name="posPort" id="posPort"></select></div>
+                </li>
+
                 <li>
                     <strong>강의 이름</strong>
                     <div><p><span id="l_lectureName"></span></p></div>
@@ -290,6 +340,10 @@ function kisPosPayment() {
                     <div><p><span id="l_minusDay"></span>일</p></div>
                 </li>
                 <li>
+                    <strong>할부개월</strong>
+                    <div><p><span id="l_installment"></span></p></div>
+                </li>
+                <li>
                     <strong>결제할 가격</strong>
                     <div><input type="text" id="l_calcLecturePrice"></div>
                 </li>
@@ -300,6 +354,7 @@ function kisPosPayment() {
             <button class="btn_pack blue s2" type="button" onclick="kisPosPayment();">결제하기</button>
         </div>
     </div>
+    </form>
 </section>
 
 <%--<section class="content" id="payment_section" style="display: none;">--%>
@@ -373,7 +428,6 @@ function kisPosPayment() {
 <div>
     <textarea id="TextArea1" name="S1" cols="50" rows="20"></textarea>
 </div>
-
 <!-- 비밀번호 찾기 레이어 시작 -->
 <div class="layer_popup_template apt_request_layer" id="formulate_price_layer" style="display: none;">
     <input type="hidden" id="formulate_lecture_rel_id">
