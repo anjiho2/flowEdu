@@ -12,6 +12,8 @@ public class LecturePaymentLogDto {
 
     private Long lecturePaymentLogId;
 
+    private Long lectureRelId;
+
     private String lectureName;
 
     private Integer paymentPrice;
@@ -26,7 +28,8 @@ public class LecturePaymentLogDto {
 
     LecturePaymentLogDto() {}
 
-    public LecturePaymentLogDto(String lectureName, Integer paymentPrice, String studentName, KisPosOcx kisPosOcx) {
+    public LecturePaymentLogDto(Long lectureRelId, String lectureName, Integer paymentPrice, String studentName, KisPosOcx kisPosOcx) {
+        this.lectureRelId = lectureRelId;
         this.lectureName = lectureName;
         this.paymentPrice = paymentPrice;
         this.studentName = studentName;

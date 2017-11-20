@@ -79,5 +79,9 @@ var comment = {
 
     	input_student_grade:"학생의 학년을 선택해주세요.",
 		input_student_name : "학생 이름을 입력하세요.",
+
+		payment_error : "결제결과 에러가 발생되었습니다.",
+		select_installMent : "할부개월을 선택해주세요.",
+		select_cash_receipt_type : "현금영수증을 선택해주세요.",
 }
 

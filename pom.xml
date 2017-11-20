@@ -374,14 +374,6 @@
 			<artifactId>cglib</artifactId>
 			<version>3.1</version>
 		</dependency>
-		<dependency>
-			<groupId>sample</groupId>
-			<artifactId>com.sample</artifactId>
-			<version>1.0</version>
-            <scope>system</scope>
-            <systemPath>/Users/jihoan/Downloads/mfz-rxtx-2.2-20081207-win-x64/RXTXcomm.jar</systemPath>
-		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/com.rabbitmq/amqp-client -->
 		<dependency>
 			<groupId>com.rabbitmq</groupId>

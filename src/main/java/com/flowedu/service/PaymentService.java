@@ -51,6 +51,9 @@ public class PaymentService {
         if (lectureRelId == null || kisPosOcx == null) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
+        if (kisPosOcx.getAuthNo() == null) {
+            return FlowEduErrorCode.CUSTOM_PAYMENT_ACCESS_CODE_NULL.code();
+        }
         //결제 요청 금액 만큼 차감하기
         CalcLecturePayment calcLecturePayment = new CalcLecturePayment(lectureRelId, paymentPrice, calcType);
         lectureMapper.calcLecturePaymentPrice(calcLecturePayment);
@@ -62,7 +65,7 @@ public class PaymentService {
             paymentMapper.paymentLecture(lectureRelId);
         }
         LecturePaymentLogDto lecturePaymentLogDto = new LecturePaymentLogDto(
-            dto.getLectureName(), paymentPrice, studentName, kisPosOcx
+            lectureRelId, dto.getLectureName(), paymentPrice, studentName, kisPosOcx
         );
         RequestApi requestApi = logService.lecturePaymentLog(lecturePaymentLogDto);
         return requestApi.getHttpStatusCode();
@@ -84,20 +87,6 @@ public class PaymentService {
         }
         CalcLecturePayment calcLecturePayment = new CalcLecturePayment(lectureRelId, price, CalcType.PLUS.toString());
         lectureMapper.calcLecturePaymentPrice(calcLecturePayment);
-    }
-
-    public int test() {
-        int portNumber = 0;
-        Enumeration enumeration = CommPortIdentifier.getPortIdentifiers();
-
-        if (enumeration.hasMoreElements() == true) {
-            while (enumeration.hasMoreElements()) {
-                CommPortIdentifier first = (CommPortIdentifier) enumeration.nextElement();
-                String str = first.getName().substring(3, 4);
-                portNumber = Integer.parseInt(str);
-            }
-        }
-        return portNumber;
     }
 
 }

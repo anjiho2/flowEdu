@@ -94,6 +94,7 @@
 		<convert converter="bean" match="com.flowedu.dto.EarlyConsultMemoDto"/>
 		<!-- define -->
 		<convert converter="bean" match="com.flowedu.domain.KisPosOcx"/>
+		<convert converter="bean" match="com.flowedu.domain.LecturePaymentLog"/>
 
 
 	</allow>

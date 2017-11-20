@@ -1,6 +1,7 @@
 package com.flowedu.api.service;
 
 import com.flowedu.config.ConfigHolder;
+import com.flowedu.define.datasource.HttpDefineType;
 import com.flowedu.define.datasource.RequestMethod;
 import com.flowedu.domain.RequestApi;
 import com.flowedu.error.FlowEduException;
@@ -43,8 +44,8 @@ public abstract class ApiService {
         try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
             if (requestMethod.equals(RequestMethod.REQUEST_METHOD_POST)) {
                 httpPost = new HttpPost(url);
-                StringEntity entity = new StringEntity(jsonBody.toString(), "UTF-8");
-                httpPost.addHeader("content-type", "application/json");
+                StringEntity entity = new StringEntity(jsonBody.toString(), HttpDefineType.UTF_8.getProperty());
+                httpPost.addHeader(HttpDefineType.CONTENT_TYPE.getProperty(), HttpDefineType.APPLICATION_JSON.getProperty());
                 httpPost.setEntity(entity);
                 response = httpClient.execute(httpPost);
             } else if (requestMethod.equals(RequestMethod.REQUEST_METHOD_PUT)) {
@@ -57,7 +58,7 @@ public abstract class ApiService {
                 httpGet = new HttpGet(url);
                 response = httpClient.execute(httpGet);
             }
-            String requestBody = EntityUtils.toString(response.getEntity(), "UTF-8");
+            String requestBody = EntityUtils.toString(response.getEntity(), HttpDefineType.UTF_8.getProperty());
             int httpStatusCode = response.getStatusLine().getStatusCode();
 
             logger.info("http status code -----------------> " + httpStatusCode);

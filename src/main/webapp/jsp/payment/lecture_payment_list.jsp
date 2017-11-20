@@ -10,8 +10,10 @@
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
+<script src="<%=webRoot%>/js/trans_payment.js?ver=<%=version%>"></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/paymentService.js'></script>
+<script type='text/javascript' src='/flowEdu/dwr/interface/logService.js'></script>
 <script>
 
 if (get_browser_type() != "IE") {
@@ -25,11 +27,9 @@ function init() {
 function fn_search(val) {
     var student_id = getInputTextValue("studentId");
     var paging = new Paging();
-    var sPage = $("#sPage").val();
+    var sPage = getInputTextValue("sPage");
 
-    if(val == "new") {
-        sPage = "1";
-    }
+    if(val == "new") sPage = "1";
     gfn_emptyView("H", "");
 
     lectureService.getLecturePaymentListCount(student_id, function(cnt) {
@@ -48,6 +48,7 @@ function fn_search(val) {
                 function(data) {return data.paymentYn == false && data.paymentPrice == 0 ? "결재금액 책정전" : addThousandSeparatorCommas(data.paymentPrice)},
                 function(data) {return data.paymentDate == undefined ? "" : getDateTimeSplitComma(data.paymentDate);},
                 function(data) {return data.paymentYn == false ? "<button class='btn_pack white' type='button' id='"+ data.lectureRelId + "' onclick='javascript:cacl_lecture_price(this.id);'>수납하기</button>" : "수납완료";},
+                function(data) {return "<button class='btn_pack white' type='button' id='"+ data.lectureRelId + "' onclick='javascript:showPaymentLog(this.id);'>보기</button>"},
             ], {escapeHtml:false});
         });
     });
@@ -67,7 +68,7 @@ function cacl_lecture_price(lecture_rel_id) {
         }
     });
 }
-//결제정보 영역 보여주가
+//결제정보 영역 보여주기
 function showLectureStudentRelInfo(lectureRelId) {
     lectureService.getLectureStudentRelInfo(lectureRelId, function(relInfo) {
         var regDate = getDateTimeSplitComma(relInfo.createDate);
@@ -116,87 +117,81 @@ function payment_lecture(paymentResult) {
         if (result == 200) {
             alert("결제완료됬습니다.");
             isReloadPage(true);
+        } else if (result == 911) {
+            alert(comment.payment_error + "\n" + "[" + getInputTextValue("auth_message") + "]");
         } else {
             alert(comment.error);
         }
     });
 }
 //KisPos단말기로 결제 값 보내기(결제버튼)
-function kisPosPayment() {
-    var paymentPrice = getInputTextValue("l_calcLecturePrice");
-    if (confirm(addThousandSeparatorCommas(paymentPrice) + "원을 결제하시겠습니까?")) {
+function kisPosPayment(transType) {
+    var check = new isCheck();
+    if (get_browser_type() != "IE") {
+        alert("크롬이나 사파리에서는 결제기능이 안됩니다.\n익스플로러로 실행해주세요.");
+        return;
+    }
+    var transCode;
+    var paymentPrice;
+    var confirmComment;
+    var catPortNo;
+    var inInstallment;
+
+    if (transType == "payment") {   //결제일때
+        var paymentType = getSelectboxValue("sel_payment");
+        transCode = paymentType;
+        paymentPrice = getInputTextValue("l_calcLecturePrice");
+        confirmComment = "원을 결제하시겠습니까?";
+        catPortNo = getSelectboxValue("posPort");
+        inInstallment = getSelectboxValue("sel_installMent");
+
+        if (paymentType == "D1") {
+            if (check.selectbox("sel_installMent", comment.select_installMent) == false) return;
+        } else if (paymentType == "CC") {
+            if (check.selectbox("sel_cash", comment.select_cash_receipt_type) == false) return;
+        }
+    } else if (transType == "cancel") { //취소일때
+        paymentPrice = getInputTextValue("cancel_price");
+        confirmComment = "원을 취소하시겠습니까?";
+        catPortNo = getSelectboxValue("cancelPosPort");
+        inInstallment = "00";
+
+        var cancel_auth_type = getInputTextValue("cancel_auth_type");
+        if (cancel_auth_type == "D1") transCode = "D2"; //신용취소
+        else if (cancel_auth_type == "CC") transCode = "CR";    //현금영수증 취소
+    }
+
+    if (confirm(addThousandSeparatorCommas(paymentPrice) + confirmComment)) {
         //CF 요청
         kisPosOcx.Init();
         kisPosOcx.inSpecType = "CATUPLOAD";
+        kisPosOcx.inCatPortNo = catPortNo;
+        kisPosOcx.inCatBaudRate = getInputTextValue("Text_BaudRate");
+        kisPosOcx.inTranCode = transCode;
+        kisPosOcx.inTranAmt = paymentPrice;
+        kisPosOcx.inVatAmt = 0;
+        kisPosOcx.inSvcAmt = 0;
+        kisPosOcx.inInstallment = inInstallment;
+        kisPosOcx.inOrgAuthDate = "";
+        kisPosOcx.inOrgAuthNo = "";
 
-        //kisPosOcx.inCatPortNo = Text_port.value;
-        kisPosOcx.inCatPortNo = getSelectboxValue("posPort");
-        kisPosOcx.inCatBaudRate = Text_BaudRate.value;
+        var reVal =  kisPosOcx.KIS_Approval();
 
-        //신용승인
-        if (Radio1.checked) kisPosOcx.inTranCode = "D1";
-        //신용취소
-        if (Radio2.checked) kisPosOcx.inTranCode = "D2";
-        //현금영수증 승인
-        if (Radio3.checked) kisPosOcx.inTranCode = "CC";
-        //현금영수증 취소
-        if (Radio4.checked) kisPosOcx.inTranCode = "CR";
-        /*
-    if (Radio5.checked) {
-        kisPosOcx.inTranCode = "H1";
-        kisPosOcx.inTranGubun = "1";
-    }
+        if (reVal == 0) {
+            if (kisPosOcx.outAuthNo == null || kisPosOcx.outAuthNo == "" || kisPosOcx.outAuthNo == undefined) {
+                innerValue("auth_message", kisPosOcx.outDisplayMsg);
+            }
+            var paymentResult = {
+                catId:kisPosOcx.outCatId,
+                cardNo: kisPosOcx.outCardNo, installMent:kisPosOcx.outInstallment,
+                transAmt: kisPosOcx.outTranAmt, authNo:kisPosOcx.outAuthNo,
+                replyDate: kisPosOcx.outReplyDate, accepterCode:kisPosOcx.outAccepterCode,
+                issureCode: kisPosOcx.outIssuerCode, issureName:kisPosOcx.outIssuerName,
+                transNo: kisPosOcx.outTranNo, merchantRegNo:kisPosOcx.outMerchantRegNo,
+                recvData: kisPosOcx.outRecvData, authType:kisPosOcx.inTranCode
+                };
 
-    if (Radio6.checked) {
-        kisPosOcx.inTranCode = "H1";
-        kisPosOcx.inTranGubun = "2";
-    }
-
-    if (Radio7.checked) {
-        kisPosOcx.inTranCode = "H1";
-        kisPosOcx.inTranGubun = "3";
-    }
-
-    if (Radio7.checked) {
-        kisPosOcx.inTranCode = "H1";
-        kisPosOcx.inTranGubun = "4";
-    }
-    */
-    kisPosOcx.inTranAmt = paymentPrice;
-    kisPosOcx.inVatAmt = 0;
-    kisPosOcx.inSvcAmt = 0;
-    kisPosOcx.inInstallment = Text_Installment.value;
-    kisPosOcx.inOrgAuthDate = "";
-    kisPosOcx.inOrgAuthNo = "";
-
-    if(Checkbox1.checked)
-        kisPosOcx.inPrintYN = "Y";
-    else
-        kisPosOcx.inPrintYN = "N";
-
-    if (Checkbox2.checked)
-        kisPosOcx.inCatMessageYN = "Y";
-    else
-        kisPosOcx.inCatMessageYN = "N";
-
-    if (Checkbox2.checked)
-        kisPosOcx.inCatBtnYN = "Y";
-    else
-        kisPosOcx.inCatBtnYN = "N";
-
-    var reVal =  kisPosOcx.KIS_Approval();
-
-    if (reVal == 0) {
-        var paymentResult = {
-            catId:kisPosOcx.outCatId,
-            cardNo: kisPosOcx.outCardNo, installMent:kisPosOcx.outInstallment,
-            transAmt: kisPosOcx.outTranAmt, authNo:kisPosOcx.outAuthNo,
-            replyDate: kisPosOcx.outReplyDate, accepterCode:kisPosOcx.outAccepterCode,
-            issureCode: kisPosOcx.outIssuerCode, issureName:kisPosOcx.outIssuerName,
-            transNo: kisPosOcx.outTranNo, merchantRegNo:kisPosOcx.outMerchantRegNo,
-            recvData: kisPosOcx.outRecvData, authType:kisPosOcx.inTranCode
-            };
-        payment_lecture(paymentResult);
+            payment_lecture(paymentResult);
 
         } else if (reVal == -3) {
             alert("POS기기에서 취소하였습니다." + "에러코드 : " + reVal);
@@ -208,17 +203,89 @@ function kisPosPayment() {
             alert("단말기번호가 상이합니다.\n담당자에게 문의하세요." + "에러코드 : " + reVal);
         } else {
             alert("결제 포스기기가 열결되있지 않거나\n연결포트 번호를 확인하세요." + "에러코드 : " + reVal);
-            focusInputText("posPort");
+            if (transType == "payment") focusInputText("posPort");
+            else if (transType == "cancel") focusInputText("cancelPosPort");
         }
     }
 }
 
+function changeSelPayment() {
+    var paymentType = getSelectboxValue("sel_payment");
+    if (paymentType == "CC") {
+        gfn_display("li_cach_recipt", true);
+        gfn_display("li_installMent", false);
+    } else {
+        gfn_display("li_cach_recipt", false);
+        gfn_display("li_installMent", true);
+    }
+}
+//결재내역 보기 버튼
+function showPaymentLog(lectureRelId) {
+    initPopup($("#payment_log_layer"));
+    var listCount = 2;
+    var sPage;
+
+    if (lectureRelId != undefined) {
+        innerValue("payment_lecture_rel_id", lectureRelId);
+        dwr.util.removeAllRows("paymentList");
+        sPage = 1;
+    } else {
+        sPage = getInputTextValue("s_page");
+        sPage++;
+    }
+    innerValue("s_page", sPage);
+
+    gfn_emptyView2("H", "");
+
+    logService.getLecturePaymentLog(getInputTextValue("payment_lecture_rel_id"), function(selList) {
+        if (selList.length == 0) {
+            gfn_emptyView2('v', "결과값이 없습니다");
+        } else if (selList.length < (sPage * listCount)) {
+            alert("데이터가 더이상 없습니다.");
+            return;
+        }
+        innerHTML("l_payment_name", selList[0].studentName);
+        dwr.util.removeAllRows("paymentList");
+        for (var i = 0; i < sPage * listCount; i++) {
+            var cmpList = selList[i];
+            var cellData = [
+                function(data) {return cmpList.authNo + "(" + getPaymentType(cmpList.authType) + ")"},
+                function(data) {return addThousandSeparatorCommas(cmpList.transAmt) + "(" + transInstallMent(cmpList.installMent, cmpList.authType) + ")"},
+                function(data) {return cmpList.issureName + "(" + cmpList.cardNo + ")"},
+                function(data) {return getDateTimeSplitComma(cmpList.createDate)},
+                function(data) {return getDateTimeSplitComma(cmpList.memberName)},
+                function(data) {return cmpList.authType == "D1" || cmpList.authType == "CC" ? transAuthType(cmpList.authType) + "(" + "<a href='#' onclick='cancel_payment_info(" + cmpList.lecturePaymentLogId + ");'>취소하기</a>" + ")" : transAuthType(cmpList.authType);},
+            ];
+            dwr.util.addRows("paymentList", [0], cellData, {escapeHtml: false});
+        }
+
+    });
+}
+//결제 취소할 정보
+function cancel_payment_info(lecturePaymentLogId) {
+    close_popup("payment_log_layer");
+    initPopup($("#cancel_payment_layer"));
+}
+//결제 취소하기(결제 상태 -> 취소 변경하기)
+function cancel_payment(lecturePaymentLogId) {
+    logService.cancelPaymentLog(lecturePaymentLogId, function (result) {
+        if (result == 200) {
+            alert("결제취소 되었습니다.");
+            close_popup("cancel_payment_layer");
+            isReloadPage(true);
+        } else {
+            alert(comment.error);
+        }
+    });
+}
 </script>
-<object id="kisPosOcx" classid="clsid:5C41929F-BAD3-4302-83DE-FA68ABAFF8B7" width="100" height="50" name="kisPosOcx"></object>
+<!-- KIS정보통신 연동 관련 -->
+<object id="kisPosOcx" classid="clsid:5C41929F-BAD3-4302-83DE-FA68ABAFF8B7" style="display: none;" name="kisPosOcx"></object>
+<!-- 직렬포트 값 알아오기 관련 -->
 <object id="SPortX" style="display: none" data="data:application/x-oleobject;ba.se64,RlDpFMe+0ka543SxrRSsZQAHAABPAwAATwMAAA==" classid="clsid:14E95046-BEC7-46D2-B9E3-74B1AD14AC65" viewastext codebase="..\CAB\sport.cab"></object>
 <script>
     //COM포트 정보 가져오기 IE에서만 작동 (serial_activex 가 설치되어있어야함)
-    var SPAxLoaded,  txtTermBuf, CForm1;
+    var SPAxLoaded,  txtTermBuf, CForm1, CForm2;
     var CRLF = '\n';
     var SPort = document.getElementById("SPortX");
 
@@ -246,9 +313,25 @@ function kisPosPayment() {
         }
     }
 
+    function addCancelPort(port) {
+        var portList = CForm2.elements["cancelPosPort"];
+        var intPort =  port.replace(/[^0-9]/g,"");
+
+        if (document.createElement){
+            var newPort = document.createElement("OPTION");
+            newPort.text = intPort + "번포트";
+            newPort.value  = intPort;
+            (portList.options.add) ? portList.options.add(newPort) : portList.add(newPort, null);
+        } else{
+            // for NN3.x-4.x
+            portList.options[i] = new Option(port, port, false, false);
+        }
+    }
+
     function InitPort() {
         //SPort = document.getElementById("SPortX");
         CForm1 = document.frm2;
+        CForm2 = document.cancel_pop_frm;
         SPAxLoaded = false;
 
         if(SPort == null){
@@ -264,10 +347,10 @@ function kisPosPayment() {
 
             for (var i = 0; i < SPort.CountPorts; i++){
                 addPort(SPort.GetPortName(i));
+                addCancelPort(SPort.GetPortName(i));
             }
         }
     }
-
 </script>
 <body onload="init();InitPort();">
 <div class="container">
@@ -293,6 +376,7 @@ function kisPosPayment() {
                     <col width="*" />
                     <col width="*" />
                     <col width="110" />
+                    <col width="110" />
                 </colsgroup>
                 <tr>
                     <th>강의명</th>
@@ -303,6 +387,7 @@ function kisPosPayment() {
                     <th>결제할 금액</th>
                     <th>수납완료일</th>
                     <th>수납여부</th>
+                    <th>결재내역</th>
                 </tr>
                 <tbody id="dataList"></tbody>
                 <tr>
@@ -314,121 +399,84 @@ function kisPosPayment() {
         </div>
     </form>
 </section>
+<!-- 결제 정보 영역 시작 -->
 <section class="content divide" id="payment_section" style="display: none;">
-    <form name="frm2">
-    <div class="left">
-        <div class="tile_box">
-            <h3 class="title_t1">결제 정보</h3>
-            <input type="hidden" id="lecture_rel_id">
-            <input type="hidden" id="payment_price">
-            <ul class="list_t1">
-                <li>
-                    <strong>POS포트</strong>
-                    <div><select name="posPort" id="posPort"></select></div>
-                </li>
-
-                <li>
-                    <strong>강의 이름</strong>
-                    <div><p><span id="l_lectureName"></span></p></div>
-                </li>
-                <li>
-                    <strong>강의 가격</strong>
-                    <div><p><span id="l_lecturePrice"></span>원</p></div>
-                </li>
-                <li>
-                    <strong>수강일 수</strong>
-                    <div><p><span id="l_minusDay"></span>일</p></div>
-                </li>
-                <li>
-                    <strong>할부개월</strong>
-                    <div><p><span id="l_installment"></span></p></div>
-                </li>
-                <li>
-                    <strong>결제할 가격</strong>
-                    <div><input type="text" id="l_calcLecturePrice"></div>
-                </li>
-            </ul>
+    <form name="frm2" class="form_st1">
+        <input type="hidden" id="Text_BaudRate" value="9600" />
+        <div class="left">
+            <div class="tile_box">
+                <h3 class="title_t1">결제 정보</h3>
+                <input type="hidden" id="lecture_rel_id">
+                <input type="hidden" id="payment_price">
+                <input type="hidden" id="auth_message">
+                <ul class="list_t1">
+                    <li>
+                        <strong>POS포트</strong>
+                        <div><select name="posPort" id="posPort" class="form-control"></select></div>
+                    </li>
+                    <li id="li_lectureName">
+                        <strong>강의 이름</strong>
+                        <div><p><span id="l_lectureName"></span></p></div>
+                    </li>
+                    <li>
+                        <strong>강의 가격</strong>
+                        <div><p><span id="l_lecturePrice"></span>원</p></div>
+                    </li>
+                    <li>
+                        <strong>수강일 수</strong>
+                        <div><p><span id="l_minusDay"></span>일</p></div>
+                    </li>
+                    <li>
+                        <strong>결재방식</strong>
+                        <div>
+                            <select id="sel_payment" class="form-control" onchange="changeSelPayment();">
+                                <option value="D1" selected="selected">신용카드</option>
+                                <option value="CC">현금</option>
+                            </select>
+                        </div>
+                    </li>
+                    <li id="li_cach_recipt" style="display: none;">
+                        <strong>현금영수증</strong>
+                        <div>
+                            <select id="sel_cash" class="form-control">
+                                <option value="">▶선택</option>
+                                <option value="01">법인</option>
+                                <option value="02">개인</option>
+                            </select>
+                        </div>
+                    </li>
+                    <li id="li_installMent">
+                        <strong>할부개월</strong>
+                        <div>
+                            <select id="sel_installMent" class="form-control">
+                                <option value="">▶선택</option>
+                                <option value="00">일시불</option>
+                                <%
+                                    for (int i=2; i<13; i++) {
+                                %>
+                                <option value="<%=i%>"><%=i%>개월</option>
+                                <%
+                                    }
+                                %>
+                            </select>
+                        </div>
+                    </li>
+                    <li>
+                        <strong>결제할 가격</strong>
+                        <div><input type="text" id="l_calcLecturePrice" class="form-control"></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="form-group row"></div>
+            <div>
+                <button class="btn_pack blue s2" type="button" onclick="kisPosPayment('payment');">결제하기</button>
+                <button class="btn_pack orange s2" type="button" onclick="javascript:gfn_display('payment_section', false);">취소</button>
+            </div>
         </div>
-        <div class="form-group row"></div>
-        <div>
-            <button class="btn_pack blue s2" type="button" onclick="kisPosPayment();">결제하기</button>
-        </div>
-    </div>
     </form>
 </section>
-
-<%--<section class="content" id="payment_section" style="display: none;">--%>
-    <%--<form name="payment_frm" class="form_st1">--%>
-        <%--&lt;%&ndash;<h3 class="title_t1"><%=student_name%>학생 상담 등록</h3>&ndash;%&gt;--%>
-        <%--<input type="hidden" id="lecture_rel_id">--%>
-        <%--<input type="hidden" id="payment_price">--%>
-        <%--<div class="form-outer-group">--%>
-            <%--<div class="form-group row">--%>
-                <%--<label>강의 가격</label>--%>
-                <%--<div><span id="l_lecturePrice"></span>원</div>--%>
-            <%--</div>--%>
-            <%--<div class="form-group row">--%>
-                <%--<label>수강일 수</label>--%>
-                <%--<div><span id="l_minusDay"></span>일</div>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-        <%--<div class="form-group row">--%>
-            <%--<label>결제 가격</label>--%>
-            <%--<div><span id="l_calcLecturePrice"></span>원</div>--%>
-        <%--</div>--%>
-        <%--<div class="bot_btns">--%>
-            <%--<button class="btn_pack blue s2" type="button" onclick="payment_lecture();">결제하기</button>--%>
-        <%--</div>--%>
-    <%--</form>--%>
-<%--</section>--%>
-
-<div>
-    <br />
-    연결포트번호(COM)             <input id="Text_port" type="text" value="1" /> 전송속도<input
-        id="Text_BaudRate" type="text" value="9600" /><br />
-</div>
-<div>
-    <br />
-    결제금액&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input id="Text_TranAmt" type="text" value="1004" /><br />
-    <br />
-    봉사료&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input id="Text_SvcAmt" type="text" value="0" /><br />
-    <br />
-    부가세액&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input id="Text_VatAmt" type="text" value="0" /><br />
-    <br />
-    할부개월&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input id="Text_Installment" type="text" value="00" /> (현금영수증:&nbsp; 01법인, 02개인)<br />
-    <br />
-    원거래일자&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input id="Text_OrgAuthDate" type="text" /><br />
-    <br />
-    원승인번호 &nbsp;&nbsp;&nbsp;&nbsp;
-    <input id="Text_OrgAuthNo" type="text" /><br />
-</div>
-<div>
-    <input id="Radio1" checked="checked" name="R1" type="radio" value="V1" />신용승인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input id="Radio2" name="R1" type="radio" value="V2" />신용취소<br /><br />
-    <input id="Radio3" name="R1" type="radio" value="V3" />현금영수증승인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input id="Radio4" name="R1" type="radio" value="V4" />현금영수증취소<br /><br />
-    <!--
-    <input id="Radio5" name="R1" type="radio" value="V5" />현금IC승인&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input id="Radio6" name="R1" type="radio" value="V6" />현금IC취소&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input id="Radio7" name="R1" type="radio" value="V7" />현금IC결과조회&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input id="Radio8" name="R1" type="radio" value="V8" />현금IC잔액조회<br />
-    -->
-    <input id="Button_CF" type="button" value="CAT연동 결제요청 (0xCF)" onclick="return Button4_onclick()" />
-</div>
-<div style="display: none;">
-    <input id="Checkbox1" checked="checked" type="checkbox" />기본영수증출력&nbsp;&nbsp;&nbsp;
-    <input id="Checkbox2" checked="checked" type="checkbox" />메시지출력&nbsp;&nbsp;&nbsp;
-    <input id="Checkbox3" checked="checked" type="checkbox" />버튼출력<br />
-</div>
-<div>
-    <textarea id="TextArea1" name="S1" cols="50" rows="20"></textarea>
-</div>
-<!-- 비밀번호 찾기 레이어 시작 -->
+<!-- 결제 정보 영역 끝 -->
+<!-- 금액 책정하기 레이어 시작 -->
 <div class="layer_popup_template apt_request_layer" id="formulate_price_layer" style="display: none;">
     <input type="hidden" id="formulate_lecture_rel_id">
     <div class="layer-title">
@@ -452,7 +500,96 @@ function kisPosPayment() {
         </div>
     </div>
 </div>
-<!-- 비밀번호 찾기 레이어 끝 -->
+<!-- 금액 책정하기 레이어 끝 -->
+<!-- 결재내역 보기 레이어 시작 -->
+<div class="layer_popup_template apt_request_layer" id="payment_log_layer" style="display: none;">
+    <input type="hidden" id="payment_lecture_rel_id">
+    <input type="hidden" id="s_page">
+    <input type="hidden" id="list_count">
+    <div class="layer-title">
+        <h3><span id="l_payment_name"></span> 결재 내역</h3>
+        <button class="fa fa-close btn-close"></button>
+    </div>
+    <div class="layer-body">
+        <form name="pop_frm2" class="form_st1">
+            <div class="tb_t1">
+                <table class="class_list">
+                    <colsgroup>
+                        <col width="*" />
+                        <col width="*" />
+                        <col width="*" />
+                        <col width="*" />
+                        <col width="*" />
+                        <col width="*" />
+                    </colsgroup>
+                    <tr>
+                        <th>승인번호</th>
+                        <th>결재가격</th>
+                        <th>카드정보</th>
+                        <th>승인일</th>
+                        <th>결재자</th>
+                        <th>결과</th>
+                    </tr>
+                    <tbody id="paymentList"></tbody>
+                    <tr>
+                        <td id="emptys2" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
+                    </tr>
+                    <tr style="text-align: right;">
+                        <td colspan="6" style="border-bottom: 0;">
+                            <button type="button" class="btn_pack blue s2" onclick="showPaymentLog();">더보기</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+
+    </div>
+</div>
+<!-- 결재내역 보기 레이어 끝 -->
+<!-- 결재 취소 레이어 시작 -->
+<div class="layer_popup_template apt_request_layer" id="cancel_payment_layer" style="display: none; max-width: 25%;">
+    <div class="layer-title">
+        <h3>결재 취소 하기</h3>
+        <button class="fa fa-close btn-close"></button>
+    </div>
+    <div class="layer-body">
+        <form name="cancel_pop_frm" class="form_st1">
+            <input type="hidden" id="cancel_lecture_payment_log_id">
+            <input type="hidden" id="cancel_auth_type">
+            <input type="hidden" id="cancel_price">
+            <div class="tb_t1">
+                <ul class="list_t1">
+                    <li>
+                        <strong>POS포트</strong>
+                        <div><select name="cancelPosPort" id="cancelPosPort" class="form-control"></select></div>
+                    </li>
+                    <li>
+                        <strong>승인 번호</strong>
+                        <div><span id="cancelAuthNo"></span></div>
+                    </li>
+                    <li>
+                        <strong>신용/현금여부</strong>
+                        <div><span id="isCard"></span></div>
+                    </li>
+                    <li>
+                        <strong>결재일</strong>
+                        <div><span id="paymentCreateDate"></span></div>
+                    </li>
+                    <li>
+                        <strong>취소금액</strong>
+                        <div><span id="cancelPrice"></span></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="form-group row"></div>
+            <div style="margin-left: 270px;">
+                <button class="btn_pack blue s2" type="button" onclick="kisPosPayment('cancel');">취소하기</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+<!-- 결재 취소 레이어 끝 -->
 
 <%@include file="/common/jsp/footer.jsp" %>
 </body>

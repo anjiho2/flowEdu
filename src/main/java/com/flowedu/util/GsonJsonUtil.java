@@ -1,10 +1,11 @@
 package com.flowedu.util;
 
 import com.amazonaws.util.json.JSONException;
+import com.amazonaws.util.json.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import com.google.gson.JsonParser;
+import org.apache.poi.ss.formula.functions.T;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -31,6 +32,13 @@ public class GsonJsonUtil {
         JsonElement root = parser.parse(new InputStreamReader((InputStream) request.getContent()));
         JsonObject rootObj = root.getAsJsonObject();
         return rootObj;
+    }
+
+    public static JsonArray readJsonFromJsonString(String jsonStr) {
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(jsonStr);
+        JsonArray jsonArray = element.getAsJsonArray();
+        return jsonArray;
     }
 
     /**

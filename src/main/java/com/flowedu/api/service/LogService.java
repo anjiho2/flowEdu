@@ -1,14 +1,25 @@
 package com.flowedu.api.service;
 
 import com.flowedu.api.dto.MemberLoginLogDto;
+import com.flowedu.define.datasource.KisPosAuthType;
 import com.flowedu.define.datasource.RequestMethod;
+import com.flowedu.domain.LecturePaymentLog;
 import com.flowedu.domain.RequestApi;
 import com.flowedu.dto.FlowEduMemberDto;
 import com.flowedu.dto.LecturePaymentLogDto;
+import com.flowedu.error.FlowEduErrorCode;
+import com.flowedu.error.FlowEduException;
 import com.flowedu.util.GsonJsonUtil;
+import com.flowedu.util.JsonParser;
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import sun.misc.Request;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jihoan on 2017. 9. 14..
@@ -41,7 +52,61 @@ public class LogService extends ApiService {
                 flowEduMemberDto.getFlowMemberId(), flowEduMemberDto.getMemberName(), connectIp
         );
         String jsonStr = GsonJsonUtil.convertToJsonString(memberLoginLogDto);
-        RequestApi requestApi = responseRestfulApi(concatURI("log", "login_log"), RequestMethod.REQUEST_METHOD_POST, jsonStr);
+        RequestApi requestApi = responseRestfulApi(
+                concatURI("log", "login_log"),
+                RequestMethod.REQUEST_METHOD_POST,
+                jsonStr
+        );
+        return requestApi;
+    }
+
+    /**
+     * 결재 로그 리스트 가져오기
+     * @param lectureRelId
+     * @return
+     * @throws Exception
+     */
+    public List<LecturePaymentLog> getLecturePaymentLog(Long lectureRelId) throws Exception {
+        if (lectureRelId == null) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        RequestApi requestApi = responseRestfulApi(
+                concatURI("log", "payment", "receipt_list", String.valueOf(lectureRelId)),
+                RequestMethod.REQUEST_METHOD_GET,
+                null
+        );
+        String resultJson = requestApi.getBody();
+        JsonArray jsonArray = GsonJsonUtil.readJsonFromJsonString(resultJson);
+
+        List<LecturePaymentLog> Arr = new ArrayList<>();
+        for (JsonElement element : jsonArray) {
+            JsonObject object = element.getAsJsonObject();
+
+            Gson gson = new Gson();
+            LecturePaymentLog lecturePaymentLog = new LecturePaymentLog();
+            lecturePaymentLog = gson.fromJson(object, LecturePaymentLog.class);
+            Arr.add(lecturePaymentLog);
+        }
+        return Arr;
+    }
+
+    /**
+     *
+     * @param lecturePaymentLogId
+     * @return
+     * @throws Exception
+     */
+    public RequestApi cancelPaymentLog(Long lecturePaymentLogId, LecturePaymentLogDto lecturePaymentLogDto) throws Exception {
+        if (lecturePaymentLogId == null && lecturePaymentLogDto == null) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        //결재로그 저장
+        this.lecturePaymentLog(lecturePaymentLogDto);
+        RequestApi requestApi = responseRestfulApi(
+                concatURI("log", "payment", "cancelPayment", String.valueOf(lecturePaymentLogId)),
+                RequestMethod.REQUEST_METHOD_PUT,
+                null
+        );
         return requestApi;
     }
 }
