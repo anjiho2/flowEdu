@@ -14,7 +14,6 @@ import com.flowedu.mapper.PaymentMapper;
 import com.flowedu.session.UserSession;
 
 import com.flowedu.util.SerialPortUtil;
-import gnu.io.CommPortIdentifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

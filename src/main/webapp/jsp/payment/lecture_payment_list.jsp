@@ -23,7 +23,7 @@ if (get_browser_type() != "IE") {
 function init() {
     fn_search("new");
 }
-
+//수강료 납부 리스트
 function fn_search(val) {
     var student_id = getInputTextValue("studentId");
     var paging = new Paging();
@@ -105,15 +105,23 @@ function formulateLecturePrice() {
     });
 }
 //결제하기 비지니스 로직
-function payment_lecture(paymentResult) {
+function payment_lecture(paymentResult, transType) {
     var check = new isCheck();
-    if (check.input("l_calcLecturePrice", "결제할 금액을 입력하세요") == false) return;
-
-    var lectureRelId = getInputTextValue("lecture_rel_id");
-    var paymentPrice = getInputTextValue("l_calcLecturePrice");
+    var lectureRelId;
+    var paymentPrice;
     var studentName = '<%=student_name%>';
-
-    paymentService.paymentLecture(lectureRelId, studentName, paymentPrice, "MINUS", paymentResult, function (result) {
+    var caclType;
+    if (transType == "payment") {
+        if (check.input("l_calcLecturePrice", "결제할 금액을 입력하세요") == false) return;
+        lectureRelId = getInputTextValue("lecture_rel_id");
+        paymentPrice = getInputTextValue("l_calcLecturePrice");
+        caclType = "MINUS";
+    } else if (transType == "cancel") {
+        lectureRelId = getInputTextValue("cancel_lecture_rel_id");
+        paymentPrice = getInputTextValue("cancel_price");
+        caclType = "PLUS";
+    }
+    paymentService.paymentLecture(lectureRelId, studentName, paymentPrice, caclType, paymentResult, function (result) {
         if (result == 200) {
             alert("결제완료됬습니다.");
             isReloadPage(true);
@@ -145,9 +153,9 @@ function kisPosPayment(transType) {
         catPortNo = getSelectboxValue("posPort");
         inInstallment = getSelectboxValue("sel_installMent");
 
-        if (paymentType == "D1") {
+        if (paymentType == "D1") {  //신용승인일때
             if (check.selectbox("sel_installMent", comment.select_installMent) == false) return;
-        } else if (paymentType == "CC") {
+        } else if (paymentType == "CC") {   //현금영수증 승인일때
             if (check.selectbox("sel_cash", comment.select_cash_receipt_type) == false) return;
         }
     } else if (transType == "cancel") { //취소일때
@@ -191,8 +199,12 @@ function kisPosPayment(transType) {
                 recvData: kisPosOcx.outRecvData, authType:kisPosOcx.inTranCode
                 };
 
-            payment_lecture(paymentResult);
-
+            payment_lecture(paymentResult, transType);
+            //승인취소일때 취소로그의 승인된 로그 취소로 변경
+            if (transType == "cancel") {
+                var cancelLecturePaymentLogId = getInputTextValue("cancel_lecture_payment_log_id");
+                cancel_payment(cancelLecturePaymentLogId);
+            }
         } else if (reVal == -3) {
             alert("POS기기에서 취소하였습니다." + "에러코드 : " + reVal);
         } else if (reVal == -2) {
@@ -240,9 +252,12 @@ function showPaymentLog(lectureRelId) {
     logService.getLecturePaymentLog(getInputTextValue("payment_lecture_rel_id"), function(selList) {
         if (selList.length == 0) {
             gfn_emptyView2('v', "결과값이 없습니다");
-        } else if (selList.length < (sPage * listCount)) {
-            alert("데이터가 더이상 없습니다.");
-            return;
+        }
+        if ( selList.length > listCount ) {
+            if (selList.length < (sPage * listCount)) {
+                alert("데이터가 더이상 없습니다.");
+                return;
+            }
         }
         innerHTML("l_payment_name", selList[0].studentName);
         dwr.util.removeAllRows("paymentList");
@@ -265,6 +280,16 @@ function showPaymentLog(lectureRelId) {
 function cancel_payment_info(lecturePaymentLogId) {
     close_popup("payment_log_layer");
     initPopup($("#cancel_payment_layer"));
+    logService.getLecturePaymentLogInfo(lecturePaymentLogId, function (data) {
+        innerValue("cancel_lecture_payment_log_id", data.lecturePaymentLogId);
+        innerValue("cancel_lecture_rel_id", data.lectureRelId);
+        innerValue("cancel_auth_type", data.authType);
+        innerValue("cancel_price", data.paymentPrice);
+        innerHTML("cancelAuthNo", data.authNo);
+        innerHTML("isCard", data.authType == "D1" ? getPaymentType(data.authType) + "(" + data.issureName + ")" : getPaymentType(data.authType));
+        innerHTML("paymentCreateDate", getDateTimeSplitComma(data.createDate));
+        innerHTML("cancelPrice", addThousandSeparatorCommas(data.paymentPrice) + "원");
+    });
 }
 //결제 취소하기(결제 상태 -> 취소 변경하기)
 function cancel_payment(lecturePaymentLogId) {
@@ -273,8 +298,12 @@ function cancel_payment(lecturePaymentLogId) {
             alert("결제취소 되었습니다.");
             close_popup("cancel_payment_layer");
             isReloadPage(true);
+        } else if (result == 904) {
+            alert("결재 취소건이 결재 취소가 시도되었습니다.");
+            return;
         } else {
             alert(comment.error);
+            return;
         }
     });
 }
@@ -555,6 +584,7 @@ function cancel_payment(lecturePaymentLogId) {
     <div class="layer-body">
         <form name="cancel_pop_frm" class="form_st1">
             <input type="hidden" id="cancel_lecture_payment_log_id">
+            <input type="hidden" id="cancel_lecture_rel_id">
             <input type="hidden" id="cancel_auth_type">
             <input type="hidden" id="cancel_price">
             <div class="tb_t1">

@@ -91,22 +91,48 @@ public class LogService extends ApiService {
     }
 
     /**
+     * 결재 로그 아이디에 따른 결재 로그 정보 가져오기
+     * @param lecturePaymentLogId
+     * @return
+     * @throws Exception
+     */
+    public LecturePaymentLog getLecturePaymentLogInfo(Long lecturePaymentLogId) throws Exception {
+        if (lecturePaymentLogId == null) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        RequestApi requestApi = responseRestfulApi(
+                concatURI("log", "payment", "receipt_list_payment_log_id", String.valueOf(lecturePaymentLogId)),
+                RequestMethod.REQUEST_METHOD_GET,
+                null
+        );
+        String resultJson = requestApi.getBody();
+        JsonArray jsonArray = GsonJsonUtil.readJsonFromJsonString(resultJson);
+
+        LecturePaymentLog lecturePaymentLog = new LecturePaymentLog();
+        for (JsonElement element : jsonArray) {
+            JsonObject object = element.getAsJsonObject();
+
+            Gson gson = new Gson();
+            lecturePaymentLog = gson.fromJson(object, LecturePaymentLog.class);
+        }
+        return lecturePaymentLog;
+    }
+
+    /**
      *
      * @param lecturePaymentLogId
      * @return
      * @throws Exception
      */
-    public RequestApi cancelPaymentLog(Long lecturePaymentLogId, LecturePaymentLogDto lecturePaymentLogDto) throws Exception {
-        if (lecturePaymentLogId == null && lecturePaymentLogDto == null) {
+    public int cancelPaymentLog(Long lecturePaymentLogId) throws Exception {
+        if (lecturePaymentLogId == null) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
-        //결재로그 저장
-        this.lecturePaymentLog(lecturePaymentLogDto);
         RequestApi requestApi = responseRestfulApi(
-                concatURI("log", "payment", "cancelPayment", String.valueOf(lecturePaymentLogId)),
+                concatURI("log", "payment", "cancel", String.valueOf(lecturePaymentLogId)),
                 RequestMethod.REQUEST_METHOD_PUT,
                 null
         );
-        return requestApi;
+        return requestApi.getHttpStatusCode();
     }
 }
