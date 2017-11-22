@@ -68,7 +68,7 @@
     }
     
     function test() {
-        
+        alert("1");
     }
 </script>
 <style>

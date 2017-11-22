@@ -268,8 +268,8 @@ public class LectureService extends PagingSupport {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
         LectureInfoDto lectureInfo = lectureMapper.getLectureInfo(lectureId);
-        if (lectureInfo != null) {
-            //학생 제한 숫자 정보 가져오기
+            if (lectureInfo != null) {
+                //학생 제한 숫자 정보 가져오기
             int limitStudent = lectureInfo.getLectureLimitStudent();
             //강의에 등록 되어있는 학생 수 가져오기
             int registeredLectureStudentCount = lectureMapper.getRegisteredLectureStudentCount(lectureId);
