@@ -6,7 +6,6 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
 <script type="text/javascript">
     var check = new isCheck();
-
     function init() {
         memberTypeSelectbox("l_memberType", "", "big");
     }
