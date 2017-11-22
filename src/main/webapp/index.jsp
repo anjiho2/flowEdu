@@ -66,6 +66,10 @@
             }
         });
     }
+    
+    function test() {
+        
+    }
 </script>
 <style>
     body{
