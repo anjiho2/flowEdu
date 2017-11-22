@@ -11,15 +11,11 @@ import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
 import com.flowedu.mapper.LectureMapper;
 import com.flowedu.mapper.PaymentMapper;
-import com.flowedu.session.UserSession;
 
-import com.flowedu.util.SerialPortUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Enumeration;
 
 /**
  * Created by jihoan on 2017. 9. 14..

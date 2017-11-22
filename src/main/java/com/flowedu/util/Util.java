@@ -9,8 +9,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import com.flowedu.define.datasource.KisPosAuthType;
-import gnu.io.CommPortIdentifier;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -23,6 +21,10 @@ import org.joda.time.format.DateTimeFormatter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * <PRE>
@@ -915,26 +917,6 @@ public class Util {
 		
 	}
 	
-	/**
-	 * 페이징 값 가져오기
-	 * @param sPage
-	 * @param pageInList
-	 * @return
-	 */
-	/*
-	public static PagingDto getPaging(int sPage, int pageInList) {
-		PagingDto pagingDto = new PagingDto();
-		
-		int page_cnt = pageInList;
-		int srow = page_cnt * (sPage -1) + 1;
-		String start = Integer.toString(srow);
-		String end = Integer.toString(page_cnt * sPage);
-		
-		pagingDto.setStart(start);
-		pagingDto.setEnd(end);
-		return pagingDto;
-	}
-	*/
 	public static HttpResponse http(String url, String body) {
 
         try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
@@ -993,17 +975,30 @@ public class Util {
 		return rewardPopcorn;
 	}
 
-	public static void main(String[] args) throws Exception {
-		try {
-			Enumeration e = CommPortIdentifier.getPortIdentifiers();
-			System.out.println("get() -------------------------------" + e.hasMoreElements());
-			while (e.hasMoreElements()) {
-				CommPortIdentifier first = (CommPortIdentifier) e.nextElement();
-				System.out.println("COM name : " + first.getName());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+	public static String getClientIpAddr(HttpServletRequest request) {
+		String ip = request.getHeader("X-Forwarded-For");
+
+		if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("Proxy-Client-IP");
 		}
+		if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_CLIENT_IP");
+		}
+		if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+		}
+		if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+			ip = request.getRemoteAddr();
+		}
+
+		return ip;
+	}
+
+	public static void main(String[] args) throws Exception {
+
 	}
 }
 

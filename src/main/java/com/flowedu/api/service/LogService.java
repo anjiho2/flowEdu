@@ -11,13 +11,16 @@ import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
 import com.flowedu.util.GsonJsonUtil;
 import com.flowedu.util.JsonParser;
+import com.flowedu.util.Util;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sun.misc.Request;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +31,9 @@ import java.util.List;
 public class LogService extends ApiService {
 
     protected static final Logger logger = LoggerFactory.getLogger(LogService.class);
+
+    @Autowired
+    private HttpServletRequest request;
 
     /**
      * 결재 로그 저장
@@ -134,5 +140,10 @@ public class LogService extends ApiService {
                 null
         );
         return requestApi.getHttpStatusCode();
+    }
+
+    public void test() {
+        logger.info("request --------------> " + request);
+        logger.info("ip ----------> " + Util.getClientIpAddr(request));
     }
 }
