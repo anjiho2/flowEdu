@@ -141,9 +141,4 @@ public class LogService extends ApiService {
         );
         return requestApi.getHttpStatusCode();
     }
-
-    public void test() {
-        logger.info("request --------------> " + request);
-        logger.info("ip ----------> " + Util.getClientIpAddr(request));
-    }
 }
