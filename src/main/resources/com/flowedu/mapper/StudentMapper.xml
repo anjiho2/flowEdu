@@ -112,6 +112,18 @@
 		SELECT count(student_id) FROM STUDENT WHERE mother_phone_number = #{motherPhoneNumber}
 	</select>
 
+	<select id="test1" resultType="Long">
+		SELECT idx FROM sooa_ucc WHERE media_key = #{mediaKey}
+	</select>
+
+	<update id="test2">
+		UPDATE sooa_ucc SET
+		thumbnail_file = #{t},
+		media_file = #{m},
+		server_type = 'IBM'
+		WHERE media_key = #{mediaKey}
+	</update>
+
 	<insert id="saveStudentInfo" parameterType="com.flowedu.dto.StudentDto">
 		INSERT INTO STUDENT
 		(

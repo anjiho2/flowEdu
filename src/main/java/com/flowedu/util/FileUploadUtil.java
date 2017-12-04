@@ -1,5 +1,7 @@
 package com.flowedu.util;
 
+import com.flowedu.error.FlowEduErrorCode;
+import com.flowedu.error.FlowEduException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -82,7 +84,6 @@ public class FileUploadUtil {
     public static Map<String, Object> fileUploadYmdLocation(MultipartHttpServletRequest request, String savePath) {
         Map<String, Object> map = new HashMap<>();
         String fileName = "";
-
         Iterator<String> it = request.getFileNames();
         try {
             while (it.hasNext()) {
@@ -93,11 +94,10 @@ public class FileUploadUtil {
                     //한글 꺠짐 방지처리
                     String originalFileName = multipartFile.getOriginalFilename();
                     /** 파일명이 한글일때 에러 처리 **/
-                    /*
+
                     if (StringUtil.isKorean(originalFileName)) {
-                        return fileName;
+                        throw new FlowEduException(FlowEduErrorCode.CUSTOM_IMAGE_FILE_NAME_KOREAN);
                     }
-                    */
                     //파일명 변경
                     //String finalFileName = FileUploadRename.multipartFileRename(multipartFile).toString();
                     String makeFileName = originalFileName.substring(0, originalFileName.lastIndexOf("."));
@@ -134,6 +134,7 @@ public class FileUploadUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return map;
     }
 }

@@ -11,8 +11,6 @@ public class ConfigHolder {
 
     private static ConfigHolder config;
 
-    @Value("#{config['service.isQuartzUseCheck']}")
-    private boolean isQuartzUseCheck;
     @Value("#{config['file.uploads.path']}")
     private String uploadRoot;
     @Value("#{config['service.version']}")
@@ -25,15 +23,13 @@ public class ConfigHolder {
     private String floweduApiUrl;
     @Value("#{config['session.use.yn']}")
     private boolean sessionUseYn;
+    @Value("#{config['file.view.url']}")
+    private String fileViewUrl;
 
     @PostConstruct
     private ConfigHolder init() {
         config = this;
         return this;
-    }
-
-    public static boolean isQuartzUseCheck() {
-        return config.isQuartzUseCheck;
     }
 
     public static String uploadRoot() {
@@ -58,6 +54,10 @@ public class ConfigHolder {
 
     public static boolean getSessionUseYn() {
         return config.sessionUseYn;
+    }
+
+    public static String getFileViewUrl() {
+        return config.fileViewUrl;
     }
 
 }

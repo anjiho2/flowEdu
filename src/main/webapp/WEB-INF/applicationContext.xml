@@ -112,7 +112,8 @@
 
   	<!-- ========================= CONFIG OBJECT DEFINITIONS CONFIG ======================== -->
   	<bean id="ConfigHolder" class="com.flowedu.config.ConfigHolder"/>
-  	
+
+
   	<!-- ========================= CRONQUARTZ DEFINITIONS ======================== -->
   	<!--
   	<bean id="anniversaryQuartz" class="org.springframework.scheduling.quartz.JobDetailBean">

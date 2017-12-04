@@ -66,9 +66,34 @@
             }
         });
     }
-    
-    function test() {
-        alert("1");
+
+    function excel_upload() {
+        var formData = new FormData();
+
+        formData.append("excel_file", $("#excel_file")[0].files[0]);
+
+        var excel_file = fn_clearFilePath($("#excel_file").val());
+        if (check.value(excel_file, comment.select_excel_file) == false) return;
+
+        if (confirm(comment.isInsert)) {
+            if (excel_file != null) {
+                $.ajax({
+                    url : "<%=webRoot%>/excel_read/info.do",
+                    method : "POST",
+                    dataType : "JSON",
+                    data : formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success : function (data) {
+                        console.log(data.result.code);
+                    },
+                    error : function (data) {
+                        alert(data)
+                    }
+                });
+            }
+        }
     }
 </script>
 <style>
@@ -107,6 +132,10 @@
             </form>
         </div>
     </div>
+
+    <%--<input type="file" id="excel_file" >--%>
+    <%--<button class="btn_pack blue" type="button" onclick="excel_upload();">업로드</button>--%>
+
     <!-- 비밀번호 찾기 레이어 시작 -->
     <div class="layer_popup_template apt_request_layer" id="test_layer" style="display: none;">
         <div class="layer-title">

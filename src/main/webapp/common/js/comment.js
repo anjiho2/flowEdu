@@ -83,5 +83,7 @@ var comment = {
 		payment_error : "결제결과 에러가 발생되었습니다.",
 		select_installMent : "할부개월을 선택해주세요.",
 		select_cash_receipt_type : "현금영수증을 선택해주세요.",
+
+		file_name_not_allow_korean : "파일명이 한글입니다. 영문으로 바꿔주세요.",
 }
 

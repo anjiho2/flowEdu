@@ -21,6 +21,7 @@
     
     <entry key="service.isQuartzUseCheck">${service.isQuartzUseCheck}</entry>
     <entry key="file.uploads.path">${file.uploads.path}</entry>
+    <entry key="file.view.url">${file.view.url}</entry>
     
     <entry key="google.email.username">${google.email.username}</entry>
     <entry key="google.email.password">${google.email.password}</entry>

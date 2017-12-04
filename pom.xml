@@ -395,7 +395,6 @@
 			<artifactId>spring-erlang</artifactId>
 			<version>1.4.6.RELEASE</version>
 		</dependency>
-
 	</dependencies>
 
 

@@ -2,9 +2,7 @@ package com.flowedu.service;
 
 import com.flowedu.dto.StudentDto;
 import com.flowedu.mapper.StudentMapper;
-import com.flowedu.util.ExcelRead;
-import com.flowedu.util.ExcelReadOption;
-import com.flowedu.util.StringUtil;
+import com.flowedu.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +83,41 @@ public class ExcelReadService {
             studentDtoList.add(studentDto);
         }
         studentMapper.saveStudentInfoList(studentDtoList);
+        return "SUCCESS";
+    }
+
+    public String readExcel(File destFile) throws Exception {
+        //VideoUtils.getImageFromFrame(destFile);
+
+        ExcelReadOption excelReadOption = new ExcelReadOption();
+        //엑셀 파일 담기
+        excelReadOption.setFilePath(destFile.getAbsolutePath());
+        excelReadOption.setOutputColumns("C", "F");
+        excelReadOption.setStartRow(2);
+        List<Map<String, String>> excelContent = ExcelRead.read(excelReadOption);
+
+        List<StudentDto> studentDtoList = new ArrayList<>();
+        for (Map<String, String> article : excelContent) {
+            //logger.info("C....." + article.get("C"));
+            String mediaKey = article.get("C");
+            if (!"".equals(mediaKey)) {
+                Long idx = studentMapper.test1(article.get("C"));
+                if (idx != null) {
+                    String thumbnail = null;
+                    String fileName = article.get("F");
+                    if (!"".equals(article.get("F")) || article.get("F") != null) {
+                        thumbnail = FileUtil.removeFileExtension(article.get("F")) + "_preview.jpg";
+                    }
+                    studentMapper.test2(article.get("C"), thumbnail, fileName);
+                }
+            }
+            //String studentEmails = article.get("F");
+
+
+
+           // studentDtoList.add(studentDto);
+        }
+        //studentMapper.saveStudentInfoList(studentDtoList);
         return "SUCCESS";
     }
 }

@@ -203,26 +203,14 @@ public class FileUtil {
 		return wb;
 	}
 
+	public static String removeFileExtension(String fileName) {
+		String extensionFileName = null;
+		int idx = fileName.lastIndexOf(".");
+		extensionFileName = fileName.substring(0, idx);
+		return extensionFileName;
+	}
+
 	public static void main(String args[]) throws Exception{
-		String targetDir = "C:/softforum/test";
-		//targetDir = targetDir + "/so/XAS_SO_7/libXAS_jni.so";
-		File file = new File(targetDir);
-		String fileName = "libXAS_jni.so";
-
-		//fileMove(targetDir+"/XAS_SO_4"+"/tmp/"+fileName, targetDir+"/XAS_SO_4/"+fileName);
-
-		//System.out.println(getBytesFromFile(file));
-		
-		//SerialBlob blob = new javax.sql.rowset.serial.SerialBlob(getBytesFromFile(file));
-		
-		String str = "APP_ID='XAS_SO' AND APP_VER='10'";
-		System.out.println(str);
-		System.out.println(str.length());
-		System.out.println(str.indexOf("APP_ID='"));
-		System.out.println("APP_ID='".length());
-		System.out.println(str.indexOf("' AND"));
-		System.out.println(str.indexOf("APP_VER='"));
-		System.out.println(str.substring("APP_ID='".length(), str.indexOf("' AND")));
-		System.out.println(str.substring(str.indexOf("APP_VER='")+"APP_VER='".length(), str.length()-1));
+		System.out.print(removeFileExtension("TEST.mp4"));
 	}
 }

@@ -32,6 +32,10 @@ public interface StudentMapper {
 
     int motherPhoneNumberCount(@Param("motherPhoneNumber") String motherPhoneNumber);
 
+    Long test1(@Param("mediaKey") String mediaKey);
+
+    void test2(@Param("mediaKey") String mediaKey, @Param("t") String t, @Param("m") String m);
+
     void saveStudentInfo(StudentDto studentDto);
 
     void saveStudentInfoList(@Param("studentList") List<StudentDto> studentDtoList);

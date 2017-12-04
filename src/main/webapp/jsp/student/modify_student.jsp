@@ -5,6 +5,7 @@
     int depth2 = 1;
     Long student_id = Long.parseLong(request.getParameter("student_id"));
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
+    String imgUrl = ConfigHolder.getFileViewUrl();
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
@@ -20,7 +21,7 @@
         var student_id        = getInputTextValue("student_id");
         studentService.getStudentInfo(student_id, function (selList) {
 
-            var file_url = 'C:/dev/download/'+selList.studentPhotoUrl+"/"+selList.studentPhotoFile;
+            var file_url = '<%=imgUrl%>' + selList.studentPhotoUrl + "/" + selList.studentPhotoFile;
             $("#modify_preView").attr("src", file_url);
             if(file_url != null) gfn_display("preview", true);
 
@@ -114,6 +115,10 @@
                             isReloadPage(true);
                         });
                     }
+                },
+                error : function (xhr, textStatus, errorThrown) {
+                    alert(comment.file_name_not_allow_korean);
+                    return;
                 }
             });
         } else { //학생사진 없을때

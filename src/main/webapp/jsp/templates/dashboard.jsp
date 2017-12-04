@@ -4,6 +4,27 @@
     int depth2 = 1;
 %>
 <%@include file="/common/jsp/top.jsp" %>
+<script>
+    $(document).ready(function () {
+        var isChange = false;
+
+        $("input, select").change(function () {
+            isChange = true;
+        });
+        $(window).on("beforeunload", function () {
+            if (isChange) {
+                return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
+            }
+        });
+        $("#btn1").click(function(){
+            isChange = false;
+        });
+    });
+
+    function test() {
+
+    }
+</script>
 <%@include file="/common/jsp/header.jsp" %>
     <div class="container">
         <%@include file="/common/jsp/titleArea.jsp" %>
@@ -20,9 +41,9 @@
                         <div class="form-group row">
                             <label>학생</label>
                             <div class="flex">
-                                <input type="text" class="form-control underline my_name" id="" placeholder="이름" style="flex:3" value="홍길동">
+                                <input type="text" class="form-control underline my_name" placeholder="이름" style="flex:3" id="sutentName" value="홍길동">
                                 <input type="text" class="form-control underline" id="" placeholder="전화번호" style="flex:5" value="010-1234-1234">
-                                <button class="btn_pack white fa fa-check"></button>
+                                <button class="btn_pack white fa fa-check" id="btn1"></button>
                             </div>
                         </div>
                         <div class="form-group row">

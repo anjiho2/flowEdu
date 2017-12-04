@@ -59,4 +59,15 @@ public class ExcelReadController {
         resultEntity.put("phoneNumber", phoneNumber);
         return new JsonBuilder().add("result", resultEntity).build();
     }
+
+    @RequestMapping(value = "/info", method = RequestMethod.POST)
+    public @ResponseBody String readStudentExcel2(MultipartHttpServletRequest servletRequest) throws Exception {
+        MultipartFile excelFile = servletRequest.getFile("excel_file");
+
+        File destFile = new File(excelFile.getOriginalFilename());
+        excelFile.transferTo(destFile);
+        String result = excelReadService.readExcel(destFile);
+
+        return new JsonBuilder().add("result", "OK").build();
+    }
 }
