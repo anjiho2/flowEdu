@@ -76,15 +76,19 @@ public class LogService extends ApiService {
         if (lectureRelId == null) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
+        List<LecturePaymentLog> Arr = new ArrayList<>();
+
         RequestApi requestApi = responseRestfulApi(
                 concatURI("log", "payment", "receipt_list", String.valueOf(lectureRelId)),
                 RequestMethod.REQUEST_METHOD_GET,
                 null
         );
         String resultJson = requestApi.getBody();
+        if (resultJson == null) {
+            return Arr;
+        }
         JsonArray jsonArray = GsonJsonUtil.readJsonFromJsonString(resultJson);
 
-        List<LecturePaymentLog> Arr = new ArrayList<>();
         for (JsonElement element : jsonArray) {
             JsonObject object = element.getAsJsonObject();
 

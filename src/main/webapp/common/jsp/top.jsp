@@ -10,7 +10,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ko">
 <head>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="<%=webRoot%>/common/dist/style.bundle.css">
+<link rel="stylesheet" href="<%=webRoot%>/common/dist/style.bundle.css?ver=<%=version%>">
 
 <!--  jquery plugin -->
 <script type='text/javascript' src="<%=webRoot%>/common/js/jquery-2.2.4.min.js"></script>
@@ -35,8 +35,8 @@
 <script type='text/javascript' src="<%=webRoot%>/js/radio.js?ver=<%=version%>"></script>
 
 <!-- 페이징 관련 필수 스트립트 -->
-<script type='text/javascript' src="<%=webRoot%>/js/paging-count-check.js"></script>
-<script type='text/javascript' src="<%=webRoot%>/common/js/com_page.js"></script>
+<script type='text/javascript' src="<%=webRoot%>/js/paging-count-check.js?ver=<%=version%>"></script>
+<script type='text/javascript' src="<%=webRoot%>/common/js/com_page.js?ver=<%=version%>"></script>
 <script src="<%=webRoot%>/calendar/lang/ko.js"/>
 
 <script type='text/javascript' src="<%=webRoot%>/js/page.js?ver=<%=version%>"></script>

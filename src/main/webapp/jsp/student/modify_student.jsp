@@ -300,7 +300,7 @@
         <div class="form-group row" id="preview" style="display: none;">
             <label>학생사진미리보기</label>
             <div>
-                <img id="modify_preView" src="" width="100px" height="100px">
+                <img id="modify_preView" src="" width="100px" height="100px" onerror="this.src='<%=webRoot%>/img/user_img_default.jpg'">
             </div>
         </div>
         <div class="form-group row">
