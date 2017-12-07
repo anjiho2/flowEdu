@@ -5783,6 +5783,35 @@ ul.list_t2 button.confirm {
     }
 }
 
+/* 페이징 네이게이션 관련 추가 2017. 12. 06 안지호 */
+.pagination{
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    border-radius: .25rem;
+    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+.page-item:first-child .page-link {
+    margin-left: 0;
+    border-bottom-left-radius: .25rem;
+    border-top-left-radius:  .25rem;
+}
+.page-link {
+    position: relative;
+    display: block;
+    padding: .5rem .75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #0275d8;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+.justify-content-center {
+    -webkit-box-pack: center!important;
+    -ms-flex-pack: center!important;
+    justify-content: center!important;
+}
+
 /*index 반응형*/
 @media screen and (max-device-width: 500px) {
     #header{
@@ -5852,39 +5881,5 @@ ul.list_t2 button.confirm {
     .form-group.row > label{
         flex: 0 0 450px;
     }
-
-    /* 페이징 네이게이션 관련 추가 2017. 12. 06 안지호 */
-    .pagination{
-        display: flex;
-        padding-left: 0;
-        list-style: none;
-        border-radius: .25rem;
-        font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-    }
-    .page-item:first-child .page-link {
-        margin-left: 0;
-        border-bottom-left-radius: .25rem;
-        border-top-left-radius:  .25rem;
-    }
-    .page-link {
-        position: relative;
-        display: block;
-        padding: .5rem .75rem;
-        margin-left: -1px;
-        line-height: 1.25;
-        color: #0275d8;
-        background-color: #fff;
-        border: 1px solid #ddd;
-    }
-    .justify-content-center {
-        -webkit-box-pack: center!important;
-        -ms-flex-pack: center!important;
-        justify-content: center!important;
-    }
-
-
-
-
-
 
 } /*max-device-width: 500px*/
