@@ -23,7 +23,7 @@
                         var modifyHTML = "<button class='btn_pack white' type='button' id='modify' onclick='academy_modify(" + cmpList.officeId + ");'/>수정</button>";
                         var acaName = "<span class='mini'>"+cmpList.academyGroupName+"</span><div class='title'>"+cmpList.officeName+"</div>";
                         var cellData = [
-                             function(data) {return acaName;},
+                             function(data) {return acaName;},                                                                                                                                                                                      
                             //function(data) {return cmpList.academyGroupName;},  //학원그룹명 추가로 기능 추가 (2017.09.12 안지호)
                             //function(data) {return cmpList.officeName;},
                             function(data) {return cmpList.officeDirectorName;},

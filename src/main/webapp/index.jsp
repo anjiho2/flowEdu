@@ -7,7 +7,7 @@
 <script type="text/javascript">
     var check = new isCheck();
     function init() {
-        memberTypeSelectbox("l_memberType", "", "big");
+            memberTypeSelectbox("l_memberType", "", "big");
     }
 
     function loginCheck() {
@@ -66,10 +66,8 @@
             }
         });
     }
-    
-    function test() {
-        alert("1");
-    }
+
+
 </script>
 <style>
     body{
