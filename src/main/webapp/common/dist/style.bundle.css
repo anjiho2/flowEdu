@@ -4009,7 +4009,7 @@ a.fc-more:hover {
 .form-control {
     display: block;
     width: 100%;
-    padding: .5rem .75rem;
+    padding: .4rem .75rem;
     font-size: 15px;
     line-height: 1.25;
     color: #495057;
@@ -4620,6 +4620,7 @@ button.btn_pack.orange {
 }
 
 button.btn_pack.blue {
+    margin:5px;
     background-color: #03a9f4
 }
 
@@ -4686,6 +4687,14 @@ h3.title_t1 {
     display: block;
     position: relative;
     vertical-align: middle
+}
+
+#header .menu_close_btn{
+    font-size: 55px;
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    display: block;
 }
 
 #header nav a span {
@@ -4765,6 +4774,36 @@ h3.title_t1 {
     font-weight: 700;
     color: #37474f;
     padding: 5px
+}
+
+.top_area .gnb .menu_bar{
+    display: block;
+    width: 100px;
+    height: 82px;
+    border-radius: 10px;
+    border: solid 1px #ccc;
+    position:fixed;
+    top:20px;
+    left:17px;
+}
+
+.top_area .gnb .menu_bar:hover{
+    border:solid 1px #aaa;
+}
+
+.top_area .gnb .menu_bar > span{
+    display: block;
+    width: 64px;
+    height: 6px;
+    margin-bottom:12px;
+    background-color: #ccc;
+    margin: 0 auto;
+    margin-bottom: 13px;
+    border-radius: 5px;
+}
+
+.top_area .gnb .menu_bar > span:nth-child(1){
+    margin-top:17px;
 }
 
 .top_area .gnb .my_box .my_menu {
@@ -5019,7 +5058,7 @@ div.tb_t1 table .right {
 }
 
 select.form-control.big:not([size]):not([multiple]) {
-    height: calc(2.5rem + 2px)
+    height: calc(2.5rem + 4px);
 }
 
 .checkbox_t1 {
@@ -5027,6 +5066,7 @@ select.form-control.big:not([size]):not([multiple]) {
 }
 
 .checkbox_t1 label {
+    vertical-align: top;
     display: inline-block;
     position: relative;
     margin: 5px
@@ -5416,8 +5456,9 @@ select.form-control.big:not([size]):not([multiple]) {
 }
 
 .modal_layout > h2 {
+    text-align: center;
     font-weight: 300;
-    margin: 10px 0 15px;
+    margin: 10px 0 35px;
     color: #757575;
     font-size: 22px
 }
@@ -5741,31 +5782,81 @@ ul.list_t2 button.confirm {
         flex: 0 0 50%
     }
 }
-/* 페이징 네이게이션 관련 추가 2017. 12. 06 안지호 */
-.pagination{
-    display: flex;
-    padding-left: 0;
-    list-style: none;
-    border-radius: .25rem;
-    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-}
-.page-item:first-child .page-link {
-    margin-left: 0;
-    border-bottom-left-radius: .25rem;
-    border-top-left-radius:  .25rem;
-}
-.page-link {
-    position: relative;
-    display: block;
-    padding: .5rem .75rem;
-    margin-left: -1px;
-    line-height: 1.25;
-    color: #0275d8;
-    background-color: #fff;
-    border: 1px solid #ddd;
-}
-.justify-content-center {
-    -webkit-box-pack: center!important;
-    -ms-flex-pack: center!important;
-    justify-content: center!important;
-}
+
+/*index 반응형*/
+@media screen and (max-device-width: 500px) {
+    #header{
+        position: absolute;
+        left: -350px;
+        width: 350px;
+        height: 100%;
+    }
+    .top_area{
+        height: 170px;
+    }
+    .top_area .gnb .my_box > button {
+        font-size: 30px;
+        padding: 10px;
+    }
+    .top_area .gnb .menu_bar{
+        display: block;
+    }
+    .top_area .gnb .my_box .my_menu a{
+        font-size: 25px;
+    }
+    .top_area h2{
+        margin: 55px 0 10px 10px;
+        font-size:30px;
+    }
+
+    /*index 반응형*/
+    .modal_layout{
+        max-width: 100%;
+    }
+    .modal_layout > h2{
+        font-weight: 400;
+        font-size: 38px;
+      }
+    .modal_layout select.form-control.big:not([size]):not([multiple]){
+        height: calc(6rem + 50px);
+    }
+    .modal_layout .form-control{
+        font-size: 36px;
+    }
+    .modal_layout .form-control.big{
+        padding: 3rem;
+    }
+    .modal_layout button.btn_pack.blue{
+        margin: 0px;
+    }
+    .modal_layout button.btn_pack.s2{
+        height: 120px;
+        font-size: 36px;
+    }
+    .modal_layout p{
+        font-size: 20px;
+    }
+    /*index 반응형*/
+
+    /*학생관리반응형*/
+    .form_st1{
+        line-height: 2;
+    }
+    .form_st1 .form-outer-group{
+        display: block;
+    }
+    .form_st1 label{
+        font-size:3rem;
+        font-weight:200;
+    }
+    .form-group.row > label{
+        flex: 0 0 450px;
+    }
+
+
+
+
+
+
+
+} /*max-device-width: 500px*/
