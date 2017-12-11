@@ -127,22 +127,51 @@
 </section>
 <section class="content">
     <h3 class="title_t1"><%=student_name%>학생 상담 리스트</h3>
-    <div class="form-outer-group">
-        <div class="form-group row">
-            <input type="text" id="monthpicker" class="form-control" placeholder="작성일" >
-        </div>
-        <div class="form-group row">
-            <input type="text" id="member_name" class="form-control" placeholder="작성자" >
-        </div>
-        <div class="form-group row">
-            <span id="sel_memo_type" style="width: 100%"></span>
-        </div>
-        <div class="form-group row">
-            <input type="text" id="memo_content" class="form-control" placeholder="내용">
-        </div>
-        <div class="form-group row">
-            <button class="btn_pack blue" type="button" onclick="fn_search('new');">검색</button>
-        </div>
+    <%--<div class="form-outer-group">--%>
+        <%--<div class="form-group row">--%>
+            <%--<input type="text" id="monthpicker" class="form-control" placeholder="작성일" >--%>
+        <%--</div>--%>
+        <%--<div class="form-group row">--%>
+            <%--<input type="text" id="member_name" class="form-control" placeholder="작성자" >--%>
+        <%--</div>--%>
+        <%--<div class="form-group row">--%>
+            <%--<span id="sel_memo_type" style="width: 100%"></span>--%>
+        <%--</div>--%>
+        <%--<div class="form-group row">--%>
+            <%--<input type="text" id="memo_content" class="form-control" placeholder="내용">--%>
+        <%--</div>--%>
+        <%--<div class="form-group row">--%>
+            <%--<button class="btn_pack blue" type="button" onclick="fn_search('new');">검색</button>--%>
+        <%--</div>--%>
+    <%--</div>--%>
+    <div class="tb_t1" style="margin-bottom:4rem">
+        <table>
+            <tr>
+                <th>상담날짜</th>
+                <td style="display:flex;">
+                    <%--<input type="text" id="monthpicker" class="form-control" placeholder="작성일" >--%>
+                    <div class="input-group date">
+                        <input type="text" id="startDate" class="form-control date-picker" style="" placeholder="시작일">
+                        <span class="input-group-addon">
+                        <span class="fa fa-calendar"></span>
+                        </span>
+                    </div>
+                </td>
+                <th>상담자</th>
+                <td><input type="text" id="member_name" class="form-control" placeholder="작성자" ></td>
+            </tr>
+            <tr>
+                <th>상담유형</th>
+                <td><span id="sel_memo_type" style="width: 100%"></span></td>
+                <th>처리상태</th>
+                <td><select class="form-control"><option>▶선택</option><option>진행중</option><option>처리완료</option></select></td>
+            </tr>
+            <tr>
+                <th>상담내용</th>
+                <td colspan="3"><input type="text" id="memo_content" class="form-control" placeholder="내용"></td>
+            </tr>
+        </table>
+        <button class="btn_pack blue" type="button" onclick="fn_search('new');" style="float:right;">검색</button>
     </div>
     <div class="tb_t1">
         <table>

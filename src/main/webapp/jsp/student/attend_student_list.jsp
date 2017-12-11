@@ -72,16 +72,22 @@
     <input type="hidden" id="sPage" name="sPage" value="<%=sPage%>">
 </form>
 <section class="content">
-    <h4 class="title_t1"><%=student_name%>학생의 출결현황 입니다.</h4>
-    <div style="width: 100px;">
-        <span id="l_academyList"></span>
-    </div>
-    <div style="width: 100px;">
-        <input type="text" id="startDate" class="form-control date-picker" style="width:200px;" placeholder="시작일">
-    </div>
-    <div style="width: 100px;">
-        <input type="text" id="endDate" class="form-control date-picker" style="width:200px;" placeholder="종료일">
-        <input type="button" value="검색" onclick="fn_search('new');">
+    <div class="form-outer-group">
+        <div class="form-group row">
+            <h4 class="title_t1"><%=student_name%>학생의 출결현황 입니다.</h4>
+        </div>
+        <div class="form-group row" style="width: 100px;">
+            <span id="l_academyList"></span>
+        </div>
+        <div class="form-group row" style="width: 100px;">
+            <input type="text" id="startDate" class="form-control date-picker" style="width:200px;" placeholder="시작일">
+        </div>
+        <div class="form-group row" style="width: 100px;">
+            <input type="text" id="endDate" class="form-control date-picker" style="width:200px;" placeholder="종료일">
+        </div>
+        <div class="form-group row" style="width: 100px">
+            <button class="btn_pack blue" type="button" onclick="fn_search('new');">검색</button>
+        </div>
     </div>
     <div class="tb_t1">
         <table>
@@ -118,7 +124,9 @@
     </div>
     <div class="layer-body">
         <form name="pop_frm" class="form_st1">
-
+            <div>
+                <textarea class="form-control" rows="5" placeholder="최대 50자까지만 입력가능합니다."></textarea>
+            </div>
         </form>
         <div class="bot_btns_t1">
             <button class="btn_pack blue" type="button" onclick="find_password();">저장</button>
