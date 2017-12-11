@@ -50,6 +50,17 @@
                 processData: false,
                 contentType: false,
                 success: function(data) {
+                    var errorCode = data.result.error_code;
+                    if (errorCode == "903") {
+                        alert(comment.file_name_not_allow_korean);
+                        return;
+                    } else if (errorCode == "904") {
+                        alert(comment.file_extension_not_allow);
+                        return;
+                    } else if (errorCode == "905") {
+                        alert(comment.file_size_not_allow_300kb);
+                        return;
+                    }
                     var fileName = data.result.file_name;
                     var fileUrl = data.result.file_url;
                     var mother_phone3   = getInputTextValue("mother_phone3");
@@ -271,7 +282,7 @@
             <div class="form-group row">
                 <label>학생사진</label>
                 <div>
-                    <img id="modify_preView" src="" width="100px" height="100px">
+                    <img id="modify_preView" src="" width="100px" height="100px" onerror="this.src='<%=webRoot%>/img/user_img_default.jpg'">
                 </div>
                 <div style="margin: 66px 0 0 10px">
                     <label class="custom-file">

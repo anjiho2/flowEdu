@@ -120,7 +120,7 @@
 		FROM LECTURE_STUDENT_REL
 		WHERE lecture_id = #{lectureId} AND add_yn = 1
 	</select>
-	
+
 	<select id="getStudentListByLectureRegister" resultType="com.flowedu.dto.LectureStudentRelDto">
 		SELECT A.*, B.student_name, B.school_name
 		FROM LECTURE_STUDENT_REL A LEFT JOIN STUDENT B
@@ -144,8 +144,8 @@
 		ON B.office_id = C.office_id LEFT JOIN LECTURE_PRICE D
 		ON B.lecture_price_id = D.lecture_price_id
 		WHERE A.student_id =  #{studentId}
-		<if test="type == 'MOMTH'">
-			AND DATE_FORMAT(A.create_date, '%Y-%m-%d') BETWEEN (DATE_FORMAT(NOW(), '%Y-%m-%d') - INTERVAL 2 MONTH) AND DATE_FORMAT(NOW(), '%Y-%m-%d')
+		<if test="type == 'MONTH'">
+			AND DATE_FORMAT(A.create_date, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
 		</if>
 	</select>
 
@@ -156,8 +156,8 @@
 		ON B.office_id = C.office_id LEFT JOIN LECTURE_PRICE D
 		ON B.lecture_price_id = D.lecture_price_id
 		WHERE A.student_id =  #{studentId}
-		<if test="type == 'MOMTH'">
-			AND DATE_FORMAT(A.create_date, '%Y-%m-%d') BETWEEN (DATE_FORMAT(NOW(), '%Y-%m-%d') - INTERVAL 2 MONTH) AND DATE_FORMAT(NOW(), '%Y-%m-%d')
+		<if test="type == 'MONTH'">
+			AND DATE_FORMAT(A.create_date, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
 		</if>
 	</select>
 
@@ -204,7 +204,7 @@
     </select>
 
 	<select id="getLectureAttendListByStudentId" resultType="com.flowedu.dto.LectureAttendDto">
-		SELECT A.attend_date, A.attend_type, A.attend_start_time, A.attend_end_time, A.attend_modify_comment ,B.lecture_name
+		SELECT A.lecture_attend_id, A.attend_date, A.attend_type, A.attend_start_time, A.attend_end_time, A.attend_modify_comment ,B.lecture_name
 		FROM LECTURE_ATTEND A LEFT JOIN LECTURE_INFO B
 		ON A.lecture_id = B.lecture_id LEFT JOIN OFFICE C
 		ON B.office_id = C.office_id
@@ -375,7 +375,7 @@
 		</set>
 		WHERE lecture_rel_id = #{lectureRelId}
 	</update>
-	
+
 	<update id="modifyLectureStudentRelPaymentYn">
 		UPDATE LECTURE_STUDENT_REL
 	</update>

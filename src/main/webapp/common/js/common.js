@@ -1369,7 +1369,20 @@ function getMonth() {
 function getMonthCount(count) {
     var date = new Date();
     var month = date.getMonth() + 1 + count; // 0부터 시작하므로 1더함 더함
+	if (month < 10) {
+		month = "0" + month;
+	}
     return month;
+}
+
+function getDayCount(count) {
+    var date = new Date();
+
+    var day = date.getDate()  + count;
+    if (day < 10) {
+        day = "0" + day;
+    }
+    return day;
 }
 
 function findYearMonthKor(count) {

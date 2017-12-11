@@ -41,22 +41,29 @@
 
             lectureService.getLectureAttendListByStudentId(sPage, 10, studentId, startDate, endDate, offceId, function (selList) {
                 if (selList.length == 0) return;
-                var changeBtn = "<button type='button' class='btn_pack blue' onclick='attend_comment_popup();'>상태변경</button>";
+                //var changeBtn = "<button type='button' class='btn_pack blue' id='"+  +"' onclick='attend_comment_popup();'>상태변경</button>";
                 dwr.util.addRows("dataList", selList, [
                     function(data) {return data.attendDate},
                     function(data) {return data.lectureName},
                     function(data) {return convert_attend(data.attendType)},
                     function(data) {return data.attendStartTime == null ? "-" : data.attendStartTime},
                     function(data) {return data.attendEndTime == null ? "-" : data.attendEndTime},
-                    function(data) {return data.attendModifyComment == null ? changeBtn : data.attendModifyComment}
+                    function(data) {return data.attendModifyComment == null ? "<button type='button' class='btn_pack blue' id='"+ data.lectureAttendId +"' onclick='attend_comment_popup(this.id);'>상태변경</button>" : data.attendModifyComment}
                 ], {escapeHtml:false});
             });
         });
     }
 
     //비밀번호 찾기 팝업
-    function attend_comment_popup() {
+    function attend_comment_popup(lectureAttendId) {
         initPopup($("#attend_comment_layer"));
+        innerValue("lecture_attend_id", lectureAttendId);
+    }
+
+    function changeAttendStatus() {
+        var lectureAttendId = getInputTextValue("lecture_attend_id");
+        var commet = "";
+
     }
 </script>
 <body onload="init();">
@@ -112,6 +119,7 @@
 </section>
 <!-- 출석상태 수정 레이어 시작 -->
 <div class="layer_popup_template apt_request_layer" id="attend_comment_layer" style="display: none;">
+    <input type="hidden" id="lecture_attend_id">
     <div class="layer-title">
         <h3>출석상태 수정사유를 입력해 주세요.</h3>
         <button class="fa fa-close btn-close"></button>
