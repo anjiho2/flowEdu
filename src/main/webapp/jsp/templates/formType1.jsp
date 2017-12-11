@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-    int depth1 = 7;
+    int depth1 = 10;
     int depth2 = 0;
 %>
 <%@include file="/common/jsp/top.jsp" %>

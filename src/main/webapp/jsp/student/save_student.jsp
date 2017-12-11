@@ -6,26 +6,10 @@
     String newRegPhoneNumber = Util.isNullValue(request.getParameter("phone_number"), "");
     Boolean consultYn = Boolean.valueOf(Util.isNullValue(request.getParameter("consult_yn"), ""));
 %>
-<style type="text/css">
-    #attachFile { display:none; }
-</style>
-
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
 <script type="text/javascript" charset="UTF-8">
-    /***************/
-    $(function () {
-        $('#btn-upload').click(function (e) {
-            e.preventDefault();
-            $('#attachFile').click();
-        });
-    });
-
-    function changeValue(obj){
-        alert(obj.value);
-    }
-    /***************/
 
     function init() {
         // 신규 상담에서 학생 등록 할때
@@ -264,11 +248,9 @@
         }
     }
 
-    function excel_file_onchange() {
-        var excel_file = fn_clearFilePath($("#excel_file").val());
-        innerHTML("l_excel_file", $("#excel_file").val());
-        gfn_display("custom-file", false);
-    }
+    $(document).on('change', '.custom-file-input', function() {
+        $(this).parent().find('.custom-file-control').html($(this).val().replace(/C:\\fakepath\\/i, ''));
+    });
 </script>
 <body onload="init();">
 <div class="container">
@@ -289,22 +271,21 @@
             <div class="form-group row">
                 <label>학생사진</label>
                 <div>
-                    <!--<label class="custom-file">
-                        <input type="file" id="attachFile"  onchange="preViewImage(this, 'modify_preView', 'preview');" class="custom-file-input" required>
-                        <%--<input type="file" id="attachFile"  onchange="preViewImage(this, 'modify_preView', 'preview');" >--%>
-                        <span class="custom-file-control"></span>
-                    </label>-->
-                    <%--<input type="file" id="attachFile"  onchange="preViewImage(this, 'modify_preView', 'preview');" required>--%>
-                    <input type="file" id="attachFile" name="attachFile" onchange="preViewImage(this, 'modify_preView', 'preview');" required/>
-                    <button type="button" id="btn-upload">Image</button>
-                </div>
-            </div>
-            <div class="form-group row" id="preview" style="display: none;">
-                <label>학생사진미리보기</label>
-                <div>
                     <img id="modify_preView" src="" width="100px" height="100px">
                 </div>
+                <div style="margin: 66px 0 0 10px">
+                    <label class="custom-file">
+                        <input type="file" id="attachFile" onchange="preViewImage(this, 'modify_preView', 'preview');" class="custom-file-input" required>
+                        <span class="custom-file-control"></span>
+                    </label>
+                </div>
             </div>
+            <%--<div class="form-group row" id="preview" style="display: none;">--%>
+                <%--<label>학생사진미리보기</label>--%>
+                <%--<div>--%>
+                    <%--<img id="modify_preView" src="" width="100px" height="100px">--%>
+                <%--</div>--%>
+            <%--</div>--%>
             <div class="form-group row">
                 <label>학생이름<b>*</b></label>
                 <div><input type="text" class="form-control" id="student_name" style="width:150px;"></div>

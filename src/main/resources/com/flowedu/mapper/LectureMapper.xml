@@ -186,18 +186,42 @@
 	</select>
 
     <select id="getLectureAttendListByStudentIdCount" resultType="Integer">
+		SELECT count(A.lecture_attend_id) as cnt
+		FROM LECTURE_ATTEND A LEFT JOIN LECTURE_INFO B
+		ON A.lecture_id = B.lecture_id LEFT JOIN OFFICE C
+		ON B.office_id = C.office_id
+		WHERE A.student_id = #{studentId}
+		AND A.attend_date BETWEEN #{startDate} AND #{endDate}
+		<if test="officeId > 0">
+			AND C.office_id = #{officeId}
+		</if>
+		<!--
         SELECT count(lecture_attend_id)
         FROM LECTURE_ATTEND
         WHERE student_id = #{studentId}
         AND DATE_FORMAT(attend_date, '%Y-%m') = #{searchMonth}
+        -->
     </select>
 
 	<select id="getLectureAttendListByStudentId" resultType="com.flowedu.dto.LectureAttendDto">
+		SELECT A.attend_date, A.attend_type, A.attend_start_time, A.attend_end_time, A.attend_modify_comment ,B.lecture_name
+		FROM LECTURE_ATTEND A LEFT JOIN LECTURE_INFO B
+		ON A.lecture_id = B.lecture_id LEFT JOIN OFFICE C
+		ON B.office_id = C.office_id
+		WHERE A.student_id = #{studentId}
+		AND A.attend_date BETWEEN #{startDate} AND #{endDate}
+		<if test="officeId > 0">
+			AND C.office_id = #{officeId}
+		</if>
+		ORDER BY A.attend_date DESC, A.attend_start_time ASC
+		LIMIT #{start}, #{end}
+		<!--
 		SELECT A.*, B.lecture_name
 		FROM LECTURE_ATTEND A LEFT JOIN LECTURE_INFO B
 		ON A.lecture_id = B.lecture_id
 		WHERE A.student_id = #{studentId}
 		AND DATE_FORMAT(A.attend_date, '%Y-%m') = #{searchMonth}
+		-->
 	</select>
 
 	<insert id="saveLectureRoom">
@@ -252,17 +276,17 @@
 
 	<insert id="saveLectureAttend">
 		INSERT INTO LECTURE_ATTEND
-		(lecture_id, student_id, attend_day, attend_type)
+		(lecture_id, student_id, attend_day, attend_type, attend_date, attend_start_time)
 		VALUES
-		(#{lectureId}, #{studentId}, #{attendDay}, #{attendType})
+		(#{lectureId}, #{studentId}, #{attendDay}, #{attendType}, date_format(curdate(), '%Y-%m-%d'), DATE_FORMAT(NOW(), '%H:%i'))
 	</insert>
 
 	<insert id="saveLectureAttendList" parameterType="com.flowedu.dto.LectureAttendDto">
 		INSERT INTO LECTURE_ATTEND
-		(lecture_id, student_id, attend_day, attend_type)
+		(lecture_id, student_id, attend_day, attend_type, attend_date, attend_start_time)
 		VALUES
 		<foreach collection="attendList" item="values" separator=",">
-			(#{values.lectureId}, #{values.studentId}, #{values.attendDay}, #{values.attendType})
+			(#{values.lectureId}, #{values.studentId}, #{values.attendDay}, #{values.attendType}, DATE_FORMAT(CURDATE(), '%Y-%m-%d'), DATE_FORMAT(NOW(), '%H:%i'))
 		</foreach>
 	</insert>
 
