@@ -13,6 +13,10 @@
         goPage('student', 'modify_student');
     }
 
+    function init() {
+        gfn_emptyView("V", comment.search_input_student_name);
+    }
+
     function fn_search(val) {
         var paging = new Paging();
         var sPage = $("#sPage").val();
@@ -50,7 +54,7 @@
     }
 
 </script>
-<body>
+<body onload="init();">
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
     <h2>대시보드</h2>

@@ -85,5 +85,8 @@ var comment = {
 		select_cash_receipt_type : "현금영수증을 선택해주세요.",
 
 		file_name_not_allow_korean : "파일명이 한글입니다. 영문으로 바꿔주세요.",
+
+		not_attend_log : "출결이력이 없습니다.",
+		search_input_student_name : "학생 이름을 입력 후 검색헤주세요.",
 }
 

@@ -410,15 +410,14 @@ public class LectureService extends PagingSupport {
      * 3. 작성일 : 2017. 09 .11
      * </PRE>
      * @param studentId
-     * @param searchMonth
+     * @param startDate
+     * @param endDate
+     * @param officeId
      * @return
      */
     @Transactional(readOnly = true)
-    public int getLectureAttendListByStudentIdCount(Long studentId, String searchMonth) {
-        if ("".equals(Util.isNullValue(searchMonth, ""))) {
-            searchMonth = Util.returnToDate(DateUtils.DF_MONTH_PATTERN);
-        }
-        return lectureMapper.getLectureAttendListByStudentIdCount(studentId, searchMonth);
+    public int getLectureAttendListByStudentIdCount(Long studentId, String startDate, String endDate, Long officeId) {
+        return lectureMapper.getLectureAttendListByStudentIdCount(studentId, startDate, endDate, officeId);
     }
 
     /**
@@ -428,15 +427,17 @@ public class LectureService extends PagingSupport {
      * 3. 작성일 : 2017. 09 .11
      * </PRE>
      * @param studentId
-     * @param searchMonth
+     * @param startDate
+     * @param endDate
      * @return
      */
     @Transactional(readOnly = true)
-    public List<LectureAttendDto> getLectureAttendListByStudentId(Long studentId, String searchMonth) {
-        if ("".equals(Util.isNullValue(searchMonth, ""))) {
-            searchMonth = Util.returnToDate(DateUtils.DF_MONTH_PATTERN);
+    public List<LectureAttendDto> getLectureAttendListByStudentId(int sPage, int pageInList, Long studentId, String startDate, String endDate, Long officeId) {
+        if (studentId == null) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
-        List<LectureAttendDto> Arr = lectureMapper.getLectureAttendListByStudentId(studentId, searchMonth);
+        PagingDto pagingDto = getPagingInfo(sPage, pageInList);
+        List<LectureAttendDto> Arr = lectureMapper.getLectureAttendListByStudentId(studentId, startDate, endDate, officeId, pagingDto.getStart(), pagingDto.getEnd());
         return Arr;
     }
 
