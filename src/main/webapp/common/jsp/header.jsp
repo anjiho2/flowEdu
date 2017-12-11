@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <div id="wrap">
     <header id="header">
-        <h1><img src="" alt=""></h1>
+        <h1><img src="" alt="" style="border: solid 1px;width: 260px; height: 80px"></h1>
         <button class="toggle_aside"></button>
         <nav id="lnb" class="depth1">
             <%--<a href="#"><span class="fa fa-times menu_close_btn"></span></a>--%>

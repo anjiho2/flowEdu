@@ -406,7 +406,8 @@
             </div>
             <div class="bot_btns">
                 <button class="btn_pack blue s2" type="button"  onclick="save_student();">저장</button>
-                <button class="btn_pack blue s2" type="button"  onclick="student_excel_upload_popup();">엑셀 업로드 하기</button>
+                <button class="btn_pack blue s2" type="button">목록</button>
+                <%--<button class="btn_pack blue s2" type="button"  onclick="student_excel_upload_popup();">엑셀 업로드 하기</button>--%>
             </div>
         </div>
     </section>
