@@ -109,6 +109,7 @@
                         <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
                     </tr>
                 </table>
+                <button class="btn_pack blue">학생정보입력</button>
                 <div class="form-group row"></div>
                 <%@ include file="/common/inc/com_pageNavi.inc" %>
             </div>

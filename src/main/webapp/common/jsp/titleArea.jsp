@@ -4,11 +4,11 @@
         <div class="total_search">
             <%--<button class="fa fa-search"></button>--%>
         </div>
-        <div class="menu_bar">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+        <%--<div class="menu_bar">--%>
+            <%--<span></span>--%>
+            <%--<span></span>--%>
+            <%--<span></span>--%>
+        <%--</div>--%>
         <div class="my_box">
             <%--<a href="javascript:void(0);" onclick="goPage('member','login_member_modify')"></a>--%>
             <button id="my_menu_btn"><%=memberName%>님 안녕하세요. <span class="fa fa-chevron-down"></span></button>

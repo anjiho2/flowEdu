@@ -248,11 +248,9 @@
         }
     }
 
-    function excel_file_onchange() {
-        var excel_file = fn_clearFilePath($("#excel_file").val());
-        innerHTML("l_excel_file", $("#excel_file").val());
-        gfn_display("custom-file", false);
-    }
+    $(document).on('change', '.custom-file-input', function() {
+        $(this).parent().find('.custom-file-control').html($(this).val().replace(/C:\\fakepath\\/i, ''));
+    });
 </script>
 <body onload="init();">
 <div class="container">
@@ -273,19 +271,21 @@
             <div class="form-group row">
                 <label>학생사진</label>
                 <div>
+                    <img id="modify_preView" src="" width="100px" height="100px">
+                </div>
+                <div style="margin: 66px 0 0 10px">
                     <label class="custom-file">
-                        <input type="file" id="attachFile"  onchange="preViewImage(this, 'modify_preView', 'preview');" class="custom-file-input" required>
-                        <%--<input type="file" id="attachFile"  onchange="preViewImage(this, 'modify_preView', 'preview');" >--%>
+                        <input type="file" id="attachFile" onchange="preViewImage(this, 'modify_preView', 'preview');" class="custom-file-input" required>
                         <span class="custom-file-control"></span>
                     </label>
                 </div>
             </div>
-            <div class="form-group row" id="preview" style="display: none;">
-                <label>학생사진미리보기</label>
-                <div>
-                    <img id="modify_preView" src="" width="100px" height="100px">
-                </div>
-            </div>
+            <%--<div class="form-group row" id="preview" style="display: none;">--%>
+                <%--<label>학생사진미리보기</label>--%>
+                <%--<div>--%>
+                    <%--<img id="modify_preView" src="" width="100px" height="100px">--%>
+                <%--</div>--%>
+            <%--</div>--%>
             <div class="form-group row">
                 <label>학생이름<b>*</b></label>
                 <div><input type="text" class="form-control" id="student_name" style="width:150px;"></div>
