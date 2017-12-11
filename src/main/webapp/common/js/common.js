@@ -1914,6 +1914,7 @@ function remove_double_quotation(val) {
 function get_month_lastday(year, month) {
 	return new Date(year, month, 0).getDate();
 }
+
 //콤마 제거
 function uncomma(str) {
     str = String(str);

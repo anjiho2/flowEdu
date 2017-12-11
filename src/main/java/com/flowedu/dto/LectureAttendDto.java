@@ -38,6 +38,12 @@ public class LectureAttendDto {
 
     private String modifyDate;
 
+    private String attendStartTime;
+
+    private String attendEndTime;
+
+    private String lectureName;
+
     public LectureAttendDto() {}
 
     public List<LectureAttendDto> consume(List<LectureAttendDto> lectureAttendDtoList) throws Exception {
