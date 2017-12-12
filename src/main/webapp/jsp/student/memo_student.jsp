@@ -148,7 +148,7 @@
         <table>
             <tr>
                 <th>상담날짜</th>
-                <td style="display:flex;">
+                <td>
                     <%--<input type="text" id="monthpicker" class="form-control" placeholder="작성일" >--%>
                     <div class="input-group date">
                         <input type="text" id="startDate" class="form-control date-picker" style="" placeholder="시작일">
