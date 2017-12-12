@@ -25,6 +25,9 @@ public class LoginService {
     @Autowired
     private LogService logService;
 
+    @Autowired
+    private AcademyService academyService;
+
     /**
      * <PRE>
      * 1. Comment : 유저가 있는지 확인
@@ -43,12 +46,14 @@ public class LoginService {
         Long flowMemberId = loginMapper.findFlowEduMember(phoneNumber, Aes256.encrypt(password), memberType);
         if (flowMemberId != null) {
             dto = memberMapper.getFlowEduMemberCheck(flowMemberId);
+            String academyThumbnail = academyService.getAcademyThumbnailUrl(dto.getOfficeId());
             UserSession.set(
             new FlowEduMemberDto(
                     dto.getFlowMemberId(),
                     dto.getMemberType(),
                     dto.getMemberName(),
-                    dto.getOfficeId()
+                    dto.getOfficeId(),
+                    academyThumbnail
                 )
             );
             logService.memberLoginLog(dto, connectIp);

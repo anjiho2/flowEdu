@@ -52,6 +52,8 @@ public class FlowEduMemberDto implements Serializable {
     //  생성일
     private String createDate;
 
+    private String academyThumbnail;
+
     public FlowEduMemberDto() {}
 
     public FlowEduMemberDto(Long officeId, int teamId, int jobPositionId,  String phoneNumber, String memberName, String memberBirthDay,
@@ -91,10 +93,11 @@ public class FlowEduMemberDto implements Serializable {
         this.memberType = memberType;
     }
 
-    public FlowEduMemberDto(Long flowMemberId, String memberType, String memberName, Long officeId) {
+    public FlowEduMemberDto(Long flowMemberId, String memberType, String memberName, Long officeId, String academyThumbnail) {
         this.flowMemberId = flowMemberId;
         this.memberType = memberType;
         this.memberName = memberName;
         this.officeId = officeId;
+        this.academyThumbnail = academyThumbnail;
     }
 }

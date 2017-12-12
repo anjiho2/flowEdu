@@ -33,4 +33,8 @@ public class UserSession {
     public static Long officeId() {
         return local.get().getOfficeId();
     }
+
+    public static String academyThumbnail() {
+        return local.get().getAcademyThumbnail();
+    }
 }
