@@ -5812,7 +5812,7 @@ ul.list_t2 button.confirm {
     justify-content: center!important;
 }
 
-/*달력시작*/
+/*달력그림시작*/
 .input-group.date .input-group-addon {
     cursor: pointer;
 }
@@ -5847,7 +5847,7 @@ ul.list_t2 button.confirm {
     display: table;
     border-collapse: separate;
 }
-/*달력끝*/
+/*달력그림끝*/
 
 /*index 반응형*/
 @media screen and (max-device-width: 500px) {

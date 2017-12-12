@@ -256,11 +256,11 @@
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
     <%--<%@include file="/common/jsp/depth_menu.jsp" %>--%>
-    </div>
+            </div>
     </section>
-    <section class="content">
-        <h3 class="title_t1">학생정보입력</h3>
-        <div class="form_st1">
+<section class="content">
+    <h3 class="title_t1">학생정보입력</h3>
+    <div class="form_st1">
         <form name="frm" id="frm" method="get">
             <input type="hidden" name="page_gbn" id="page_gbn">
             <input type="hidden" name="student_id">
@@ -268,17 +268,17 @@
             <input type="hidden" id="fileName" value="">
             <input type="hidden" id="fileUrl" value="">
         </form>
-            <div class="form-group row">
-                <label>학생사진</label>
-                <div>
-                    <img id="modify_preView" src="" width="100px" height="100px">
-                </div>
-                <div style="margin: 66px 0 0 10px">
-                    <label class="custom-file">
-                        <input type="file" id="attachFile" onchange="preViewImage(this, 'modify_preView', 'preview');" class="custom-file-input" required>
-                        <span class="custom-file-control"></span>
-                    </label>
-                </div>
+        <div class="form-group row">
+            <label>학생사진</label>
+            <div>
+                <img id="modify_preView" src="" width="100px" height="100px">
+            </div>
+            <div style="margin: 66px 0 0 10px">
+                <label class="custom-file">
+                    <input type="file" id="attachFile" onchange="preViewImage(this, 'modify_preView', 'preview');" class="custom-file-input" required>
+                    <span class="custom-file-control"></span>
+                </label>
+            </div>
             </div>
             <%--<div class="form-group row" id="preview" style="display: none;">--%>
                 <%--<label>학생사진미리보기</label>--%>
@@ -288,7 +288,9 @@
             <%--</div>--%>
             <div class="form-group row">
                 <label>학생이름<b>*</b></label>
-                <div><input type="text" class="form-control" id="student_name" style="width:150px;"></div>
+                <div>
+                    <input type="text" class="form-control" id="student_name" style="width:150px;">
+                </div>
             </div>
             <div class="form-outer-group">
                 <div class="form-group row">
@@ -302,7 +304,9 @@
                 </div>
                 <div class="form-group row">
                     <label>생일<b>*</b></label>
-                    <div><input type="text" id="startDate" class="form-control date-picker" style="width:200px;"></div>
+                    <div>
+                        <input type="text" id="startDate" class="form-control date-picker" style="width:200px;">
+                    </div>
                 </div>
             </div>
             <div class="form-outer-group">
