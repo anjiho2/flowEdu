@@ -114,19 +114,35 @@
             <input type="hidden"  id="sPage" value="<%=sPage%>">
             <input type="hidden" name="student_memo_id" id="student_memo_id">
             <h3 class="title_t1"><%=student_name%>학생 상담 등록</h3>
-            <div class="form-group row">
-                <span id="l_memoType"></span>
-            </div>
-            <div class="form-group row" style="width: 500px;">
-                <div><textarea class="form-control"  id="consultMemo" rows="5" placeholder="상담내용을 입력하세요"></textarea></div>
-            </div>
-            <div class="bot_btns" align="">
-                <button class="btn_pack blue s2" type="button"  onclick="studentMemo();">저장</button>
+            <%--<div class="form-group row">--%>
+                <%--<span id="l_memoType"></span>--%>
+            <%--</div>--%>
+            <%--<div class="form-group row" style="width: 500px;">--%>
+                <%--<div><textarea class="form-control"  id="consultMemo" rows="5" placeholder="상담내용을 입력하세요"></textarea></div>--%>
+            <%--</div>--%>
+            <%--<div class="bot_btns" align="">--%>
+                <%--<button class="btn_pack blue s2" type="button"  onclick="studentMemo();">저장</button>--%>
+            <%--</div>--%>
+
+            <div class="tb_t1">
+                <table>
+                    <tr>
+                        <th>상담유형</th>
+                        <td><span id="l_memoType"></span></td>
+                    </tr>
+                    <tr>
+                        <th>상담내용</th>
+                        <td><textarea class="form-control"  id="consultMemo" rows="5" placeholder="상담내용을 입력하세요"></textarea></td>
+                    </tr>
+                </table>
+                <div style="margin-top:20px;">
+                    <button class="btn_pack blue s2" type="button"  onclick="studentMemo();">저장</button>
+                </div>
             </div>
         </form>
 </section>
 <section class="content">
-    <h3 class="title_t1"><%=student_name%>학생 상담 리스트</h3>
+    <h3 class="title_t1"><%=student_name%>학생 상담 목록</h3>
     <%--<div class="form-outer-group">--%>
         <%--<div class="form-group row">--%>
             <%--<input type="text" id="monthpicker" class="form-control" placeholder="작성일" >--%>
@@ -185,9 +201,9 @@
             <tr>
                 <th>상담내용</th>
                 <th>상담자</th>
-                <th>상담구분</th>
+                <th>상담유형</th>
                 <th>상담날짜</th>
-                <th>처리여부</th>
+                <th>처리상태</th>
             </tr>
             <tbody id="dataList"></tbody>
             <tr>

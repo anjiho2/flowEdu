@@ -79,9 +79,6 @@ function lecture_apply() {
                 <h4 class="title_t1"><%=student_name%>학생의 수강이력 입니다.</h4>
             </div>
             <div class="form-group row">
-                <span id="l_academyList"></span>
-            </div>
-            <div class="form-group row">
                 <div class="input-group date" style="width:200px">
                     <input type="text" id="startDate" class="form-control date-picker" placeholder="시작일">
                     <span class="input-group-addon">
