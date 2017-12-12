@@ -166,6 +166,7 @@ function changeProccessYn() {
         <div id="process_div" style="display: none;" align="left">
             <div>
                 <button class="btn_pack blue" type="button" onclick="changeProccessYn();">처리하기</button>
+                <button class="btn_pack black" type="button">목록</button>
             </div>
         </div>
     </div>

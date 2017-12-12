@@ -36,4 +36,6 @@
     <entry key="flowedu.api.url">${flowedu.api.url}</entry>
 
     <entry key="session.use.yn">${session.use.yn}</entry>
+
+    <entry key="academy.thumbnail.url">${academy.thumbnail.url}</entry>
 </properties>

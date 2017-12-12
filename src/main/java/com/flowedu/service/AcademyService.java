@@ -1,11 +1,16 @@
 package com.flowedu.service;
 
+import com.flowedu.config.ConfigHolder;
 import com.flowedu.dto.AcademyGroupDto;
 import com.flowedu.dto.FlowEduTeamDto;
 import com.flowedu.dto.OfficeDto;
 import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
 import com.flowedu.mapper.OfficeMapper;
+import com.flowedu.session.UserSession;
+import com.flowedu.util.FileUtil;
+import com.flowedu.util.StringUtil;
+import com.flowedu.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -46,7 +51,27 @@ public class AcademyService {
      */
     @Transactional(readOnly = true)
     public List<AcademyGroupDto> getAcademyGroup() {
-        return officeMapper.getAcademyGroup();
+        return officeMapper.getAcademyGroup(0);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 학원 그룹 썸네일 가져오기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 12. 12
+     * </PRE>
+     * @param officeId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public String getAcademyThumbnailUrl(Long officeId) {
+        String academyThumbnailUrl = null;
+        OfficeDto officeDto = officeMapper.getAcademyInfo(officeId);
+        List<AcademyGroupDto> arr = officeMapper.getAcademyGroup(officeDto.getAcademyGroupId());
+        for (AcademyGroupDto academyGroupDto : arr) {
+            academyThumbnailUrl = FileUtil.concatPath(ConfigHolder.getAcademyThumbnailUrl(), academyGroupDto.getAcademyThumbnailFile());
+        }
+        return academyThumbnailUrl;
     }
 
     /**

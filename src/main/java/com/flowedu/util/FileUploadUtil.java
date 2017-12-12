@@ -91,18 +91,29 @@ public class FileUploadUtil {
 
                 if (uploadFileName != null || !"".equals(uploadFileName)) {
                     MultipartFile multipartFile = request.getFile(uploadFileName);
+                    long fileSize = multipartFile.getSize();
+                    //이미지 용량 제한 300kb
+                    if (fileSize > 300000) {
+                        map.put("error_code", FlowEduErrorCode.CUSTOM_IMAGE_FILE_SIZE_LIMIT.code());
+                        return map;
+                    }
                     //한글 꺠짐 방지처리
                     String originalFileName = multipartFile.getOriginalFilename();
                     /** 파일명이 한글일때 에러 처리 **/
-
                     if (StringUtil.isKorean(originalFileName)) {
-                        throw new FlowEduException(FlowEduErrorCode.CUSTOM_IMAGE_FILE_NAME_KOREAN);
+                        map.put("error_code", FlowEduErrorCode.CUSTOM_IMAGE_FILE_NAME_KOREAN.code());
+                        return map;
                     }
                     //파일명 변경
                     //String finalFileName = FileUploadRename.multipartFileRename(multipartFile).toString();
                     String makeFileName = originalFileName.substring(0, originalFileName.lastIndexOf("."));
                     int filePos = originalFileName.lastIndexOf(".");
                     String fileExtension = originalFileName.substring(filePos+1);
+                    //파일 확장자 예외처리
+                    if (!"JPG".equals(fileExtension.toUpperCase()) || !"GIF".equals(fileExtension.toUpperCase())) {
+                        map.put("error_code", FlowEduErrorCode.CUSTOM_IMAGE_FILE_EXTENSION_NOT_ALLOW.code());
+                        return map;
+                    }
                     String finalFileName = makeFileName + "_" + Util.returnNowDateByYyyymmddhhmmss() + "." + fileExtension;
 
                     //년도 디렉토리 존재 확인

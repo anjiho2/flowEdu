@@ -15,7 +15,7 @@
 
     function init() {
         studentmemoTypeSelectbox("sel_memo_type","");//상담검색시
-        studentmemoTypeSelectbox2("sel_memo_type2", "");//상담입력시
+        studentMemoTypeRadio("l_memoType", "REG", "");//상담입력시
         fn_search("new");
     }
 
@@ -23,7 +23,7 @@
         var check = new isCheck();
         var student_id  = getInputTextValue("student_id");
         var consultMemo = getInputTextValue("consultMemo");
-        var memoType = getInputTextValue("sel_memoType2");
+        var memoType = get_radio_value("memo_type");
 
         if (check.input("consultMemo", "상담내용을 입력하세요.") == false) return;
 
@@ -59,7 +59,7 @@
                         var cmpList = selList[i];
                         if (cmpList == undefined) {
                         } else
-                            var memoHTML = "<a href='javascript:void(0);'  onclick='go_reply("+ '"' + 'student' + '"' + ","+ '"' + 'detail_memo_student' + '"' + ","+ '"' + cmpList.studentMemoId + '"' + ");' />"+ ellipsis(cmpList.memoContent, 20) +"</a>";
+                            var memoHTML = "<a href='javascript:void(0);' class='font_color blue'  onclick='go_reply("+ '"' + 'student' + '"' + ","+ '"' + 'detail_memo_student' + '"' + ","+ '"' + cmpList.studentMemoId + '"' + ");' />"+ ellipsis(cmpList.memoContent, 20) +"</a>";
                             var cellData = [
                                 //cmpList.memoContent;
                                 function (data) {return memoHTML;},
@@ -114,38 +114,80 @@
             <input type="hidden"  id="sPage" value="<%=sPage%>">
             <input type="hidden" name="student_memo_id" id="student_memo_id">
             <h3 class="title_t1"><%=student_name%>학생 상담 등록</h3>
-            <!--<div class="form-group row">
-                <span id="l_memoType"></span>
-            </div>-->
-            <div class="form-group row">
-                <span id="sel_memo_type2" style="width: 100%"></span>
-            </div>
-            <div class="form-group row" style="width: 500px;">
-                <div><textarea class="form-control"  id="consultMemo" rows="5" placeholder="상담내용을 입력하세요"></textarea></div>
-            </div>
-            <div class="bot_btns" align="">
-                <button class="btn_pack blue s2" type="button"  onclick="studentMemo();">저장</button>
+            <%--<div class="form-group row">--%>
+                <%--<span id="l_memoType"></span>--%>
+            <%--</div>--%>
+            <%--<div class="form-group row" style="width: 500px;">--%>
+                <%--<div><textarea class="form-control"  id="consultMemo" rows="5" placeholder="상담내용을 입력하세요"></textarea></div>--%>
+            <%--</div>--%>
+            <%--<div class="bot_btns" align="">--%>
+                <%--<button class="btn_pack blue s2" type="button"  onclick="studentMemo();">저장</button>--%>
+            <%--</div>--%>
+
+            <div class="tb_t1">
+                <table>
+                    <tr>
+                        <th>상담유형</th>
+                        <td><span id="l_memoType"></span></td>
+                    </tr>
+                    <tr>
+                        <th>상담내용</th>
+                        <td><textarea class="form-control"  id="consultMemo" rows="5" placeholder="상담내용을 입력하세요"></textarea></td>
+                    </tr>
+                </table>
+                <div style="margin-top:20px;">
+                    <button class="btn_pack blue s2" type="button"  onclick="studentMemo();">저장</button>
+                </div>
             </div>
         </form>
 </section>
 <section class="content">
-    <h3 class="title_t1"><%=student_name%>학생 상담 리스트</h3>
-    <div class="form-outer-group">
-        <div class="form-group row">
-            <input type="text" id="monthpicker" class="form-control" placeholder="작성일" >
-        </div>
-        <div class="form-group row">
-            <input type="text" id="member_name" class="form-control" placeholder="작성자" >
-        </div>
-        <div class="form-group row">
-            <span id="sel_memo_type" style="width: 100%"></span>
-        </div>
-        <div class="form-group row">
-            <input type="text" id="memo_content" class="form-control" placeholder="내용">
-        </div>
-        <div class="form-group row">
-            <button class="btn_pack blue" type="button" onclick="fn_search('new');">검색</button>
-        </div>
+    <h3 class="title_t1"><%=student_name%>학생 상담 목록</h3>
+    <%--<div class="form-outer-group">--%>
+        <%--<div class="form-group row">--%>
+            <%--<input type="text" id="monthpicker" class="form-control" placeholder="작성일" >--%>
+        <%--</div>--%>
+        <%--<div class="form-group row">--%>
+            <%--<input type="text" id="member_name" class="form-control" placeholder="작성자" >--%>
+        <%--</div>--%>
+        <%--<div class="form-group row">--%>
+            <%--<span id="sel_memo_type" style="width: 100%"></span>--%>
+        <%--</div>--%>
+        <%--<div class="form-group row">--%>
+            <%--<input type="text" id="memo_content" class="form-control" placeholder="내용">--%>
+        <%--</div>--%>
+        <%--<div class="form-group row">--%>
+            <%--<button class="btn_pack blue" type="button" onclick="fn_search('new');">검색</button>--%>
+        <%--</div>--%>
+    <%--</div>--%>
+    <div class="tb_t1" style="margin-bottom:4rem">
+        <table>
+            <tr>
+                <th>상담날짜</th>
+                <td>
+                    <%--<input type="text" id="monthpicker" class="form-control" placeholder="작성일" >--%>
+                    <div class="input-group date">
+                        <input type="text" id="startDate" class="form-control date-picker" style="" placeholder="시작일">
+                        <span class="input-group-addon">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                    </div>
+                </td>
+                <th>상담자</th>
+                <td><input type="text" id="member_name" class="form-control" placeholder="작성자" ></td>
+            </tr>
+            <tr>
+                <th>상담유형</th>
+                <td><span id="sel_memo_type" style="width: 100%"></span></td>
+                <th>처리상태</th>
+                <td><select class="form-control"><option>▶선택</option><option>진행중</option><option>처리완료</option></select></td>
+            </tr>
+            <tr>
+                <th>상담내용</th>
+                <td colspan="3"><input type="text" id="memo_content" class="form-control" placeholder="내용"></td>
+            </tr>
+        </table>
+        <button class="btn_pack blue" type="button" onclick="fn_search('new');" style="float:right;">검색</button>
     </div>
     <div class="tb_t1">
         <table>

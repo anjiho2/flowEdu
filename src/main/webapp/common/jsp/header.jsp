@@ -1,7 +1,13 @@
+<%@ page import="com.flowedu.session.UserSession" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+    String academyThumbnail = UserSession.academyThumbnail();
+%>
 <div id="wrap">
     <header id="header">
-        <h1><img src="" alt=""></h1>
+        <div style="margin-left: 35px;">
+            <img id="academy_img" src="<%=academyThumbnail%>" alt="" style="border:1px;width: 170px; height: 80px">
+        </div>
         <button class="toggle_aside"></button>
         <nav id="lnb" class="depth1">
             <%--<a href="#"><span class="fa fa-times menu_close_btn"></span></a>--%>

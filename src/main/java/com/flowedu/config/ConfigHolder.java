@@ -25,6 +25,8 @@ public class ConfigHolder {
     private boolean sessionUseYn;
     @Value("#{config['file.view.url']}")
     private String fileViewUrl;
+    @Value("#{config['academy.thumbnail.url']}")
+    private String academyThumbnailUrl;
 
     @PostConstruct
     private ConfigHolder init() {
@@ -58,6 +60,10 @@ public class ConfigHolder {
 
     public static String getFileViewUrl() {
         return config.fileViewUrl;
+    }
+
+    public static String getAcademyThumbnailUrl() {
+        return config.academyThumbnailUrl;
     }
 
 }

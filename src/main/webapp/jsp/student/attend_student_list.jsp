@@ -41,22 +41,29 @@
 
             lectureService.getLectureAttendListByStudentId(sPage, 10, studentId, startDate, endDate, offceId, function (selList) {
                 if (selList.length == 0) return;
-                var changeBtn = "<button type='button' class='btn_pack blue' onclick='attend_comment_popup();'>상태변경</button>";
+                //var changeBtn = "<button type='button' class='btn_pack blue' id='"+  +"' onclick='attend_comment_popup();'>상태변경</button>";
                 dwr.util.addRows("dataList", selList, [
                     function(data) {return data.attendDate},
                     function(data) {return data.lectureName},
                     function(data) {return convert_attend(data.attendType)},
                     function(data) {return data.attendStartTime == null ? "-" : data.attendStartTime},
                     function(data) {return data.attendEndTime == null ? "-" : data.attendEndTime},
-                    function(data) {return data.attendModifyComment == null ? changeBtn : data.attendModifyComment}
+                    function(data) {return data.attendModifyComment == null ? "<button type='button' class='btn_pack blue' id='"+ data.lectureAttendId +"' onclick='attend_comment_popup(this.id);'>상태변경</button>" : data.attendModifyComment}
                 ], {escapeHtml:false});
             });
         });
     }
 
     //비밀번호 찾기 팝업
-    function attend_comment_popup() {
+    function attend_comment_popup(lectureAttendId) {
         initPopup($("#attend_comment_layer"));
+        innerValue("lecture_attend_id", lectureAttendId);
+    }
+
+    function changeAttendStatus() {
+        var lectureAttendId = getInputTextValue("lecture_attend_id");
+        var commet = "";
+
     }
 </script>
 <body onload="init();">
@@ -72,16 +79,32 @@
     <input type="hidden" id="sPage" name="sPage" value="<%=sPage%>">
 </form>
 <section class="content">
-    <h4 class="title_t1"><%=student_name%>학생의 출결현황 입니다.</h4>
-    <div style="width: 100px;">
-        <span id="l_academyList"></span>
-    </div>
-    <div style="width: 100px;">
-        <input type="text" id="startDate" class="form-control date-picker" style="width:200px;" placeholder="시작일">
-    </div>
-    <div style="width: 100px;">
-        <input type="text" id="endDate" class="form-control date-picker" style="width:200px;" placeholder="종료일">
-        <input type="button" value="검색" onclick="fn_search('new');">
+    <div class="form-outer-group">
+        <div class="form-group row">
+            <h4 class="title_t1"><%=student_name%>학생의 출결현황 입니다.</h4>
+        </div>
+        <div class="form-group row">
+            <span id="l_academyList"></span>
+        </div>
+        <div class="form-group row">
+            <div class="input-group date" style="width:200px">
+                <input type="text" id="startDate" class="form-control date-picker" placeholder="시작일">
+                <span class="input-group-addon">
+                    <span class="fa fa-calendar"></span>
+                </span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="input-group date" style="width:200px">
+                <input type="text" id="endDate" class="form-control date-picker" placeholder="종료일">
+                <span class="input-group-addon">
+                    <span class="fa fa-calendar"></span>
+                </span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <button class="btn_pack blue" type="button" onclick="fn_search('new');">검색</button>
+        </div>
     </div>
     <div class="tb_t1">
         <table>
@@ -112,13 +135,16 @@
 </section>
 <!-- 출석상태 수정 레이어 시작 -->
 <div class="layer_popup_template apt_request_layer" id="attend_comment_layer" style="display: none;">
+    <input type="hidden" id="lecture_attend_id">
     <div class="layer-title">
         <h3>출석상태 수정사유를 입력해 주세요.</h3>
         <button class="fa fa-close btn-close"></button>
     </div>
     <div class="layer-body">
         <form name="pop_frm" class="form_st1">
-
+            <div>
+                <textarea class="form-control" rows="5" placeholder="최대 50자까지만 입력가능합니다."></textarea>
+            </div>
         </form>
         <div class="bot_btns_t1">
             <button class="btn_pack blue" type="button" onclick="find_password();">저장</button>

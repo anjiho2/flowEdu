@@ -10,34 +10,6 @@
 <%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
 <script type="text/javascript" charset="UTF-8">
-    //텍스트 박스에 숫자와 영문만 입력할수있도록
-    function check_key() {
-        var char_ASCII = event.keyCode;
-
-        //숫자
-        if (char_ASCII >= 48 && char_ASCII <= 57 )
-            return 1;
-        //영어
-        else if ((char_ASCII>=65 && char_ASCII<=90) || (char_ASCII>=97 && char_ASCII<=122))
-            return 2;
-        //특수기호
-        else if ((char_ASCII>=33 && char_ASCII<=47) || (char_ASCII>=58 && char_ASCII<=64)
-            || (char_ASCII>=91 && char_ASCII<=96) || (char_ASCII>=123 && char_ASCII<=126))
-            return 4;
-        //한글
-        else if ((char_ASCII >= 12592) || (char_ASCII <= 12687))
-            return 3;
-        else
-            return 0;
-    }
-    function nonHangulSpecialKey() {
-
-        if(check_key() != 1 && check_key() != 2) {
-            event.returnValue = false;
-            alert("숫자나 영문자만 입력하세요!");
-            return;
-        }
-      }
 
     function init() {
         // 신규 상담에서 학생 등록 할때
@@ -53,19 +25,14 @@
 
     function save_student() { //저장
         var check = new isCheck();
-        var student_gender = get_radio_value("student_gender");
 
-         //이메일 유효성 검사
-         var student_email   = getInputTextValue("student_email");
-         var is_email = fn_isemail(student_email);
-         if (is_email == true) return false;
-         if(check.input("student_name", comment.input_student_name)   == false) return;
+        /* if(check.input("student_name", comment.input_student_name)   == false) return;
          if(check.input("startDate", comment.input_member_startDate)   == false) return;
-         //if(check.input("sel_school", comment.input_student_grade)   == false) return;
+         if(check.input("sel_school", comment.input_student_grade)   == false) return;
          if(check.input("mother_name", comment.input_mother_name)   == false) return;
          if(check.input("mother_phone1", comment.input_mother_tel1)   == false) return;
          if(check.input("mother_phone2", comment.input_mother_tel2)   == false) return;
-         if(check.input("mother_phone3", comment.input_mother_tel3)   == false) return;
+         if(check.input("mother_phone3", comment.input_mother_tel3)   == false) return;*/
 
         var data = new FormData();
         $.each($('#attachFile')[0].files, function(i, file) {
@@ -83,6 +50,17 @@
                 processData: false,
                 contentType: false,
                 success: function(data) {
+                    var errorCode = data.result.error_code;
+                    if (errorCode == "903") {
+                        alert(comment.file_name_not_allow_korean);
+                        return;
+                    } else if (errorCode == "904") {
+                        alert(comment.file_extension_not_allow);
+                        return;
+                    } else if (errorCode == "905") {
+                        alert(comment.file_size_not_allow_300kb);
+                        return;
+                    }
                     var fileName = data.result.file_name;
                     var fileUrl = data.result.file_url;
                     var mother_phone3   = getInputTextValue("mother_phone3");
@@ -178,39 +156,7 @@
                     isReloadPage(true);
                 });
     }
-    }
-    }
-
-     /*메모입력 바이트 제한기능*/
-    var clearChk=true;
-    var limitByte = 1000;
-
-    // textarea에 마우스가 클릭되었을때 초기 메시지를 클리어
-    function clearMessage(){
-        if(clearChk){
-            $("#student_memo").val("");
-            clearChk=false;
-        }
-    }
-
-    // textarea에 입력된 문자의 바이트 수를 체크
-    function checkByte() {
-        var totalByte = 0;
-        var message = $("#student_memo").val();
-
-        for(var i =0; i < message.length; i++) {
-            var currentByte = message.charCodeAt(i);
-            if(currentByte > 128) totalByte += 2;
-            else totalByte++;
-        }
-
-        $("#messagebyte").val(totalByte);
-
-        if(totalByte > limitByte) {
-            alert( limitByte+"바이트까지 전송가능합니다.");
-            var test = message.substring(0,limitByte);
-            $("#student_memo").val(test);
-        }
+    }8
     }
 
     function school_radio(school_grade) {
@@ -321,11 +267,11 @@
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
     <%--<%@include file="/common/jsp/depth_menu.jsp" %>--%>
-    </div>
+            </div>
     </section>
-    <section class="content">
-        <h3 class="title_t1">학생정보입력</h3>
-        <div class="form_st1">
+<section class="content">
+    <h3 class="title_t1">학생정보입력</h3>
+    <div class="form_st1">
         <form name="frm" id="frm" method="get">
             <input type="hidden" name="page_gbn" id="page_gbn">
             <input type="hidden" name="student_id">
@@ -336,7 +282,7 @@
             <div class="form-group row">
                 <label>학생사진</label>
                 <div>
-                    <img id="modify_preView" src="" width="100px" height="100px">
+                    <img id="modify_preView" src="" width="100px" height="100px" onerror="this.src='<%=webRoot%>/img/user_img_default.jpg'">
                 </div>
                 <div style="margin: 66px 0 0 10px">
                     <label class="custom-file">
@@ -353,7 +299,9 @@
             <%--</div>--%>
             <div class="form-group row">
                 <label>학생이름<b>*</b></label>
-                <div><input type="text" class="form-control" id="student_name" style="width:150px;" onkeypress="nonHangulSpecialKey()"></div>
+                <div>
+                    <input type="text" class="form-control" id="student_name" style="width:150px;">
+                </div>
             </div>
             <div class="form-outer-group">
                 <div class="form-group row">
@@ -367,24 +315,29 @@
                 </div>
                 <div class="form-group row">
                     <label>생일<b>*</b></label>
-                    <div><input type="text" id="startDate" class="form-control date-picker" style="width:200px;"></div>
+                    <div class="input-group date" style="width: 150px;">
+                        <input type="text" id="startDate" class="form-control date-picker">
+                        <span class="input-group-addon">
+                            <span class="fa fa-calendar"></span>
+                        </span>
+                    </div>
                 </div>
             </div>
             <div class="form-outer-group">
                 <div class="form-group row">
                     <label>핸드폰번호</label>
                     <div class="inputs">
-                        <input type="number" size="2" id="student_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.student_phone2,3)">&nbsp;-&nbsp;
-                        <input type="number" size="5" id="student_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.student_phone3,4)">&nbsp;-&nbsp;
-                        <input type="number" size="5" id="student_phone3" class="form-control" maxlength="4">
+                        <input type="text" size="2" id="student_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.student_phone2,3)">&nbsp;-&nbsp;
+                        <input type="text" size="5" id="student_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.student_phone3,4)">&nbsp;-&nbsp;
+                        <input type="text" size="5" id="student_phone3" class="form-control" maxlength="4">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label>집전화번호</label>
                     <div class="inputs">
-                        <input type="number" size="2" id="student_tel1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.student_tel2,3)">&nbsp;-&nbsp;
-                        <input type="number" size="5" id="student_tel2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.student_tel3,4)">&nbsp;-&nbsp;
-                        <input type="number" size="5" id="student_tel3" class="form-control" maxlength="4">
+                        <input type="text" size="2" id="student_tel1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.student_tel2,3)">&nbsp;-&nbsp;
+                        <input type="text" size="5" id="student_tel2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.student_tel3,4)">&nbsp;-&nbsp;
+                        <input type="text" size="5" id="student_tel3" class="form-control" maxlength="4">
                     </div>
                 </div>
             </div>
@@ -414,12 +367,7 @@
             </div>
             <div class="form-group row">
                 <label>메모</label>
-                <div>
-                    <textarea class="form-control"  id="student_memo" name="student_memo"   rows="5"  onFocus="clearMessage();"  onKeyUp="checkByte();" ></textarea>
-                    <td align="left">
-                        <input type="text" name="messagebyte" id="messagebyte" value="0" size="1" maxlength="2" readonly><font color="#000000">/ 80 byte</font>
-                    </td>
-                </div>
+                <div><textarea class="form-control"  id="student_memo" rows="5"></textarea></div>
             </div>
             <div class="form-outer-group">
                 <div class="form-group row">
@@ -465,7 +413,8 @@
             </div>
             <div class="bot_btns">
                 <button class="btn_pack blue s2" type="button"  onclick="save_student();">저장</button>
-                <button class="btn_pack blue s2" type="button"  onclick="student_excel_upload_popup();">엑셀 업로드 하기</button>
+                <button class="btn_pack blue s2" type="button">목록</button>
+                <%--<button class="btn_pack blue s2" type="button"  onclick="student_excel_upload_popup();">엑셀 업로드 하기</button>--%>
             </div>
         </div>
     </section>

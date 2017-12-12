@@ -89,7 +89,6 @@
                     <button class="btn_pack blue" type="button" onclick="fn_search('new');">검색</button>
                 </div>
             </div>
-
             <div class="tb_t1">
                 <table>
                     <colsgroup>

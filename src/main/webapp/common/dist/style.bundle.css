@@ -42,6 +42,8 @@ a {
     -webkit-text-decoration-skip: objects
 }
 
+a.font_color.blue{color:#03A9F4;}
+
 abbr[title] {
     border-bottom: none;
     text-decoration: underline;
@@ -5811,6 +5813,43 @@ ul.list_t2 button.confirm {
     -ms-flex-pack: center!important;
     justify-content: center!important;
 }
+
+/*달력그림시작*/
+.input-group.date .input-group-addon {
+    cursor: pointer;
+}
+.input-group-addon:last-child {
+    border-left: 0;
+}
+.input-group .form-control:last-child, .input-group-addon:last-child, .input-group-btn:last-child>.btn, .input-group-btn:last-child>.btn-group>.btn, .input-group-btn:last-child>.dropdown-toggle, .input-group-btn:first-child>.btn:not(:first-child), .input-group-btn:first-child>.btn-group:not(:first-child)>.btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.input-group-addon {
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    color: #555;
+    text-align: center;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.input-group-addon, .input-group-btn {
+    width: 1%;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+.input-group-addon, .input-group-btn, .input-group .form-control {
+    display: table-cell;
+}
+.date {
+    position: relative;
+    display: table;
+    border-collapse: separate;
+}
+/*달력그림끝*/
 
 /*index 반응형*/
 @media screen and (max-device-width: 500px) {
