@@ -420,16 +420,44 @@
             <button class="btn_pack blue s2" type="button"  onclick="modify_student();">수정</button>
         </div>
     </div>
-</section>
 
-<section class="content divide">
-    <div class="left">
-        <div class="tile_box" style="width: 60%;">
-            <h3 class="title_t1">최근 상담 3건</h3>
-            <ul class="list_t2 checkbox_t2"  id="dataList"></ul>
-        </div>
+    <div class="tb_t1">
+        <h3 class="title_t1">최근 상담 내역</h3>
+
+        <table>
+            <tr>
+                <th>제목</th>
+                <th>내용</th>
+                <th>처리상태</th>
+                <th>등록자</th>
+                <th>등록일시</th>
+            </tr>
+            <tr>
+                <td>임빛나리 학생 담당 선생님 통화요망</td>
+                <td>임빛나리 학생 어머니가 담당선생님과 통화를 원하십니다.</td>
+                <td><button class="btn_pack white">처리하기</button></td>
+                <td>박술모</td>
+                <td>2017-12-05 14:59:08</td>
+            </tr>
+            <tr>
+                <td>입학상담</td>
+                <td>입학상담원함</td>
+                <td>처리완료</td>
+                <td>김윤수</td>
+                <td>2017-12-01 17:11:12</td>
+            </tr>
+        </table>
     </div>
 </section>
+
+<%--<section class="content divide">--%>
+    <%--<div class="left">--%>
+        <%--<div class="tile_box" style="width: 60%;">--%>
+            <%--<h3 class="title_t1">최근 상담 내역</h3>--%>
+            <%--<ul class="list_t2 checkbox_t2"  id="dataList"></ul>--%>
+        <%--</div>--%>
+    <%--</div>--%>
+<%--</section>--%>
 
 <!-- 학교 검색 팝업 레이어 시작 -->
 <div class="layer_popup_template apt_request_layer" id="school_search_layer" style="display: none;">
