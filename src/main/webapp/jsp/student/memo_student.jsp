@@ -153,7 +153,7 @@
                     <div class="input-group date">
                         <input type="text" id="startDate" class="form-control date-picker" style="" placeholder="시작일">
                         <span class="input-group-addon">
-                        <span class="fa fa-calendar"></span>
+                            <span class="fa fa-calendar"></span>
                         </span>
                     </div>
                 </td>

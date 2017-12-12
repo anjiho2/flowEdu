@@ -121,6 +121,7 @@
 		WHERE lecture_id = #{lectureId} AND add_yn = 1
 	</select>
 
+
 	<select id="getStudentListByLectureRegister" resultType="com.flowedu.dto.LectureStudentRelDto">
 		SELECT A.*, B.student_name, B.school_name
 		FROM LECTURE_STUDENT_REL A LEFT JOIN STUDENT B

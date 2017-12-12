@@ -320,7 +320,8 @@
             </div>
             <div class="form-group row">
                 <label>생일<b>*</b></label>
-                <div><input type="text" id="startDate" class="form-control date-picker" style="width:200px;"></div>
+                <div><input type="text" id="startDate" class="form-control date-picker" style="width:200px;">
+                </div>
             </div>
         </div>
         <div class="form-outer-group">
