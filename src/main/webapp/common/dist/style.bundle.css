@@ -42,6 +42,8 @@ a {
     -webkit-text-decoration-skip: objects
 }
 
+a.font_color.blue{color:#03A9F4;}
+
 abbr[title] {
     border-bottom: none;
     text-decoration: underline;

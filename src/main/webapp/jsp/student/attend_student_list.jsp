@@ -83,16 +83,26 @@
         <div class="form-group row">
             <h4 class="title_t1"><%=student_name%>학생의 출결현황 입니다.</h4>
         </div>
-        <div class="form-group row" style="width: 100px;">
+        <div class="form-group row">
             <span id="l_academyList"></span>
         </div>
-        <div class="form-group row" style="width: 100px;">
-            <input type="text" id="startDate" class="form-control date-picker" style="width:200px;" placeholder="시작일">
+        <div class="form-group row">
+            <div class="input-group date" style="width:200px">
+                <input type="text" id="startDate" class="form-control date-picker" placeholder="시작일">
+                <span class="input-group-addon">
+                    <span class="fa fa-calendar"></span>
+                </span>
+            </div>
         </div>
-        <div class="form-group row" style="width: 100px;">
-            <input type="text" id="endDate" class="form-control date-picker" style="width:200px;" placeholder="종료일">
+        <div class="form-group row">
+            <div class="input-group date" style="width:200px">
+                <input type="text" id="endDate" class="form-control date-picker" placeholder="종료일">
+                <span class="input-group-addon">
+                    <span class="fa fa-calendar"></span>
+                </span>
+            </div>
         </div>
-        <div class="form-group row" style="width: 100px">
+        <div class="form-group row">
             <button class="btn_pack blue" type="button" onclick="fn_search('new');">검색</button>
         </div>
     </div>

@@ -320,7 +320,11 @@
             </div>
             <div class="form-group row">
                 <label>생일<b>*</b></label>
-                <div><input type="text" id="startDate" class="form-control date-picker" style="width:200px;">
+                <div class="input-group date" style="width: 150px;">
+                    <input type="text" id="startDate" class="form-control date-picker">
+                    <span class="input-group-addon">
+                        <span class="fa fa-calendar"></span>
+                    </span>
                 </div>
             </div>
         </div>

@@ -59,7 +59,7 @@
                         var cmpList = selList[i];
                         if (cmpList == undefined) {
                         } else
-                            var memoHTML = "<a href='javascript:void(0);'  onclick='go_reply("+ '"' + 'student' + '"' + ","+ '"' + 'detail_memo_student' + '"' + ","+ '"' + cmpList.studentMemoId + '"' + ");' />"+ ellipsis(cmpList.memoContent, 20) +"</a>";
+                            var memoHTML = "<a href='javascript:void(0);' class='font_color blue'  onclick='go_reply("+ '"' + 'student' + '"' + ","+ '"' + 'detail_memo_student' + '"' + ","+ '"' + cmpList.studentMemoId + '"' + ");' />"+ ellipsis(cmpList.memoContent, 20) +"</a>";
                             var cellData = [
                                 //cmpList.memoContent;
                                 function (data) {return memoHTML;},
@@ -148,7 +148,7 @@
         <table>
             <tr>
                 <th>상담날짜</th>
-                <td style="display:flex;">
+                <td>
                     <%--<input type="text" id="monthpicker" class="form-control" placeholder="작성일" >--%>
                     <div class="input-group date">
                         <input type="text" id="startDate" class="form-control date-picker" style="" placeholder="시작일">

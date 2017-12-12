@@ -68,19 +68,38 @@ function lecture_apply() {
 </div>
 </section>
 <section class="content">
-    <h4 class="title_t1"><%=student_name%>학생의 수강 이력입니다.</h4>
     <form name="frm" method="get">
         <input type="hidden" name="page_gbn" id="page_gbn">
         <input type="hidden" id="studentId" name="student_id" value="<%=student_id%>">
         <input type="hidden" name="student_name" value="<%=student_name%>">
         <input type="hidden"  id="sPage" value="<%=sPage%>">
 
-        <div class="intput-group">
-            <input type="text" id="startDate" class="form-control date-picker" style="width:200px;" placeholder="시작일">
-        </div>
-        <div style="width: 100px;">
-            <input type="text" id="endDate" class="form-control date-picker" style="width:200px;" placeholder="종료일">
-            <input type="button" value="검색" onclick="fn_search('new');">
+        <div class="form-outer-group">
+            <div class="form-group row">
+                <h4 class="title_t1"><%=student_name%>학생의 수강이력 입니다.</h4>
+            </div>
+            <div class="form-group row">
+                <span id="l_academyList"></span>
+            </div>
+            <div class="form-group row">
+                <div class="input-group date" style="width:200px">
+                    <input type="text" id="startDate" class="form-control date-picker" placeholder="시작일">
+                    <span class="input-group-addon">
+                    <span class="fa fa-calendar"></span>
+                </span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="input-group date" style="width:200px">
+                    <input type="text" id="endDate" class="form-control date-picker" placeholder="종료일">
+                    <span class="input-group-addon">
+                    <span class="fa fa-calendar"></span>
+                </span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <button class="btn_pack blue" type="button" onclick="fn_search('new');">검색</button>
+            </div>
         </div>
         <div class="tb_t1">
             <table>
