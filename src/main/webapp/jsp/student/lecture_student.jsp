@@ -34,7 +34,7 @@ function fn_search(val) {
     gfn_emptyView("H", "");
 
     lectureService.getLectureStudentRelByStudentIdCount(student_id, startDate, endDate, function(cnt) {
-        paging.count(sPage, cnt, '10', '10', comment.blank_list);
+        paging.count(sPage, cnt, '10', '10', comment.not_lecture_log);
 
         dwr.util.removeAllRows("dataList");
         //학생의 수강이력 가져오기

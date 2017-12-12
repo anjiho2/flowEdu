@@ -11,4 +11,6 @@ public class AcademyGroupDto {
     private int academyGroupId;
 
     private String academyGroupName;
+
+    private String academyThumbnailFile;
 }

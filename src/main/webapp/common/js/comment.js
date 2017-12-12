@@ -89,6 +89,7 @@ var comment = {
 		file_size_not_allow_300kb : "첨부된 파일크기가 큽니다. 300KB 이미지만 첨부 가능합니다.",
 
 		not_attend_log : "출결이력이 없습니다.",
+		not_lecture_log : "수강이력이 없습니다",
 		search_input_student_name : "학생 이름을 입력 후 검색헤주세요.",
 }
 

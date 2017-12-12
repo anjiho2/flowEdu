@@ -31,7 +31,7 @@ public class UserSessionFilter extends DelegatingFilterProxy {
             if (dto != null) {
                 if (UserSession.get() == null) {
                     FlowEduMemberDto flowEduMemberDto = memberService.getFlowEduMemberCheck(dto.getFlowMemberId());
-                    UserSession.set(new FlowEduMemberDto(flowEduMemberDto.getFlowMemberId(), flowEduMemberDto.getMemberType(), flowEduMemberDto.getMemberName()));
+                    UserSession.set(new FlowEduMemberDto(flowEduMemberDto.getFlowMemberId(), flowEduMemberDto.getMemberType(), flowEduMemberDto.getMemberName(), flowEduMemberDto.getOfficeId()));
                     logger.info("userSession >>>>>>>>>>>>>>> " + flowEduMemberDto);
                 }
             }

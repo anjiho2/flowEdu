@@ -12,6 +12,10 @@
 			</where>
 		</if>
 	</select>
+
+	<select id="getAcademyInfo" resultType="com.flowedu.dto.OfficeDto">
+		SELECT * FROM OFFICE WHERE office_id = #{officeId}
+	</select>
 	
 	<select id="getFlowEduTeamList" resultType="com.flowedu.dto.FlowEduTeamDto">
 		SELECT * FROM TEAM_INFO
@@ -24,6 +28,11 @@
 
 	<select id="getAcademyGroup" resultType="com.flowedu.dto.AcademyGroupDto">
 		SELECT * FROM ACADEMY_GROUP
+		<if test="academyGroupId > 0">
+			<where>
+				academy_group_id = #{academyGroupId}
+			</where>
+		</if>
 	</select>
 
 	<insert id="saveAcademy" parameterType="com.flowedu.dto.OfficeDto">

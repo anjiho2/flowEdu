@@ -29,4 +29,8 @@ public class UserSession {
     public static String memberName() {
         return local.get().getMemberName();
     }
+
+    public static Long officeId() {
+        return local.get().getOfficeId();
+    }
 }

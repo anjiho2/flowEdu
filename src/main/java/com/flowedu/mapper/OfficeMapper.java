@@ -16,9 +16,11 @@ public interface OfficeMapper {
     /** SELECT **/
     List<OfficeDto> getAcademyList(@Param("officeId") Long officeId);
 
+    OfficeDto getAcademyInfo(@Param("officeId") Long officeId);
+
     List<FlowEduTeamDto> getFlowEduTeamList(@Param("teamId") Integer teamId);
 
-    List<AcademyGroupDto> getAcademyGroup();
+    List<AcademyGroupDto> getAcademyGroup(@Param("academyGroupId") Integer academyGroupId);
 
     /** INSERT **/
     void saveAcademy(OfficeDto officeDto);
