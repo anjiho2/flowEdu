@@ -59,7 +59,7 @@
                         var cmpList = selList[i];
                         if (cmpList == undefined) {
                         } else
-                            var memoHTML = "<a href='javascript:void(0);'  onclick='go_reply("+ '"' + 'student' + '"' + ","+ '"' + 'detail_memo_student' + '"' + ","+ '"' + cmpList.studentMemoId + '"' + ");' />"+ ellipsis(cmpList.memoContent, 20) +"</a>";
+                            var memoHTML = "<a href='javascript:void(0);' class='font_color blue'  onclick='go_reply("+ '"' + 'student' + '"' + ","+ '"' + 'detail_memo_student' + '"' + ","+ '"' + cmpList.studentMemoId + '"' + ");' />"+ ellipsis(cmpList.memoContent, 20) +"</a>";
                             var cellData = [
                                 //cmpList.memoContent;
                                 function (data) {return memoHTML;},
