@@ -10,6 +10,34 @@
 <%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
 <script type="text/javascript" charset="UTF-8">
+    //텍스트 박스에 숫자와 영문만 입력할수있도록
+    function check_key() {
+        var char_ASCII = event.keyCode;
+
+        //숫자
+        if (char_ASCII >= 48 && char_ASCII <= 57 )
+            return 1;
+        //영어
+        else if ((char_ASCII>=65 && char_ASCII<=90) || (char_ASCII>=97 && char_ASCII<=122))
+            return 2;
+        //특수기호
+        else if ((char_ASCII>=33 && char_ASCII<=47) || (char_ASCII>=58 && char_ASCII<=64)
+            || (char_ASCII>=91 && char_ASCII<=96) || (char_ASCII>=123 && char_ASCII<=126))
+            return 4;
+        //한글
+        else if ((char_ASCII >= 12592) || (char_ASCII <= 12687))
+            return 3;
+        else
+            return 0;
+    }
+    function nonHangulSpecialKey() {
+
+        if(check_key() != 1 && check_key() != 2) {
+            event.returnValue = false;
+            alert("숫자나 영문자만 입력하세요!");
+            return;
+        }
+      }
 
     function init() {
         // 신규 상담에서 학생 등록 할때
@@ -25,14 +53,19 @@
 
     function save_student() { //저장
         var check = new isCheck();
+        var student_gender = get_radio_value("student_gender");
 
-        /* if(check.input("student_name", comment.input_student_name)   == false) return;
+         //이메일 유효성 검사
+         var student_email   = getInputTextValue("student_email");
+         var is_email = fn_isemail(student_email);
+         if (is_email == true) return false;
+         if(check.input("student_name", comment.input_student_name)   == false) return;
          if(check.input("startDate", comment.input_member_startDate)   == false) return;
-         if(check.input("sel_school", comment.input_student_grade)   == false) return;
+         //if(check.input("sel_school", comment.input_student_grade)   == false) return;
          if(check.input("mother_name", comment.input_mother_name)   == false) return;
          if(check.input("mother_phone1", comment.input_mother_tel1)   == false) return;
          if(check.input("mother_phone2", comment.input_mother_tel2)   == false) return;
-         if(check.input("mother_phone3", comment.input_mother_tel3)   == false) return;*/
+         if(check.input("mother_phone3", comment.input_mother_tel3)   == false) return;
 
         var data = new FormData();
         $.each($('#attachFile')[0].files, function(i, file) {
@@ -145,7 +178,39 @@
                     isReloadPage(true);
                 });
     }
-    }8
+    }
+    }
+
+     /*메모입력 바이트 제한기능*/
+    var clearChk=true;
+    var limitByte = 1000;
+
+    // textarea에 마우스가 클릭되었을때 초기 메시지를 클리어
+    function clearMessage(){
+        if(clearChk){
+            $("#student_memo").val("");
+            clearChk=false;
+        }
+    }
+
+    // textarea에 입력된 문자의 바이트 수를 체크
+    function checkByte() {
+        var totalByte = 0;
+        var message = $("#student_memo").val();
+
+        for(var i =0; i < message.length; i++) {
+            var currentByte = message.charCodeAt(i);
+            if(currentByte > 128) totalByte += 2;
+            else totalByte++;
+        }
+
+        $("#messagebyte").val(totalByte);
+
+        if(totalByte > limitByte) {
+            alert( limitByte+"바이트까지 전송가능합니다.");
+            var test = message.substring(0,limitByte);
+            $("#student_memo").val(test);
+        }
     }
 
     function school_radio(school_grade) {
@@ -288,7 +353,7 @@
             <%--</div>--%>
             <div class="form-group row">
                 <label>학생이름<b>*</b></label>
-                <div><input type="text" class="form-control" id="student_name" style="width:150px;"></div>
+                <div><input type="text" class="form-control" id="student_name" style="width:150px;" onkeypress="nonHangulSpecialKey()"></div>
             </div>
             <div class="form-outer-group">
                 <div class="form-group row">
@@ -309,17 +374,17 @@
                 <div class="form-group row">
                     <label>핸드폰번호</label>
                     <div class="inputs">
-                        <input type="text" size="2" id="student_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.student_phone2,3)">&nbsp;-&nbsp;
-                        <input type="text" size="5" id="student_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.student_phone3,4)">&nbsp;-&nbsp;
-                        <input type="text" size="5" id="student_phone3" class="form-control" maxlength="4">
+                        <input type="number" size="2" id="student_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.student_phone2,3)">&nbsp;-&nbsp;
+                        <input type="number" size="5" id="student_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.student_phone3,4)">&nbsp;-&nbsp;
+                        <input type="number" size="5" id="student_phone3" class="form-control" maxlength="4">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label>집전화번호</label>
                     <div class="inputs">
-                        <input type="text" size="2" id="student_tel1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.student_tel2,3)">&nbsp;-&nbsp;
-                        <input type="text" size="5" id="student_tel2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.student_tel3,4)">&nbsp;-&nbsp;
-                        <input type="text" size="5" id="student_tel3" class="form-control" maxlength="4">
+                        <input type="number" size="2" id="student_tel1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.student_tel2,3)">&nbsp;-&nbsp;
+                        <input type="number" size="5" id="student_tel2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.student_tel3,4)">&nbsp;-&nbsp;
+                        <input type="number" size="5" id="student_tel3" class="form-control" maxlength="4">
                     </div>
                 </div>
             </div>
@@ -349,7 +414,12 @@
             </div>
             <div class="form-group row">
                 <label>메모</label>
-                <div><textarea class="form-control"  id="student_memo" rows="5"></textarea></div>
+                <div>
+                    <textarea class="form-control"  id="student_memo" name="student_memo"   rows="5"  onFocus="clearMessage();"  onKeyUp="checkByte();" ></textarea>
+                    <td align="left">
+                        <input type="text" name="messagebyte" id="messagebyte" value="0" size="1" maxlength="2" readonly><font color="#000000">/ 80 byte</font>
+                    </td>
+                </div>
             </div>
             <div class="form-outer-group">
                 <div class="form-group row">

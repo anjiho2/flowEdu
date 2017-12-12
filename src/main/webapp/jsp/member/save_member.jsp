@@ -107,9 +107,9 @@ function save_member() { // 운영자.선생님정보등록
             <div class="form-group row">
                 <label>핸드폰번호</label>
                 <div class="inputs">
-                    <input type="text" id="member_phone1" class="form-control" maxlength="3" style="width:30px;" onkeyup="js_tab_order(this,frm.member_phone2,3)">&nbsp;-&nbsp;
-                    <input type="text" id="member_phone2" class="form-control" maxlength="4" style="width:35px;" onkeyup="js_tab_order(this,frm.member_phone3,4)">&nbsp;-&nbsp;
-                    <input type="text" id="member_phone3" class="form-control" maxlength="4"  style="width:35px;">
+                    <input type="number" id="member_phone1" class="form-control" maxlength="3" style="width:30px;" onkeyup="js_tab_order(this,frm.member_phone2,3)">&nbsp;-&nbsp;
+                    <input type="number" id="member_phone2" class="form-control" maxlength="4" style="width:35px;" onkeyup="js_tab_order(this,frm.member_phone3,4)">&nbsp;-&nbsp;
+                    <input type="number" id="member_phone3" class="form-control" maxlength="4"  style="width:35px;">
                 </div>
             </div>
         </div>

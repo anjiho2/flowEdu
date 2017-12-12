@@ -15,7 +15,7 @@
 
     function init() {
         studentmemoTypeSelectbox("sel_memo_type","");//상담검색시
-        studentMemoTypeRadio("l_memoType", "REG", "");//상담입력시
+        studentmemoTypeSelectbox2("sel_memo_type2", "");//상담입력시
         fn_search("new");
     }
 
@@ -23,7 +23,7 @@
         var check = new isCheck();
         var student_id  = getInputTextValue("student_id");
         var consultMemo = getInputTextValue("consultMemo");
-        var memoType = get_radio_value("memo_type");
+        var memoType = getInputTextValue("sel_memoType2");
 
         if (check.input("consultMemo", "상담내용을 입력하세요.") == false) return;
 
@@ -114,8 +114,11 @@
             <input type="hidden"  id="sPage" value="<%=sPage%>">
             <input type="hidden" name="student_memo_id" id="student_memo_id">
             <h3 class="title_t1"><%=student_name%>학생 상담 등록</h3>
-            <div class="form-group row">
+            <!--<div class="form-group row">
                 <span id="l_memoType"></span>
+            </div>-->
+            <div class="form-group row">
+                <span id="sel_memo_type2" style="width: 100%"></span>
             </div>
             <div class="form-group row" style="width: 500px;">
                 <div><textarea class="form-control"  id="consultMemo" rows="5" placeholder="상담내용을 입력하세요"></textarea></div>
@@ -156,9 +159,9 @@
             <tr>
                 <th>상담내용</th>
                 <th>상담자</th>
-                <th>상담구분</th>
+                <th>상담유형</th>
                 <th>상담날짜</th>
-                <th>처리여부</th>
+                <th>처리상태</th>
             </tr>
             <tbody id="dataList"></tbody>
             <tr>

@@ -30,7 +30,7 @@ function fn_search(val) {
     gfn_emptyView("H", "");
 
     lectureService.getLectureStudentRelByStudentIdCount(student_id, function(cnt) {
-        paging.count(sPage, cnt, '10', '5', comment.blank_list);
+        paging.count(sPage, cnt, '10', '5', comment.blank_lecture_list);
 
         //학생의 수강이력 가져오기
         lectureService.getLectureStudentRelById(student_id, function (selList) {
@@ -38,10 +38,12 @@ function fn_search(val) {
                 for (var i = 0; i < selList.length; i++) {
                     var cmpList = selList[i];
                     var cellData = [
+                        function(data) {return cmpList.officeName;},
                         function(data) {return cmpList.lectureName;},
                         function(data) {return cmpList.chargeMemberName;},
                         function(data) {return cmpList.lectureStartDate;},
                         function(data) {return cmpList.lectureEndDate;},
+                        function(data) {return cmpList.lectureStatus;},
                     ];
                     dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
 
@@ -77,12 +79,16 @@ function lecture_apply() {
                     <col width="*" />
                     <col width="*" />
                     <col width="*" />
+                    <col width="*" />
+                    <col width="*" />
                 </colsgroup>
                 <tr>
+                    <th>관명</th>
                     <th>강의명</th>
                     <th>담당선생님</th>
                     <th>강의시작일</th>
                     <th>강의종료일</th>
+                    <th>강의상태</th>
                 </tr>
                 <tbody id="dataList"></tbody>
                 <tr>

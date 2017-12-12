@@ -29,21 +29,23 @@
         gfn_emptyView("H", "");
 
         studentService.getSudentListCount(school_type, student_name, function (cnt) {
-            paging.count(sPage, cnt, '10', '10', comment.blank_list);
+            paging.count(sPage, cnt, '10', '10', comment.blank_list2);
+
             studentService.getSudentList(sPage, '10', school_type, student_name, function (selList) {
                 if (selList.length > 0) {
                     for (var i = 0; i < selList.length; i++) {
                         var cmpList = selList[i];
                         if (cmpList != undefined) {
-                            var modifyHTML = "<button class='btn_pack white' type='button' onclick='student_modify(" + cmpList.studentId + ");'>상세정보</button>";
+                            var studentNameHTML = "<a href='javascript:void(0);' onclick='student_modify(" + cmpList.studentId + ");'>"+cmpList.studentName +"</a>";
+
                             var cellData = [
-                                function(data) {return cmpList.studentName;},
-                                function(data) {return cmpList.motherName;},
+                                function(data) {return cnt--;},
+                                function(data) {return studentNameHTML;},
                                 function(data) {return fn_tel_tag(cmpList.studentPhoneNumber);},
-                                function(data) {return fn_tel_tag(cmpList.motherPhoneNumber);},
                                 function(data) {return cmpList.schoolName;},
                                 function(data) {return convert_lecture_grade(cmpList.studentGrade);},
-                                function(data) {return modifyHTML;}
+                                function(data) {return cmpList.motherName;},
+                                function(data) {return fn_tel_tag(cmpList.motherPhoneNumber);},
                             ];
                             dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
                         }
@@ -99,21 +101,23 @@
                         <col width="*" />
                         <col width="110">
                     </colsgroup>
+
+
                     <tr>
+                        <th>No.</th>
                         <th>이름</th>
-                        <th>학부모(모)이름</th>
-                        <th>학생전화번호</th>
-                        <th>학부모(모)전화번호</th>
-                        <th>학교</th>
+                        <th>전화번호</th>
+                        <th>학교명</th>
                         <th>학년</th>
-                        <th>상세</th>
+                        <th>학부모(모)이름</th>
+                        <th>학부모(모)전화번호</th>
                     </tr>
                     <tbody id="dataList"></tbody>
                     <tr>
                         <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
                     </tr>
                 </table>
-                <button class="btn_pack blue">학생정보입력</button>
+                <button class="btn_pack blue" onclick='goPage("student", "save_student")'>학생정보입력</button>
                 <div class="form-group row"></div>
                 <%@ include file="/common/inc/com_pageNavi.inc" %>
             </div>
