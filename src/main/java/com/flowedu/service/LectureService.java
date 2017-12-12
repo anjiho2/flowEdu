@@ -325,8 +325,8 @@ public class LectureService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public List<LectureStudentRelByIdDto> getLectureStudentRelById(Long studentId) {
-        List<LectureStudentRelByIdDto> Arr = lectureMapper.getLectureStudentRelByStudentId(studentId, "MONTH");
+    public List<LectureStudentRelByIdDto> getLectureStudentRelById(Long studentId, String startDate, String endDate) {
+        List<LectureStudentRelByIdDto> Arr = lectureMapper.getLectureStudentRelByStudentId(studentId, "MONTH", startDate, endDate);
         if (Arr != null) {
             //담임 선생님, 관리 선생님 이름 주입하기
             memberNameRepository.fillMemberNameAny(Arr);
@@ -344,8 +344,8 @@ public class LectureService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public int getLectureStudentRelByStudentIdCount(Long studentId) {
-        return lectureMapper.getLectureStudentRelByStudentIdCount(studentId, "MONTH");
+    public int getLectureStudentRelByStudentIdCount(Long studentId, String startDate, String endDate) {
+        return lectureMapper.getLectureStudentRelByStudentIdCount(studentId, "MONTH", startDate, endDate);
     }
 
     /**
@@ -359,7 +359,7 @@ public class LectureService extends PagingSupport {
      */
     @Transactional(readOnly = true)
     public List<LectureStudentRelByIdDto> getLecturePaymentList(Long studentId) {
-        List<LectureStudentRelByIdDto> Arr = lectureMapper.getLectureStudentRelByStudentId(studentId, "");
+        List<LectureStudentRelByIdDto> Arr = lectureMapper.getLectureStudentRelByStudentId(studentId, "", null, null);
         if (Arr != null) {
             //담임 선생님, 관리 선생님 이름 주입하기
             memberNameRepository.fillMemberNameAny(Arr);
@@ -378,7 +378,7 @@ public class LectureService extends PagingSupport {
      */
     @Transactional(readOnly = true)
     public int getLecturePaymentListCount(Long studentId) {
-        return lectureMapper.getLectureStudentRelByStudentIdCount(studentId, "");
+        return lectureMapper.getLectureStudentRelByStudentIdCount(studentId, "", null, null);
     }
 
     /**

@@ -38,9 +38,11 @@ public interface LectureMapper {
 
     int getLectureStudentRel(@Param("lectureId") Long lectureId, @Param("studentId") Long studentId);
 
-    List<LectureStudentRelByIdDto> getLectureStudentRelByStudentId(@Param("studentId") Long studentId, @Param("type") String type);
+    List<LectureStudentRelByIdDto> getLectureStudentRelByStudentId(@Param("studentId") Long studentId, @Param("type") String type,
+                                                                   @Param("startDate") String startDate, @Param("endDate") String endDate);
 
-    int getLectureStudentRelByStudentIdCount(@Param("studentId") Long studentId, @Param("type") String type);
+    int getLectureStudentRelByStudentIdCount(@Param("studentId") Long studentId, @Param("type") String type,
+                                             @Param("startDate") String startDate, @Param("endDate") String endDate);
 
     List<LectureAttendDto> getLectureAttendList(@Param("lectureId") Long lectureId, @Param("day") String day);
 

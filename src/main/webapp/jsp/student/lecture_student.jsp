@@ -16,24 +16,29 @@
 
 function init() {
     fn_search("new");
+    innerValue("endDate", today());
+    innerValue("startDate", getYear() + "-" + getMonthCount(-3) + "-" + getDayCount(-1));
 }
 
 function fn_search(val) {
     var student_id = getInputTextValue("studentId");
     var paging = new Paging();
     var sPage = $("#sPage").val();
+    var startDate = getInputTextValue("startDate");
+    var endDate = getInputTextValue("endDate");
 
-    if(val == "new") {
-        sPage = "1";
-    }
-    dwr.util.removeAllRows("dataList");
+    if (startDate == "") startDate = getYear() + "-" + getMonthCount(-3) + "-" + getDayCount(-1);
+    if (endDate == "") endDate = today();
+    if(val == "new") sPage = "1";
+
     gfn_emptyView("H", "");
 
-    lectureService.getLectureStudentRelByStudentIdCount(student_id, function(cnt) {
-        paging.count(sPage, cnt, '10', '5', comment.blank_list);
+    lectureService.getLectureStudentRelByStudentIdCount(student_id, startDate, endDate, function(cnt) {
+        paging.count(sPage, cnt, '10', '10', comment.blank_list);
 
+        dwr.util.removeAllRows("dataList");
         //학생의 수강이력 가져오기
-        lectureService.getLectureStudentRelById(student_id, function (selList) {
+        lectureService.getLectureStudentRelById(student_id, startDate, endDate, function (selList) {
             if (selList.length > 0) {
                 for (var i = 0; i < selList.length; i++) {
                     var cmpList = selList[i];
@@ -44,7 +49,6 @@ function fn_search(val) {
                         function(data) {return cmpList.lectureEndDate;},
                     ];
                     dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
-
                 }
             }
         });
@@ -64,12 +68,20 @@ function lecture_apply() {
 </div>
 </section>
 <section class="content">
-    <h3 class="title_t1"><%=student_name%>학생 수강 이력</h3>
+    <h4 class="title_t1"><%=student_name%>학생의 수강 이력입니다.</h4>
     <form name="frm" method="get">
         <input type="hidden" name="page_gbn" id="page_gbn">
         <input type="hidden" id="studentId" name="student_id" value="<%=student_id%>">
         <input type="hidden" name="student_name" value="<%=student_name%>">
         <input type="hidden"  id="sPage" value="<%=sPage%>">
+
+        <div class="intput-group">
+            <input type="text" id="startDate" class="form-control date-picker" style="width:200px;" placeholder="시작일">
+        </div>
+        <div style="width: 100px;">
+            <input type="text" id="endDate" class="form-control date-picker" style="width:200px;" placeholder="종료일">
+            <input type="button" value="검색" onclick="fn_search('new');">
+        </div>
         <div class="tb_t1">
             <table>
                 <colsgroup>
