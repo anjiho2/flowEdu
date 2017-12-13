@@ -1904,9 +1904,9 @@ var SOFOHashMap = function()
 };
 
 //핸드폰번호 text자동넘김
-function js_tab_order(arg, nextname, len) {
+function js_tab_order(arg, tag_id, len) {
     if (arg.value.length == len) {
-        nextname.focus()
+        $("#" + tag_id).focus();
         return;
     }
 }
@@ -2017,5 +2017,17 @@ function nonHangulSpecialKey() {
     if(check_key() != 2) {
         event.returnValue = false;
         return;
+    }
+}
+
+function reset_value(tag_id) {
+	if (tag_id != null) {
+		$("#" + tag_id).val("");
+	}
+}
+
+function reset_html(tag_id) {
+    if (tag_id != null) {
+        $("#" + tag_id).html("");
     }
 }

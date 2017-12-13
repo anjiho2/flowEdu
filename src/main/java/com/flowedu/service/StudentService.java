@@ -143,7 +143,7 @@ public class StudentService extends PagingSupport {
      * @throws Exception
      */
     public String getApiSchoolName(String gubun, Integer region, String searchScoolName) throws Exception {
-        if ("".equals(gubun) && region == null) {
+        if (gubun == null || region == null) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
         String schoolSearchApikey = ConfigHolder.getSchoolSearchApiKey();
