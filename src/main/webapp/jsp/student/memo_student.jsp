@@ -68,7 +68,7 @@
                                 function (data) {return cmpList.memberName;},
                                 function (data) {return convert_memo_type(cmpList.memoType);},
                                 function (data) {return getDateTimeSplitComma(cmpList.createDate);},
-                                function (data) {return cmpList.processYn == false ?  "대" : "처리완료";
+                                function (data) {return cmpList.processYn == false ?  "대기" : "처리완료";
                                 }
                                 //"<input type='button' value='처리하기' id=" + cmpList.studentMemoId + " onclick='changeProccessYn(this.id);'>"
                                 //"<button class='btn_pack white' type='button' id="+cmpList.studentMemoId+" onclick='changeProccessYn(this.id);'>처리하기</button>"
@@ -123,7 +123,7 @@
                         <th>상담유형</th>
                         <td><span id="sel_memo_type2"></span></td>
                     </tr>
-                    <tr>t
+                    <tr>
                         <th>상담제목</th>
                         <td><input type="text" id="consultTitle" class="form-control" placeholder="제목"></td>
                     </tr>
