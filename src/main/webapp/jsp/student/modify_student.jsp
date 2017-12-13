@@ -213,7 +213,7 @@
                 var processMent = "";
                 memoList.processYn == false ? processMent = "<button class='confirm' type='button' id="+memoList.studentMemoId+" onclick='changeProccessYn(this.id);'>처리하기</button>" : processMent = "<span><h4>처리완료</h4></span>";
 
-                return "<label></label>" +
+                /*return "<tr>" +
                             "<div>" +
                                 "<h4><span><i class='tag'>" + convert_memo_type(memoList.memoType) + "</i>" + memoList.memberName + "</span>"+
                                 "<em>" + getDateTimeSplitComma(memoList.createDate) + "</em></h4>"+
@@ -222,7 +222,15 @@
                             "</div>" +
                             "<div class='manage'>" +
                                 "<button type='button' onclick='go_reply("+ '"' + 'student' + '"' + ","+ '"' + 'detail_memo_student' + '"' + ","+ '"' + memoList.studentMemoId + '"' + ");'>상세" +
-                            "</div>";
+                            "</tr>";*/
+
+                return "<tr>" +
+                            "<td>" + 제목 + "</td>" +
+                            "<td>" + ellipsis(memoList.memoContent, 30) + "</td>" +
+                            "<td><button class='btn_pack white'>" + + "<button>/td>" +
+                            "<td>" + memoList.memberName + "</td>" +
+                            "<td>" + getDateTimeSplitComma(memoList.createDate) + "</td>" +
+                        "</tr>";
             }
             dwr.util.addOptions("dataList", memoList, fomatter, {escapeHtml:false});
         });
@@ -487,20 +495,7 @@
                 <th>등록자</th>
                 <th>등록일시</th>
             </tr>
-            <tr>
-                <td>임빛나리 학생 담당 선생님 통화요망</td>
-                <td>임빛나리 학생 어머니가 담당선생님과 통화를 원하십니다.</td>
-                <td><button class="btn_pack white">처리하기</button></td>
-                <td>박술모</td>
-                <td>2017-12-05 14:59:08</td>
-            </tr>
-            <tr>
-                <td>입학상담</td>
-                <td>입학상담원함</td>
-                <td>처리완료</td>
-                <td>김윤수</td>
-                <td>2017-12-01 17:11:12</td>
-            </tr>
+            <tbody id="dataList"></tbody>
         </table>
     </div>
 </section>

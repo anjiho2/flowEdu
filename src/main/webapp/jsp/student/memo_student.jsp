@@ -25,10 +25,11 @@
         var student_id  = getInputTextValue("student_id");
         var consultMemo = getInputTextValue("consultMemo");
         var memoType = getSelectboxValue("sel_memoType2");
+        var consultTitle = getSelectboxValue("consultTitle");
 
         if (check.input("consultMemo", "상담내용을 입력하세요.") == false) return;
 
-        studentService.saveStudentMemo(student_id, consultMemo, memoType, function () {
+        studentService.saveStudentMemo(student_id, consultMemo, memoType, consultTitle, consultTitle, function () {
             alert("저장 하시겠습니까?");
             isReloadPage(true);
         });
@@ -60,7 +61,7 @@
                         var cmpList = selList[i];
                         if (cmpList == undefined) {
                         } else
-                            var memoHTML = "<a href='javascript:void(0);' class='font_color blue'  onclick='go_reply("+ '"' + 'student' + '"' + ","+ '"' + 'detail_memo_student' + '"' + ","+ '"' + cmpList.studentMemoId + '"' + ");' />"+ ellipsis(cmpList.memoContent, 20) +"</a>";
+                            var memoHTML = "<a href='javascript:void(0);' class='font_color blue'  onclick='go_reply("+ '"' + 'student' + '"' + ","+ '"' + 'detail_memo_student' + '"' + ","+ '"' + cmpList.studentMemoId + '"' + ");' />"+ ellipsis(cmpList.memoTitle, 20) +"</a>";
                             var cellData = [
                                 //cmpList.memoContent;
                                 function (data) {return memoHTML;},
@@ -122,6 +123,10 @@
                         <td><span id="sel_memo_type2"></span></td>
                     </tr>
                     <tr>
+                        <th>상담제목</th>
+                        <td><input type="text" id="consultTitle" class="form-control" placeholder="제목"></td>
+                    </tr>
+                    <tr>
                         <th>상담내용</th>
                         <td><textarea class="form-control"  id="consultMemo" rows="5" placeholder="상담내용을 입력하세요"></textarea></td>
                     </tr>
@@ -179,7 +184,7 @@
                 <col width="110">
             </colsgroup>
             <tr>
-                <th>상담내용</th>
+                <th>상담제목</th>
                 <th>상담자</th>
                 <th>상담유형</th>
                 <th>상담날짜</th>

@@ -34,15 +34,19 @@ function fn_search(val) {
     if(val == "new") sPage = "1";
     var student_memo_id = getInputTextValue("student_memo_id");
         studentService.getStudentMemoReplyList(sPage, 10, student_memo_id, function (selList) {
-            if (selList.studentMemoDto.processYn == false) {
-                gfn_display("process_div", true);
+            if (selList.studentMemoDto.processYn == false) { //미처리일경우
+                gfn_display("changeBtn", true);
+                gfn_display("goListBtn", true);
+            }else{
+                gfn_display("changeBtn", false);
+                gfn_display("goListBtn", true);
             }
             /*상담내용*/
+            innerHTML("memo_type", convert_memo_type(selList.studentMemoDto.memoType));
+            innerHTML("memo_content",selList.studentMemoDto.memoContent);
             innerHTML("member_name", selList.studentMemoDto.memberName);
             innerHTML("create_date", getDateTimeSplitComma(selList.studentMemoDto.createDate));
             innerHTML("process_yn",  selList.studentMemoDto.processYn == false ? "미처리" : "처리완료");
-            innerHTML("memo_content",selList.studentMemoDto.memoContent);
-            innerHTML("memo_type", convert_memo_type(selList.studentMemoDto.memoType));
 
 
             /*상담-댓글리스트*/
@@ -131,29 +135,29 @@ function changeProccessYn() {
 <section class="content divide">
     <div class="left">
         <div class="tile_box">
-            <h3 class="title_t1">상담 상세 정보</h3>
+            <h3 class="title_t1"><%=student_name%> 학생 상담 상세 정보</h3>
             <ul class="list_t1">
                 <li>
-                    <strong>상담자</strong>
-                    <div><p><span id="member_name"></span></p></div>
-                </li>
-                <li>
-                    <strong>상담구분</strong>
+                    <strong>상담유형</strong>
                     <div><p><span id="memo_type"></span></p></div>
-                </li>
-                <li>
-                    <strong>상담날짜</strong>
-                    <div><p><span id="create_date"></span></p></div>
                 </li>
                 <li>
                     <strong>상담내용</strong>
                     <div><p><span id="memo_content"></span></p></div>
                 </li>
                 <li>
-                    <strong>처리여부</strong>
-                    <div>
-                        <p><span id="process_yn"></span></p>
-                    </div>
+                    <strong>상담자</strong>
+                    <div><p><span id="member_name"></span></p></div>
+                </li>
+                <li>
+                    <strong>상담날짜</strong>
+                    <div><p><span id="create_date"></span></p></div>
+                </li>
+                <li>
+                <strong>처리상태</strong>
+                <div>
+                    <p><span id="process_yn"></span></p>
+                </div>
                     <!--
                     <div id="process_div" style="display: none;">
                         <button class="btn_pack blue" type="button" onclick="changeProccessYn();">처리하기</button>
@@ -163,12 +167,10 @@ function changeProccessYn() {
             </ul>
         </div>
         <div class="form-group row"></div>
-        <div id="process_div" style="display: none;" align="left">
             <div>
-                <button class="btn_pack blue" type="button" onclick="changeProccessYn();">처리하기</button>
-                <button class="btn_pack black" type="button" onclick="goPage('student','memo_student')">목록</button>
+                <button class="btn_pack blue" type="button" id="changeBtn" onclick="changeProccessYn();">처리하기</button>
+                <button class="btn_pack black" type="button" id="goListBtn" onclick="goPage('student','memo_student')">목록</button>
             </div>
-        </div>
     </div>
 </section>
 </div>
