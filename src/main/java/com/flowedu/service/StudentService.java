@@ -297,7 +297,7 @@ public class StudentService extends PagingSupport {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
         Long flowMemberId = UserSession.flowMemberId();
-        studentMapper.saveStudentMemo(studentId, flowMemberId, memoTitle, memoContent, memoType);
+        studentMapper.saveStudentMemo(studentId, flowMemberId, memoContent, memoType, memoTitle);
     }
 
     /**

@@ -25,11 +25,11 @@
         var student_id  = getInputTextValue("student_id");
         var consultMemo = getInputTextValue("consultMemo");
         var memoType = getSelectboxValue("sel_memoType2");
-        var consultTitle = getSelectboxValue("consultTitle");
+        var consultTitle = getInputTextValue("consultTitle");
 
         if (check.input("consultMemo", "상담내용을 입력하세요.") == false) return;
 
-        studentService.saveStudentMemo(student_id, consultMemo, memoType, consultTitle, consultTitle, function () {
+        studentService.saveStudentMemo(student_id, consultMemo, memoType, consultTitle, function () {
             alert("저장 하시겠습니까?");
             isReloadPage(true);
         });
@@ -68,9 +68,10 @@
                                 function (data) {return cmpList.memberName;},
                                 function (data) {return convert_memo_type(cmpList.memoType);},
                                 function (data) {return getDateTimeSplitComma(cmpList.createDate);},
-                                function (data) {return cmpList.processYn == false ? "<button class='btn_pack white' type='button' id="+cmpList.studentMemoId+" onclick='changeProccessYn(this.id);'>처리하기</button>" : "처리완료";
+                                function (data) {return cmpList.processYn == false ?  "대" : "처리완료";
                                 }
                                 //"<input type='button' value='처리하기' id=" + cmpList.studentMemoId + " onclick='changeProccessYn(this.id);'>"
+                                //"<button class='btn_pack white' type='button' id="+cmpList.studentMemoId+" onclick='changeProccessYn(this.id);'>처리하기</button>"
 
                             ];
                             dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
@@ -122,7 +123,7 @@
                         <th>상담유형</th>
                         <td><span id="sel_memo_type2"></span></td>
                     </tr>
-                    <tr>
+                    <tr>t
                         <th>상담제목</th>
                         <td><input type="text" id="consultTitle" class="form-control" placeholder="제목"></td>
                     </tr>
@@ -168,8 +169,8 @@
                 </td>
             </tr>
             <tr>
-                <th>상담내용</th>
-                <td colspan="3"><input type="text" id="memo_content" class="form-control" placeholder="내용"></td>
+                <th>상담 제목+내용</th>
+                <td colspan="3"><input type="text" id="memo_content" class="form-control" placeholder="제목+내용"></td>
             </tr>
         </table>
         <button class="btn_pack blue" type="button" onclick="fn_search('new');" style="float:right;">검색</button>

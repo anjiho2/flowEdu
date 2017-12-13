@@ -48,7 +48,7 @@
 			AND B.member_name LIKE CONCAT ('%', #{memberName}, '%')
 		</if>
 		<if test="memoContent != ''">
-			AND A.memo_content LIKE CONCAT ('%', #{memoContent}, '%')
+			AND A.memo_content LIKE CONCAT ('%', #{memoContent}, '%') OR A.memo_title LIKE CONCAT ('%', #{memoContent}, '%')
 		</if>
 		<if test="processYn != null">
 			AND A.process_yn = #{processYn}
@@ -74,7 +74,7 @@
 			AND B.member_name LIKE CONCAT ('%', #{memberName}, '%')
 		</if>
 		<if test="memoContent != ''">
-			AND A.memo_content LIKE CONCAT ('%', #{memoContent}, '%')
+			AND A.memo_content LIKE CONCAT ('%', #{memoContent}, '%') OR A.memo_title LIKE CONCAT ('%', #{memoContent}, '%')
 		</if>
 		<if test="processYn != null">
 			AND A.process_yn = #{processYn}
