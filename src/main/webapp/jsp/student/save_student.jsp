@@ -20,6 +20,7 @@
             $("#mother_phone2").attr("disabled", true);
             $("#mother_phone3").attr("disabled", true);
         }
+        schoolTypeSelectbox("l_schoolType", "");
         schoolSelectbox("student_grade","", "");
     }
 
@@ -386,11 +387,14 @@
             <div class="form-outer-group">
                 <div class="form-group row">
                     <label>학교구분</label>
+                    <!--
                     <div class="checkbox_t1">
                         <label><input type="radio" name="school_type" class="form-control" value="elem_list"  onclick="school_radio(this.value);" checked><span>초등학교</span></label>
                         <label><input type="radio" name="school_type" class="form-control" value="midd_list"  onclick="school_radio(this.value);"><span>중학교</span></label>
                         <label><input type="radio" name="school_type" class="form-control" value="high_list"  onclick="school_radio(this.value);"><span>고등학교</span></label>
                     </div>
+                    -->
+                    <span id="l_schoolType"></span>
                 </div>
                 <div class="form-group row">
                     <label>학교이름</label>

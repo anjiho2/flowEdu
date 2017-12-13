@@ -556,3 +556,19 @@ function studentmemoTypeSelectbox2(tag_id, val) {
     });
 }
 
+function schoolTypeSelectbox(tag_id, val) {
+    studentService.getSchoolTypeList(function (list) {
+        var html = "<select id='sel_schoolType' class='form-control'>";
+        html += "<option value=''>▶학교구분선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].memoCode == val) {
+                html += "<option value="+list[i].schoolTypeCode+" selected>"+ list[i].schoolTypeName +"</option>";
+            } else {
+                html += "<option value="+list[i].schoolTypeCode +">"+ list[i].schoolTypeName  +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
