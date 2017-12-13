@@ -11,7 +11,7 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
 <script type="text/javascript" charset="UTF-8">
 
-    function init() {
+        function init() {
         // 신규 상담에서 학생 등록 할때
         var newRegPhoneNumber = '<%=newRegPhoneNumber%>';
         if (newRegPhoneNumber != "") {
@@ -26,13 +26,24 @@
     function save_student() { //저장
         var check = new isCheck();
 
-        /* if(check.input("student_name", comment.input_student_name)   == false) return;
+         var student_email   = getInputTextValue("student_email");
+         if(student_email){
+             var is_email = fn_isemail(student_email);
+             if (is_email == true) return false;
+         }
+
+        if($("#student_name").val().length == 1){
+            alert("학생명은 2자 이상 이여야 합니다.");
+            return false;
+        }
+
+         if(check.input("student_name", comment.input_student_name)   == false) return;
          if(check.input("startDate", comment.input_member_startDate)   == false) return;
-         if(check.input("sel_school", comment.input_student_grade)   == false) return;
+         //if(check.input("sel_school", comment.input_student_grade)   == false) return;
          if(check.input("mother_name", comment.input_mother_name)   == false) return;
          if(check.input("mother_phone1", comment.input_mother_tel1)   == false) return;
          if(check.input("mother_phone2", comment.input_mother_tel2)   == false) return;
-         if(check.input("mother_phone3", comment.input_mother_tel3)   == false) return;*/
+         if(check.input("mother_phone3", comment.input_mother_tel3)   == false) return;
 
         var data = new FormData();
         $.each($('#attachFile')[0].files, function(i, file) {
@@ -156,7 +167,7 @@
                     isReloadPage(true);
                 });
     }
-    }8
+    }
     }
 
     function school_radio(school_grade) {
@@ -262,6 +273,33 @@
     $(document).on('change', '.custom-file-input', function() {
         $(this).parent().find('.custom-file-control').html($(this).val().replace(/C:\\fakepath\\/i, ''));
     });
+
+    /*메모입력 바이트 제한기능*/
+    var clearChk=true;
+    var limitByte = 1000;
+    // textarea에 마우스가 클릭되었을때 초기 메시지를 클리어
+    function clearMessage(){
+        if(clearChk){
+            $("#student_memo").val("");
+            clearChk=false;
+        }
+    }
+    // textarea에 입력된 문자의 바이트 수를 체크
+    function checkByte() {
+        var totalByte = 0;
+        var message = $("#student_memo").val();
+        for (var i = 0; i < message.length; i++) {
+            var currentByte = message.charCodeAt(i);
+            if (currentByte > 128) totalByte += 2;
+            else totalByte++;
+        }
+        $("#messagebyte").val(totalByte);
+        if (totalByte > limitByte) {
+            var memolimit = message.substring(0, limitByte);
+            $("#student_memo").val(memolimit);
+        }
+    }
+
 </script>
 <body onload="init();">
 <div class="container">
@@ -300,7 +338,7 @@
             <div class="form-group row">
                 <label>학생이름<b>*</b></label>
                 <div>
-                    <input type="text" class="form-control" id="student_name" style="width:150px;">
+                    <div><input type="text" class="form-control" id="student_name" style="width:150px;" maxlength="8" onkeypress="nonHangulSpecialKey()"></div>
                 </div>
             </div>
             <div class="form-outer-group">
@@ -367,7 +405,12 @@
             </div>
             <div class="form-group row">
                 <label>메모</label>
-                <div><textarea class="form-control"  id="student_memo" rows="5"></textarea></div>
+                <div>
+                    <textarea class="form-control"  id="student_memo" name="student_memo"   rows="5"  onFocus="clearMessage();"  onKeyUp="checkByte();" ></textarea>
+                    <td align="left">
+                        <input type="text" name="messagebyte" id="messagebyte" value="0" size="1" maxlength="2" readonly><font color="#000000">/ 1000 byte</font>
+                    </td>
+                </div>
             </div>
             <div class="form-outer-group">
                 <div class="form-group row">
