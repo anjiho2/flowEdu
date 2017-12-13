@@ -928,6 +928,14 @@ function gfn_getByteLength(str) {
 	return len;
 } 
 
+//문자열 길이 확인
+function gfn_chkStrLen(str, len) {
+	var strLen = str.length;
+	if (strLen > len) {
+		alert("최대" + len + "자까지 입력가능합니다.");
+	}
+}
+
 /**
  * BASE64 암호화
  * @param str
@@ -1105,7 +1113,7 @@ function fn_isemail(str){
 	var regExp = /[0-9a-zA-Z][_0-9a-zA-Z-]*@[_0-9a-zA-Z-]+(\.[_0-9a-zA-Z-]+){1,2}$/;
 	
 	if(!str.match(regExp)){
-		alert("이메일 형식이 맞지 않습니다. 다시 입력해주세요");
+		alert("지원되지 않는 이메일 형식입니다. 다시 입력해 주세요.");
 		return true;
 	}
 }
@@ -1980,4 +1988,34 @@ function get_browser_type() {
 function close_popup(popupLayerId) {
     gfn_display(popupLayerId, false);
     $(".bg-layer").hide();
+}
+
+
+/* 한글/영어만 입력가능한 기능 */
+function check_key() {
+    var char_ASCII = event.keyCode;
+
+    //숫자
+    if (char_ASCII >= 48 && char_ASCII <= 57 )
+        return 1;
+    //영어
+    else if ((char_ASCII>=65 && char_ASCII<=90) || (char_ASCII>=97 && char_ASCII<=122))
+        return 2;
+    //특수기호
+    else if ((char_ASCII>=33 && char_ASCII<=47) || (char_ASCII>=58 && char_ASCII<=64)
+        || (char_ASCII>=91 && char_ASCII<=96) || (char_ASCII>=123 && char_ASCII<=126))
+        return 4;
+    //한글
+    else if ((char_ASCII >= 12592) || (char_ASCII <= 12687))
+        return 3;
+    else
+        return 0;
+}
+
+/* 한글 & 영어만 입력가능한 기능 */
+function nonHangulSpecialKey() {
+    if(check_key() != 2) {
+        event.returnValue = false;
+        return;
+    }
 }

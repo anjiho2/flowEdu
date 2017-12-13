@@ -17,7 +17,7 @@
         academyListSelectbox("l_academyList", "");
         innerValue("endDate", today());
         innerValue("startDate", getYear() + "-" + getMonth() + "-01" );
-
+        attendTypeSelectbox("l_attendType", "");
         fn_search("new");
     }
 
@@ -54,17 +54,28 @@
         });
     }
 
-    //비밀번호 찾기 팝업
+    //상태변경 팝업
     function attend_comment_popup(lectureAttendId) {
         initPopup($("#attend_comment_layer"));
         innerValue("lecture_attend_id", lectureAttendId);
     }
-
+    //수정버튼
     function changeAttendStatus() {
+        var check = new isCheck();
         var lectureAttendId = getInputTextValue("lecture_attend_id");
-        var commet = "";
+        var attendType = getSelectboxValue("sel_attendType");
+        var modifyComment = getInputTextValue("comment");
 
+        if (check.selectbox("sel_attendType", "출석종류를 선택하세요.") == false) return;
+        if (check.input("comment", "사유를 입력하세요.") == false) return;
+
+        if (confirm(comment.isUpdate)) {
+            lectureService.modifyAttendComment(lectureAttendId, attendType, modifyComment);
+            alert(comment.success_update);
+            isReloadPage(true);
+        }
     }
+
 </script>
 <body onload="init();">
 <div class="container">
@@ -143,11 +154,14 @@
     <div class="layer-body">
         <form name="pop_frm" class="form_st1">
             <div>
-                <textarea class="form-control" rows="5" placeholder="최대 50자까지만 입력가능합니다."></textarea>
+                <span id="l_attendType"></span>
+            </div><br>
+            <div>
+                <textarea class="form-control" id="comment" rows="5" maxlength="50" placeholder="최대 50자까지만 입력가능합니다." onkeyup="gfn_chkStrLen(this.value, 50);"></textarea>
             </div>
         </form>
         <div class="bot_btns_t1">
-            <button class="btn_pack blue" type="button" onclick="find_password();">저장</button>
+            <button class="btn_pack blue" type="button" onclick="changeAttendStatus();">저장</button>
             <button class="btn_pack btn-close">취소</button>
         </div>
     </div>

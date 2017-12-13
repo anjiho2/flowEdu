@@ -475,7 +475,7 @@ function schoolSelectbox(tag_id, val, school_grade) {
 function attendTypeSelectbox(tag_id, val) {
     lectureService.getLectureAttendTypeList(function (list) {
         var html = "<select id='sel_attendType' class='form-control'>";
-        html += "<option value=''>▶선택</option>";
+        html += "<option value=''>▶출결 종류선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].attendCode == val) {
                 html += "<option value="+list[i].attendCode+" selected>"+ list[i].attendName +"</option>";
@@ -521,6 +521,7 @@ function academyGroupSelectbox(tag_id, val) {
 
 }
 
+/*  메모 종류 선택 셀렉트 박스 */
 function studentmemoTypeSelectbox(tag_id, val) {
     studentService.getStudentMemoTypeList(function (list) {
         var html = "<select id='sel_memoType' class='form-control'>";
@@ -536,3 +537,38 @@ function studentmemoTypeSelectbox(tag_id, val) {
         innerHTML(tag_id, html);
     });
 }
+
+
+/*  메모 종류 선택 셀렉트 박스2 */
+function studentmemoTypeSelectbox2(tag_id, val) {
+    studentService.getStudentMemoTypeList(function (list) {
+        var html = "<select id='sel_memoType2' class='form-control'>";
+        html += "<option value=''>▶선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].memoCode == val) {
+                html += "<option value="+list[i].memoCode+" selected>"+ list[i].memoName +"</option>";
+            } else {
+                html += "<option value="+list[i].memoCode +">"+ list[i].memoName  +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
+function schoolTypeSelectbox(tag_id, val) {
+    studentService.getSchoolTypeList(function (list) {
+        var html = "<select id='sel_schoolType' class='form-control'>";
+        html += "<option value=''>▶학교구분선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].memoCode == val) {
+                html += "<option value="+list[i].schoolTypeCode+" selected>"+ list[i].schoolTypeName +"</option>";
+            } else {
+                html += "<option value="+list[i].schoolTypeCode +">"+ list[i].schoolTypeName  +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+

@@ -109,7 +109,7 @@
                         etcName:etc_name,
                         etcPhoneNumber:etc_phonenum,
                     };
-                    if (confirm(comment.isUpdate)) {
+                    if (confirm(comment.isUpdate2)) {
                         studentService.modifyStudentInfo(data,function () {
                             alert(comment.success_update);
                             isReloadPage(true);
@@ -162,7 +162,7 @@
                 etcName:etc_name,
                 etcPhoneNumber:etc_phonenum,
             };
-            if (confirm(comment.isUpdate)) {
+            if (confirm(comment.isUpdate2)) {
                 studentService.modifyStudentInfo(data,function () {
                     alert(comment.success_update);
                     isReloadPage(true);
