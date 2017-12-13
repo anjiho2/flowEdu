@@ -38,6 +38,7 @@
             innerValue("phone_number", val.phoneNumber);
             innerValue("member_name", val.memberName);
             innerValue("member_type", val.memberType);
+            innerValue("academy_thumbnail", val.academyThumbnail);
 
             page_gbn.value = "session";
             action = "<%=webRoot%>/login.do";
@@ -88,6 +89,7 @@
                 <input type="hidden" id="phone_number" name="phone_number" />
                 <input type="hidden" id="member_name" name="member_name" />
                 <input type="hidden" id="member_type" name="member_type" />
+                <input type="hidden" id="academy_thumbnail" name="academy_thumbnail" />
                 <input type="hidden" name="page_gbn" id="page_gbn">
                 <div class="form-group input-group">
                     <span id="l_memberType" ></span>

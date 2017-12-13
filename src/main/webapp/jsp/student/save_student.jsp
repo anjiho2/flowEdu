@@ -20,6 +20,7 @@
             $("#mother_phone2").attr("disabled", true);
             $("#mother_phone3").attr("disabled", true);
         }
+        schoolTypeSelectbox("l_schoolType", "");
         schoolSelectbox("student_grade","", "");
     }
 
@@ -91,7 +92,8 @@
                     var etc_phonenum = get_allphonenum("etc_phone1","etc_phone2","etc_phone3");
                     var etc_name     = getInputTextValue("etc_name");
 
-                    var school_type =  $(":input:radio[name=school_type]:checked").val();
+                    //var school_type =  $(":input:radio[name=school_type]:checked").val();
+                    var school_type = getSelectboxValue("sel_schoolType");  //2017.12.13 셀렉트박스로 변경되면서 수정(안지호)
 
                     var data = {
                         studentPhotoFile:fileName, //파일명
@@ -140,7 +142,8 @@
             var etc_phonenum = get_allphonenum("etc_phone1","etc_phone2","etc_phone3");
             var etc_name     = getInputTextValue("etc_name");
 
-            var school_type =  $(":input:radio[name=school_type]:checked").val();
+            //var school_type =  $(":input:radio[name=school_type]:checked").val();
+            var school_type = getSelectboxValue("sel_schoolType");  //2017.12.13 셀렉트박스로 변경되면서 수정(안지호)
 
             var data = {
                 studentName:student_name,
@@ -166,11 +169,11 @@
                     alert("학생정보가 등록 되었습니다.");
                     isReloadPage(true);
                 });
-    }
-    }
+             }
+        }
     }
 
-    function school_radio(school_grade) {
+    function changeSchoolGrade(school_grade) {
         schoolSelectbox("student_grade","", school_grade);
     }
 
@@ -185,12 +188,16 @@
     }
 
 
-    function school_search_popup() {//학교검색
-        var school_type =  $(":input:radio[name=school_type]:checked").val();
+    function school_search_popup() {//학교검색 팝업창 뛰우기
+        //초기화
+        reset_value("schoo_name");
+        reset_html("a_school_name");
+
+        var school_type =  getSelectboxValue("sel_schoolType");
         var school_name = "";
-        if (school_type == "elem_list") {
+        if (school_type == "ELEMENT") {
             school_name = "초등학교";
-        } else if (school_type == "midd_list") {
+        } else if (school_type == "MIDDLE") {
             school_name = "중학교";
         } else {
             school_name = "고등학교";
@@ -206,9 +213,14 @@
     }
 
     function school_search() {//학교검색
-        var school_type =  $(":input:radio[name=school_type]:checked").val();
+        var school_type =  getSelectboxValue("sel_schoolType");
         var region =  getSelectboxValue("inputregion");
         var searchSchoolName = getInputTextValue("schoo_name");
+
+        if (school_type == "ELEMENT") school_type = "elem_list";
+        else if (school_type == "MIDDLE") school_type = "midd_list";
+        else school_type = "high_list";
+
         if(region==""){
             alert("지역을 선택해 주세요.");
             return false;
@@ -217,12 +229,13 @@
             return false;
         }
         studentService.getApiSchoolName(school_type, region, searchSchoolName, function (schoolName) {
-            gfn_display("search_result_div", true);
             if(schoolName == null){
                 alert("학교검색 결과가 없습니다.");
                 return;
+            } else {
+                gfn_display("search_result_div", true);
+                innerHTML("a_school_name", schoolName ? remove_double_quotation(schoolName) : "학교검색 결과가 없습니다.");
             }
-            innerHTML("a_school_name", schoolName ? remove_double_quotation(schoolName) : "학교검색 결과가 없습니다.");
         });
     }
 
@@ -270,6 +283,7 @@
         }
     }
 
+    //파일 선택시 파일명 보이게 하기
     $(document).on('change', '.custom-file-input', function() {
         $(this).parent().find('.custom-file-control').html($(this).val().replace(/C:\\fakepath\\/i, ''));
     });
@@ -390,11 +404,14 @@
             <div class="form-outer-group">
                 <div class="form-group row">
                     <label>학교구분</label>
+                    <!--
                     <div class="checkbox_t1">
                         <label><input type="radio" name="school_type" class="form-control" value="elem_list"  onclick="school_radio(this.value);" checked><span>초등학교</span></label>
                         <label><input type="radio" name="school_type" class="form-control" value="midd_list"  onclick="school_radio(this.value);"><span>중학교</span></label>
                         <label><input type="radio" name="school_type" class="form-control" value="high_list"  onclick="school_radio(this.value);"><span>고등학교</span></label>
                     </div>
+                    -->
+                    <span id="l_schoolType"></span>
                 </div>
                 <div class="form-group row">
                     <label>학교이름</label>
@@ -507,7 +524,7 @@
                         </div>
                         <div class="form-group row" style="display: none;" id="search_result_div">
                             <label>검색결과</label>
-                            <a href="javascript:void(0);" onclick="school_name_html();" id="a_school_name"></a>
+                            <a href="javascript:void(0);" class="font_color blue" onclick="school_name_html();" id="a_school_name"></a>
                         </div>
                     </form>
                 </div>

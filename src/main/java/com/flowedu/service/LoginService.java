@@ -43,6 +43,7 @@ public class LoginService {
     @Transactional(readOnly = true)
     public FlowEduMemberDto isMember(String phoneNumber, String password, String memberType, String connectIp) throws Exception {
         FlowEduMemberDto dto = new FlowEduMemberDto();
+        FlowEduMemberDto dto2 = new FlowEduMemberDto();
         Long flowMemberId = loginMapper.findFlowEduMember(phoneNumber, Aes256.encrypt(password), memberType);
         if (flowMemberId != null) {
             dto = memberMapper.getFlowEduMemberCheck(flowMemberId);
@@ -56,10 +57,18 @@ public class LoginService {
                     academyThumbnail
                 )
             );
+            dto2.setFlowMemberId(dto.getFlowMemberId());
+            dto2.setPhoneNumber(dto.getPhoneNumber());
+            dto2.setOfficeId(dto.getOfficeId());
+            dto2.setTeamId(dto.getTeamId());
+            dto2.setMemberName(dto.getMemberName());
+            dto2.setMemberType(dto.getMemberType());
+            dto2.setAcademyThumbnail(academyThumbnail);
+
             logService.memberLoginLog(dto, connectIp);
-            return dto;
+            return dto2;
         }
-        return dto;
+        return dto2;
     }
 
 }

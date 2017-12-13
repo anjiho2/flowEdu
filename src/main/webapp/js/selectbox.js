@@ -450,7 +450,7 @@ function schoolSelectbox(tag_id, val, school_grade) {
     var html = "<select id='sel_school' class='form-control'>";
     html += "<option value=''>▶선택</option>";
     //초등(6)
-	if(school_grade == "elem_list" || school_grade == ""){
+	if(school_grade == "ELEMENT" || school_grade == ""){
 		count = 6;
 	}else{	//중,고등(3)
 		count = 3;
@@ -475,7 +475,7 @@ function schoolSelectbox(tag_id, val, school_grade) {
 function attendTypeSelectbox(tag_id, val) {
     lectureService.getLectureAttendTypeList(function (list) {
         var html = "<select id='sel_attendType' class='form-control'>";
-        html += "<option value=''>▶선택</option>";
+        html += "<option value=''>▶출결 종류선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].attendCode == val) {
                 html += "<option value="+list[i].attendCode+" selected>"+ list[i].attendName +"</option>";
@@ -549,6 +549,26 @@ function studentmemoTypeSelectbox2(tag_id, val) {
                 html += "<option value="+list[i].memoCode+" selected>"+ list[i].memoName +"</option>";
             } else {
                 html += "<option value="+list[i].memoCode +">"+ list[i].memoName  +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
+function schoolTypeSelectbox(tag_id, val) {
+    if (val == "elem_list") val = "ELEMENT";
+    else if (val == "midd_list") val = "MIDDLE";
+    else val = "HIGH";
+
+    studentService.getSchoolTypeList(function (list) {
+        var html = "<select id='sel_schoolType' class='form-control' onchange='changeSchoolGrade(this.value);'>";
+        html += "<option value=''>▶학교구분선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].schoolTypeCode == val) {
+                html += "<option value="+list[i].schoolTypeCode+" selected>"+ list[i].schoolTypeName +"</option>";
+            } else {
+                html += "<option value="+list[i].schoolTypeCode +">"+ list[i].schoolTypeName  +"</option>";
             }
         }
         html += "</select>";
