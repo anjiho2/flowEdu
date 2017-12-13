@@ -53,6 +53,13 @@
         var student_id   = getInputTextValue("student_id");
         var data = new FormData();
 
+        //이메일형식체크
+        var student_email   = getInputTextValue("student_email");
+        if(student_email){
+            var is_email = fn_isemail(student_email);
+            if (is_email == true) return false;
+        }
+
         $.each($('#attachFile')[0].files, function(i, file) {
             data.append('file-' + i, file);
         });
@@ -284,6 +291,31 @@
             }
         });
     }
+    /*메모입력 바이트 제한기능*/
+    var clearChk=true;
+    var limitByte = 1000;
+    // textarea에 마우스가 클릭되었을때 초기 메시지를 클리어
+    function clearMessage(){
+        if(clearChk){
+            $("#student_memo").val("");
+            clearChk=false;
+        }
+    }
+    // textarea에 입력된 문자의 바이트 수를 체크
+    function checkByte() {
+        var totalByte = 0;
+        var message = $("#student_memo").val();
+        for (var i = 0; i < message.length; i++) {
+            var currentByte = message.charCodeAt(i);
+            if (currentByte > 128) totalByte += 2;
+            else totalByte++;
+        }
+        $("#messagebyte").val(totalByte);
+        if (totalByte > limitByte) {
+            var memolimit = message.substring(0, limitByte);
+            $("#student_memo").val(memolimit);
+        }
+    }
 </script>
 <body onload="init();">
 <div class="container">
@@ -347,17 +379,17 @@
             <div class="form-group row">
                 <label>핸드폰번호</label>
                 <div class="inputs">
-                    <input type="text" size="2" id="student_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this, 'student_phone2', 3)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="student_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this, 'student_phone3', 4)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="student_phone3" class="form-control" maxlength="4">
+                    <input type="number" size="2" id="student_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this, 'student_phone2', 3)">&nbsp;-&nbsp;
+                    <input type="number" size="5" id="student_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this, 'student_phone3', 4)">&nbsp;-&nbsp;
+                    <input type="number" size="5" id="student_phone3" class="form-control" maxlength="4" onkeyup="js_tab_order(this, 'student_tel1', 4)">
                 </div>
             </div>
             <div class="form-group row">
                 <label>집전화번호</label>
                 <div class="inputs">
-                    <input type="text" size="2" id="student_tel1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.student_tel2,3)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="student_tel2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.student_tel3,4)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="student_tel3" class="form-control" maxlength="4">
+                    <input type="number" size="2" id="student_tel1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'student_tel2',3)">&nbsp;-&nbsp;
+                    <input type="number" size="5" id="student_tel2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'student_tel3',4)">&nbsp;-&nbsp;
+                    <input type="number" size="5" id="student_tel3" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'student_email',4)">
                 </div>
             </div>
         </div>
@@ -390,7 +422,12 @@
         </div>
         <div class="form-group row">
             <label>메모</label>
-            <div><textarea class="form-control"  id="student_memo" rows="5"></textarea></div>
+            <div>
+                <textarea class="form-control"  id="student_memo" name="student_memo" rows="5" onFocus="clearMessage();"  onKeyUp="checkByte();"></textarea>
+                <td align="left">
+                    <input type="text" name="messagebyte" id="messagebyte" value="0" size="1" maxlength="2" readonly><font color="#000000">/ 1000 byte</font>
+                </td>
+            </div>
         </div>
         <div class="form-outer-group">
             <div class="form-group row">
@@ -400,9 +437,9 @@
             <div class="form-group row">
                 <label>학부모(모)전화번호<b>*</b></label>
                 <div class="inputs">
-                    <input type="text" size="2" id="mother_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.mother_phone2,3)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="mother_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.mother_phone3,4)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="mother_phone3" class="form-control" maxlength="4" >
+                    <input type="number" size="2" id="mother_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'mother_phone2',3)">&nbsp;-&nbsp;
+                    <input type="number" size="5" id="mother_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'mother_phone3',4)">&nbsp;-&nbsp;
+                    <input type="number" size="5" id="mother_phone3" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'father_name',4)">
                 </div>
             </div>
         </div>
@@ -414,9 +451,9 @@
             <div class="form-group row">
                 <label>학부모(부)전화번호</label>
                 <div class="inputs">
-                    <input type="text" size="2" id="father_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.father_phone2,3)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="father_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.father_phone3,4)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="father_phone3" class="form-control" maxlength="4">
+                    <input type="number" size="2" id="father_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'father_phone2',3)">&nbsp;-&nbsp;
+                    <input type="number" size="5" id="father_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'father_phone3',4)">&nbsp;-&nbsp;
+                    <input type="number" size="5" id="father_phone3" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'etc_name',4)">
                 </div>
             </div>
         </div>
@@ -428,9 +465,9 @@
             <div class="form-group row">
                 <label>기타 전화번호</label>
                 <div class="inputs">
-                    <input type="text" size="2" id="etc_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.etc_phone2,3)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="etc_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.etc_phone3,4)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="etc_phone3" class="form-control" maxlength="4">
+                    <input type="number" size="2" id="etc_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'etc_phone2',3)">&nbsp;-&nbsp;
+                    <input type="number" size="5" id="etc_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'etc_phone3',4)">&nbsp;-&nbsp;
+                    <input type="number" size="5" id="etc_phone3" class="form-control" maxlength="4" >
                 </div>
             </div>
         </div>
