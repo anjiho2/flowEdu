@@ -1898,7 +1898,7 @@ var SOFOHashMap = function()
 //핸드폰번호 text자동넘김
 function js_tab_order(arg, nextname, len) {
     if (arg.value.length == len) {
-        nextname.focus()
+        nextname.focus();
         return;
     }
 }

@@ -338,7 +338,11 @@
             <div class="form-group row">
                 <label>학생이름<b>*</b></label>
                 <div>
-                    <div><input type="text" class="form-control" id="student_name" style="width:150px;" maxlength="8" onkeypress="nonHangulSpecialKey()"></div>
+                    <div>
+                        <input type="text" class="form-control" id="student_name" style="width:150px;" maxlength="8" onkeypress="nonHangulSpecialKey()">
+                        한글/영문 2자 이상 8자 이하
+                    </div>
+
                 </div>
             </div>
             <div class="form-outer-group">
@@ -365,17 +369,17 @@
                 <div class="form-group row">
                     <label>핸드폰번호</label>
                     <div class="inputs">
-                        <input type="text" size="2" id="student_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.student_phone2,3)">&nbsp;-&nbsp;
-                        <input type="text" size="5" id="student_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.student_phone3,4)">&nbsp;-&nbsp;
-                        <input type="text" size="5" id="student_phone3" class="form-control" maxlength="4">
+                        <input type="number" size="2" id="student_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.student_phone2,3)">&nbsp;-&nbsp;
+                        <input type="number" size="5" id="student_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.student_phone3,4)">&nbsp;-&nbsp;
+                        <input type="number" size="5" id="student_phone3" class="form-control" maxlength="4">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label>집전화번호</label>
                     <div class="inputs">
-                        <input type="text" size="2" id="student_tel1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.student_tel2,3)">&nbsp;-&nbsp;
-                        <input type="text" size="5" id="student_tel2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.student_tel3,4)">&nbsp;-&nbsp;
-                        <input type="text" size="5" id="student_tel3" class="form-control" maxlength="4">
+                        <input type="number" size="2" id="student_tel1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.student_tel2,3)">&nbsp;-&nbsp;
+                        <input type="number" size="5" id="student_tel2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.student_tel3,4)">&nbsp;-&nbsp;
+                        <input type="number" size="5" id="student_tel3" class="form-control" maxlength="4">
                     </div>
                 </div>
             </div>
@@ -420,9 +424,9 @@
                 <div class="form-group row">
                     <label>학부모(모)전화번호<b>*</b></label>
                     <div class="inputs">
-                        <input type="text" size="2" id="mother_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.mother_phone2,3)">&nbsp;-&nbsp;
-                        <input type="text" size="5" id="mother_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.mother_phone3,4)">&nbsp;-&nbsp;
-                        <input type="text" size="5" id="mother_phone3" class="form-control" maxlength="4" >
+                        <input type="number" size="2" id="mother_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.mother_phone2,3)">&nbsp;-&nbsp;
+                        <input type="number" size="5" id="mother_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.mother_phone3,4)">&nbsp;-&nbsp;
+                        <input type="number" size="5" id="mother_phone3" class="form-control" maxlength="4" >
                     </div>
                 </div>
             </div>
@@ -434,9 +438,9 @@
                 <div class="form-group row">
                     <label>학부모(부)전화번호</label>
                     <div class="inputs">
-                        <input type="text" size="2" id="father_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.father_phone2,3)">&nbsp;-&nbsp;
-                        <input type="text" size="5" id="father_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.father_phone3,4)">&nbsp;-&nbsp;
-                        <input type="text" size="5" id="father_phone3" class="form-control" maxlength="4">
+                        <input type="number" size="2" id="father_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.father_phone2,3)">&nbsp;-&nbsp;
+                        <input type="number" size="5" id="father_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.father_phone3,4)">&nbsp;-&nbsp;
+                        <input type="number" size="5" id="father_phone3" class="form-control" maxlength="4">
                     </div>
                 </div>
             </div>
@@ -448,9 +452,9 @@
                 <div class="form-group row">
                     <label>기타 전화번호</label>
                     <div class="inputs">
-                        <input type="text" size="2" id="etc_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.father_phone2,3)">&nbsp;-&nbsp;
-                        <input type="text" size="5" id="etc_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.father_phone3,4)">&nbsp;-&nbsp;
-                        <input type="text" size="5" id="etc_phone3" class="form-control" maxlength="4">
+                        <input type="number" size="2" id="etc_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.father_phone2,3)">&nbsp;-&nbsp;
+                        <input type="number" size="5" id="etc_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.father_phone3,4)">&nbsp;-&nbsp;
+                        <input type="number" size="5" id="etc_phone3" class="form-control" maxlength="4">
                     </div>
                 </div>
             </div>

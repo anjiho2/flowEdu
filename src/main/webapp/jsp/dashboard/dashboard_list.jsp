@@ -36,16 +36,16 @@
                     for (var i = 0; i < selList.length; i++) {
                         var cmpList = selList[i];
                         if (cmpList != undefined) {
-                            var studentNameHTML = "<a href='javascript:void(0);' onclick='student_modify(" + cmpList.studentId + ");'>"+cmpList.studentName +"</a>";
+                            var studentNameHTML = "<a href='javascript:void(0);' class='font_color blue' onclick='student_modify(" + cmpList.studentId + ");'>"+cmpList.studentName +"</a>";
 
                             var cellData = [
                                 function(data) {return cnt--;},
                                 function(data) {return studentNameHTML;},
-                                function(data) {return fn_tel_tag(cmpList.studentPhoneNumber);},
-                                function(data) {return cmpList.schoolName;},
+                                function(data) {return fn_tel_tag(cmpList.studentPhoneNumber) == "" ? "-" : fn_tel_tag(cmpList.studentPhoneNumber)},
+                                function(data) {return cmpList.schoolName == "" ? "-" : cmpList.schoolName},
                                 function(data) {return convert_lecture_grade(cmpList.studentGrade);},
-                                function(data) {return cmpList.motherName;},
-                                function(data) {return fn_tel_tag(cmpList.motherPhoneNumber);},
+                                function(data) {return cmpList.motherName == "" ? "-" : cmpList.motherName},
+                                function(data) {return fn_tel_tag(cmpList.motherPhoneNumber) == "" ? "-" : fn_tel_tag(cmpList.motherPhoneNumber)},
                             ];
                             dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
                         }

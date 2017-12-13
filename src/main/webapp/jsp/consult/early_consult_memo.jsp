@@ -127,9 +127,9 @@
             </div>
             <div class="form-group row">
                 <div class="inputs">
-                    <input type="text" size="2" id="student_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this, student_phone2, 3)" placeholder="핸드폰 번호">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="student_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this, student_phone3, 4)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="student_phone3" class="form-control" maxlength="4" onblur="isStudent();">
+                    <input type="number" size="2" id="student_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this, student_phone2, 3)" placeholder="핸드폰 번호">&nbsp;-&nbsp;
+                    <input type="number" size="5" id="student_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this, student_phone3, 4)">&nbsp;-&nbsp;
+                    <input type="number" size="5" id="student_phone3" class="form-control" maxlength="4" onblur="isStudent();">
                 </div>
             </div>
             <div class="form-group row">
