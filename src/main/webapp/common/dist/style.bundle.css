@@ -4980,6 +4980,10 @@ div.tb_t1 table .right {
     display: block
 }
 
+.bot_btnswrap{
+    margin-top: 30px;
+}
+
 .form_st1 .bot_btns {
     margin-top: 30px;
     border-top: 1px solid #f1f1f1;
@@ -5858,6 +5862,15 @@ ul.list_t2 button.confirm {
 
 .studentimg_filebox{
     margin: 66px 0 0 10px;
+}
+
+.memo_byte{
+    float: right;
+    margin-top: 5px;
+}
+
+.tb_t1 td input[type=email]{
+    width: 30rem;
 }
 
 /*index 반응형*/
