@@ -928,6 +928,14 @@ function gfn_getByteLength(str) {
 	return len;
 } 
 
+//문자열 길이 확인
+function gfn_chkStrLen(str, len) {
+	var strLen = str.length;
+	if (strLen > len) {
+		alert("최대" + len + "자까지 입력가능합니다.");
+	}
+}
+
 /**
  * BASE64 암호화
  * @param str

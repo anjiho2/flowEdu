@@ -475,7 +475,7 @@ function schoolSelectbox(tag_id, val, school_grade) {
 function attendTypeSelectbox(tag_id, val) {
     lectureService.getLectureAttendTypeList(function (list) {
         var html = "<select id='sel_attendType' class='form-control'>";
-        html += "<option value=''>▶선택</option>";
+        html += "<option value=''>▶출결 종류선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].attendCode == val) {
                 html += "<option value="+list[i].attendCode+" selected>"+ list[i].attendName +"</option>";
