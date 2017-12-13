@@ -19,10 +19,10 @@ public interface StudentMapper {
     List<StudentDto> getSudentList(@Param("start") int start, @Param("end") int end, @Param("gubun") String gubun, @Param("studentName") String studentName);
 
     int getStudentMemoListCount(@Param("studentId") Long studentId, @Param("searchDate") String searchDate, @Param("memoType") String memoType,
-                                @Param("memberName") String memberName, @Param("memoContent") String memoContent);
+                                @Param("memberName") String memberName, @Param("memoContent") String memoContent, @Param("processYn") Boolean processYn);
 
     List<StudentMemoDto> getStudentMemoList(@Param("start") int start, @Param("end") int end, @Param("studentId") Long studentId, @Param("searchDate") String searchDate,
-                                            @Param("memoType") String memoType, @Param("memberName") String memberName, @Param("memoContent") String memoContent);
+                                            @Param("memoType") String memoType, @Param("memberName") String memberName, @Param("memoContent") String memoContent, @Param("processYn") Boolean processYn);
 
     List<StudentMemoReplyDto> getStudentMemoReplyList(@Param("start") int start, @Param("end") int end, @Param("studentMemoId") Long studentMemoId);
 
@@ -40,7 +40,8 @@ public interface StudentMapper {
 
     void saveStudentInfoList(@Param("studentList") List<StudentDto> studentDtoList);
 
-    void saveStudentMemo(@Param("studentId") Long studentId, @Param("flowMemberId") Long flowMemberId, @Param("memoContent") String memoContent, @Param("memoType") String memoType);
+    void saveStudentMemo(@Param("studentId") Long studentId, @Param("flowMemberId") Long flowMemberId, @Param("memoContent") String memoContent,
+                         @Param("memoType") String memoType, @Param("memoTitle") String memoTitle);
 
     void saveStudentMemoReply(@Param("studentMemoId") Long studentMemoId, @Param("flowMemberId") Long flowMemberId, @Param("replyContent") String replyContent);
 

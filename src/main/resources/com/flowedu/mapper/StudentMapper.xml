@@ -39,7 +39,7 @@
 			AND A.student_id = #{studentId}
 		</if>
 		<if test="searchDate != ''">
-			AND DATE_FORMAT(A.create_date, '%Y-%m') = #{searchDate}
+			AND DATE_FORMAT(A.create_date, '%Y-%m-%d') = #{searchDate}
 		</if>
 		<if test="memoType != ''">
 			AND A.memo_type = #{memoType}
@@ -49,6 +49,9 @@
 		</if>
 		<if test="memoContent != ''">
 			AND A.memo_content LIKE CONCAT ('%', #{memoContent}, '%')
+		</if>
+		<if test="processYn != null">
+			AND A.process_yn = #{processYn}
 		</if>
 	</select>
 
@@ -62,7 +65,7 @@
 			AND student_id = #{studentId}
 		</if>
 		<if test="searchDate != ''">
-			AND DATE_FORMAT(A.create_date, '%Y-%m') = #{searchDate}
+			AND DATE_FORMAT(A.create_date, '%Y-%m-%d') = #{searchDate}
 		</if>
 		<if test="memoType != ''">
 			AND A.memo_type = #{memoType}
@@ -72,6 +75,9 @@
 		</if>
 		<if test="memoContent != ''">
 			AND A.memo_content LIKE CONCAT ('%', #{memoContent}, '%')
+		</if>
+		<if test="processYn != null">
+			AND A.process_yn = #{processYn}
 		</if>
 		ORDER BY A.create_date DESC
 		LIMIT #{start}, #{end}
@@ -166,9 +172,9 @@
 
 	<insert id="saveStudentMemo">
 		INSERT INTO STUDENT_MEMO
-		( student_id, flow_member_id, memo_content, memo_type )
+		( student_id, flow_member_id, memo_content, memo_type, memo_title )
 		VALUES
-		( #{studentId}, #{flowMemberId}, #{memoContent}, #{memoType} )
+		( #{studentId}, #{flowMemberId}, #{memoContent}, #{memoType}, #{memoTitle} )
 	</insert>
 
 	<insert id="saveStudentMemoReply">
