@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
     String sch_type = Util.isNullValue(request.getParameter("school_type"),"");
+    System.out.print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + sch_type);
     String school_name = "";
     if (sch_type.equals("elem_list")) {
         school_name = "초등학교";
@@ -21,6 +22,7 @@
     }
 
     function school_search() {//학교검색
+        alert('<%=sch_type%>');
         var region =  getSelectboxValue("inputregion");
         var searchSchoolName = getInputTextValue("schoo_name");
        if(region==""){

@@ -12,7 +12,6 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
 <script>
     function init() {
-        schoolSelectbox("student_grade","", "");
         studentList();
         student_memo_list();
     }
@@ -28,8 +27,10 @@
             innerValue("student_name", selList.studentName);
             innerValue("startDate", selList.studentBirthday);
             genderRadio("l_gender", selList.studentGender, "");
-            $('input:radio[name=school_type]:input[value=' + selList.schoolType + ']').attr("checked", true);
-            innerValue("sel_school", selList.studentGrade);
+            schoolTypeSelectbox("l_schoolType", selList.schoolType);
+            //$('input:radio[name=school_type]:input[value=' + selList.schoolType + ']').attr("checked", true);
+            //innerValue("sel_school", selList.studentGrade);
+            schoolSelectbox("student_grade", selList.studentGrade, selList.schoolType);
             fnSetPhoneNo(student_phone1, student_phone2, student_phone3, selList.studentPhoneNumber);
             fnSetPhoneNo(student_tel1,   student_tel2,   student_tel3,   selList.homeTelNumber);
             fnSetPhoneNo(mother_phone1,  mother_phone2,  mother_phone3,  selList.motherPhoneNumber);
@@ -51,6 +52,13 @@
         var check = new isCheck();
         var student_id   = getInputTextValue("student_id");
         var data = new FormData();
+
+        //이메일형식체크
+        var student_email   = getInputTextValue("student_email");
+        if(student_email){
+            var is_email = fn_isemail(student_email);
+            if (is_email == true) return false;
+        }
 
         $.each($('#attachFile')[0].files, function(i, file) {
             data.append('file-' + i, file);
@@ -83,7 +91,8 @@
                     var father_name     = getInputTextValue("father_name");
                     var mother_phonenum = get_allphonenum("mother_phone1","mother_phone2","mother_phone3");
                     var father_phonenum = get_allphonenum("father_phone1","father_phone2","father_phone3");
-                    var school_type =  $(":input:radio[name=school_type]:checked").val();
+                    //var school_type =  $(":input:radio[name=school_type]:checked").val();
+                    var school_type = getSelectboxValue("sel_schoolType");  //2017.12.13 셀렉트박스로 변경되면서 수정(안지호)
                     var etc_phonenum = get_allphonenum("etc_phone1","etc_phone2","etc_phone3");
                     var etc_name     = getInputTextValue("etc_name");
 
@@ -136,7 +145,8 @@
             var father_name     = getInputTextValue("father_name");
             var mother_phonenum = get_allphonenum("mother_phone1","mother_phone2","mother_phone3");
             var father_phonenum = get_allphonenum("father_phone1","father_phone2","father_phone3");
-            var school_type =  $(":input:radio[name=school_type]:checked").val();
+            //var school_type =  $(":input:radio[name=school_type]:checked").val();
+            var school_type = getSelectboxValue("sel_schoolType");  //2017.12.13 셀렉트박스로 변경되면서 수정(안지호)
             var etc_phonenum = get_allphonenum("etc_phone1","etc_phone2","etc_phone3");
             var etc_name     = getInputTextValue("etc_name");
 
@@ -171,11 +181,11 @@
         }
     }
 
-    function school_radio(school_grade) {
+    function changeSchoolGrade(school_grade) {
         schoolSelectbox("student_grade","", school_grade);
     }
-
-    function school_search_popup() { //학교검색
+    /*
+    function school_search_popup() { //학교검색 팝업창 뛰우기
         var school_type =  $(":input:radio[name=school_type]:checked").val();
 
         if(school_type == null){
@@ -185,7 +195,7 @@
         var param = "?school_type="+school_type;
         gfn_winPop(550,400,"jsp/popup/school_search_popup.jsp",param);
     }
-
+    */
     // 처리하기 버튼
     function changeProccessYn(studentMemoId) {
         if (confirm("처리하시겠습니까?")) {
@@ -230,11 +240,17 @@
     }
 
     function school_search_popup() {//학교검색
-        var school_type =  $(":input:radio[name=school_type]:checked").val();
+        //var school_type =  $(":input:radio[name=school_type]:checked").val();
+        //초기화
+        reset_value("schoo_name");
+        reset_html("a_school_name");
+
+        var school_type =  getSelectboxValue("sel_schoolType");
+
         var school_name = "";
-        if (school_type == "elem_list") {
+        if (school_type == "ELEMENT") {
             school_name = "초등학교";
-        } else if (school_type == "midd_list") {
+        } else if (school_type == "MIDDLE") {
             school_name = "중학교";
         } else {
             school_name = "고등학교";
@@ -250,9 +266,14 @@
     }
 
     function school_search() {//학교검색
-        var school_type =  $(":input:radio[name=school_type]:checked").val();
+        var school_type =  getSelectboxValue("sel_schoolType");
         var region =  getSelectboxValue("inputregion");
         var searchSchoolName = getInputTextValue("schoo_name");
+
+        if (school_type == "ELEMENT") school_type = "elem_list";
+        else if (school_type == "MIDDLE") school_type = "midd_list";
+        else school_type = "high_list";
+
         if(region==""){
             alert("지역을 선택해 주세요.");
             return false;
@@ -261,13 +282,39 @@
             return false;
         }
         studentService.getApiSchoolName(school_type, region, searchSchoolName, function (schoolName) {
-            gfn_display("search_result_div", true);
             if(schoolName == null){
                 alert("학교검색 결과가 없습니다.");
                 return;
+            } else {
+                gfn_display("search_result_div", true);
+                innerHTML("a_school_name", schoolName ? remove_double_quotation(schoolName) : "학교검색 결과가 없습니다.");
             }
-            innerHTML("a_school_name", schoolName ? remove_double_quotation(schoolName) : "학교검색 결과가 없습니다.");
         });
+    }
+    /*메모입력 바이트 제한기능*/
+    var clearChk=true;
+    var limitByte = 1000;
+    // textarea에 마우스가 클릭되었을때 초기 메시지를 클리어
+    function clearMessage(){
+        if(clearChk){
+            $("#student_memo").val("");
+            clearChk=false;
+        }
+    }
+    // textarea에 입력된 문자의 바이트 수를 체크
+    function checkByte() {
+        var totalByte = 0;
+        var message = $("#student_memo").val();
+        for (var i = 0; i < message.length; i++) {
+            var currentByte = message.charCodeAt(i);
+            if (currentByte > 128) totalByte += 2;
+            else totalByte++;
+        }
+        $("#messagebyte").val(totalByte);
+        if (totalByte > limitByte) {
+            var memolimit = message.substring(0, limitByte);
+            $("#student_memo").val(memolimit);
+        }
     }
 </script>
 <body onload="init();">
@@ -332,17 +379,17 @@
             <div class="form-group row">
                 <label>핸드폰번호</label>
                 <div class="inputs">
-                    <input type="text" size="2" id="student_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.student_phone2,3)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="student_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.student_phone3,4)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="student_phone3" class="form-control" maxlength="4">
+                    <input type="number" size="2" id="student_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this, 'student_phone2', 3)">&nbsp;-&nbsp;
+                    <input type="number" size="5" id="student_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this, 'student_phone3', 4)">&nbsp;-&nbsp;
+                    <input type="number" size="5" id="student_phone3" class="form-control" maxlength="4" onkeyup="js_tab_order(this, 'student_tel1', 4)">
                 </div>
             </div>
             <div class="form-group row">
                 <label>집전화번호</label>
                 <div class="inputs">
-                    <input type="text" size="2" id="student_tel1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.student_tel2,3)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="student_tel2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.student_tel3,4)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="student_tel3" class="form-control" maxlength="4">
+                    <input type="number" size="2" id="student_tel1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'student_tel2',3)">&nbsp;-&nbsp;
+                    <input type="number" size="5" id="student_tel2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'student_tel3',4)">&nbsp;-&nbsp;
+                    <input type="number" size="5" id="student_tel3" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'student_email',4)">
                 </div>
             </div>
         </div>
@@ -353,11 +400,14 @@
         <div class="form-outer-group">
             <div class="form-group row">
                 <label>학교구분</label>
+                <!--
                 <div class="checkbox_t1">
                     <label><input type="radio" name="school_type" class="form-control" value="elem_list"  onclick="school_radio(this.value);" checked><span>초등학교</span></label>
                     <label><input type="radio" name="school_type" class="form-control" value="midd_list"  onclick="school_radio(this.value);"><span>중학교</span></label>
                     <label><input type="radio" name="school_type" class="form-control" value="high_list"  onclick="school_radio(this.value);"><span>고등학교</span></label>
                 </div>
+                -->
+                <span id="l_schoolType"></span>
             </div>
             <div class="form-group row">
                 <label>학교이름</label>
@@ -372,7 +422,12 @@
         </div>
         <div class="form-group row">
             <label>메모</label>
-            <div><textarea class="form-control"  id="student_memo" rows="5"></textarea></div>
+            <div>
+                <textarea class="form-control"  id="student_memo" name="student_memo" rows="5" onFocus="clearMessage();"  onKeyUp="checkByte();"></textarea>
+                <td align="left">
+                    <input type="text" name="messagebyte" id="messagebyte" value="0" size="1" maxlength="2" readonly><font color="#000000">/ 1000 byte</font>
+                </td>
+            </div>
         </div>
         <div class="form-outer-group">
             <div class="form-group row">
@@ -382,9 +437,9 @@
             <div class="form-group row">
                 <label>학부모(모)전화번호<b>*</b></label>
                 <div class="inputs">
-                    <input type="text" size="2" id="mother_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.mother_phone2,3)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="mother_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.mother_phone3,4)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="mother_phone3" class="form-control" maxlength="4" >
+                    <input type="number" size="2" id="mother_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'mother_phone2',3)">&nbsp;-&nbsp;
+                    <input type="number" size="5" id="mother_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'mother_phone3',4)">&nbsp;-&nbsp;
+                    <input type="number" size="5" id="mother_phone3" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'father_name',4)">
                 </div>
             </div>
         </div>
@@ -396,9 +451,9 @@
             <div class="form-group row">
                 <label>학부모(부)전화번호</label>
                 <div class="inputs">
-                    <input type="text" size="2" id="father_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.father_phone2,3)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="father_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.father_phone3,4)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="father_phone3" class="form-control" maxlength="4">
+                    <input type="number" size="2" id="father_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'father_phone2',3)">&nbsp;-&nbsp;
+                    <input type="number" size="5" id="father_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'father_phone3',4)">&nbsp;-&nbsp;
+                    <input type="number" size="5" id="father_phone3" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'etc_name',4)">
                 </div>
             </div>
         </div>
@@ -410,9 +465,9 @@
             <div class="form-group row">
                 <label>기타 전화번호</label>
                 <div class="inputs">
-                    <input type="text" size="2" id="etc_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.etc_phone2,3)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="etc_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.etc_phone3,4)">&nbsp;-&nbsp;
-                    <input type="text" size="5" id="etc_phone3" class="form-control" maxlength="4">
+                    <input type="number" size="2" id="etc_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'etc_phone2',3)">&nbsp;-&nbsp;
+                    <input type="number" size="5" id="etc_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'etc_phone3',4)">&nbsp;-&nbsp;
+                    <input type="number" size="5" id="etc_phone3" class="form-control" maxlength="4" >
                 </div>
             </div>
         </div>
@@ -501,7 +556,7 @@
                 </div>
                 <div class="form-group row" style="display: none;" id="search_result_div">
                     <label>검색결과</label>
-                    <a href="javascript:void(0);" onclick="school_name_html();" id="a_school_name"></a>
+                    <a href="javascript:void(0);" class="font_color blue" onclick="school_name_html();" id="a_school_name"></a>
                 </div>
         </div>
         <div class="bot_btns_t1">

@@ -93,7 +93,7 @@ var comment = {
 
 		not_attend_log : "출결이력이 없습니다.",
 		not_lecture_log : "수강이력이 없습니다",
-		search_input_student_name : "학생 이름을 입력 후 검색헤주세요.",
+		search_input_student_name : "학생 이름을 입력 후 검색해주세요.",
 
 		success_update : "수정됬습니다",
 

@@ -29,7 +29,7 @@
         if (check.input("consultMemo", "상담내용을 입력하세요.") == false) return;
 
         studentService.saveStudentMemo(student_id, consultMemo, memoType, function () {
-            alert("상담저장완료");
+            alert("저장 하시겠습니까?");
             isReloadPage(true);
         });
     }
@@ -42,7 +42,6 @@
         var memoType = getInputTextValue("sel_memoType");
         var member_name = getInputTextValue("member_name");
         var memo_content = getInputTextValue("memo_content");
-
         if(searchdate == undefined || memoType == undefined ||  member_name == undefined || memo_content == undefined){
             searchdate = "";
             memoType = "";
