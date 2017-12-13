@@ -48,7 +48,7 @@ function fn_search(val) {
                         function(data) {return cmpList.chargeMemberName;},
                         function(data) {return cmpList.lectureStartDate;},
                         function(data) {return cmpList.lectureEndDate;},
-                        function(data) {return cmpList.lectureStatus;},
+                        function(data) {return convert_lecture_status(cmpList.lectureStatus);},
 
                     ];
                     dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
@@ -124,7 +124,7 @@ function lecture_apply() {
                     <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
                 </tr>
             </table>
-            <button class="btn_pack blue">수강등록</button>
+            <button class="btn_pack blue" onclick="goPage('lecture','lecture_info')">수강등록</button>
             <div class="form-group row"></div>
             <%@ include file="/common/inc/com_pageNavi.inc" %>
         </div>

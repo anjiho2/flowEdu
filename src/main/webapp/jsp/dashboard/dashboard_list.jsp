@@ -100,8 +100,6 @@
                         <col width="*" />
                         <col width="110">
                     </colsgroup>
-
-
                     <tr>
                         <th>No.</th>
                         <th>이름</th>
