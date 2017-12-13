@@ -281,10 +281,10 @@
         </form>
             <div class="form-group row">
                 <label>학생사진</label>
-                <div>
-                    <img id="modify_preView" src="" width="100px" height="100px" onerror="this.src='<%=webRoot%>/img/user_img_default.jpg'">
+                <div class="preview_imgbox">
+                    <img id="modify_preView" src="" onerror="this.src='<%=webRoot%>/img/user_img_default.jpg'">
                 </div>
-                <div style="margin: 66px 0 0 10px">
+                <div class="studentimg_filebox">
                     <label class="custom-file">
                         <input type="file" id="attachFile" onchange="preViewImage(this, 'modify_preView', 'preview');" class="custom-file-input" required>
                         <span class="custom-file-control"></span>

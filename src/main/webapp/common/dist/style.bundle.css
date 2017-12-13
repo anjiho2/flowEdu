@@ -5851,6 +5851,15 @@ ul.list_t2 button.confirm {
 }
 /*달력그림끝*/
 
+.preview_imgbox > img{
+    width: 100px;
+    height: 100px;
+}
+
+.studentimg_filebox{
+    margin: 66px 0 0 10px;
+}
+
 /*index 반응형*/
 @media screen and (max-device-width: 500px) {
     #header{
