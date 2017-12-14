@@ -5,8 +5,8 @@
 %>
 <div id="wrap">
     <header id="header">
-        <div style="margin-left: 35px;">
-            <img id="academy_img" src="<%=academyThumbnail%>" alt="" style="border:1px;width: 170px; height: 80px">
+        <div style="margin-left: 22px;">
+            <img id="academy_img" src="<%=academyThumbnail%>" alt="" style="width: auto; height: 80px">
         </div>
         <button class="toggle_aside"></button>
         <nav id="lnb" class="depth1">
