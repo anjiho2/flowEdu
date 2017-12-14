@@ -3,6 +3,7 @@
 <%
     int depth1 = 2;
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
+    int det = 1;
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
@@ -121,4 +122,12 @@
     </section>
 </div>
 <%@include file="/common/jsp/footer.jsp" %>
+
 </body>
+<script>
+    $(".sidebar-menu > li").eq(<%=det%>).addClass("active");
+    $(".sidebar-menu > li:nth-child(2) > ul > li:nth-child(1) > a").addClass("on");
+</script>
+
+</body>
+
