@@ -208,31 +208,25 @@
     function student_memo_list() {
         var student_id = getInputTextValue("student_id");
         studentService.getStudentMemoLastThree(student_id, function (memoList) {
-            if (memoList.length < 0) return;
-            function fomatter(memoList) {
-                var processMent = "";
-                memoList.processYn == false ? processMent = "<button class='confirm' type='button' id="+memoList.studentMemoId+" onclick='changeProccessYn(this.id);'>처리하기</button>" : processMent = "<span><h4>처리완료</h4></span>";
-
-                /*return "<tr>" +
-                            "<div>" +
-                                "<h4><span><i class='tag'>" + convert_memo_type(memoList.memoType) + "</i>" + memoList.memberName + "</span>"+
-                                "<em>" + getDateTimeSplitComma(memoList.createDate) + "</em></h4>"+
-                                "<p>" + ellipsis(memoList.memoContent, 30) + "</p>" +
-                                processMent +
-                            "</div>" +
-                            "<div class='manage'>" +
-                                "<button type='button' onclick='go_reply("+ '"' + 'student' + '"' + ","+ '"' + 'detail_memo_student' + '"' + ","+ '"' + memoList.studentMemoId + '"' + ");'>상세" +
-                            "</tr>";*/
-
-                return "<tr>" +
-                            "<td>" + 제목 + "</td>" +
-                            "<td>" + ellipsis(memoList.memoContent, 30) + "</td>" +
-                            "<td><button class='btn_pack white'>" + + "<button>/td>" +
-                            "<td>" + memoList.memberName + "</td>" +
-                            "<td>" + getDateTimeSplitComma(memoList.createDate) + "</td>" +
-                        "</tr>";
+            if (memoList.length > 0) {
+                for (var i = 0; i < memoList.length; i++) {
+                    var cmpList = memoList[i];
+                    if (cmpList != undefined) {
+                        var processHTML = "";
+                        cmpList.processYn ==  false ? processHTML = "<a href='javascript:void(0);'  class='font_color blue'  id="+cmpList.studentMemoId+" onclick='changeProccessYn(this.id);'>처리하기</a>" :  processHTML = "<span><h4>완료</h4></span>";
+                        var cellData = [
+                            function(data) {return cmpList.memoTitle;},
+                            function(data) {return ellipsis(cmpList.memoContent, 30);},
+                            function(data) {return processHTML;},//처리하기
+                            function(data) {return cmpList.memberName;},
+                            function(data) {return getDateTimeSplitComma(cmpList.createDate);},
+                        ];
+                        dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
+                    }
+                }
+            }else{
+                gfn_emptyView("V", comment.not_consult_log_three);
             }
-            dwr.util.addOptions("dataList", memoList, fomatter, {escapeHtml:false});
         });
     }
     //댓글 페이지 이동
@@ -496,6 +490,9 @@
                 <th>등록일시</th>
             </tr>
             <tbody id="dataList"></tbody>
+            <tr>
+                <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
+            </tr>
         </table>
     </div>
 </section>
