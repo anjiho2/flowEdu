@@ -37,10 +37,9 @@
         lectureService.getLectureAttendListByStudentIdCount(studentId, startDate, endDate, offceId, function(cnt) {
             paging.count(sPage, cnt, 10, 10, comment.not_attend_log);
 
-            dwr.util.removeAllRows("dataList");
-
             lectureService.getLectureAttendListByStudentId(sPage, 10, studentId, startDate, endDate, offceId, function (selList) {
                 if (selList.length == 0) return;
+                dwr.util.removeAllRows("dataList");
                 //var changeBtn = "<button type='button' class='btn_pack blue' id='"+  +"' onclick='attend_comment_popup();'>상태변경</button>";
                 dwr.util.addRows("dataList", selList, [
                     function(data) {return data.attendDate},

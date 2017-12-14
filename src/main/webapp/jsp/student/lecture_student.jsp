@@ -35,11 +35,10 @@ function fn_search(val) {
 
     lectureService.getLectureStudentRelByStudentIdCount(student_id, startDate, endDate, function(cnt) {
         paging.count(sPage, cnt, '10', '5', comment.blank_lecture_list);
-
-        dwr.util.removeAllRows("dataList");
         //학생의 수강이력 가져오기
         lectureService.getLectureStudentRelById(student_id, startDate, endDate, function (selList) {
             if (selList.length > 0) {
+                dwr.util.removeAllRows("dataList");
                 for (var i = 0; i < selList.length; i++) {
                     var cmpList = selList[i];
                     var cellData = [

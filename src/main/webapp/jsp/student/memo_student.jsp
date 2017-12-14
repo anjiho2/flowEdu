@@ -51,12 +51,12 @@
             memo_content = "";
         }
         if(val == "new") sPage = "1";
-        dwr.util.removeAllRows("dataList");
         gfn_emptyView("H", "");
         studentService.getStudentMemoListCount( <%=student_id%>, searchdate, memoType, member_name, memo_content, process_status, function(cnt) {
             paging.count(sPage, cnt, 10, 10, comment.blank_list);
             studentService.getStudentMemoList(sPage, 10, <%=student_id%>, searchdate, memoType, member_name, memo_content, process_status, function (selList) {
                 if (selList.length > 0) {
+                    dwr.util.removeAllRows("dataList");
                     for (var i = 0; i < selList.length; i++) {
                         var cmpList = selList[i];
                         if (cmpList == undefined) {

@@ -25,7 +25,7 @@
         var student_name = getInputTextValue("student_name");
 
         if(val == "new") sPage = "1";
-        dwr.util.removeAllRows("dataList");
+
         gfn_emptyView("H", "");
 
         studentService.getSudentListCount(school_type, student_name, function (cnt) {
@@ -33,6 +33,7 @@
 
             studentService.getSudentList(sPage, '10', school_type, student_name, function (selList) {
                 if (selList.length > 0) {
+                    dwr.util.removeAllRows("dataList");
                     for (var i = 0; i < selList.length; i++) {
                         var cmpList = selList[i];
                         if (cmpList != undefined) {
