@@ -43,7 +43,7 @@
                                 function(data) {return studentNameHTML;},
                                 function(data) {return fn_tel_tag(cmpList.studentPhoneNumber) == "" ? "-" : fn_tel_tag(cmpList.studentPhoneNumber)},
                                 function(data) {return cmpList.schoolName == "" ? "-" : cmpList.schoolName},
-                                function(data) {return convert_lecture_grade(cmpList.studentGrade);},
+                                function(data) {return cmpList.studentGrade;},
                                 function(data) {return cmpList.motherName == "" ? "-" : cmpList.motherName},
                                 function(data) {return fn_tel_tag(cmpList.motherPhoneNumber) == "" ? "-" : fn_tel_tag(cmpList.motherPhoneNumber)},
                             ];
@@ -100,8 +100,6 @@
                         <col width="*" />
                         <col width="110">
                     </colsgroup>
-
-
                     <tr>
                         <th>No.</th>
                         <th>이름</th>

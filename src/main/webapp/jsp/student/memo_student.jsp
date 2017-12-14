@@ -25,10 +25,11 @@
         var student_id  = getInputTextValue("student_id");
         var consultMemo = getInputTextValue("consultMemo");
         var memoType = getSelectboxValue("sel_memoType2");
+        var consultTitle = getInputTextValue("consultTitle");
 
         if (check.input("consultMemo", "상담내용을 입력하세요.") == false) return;
 
-        studentService.saveStudentMemo(student_id, consultMemo, memoType, function () {
+        studentService.saveStudentMemo(student_id, consultMemo, memoType, consultTitle, function () {
             alert("저장 하시겠습니까?");
             isReloadPage(true);
         });
@@ -38,10 +39,11 @@
     function fn_search(val) {
         var paging = new Paging();
         var sPage = $("#sPage").val();
-        var searchdate = getInputTextValue("monthpicker");
+        var searchdate = getInputTextValue("startDate");
         var memoType = getInputTextValue("sel_memoType");
         var member_name = getInputTextValue("member_name");
         var memo_content = getInputTextValue("memo_content");
+        var process_status = getSelectboxValue("sel_process_status");
         if(searchdate == undefined || memoType == undefined ||  member_name == undefined || memo_content == undefined){
             searchdate = "";
             memoType = "";
@@ -51,24 +53,25 @@
         if(val == "new") sPage = "1";
         dwr.util.removeAllRows("dataList");
         gfn_emptyView("H", "");
-        studentService.getStudentMemoListCount( <%=student_id%>, searchdate, memoType, member_name, memo_content, function(cnt) {
+        studentService.getStudentMemoListCount( <%=student_id%>, searchdate, memoType, member_name, memo_content, process_status, function(cnt) {
             paging.count(sPage, cnt, 10, 10, comment.blank_list);
-            studentService.getStudentMemoList(sPage, 10, <%=student_id%>, searchdate, memoType, member_name, memo_content, function (selList) {
+            studentService.getStudentMemoList(sPage, 10, <%=student_id%>, searchdate, memoType, member_name, memo_content, process_status, function (selList) {
                 if (selList.length > 0) {
                     for (var i = 0; i < selList.length; i++) {
                         var cmpList = selList[i];
                         if (cmpList == undefined) {
                         } else
-                            var memoHTML = "<a href='javascript:void(0);' class='font_color blue'  onclick='go_reply("+ '"' + 'student' + '"' + ","+ '"' + 'detail_memo_student' + '"' + ","+ '"' + cmpList.studentMemoId + '"' + ");' />"+ ellipsis(cmpList.memoContent, 20) +"</a>";
+                            var memoHTML = "<a href='javascript:void(0);' class='font_color blue'  onclick='go_reply("+ '"' + 'student' + '"' + ","+ '"' + 'detail_memo_student' + '"' + ","+ '"' + cmpList.studentMemoId + '"' + ");' />"+ ellipsis(cmpList.memoTitle, 20) +"</a>";
                             var cellData = [
                                 //cmpList.memoContent;
                                 function (data) {return memoHTML;},
                                 function (data) {return cmpList.memberName;},
                                 function (data) {return convert_memo_type(cmpList.memoType);},
                                 function (data) {return getDateTimeSplitComma(cmpList.createDate);},
-                                function (data) {return cmpList.processYn == false ? "<button class='btn_pack white' type='button' id="+cmpList.studentMemoId+" onclick='changeProccessYn(this.id);'>처리하기</button>" : "처리완료";
+                                function (data) {return cmpList.processYn == false ?  "대기" : "처리완료";
                                 }
                                 //"<input type='button' value='처리하기' id=" + cmpList.studentMemoId + " onclick='changeProccessYn(this.id);'>"
+                                //"<button class='btn_pack white' type='button' id="+cmpList.studentMemoId+" onclick='changeProccessYn(this.id);'>처리하기</button>"
 
                             ];
                             dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
@@ -121,6 +124,10 @@
                         <td><span id="sel_memo_type2"></span></td>
                     </tr>
                     <tr>
+                        <th>상담제목</th>
+                        <td><input type="text" id="consultTitle" class="form-control" placeholder="제목"></td>
+                    </tr>
+                    <tr>
                         <th>상담내용</th>
                         <td><textarea class="form-control"  id="consultMemo" rows="5" placeholder="상담내용을 입력하세요"></textarea></td>
                     </tr>
@@ -141,23 +148,30 @@
                     <%--<input type="text" id="monthpicker" class="form-control" placeholder="작성일" >--%>
                     <div class="input-group date">
                         <input type="text" id="startDate" class="form-control date-picker" placeholder="시작일">
+                        <input type="text" id="startDate" class="form-control date-picker" style="" placeholder="상담일">
                         <span class="input-group-addon">
                             <span class="fa fa-calendar"></span>
                         </span>
                     </div>
                 </td>
                 <th>상담자</th>
-                <td><input type="text" id="member_name" class="form-control" placeholder="작성자" ></td>
+                <td><input type="text" id="member_name" class="form-control" placeholder="상담자" ></td>
             </tr>
             <tr>
                 <th>상담유형</th>
                 <td><span id="sel_memo_type" style="width: 100%"></span></td>
                 <th>처리상태</th>
-                <td><select class="form-control"><option>▶선택</option><option>진행중</option><option>처리완료</option></select></td>
+                <td>
+                    <select id="sel_process_status" class="form-control">
+                        <option value="">▶선택</option>
+                        <option value="false">진행중</option>
+                        <option value="true">처리완료</option>
+                    </select>
+                </td>
             </tr>
             <tr>
-                <th>상담내용</th>
-                <td colspan="3"><input type="text" id="memo_content" class="form-control" placeholder="내용"></td>
+                <th>상담 제목+내용</th>
+                <td colspan="3"><input type="text" id="memo_content" class="form-control" placeholder="제목+내용"></td>
             </tr>
         </table>
         <button class="btn_pack blue" type="button" onclick="fn_search('new');" style="float:right;">검색</button>
@@ -172,7 +186,7 @@
                 <col width="110">
             </colsgroup>
             <tr>
-                <th>상담내용</th>
+                <th>상담제목</th>
                 <th>상담자</th>
                 <th>상담유형</th>
                 <th>상담날짜</th>

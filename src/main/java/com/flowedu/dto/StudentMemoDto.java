@@ -31,4 +31,6 @@ public class StudentMemoDto {
     private boolean processYn;
 
     private int replyCount;
+
+    private String memoTitle;
 }

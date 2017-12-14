@@ -172,10 +172,10 @@ public class StudentService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public int getStudentMemoListCount(Long studentId, String searchDate, String memoType, String memberName, String memoContent) {
+    public int getStudentMemoListCount(Long studentId, String searchDate, String memoType, String memberName, String memoContent, Boolean processYn) {
         return studentMapper.getStudentMemoListCount(
                 studentId, Util.isNullValue(searchDate, ""), Util.isNullValue(memoType, ""),
-                Util.isNullValue(memberName, ""), Util.isNullValue(memoContent, "")
+                Util.isNullValue(memberName, ""), Util.isNullValue(memoContent, ""), processYn
         );
     }
 
@@ -192,11 +192,12 @@ public class StudentService extends PagingSupport {
      */
     @Transactional(readOnly = true)
     public List<StudentMemoDto> getStudentMemoList(int sPage, int pageListCount, Long studentId, String searchDate,
-                                                   String memoType, String memberName, String memoContent) {
+                                                   String memoType, String memberName, String memoContent, Boolean processYn) {
         PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
         List<StudentMemoDto> list = studentMapper.getStudentMemoList(
                 pagingDto.getStart(), pageListCount, studentId, Util.isNullValue(searchDate, ""),
-                Util.isNullValue(memoType, ""), Util.isNullValue(memberName, ""), Util.isNullValue(memoContent, "")
+                Util.isNullValue(memoType, ""), Util.isNullValue(memberName, ""),
+                Util.isNullValue(memoContent, ""), processYn
         );
         return list;
     }
@@ -212,7 +213,7 @@ public class StudentService extends PagingSupport {
      */
     @Transactional(readOnly = true)
     public List<StudentMemoDto> getStudentMemoLastThree(Long studentId) {
-        return studentMapper.getStudentMemoList(0, 3, studentId, "", "", "", "");
+        return studentMapper.getStudentMemoList(0, 3, studentId, "", "", "", "", null);
     }
 
     /**
@@ -291,12 +292,12 @@ public class StudentService extends PagingSupport {
      * @param memoContent
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void saveStudentMemo(Long studentId, String memoContent, String memoType) {
+    public void saveStudentMemo(Long studentId, String memoContent, String memoType, String memoTitle) {
         if (studentId < 1L) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
         Long flowMemberId = UserSession.flowMemberId();
-        studentMapper.saveStudentMemo(studentId, flowMemberId, memoContent, memoType);
+        studentMapper.saveStudentMemo(studentId, flowMemberId, memoContent, memoType, memoTitle);
     }
 
     /**
