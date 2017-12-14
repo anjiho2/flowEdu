@@ -98,7 +98,7 @@
                         <col width="*" />
                         <col width="*" />
                         <col width="*" />
-                        <col width="110">
+                        <col width="140">
                     </colsgroup>
                     <tr>
                         <th>No.</th>

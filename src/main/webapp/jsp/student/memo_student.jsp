@@ -53,7 +53,7 @@
         if(val == "new") sPage = "1";
         gfn_emptyView("H", "");
         studentService.getStudentMemoListCount( <%=student_id%>, searchdate, memoType, member_name, memo_content, process_status, function(cnt) {
-            paging.count(sPage, cnt, 10, 10, comment.blank_list);
+            paging.count(sPage, cnt, 10, 10, comment.not_consult_log);
             studentService.getStudentMemoList(sPage, 10, <%=student_id%>, searchdate, memoType, member_name, memo_content, process_status, function (selList) {
                 if (selList.length > 0) {
                     dwr.util.removeAllRows("dataList");
