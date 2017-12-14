@@ -25,7 +25,6 @@
         </nav>
     </header>
 
-
 <%--<div id="wrap">--%>
     <%--<header id="header">--%>
         <%--<h1><img src="" alt=""></h1>--%>
@@ -44,3 +43,6 @@
             <%--<a href="javascript:goLogout();"><span class="fa fa-power-off"></span>로그아웃</a>--%>
         <%--</nav>--%>
     <%--</header>--%>
+<script>
+    $.sidebarMenu($('.sidebar-menu'))
+</script>
