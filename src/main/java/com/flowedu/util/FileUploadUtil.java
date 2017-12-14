@@ -2,6 +2,7 @@ package com.flowedu.util;
 
 import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -11,11 +12,14 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * Created by jihoan on 2017. 7. 24..
  */
 public class FileUploadUtil {
+
+
 
     /**
      * <pre>
@@ -110,6 +114,7 @@ public class FileUploadUtil {
                     int filePos = originalFileName.lastIndexOf(".");
                     String fileExtension = originalFileName.substring(filePos+1);
                     //파일 확장자 예외처리
+
                     if (!"JPG".equals(fileExtension.toUpperCase()) || !"GIF".equals(fileExtension.toUpperCase())) {
                         map.put("error_code", FlowEduErrorCode.CUSTOM_IMAGE_FILE_EXTENSION_NOT_ALLOW.code());
                         return map;
