@@ -69,9 +69,6 @@
 <<<<<<< HEAD
     -->
 
-=======
->>>>>>> ed7b099f03c9cc1c6d20b37b57110a78c2686471
-
 <%--<div id="wrap">--%>
     <%--<header id="header">--%>
         <%--<h1><img src="" alt=""></h1>--%>
