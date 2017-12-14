@@ -21,6 +21,7 @@
         studentService.getStudentInfo(student_id, function (selList) {
 
             var file_url = '<%=imgUrl%>' + selList.studentPhotoUrl + "/" + selList.studentPhotoFile;
+           
             $("#modify_preView").attr("src", file_url);
             if(file_url != null) gfn_display("preview", true);
 
@@ -65,6 +66,7 @@
         });
         var attachFile = fn_clearFilePath($('#attachFile').val());
         if (attachFile != "") { //학생사진 업로드시
+
             $.ajax({
                 url: "<%=webRoot%>/file/upload.do",
                 method : "post",
@@ -74,9 +76,19 @@
                 processData: false,
                 contentType: false,
                 success: function(data) {
+                    var errorCode = data.result.error_code;
+                    if (errorCode == "903") {
+                        alert(comment.file_name_not_allow_korean);
+                        return;
+                    } else if (errorCode == "904") {
+                        alert(comment.file_extension_not_allow);
+                        return;
+                    } else if (errorCode == "905") {
+                        alert(comment.file_size_not_allow_300kb);
+                        return;
+                    }
                     var fileName = data.result.file_name;
                     var fileUrl = data.result.file_url;
-
                     var mother_phone3   = getInputTextValue("mother_phone3");
                     var student_name    = getInputTextValue("student_name");
                     var gender          = get_radio_value("gender_type");
@@ -208,31 +220,25 @@
     function student_memo_list() {
         var student_id = getInputTextValue("student_id");
         studentService.getStudentMemoLastThree(student_id, function (memoList) {
-            if (memoList.length < 0) return;
-            function fomatter(memoList) {
-                var processMent = "";
-                memoList.processYn == false ? processMent = "<button class='confirm' type='button' id="+memoList.studentMemoId+" onclick='changeProccessYn(this.id);'>처리하기</button>" : processMent = "<span><h4>처리완료</h4></span>";
-
-                /*return "<tr>" +
-                            "<div>" +
-                                "<h4><span><i class='tag'>" + convert_memo_type(memoList.memoType) + "</i>" + memoList.memberName + "</span>"+
-                                "<em>" + getDateTimeSplitComma(memoList.createDate) + "</em></h4>"+
-                                "<p>" + ellipsis(memoList.memoContent, 30) + "</p>" +
-                                processMent +
-                            "</div>" +
-                            "<div class='manage'>" +
-                                "<button type='button' onclick='go_reply("+ '"' + 'student' + '"' + ","+ '"' + 'detail_memo_student' + '"' + ","+ '"' + memoList.studentMemoId + '"' + ");'>상세" +
-                            "</tr>";*/
-
-                return "<tr>" +
-                            "<td>" + 제목 + "</td>" +
-                            "<td>" + ellipsis(memoList.memoContent, 30) + "</td>" +
-                            "<td><button class='btn_pack white'>" + + "<button>/td>" +
-                            "<td>" + memoList.memberName + "</td>" +
-                            "<td>" + getDateTimeSplitComma(memoList.createDate) + "</td>" +
-                        "</tr>";
+            if (memoList.length > 0) {
+                for (var i = 0; i < memoList.length; i++) {
+                    var cmpList = memoList[i];
+                    if (cmpList != undefined) {
+                        var processHTML = "";
+                        cmpList.processYn ==  false ? processHTML = "<a href='javascript:void(0);'  class='font_color blue'  id="+cmpList.studentMemoId+" onclick='changeProccessYn(this.id);'>처리하기</a>" :  processHTML = "<span><h4>완료</h4></span>";
+                        var cellData = [
+                            function(data) {return cmpList.memoTitle;},
+                            function(data) {return ellipsis(cmpList.memoContent, 30);},
+                            function(data) {return processHTML;},//처리하기
+                            function(data) {return cmpList.memberName;},
+                            function(data) {return getDateTimeSplitComma(cmpList.createDate);},
+                        ];
+                        dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
+                    }
+                }
+            }else{
+                gfn_emptyView("V", comment.not_consult_log_three);
             }
-            dwr.util.addOptions("dataList", memoList, fomatter, {escapeHtml:false});
         });
     }
     //댓글 페이지 이동
@@ -324,6 +330,11 @@
             $("#student_memo").val(memolimit);
         }
     }
+
+    //파일 선택시 파일명 보이게 하기
+    $(document).on('change', '.custom-file-input', function() {
+        $(this).parent().find('.custom-file-control').html($(this).val().replace(/C:\\fakepath\\/i, ''));
+    });
 </script>
 <body onload="init();">
 <div class="container">
@@ -387,8 +398,8 @@
                 <td>
                     <div class="form-group row marginX">
                         <div class="inputs">
-                            <input type="number" size="4" id="student_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.student_phone2,3)">&nbsp;-&nbsp;
-                            <input type="number" size="5" id="student_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.student_phone3,4)">&nbsp;-&nbsp;
+                            <input type="number" size="4" id="student_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'student_phone2',3)">&nbsp;-&nbsp;
+                            <input type="number" size="5" id="student_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'student_phone3',4)">&nbsp;-&nbsp;
                             <input type="number" size="5" id="student_phone3" class="form-control" maxlength="4" onkeyup="js_tab_order(this, 'student_tel1', 4)">
                         </div>
                     </div>
@@ -397,8 +408,8 @@
                 <td colspan="2">
                     <div class="form-group row marginX">
                         <div class="inputs">
-                            <input type="number" size="4" id="student_tel1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.student_tel2,3)">&nbsp;-&nbsp;
-                            <input type="number" size="5" id="student_tel2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.student_tel3,4)">&nbsp;-&nbsp;
+                            <input type="number" size="4" id="student_tel1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'student_tel2',3)">&nbsp;-&nbsp;
+                            <input type="number" size="5" id="student_tel2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'student_tel3',4)">&nbsp;-&nbsp;
                             <input type="number" size="5" id="student_tel3" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'student_email',4)">
                         </div>
                     </div>
@@ -441,8 +452,8 @@
                 <td colspan="2">
                     <div class="form-group row marginX">
                         <div class="inputs">
-                            <input type="number" size="4" id="mother_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.mother_phone2,3)">&nbsp;-&nbsp;
-                            <input type="number" size="5" id="mother_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.mother_phone3,4)">&nbsp;-&nbsp;
+                            <input type="number" size="4" id="mother_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'mother_phone2',3)">&nbsp;-&nbsp;
+                            <input type="number" size="5" id="mother_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'mother_phone3',4)">&nbsp;-&nbsp;
                             <input type="number" size="5" id="mother_phone3" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'father_name',4)">
                         </div>
                     </div>
@@ -455,8 +466,8 @@
                 <td colspan="2">
                     <div class="form-group row marginX">
                         <div class="inputs">
-                            <input type="number" size="4" id="father_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.father_phone2,3)">&nbsp;-&nbsp;
-                            <input type="number" size="5" id="father_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.father_phone3,4)">&nbsp;-&nbsp;
+                            <input type="number" size="4" id="father_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'father_phone2',3)">&nbsp;-&nbsp;
+                            <input type="number" size="5" id="father_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'father_phone3',4)">&nbsp;-&nbsp;
                             <input type="number" size="5" id="father_phone3" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'etc_name',4)">
                         </div>
                     </div>
@@ -648,6 +659,9 @@
                 <th>등록일시</th>
             </tr>
             <tbody id="dataList"></tbody>
+            <tr>
+                <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
+            </tr>
         </table>
     </div>
 </section>

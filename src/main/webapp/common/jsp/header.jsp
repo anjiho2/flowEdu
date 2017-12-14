@@ -35,6 +35,9 @@
     </header>
 
 <!--
+
+
+
 <div id="wrap">
     <header id="header">
         <div style="margin-left: 22px;">
@@ -45,14 +48,12 @@
             <ul class="main_lnb">
                 <%--<li><a href="#"><span class="fa fa-times menu_close_btn"></span></a></li>--%>
                 <li><a href="javascript:goPage('dashboard', 'dashboard_list')" <%=depth1 == 1 ? "class='on'" : ""%>>메인</a></li>
-
                 <li><a href="javascript:goPage('student', 'save_student')" <%=depth1 == 2 ? "class='on'" : ""%>>학생관리</a>
                     <ul class="sub_lnb">
-                        <li><a href="javascript:goPage('dashboard', 'dashboard_list')"><span class="fa fa-user"></span>학생관리</a></li>
+                        <li><a href="#"><span class="fa fa-user"></span>학생관리</a></li>
                         <li><a href="#"><span class="fa fa-headphones"></span>상담관리</a></li>
                     </ul>
                 </li>
-
                 <li><a href="javascript:goPage('consult', 'early_consult_memo')" <%=depth1 == 3 ? "class='on'" : ""%>>학습관리</a></li>
                 <li><a href="javascript:goPage('academy', 'list_academy')" <%=depth1 == 4 ? "class='on'" : ""%>>행정관리</a></li>
                 <li><a href="javascript:goPage('member', 'list_member')" <%=depth1 == 5 ? "class='on'" : ""%>>경영관리</a></li>
@@ -65,8 +66,11 @@
             </ul>
         </nav>
     </header>
+<<<<<<< HEAD
     -->
 
+=======
+>>>>>>> ed7b099f03c9cc1c6d20b37b57110a78c2686471
 
 <%--<div id="wrap">--%>
     <%--<header id="header">--%>
@@ -90,6 +94,3 @@
 
 
 
-<script>
-    $.sidebarMenu($('.sidebar-menu'))
-</script>
