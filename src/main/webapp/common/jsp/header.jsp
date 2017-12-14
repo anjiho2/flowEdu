@@ -14,9 +14,9 @@
             <ul class="sidebar-menu">
                 <%--<li><a href="#"><span class="fa fa-times menu_close_btn"></span></a></li>--%>
                 <li><a href="javascript:goPage('dashboard', 'dashboard_list')" <%=depth1 == 1 ? "class='on'" : ""%>>메인</a></li>
-                <li><a href="javascript:goPage('student', 'save_student')" <%=depth1 == 2 ? "class='on'" : ""%>>학생관리</a>
+                <li><a href="#">학생관리</a>
                     <ul class="sidebar-submenu">
-                        <li><a href="javascript:goPage('dashboard', 'dashboard_list')" ><span class="fa fa-user"></span>학생관리</a></li>
+                        <li><a href="javascript:goPage('student', 'student_list')" ><span class="fa fa-user"></span>학생관리</a></li>
                         <li><a href="#"><span class="fa fa-headphones"></span>상담관리</a></li>
                     </ul>
                 </li>
@@ -87,7 +87,9 @@
             <%--<a href="javascript:goLogout();"><span class="fa fa-power-off"></span>로그아웃</a>--%>
         <%--</nav>--%>
     <%--</header>--%>
-
+<script>
+    $.sidebarMenu($('.sidebar-menu'))
+</script>
 
 
 

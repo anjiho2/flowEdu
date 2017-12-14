@@ -703,3 +703,7 @@
 </div>
 <%@include file="/common/jsp/footer.jsp" %>
 </body>
+<script>
+    $(".sidebar-menu > li").eq(1).addClass("active");
+    $(".sidebar-menu > li:nth-child(2) > ul > li:nth-child(1) > a").addClass("on");
+</script>
