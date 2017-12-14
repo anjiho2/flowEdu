@@ -4,7 +4,16 @@
     String academyThumbnail = UserSession.academyThumbnail();
 %>
 
-
+<script>
+    $(function(){
+        $('.sub_lnb').hide();
+        $('.main_lnb > li').hover(function(){
+            $(this).children('.sub_lnb').stop().slideDown();
+        },function(){
+            $(this).children('.sub_lnb').stop().slideUp();
+        });
+    });
+</script>
 
 
 <div id="wrap">
