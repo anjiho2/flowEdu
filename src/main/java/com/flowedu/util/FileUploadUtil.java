@@ -110,7 +110,7 @@ public class FileUploadUtil {
                     int filePos = originalFileName.lastIndexOf(".");
                     String fileExtension = originalFileName.substring(filePos+1);
                     //파일 확장자 예외처리
-                    if (!"JPG".equals(fileExtension.toUpperCase()) || !"GIF".equals(fileExtension.toUpperCase())) {
+                    if (!("JPG".equalsIgnoreCase(fileExtension) || "GIF".equalsIgnoreCase(fileExtension))) {
                         map.put("error_code", FlowEduErrorCode.CUSTOM_IMAGE_FILE_EXTENSION_NOT_ALLOW.code());
                         return map;
                     }

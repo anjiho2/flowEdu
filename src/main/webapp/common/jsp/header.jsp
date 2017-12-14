@@ -56,4 +56,9 @@
     <%--</header>--%>
 
 
+
     <!--여기까지-->
+
+<script>
+    $.sidebarMenu($('.sidebar-menu'))
+</script>
