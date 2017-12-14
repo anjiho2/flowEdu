@@ -122,6 +122,3 @@
 </div>
 <%@include file="/common/jsp/footer.jsp" %>
 </body>
-<script>
-    $(".sub_lnb").addClass("menu-open");
-</script>
