@@ -147,7 +147,6 @@
                 <td>
                     <%--<input type="text" id="monthpicker" class="form-control" placeholder="작성일" >--%>
                     <div class="input-group date">
-                        <input type="text" id="startDate" class="form-control date-picker" placeholder="시작일">
                         <input type="text" id="startDate" class="form-control date-picker" style="" placeholder="상담일">
                         <span class="input-group-addon">
                             <span class="fa fa-calendar"></span>
