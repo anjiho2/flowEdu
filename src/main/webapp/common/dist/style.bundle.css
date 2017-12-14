@@ -4131,7 +4131,7 @@ select.form-control-lg:not([size]):not([multiple]) {
 }
 
 .form-group {
-    margin-bottom: 1rem
+    margin-bottom: 1rem;
 }
 
 .form-text {
@@ -4407,6 +4407,16 @@ select.form-control-lg:not([size]):not([multiple]) {
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center
+}
+
+.form-group.row.marginX {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-bottom: 0px;
 }
 
 .form-group.row > label {
@@ -4973,6 +4983,10 @@ div.tb_t1 table .right {
     text-align: right
 }
 
+table th b{
+    color: #ff6200;
+}
+
 .form_st1 {
     margin-bottom: 20px;
     background-color: #fff;
@@ -4981,7 +4995,7 @@ div.tb_t1 table .right {
 }
 
 .bot_btnswrap{
-    margin-top: 30px;
+    margin: 30px 0 50px 0;
 }
 
 .form_st1 .bot_btns {
@@ -5004,6 +5018,12 @@ div.tb_t1 table .right {
 }
 
 .form-group div.inputs > input[type=text] {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto
+}
+
+.form-group div.inputs > input[type=number] {
     -webkit-box-flex: 1;
     -ms-flex: 1 1 auto;
     flex: 1 1 auto
@@ -5871,6 +5891,10 @@ ul.list_t2 button.confirm {
 
 .tb_t1 td input[type=email]{
     width: 30rem;
+}
+
+.info_student th{
+    width: 13%;
 }
 
 /*index 반응형*/
