@@ -559,7 +559,8 @@ function studentmemoTypeSelectbox2(tag_id, val) {
 function schoolTypeSelectbox(tag_id, val) {
     if (val == "elem_list") val = "ELEMENT";
     else if (val == "midd_list") val = "MIDDLE";
-    else val = "HIGH";
+    else if (val == "high_list") val = "HIGH";
+    else val = "";
 
     studentService.getSchoolTypeList(function (list) {
         var html = "<select id='sel_schoolType' class='form-control' onchange='changeSchoolGrade(this.value);'>";

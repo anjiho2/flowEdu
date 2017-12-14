@@ -76,7 +76,17 @@
                 processData: false,
                 contentType: false,
                 success: function(data) {
-                    console.log(data);
+                    var errorCode = data.result.error_code;
+                    if (errorCode == "903") {
+                        alert(comment.file_name_not_allow_korean);
+                        return;
+                    } else if (errorCode == "904") {
+                        alert(comment.file_extension_not_allow);
+                        return;
+                    } else if (errorCode == "905") {
+                        alert(comment.file_size_not_allow_300kb);
+                        return;
+                    }
                     var fileName = data.result.file_name;
                     var fileUrl = data.result.file_url;
                     var mother_phone3   = getInputTextValue("mother_phone3");
@@ -320,6 +330,11 @@
             $("#student_memo").val(memolimit);
         }
     }
+
+    //파일 선택시 파일명 보이게 하기
+    $(document).on('change', '.custom-file-input', function() {
+        $(this).parent().find('.custom-file-control').html($(this).val().replace(/C:\\fakepath\\/i, ''));
+    });
 </script>
 <body onload="init();">
 <div class="container">

@@ -114,7 +114,7 @@ public class StudentDto {
         this.studentPhoneNumber = studentPhoneNumber;
         this.studentEmail = studentEmail;
         this.schoolName = schoolName;
-        this.schoolType = schoolType;
+        this.schoolType = convertToSchoolType(schoolType);
         this.studentGrade = studentGrade;
         this.studentPhotoFile = studentPhotoFile;
         this.studentPhotoUrl = studentPhotoUrl;
@@ -129,15 +129,12 @@ public class StudentDto {
 
     private String convertToSchoolType(String korStr) {
         String engStr = null;
-        boolean isKorean = StringUtil.isKorean(korStr);
-        if (isKorean) {
-            if ("초등학교".equals(korStr)) {
-                engStr = "elem_list";
-            } else if ("중학교".equals(korStr)) {
-                engStr = "midd_list";
-            } else {
-                engStr = "high_list";
-            }
+        if ("ELEMENT".equals(korStr)) {
+            engStr = "elem_list";
+        } else if ("MIDDLE".equals(korStr)) {
+            engStr = "midd_list";
+        } else {
+            engStr = "high_list";
         }
         return engStr;
     }
