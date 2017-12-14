@@ -21,6 +21,7 @@
         studentService.getStudentInfo(student_id, function (selList) {
 
             var file_url = '<%=imgUrl%>' + selList.studentPhotoUrl + "/" + selList.studentPhotoFile;
+
             $("#modify_preView").attr("src", file_url);
             if(file_url != null) gfn_display("preview", true);
 
@@ -65,6 +66,7 @@
         });
         var attachFile = fn_clearFilePath($('#attachFile').val());
         if (attachFile != "") { //학생사진 업로드시
+
             $.ajax({
                 url: "<%=webRoot%>/file/upload.do",
                 method : "post",
@@ -74,9 +76,9 @@
                 processData: false,
                 contentType: false,
                 success: function(data) {
+                    console.log(data);
                     var fileName = data.result.file_name;
                     var fileUrl = data.result.file_url;
-
                     var mother_phone3   = getInputTextValue("mother_phone3");
                     var student_name    = getInputTextValue("student_name");
                     var gender          = get_radio_value("gender_type");
