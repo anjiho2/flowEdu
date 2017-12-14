@@ -4736,6 +4736,18 @@ h3.title_t1 {
     left: 0
 }
 
+/*#header .sub_lnb{*/
+    /*display: none;*/
+/*}*/
+
+#header .sub_lnb li{
+    margin-left: 30px;
+}
+
+#header .sub_lnb a:before{
+    display:none;
+}
+
 .container {
     background-color: #f4f7f9;
     -webkit-box-flex: 1;
