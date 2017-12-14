@@ -4717,16 +4717,16 @@ h3.title_t1 {
     transition: color .3s ease
 }
 
-#header nav a:before {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: -3px;
-    width: 3px;
-    background-color: #03a9f4;
-    transition: left .3s ease
-}
+/*#header nav a:before {*/
+    /*content: "";*/
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*bottom: 0;*/
+    /*left: -3px;*/
+    /*width: 3px;*/
+    /*background-color: #03a9f4;*/
+    /*transition: left .3s ease*/
+/*}*/
 
 #header nav a.on span, #header nav a:hover span {
     color: #03a9f4
