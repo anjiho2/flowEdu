@@ -12,13 +12,14 @@ var comment = {
 		
 		isInsert : "등록하시겠습니까?",
 		isUpdate : "수정하시겠습니까?",
-		isUpdate2 : "변경된 내용을 저장하시겠습니까?",
+		isUpdate2 : "변경된 내용을 저장 하시겠습니까?",
 		isDelete : "삭제하시겠습니까?",
 		isAdd : "추가하시겠습니까?",
 		isExcelDownload : "엑셀표를 다운로드 받으시겠습니까?",
 		isSend : "발송하시겠습니까?",
 		isCancel : "취소하시겠습니까?",
 		isSave : "저장 하시겠습니까?",
+    	isSave2 : "입력된 정보를 저장 하시겠습니까?",
 		isChange : "변경하시겠습니까?",
 
 		select_member : "멤버 종류를 선택하세요.",

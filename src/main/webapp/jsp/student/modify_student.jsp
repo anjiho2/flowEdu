@@ -60,6 +60,13 @@
             var is_email = fn_isemail(student_email);
             if (is_email == true) return false;
         }
+        if(check.input("student_name", comment.input_student_name)   == false) return;
+        if(check.input("startDate", comment.input_member_startDate)   == false) return;
+        //if(check.input("sel_school", comment.input_student_grade)   == false) return;
+        if(check.input("mother_name", comment.input_mother_name)   == false) return;
+        if(check.input("mother_phone1", comment.input_mother_tel1)   == false) return;
+        if(check.input("mother_phone2", comment.input_mother_tel2)   == false) return;
+        if(check.input("mother_phone3", comment.input_mother_tel3)   == false) return;
 
         $.each($('#attachFile')[0].files, function(i, file) {
             data.append('file-' + i, file);
@@ -132,8 +139,7 @@
                     };
                     if (confirm(comment.isUpdate2)) {
                         studentService.modifyStudentInfo(data,function () {
-                            alert(comment.success_update);
-                            isReloadPage(true);
+                            goPage("dashboard","dashboard_list");
                         });
                     }
                 },
@@ -186,8 +192,7 @@
             };
             if (confirm(comment.isUpdate2)) {
                 studentService.modifyStudentInfo(data,function () {
-                    alert(comment.success_update);
-                    isReloadPage(true);
+                    goPage("dashboard","dashboard_list");
                 });
             }
         }
@@ -491,7 +496,7 @@
     </div>
     <div class="bot_btnswrap">
         <button class="btn_pack blue s2" type="button"  onclick="modify_student();">수정</button>
-        <button class="btn_pack blue s2" type="button">목록</button>
+        <button class="btn_pack blue s2" type="button" onclick="goPage('dashboard','dashboard_list')">목록</button>
         <%--<button class="btn_pack blue s2" type="button"  onclick="student_excel_upload_popup();">엑셀 업로드 하기</button>--%>
     </div>
 

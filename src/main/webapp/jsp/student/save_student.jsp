@@ -116,10 +116,9 @@
                         etcName:etc_name,
                         etcPhoneNumber:etc_phonenum,
                     };
-                    if (confirm(comment.isSave)) {
+                    if (confirm(comment.isSave2)) {
                         studentService.saveStudentInfo(data, function () {
-                            alert("학생정보가 등록 되었습니다.");
-                            location.reload();
+                            goPage("dashboard","dashboard_list");
                         });
                     }
                 }
@@ -164,10 +163,9 @@
                 etcName:etc_name,
                 etcPhoneNumber:etc_phonenum,
             };
-            if (confirm(comment.isSave)) {
+            if (confirm(comment.isSave2)) {
                 studentService.saveStudentInfo(data,function () {
-                    alert("학생정보가 등록 되었습니다.");
-                    isReloadPage(true);
+                    goPage("dashboard","dashboard_list");
                 });
              }
         }
@@ -333,7 +331,7 @@
         <h3 class="title_t1">학생정보입력</h3>
         <table class="info_student">
             <tr>
-                <th>학생이름</th>
+                <th>학생이름<b>*</b></th>
                 <td><input type="text" class="form-control" id="student_name" maxlength="8" onkeypress="nonHangulSpecialKey()"></td>
                 <th>성별<b>*</b></th>
                 <td colspan="2">
@@ -371,9 +369,9 @@
                 <td>
                     <div class="form-group row marginX">
                         <div class="inputs">
-                            <input type="number" size="3" id="student_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'student_phone2',3)">&nbsp;-&nbsp;
-                            <input type="number" size="4" id="student_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'student_phone3',4)">&nbsp;-&nbsp;
-                            <input type="number" size="4" id="student_phone3" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'student_tel1',4)">
+                            <input type="number" size="3" id="student_phone1" class="form-control" maxlength="3" max="999" onkeyup="js_tab_order(this,'student_phone2',3)">&nbsp;-&nbsp;
+                            <input type="number" size="4" id="student_phone2" class="form-control" maxlength="4" max="9999" onkeyup="js_tab_order(this,'student_phone3',4)">&nbsp;-&nbsp;
+                            <input type="number" size="4" id="student_phone3" class="form-control" maxlength="4" max="9999" onkeyup="js_tab_order(this,'student_tel1',4)">
                         </div>
                     </div>
                 </td>
@@ -393,7 +391,7 @@
                 <td colspan="4"><input type="email" class="form-control datepicker" id="student_email"></td>
             </tr>
             <tr>
-                <th>학교구분</th>
+                <th>학교구분<b>*</b></th>
                 <td><span id="l_schoolType"></span>
                     <%--<div class="checkbox_t1">--%>
                         <%--<label><input type="radio" name="school_type" class="form-control" value="elem_list"  onclick="school_radio(this.value);" checked><span>초등학교</span></label>--%>
@@ -464,7 +462,7 @@
     </div>
     <div class="bot_btnswrap">
         <button class="btn_pack blue s2" type="button"  onclick="save_student();">저장</button>
-        <button class="btn_pack blue s2" type="button">목록</button>
+        <button class="btn_pack blue s2" type="button" onclick="goPage('dashboard','dashboard_list')">목록</button>
         <%--<button class="btn_pack blue s2" type="button"  onclick="student_excel_upload_popup();">엑셀 업로드 하기</button>--%>
     </div>
 
