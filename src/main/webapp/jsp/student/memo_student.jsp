@@ -27,7 +27,10 @@
         var memoType = getSelectboxValue("sel_memoType2");
         var consultTitle = getInputTextValue("consultTitle");
 
+        if (check.selectbox("sel_memoType2", comment.select_consult_type) == false) return;
+        if (check.input("consultTitle", "상담제목을 입력하세요.") == false) return;
         if (check.input("consultMemo", "상담내용을 입력하세요.") == false) return;
+
 
         studentService.saveStudentMemo(student_id, consultMemo, memoType, consultTitle, function () {
             alert("저장 하시겠습니까?");
