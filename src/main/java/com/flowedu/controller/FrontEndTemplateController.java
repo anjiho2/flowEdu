@@ -27,6 +27,8 @@ public class FrontEndTemplateController {
             mvc.setViewName("/templates/twoPartLayout");
         } else if("introGate".equals(page_gbn)){
             mvc.setViewName("/templates/introGate");
+        } else if("viewDevelop".equals(page_gbn)) {
+            mvc.setViewName("/templates/viewDevelop");
         }
 
 
