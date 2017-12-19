@@ -10,5 +10,6 @@
     <a href="/flowEdu/template.do?page_gbn=layerPopup" <%=depth2 == 5 ? "class=\"on\"" : ""%>>Layer Popup</a>
     <a href="/flowEdu/template.do?page_gbn=twoPartLayout" <%=depth2 == 6 ? "class=\"on\"" : ""%>>Two Part Layout</a>
     <a href="/flowEdu/template.do?page_gbn=introGate" <%=depth2 == 7 ? "class=\"on\"" : ""%>>Intro Gate</a>
+    <a href="/flowEdu/template.do?page_gbn=viewDevelop" <%=depth2 == 7 ? "class=\"on\"" : ""%>>프론트 개발</a>
 </nav>
 
