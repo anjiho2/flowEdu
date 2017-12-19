@@ -4689,7 +4689,8 @@ h3.title_t1 {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
-    flex-direction: column
+    flex-direction: column;
+    overflow: auto; /*추가*/
 }
 
 #header nav a {
@@ -5393,8 +5394,8 @@ select.form-control.big:not([size]):not([multiple]) {
 }
 
 .layer_popup_template .layer-title {
-    position: -webkit-sticky;
-    position: sticky;
+    /*position: -webkit-sticky;*/
+    position: relative; /*원래 sticky*/
     text-align: center;
     padding: 15px;
     box-sizing: border-box;

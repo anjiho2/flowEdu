@@ -373,7 +373,7 @@
                         <div class="form-group row" style="margin: 66px 0 0 10px;">
                             <label class="custom-file">
                                 <input type="file" id="attachFile"  onchange="preViewImage(this, 'modify_preView', 'preview');" class="custom-file-input" required>
-                                <span class="custom-file-control"></span>
+                                <span class="custom-file-control" style="width: 246px;"></span>
                             </label>
                         </div>
                     </div>
