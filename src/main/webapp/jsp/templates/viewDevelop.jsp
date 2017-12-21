@@ -11,7 +11,38 @@
         <%@include file="/common/jsp/depth_menu.jsp" %>
     </div>
     </section>
-       프론트 개발페이지
+    <!--여기까지-->
+    <div style="display: flex">
+    <div class="leftslide">
+        <ul>
+            <li>test</li>
+            <li>test</li>
+            <li>test</li>
+            <li>test</li>
+            <li>test</li>
+            <li>test</li>
+            <li>test</li>
+            <li>test</li>
+            <li>test</li>
+        </ul>
+    </div>
+       <section class="content" style="flex: 1 1 auto;border:solid 1px red;margin-top:0px;">
+           ff
+       </section>
+    </div>
+
+    <!--여기까지-->
     </div>
 <%@include file="/common/jsp/footer.jsp" %>
 </body>
+
+<style>
+    .leftslide{height:100%; flex:0 0 250px; border:solid 1px;}
+</style>
+
+<script>
+    $(function(){
+        $('');
+
+    });
+</script>
