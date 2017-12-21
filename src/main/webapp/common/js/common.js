@@ -1908,7 +1908,12 @@ function js_tab_order(arg, tag_id, len) {
     if (arg.value.length == len) {
         $("#" + tag_id).focus();
         return;
-    }
+    } else if (arg.value.length > len) {
+    	alert("입력할수 있는 수가 초과되었습니다.");
+        var sub_value = arg.value.substring(0, len);
+        arg.value = sub_value;
+    	return;
+	}
 }
 
 //라디오버튼 값가져오기

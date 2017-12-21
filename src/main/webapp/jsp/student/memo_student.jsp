@@ -27,7 +27,10 @@
         var memoType = getSelectboxValue("sel_memoType2");
         var consultTitle = getInputTextValue("consultTitle");
 
+        if (check.selectbox("sel_memoType2", comment.select_consult_type) == false) return;
+        if (check.input("consultTitle", "상담제목을 입력하세요.") == false) return;
         if (check.input("consultMemo", "상담내용을 입력하세요.") == false) return;
+
 
         studentService.saveStudentMemo(student_id, consultMemo, memoType, consultTitle, function () {
             alert("저장 하시겠습니까?");
@@ -51,12 +54,12 @@
             memo_content = "";
         }
         if(val == "new") sPage = "1";
-        dwr.util.removeAllRows("dataList");
         gfn_emptyView("H", "");
         studentService.getStudentMemoListCount( <%=student_id%>, searchdate, memoType, member_name, memo_content, process_status, function(cnt) {
-            paging.count(sPage, cnt, 10, 10, comment.blank_list);
+            paging.count(sPage, cnt, 10, 10, comment.not_consult_log);
             studentService.getStudentMemoList(sPage, 10, <%=student_id%>, searchdate, memoType, member_name, memo_content, process_status, function (selList) {
                 if (selList.length > 0) {
+                    dwr.util.removeAllRows("dataList");
                     for (var i = 0; i < selList.length; i++) {
                         var cmpList = selList[i];
                         if (cmpList == undefined) {

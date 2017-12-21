@@ -87,6 +87,7 @@ var comment = {
 		payment_error : "결제결과 에러가 발생되었습니다.",
 		select_installMent : "할부개월을 선택해주세요.",
 		select_cash_receipt_type : "현금영수증을 선택해주세요.",
+		select_consult_type : "상담유형을 선택해주세요.",
 
 		file_name_not_allow_korean : "파일명이 한글입니다. 영문으로 바꿔주세요.",
 		file_extension_not_allow : "파일확장자는 'JPG, GIF'만 가능합니다.",
@@ -95,6 +96,7 @@ var comment = {
 		not_attend_log : "출결이력이 없습니다.",
 		not_lecture_log : "수강이력이 없습니다",
     	not_consult_log_three : "최근 상담 내역이 없습니다.",
+		not_consult_log : "상담 내역이 없습니다.",
 		search_input_student_name : "학생 이름을 입력 후 검색해주세요.",
 
 		success_update : "수정됬습니다",
