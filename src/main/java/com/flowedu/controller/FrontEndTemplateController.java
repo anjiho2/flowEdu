@@ -29,12 +29,7 @@ public class FrontEndTemplateController {
             mvc.setViewName("/templates/introGate");
         } else if("viewDevelop".equals(page_gbn)) {
             mvc.setViewName("/templates/viewDevelop");
-        }
-
-
-
-
-        else if("layer".equals(page_gbn)){
+        } else if("layer".equals(page_gbn)){
             mvc.setViewName("/templates/layer");
         }
         return mvc;
