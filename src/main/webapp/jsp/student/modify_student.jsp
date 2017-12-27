@@ -63,6 +63,7 @@
         }
         if(check.input("student_name", comment.input_student_name)   == false) return;
         if(check.input("startDate", comment.input_member_startDate)   == false) return;
+        if(check.input("schoolname", comment.input_school_name)   == false) return;
         //if(check.input("sel_school", comment.input_student_grade)   == false) return;
         if(check.input("mother_name", comment.input_mother_name)   == false) return;
         if(check.input("mother_phone1", comment.input_mother_tel1)   == false) return;
@@ -437,7 +438,7 @@
                     <%--<label><input type="radio" name="school_type" class="form-control" value="high_list"  onclick="school_radio(this.value);"><span>고등학교</span></label>--%>
                     <%--</div>--%>
                 </td>
-                <th>학교이름</th>
+                <th>학교이름<b>*</b></th>
                 <td>
                     <input type="text" class="form-control" id="schoolname" onclick="school_search_popup();">
                 </td>

@@ -40,6 +40,7 @@
 
          if(check.input("student_name", comment.input_student_name)   == false) return;
          if(check.input("startDate", comment.input_member_startDate)   == false) return;
+         if(check.input("schoolname", comment.input_school_name)   == false) return;
          //if(check.input("sel_school", comment.input_student_grade)   == false) return;
          if(check.input("mother_name", comment.input_mother_name)   == false) return;
          if(check.input("mother_phone1", comment.input_mother_tel1)   == false) return;
@@ -118,7 +119,7 @@
                     };
                     if (confirm(comment.isSave2)) {
                         studentService.saveStudentInfo(data, function () {
-                            goPage("dashboard","dashboard_list");
+                            goPage("student","student_list");
                         });
                     }
                 }
@@ -391,7 +392,7 @@
                 <td colspan="4"><input type="email" class="form-control datepicker" id="student_email"></td>
             </tr>
             <tr>
-                <th>학교구분<b>*</b></th>
+                <th>학교구분</th>
                 <td><span id="l_schoolType"></span>
                     <%--<div class="checkbox_t1">--%>
                         <%--<label><input type="radio" name="school_type" class="form-control" value="elem_list"  onclick="school_radio(this.value);" checked><span>초등학교</span></label>--%>
@@ -399,7 +400,7 @@
                         <%--<label><input type="radio" name="school_type" class="form-control" value="high_list"  onclick="school_radio(this.value);"><span>고등학교</span></label>--%>
                     <%--</div>--%>
                 </td>
-                <th>학교이름</th>
+                <th>학교이름<b>*</b></th>
                 <td>
                     <input type="text" class="form-control" id="schoolname" onclick="school_search_popup();">
                 </td>
