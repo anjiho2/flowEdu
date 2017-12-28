@@ -41,7 +41,7 @@ public class ExcelReadService {
         ExcelReadOption excelReadOption = new ExcelReadOption();
         //엑셀 파일 담기
         excelReadOption.setFilePath(destFile.getAbsolutePath());
-        excelReadOption.setOutputColumns("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P");
+        excelReadOption.setOutputColumns("A", "B", "C", "E", "F", "G", "H", "I");
         excelReadOption.setStartRow(2);
         List<Map<String, String>> excelContent = ExcelRead.read(excelReadOption);
 
@@ -50,19 +50,12 @@ public class ExcelReadService {
             String studentNames = article.get("A");
             String genders = article.get("B");
             String birthDays = article.get("C");
-            String homeTelNumbers = article.get("D");
-            String studentPhoneNumbers = article.get("E");
-            String studentEmails = article.get("F");
-            String schoolNames = article.get("G");
-            String schoolTypes = article.get("H");
-            Integer studentGrades = Integer.parseInt(article.get("I"));
-            String memos = article.get("J");
-            String motherNames = article.get("K");
-            String motherPhoneNumbers = article.get("L");
-            String fatherNames = article.get("M");
-            String fatherPhoneNumbers = article.get("N");
-            String etcNames = article.get("O");
-            String etcPhoneNumbers = article.get("P");
+            String studentPhoneNumbers = article.get("D");
+            String schoolNames = article.get("E");
+            String schoolTypes = article.get("F");
+            Integer studentGrades = Integer.parseInt(article.get("G"));
+            String motherNames = article.get("H");
+            String motherPhoneNumbers = article.get("I");
 
             if ("".equals(studentNames) || "".equals(genders) || "".equals(birthDays) || "".equals(schoolTypes)
                     || studentGrades == null || studentGrades == 0 || "".equals(motherNames) || "".equals(motherPhoneNumbers)) {
@@ -75,14 +68,13 @@ public class ExcelReadService {
             String studentPaswords = StringUtil.leaveLastStrNum(motherPhoneNumbers, 4);
 
             StudentDto studentDto = new StudentDto(
-                studentNames, studentPaswords, genders, birthDays, homeTelNumbers,
-                studentPhoneNumbers, studentEmails, schoolNames, schoolTypes, studentGrades,
-                "", "", memos, motherNames, motherPhoneNumbers,
-                fatherNames, fatherPhoneNumbers, etcNames, etcPhoneNumbers
+                    studentNames, studentPaswords, genders, birthDays, studentPhoneNumbers,
+                    schoolNames, schoolTypes, studentGrades, motherNames, motherPhoneNumbers
             );
             studentDtoList.add(studentDto);
         }
         studentMapper.saveStudentInfoList(studentDtoList);
+        FileUtil.fileDelete(destFile.toString());
         return "SUCCESS";
     }
 
