@@ -68,8 +68,8 @@ public class ExcelReadService {
             String studentPaswords = StringUtil.leaveLastStrNum(motherPhoneNumbers, 4);
 
             StudentDto studentDto = new StudentDto(
-                    studentNames, studentPaswords, genders, birthDays, studentPhoneNumbers,
-                    schoolNames, schoolTypes, studentGrades, motherNames, motherPhoneNumbers
+                studentNames, studentPaswords, genders, birthDays, studentPhoneNumbers,
+                schoolNames, schoolTypes, studentGrades, motherNames, motherPhoneNumbers
             );
             studentDtoList.add(studentDto);
         }
