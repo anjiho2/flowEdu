@@ -209,11 +209,12 @@
             focusInputText("startDate");
             return false;
         }
-
+        /*
         if(sel_lectureRoom == "" || sel_lectureDay == "" || start_time == "" || end_time == ""){
             alert("상세정보를 입력해 주세요.");
             return;
         }
+        */
         if (confirm(comment.isSave)) {
             lectureManager.regLecture(lecture_info, detail_list, function (bl) {
                 if(bl==true){
