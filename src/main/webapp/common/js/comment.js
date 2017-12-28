@@ -83,6 +83,7 @@ var comment = {
 
     	input_student_grade:"학생의 학년을 선택해주세요.",
 		input_student_name : "학생 이름을 입력하세요.",
+    	input_school_name : "학교이름을 입력하세요.",
 
 		payment_error : "결제결과 에러가 발생되었습니다.",
 		select_installMent : "할부개월을 선택해주세요.",
