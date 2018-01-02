@@ -111,6 +111,7 @@
 		<set>
 			<if test="officeId > -1">office_id = #{officeId},</if>
 			<if test="teamId > -1">team_id = #{teamId},</if>
+			<if test="jobPositionId > -1">job_position_id = #{jobPositionId},</if>
 			<if test="phoneNumber != ''">phone_number= #{phoneNumber},</if>
 			<if test="memberPassword != ''">member_password = #{memberPassword},</if>
 			<if test="memberName != ''">member_name = #{memberName},</if>

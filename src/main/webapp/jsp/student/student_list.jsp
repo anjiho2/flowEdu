@@ -30,7 +30,7 @@
 
         studentService.getSudentListCount(school_type, student_name, function (cnt) {
             paging.count(sPage, cnt, '10', '10', comment.blank_list2);
-
+            dwr.util.removeAllRows("dataList");
             studentService.getSudentList(sPage, '10', school_type, student_name, function (selList) {
                 if (selList.length > 0) {
                     dwr.util.removeAllRows("dataList");

@@ -7,7 +7,7 @@
 <script type="text/javascript">
     var check = new isCheck();
     function init() {
-            memberTypeSelectbox("l_memberType", "", "big");
+        memberTypeSelectbox("sel_memberType", "");
     }
 
     function loginCheck() {
@@ -92,7 +92,10 @@
                 <input type="hidden" id="academy_thumbnail" name="academy_thumbnail" />
                 <input type="hidden" name="page_gbn" id="page_gbn">
                 <div class="form-group input-group">
-                    <span id="l_memberType" ></span>
+                    <%--<span id="l_memberType" ></span>--%>
+                    <select id="sel_memberType" class="form-control big">
+                        <option>▶선택</option>
+                    </select>
                 </div>
                 <div class="form-group input-group">
                     <input class="form-control big" type="text" id="phoneNumber" placeholder="아이디"/>

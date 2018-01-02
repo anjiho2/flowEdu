@@ -28,7 +28,7 @@
             innerValue("student_name", selList.studentName);
             innerValue("startDate", selList.studentBirthday);
             genderRadio("l_gender", selList.studentGender, "");
-            schoolTypeSelectbox("l_schoolType", selList.schoolType);
+            schoolTypeSelectbox("sel_schoolType", selList.schoolType);
             //$('input:radio[name=school_type]:input[value=' + selList.schoolType + ']').attr("checked", true);
             //innerValue("sel_school", selList.studentGrade);
             schoolSelectbox("student_grade", selList.studentGrade, selList.schoolType);
@@ -397,7 +397,7 @@
                 <td colspan="4">
                     <div class="input-group date">
                         <input type="text" id="startDate" class="form-control date-picker">
-                        <span class="input-group-addon">
+                        <span class="input-group-addon" id="datepicker_img">
                         <span class="fa fa-calendar"></span>
                         </span>
                     </div>
@@ -431,7 +431,8 @@
             </tr>
             <tr>
                 <th>학교구분</th>
-                <td><span id="l_schoolType"></span>
+                <%--<td><span id="l_schoolType"></span>--%>
+                    <td><select id="sel_schoolType" class="form-control"></select>
                     <%--<div class="checkbox_t1">--%>
                     <%--<label><input type="radio" name="school_type" class="form-control" value="elem_list"  onclick="school_radio(this.value);" checked><span>초등학교</span></label>--%>
                     <%--<label><input type="radio" name="school_type" class="form-control" value="midd_list"  onclick="school_radio(this.value);"><span>중학교</span></label>--%>

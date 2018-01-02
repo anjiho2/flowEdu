@@ -11,7 +11,7 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type="text/javascript">
 function init() {
-    memberTypeSelectbox("l_memberType", "");//직원타입
+    memberTypeSelectbox("sel_memberType", "");//직원타입
     jobPositionSelectbox("l_jobPosition","");//직책리스트
     academyListSelectbox("sel_academy","");//학원리스트
     flowEduTeamListSelectbox("l_FlowEduTeam","");//소속팀리스트
@@ -93,7 +93,12 @@ function save_member() { // 운영자.선생님정보등록
     <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
         <div class="form-group row">
             <label>직원타입<b>*</b></label>
-            <div><span id="l_memberType"></span></div>
+            <div>
+                <%--<span id="l_memberType"></span>--%>
+                <select id="sel_memberType" class="form-control">
+                    <option>▶선택</option>
+                </select>
+            </div>
         </div>
         <div class="form-group row">
             <label>직원명<b>*</b></label>

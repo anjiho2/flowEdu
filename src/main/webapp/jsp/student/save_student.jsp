@@ -20,12 +20,13 @@
             $("#mother_phone2").attr("disabled", true);
             $("#mother_phone3").attr("disabled", true);
         }
-        schoolTypeSelectbox("l_schoolType", "");
+        schoolTypeSelectbox("sel_schoolType", "");
         schoolSelectbox("student_grade","", "");
     }
 
     function save_student() { //저장
         var check = new isCheck();
+        var school_type = getSelectboxValue("sel_schoolType");
 
          var student_email   = getInputTextValue("student_email");
          if(student_email){
@@ -262,7 +263,6 @@
                     contentType: false,
                     processData: false,
                     success : function (data) {
-                        console.log(data.result.code);
                         if (data.result.code == "EMPTY_FILE") {
                             alert("엑셀파일을 선택 해 주세요.");
                         } else if (data.result.code == "VALUE_EMPTY") {
@@ -275,7 +275,7 @@
                         isReloadPage(true);
                     },
                     error : function (data) {
-                        alert(data)
+                        alert("알수없는 오류가 발생되었습니다.");
                     }
                 });
             }
@@ -312,7 +312,6 @@
             $("#student_memo").val(memolimit);
         }
     }
-
 </script>
 <body onload="init();">
 <div class="container">
@@ -347,7 +346,7 @@
                 <td>
                     <div class="input-group date">
                         <input type="text" id="startDate" class="form-control date-picker">
-                        <span class="input-group-addon">
+                        <span class="input-group-addon" id="datepicker_img">
                         <span class="fa fa-calendar"></span>
                         </span>
                     </div>
@@ -393,7 +392,8 @@
             </tr>
             <tr>
                 <th>학교구분</th>
-                <td><span id="l_schoolType"></span>
+                <%--<td><span id="l_schoolType"></span>--%>
+                    <td><select id="sel_schoolType" class="form-control"></select>
                     <%--<div class="checkbox_t1">--%>
                         <%--<label><input type="radio" name="school_type" class="form-control" value="elem_list"  onclick="school_radio(this.value);" checked><span>초등학교</span></label>--%>
                         <%--<label><input type="radio" name="school_type" class="form-control" value="midd_list"  onclick="school_radio(this.value);"><span>중학교</span></label>--%>

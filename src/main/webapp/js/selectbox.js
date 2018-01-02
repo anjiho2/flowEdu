@@ -1,19 +1,18 @@
-function memberTypeSelectbox(tag_id, val, cls) {
-	memberService.getMemberType(function(list) {
-		var html = "<select id='sel_memberType' class='form-control " + cls + "'>";
-		html += "<option value=''>▶선택</option>";
-		for (var i=0; i<list.length; i++) {
-			if (list[i].memberTypeCode == val) {
-				html += "<option value="+list[i].memberTypeCode+" selected>"+ list[i].memberTypeName +"</option>";
-			} else {
-                html += "<option value="+list[i].memberTypeCode+">"+ list[i].memberTypeName +"</option>";
-			}
-		}
-		html += "</select>";
-		innerHTML(tag_id, html);
+/** 멤버 종류 선택 셀렉트박스 **/
+function memberTypeSelectbox(tag_id, val) {
+    memberService.getMemberType(function(list) {
+        dwr.util.addOptions(tag_id, list, "memberTypeCode", "memberTypeName");
+        dwr.util.setValue(tag_id, val);
     });
 }
 
+function jobPositionSelectbox(tag_id, val) {
+    memberService.getJobPositionList(function(list) {
+        dwr.util.addOptions(tag_id, list, "jobPositionId", "jobPositionName");
+        dwr.util.setValue(tag_id, val);
+    });
+}
+/*
 function jobPositionSelectbox(tag_id, val) { //직책 리스트
     memberService.getJobPositionList(function(list) {
         var html = "<select id='sel_jobPosition' class='form-control'>";
@@ -29,6 +28,7 @@ function jobPositionSelectbox(tag_id, val) { //직책 리스트
         innerHTML(tag_id, html);
     });
 }
+*/
 
 function academyListSelectbox(tag_id, val) { //소속부서(학원)리스트
     academyService.getAcademyList(function(list) {
@@ -555,7 +555,7 @@ function studentmemoTypeSelectbox2(tag_id, val) {
         innerHTML(tag_id, html);
     });
 }
-
+/** 학교 종류 선택 셀렉트박스 **/
 function schoolTypeSelectbox(tag_id, val) {
     if (val == "elem_list") val = "ELEMENT";
     else if (val == "midd_list") val = "MIDDLE";
@@ -563,17 +563,8 @@ function schoolTypeSelectbox(tag_id, val) {
     else val = "";
 
     studentService.getSchoolTypeList(function (list) {
-        var html = "<select id='sel_schoolType' class='form-control' onchange='changeSchoolGrade(this.value);'>";
-        html += "<option value=''>▶학교구분선택</option>";
-        for (var i=0; i<list.length; i++) {
-            if (list[i].schoolTypeCode == val) {
-                html += "<option value="+list[i].schoolTypeCode+" selected>"+ list[i].schoolTypeName +"</option>";
-            } else {
-                html += "<option value="+list[i].schoolTypeCode +">"+ list[i].schoolTypeName  +"</option>";
-            }
-        }
-        html += "</select>";
-        innerHTML(tag_id, html);
+        dwr.util.addOptions(tag_id, list, "id", "name");
+        dwr.util.setValue(tag_id, val);
     });
 }
 
