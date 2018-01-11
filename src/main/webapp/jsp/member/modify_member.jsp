@@ -11,8 +11,8 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script>
     function init() {
-        memberTypeSelectbox("l_memberType", "");
-        jobPositionSelectbox("l_jobPosition","");
+        //memberTypeSelectbox("sel_memberType", "");
+        //jobPositionSelectbox("l_jobPosition","");
         academyListSelectbox("sel_academy","");
         flowEduTeamListSelectbox("l_FlowEduTeam","");
         memberList();
@@ -24,8 +24,8 @@
             if (selList.length > 0) {
                 for (var i=0; i<selList.length; i++) {
                     var cmpList = selList[i];
-                    memberTypeSelectbox("l_memberType", cmpList.memberType);
-                    jobPositionSelectbox("l_jobPosition", cmpList.jobPositionId);
+                    memberTypeSelectbox("sel_memberType", cmpList.memberType);
+                    jobPositionSelectbox("sel_jobPosition", cmpList.jobPositionId);
                     academyListSelectbox("sel_academy", cmpList.officeId);
                     flowEduTeamListSelectbox("l_FlowEduTeam", cmpList.teamId);
                     innerValue("member_name", cmpList.memberName);//직원명
@@ -97,7 +97,12 @@
         <input type="hidden" name="member_id" id="member_id" value="<%=member_id%>">
         <div class="form-group row">
             <label>직원타입<b>*</b></label>
-            <div><span id="l_memberType"></span></div>
+            <div>
+                <%--<span id="l_memberType"></span>--%>
+                <select id="sel_memberType" class="form-control">
+                    <option>▶선택</option>
+                </select>
+            </div>
         </div>
         <div class="form-group row">
             <label>직원명<b>*</b></label>
@@ -127,7 +132,12 @@
         </div>
         <div class="form-group row">
             <label>직책<b>*</b></label>
-            <div><span id="l_jobPosition"></span></div>
+            <div>
+                <select id="sel_jobPosition" class="form-control">
+                    <option value=''>▶선택</option>
+                </select>
+                <%--<span id="l_jobPosition"></span>--%>
+            </div>
         </div>
         <div class="form-group row">
             <label>소속부서(학원)<b>*</b></label>

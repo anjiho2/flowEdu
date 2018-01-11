@@ -83,7 +83,7 @@ function lecture_apply() {
             <div class="form-group row">
                 <div class="input-group date" style="width:200px">
                     <input type="text" id="startDate" class="form-control date-picker" placeholder="시작일">
-                    <span class="input-group-addon">
+                    <span class="input-group-addon" id="datepicker_img">
                     <span class="fa fa-calendar"></span>
                 </span>
                 </div>
@@ -91,7 +91,7 @@ function lecture_apply() {
             <div class="form-group row">
                 <div class="input-group date" style="width:200px">
                     <input type="text" id="endDate" class="form-control date-picker" placeholder="종료일">
-                    <span class="input-group-addon">
+                    <span class="input-group-addon" id="datepicker_img2">
                     <span class="fa fa-calendar"></span>
                 </span>
                 </div>
