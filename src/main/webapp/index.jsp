@@ -7,7 +7,7 @@
 <script type="text/javascript">
     var check = new isCheck();
     function init() {
-            memberTypeSelectbox("l_memberType", "", "big");
+        memberTypeSelectbox("sel_memberType", "");
     }
 
     function loginCheck() {
@@ -92,7 +92,10 @@
                 <input type="hidden" id="academy_thumbnail" name="academy_thumbnail" />
                 <input type="hidden" name="page_gbn" id="page_gbn">
                 <div class="form-group input-group">
-                    <span id="l_memberType" ></span>
+                    <%--<span id="l_memberType" ></span>--%>
+                    <select id="sel_memberType" class="form-control big">
+                        <option>▶선택</option>
+                    </select>
                 </div>
                 <div class="form-group input-group">
                     <input class="form-control big" type="text" id="phoneNumber" placeholder="아이디"/>
@@ -137,6 +140,9 @@
         </div>
     </div>
     <!-- 비밀번호 찾기 레이어 끝 -->
+<%--<iframe width="420" height="315"--%>
+        <%--src="https://www.youtube.com/embed/Gj5DQ8NZheY">--%>
+<%--</iframe>--%>
 <%
     } else {
         System.out.print("========================================");

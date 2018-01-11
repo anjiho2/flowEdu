@@ -82,7 +82,7 @@ public class StudentDto {
                       String fatherName, String fatherPhoneNumber, String etcName, String etcPhoneNumber) throws Exception {
         this.studentName = studentName;
         this.studentPassword = Aes256.encrypt(studentPassword);
-        this.studentGender = studentGender;
+        this.studentGender = convertToGender(studentGender);
         this.studentBirthday = studentBirthday;
         this.homeTelNumber = homeTelNumber;
         this.studentPhoneNumber = studentPhoneNumber;
@@ -108,13 +108,13 @@ public class StudentDto {
         this.studentId = studentId;
         this.studentPassword = Aes256.encrypt(studentPasword);
         this.studentName = studentName;
-        this.studentGender = studentGender;
+        this.studentGender = convertToGender(studentGender);
         this.studentBirthday = studentBirthday;
         this.homeTelNumber = homeTelNumber;
         this.studentPhoneNumber = studentPhoneNumber;
         this.studentEmail = studentEmail;
         this.schoolName = schoolName;
-        this.schoolType = convertToSchoolType(schoolType);
+        this.schoolType = schoolType;
         this.studentGrade = studentGrade;
         this.studentPhotoFile = studentPhotoFile;
         this.studentPhotoUrl = studentPhotoUrl;
@@ -127,16 +127,43 @@ public class StudentDto {
         this.etcPhoneNumber = etcPhoneNumber;
     }
 
+    public StudentDto(String studentName, String studentPassword, String studentGender, String studentBirthday,
+                      String studentPhoneNumber, String schoolName, String schoolType, int studentGrade,
+                      String motherName, String motherPhoneNumber) throws Exception {
+        this.studentName = studentName;
+        this.studentPassword = Aes256.encrypt(studentPassword);
+        this.studentGender = convertToGender(studentGender);
+        this.studentBirthday = studentBirthday;
+        this.studentPhoneNumber = studentPhoneNumber;
+        this.schoolName = schoolName;
+        this.schoolType = convertToSchoolType(schoolType);
+        this.studentGrade = studentGrade;
+        this.motherName = motherName;
+        this.motherPhoneNumber = motherPhoneNumber;
+    }
+
     private String convertToSchoolType(String korStr) {
         String engStr = null;
-        if ("ELEMENT".equals(korStr)) {
+        if ("초등학교".equals(korStr)) {
             engStr = "elem_list";
-        } else if ("MIDDLE".equals(korStr)) {
+        } else if ("중학교".equals(korStr)) {
             engStr = "midd_list";
         } else {
             engStr = "high_list";
         }
         return engStr;
+
+    }
+
+    private String convertToGender(String korStr) {
+        String gender = null;
+        if ("남자".equals(korStr)) {
+            gender = "MALE";
+        } else {
+            gender = "FEMALE";
+        }
+        return gender;
+
     }
 
 }

@@ -56,8 +56,8 @@ public class StudentService extends PagingSupport {
 
         for (int i=0; i<SchoolType.size(); i++) {
             HashMap<String, Object> map = new HashMap<>();
-            map.put("schoolTypeCode", SchoolType.getSchoolTypeCode(i).toString());
-            map.put("schoolTypeName", SchoolType.getSchoolTypeName(i));
+            map.put("id", SchoolType.getSchoolTypeCode(i).toString());
+            map.put("name", SchoolType.getSchoolTypeName(i));
             Arr.add(map);
         }
         return Arr;
