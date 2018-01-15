@@ -72,7 +72,7 @@ public class LogService extends ApiService {
      * @return
      * @throws Exception
      */
-    public List<LecturePaymentLog> getLecturePaymentLog(Long lectureRelId) throws Exception {
+    public List<LecturePaymentLog> getLecturePaymentLog(Long lectureRelId) {
         if (lectureRelId == null) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
@@ -106,7 +106,7 @@ public class LogService extends ApiService {
      * @return
      * @throws Exception
      */
-    public LecturePaymentLog getLecturePaymentLogInfo(Long lecturePaymentLogId) throws Exception {
+    public LecturePaymentLog getLecturePaymentLogInfo(Long lecturePaymentLogId) {
         if (lecturePaymentLogId == null) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
@@ -134,7 +134,7 @@ public class LogService extends ApiService {
      * @return
      * @throws Exception
      */
-    public int cancelPaymentLog(Long lecturePaymentLogId) throws Exception {
+    public int cancelPaymentLog(Long lecturePaymentLogId) {
         if (lecturePaymentLogId == null) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
