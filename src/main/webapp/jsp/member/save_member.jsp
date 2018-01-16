@@ -10,25 +10,13 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type="text/javascript">
-<<<<<<< HEAD
     function init() {
         memberTypeSelectbox("sel_memberType", "");//직원타입
-        jobPositionSelectbox("l_jobPosition","");//직책리스트
+        //jobPositionSelectbox("l_jobPosition","");//직책리스트
+        jobPositionSelectbox("sel_jobPosition", "");
         academyListSelectbox("sel_academy","");//학원리스트
         flowEduTeamListSelectbox("l_FlowEduTeam","");//소속팀리스트
     }
-=======
-function init() {
-    memberTypeSelectbox("sel_memberType", "");//직원타입
-    //jobPositionSelectbox("l_jobPosition","");//직책리스트
-    jobPositionSelectbox("sel_jobPosition", "");
-    academyListSelectbox("sel_academy","");//학원리스트
-    flowEduTeamListSelectbox("l_FlowEduTeam","");//소속팀리스트
-}
-
-function save_member() { // 운영자.선생님정보등록
-    var check = new isCheck();
->>>>>>> 73e35d784d33c6bc808392436613c1d87789d581
 
     function save_member() { // 운영자.선생님정보등록
         var check = new isCheck();
@@ -79,7 +67,6 @@ function save_member() { // 운영자.선생님정보등록
                 return false;
             }else{
                 //저장
-
                 memberService.saveFlowEduMember(sel_academy,l_FlowEduTeam,sel_jobPosition,member_allphone,member_phone3,member_name,
                     startDate,member_address,member_email,startSearchDate,startSearchDate2,sel_memberType,function () {
                         alert(memtype + " 정보가 등록 되었습니다.");
@@ -88,18 +75,6 @@ function save_member() { // 운영자.선생님정보등록
             }
         });
     }
-
-    $(function () { //교육청강사등록일자 숨기기 기능(운영자,관리자일경우)
-        $("#sel_memberType").change(function () {
-            var memtypeval = getSelectboxValue("sel_memberType");
-            if(memtypeval == 'OPERATOR' || memtypeval == 'ADMIN'){
-                $(".startSearch").hide();
-            }else{
-                $(".startSearch").show();
-            }
-        });
-    });
-
 
 </script>
 <style><%--성범죄확인일자/교육청강사등록일자로인한 style예외처리--%>
@@ -150,7 +125,7 @@ function save_member() { // 운영자.선생님정보등록
             <div><input type="text" class="form-control" id="member_address"></div>
         </div>
         <div class="form-group row">
-            <label>이메일<b>*</b></label>
+            <label>이메일</label>
             <div><input type="email" class="form-control datepicker" id="member_email" style="width:422px;"></div>
         </div>
         <div class="form-outer-group">
@@ -178,7 +153,7 @@ function save_member() { // 운영자.선생님정보등록
                 <label>성범죄경력조회 확인일자<b>*</b></label>
                 <div><input type="text" id="startSearchDate" class="form-control date-picker" style="width:200px;"></div>
             </div>
-            <div class="form-group row startSearch">
+            <div class="form-group row">
                 <label>교육청 강사등록일자<b>*</b></label>
                 <div><input type="text" id="startSearchDate2" class="form-control date-picker" style="width:200px;"></div>
             </div>
