@@ -10,74 +10,87 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type="text/javascript">
-function init() {
-    memberTypeSelectbox("sel_memberType", "");//직원타입
-    jobPositionSelectbox("l_jobPosition","");//직책리스트
-    academyListSelectbox("sel_academy","");//학원리스트
-    flowEduTeamListSelectbox("l_FlowEduTeam","");//소속팀리스트
-}
-
-function save_member() { // 운영자.선생님정보등록
-    var check = new isCheck();
-
-    if(check.input("sel_memberType", comment.input_member_type)    == false) return;
-    if(check.input("sel_jobPosition", comment.input_member_posiotion)    == false) return;
-    if(check.input("sel_academyList", comment.input_member_academy)    == false) return;
-    if(check.input("sel_FlowEduTeamList", comment.input_member_team)    == false) return;
-    if(check.input("member_name", comment.input_member_name)       == false) return;
-    if(check.input("member_phone1", comment.input_member_phone1)   == false) return;
-    if(check.input("member_phone2", comment.input_member_phone2)   == false) return;
-    if(check.input("member_phone3", comment.input_member_phone3)   == false) return;
-    if(check.input("startDate", comment.input_member_startDate)    == false) return;
-    if(check.input("member_address", comment.input_member_address) == false) return;
-    if(check.input("member_email", comment.input_member_email)     == false) return;
-    if(check.input("startSearchDate", comment.input_member_startSearchDate)   == false) return;
-
-    var member_name          = getInputTextValue("member_name");//직원명
-    var member_phone1        = getInputTextValue("member_phone1");
-    var member_phone2        = getInputTextValue("member_phone2");
-    var member_phone3        = getInputTextValue("member_phone3");
-    var member_allphone      = member_phone1+member_phone2+member_phone3;//핸드폰번호
-    var startDate            = getInputTextValue("startDate");//생년월일
-    var member_address       = getInputTextValue("member_address");//주소
-    var member_email         = getInputTextValue("member_email");//이메일
-    var startSearchDate      = getInputTextValue("startSearchDate");//성범죄경력조회확인일자
-    var startSearchDate2     = getInputTextValue("startSearchDate2");//교육청강사등록일자
-    var sel_academy          = getSelectboxValue("sel_academyList");
-    var l_FlowEduTeam        = getSelectboxValue("l_FlowEduTeam");
-    var sel_jobPosition      = getSelectboxValue("sel_jobPosition");
-    var sel_memberType       = getSelectboxValue("sel_memberType");
-    var memtype = $("#sel_memberType option:selected").text();
-    var isEmail = fn_isemail(member_email);//이메일 유효성 검사
-    if (isEmail == true) return false;
-
-    var memtypeval = getSelectboxValue("sel_memberType");
-
-    if(memtypeval == "TEACHER" || memtypeval == "TEACHER_MANAGE"){
-        //startSearchDate2 = null;
-        if(check.input("startSearchDate2", comment.input_member_startSearchDate2)  == false) return;
-    }else{
-        startSearchDate2 = null;
+    function init() {
+        memberTypeSelectbox("sel_memberType", "");//직원타입
+        jobPositionSelectbox("l_jobPosition","");//직책리스트
+        academyListSelectbox("sel_academy","");//학원리스트
+        flowEduTeamListSelectbox("l_FlowEduTeam","");//소속팀리스트
     }
 
-    memberService.isMember(member_allphone, function (bl) {
-        if(bl==true){
-            alert("이미 가입된 전화번호가 있습니다.");
-            return false;
+    function save_member() { // 운영자.선생님정보등록
+        var check = new isCheck();
+
+        if(check.input("sel_memberType", comment.input_member_type)    == false) return;
+        if(check.input("sel_jobPosition", comment.input_member_posiotion)    == false) return;
+        if(check.input("sel_academyList", comment.input_member_academy)    == false) return;
+        if(check.input("sel_FlowEduTeamList", comment.input_member_team)    == false) return;
+        if(check.input("member_name", comment.input_member_name)       == false) return;
+        if(check.input("member_phone1", comment.input_member_phone1)   == false) return;
+        if(check.input("member_phone2", comment.input_member_phone2)   == false) return;
+        if(check.input("member_phone3", comment.input_member_phone3)   == false) return;
+        if(check.input("startDate", comment.input_member_startDate)    == false) return;
+        if(check.input("member_address", comment.input_member_address) == false) return;
+        if(check.input("member_email", comment.input_member_email)     == false) return;
+        if(check.input("startSearchDate", comment.input_member_startSearchDate)   == false) return;
+
+        var member_name          = getInputTextValue("member_name");//직원명
+        var member_phone1        = getInputTextValue("member_phone1");
+        var member_phone2        = getInputTextValue("member_phone2");
+        var member_phone3        = getInputTextValue("member_phone3");
+        var member_allphone      = member_phone1+member_phone2+member_phone3;//핸드폰번호
+        var startDate            = getInputTextValue("startDate");//생년월일
+        var member_address       = getInputTextValue("member_address");//주소
+        var member_email         = getInputTextValue("member_email");//이메일
+        var startSearchDate      = getInputTextValue("startSearchDate");//성범죄경력조회확인일자
+        var startSearchDate2     = getInputTextValue("startSearchDate2");//교육청강사등록일자
+        var sel_academy          = getSelectboxValue("sel_academyList");
+        var l_FlowEduTeam        = getSelectboxValue("l_FlowEduTeam");
+        var sel_jobPosition      = getSelectboxValue("sel_jobPosition");
+        var sel_memberType       = getSelectboxValue("sel_memberType");
+        var memtype = $("#sel_memberType option:selected").text();
+        var isEmail = fn_isemail(member_email);//이메일 유효성 검사
+        if (isEmail == true) return false;
+
+        var memtypeval = getSelectboxValue("sel_memberType");
+
+        if(memtypeval == "TEACHER" || memtypeval == "TEACHER_MANAGE"){
+            //startSearchDate2 = null;
+            if(check.input("startSearchDate2", comment.input_member_startSearchDate2)  == false) return;
         }else{
-            //저장
-            memberService.saveFlowEduMember(sel_academy,l_FlowEduTeam,sel_jobPosition,member_allphone,member_phone3,member_name,
-                startDate,member_address,member_email,startSearchDate,startSearchDate2,sel_memberType,function () {
-                    alert(memtype + " 정보가 등록 되었습니다.");
-                    goPage("member","list_member");
-            });
+            startSearchDate2 = null;
         }
+
+        memberService.isMember(member_allphone, function (bl) {
+            if(bl==true){
+                alert("이미 가입된 전화번호가 있습니다.");
+                return false;
+            }else{
+                //저장
+
+                memberService.saveFlowEduMember(sel_academy,l_FlowEduTeam,sel_jobPosition,member_allphone,member_phone3,member_name,
+                    startDate,member_address,member_email,startSearchDate,startSearchDate2,sel_memberType,function () {
+                        alert(memtype + " 정보가 등록 되었습니다.");
+                        goPage("member","list_member");
+                    });
+            }
+        });
+    }
+
+    $(function () { //교육청강사등록일자 숨기기 기능(운영자,관리자일경우)
+        $("#sel_memberType").change(function () {
+            var memtypeval = getSelectboxValue("sel_memberType");
+            if(memtypeval == 'OPERATOR' || memtypeval == 'ADMIN'){
+                $(".startSearch").hide();
+            }else{
+                $(".startSearch").show();
+            }
+        });
     });
-}
+
 
 </script>
 <style><%--성범죄확인일자/교육청강사등록일자로인한 style예외처리--%>
-    .form-group.row>label {-webkit-box-flex: 0;-ms-flex: 0 0 140px;flex: 0 0 187px;}
+.form-group.row>label {-webkit-box-flex: 0;-ms-flex: 0 0 140px;flex: 0 0 187px;}
 </style>
 <body onload="init();">
 <div class="container">
@@ -88,9 +101,9 @@ function save_member() { // 운영자.선생님정보등록
 <section class="content">
     <h3 class="title_t1">운영자/선생님정보입력</h3>
     <form name="frm" method="get" class="form_st1">
-    <input type="hidden" name="member_id" id="member_id">
-    <input type="hidden" name="page_gbn" id="page_gbn">
-    <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
+        <input type="hidden" name="member_id" id="member_id">
+        <input type="hidden" name="page_gbn" id="page_gbn">
+        <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
         <div class="form-group row">
             <label>직원타입<b>*</b></label>
             <div>
@@ -124,7 +137,7 @@ function save_member() { // 운영자.선생님정보등록
             <div><input type="text" class="form-control" id="member_address"></div>
         </div>
         <div class="form-group row">
-            <label>이메일</label>
+            <label>이메일<b>*</b></label>
             <div><input type="email" class="form-control datepicker" id="member_email" style="width:422px;"></div>
         </div>
         <div class="form-outer-group">
@@ -146,7 +159,7 @@ function save_member() { // 운영자.선생님정보등록
                 <label>성범죄경력조회 확인일자<b>*</b></label>
                 <div><input type="text" id="startSearchDate" class="form-control date-picker" style="width:200px;"></div>
             </div>
-            <div class="form-group row">
+            <div class="form-group row startSearch">
                 <label>교육청 강사등록일자<b>*</b></label>
                 <div><input type="text" id="startSearchDate2" class="form-control date-picker" style="width:200px;"></div>
             </div>
@@ -162,41 +175,41 @@ function save_member() { // 운영자.선생님정보등록
 <!--
 <h1>운영자/선생님정보 LIST</h1>
 <div id="memberList">
-    <table class="table_list" border="1">
-        <colgroup>
-           <!-- <col width="2%" />
-            <col width="*" />
-            <col width="*" />
-            <col width="*" />
-            <col width="*" />
-            <col width="*" />
-            <col width="*" />
-            <col width="*" />
-            <col width="*" />
-            <col width="*" />
-            <col width="*" />
-            <col width="*" />
-            <col width="*" />
-        </colgroup>
-        <thead>
-        <tr>
-            <th>직원선택</th>
-            <th>직원명</th>
-            <th>직원핸드폰번호</th>
-            <th>생년월일</th>
-            <th>주소</th>
-            <th>이메일</th>
-            <th>직책</th>
-            <th>소속부서</th>
-            <th>소속팀</th>
-            <th>성범죄경력조회 확인일자</th>
-            <th>교육청 강사등록일자</th>
-            <th>수정</th>
-        </tr>
-        </thead>
-        <tbody id="dataList"></tbody>
-        <tr>
-            <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
-        </tr>
-    </table>-->
+<table class="table_list" border="1">
+<colgroup>
+<!-- <col width="2%" />
+<col width="*" />
+<col width="*" />
+<col width="*" />
+<col width="*" />
+<col width="*" />
+<col width="*" />
+<col width="*" />
+<col width="*" />
+<col width="*" />
+<col width="*" />
+<col width="*" />
+<col width="*" />
+</colgroup>
+<thead>
+<tr>
+<th>직원선택</th>
+<th>직원명</th>
+<th>직원핸드폰번호</th>
+<th>생년월일</th>
+<th>주소</th>
+<th>이메일</th>
+<th>직책</th>
+<th>소속부서</th>
+<th>소속팀</th>
+<th>성범죄경력조회 확인일자</th>
+<th>교육청 강사등록일자</th>
+<th>수정</th>
+</tr>
+</thead>
+<tbody id="dataList"></tbody>
+<tr>
+<td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
+</tr>
+</table>-->
 
