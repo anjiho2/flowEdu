@@ -120,7 +120,7 @@ public class RandomMake {
 		 StringBuffer sb = new StringBuffer();
 		 Random rn = new Random();
 		 for (int i = 0; i < 8; i++) {
-			 sb.append(str[rn.nextInt(36)]);
+			 sb.append(str[rn.nextInt(26)]);
 		 }
 		 return sb.toString();
 	 }
