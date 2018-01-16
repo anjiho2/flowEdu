@@ -1,6 +1,7 @@
 package com.flowedu.dto;
 
 import com.flowedu.util.Aes256;
+import com.flowedu.util.RandomMake;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -54,6 +55,8 @@ public class FlowEduMemberDto implements Serializable {
 
     private String academyThumbnail;
 
+    private String memberAuthKey;
+
     public FlowEduMemberDto() {}
 
     public FlowEduMemberDto(Long officeId, int teamId, int jobPositionId,  String phoneNumber, String memberName, String memberBirthDay,
@@ -72,6 +75,7 @@ public class FlowEduMemberDto implements Serializable {
         this.educationRegDate = educationRegDate;
         this.memberName = memberName;
         this.memberType = memberType;
+        this.memberAuthKey = RandomMake.getMemberAuthKey();
     }
 
     public FlowEduMemberDto(Long flowMemberId,Long officeId, Integer teamId, int jobPositionId, String phoneNumber, String memberName,
@@ -91,6 +95,7 @@ public class FlowEduMemberDto implements Serializable {
         this.educationRegDate = educationRegDate;
         this.memberName = memberName;
         this.memberType = memberType;
+        this.memberAuthKey = RandomMake.getMemberAuthKey();
     }
 
     public FlowEduMemberDto(Long flowMemberId, String memberType, String memberName, Long officeId, String academyThumbnail) {
