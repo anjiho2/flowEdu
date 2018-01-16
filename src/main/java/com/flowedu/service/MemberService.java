@@ -30,6 +30,9 @@ public class MemberService extends PagingSupport {
     @Autowired
     private OfficeMapper officeMapper;
 
+    @Autowired
+    private EmailService emailService;
+
     /**
      * <PRE>
      * 1. Comment : 멤버 타입 리스트 가져오기
@@ -194,24 +197,52 @@ public class MemberService extends PagingSupport {
 
     /**
      * <PRE>
-     * 1. Comment : 비밀번호 찾기 후 임시비밀번호 발급하기
+     * 1. Comment : 비밀번호 찾기 후 임시비밀번호 발급하기(memberId : 핸드폰번호, 키값)
      * 2. 작성자 : 안지호
-     * 3. 작성일 : 2017. 09 .15
+     * 3. 작성일 : 2018. 01 .16
      * </PRE>
-     * @param phoneNumber
+     * @param memberId
      * @param email
      * @return
      * @throws Exception
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public String findFlowEduMemberPassword(String phoneNumber, String email) throws Exception {
-        Long findMemberId = memberMapper.findFlowEduMember(phoneNumber, "", email);
+    public String findFlowEduMemberPassword(String memberId, String email) throws Exception {
+        Long findMemberId = memberMapper.findFlowEduMember(memberId, "", email);
         if (findMemberId != null) {
             String changePassword = RandomMake.getRandomPassword();
             memberMapper.modifyFlowMemberPassword(findMemberId, Aes256.encrypt(changePassword));
             return changePassword;
         }
         return null;
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 회원 아이디 찾기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 01 .16
+     * </PRE>
+     * @param memberName
+     * @param email
+     * @return
+     * @throws Exception
+     */
+    @Transactional(readOnly = true)
+    public boolean findFlowEduMemberId(String memberName, String email) throws Exception {
+        Long memberId = memberMapper.findFlowEudMemberId(memberName, email);
+        if (memberId == 0L || memberId == null) return false;
+        //메일로 보낼 내용 조회
+        FlowEduMemberDto memberDto = memberMapper.getFlowEduMemberCheck(memberId);
+        //이메일 발송
+        EmailSendDto emailSendDto = new EmailSendDto(
+                "플로우 교육 아이디 안내 이메일",
+                memberDto,
+                memberDto.getMemberEmail(),
+                null
+        );
+        emailService.SendEMail(emailSendDto);
+        return true;
     }
 
     /**

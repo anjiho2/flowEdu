@@ -1,8 +1,11 @@
 package com.flowedu.dto;
 
 import com.flowedu.util.Aes256;
+import com.flowedu.util.RandomMake;
 import com.flowedu.util.StringUtil;
 import lombok.Data;
+
+import java.util.Random;
 
 /**
  * Created by jihoan on 2017. 8. 8..
@@ -74,7 +77,7 @@ public class StudentDto {
     //  생성일
     private String createDate;
 
-    public StudentDto() {}
+    private String studentAuthKey;
 
     public StudentDto(String studentName, String studentPassword, String studentGender, String studentBirthday, String homeTelNumber,
                       String studentPhoneNumber, String studentEmail, String schoolName, String schoolType, int studentGrade,
@@ -99,6 +102,7 @@ public class StudentDto {
         this.fatherPhoneNumber = fatherPhoneNumber;
         this.etcName = etcName;
         this.etcPhoneNumber = etcPhoneNumber;
+        this.studentAuthKey = RandomMake.getMemberAuthKey();
     }
 
     public StudentDto(Long studentId, String studentPasword, String studentName, String studentGender, String studentBirthday, String homeTelNumber,
@@ -140,6 +144,7 @@ public class StudentDto {
         this.studentGrade = studentGrade;
         this.motherName = motherName;
         this.motherPhoneNumber = motherPhoneNumber;
+        this.studentAuthKey = RandomMake.getMemberAuthKey();
     }
 
     private String convertToSchoolType(String korStr) {

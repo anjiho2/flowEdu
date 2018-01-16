@@ -5,22 +5,17 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/loginService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
 <script type="text/javascript">
-    var check = new isCheck();
-    function init() {
-        memberTypeSelectbox("sel_memberType", "");
-    }
-
     function loginCheck() {
-        var phoneNumber = getInputTextValue("phoneNumber");
+        var check = new isCheck();
+
+        var memberId = getInputTextValue("memberId");
         var pass = getInputTextValue("memberPass");
-        var memberType = getSelectboxValue("sel_memberType");
         var connectIp = ip();
 
-        if (check.selectbox("sel_memberType", comment.select_member) == false) return;
-        if (check.input("phoneNumber", comment.insert_id) == false) return;
+        if (check.input("memberId", comment.insert_id) == false) return;
         if (check.input("memberPass", comment.insert_password) == false) return;
 
-        loginService.isMember(phoneNumber, pass, memberType, connectIp, function(data) {
+        loginService.isMember(phoneNumber, pass, connectIp, function(data) {
             if (data.phoneNumber != null ) {
                 loginOk(data);
             } else {
@@ -50,22 +45,26 @@
         initPopup($("#test_layer"));
     }
 
-    function find_password() {
+    function find_member(find_type) {
         var check = new isCheck();
-        var phoneNumber = getInputTextValue("student_phone1") + getInputTextValue("student_phone2") + getInputTextValue("student_phone3");
-        var emial = getInputTextValue("member_email");
-        if ( check.input("student_phone1", "전화번호롤 입력하세요.") == false
-            || check.input("student_phone2", "전화번호롤 입력하세요.") == false
-            || check.input("student_phone3", "전화번호롤 입력하세요.") == false) return;
-        fn_isemail(emial);
 
-        memberService.findFlowEduMemberPassword(phoneNumber, emial, function (temporaryPassword) {
-            if (temporaryPassword != null) {
-                alert("임시비밀번호가 발급되었습니다.\n로그인후 변경해주세요.");
-                innerHTML("l_temporaryPassword", temporaryPassword);
-                gfn_display("temporaryPassword_div", true);
-            }
-        });
+        if (find_type == "ID") {
+
+        } else if (find_type == "PASS") {
+            var emial = getInputTextValue("member_email");
+            if ( check.input("student_phone1", "전화번호롤 입력하세요.") == false
+                || check.input("student_phone2", "전화번호롤 입력하세요.") == false
+                || check.input("student_phone3", "전화번호롤 입력하세요.") == false) return;
+            fn_isemail(emial);
+
+            memberService.findFlowEduMemberPassword(phoneNumber, emial, function (temporaryPassword) {
+                if (temporaryPassword != null) {
+                    alert("임시비밀번호가 발급되었습니다.\n로그인후 변경해주세요.");
+                    innerHTML("l_temporaryPassword", temporaryPassword);
+                    gfn_display("temporaryPassword_div", true);
+                }
+            });
+        }
     }
 
 
@@ -98,7 +97,7 @@
                     </select>
                 </div>
                 <div class="form-group input-group">
-                    <input class="form-control big" type="text" id="phoneNumber" placeholder="아이디"/>
+                    <input class="form-control big" type="text" id="memberId" placeholder="아이디"/>
                 </div>
                 <div class="form-group input-group">
                     <input class="form-control big" type="password"  id="memberPass" name="memberPass" onkeypress="javascript:if(event.keyCode == 13){loginCheck(); return false;}" placeholder="비밀번호"/>
@@ -135,7 +134,7 @@
             </form>
             <div class="bot_btns_t1">
                 <button class="btn_pack btn-close">취소</button>
-                <button class="btn_pack blue" type="button" onclick="find_password();">찾기</button>
+                <button class="btn_pack blue" type="button" onclick="find_member('PASS');">찾기</button>
             </div>
         </div>
     </div>

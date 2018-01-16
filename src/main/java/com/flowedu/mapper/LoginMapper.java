@@ -9,6 +9,6 @@ import java.util.List;
  */
 public interface LoginMapper {
 
-    Long findFlowEduMember(@Param("phoneNumber") String phoneNumber, @Param("password") String password, @Param("memberType") String memberType);
+    Long findFlowEduMember(@Param("memberId") String memberId, @Param("password") String password);
 
 }

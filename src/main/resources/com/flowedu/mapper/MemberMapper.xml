@@ -80,11 +80,23 @@
 		SELECT flow_member_id
 		FROM FLOWEDU_MEMBER
 		WHERE 1=1
-		<if test="phoneNumber != ''">
-			AND phone_number = #{phoneNumber}
+		<if test="memberId != ''">
+			AND phone_number = #{memberId} OR member_auth_key = #{memberId}
 		</if>
 		<if test="password != ''">
 			AND member_password = #{password}
+		</if>
+		<if test="email != ''">
+			AND member_email = #{email}
+		</if>
+	</select>
+
+	<select id="findFlowEudMemberId" resultType="Long">
+		SELECT flow_member_id
+		FROM FLOWEDU_MEMBER
+		WHERE 1=1
+		<if test="memberName != ''">
+			AND member_name = #{memberName}
 		</if>
 		<if test="email != ''">
 			AND member_email = #{email}

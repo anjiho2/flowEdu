@@ -34,17 +34,16 @@ public class LoginService {
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .07
      * </PRE>
-     * @param phoneNumber
+     * @param memberId
      * @param password
-     * @param memberType
      * @return {유저가 있으면 FlowEduMemberDto, 없으면 null}
      * @throws Exception
      */
     @Transactional(readOnly = true)
-    public FlowEduMemberDto isMember(String phoneNumber, String password, String memberType, String connectIp) throws Exception {
+    public FlowEduMemberDto isMember(String memberId, String password, String connectIp) throws Exception {
         FlowEduMemberDto dto = new FlowEduMemberDto();
         FlowEduMemberDto dto2 = new FlowEduMemberDto();
-        Long flowMemberId = loginMapper.findFlowEduMember(phoneNumber, Aes256.encrypt(password), memberType);
+        Long flowMemberId = loginMapper.findFlowEduMember(memberId, Aes256.encrypt(password));
         if (flowMemberId != null) {
             dto = memberMapper.getFlowEduMemberCheck(flowMemberId);
             String academyThumbnail = academyService.getAcademyThumbnailUrl(dto.getOfficeId());
