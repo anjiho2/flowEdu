@@ -11,8 +11,6 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script>
     function init() {
-        //memberTypeSelectbox("sel_memberType", "");
-        //jobPositionSelectbox("l_jobPosition","");
         academyListSelectbox("sel_academy","");
         flowEduTeamListSelectbox("l_FlowEduTeam","");
         memberList();
@@ -33,7 +31,12 @@
                     innerValue("member_address", cmpList.memberAddress);//주소
                     innerValue("member_email", cmpList.memberEmail);//이메일
                     innerValue("startSearchDate", cmpList.sexualAssultConfirmDate);//성범죄경력조회
-                    innerValue("startSearchDate2", cmpList.educationRegDate);//교육청
+                    if(cmpList.memberType == 'TEACHER' ||cmpList.memberType == 'TEACHER_MANAGE'){
+                        innerValue("startSearchDate2", cmpList.educationRegDate);
+                        $(".hiddenDate2").show();
+                    }else{
+                        $(".hiddenDate2").hide();
+                    }
                     fnSetPhoneNo(member_phone1, member_phone2, member_phone3, cmpList.phoneNumber);//핸드폰번호
                 }
             }
@@ -43,16 +46,22 @@
     function modify_member() {// 운영자.선생님정보수정
         var check = new isCheck();
         var member_id        = getInputTextValue("member_id");
+        var sel_memberType = getSelectboxValue("sel_memberType");
+        if(sel_memberType == '▶선택'){
+            alert(comment.input_member_type);
+            return false;
+        }
         if(check.input("member_name", comment.input_member_name)       == false) return;
-        if(check.input("member_phone1", comment.input_member_phone1)   == false) return;
-        if(check.input("member_phone2", comment.input_member_phone2)   == false) return;
-        if(check.input("member_phone3", comment.input_member_phone3)   == false) return;
         if(check.input("startDate", comment.input_member_startDate)    == false) return;
         if(check.input("member_address", comment.input_member_address) == false) return;
         if(check.input("member_email", comment.input_member_email)     == false) return;
         if(check.input("startSearchDate", comment.input_member_startSearchDate)   == false) return;
-        if(check.input("startSearchDate2", comment.input_member_startSearchDate2) == false) return;
 
+        var member_email   = getInputTextValue("member_email");
+        if(member_email){ //이메일 유효성 체크
+            var is_email = fn_isemail(member_email);
+            if (is_email == true) return false;
+        }
         var member_name          = getInputTextValue("member_name");
         var member_phone1        = getInputTextValue("member_phone1");
         var member_phone2        = getInputTextValue("member_phone2");
@@ -63,22 +72,36 @@
         var member_email         = getInputTextValue("member_email");
         var startSearchDate      = getInputTextValue("startSearchDate");
         var startSearchDate2     = getInputTextValue("startSearchDate2");
-
         var sel_memberType       = getSelectboxValue("sel_memberType");
         var sel_academy          = getSelectboxValue("sel_academyList");
         var sel_FlowEduTeamList  = getSelectboxValue("sel_FlowEduTeamList");
         var sel_jobPosition      = getSelectboxValue("sel_jobPosition");
-        var sel_memberType       = getSelectboxValue("sel_memberType");
         var memtype = $("#sel_memberType option:selected").text();
-        var isEmail = fn_isemail(member_email); //이메일유효성체크
-        if (isEmail == true) return false;
+        var memtypeval = getSelectboxValue("sel_memberType");
+
+        if(memtypeval == "TEACHER" || memtypeval == "TEACHER_MANAGE"){
+            if(check.input("startSearchDate2", comment.input_member_startSearchDate2)  == false) return;
+        }else{
+            startSearchDate2 = null;
+        }
 
         memberService.modifyFlowEduMember(member_id, sel_academy, sel_FlowEduTeamList, sel_jobPosition, member_allphone, member_phone3,member_name,
             startDate, member_address,member_email, startSearchDate, startSearchDate2, sel_memberType,function () {
                 alert(memtype + " 정보가 수정 되었습니다.");
-                location.reload();
+                goPage("member","list_member");
         });
     }
+
+    $(function () {
+        $('#sel_memberType').change(function () {
+            var memtypeval = getSelectboxValue("sel_memberType");
+            if(memtypeval == 'TEACHER' ||memtypeval == 'TEACHER_MANAGE'){
+                $(".hiddenDate2").show();
+            }else{
+                $(".hiddenDate2").hide();
+            }
+        });
+    });
 </script>
 
 <style><%--성범죄확인일자/교육청강사등록일자로인한 style예외처리--%>
@@ -151,7 +174,7 @@
             <label>성범죄경력조회 확인일자<b>*</b></label>
             <div><input type="text" id="startSearchDate" class="form-control date-picker" style="width:200px;"></div>
         </div>
-        <div class="form-group row">
+        <div class="form-group row hiddenDate2">
             <label>교육청 강사등록일자<b>*</b></label>
             <div><input type="text" id="startSearchDate2" class="form-control date-picker" style="width:200px;"></div>
         </div>

@@ -21,18 +21,25 @@
     function save_member() { // 운영자.선생님정보등록
         var check = new isCheck();
 
-        if(check.input("sel_memberType", comment.input_member_type)    == false) return;
+        var sel_memberType = getSelectboxValue("sel_memberType");
+        if(sel_memberType == '▶선택'){
+            alert(comment.input_member_type);
+            return false;
+        }
+        if(check.input("member_name", comment.input_member_name)       == false) return;
+        if(check.input("startDate", comment.input_member_startDate)    == false) return;
+        if(check.input("member_address", comment.input_member_address) == false) return;
         if(check.input("sel_jobPosition", comment.input_member_posiotion)    == false) return;
         if(check.input("sel_academyList", comment.input_member_academy)    == false) return;
         if(check.input("sel_FlowEduTeamList", comment.input_member_team)    == false) return;
-        if(check.input("member_name", comment.input_member_name)       == false) return;
-        if(check.input("member_phone1", comment.input_member_phone1)   == false) return;
-        if(check.input("member_phone2", comment.input_member_phone2)   == false) return;
-        if(check.input("member_phone3", comment.input_member_phone3)   == false) return;
-        if(check.input("startDate", comment.input_member_startDate)    == false) return;
-        if(check.input("member_address", comment.input_member_address) == false) return;
         if(check.input("member_email", comment.input_member_email)     == false) return;
         if(check.input("startSearchDate", comment.input_member_startSearchDate)   == false) return;
+
+        var member_email   = getInputTextValue("member_email");
+        if(member_email){ //이메일 유효성 체크
+            var is_email = fn_isemail(member_email);
+            if (is_email == true) return false;
+        }
 
         var member_name          = getInputTextValue("member_name");//직원명
         var member_phone1        = getInputTextValue("member_phone1");
@@ -47,15 +54,10 @@
         var sel_academy          = getSelectboxValue("sel_academyList");
         var l_FlowEduTeam        = getSelectboxValue("l_FlowEduTeam");
         var sel_jobPosition      = getSelectboxValue("sel_jobPosition");
-        var sel_memberType       = getSelectboxValue("sel_memberType");
         var memtype = $("#sel_memberType option:selected").text();
-        var isEmail = fn_isemail(member_email);//이메일 유효성 검사
-        if (isEmail == true) return false;
-
         var memtypeval = getSelectboxValue("sel_memberType");
 
         if(memtypeval == "TEACHER" || memtypeval == "TEACHER_MANAGE"){
-            //startSearchDate2 = null;
             if(check.input("startSearchDate2", comment.input_member_startSearchDate2)  == false) return;
         }else{
             startSearchDate2 = null;
@@ -75,6 +77,17 @@
             }
         });
     }
+    
+    $(function () {
+       $('#sel_memberType').change(function () {
+           var memtypeval = getSelectboxValue("sel_memberType");
+           if(memtypeval == 'TEACHER' ||memtypeval == 'TEACHER_MANAGE'){
+               $(".hiddenDate2").show();
+           }else{
+               $(".hiddenDate2").hide();
+           }
+       });
+    });
 
 </script>
 <style><%--성범죄확인일자/교육청강사등록일자로인한 style예외처리--%>
@@ -122,7 +135,7 @@
         </div>
         <div class="form-group row">
             <label>주소<b>*</b></label>
-            <div><input type="text" class="form-control" id="member_address"></div>
+            <div><input type="text" class="form-control" id="member_address" style="width:422px;"></div>
         </div>
         <div class="form-group row">
             <label>이메일</label>
@@ -153,7 +166,7 @@
                 <label>성범죄경력조회 확인일자<b>*</b></label>
                 <div><input type="text" id="startSearchDate" class="form-control date-picker" style="width:200px;"></div>
             </div>
-            <div class="form-group row">
+            <div class="form-group row hiddenDate2">
                 <label>교육청 강사등록일자<b>*</b></label>
                 <div><input type="text" id="startSearchDate2" class="form-control date-picker" style="width:200px;"></div>
             </div>
