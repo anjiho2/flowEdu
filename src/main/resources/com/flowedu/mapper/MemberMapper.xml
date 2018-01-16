@@ -96,13 +96,13 @@
 		(
 			office_id, team_id, job_position_id, phone_number, member_password,
 			member_name, member_birthday, member_address, member_email,
-			sexual_assult_confirm_date, education_reg_date, member_type
+			sexual_assult_confirm_date, education_reg_date, member_type, member_auth_key
 		)
 		VALUES
 		(
 			#{officeId}, #{teamId}, #{jobPositionId}, #{phoneNumber}, #{memberPassword},
 			#{memberName}, #{memberBirthday}, #{memberAddress}, #{memberEmail},
-			#{sexualAssultConfirmDate}, #{educationRegDate}, #{memberType}
+			#{sexualAssultConfirmDate}, #{educationRegDate}, #{memberType}, #{memberAuthKey}
 		)
 	</insert>
 
