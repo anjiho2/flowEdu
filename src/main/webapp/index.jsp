@@ -49,7 +49,7 @@
 
         var memberId = getInputTextValue("memberId");
         var email = getInputTextValue("member_email");
-        fn_isemail(email);
+        if(fn_isemail(email) == true) return;
 
         gfn_display("loadingbar", true);
         memberService.findFlowEduMemberPassword(memberId, email, function (temporaryPassword) {
@@ -58,6 +58,9 @@
                 alert("임시비밀번호가 발급되었습니다.\n로그인후 변경해주세요.");
                 innerHTML("l_temporaryPassword", temporaryPassword);
                 gfn_display("temporaryPassword_div", true);
+            }else{
+                gfn_display("loadingbar", false);
+                alert(comment.black_login_password_check);
             }
         });
     }
@@ -75,6 +78,7 @@
             if (bl == true) {
                 $("#EmailOk").show();
             } else {
+                gfn_display("loadingbar", false);
                 alert(comment.blank_send_email);
             }
             gfn_display("loadingbar", false);

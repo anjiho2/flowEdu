@@ -43,7 +43,7 @@ var comment = {
 		blank_check_all : "체크된 항목이 없습니다. 전체체크 하세요.",
 		blank_check : "체크된 값이 없습니다.",
 		blank_login_check : "아이디 또는 비밀번호를 확인해 주세요.",
-		
+		black_login_password_check : "가입 정보가 일치하지 않습니다. 아이디 또는 이메일 주소를 확인해 주세요. ",
 		success_withdrawral : "회원탈퇴가 정상적으로 처리되었습니다.",
 		success_process : "완료됬습니다.",
 		success_delete : "삭제됬습니다.",
