@@ -98,6 +98,9 @@
 <%
     if (session.getAttribute("member_info") == null) {
 %>
+    <div class="loadingbar" style="display:none;">
+        <img src="img/loading.gif">
+    </div>
     <div class="modal_layout">
         <h2 id="logo-container">플로우교육</h2>
         <div class="cont">

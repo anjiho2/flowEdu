@@ -4680,6 +4680,19 @@ h3.title_t1 {
     margin-bottom: 15px
 }
 
+.loadingbar{
+    position: absolute;
+    z-index: 999;
+    top: 50%;
+    left: 50%;
+    margin: -25px;
+}
+
+.loadingbar img{
+    width: 50px;
+    height: 50px;
+}
+
 #wrap {
     height: 100%
 }
