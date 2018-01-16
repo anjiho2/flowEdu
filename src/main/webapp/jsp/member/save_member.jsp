@@ -10,12 +10,25 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type="text/javascript">
+<<<<<<< HEAD
     function init() {
         memberTypeSelectbox("sel_memberType", "");//직원타입
         jobPositionSelectbox("l_jobPosition","");//직책리스트
         academyListSelectbox("sel_academy","");//학원리스트
         flowEduTeamListSelectbox("l_FlowEduTeam","");//소속팀리스트
     }
+=======
+function init() {
+    memberTypeSelectbox("sel_memberType", "");//직원타입
+    //jobPositionSelectbox("l_jobPosition","");//직책리스트
+    jobPositionSelectbox("sel_jobPosition", "");
+    academyListSelectbox("sel_academy","");//학원리스트
+    flowEduTeamListSelectbox("l_FlowEduTeam","");//소속팀리스트
+}
+
+function save_member() { // 운영자.선생님정보등록
+    var check = new isCheck();
+>>>>>>> 73e35d784d33c6bc808392436613c1d87789d581
 
     function save_member() { // 운영자.선생님정보등록
         var check = new isCheck();
@@ -143,7 +156,13 @@
         <div class="form-outer-group">
             <div class="form-group row">
                 <label>직책<b>*</b></label>
-                <div><span id="l_jobPosition"></span></div>
+                <%--<div><span id="l_jobPosition"></span></div>--%>
+                <div>
+                    <select id="sel_jobPosition" class="form-control">
+                        <option value=''>▶선택</option>
+                    </select>
+                    <%--<span id="l_jobPosition"></span>--%>
+                </div>
             </div>
             <div class="form-group row">
                 <label>소속부서(학원)<b>*</b></label>

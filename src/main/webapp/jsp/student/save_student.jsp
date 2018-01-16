@@ -110,6 +110,7 @@
                         studentGrade:student_grade,
                         schoolType:school_type,
                         schoolName:schoolname,
+
                         studentMemo:student_memo,
                         motherName:mother_name,
                         motherPhoneNumber:mother_phonenum,

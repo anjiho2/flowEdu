@@ -5,30 +5,13 @@ function memberTypeSelectbox(tag_id, val) {
         dwr.util.setValue(tag_id, val);
     });
 }
-
+/** 직책 셀렉트박스 **/
 function jobPositionSelectbox(tag_id, val) {
     memberService.getJobPositionList(function(list) {
         dwr.util.addOptions(tag_id, list, "jobPositionId", "jobPositionName");
         dwr.util.setValue(tag_id, val);
     });
 }
-/*
-function jobPositionSelectbox(tag_id, val) { //직책 리스트
-    memberService.getJobPositionList(function(list) {
-        var html = "<select id='sel_jobPosition' class='form-control'>";
-        html += "<option value=''>▶선택</option>";
-        for (var i=0; i<list.length; i++) {
-            if (list[i].jobPositionId == val) {
-                html += "<option value="+list[i].jobPositionId+" selected>"+ list[i].jobPositionName +"</option>";
-            } else {
-                html += "<option value="+list[i].jobPositionId+">"+ list[i].jobPositionName +"</option>";
-            }
-        }
-        html += "</select>";
-        innerHTML(tag_id, html);
-    });
-}
-*/
 
 function academyListSelectbox(tag_id, val) { //소속부서(학원)리스트
     academyService.getAcademyList(function(list) {
