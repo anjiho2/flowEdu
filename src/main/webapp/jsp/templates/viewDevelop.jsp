@@ -13,7 +13,7 @@
     </section>
     <!--여기부터-->
     <div style="border:solid 1px;width:700px;overflow: hidden;background: #fff;">
-        <h2 style="border-bottom:solid 1px;width:100%;padding:20px 0;">플로우교육</h2>
+        <h2 style="border-bottom:solid 1px;width:100%;padding:20px;">플로우교육</h2>
         <div style="width:400px;margin:50px 150px;">
             <h3>이기훈님,</h3>
             <h4>회원 아이디는 다음과 같습니다.</h4><br>
