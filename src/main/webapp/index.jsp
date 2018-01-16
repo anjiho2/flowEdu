@@ -8,17 +8,15 @@
     var check = new isCheck();
 
     function loginCheck() {
-        var phoneNumber = getInputTextValue("phoneNumber");
+        var memberId = getInputTextValue("loginMemberId");
         var pass = getInputTextValue("memberPass");
-        var memberType = getSelectboxValue("sel_memberType");
         var connectIp = ip();
 
-        if (check.selectbox("sel_memberType", comment.select_member) == false) return;
-        if (check.input("phoneNumber", comment.insert_id) == false) return;
+        if (check.input("loginMemberId", comment.insert_id) == false) return;
         if (check.input("memberPass", comment.insert_password) == false) return;
 
-        loginService.isMember(phoneNumber, pass, memberType, connectIp, function(data) {
-            if (data.phoneNumber != null ) {
+        loginService.isMember(memberId, pass, connectIp, function(data) {
+            if (data.flowMemberId != null ) {
                 loginOk(data);
             } else {
                 alert("아이디또는 비밀번호가 잘못됬습니다.");
@@ -119,7 +117,7 @@
                     </select>
                 </div>-->
                 <div class="form-group input-group">
-                    <input class="form-control big" type="text" id="phoneNumber" placeholder="아이디"/>
+                    <input class="form-control big" type="text" id="loginMemberId" placeholder="아이디"/>
                 </div>
                 <div class="form-group input-group">
                     <input class="form-control big" type="password"  id="memberPass" name="memberPass" onkeypress="javascript:if(event.keyCode == 13){loginCheck(); return false;}" placeholder="비밀번호"/>
