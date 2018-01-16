@@ -55,6 +55,7 @@
             focusInputText("reNewPass");
             return;
         }
+        if (fn_pwdcheck($("#newPass").val())) return;
         if (confirm(comment.isChange)) {
             memberService.modifyFlowMemberPassword(memberPhoneNumber, memberPass, reNewPassword, function (result) {
                 if (result == 0) {

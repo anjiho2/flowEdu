@@ -1121,8 +1121,12 @@ function fn_isemail(str){
 // 비밀번호 정귝식
 function fn_pwdcheck(str){
 	var refExp = /([a-zA-Z0-9].*[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"])|([\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"].*[a-zA-Z0-9])/;
+	if (str.length < 8 || str.length > 16 ) {
+		alert("8~16자리로 입력해주세요.");
+		return true;
+	}
 	if(!str.match(refExp)){
-		alert("패스워드는 영문자,숫자,특수문자 조합으로 8~12자리로 입력해주세요.");
+		alert("패스워드는 영문자,숫자,특수문자 조합으로 8~16자리로 입력해주세요.");
 		return true;
 	}
 }

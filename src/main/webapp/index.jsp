@@ -51,8 +51,10 @@
         var email = getInputTextValue("member_email");
         fn_isemail(email);
 
+        gfn_display("loadingbar", true);
         memberService.findFlowEduMemberPassword(memberId, email, function (temporaryPassword) {
             if (temporaryPassword != null) {
+                gfn_display("loadingbar", false);
                 alert("임시비밀번호가 발급되었습니다.\n로그인후 변경해주세요.");
                 innerHTML("l_temporaryPassword", temporaryPassword);
                 gfn_display("temporaryPassword_div", true);
@@ -68,9 +70,14 @@
         var id_find_name = getInputTextValue("id_find_name");
         var id_find_email = getInputTextValue("id_find_email");
 
+        gfn_display("loadingbar", true);
         memberService.findFlowEduMemberId(id_find_name, id_find_email, function (bl) {
-            if (bl == true) $("#EmailOk").show();
-            else alert(comment.blank_send_email);
+            if (bl == true) {
+                $("#EmailOk").show();
+            } else {
+                alert(comment.blank_send_email);
+            }
+            gfn_display("loadingbar", false);
         });
     }
 
@@ -98,7 +105,7 @@
 <%
     if (session.getAttribute("member_info") == null) {
 %>
-    <div class="loadingbar" style="display:none;">
+    <div id="loadingbar" class="loadingbar" style="display:none;">
         <img src="img/loading.gif">
     </div>
     <div class="modal_layout">

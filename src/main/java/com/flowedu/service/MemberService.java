@@ -230,8 +230,10 @@ public class MemberService extends PagingSupport {
      */
     @Transactional(readOnly = true)
     public boolean findFlowEduMemberId(String memberName, String email) throws Exception {
+        Integer memberCount = memberMapper.findFlowEudMemberByCount(memberName, email);
+        if (memberCount == 0 || memberCount == null) return false;
+
         Long memberId = memberMapper.findFlowEudMemberId(memberName, email);
-        if (memberId == 0L || memberId == null) return false;
         //메일로 보낼 내용 조회
         FlowEduMemberDto memberDto = memberMapper.getFlowEduMemberCheck(memberId);
         //이메일 발송

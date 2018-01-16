@@ -34,6 +34,8 @@ public interface MemberMapper {
 
     Long findFlowEudMemberId(@Param("memberName") String memberName, @Param("email") String email);
 
+    Integer findFlowEudMemberByCount(@Param("memberName") String memberName, @Param("email") String email);
+
     /** INSERT **/
     void saveFlowEduMember(FlowEduMemberDto flowEduMemberDto);
 
