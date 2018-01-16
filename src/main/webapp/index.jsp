@@ -21,7 +21,7 @@
             if (data.phoneNumber != null ) {
                 loginOk(data);
             } else {
-                alert("아이디또는 비밀번호가 잘못됬습니다.");
+                alert(comment.blank_login_check);
                 return;
             }
         });
