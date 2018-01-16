@@ -4608,7 +4608,14 @@ button, input, option, select, textarea {
     font-family: AppleSDGothicNeo-Light, HelveticaNeue-Light, Noto Sans, 맑은\ 고딕, MalgunGothic, sans-serif
 }
 
+div.space_between{
+    display: flex;
+    justify-content: space-between;
+}
+
 button.btn_pack {
+
+
     height: 36px;
     padding: 0 10px;
     color: #fff;
@@ -4625,6 +4632,10 @@ button.btn_pack.s2 {
     font-size: 14px;
     border-radius: 20px;
     font-weight: 400
+}
+
+button.btn_pack.s3{
+    width: 49.5%;
 }
 
 button.btn_pack.orange {
@@ -5096,6 +5107,10 @@ table th b{
     border-width: 0 0 1px
 }
 
+.form-control.login_findbox {
+    width: 300px;
+}
+
 select.form-control.big:not([size]):not([multiple]) {
     height: calc(2.5rem + 4px);
 }
@@ -5379,6 +5394,10 @@ select.form-control.big:not([size]):not([multiple]) {
     overflow: hidden;
     overflow-y: auto;
     border-radius: 8px
+}
+
+.layer_popup_template.loginpopup{
+    width: 500px;
 }
 
 .layer_popup_template, .layer_popup_template > div.has_scroll {
