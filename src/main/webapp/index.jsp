@@ -6,9 +6,6 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
 <script type="text/javascript">
     var check = new isCheck();
-    function init() {
-        memberTypeSelectbox("sel_memberType", "");
-    }
 
     function loginCheck() {
         var phoneNumber = getInputTextValue("phoneNumber");
@@ -45,21 +42,18 @@
             submit();
         }
     }
-    //비밀번호 찾기 팝업
-    function password_search_popup() {
-        initPopup($("#test_layer"));
-    }
 
     function find_password() {
         var check = new isCheck();
-        var phoneNumber = getInputTextValue("student_phone1") + getInputTextValue("student_phone2") + getInputTextValue("student_phone3");
-        var emial = getInputTextValue("member_email");
-        if ( check.input("student_phone1", "전화번호롤 입력하세요.") == false
-            || check.input("student_phone2", "전화번호롤 입력하세요.") == false
-            || check.input("student_phone3", "전화번호롤 입력하세요.") == false) return;
-        fn_isemail(emial);
 
-        memberService.findFlowEduMemberPassword(phoneNumber, emial, function (temporaryPassword) {
+        if(check.input("memberId", comment.insert_id)       == false) return;
+        if(check.input("member_email", comment.input_member_email)       == false) return;
+
+        var memberId = getInputTextValue("memberId");
+        var email = getInputTextValue("member_email");
+        fn_isemail(email);
+
+        memberService.findFlowEduMemberPassword(memberId, email, function (temporaryPassword) {
             if (temporaryPassword != null) {
                 alert("임시비밀번호가 발급되었습니다.\n로그인후 변경해주세요.");
                 innerHTML("l_temporaryPassword", temporaryPassword);
@@ -68,14 +62,41 @@
         });
     }
 
+    function find_id() { //아이디찾기 처리
+        var check = new isCheck();
+        if(check.input("id_find_name", comment.search_input_id_name)   == false) return;
+        if(check.input("id_find_email", comment.input_member_email)    == false) return;
 
+        var id_find_name = getInputTextValue("id_find_name");
+        var id_find_email = getInputTextValue("id_find_email");
+
+        memberService.findFlowEduMemberId(id_find_name, id_find_email, function (bl) {
+            if (bl == true) $("#EmailOk").show();
+            else alert(comment.blank_send_email);
+        });
+    }
+
+    $(function () {
+        $("#Idfind").on('click', function () { //아이디찾기 팝업
+            initPopup($("#IdFindLayer"), {
+                onStart: function (t) {
+                },
+            });
+        });
+        $("#Pwfind").on('click', function () { //비밀번호찾기 팝업
+            initPopup($("#PwFindLayer"), {
+                onStart: function (t) {
+                },
+            });
+        });
+    });
 </script>
 <style>
     body{
         background: #e9eef1; display: flex;justify-content: center; align-items: center;
     }
 </style>
-<body onload="init();">
+<body>
 <%
     if (session.getAttribute("member_info") == null) {
 %>
@@ -91,12 +112,12 @@
                 <input type="hidden" id="member_type" name="member_type" />
                 <input type="hidden" id="academy_thumbnail" name="academy_thumbnail" />
                 <input type="hidden" name="page_gbn" id="page_gbn">
-                <div class="form-group input-group">
+               <!-- <div class="form-group input-group">
                     <%--<span id="l_memberType" ></span>--%>
                     <select id="sel_memberType" class="form-control big">
                         <option>▶선택</option>
                     </select>
-                </div>
+                </div>-->
                 <div class="form-group input-group">
                     <input class="form-control big" type="text" id="phoneNumber" placeholder="아이디"/>
                 </div>
@@ -108,95 +129,95 @@
                 </div>
                 <%--<p>비밀번호를 찾으시려면 <a href="javascript:;"  onclick="password_search_popup();">여기</a>를 클릭해주세요.</p>--%>
                 <div class="space_between" style="margin-top:5px;">
-                    <button type="button" class="btn_pack black s3">아이디 찾기</button>
-                    <button type="button" class="btn_pack black s3">비밀번호 찾기</button>
+                    <button type="button" class="btn_pack black s3" id="Idfind">아이디 찾기</button>
+                    <button type="button" class="btn_pack black s3" id="Pwfind">비밀번호 찾기</button>
                 </div>
             </form>
         </div>
     </div>
     <!-- 비밀번호 찾기 레이어 시작 -->
-    <%--<div class="layer_popup_template apt_request_layer" id="test_layer" style="display: none;">--%>
-        <%--<div class="layer-title">--%>
-            <%--<h3>비밀번호 찾기</h3>--%>
-            <%--<button class="fa fa-close btn-close"></button>--%>
-        <%--</div>--%>
-        <%--<div class="layer-body">--%>
-            <%--<form name="pop_frm" class="form_st1">--%>
-            <%--<div class="cont">--%>
-                <%--<div class="form-group row">--%>
-                    <%--<div class="inputs">--%>
-                        <%--<input type="text" size="2" id="student_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this, pop_frm.student_phone2, 3)" placeholder="핸드폰 번호">&nbsp;-&nbsp;--%>
-                        <%--<input type="text" size="5" id="student_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this, pop_frm.student_phone3, 4)">&nbsp;-&nbsp;--%>
-                        <%--<input type="text" size="5" id="student_phone3" class="form-control" maxlength="4">--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-                <%--<div class="form-group"><div><input type="email" class="form-control" id="member_email" placeholder="이메일"></div></div>--%>
-                <%--<div class="form-group row" id="temporaryPassword_div" style="display: none;">--%>
-                    <%--<label>임시비밀번호</label>--%>
-                    <%--<span id="l_temporaryPassword"></span>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-            <%--</form>--%>
-            <%--<div class="bot_btns_t1">--%>
-                <%--<button class="btn_pack btn-close">취소</button>--%>
-                <%--<button class="btn_pack blue" type="button" onclick="find_password();">찾기</button>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-    <!-- 비밀번호 찾기 레이어 끝 -->
+<%--<div class="layer_popup_template apt_request_layer" id="test_layer" style="display: none;">--%>
+<%--<div class="layer-title">--%>
+<%--<h3>비밀번호 찾기</h3>--%>
+<%--<button class="fa fa-close btn-close"></button>--%>
+<%--</div>--%>
+<%--<div class="layer-body">--%>
+<%--<form name="pop_frm" class="form_st1">--%>
+<%--<div class="cont">--%>
+<%--<div class="form-group row">--%>
+<%--<div class="inputs">--%>
+<%--<input type="text" size="2" id="student_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this, pop_frm.student_phone2, 3)" placeholder="핸드폰 번호">&nbsp;-&nbsp;--%>
+<%--<input type="text" size="5" id="student_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this, pop_frm.student_phone3, 4)">&nbsp;-&nbsp;--%>
+<%--<input type="text" size="5" id="student_phone3" class="form-control" maxlength="4">--%>
+<%--</div>--%>
+<%--</div>--%>
+<%--<div class="form-group"><div><input type="email" class="form-control" id="member_email" placeholder="이메일"></div></div>--%>
+<%--<div class="form-group row" id="temporaryPassword_div" style="display: none;">--%>
+<%--<label>임시비밀번호</label>--%>
+<%--<span id="l_temporaryPassword"></span>--%>
+<%--</div>--%>
+<%--</div>--%>
+<%--</form>--%>
+<%--<div class="bot_btns_t1">--%>
+<%--<button class="btn_pack btn-close">취소</button>--%>
+<%--<button class="btn_pack blue" type="button" onclick="find_password();">찾기</button>--%>
+<%--</div>--%>
+<%--</div>--%>
+<%--</div>--%>
+<!-- 비밀번호 찾기 레이어 끝 -->
 
-    <!--아이디 찾기 레이어 시작-->
-    <div class="layer_popup_template apt_request_layer loginpopup" id="" style="display: none;">
+<!--아이디 찾기 레이어 시작-->
+    <div class="layer_popup_template apt_request_layer loginpopup" id="IdFindLayer" style="display: none;">
         <div class="layer-title">
             <h3>아이디 찾기</h3>
-            <button id="close_btn" type="button" class="fa fa-close btn-close"></button>
+            <button id="close_btn_id" type="button" class="fa fa-close btn-close"></button>
         </div>
         <div class="layer-body">
             <div class="cont" style="margin:20px 0 15px 20px;">
                 <div class="form-group row">
                     <label>이름</label>
-                    <div><input type="text" id="" class="form-control login_findbox"></div>
+                    <div><input type="text"  class="form-control login_findbox" id="id_find_name"></div>
                 </div>
                 <div class="form-group row">
                     <label>이메일</label>
-                    <div><input type="text" id="" class="form-control login_findbox"></div>
+                    <div><input type="text"  class="form-control login_findbox" id="id_find_email"></div>
                 </div>
-                <div>
+                <div id="EmailOk"  style="display: none;">
                     <p>입력하신 이메일 주소로 아이디를 전송하였습니다.</p>
                 </div>
             </div>
             <div class="bot_btns_t1">
                 <button class="btn_pack btn-close" type="button">취소</button>
-                <button class="btn_pack blue" type="button">찾기</button>
+                <button class="btn_pack blue" type="button" onclick="find_id();">찾기</button>
             </div>
         </div>
     </div>
     <!--아이디 찾기 레이어 끝-->
 
     <!--비밀번호 찾기 레이어 시작-->
-    <div class="layer_popup_template apt_request_layer loginpopup" id="" style="display: none;">
+    <div class="layer_popup_template apt_request_layer loginpopup" id="PwFindLayer" style="display: none;">
         <div class="layer-title">
             <h3>비밀번호 찾기</h3>
-            <button id="close_btn" type="button" class="fa fa-close btn-close"></button>
+            <button id="close_btn_pw" type="button" class="fa fa-close btn-close"></button>
         </div>
         <div class="layer-body">
             <div class="cont" style="margin:20px 0 15px 20px;">
                 <div class="form-group row">
                     <label>아이디</label>
-                    <div><input type="text" id="" class="form-control login_findbox"></div>
+                    <div><input type="text" class="form-control login_findbox" id="memberId"></div>
                 </div>
                 <div class="form-group row">
                     <label>이메일</label>
-                    <div><input type="text" id="" class="form-control login_findbox"></div>
+                    <div><input type="text" class="form-control login_findbox" id="member_email"></div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group row" id='temporaryPassword_div' style="display: none;">
                     <label>임시 비밀번호</label>
-                    <div><p>abodfgsq</p></div>
+                    <div><p><span id="l_temporaryPassword"></span></p></div>
                 </div>
             </div>
             <div class="bot_btns_t1">
                 <button class="btn_pack btn-close" type="button">취소</button>
-                <button class="btn_pack blue" type="button">찾기</button>
+                <button class="btn_pack blue" type="button" onclick="find_password();">찾기</button>
             </div>
         </div>
     </div>
