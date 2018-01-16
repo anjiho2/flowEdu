@@ -6,10 +6,11 @@
         SELECT flow_member_id
         FROM FLOWEDU_MEMBER
         <where>
-            phone_number = #{phoneNumber}
+            <if test="memberId != ''">
+                phone_number = #{memberId} OR member_email = #{memberId} OR member_auth_key = #{memberId}
+            </if>
         </where>
         AND member_password = #{password}
-        AND member_type = #{memberType}
     </select>
 
 </mapper>

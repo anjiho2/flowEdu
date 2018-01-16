@@ -38,4 +38,7 @@
     <entry key="session.use.yn">${session.use.yn}</entry>
 
     <entry key="academy.thumbnail.url">${academy.thumbnail.url}</entry>
+
+    <entry key="google.email.username">${google.email.username}</entry>
+    <entry key="google.email.password">${google.email.password}</entry>
 </properties>

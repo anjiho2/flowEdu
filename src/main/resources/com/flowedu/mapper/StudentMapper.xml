@@ -137,7 +137,7 @@
 			student_phone_number, student_email, school_name, school_type, student_grade,
 			student_photo_file, student_photo_url, student_memo, mother_name,
 			mother_phone_number, father_name, father_phone_number, parent_password,
-			etc_name, etc_phone_number
+			etc_name, etc_phone_number, student_auth_key
 		)
 		VALUES
 		(
@@ -145,7 +145,7 @@
 			#{studentPhoneNumber}, #{studentEmail}, #{schoolName}, #{schoolType}, #{studentGrade},
 			#{studentPhotoFile}, #{studentPhotoUrl}, #{studentMemo}, #{motherName},
 			#{motherPhoneNumber}, #{fatherName}, #{fatherPhoneNumber}, #{parentPassword},
-			#{etcName}, #{etcPhoneNumber}
+			#{etcName}, #{etcPhoneNumber}, #{studentAuthKey}
 		)
 	</insert>
 
@@ -156,7 +156,7 @@
 		student_phone_number, student_email, school_name, school_type, student_grade,
 		student_photo_file, student_photo_url, student_memo, mother_name,
 		mother_phone_number, father_name, father_phone_number, parent_password,
-		etc_name, etc_phone_number
+		etc_name, etc_phone_number, student_auth_key
 		)
 		VALUES
 		<foreach collection="studentList" item="value" separator=",">
@@ -165,7 +165,7 @@
 			#{value.studentPhoneNumber}, #{value.studentEmail}, #{value.schoolName}, #{value.schoolType}, #{value.studentGrade},
 			#{value.studentPhotoFile}, #{value.studentPhotoUrl}, #{value.studentMemo}, #{value.motherName},
 			#{value.motherPhoneNumber}, #{value.fatherName}, #{value.fatherPhoneNumber}, #{value.parentPassword},
-			#{value.etcName}, #{value.etcPhoneNumber}
+			#{value.etcName}, #{value.etcPhoneNumber}, #{value.studentAuthKey}
 			)
 		</foreach>
 	</insert>
