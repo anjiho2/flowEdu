@@ -30,7 +30,9 @@ public interface MemberMapper {
 
     List<MemberIdName> getMemberIdNameByMemberIds(@Param("memberIds") List<Long> memberIds);
 
-    Long findFlowEduMember(@Param("phoneNumber") String phoneNumber, @Param("password") String password, @Param("email") String email);
+    Long findFlowEduMember(@Param("memberId") String memberId, @Param("password") String password, @Param("email") String email);
+
+    Long findFlowEudMemberId(@Param("memberName") String memberName, @Param("email") String email);
 
     /** INSERT **/
     void saveFlowEduMember(FlowEduMemberDto flowEduMemberDto);

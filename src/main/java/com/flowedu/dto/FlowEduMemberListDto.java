@@ -58,4 +58,6 @@ public class FlowEduMemberListDto {
 
     //직책 명
     private String jobPositionName;
+
+    private String memberAuthKey;
 }
