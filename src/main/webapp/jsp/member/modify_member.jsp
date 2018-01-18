@@ -47,7 +47,7 @@
         var check = new isCheck();
         var member_id        = getInputTextValue("member_id");
         var sel_memberType = getSelectboxValue("sel_memberType");
-        if(sel_memberType == '▶선택'){
+        if(sel_memberType == ''){
             alert(comment.input_member_type);
             return false;
         }
@@ -123,7 +123,7 @@
             <div>
                 <%--<span id="l_memberType"></span>--%>
                 <select id="sel_memberType" class="form-control">
-                    <option>▶선택</option>
+                    <option value="">▶선택</option>
                 </select>
             </div>
         </div>
