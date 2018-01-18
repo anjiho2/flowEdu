@@ -49,6 +49,7 @@
 
         var memberId = getInputTextValue("memberId");
         var email = getInputTextValue("member_email");
+
         if(fn_isemail(email) == true) return;
 
         gfn_display("loadingbar", true);
