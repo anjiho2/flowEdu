@@ -88,16 +88,10 @@
 
     $(function () {
         $("#Idfind").on('click', function () { //아이디찾기 팝업
-            initPopup($("#IdFindLayer"), {
-                onStart: function (t) {
-                },
-            });
+            initPopup($("#IdFindLayer"));
         });
         $("#Pwfind").on('click', function () { //비밀번호찾기 팝업
-            initPopup($("#PwFindLayer"), {
-                onStart: function (t) {
-                },
-            });
+            initPopup($("#PwFindLayer"));
         });
     });
 </script>
