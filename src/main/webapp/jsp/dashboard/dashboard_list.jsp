@@ -69,7 +69,6 @@
         <%--<h3 class="title_t1">학생 검색</h3>--%>
         <form name="frm" method="get">
             <input type="hidden" name="page_gbn" id="page_gbn">
-            <input type="hidden" id="student_id" name="student_id">
             <input type="hidden"  id="sPage" value="<%=sPage%>">
         </form>
             <%--<div class="form-group row">--%>

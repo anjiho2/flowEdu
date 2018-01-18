@@ -64,7 +64,7 @@ public class LoginService {
             dto2.setMemberType(dto.getMemberType());
             dto2.setAcademyThumbnail(academyThumbnail);
 
-            logService.memberLoginLog(dto, connectIp);
+            //logService.memberLoginLog(dto, connectIp);
             return dto2;
         }
         return dto2;

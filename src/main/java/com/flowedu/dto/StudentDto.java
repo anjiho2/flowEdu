@@ -79,6 +79,8 @@ public class StudentDto {
 
     private String studentAuthKey;
 
+    public StudentDto() {}
+
     public StudentDto(String studentName, String studentPassword, String studentGender, String studentBirthday, String homeTelNumber,
                       String studentPhoneNumber, String studentEmail, String schoolName, String schoolType, int studentGrade,
                       String studentPhotoFile, String studentPhotoUrl, String studentMemo, String motherName, String motherPhoneNumber,
