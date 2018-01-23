@@ -16,7 +16,7 @@
 		<convert converter="bean" match="com.flowedu.service.PaymentService"/>
 		<convert converter="bean" match="com.flowedu.service.ConsultService"/>
 		<convert converter="bean" match="com.flowedu.api.service.LogService"/>
-
+		<convert converter="bean" match="com.flowedu.api.service.SendService"/>
 
 		<create creator="spring" javascript="loginService">
 			<param name="class" value="com.flowedu.service.LoginService"/>
@@ -68,6 +68,11 @@
 			<param name="beanName" value="logService" />
 		</create>
 
+		<create creator="spring" javascript="sendService">
+			<param name="class" value="com.flowedu.api.service.SendService"/>
+			<param name="beanName" value="sendService" />
+		</create>
+
 
 		<!-- ========================= MANAGER ======================== -->
 
@@ -95,8 +100,9 @@
 		<!-- define -->
 		<convert converter="bean" match="com.flowedu.domain.KisPosOcx"/>
 		<convert converter="bean" match="com.flowedu.domain.LecturePaymentLog"/>
+		<convert converter="bean" match="com.flowedu.domain.RequestApi"/>
 
-
+		RequestApi
 	</allow>
 
 </dwr>

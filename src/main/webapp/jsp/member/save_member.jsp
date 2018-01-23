@@ -63,8 +63,11 @@
             startSearchDate2 = null;
         }
 
+        gfn_display("loadingbar", true);
+
         memberService.isMember(member_allphone, function (bl) {
             if(bl==true){
+                gfn_display("loadingbar", false);
                 alert("이미 가입된 전화번호가 있습니다.");
                 return false;
             }else{
@@ -72,6 +75,7 @@
                 memberService.saveFlowEduMember(sel_academy,l_FlowEduTeam,sel_jobPosition,member_allphone,member_phone3,member_name,
                     startDate,member_address,member_email,startSearchDate,startSearchDate2,sel_memberType,function () {
                         alert(memtype + " 정보가 등록 되었습니다.");
+                        gfn_display("loadingbar", false);
                         goPage("member","list_member");
                     });
             }
@@ -94,6 +98,9 @@
 .form-group.row>label {-webkit-box-flex: 0;-ms-flex: 0 0 140px;flex: 0 0 187px;}
 </style>
 <body onload="init();">
+<div id="loadingbar" class="loadingbar" style="display:none;">
+    <img src="img/loading.gif">
+</div>
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
     <%@include file="/common/jsp/member_top_menu.jsp" %>

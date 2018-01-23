@@ -43,9 +43,13 @@ public class LoginService {
     public FlowEduMemberDto isMember(String memberId, String password, String connectIp) throws Exception {
         FlowEduMemberDto dto = new FlowEduMemberDto();
         FlowEduMemberDto dto2 = new FlowEduMemberDto();
-        Long flowMemberId = loginMapper.findFlowEduMember(memberId, Aes256.encrypt(password));
-        if (flowMemberId != null) {
-            dto = memberMapper.getFlowEduMemberCheck(flowMemberId);
+        //로그인 아이디가 3개로 되면서 처리 (2018.01.18 안지호)
+        FlowEduMemberDto resultMemberInfo = loginMapper.findFlowEduMemberByMemberId(memberId);
+        if (resultMemberInfo == null || !resultMemberInfo.getMemberPassword().equals(Aes256.encrypt(password))) {
+            return dto2;
+        }
+        if (resultMemberInfo.getFlowMemberId() != null) {
+            dto = memberMapper.getFlowEduMemberCheck(resultMemberInfo.getFlowMemberId());
             String academyThumbnail = academyService.getAcademyThumbnailUrl(dto.getOfficeId());
             UserSession.set(
             new FlowEduMemberDto(

@@ -433,7 +433,7 @@ function schoolSelectbox(tag_id, val, school_grade) {
     var html = "<select id='sel_school' class='form-control'>";
     html += "<option value=''>▶선택</option>";
     //초등(6)
-	if(school_grade == "ELEMENT" || school_grade == ""){
+	if(school_grade == "elem_list" || school_grade == ""){
 		count = 6;
 	}else{	//중,고등(3)
 		count = 3;

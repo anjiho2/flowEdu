@@ -2,15 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.flowedu.mapper.LoginMapper">
 
-    <select id="findFlowEduMember" resultType="Long">
-        SELECT flow_member_id
+    <select id="findFlowEduMemberByMemberId" resultType="com.flowedu.dto.FlowEduMemberDto">
+        SELECT *
         FROM FLOWEDU_MEMBER
         <where>
             <if test="memberId != ''">
                 phone_number = #{memberId} OR member_email = #{memberId} OR member_auth_key = #{memberId}
             </if>
         </where>
-        AND member_password = #{password}
     </select>
 
 </mapper>
