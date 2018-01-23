@@ -41,12 +41,13 @@
         if(office_id == undefined || chargeMemberId == undefined || schoolType == undefined || lectureGrade == undefined ){
             office_id = 0;
             chargeMemberId = 0;
-            schoolType = "";
+            schoolType = "elem_list";
             lectureGrade = 0;
         }
         if(val == "new")  sPage = "1";
         dwr.util.removeAllRows("dataList");
         gfn_emptyView("H", "");//페이징 예외사항처리
+
         lectureService.getLectureInfoCount(office_id, chargeMemberId, schoolType, lectureGrade, function(cnt) {
             paging.count(sPage, cnt, '10', '5', comment.blank_list);
 
