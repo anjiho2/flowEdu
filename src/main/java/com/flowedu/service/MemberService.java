@@ -1,5 +1,6 @@
 package com.flowedu.service;
 
+import com.flowedu.api.dto.EmailSendReservationDto;
 import com.flowedu.api.service.SendService;
 import com.flowedu.config.PagingSupport;
 import com.flowedu.define.datasource.MemberType;
@@ -242,18 +243,13 @@ public class MemberService extends PagingSupport {
         Long memberId = memberMapper.findFlowEudMemberId(memberName, email);
         //메일로 보낼 내용 조회
         FlowEduMemberDto memberDto = memberMapper.getFlowEduMemberCheck(memberId);
-        //이메일 발송
-        /*
-        EmailSendDto emailSendDto = new EmailSendDto(
-                "플로우 교육 아이디 안내 이메일",
-                memberDto,
+        //이메일 발송 예약
+        sendService.reserveEmail(
                 memberDto.getMemberEmail(),
-                null
+                memberDto.getMemberName(),
+                memberDto.getPhoneNumber(),
+                memberDto.getMemberAuthKey()
         );
-        emailService.SendEMail(emailSendDto);
-        */
-        List<String>memberEmails = new ArrayList<String>(Arrays.asList(memberDto.getMemberEmail()));
-        sendService.reserveEmail(memberEmails);
         return true;
     }
 
@@ -288,18 +284,15 @@ public class MemberService extends PagingSupport {
                 memberPassword, memeberEmail, sexualAssultConfirmDate, educationRegDate, memberType
         );
         memberMapper.saveFlowEduMember(dto);
-//
-//        //메일로 보낼 내용 조회
-//        FlowEduMemberDto memberDto = memberMapper.getFlowEduMemberCheck(dto.getFlowMemberId());
-//        //이메일 발송
-//        EmailSendDto emailSendDto = new EmailSendDto(
-//                "플로우 교육 아이디 안내 이메일",
-//                memberDto,
-//                memberDto.getMemberEmail(),
-//                null
-//        );
-//        emailService.SendEMail(emailSendDto);
-//
+        if (dto.getFlowMemberId()  != null) {
+            //이메일 발송 예약
+            sendService.reserveEmail(
+                    dto.getMemberEmail(),
+                    dto.getMemberName(),
+                    dto.getPhoneNumber(),
+                    dto.getMemberAuthKey()
+            );
+        }
     }
 
     /**

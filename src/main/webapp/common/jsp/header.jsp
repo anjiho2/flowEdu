@@ -20,7 +20,13 @@
                         <li><a href="#"><span class="fa fa-headphones"></span>상담관리</a></li>
                     </ul>
                 </li>
-                <li><a href="javascript:goPage('consult', 'early_consult_memo')" <%=depth1 == 3 ? "class='on'" : ""%>>학습관리</a></li>
+                <li><a href="#">학습관리</a>
+                    <ul class="sidebar-submenu">
+                        <li><a href="javascript:goPage('lecture', 'lecture_attend_list')" ><span class="fa fa-user"></span>출결관리</a></li>
+                        <li><a href="#"><span class="fa fa-headphones"></span>과제관리</a></li>
+                    </ul>
+                </li>
+                <%--<li><a href="javascript:goPage('consult', 'early_consult_memo')" <%=depth1 == 3 ? "class='on'" : ""%>>학습관리</a></li>--%>
                 <li><a href="javascript:goPage('academy', 'list_academy')" <%=depth1 == 4 ? "class='on'" : ""%>>행정관리</a></li>
                 <li><a href="javascript:goPage('member', 'list_member')" <%=depth1 == 5 ? "class='on'" : ""%>>경영관리</a></li>
                 <li><a href="javascript:goPage('lecture', 'lecture_list')" <%=depth1 == 6 ? "class='on'" : ""%>>운영세팅관리</a></li>

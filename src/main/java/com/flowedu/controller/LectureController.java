@@ -35,6 +35,8 @@ public class LectureController {
             mvc.setViewName("/lecture/lecture_apply");
         }else if("lecture_attend".equals(page_gbn)) {
             mvc.setViewName("/lecture/lecture_attend");
+        }else if("lecture_attend_list".equals(page_gbn)) {
+            mvc.setViewName("/lecture/lecture_attend_list");
         }
 
         return mvc;
