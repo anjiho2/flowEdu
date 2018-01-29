@@ -551,3 +551,11 @@ function schoolTypeSelectbox(tag_id, val) {
     });
 }
 
+/** 선생님 반 셀렉트박스 **/
+function myClassSelectbox(tag_id, val) {
+    lectureService.getLectureInfoMyClass(function(list) {
+        dwr.util.addOptions(tag_id, list, "lectureId", "lectureName");
+        dwr.util.setValue(tag_id, val);
+    });
+}
+

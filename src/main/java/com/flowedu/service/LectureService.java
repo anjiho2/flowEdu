@@ -702,6 +702,14 @@ public class LectureService extends PagingSupport {
     public void modifyLectureDetailInfoList(List<LectureDetailDto> lectureDetailDtoList) {
         if (lectureDetailDtoList.size() == 0) return;
         List<LectureDetailDto> Arr = lectureMapper.getLectureDetailInfoList(lectureDetailDtoList.get(0).getLectureId());
+        for (LectureDetailDto dto : lectureDetailDtoList) {
+            if (dto.getLectureDetailId() == null) {
+                lectureMapper.saveLectureDetail(dto);
+            } else {
+                lectureMapper.modifyLectureDetailInfo(dto);
+            }
+        }
+        /*
         if (Arr.size() == 0) {
             lectureMapper.saveLectureDetailList(lectureDetailDtoList);
         } else {
@@ -709,6 +717,7 @@ public class LectureService extends PagingSupport {
                 lectureMapper.modifyLectureDetailInfo(dto);
             }
         }
+        */
     }
 
     /**

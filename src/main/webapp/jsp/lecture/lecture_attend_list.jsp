@@ -9,6 +9,9 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
 <script type="text/javascript">
 
+    function init() {
+        myClassSelectbox("sel_myClass");
+    }
 
 </script>
 <body onload="init();">
@@ -24,11 +27,14 @@
         <h3 class="title_t1">출결 관리</h3>
         <div class="form-outer-group">
             <div class="form-group row">
-                <select class="form-control">
-                    <option value="">중급 1반</option>
-                    <option value="">중급 2반</option>
-                    <option value="">중급 3반</option>
+                <select id="sel_myClass" class="form-control">
+                    <option value="">▶강의선택</option>
                 </select>
+                <%--<select class="form-control">--%>
+                    <%--<option value="">중급 1반</option>--%>
+                    <%--<option value="">중급 2반</option>--%>
+                    <%--<option value="">중급 3반</option>--%>
+                <%--</select>--%>
             </div>
             <div class="form-group row">
                 <input type="text" class="form-control" placeholder="학생 이름을 입력하세요.">
@@ -36,6 +42,8 @@
             <div class="form-group row">
                 <div class="input-group date common">
                     <input type="text" id="endDate" class="form-control date-picker" placeholder="2018-01-22">
+                <div class="input-group date" style="width:250px">
+                    <input type="text" id="endDate" class="form-control date-picker" placeholder="검색일">
                     <span class="input-group-addon" id="datepicker_img2">
                     <span class="fa fa-calendar"></span>
                 </span>
