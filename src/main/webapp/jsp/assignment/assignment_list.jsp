@@ -116,29 +116,30 @@
                 <tbody>
                     <tr>
                         <td>3</td>
-                        <td><a href="#" class="font_color blue">중3 선행수업 과제</a></td>
+                        <td><a href="javascript:goPage('lecture', 'assignment_detail')" class="font_color blue">중3 선행수업 과제</a></td>
                         <td>현미경</td>
                         <td>2018-01-15</td>
                         <td>사용</td>
                     </tr>
                     <tr>
                         <td>2</td>
-                        <td><a href="#" class="font_color blue">2017-11-02 수학 보강 과제</a></td>
+                        <td><a href="javascript:goPage('lecture', 'assignment_detail')" class="font_color blue">2017-11-02 수학 보강 과제</a></td>
                         <td>오미자</td>
                         <td>2017-11-02</td>
                         <td>미사용</td>
                     </tr>
                     <tr>
                         <td>1</td>
-                        <td><a href="#" class="font_color blue">중간고사 문제풀이 과제</a></td>
+                        <td><a href="javascript:goPage('lecture', 'assignment_detail')" class="font_color blue">중간고사 문제풀이 과제</a></td>
                         <td>현상금</td>
                         <td>2017-09-25</td>
                         <td>사용</td>
                     </tr>
                 </tbody>
             </table>
-            <button class="btn_pack s2 blue">등록</button>
+            <button class="btn_pack s2 blue" onclick="javascript:goPage('lecture', 'assignment_info')">등록</button>
         </div>
+    </section>
 
 
 
