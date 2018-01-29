@@ -5024,7 +5024,11 @@ table th b{
     color: #ff6200;
 }
 
-div.tb_t1.attend_tb1 table tr td:nth-child(4), td:nth-child(5){
+div.tb_t1.attend_tb1 table tr td:nth-child(4){
+    width: .5rem;
+}
+
+div.tb_t1.attend_tb1 table tr td:nth-child(5){
     width: .5rem;
 }
 
