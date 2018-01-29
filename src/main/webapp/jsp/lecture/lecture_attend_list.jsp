@@ -13,6 +13,50 @@
         myClassSelectbox("sel_myClass");
     }
 
+    function fn_search() {
+        dwr.util.removeAllRows("dataList");
+        var selMyclass = getSelectboxValue('sel_myClass');
+        if(selMyclass == "") alert(comment.input_myclass_type);
+
+        var studentName = getInputTextValue("student_name");
+        var searchDate  = getInputTextValue("endDate");
+
+        lectureService.getLectureAttendListBySearch(selMyclass, studentName, searchDate, function (selList) {
+            if(selList.length > 0){
+                console.log(selList);
+             for(var i = 0; i < selList.length; i++){
+                 var cmpList = selList[i];
+                 var checkHTML = "<input type='checkbox' class='form-control' name='chkList' value="+cmpList.studentId+" checked>";
+                 var class_attend_time =  "<input type='text' class='form-control' id='class_start_"+ cmpList.studentId +"'>"; //등원시간
+                 var class_close_time =  "<input type='text' class='form-control' id='class_close_"+ cmpList.studentId +"'>"; //하원시간
+                 var class_attend_memo =  "<input type='text' class='form-control' id='class_memo_"+ cmpList.studentId+"'>"; //메모
+                 if(cmpList != undefined){
+                        var cellData =[
+                          function (data) {return checkHTML},
+                          function (data) {return i+1},
+                          function (data) {return cmpList.studentName},
+                          function (data) {return class_attend_time},
+                          function (data) {return class_close_time},
+                          function (data) {return class_attend_memo}
+                        ];
+                     dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
+                 }
+             }
+            }
+        });
+    }
+
+    $(function(){ //체크박스
+        $("#checkAll").click(function(){
+            if($("#checkAll").prop("checked")) {
+            $("input[type=checkbox]").prop("checked",true);}
+            else {
+                $("input[type=checkbox]").prop("checked",false);
+            }
+        });
+    });
+
+
 </script>
 <body onload="init();">
 <div class="container">
@@ -30,14 +74,9 @@
                 <select id="sel_myClass" class="form-control">
                     <option value="">▶강의선택</option>
                 </select>
-                <%--<select class="form-control">--%>
-                    <%--<option value="">중급 1반</option>--%>
-                    <%--<option value="">중급 2반</option>--%>
-                    <%--<option value="">중급 3반</option>--%>
-                <%--</select>--%>
             </div>
             <div class="form-group row">
-                <input type="text" class="form-control" placeholder="학생 이름을 입력하세요.">
+                <input type="text" class="form-control" id="student_name" placeholder="학생 이름을 입력하세요.">
             </div>
             <div class="form-group row">
                 <div class="input-group date" style="width:250px">
@@ -48,7 +87,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <button class="btn_pack blue" type="button" onclick="fn_search('new');">검색</button>
+                <button class="btn_pack blue" type="button" onclick="fn_search();">검색</button>
             </div>
         </div>
 
@@ -67,7 +106,7 @@
                 </tbody>
                 <tbody>
                     <tr>
-                        <th><input type="checkbox" class="form-control" name="" value=""></th>
+                        <th><input type="checkbox" class="form-control" name="checkAll" id="checkAll" checked></th>
                         <th>No.</th>
                         <th>이름</th>
                         <th>등원시간</th>
@@ -76,6 +115,9 @@
                     </tr>
                 </tbody>
                 <tbody id="dataList"></tbody>
+                <tr>
+                    <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
+                </tr>
                 <!--<tbody>
                     <tr>
                         <td><input type="checkbox" class="form-control" name="" value=""></td>
@@ -89,7 +131,7 @@
             </table>
             <button class="btn_pack blue s2">저장</button>
             <div style="float: right; margin-top:5px;">
-                <button class="btn_pack black">등원</button>
+                <button class="btn_pack black" onclick="getTimeStamp('chkList')">등원</button>
                 <button class="btn_pack black">지각</button>
                 <button class="btn_pack black">조퇴</button>
                 <button class="btn_pack black">결석</button>
