@@ -34,7 +34,7 @@
                 <input type="text" class="form-control" placeholder="학생 이름을 입력하세요.">
             </div>
             <div class="form-group row">
-                <div class="input-group date" style="width:250px">
+                <div class="input-group date common">
                     <input type="text" id="endDate" class="form-control date-picker" placeholder="2018-01-22">
                     <span class="input-group-addon" id="datepicker_img2">
                     <span class="fa fa-calendar"></span>
