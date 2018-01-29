@@ -2040,3 +2040,14 @@ function reset_html(tag_id) {
         $("#" + tag_id).html("");
     }
 }
+
+function getTimeStamp(name) {
+    var d = new Date();
+    var time = leadingZeros(d.getHours(), 2) + ':' +
+        leadingZeros(d.getMinutes(), 2);
+
+    $("input[name='"+name+"']:checked").each(function() {
+        var inputValue = $(this).val();
+        $("#class_start_"+inputValue).val(time);
+    });
+}

@@ -30,6 +30,9 @@
 
         studentService.getSudentListCount(school_type, student_name, function (cnt) {
             paging.count(sPage, cnt, '10', '10', comment.blank_list2);
+
+            var listNum = ((cnt-1)+1)-((sPage-1)*10); //리스트 넘버링
+
             dwr.util.removeAllRows("dataList");
             studentService.getSudentList(sPage, '10', school_type, student_name, function (selList) {
                 if (selList.length > 0) {
@@ -40,7 +43,7 @@
                             var studentNameHTML = "<a href='javascript:void(0);' class='font_color blue' onclick='student_modify(" + cmpList.studentId + ");'>"+cmpList.studentName +"</a>";
 
                             var cellData = [
-                                function(data) {return cnt--;},
+                                function(data) {return listNum--;},
                                 function(data) {return studentNameHTML;},
                                 function(data) {return fn_tel_tag(cmpList.studentPhoneNumber) == "" ? "-" : fn_tel_tag(cmpList.studentPhoneNumber)},
                                 function(data) {return cmpList.schoolName == "" ? "-" : cmpList.schoolName},

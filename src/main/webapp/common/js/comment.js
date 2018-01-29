@@ -81,6 +81,7 @@ var comment = {
     	input_member_email : "이메일주소를 입력해주세요.",
    		input_member_startSearchDate : "성범죄경력조회 확인일자를 선택해주세요.",
     	input_member_startSearchDate2: "교육청 강사등록일자를 선택해주세요.",
+		input_myclass_type : "반을 선택해 주세요.",
 
     	input_student_grade:"학생의 학년을 선택해주세요.",
 		input_student_name : "학생 이름을 입력하세요.",
