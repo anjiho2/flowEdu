@@ -201,10 +201,10 @@
                 lectureDetailId :lecture_detail_id_list[i],
                 lectureId:lecture_id
             };
-
             detail_list.push(lecture_detail_info);
         }
-        if (confirm(comment.isUpdate)) {
+
+       /* if (confirm(comment.isUpdate)) {
             lectureManager.modifyLecture(lecture_info, detail_list, function (bl) {
                 if(bl == true){
                     alert("강의정보 수정이 완료되었습니다.");
@@ -213,7 +213,7 @@
                     alert("강의정보 저장중 오류발생하였습니다. 관리자문의 부탁드립니다.");
                 }
             });
-        }
+        }*/
     }
 
     function lecture_detail_List() {
