@@ -108,6 +108,7 @@
         var num = $(".clonedDiv").length;   //복사할 영역 클래스 길이
         var newNum = num + 1;
         var newElem = $("#input1").clone().attr('id', 'input' + newNum);    //복사할 영역 원본 id 값 변경
+        newElem.find("#lecture_detail_ids").val('');
         newElem.find("#start_time_input_1 input").attr('id', 'start_time_' + newNum).val('');   //시간이 보여줄 input 접근 후 id 값 변경
         //복제된 영역에서 시간이 보여줄 input jquery.timepicker 바인딩시켜주기
         newElem.find("#start_time_input_1 input")
@@ -184,6 +185,7 @@
             schoolType: school_type
         };
 
+        var lecture_detail_ids = get_array_values_by_name("input", "lecture_detail_id[]");
         var end_time_list = get_array_values_by_name("input", "end_time[]");
         var start_time_list = get_array_values_by_name("input", "start_time[]");
         var room_list = get_array_values_by_name("select", "sel_lectureRoom[]");
@@ -193,17 +195,20 @@
         var detail_list = new Array();
 
         for(var i=0; i < num ; i++){
+            alert(lecture_detail_ids[i]);
             var lecture_detail_info = {
                 lectureRoomId: room_list[i],
                 startTime: start_time_list[i],
                 endTime: end_time_list[i],
                 lectureDay: day_list[i],
-                lectureDetailId :lecture_detail_id_list[i],
+                //lectureDetailId :lecture_detail_id_list[i],
+                lectureDetailId : lecture_detail_ids[i],
                 lectureId:lecture_id
             };
 
             detail_list.push(lecture_detail_info);
         }
+
         if (confirm(comment.isUpdate)) {
             lectureManager.modifyLecture(lecture_info, detail_list, function (bl) {
                 if(bl == true){
@@ -214,6 +219,7 @@
                 }
             });
         }
+
     }
 
     function lecture_detail_List() {
@@ -354,7 +360,7 @@
     <div class="form-group row"></div>
     <form name="lecture_detail" class="form_st1">
         <div class="clonedDiv"  id="input1">
-            <input type="hidden" name="lecture_detail_id[]"><!--강의상세정보아이디-->
+            <input type="hidden" id="lecture_detail_ids" name="lecture_detail_id[]"><!--강의상세정보아이디-->
             <div class="form-group row"><!--강의상세정보-->
                 <div class="checkbox_t1">
                     <label id="lectureRoomSelectbox"></label>

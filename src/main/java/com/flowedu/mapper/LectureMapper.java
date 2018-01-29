@@ -67,6 +67,8 @@ public interface LectureMapper {
 
     void saveLectureDetailList(@Param("lectureDeatilList")List<LectureDetailDto> lectureDetailDtoList);
 
+    void saveLectureDetail(LectureDetailDto lectureDetailDto);
+
     void saveLectureStudentRel(@Param("relList") List<LectureStudentRelDto> lectureStudentRelDtoList);
 
     void saveLectureAttend(@Param("lectureId") Long lectureId, @Param("studentId") Long studentId, @Param("attendType") String attendType, @Param("attendDay") String attendDay);

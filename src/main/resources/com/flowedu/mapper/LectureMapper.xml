@@ -302,6 +302,16 @@
 		</foreach>
 	</insert>
 
+	<insert id="saveLectureDetail" parameterType="com.flowedu.dto.LectureDetailDto">
+		INSERT INTO LECTURE_DETAIL_INFO
+		(
+		lecture_id, lecture_room_id, start_time, end_time, lecture_day
+		)
+		VALUES
+		( #{lectureId}, #{lectureRoomId}, #{startTime}, #{endTime}, #{lectureDay} )
+
+	</insert>
+
 	<insert id="saveLectureStudentRel" parameterType="com.flowedu.dto.LectureStudentRelDto">
 		INSERT INTO LECTURE_STUDENT_REL
 		( lecture_id , student_id )
