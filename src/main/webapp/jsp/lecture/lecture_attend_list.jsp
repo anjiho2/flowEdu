@@ -112,32 +112,14 @@
                     </tr>
                 </tbody>
             </table>
-            <button class="btn_pack blue">저장</button>
-            <div class="checkbox_t1" style="float: right;">
-                <label>
-                    <input type="radio" name="" value="" checked>
-                    <span>등원</span>
-                </label>
-                <label>
-                    <input type="radio" name="" value="">
-                    <span>지각</span>
-                </label>
-                <label>
-                    <input type="radio" name="" value="">
-                    <span>조퇴</span>
-                </label>
-                <label>
-                    <input type="radio" name="" value="">
-                    <span>결석</span>
-                </label>
-                <label>
-                    <input type="radio" name="" value="">
-                    <span>보강</span>
-                </label>
-                <label>
-                    <input type="radio" name="" value="">
-                    <span>하원</span>
-                </label>
+            <button class="btn_pack blue s2">저장</button>
+            <div style="float: right; margin-top:5px;">
+                <button class="btn_pack black">등원</button>
+                <button class="btn_pack black">지각</button>
+                <button class="btn_pack black">조퇴</button>
+                <button class="btn_pack black">결석</button>
+                <button class="btn_pack black">보강</button>
+                <button class="btn_pack black">하원</button>
             </div>
         </div>
     </section><!--content-->

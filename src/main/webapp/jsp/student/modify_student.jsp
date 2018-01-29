@@ -500,7 +500,7 @@
             </tr>
         </table>
     </div>
-    <div class="bot_btnswrap">
+    <div>
         <button class="btn_pack blue s2" type="button"  onclick="modify_student();">수정</button>
         <button class="btn_pack blue s2" type="button" onclick="goPage('student','student_list')">목록</button>
         <%--<button class="btn_pack blue s2" type="button"  onclick="student_excel_upload_popup();">엑셀 업로드 하기</button>--%>
