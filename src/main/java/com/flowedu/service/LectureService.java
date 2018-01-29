@@ -448,6 +448,43 @@ public class LectureService extends PagingSupport {
 
     /**
      * <PRE>
+     * 1. Comment : 출결할 리스트 가져오기(반, 이름, 년-월-일 검색)
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 01 .26
+     * </PRE>
+     * @param lectureId
+     * @param studentName
+     * @param searchDate
+     * @return
+     * @throws Exception
+     */
+    @Transactional(readOnly = true)
+    public List<LectureAttendDto> getLectureAttendListBySearch(Long lectureId, String studentName, String searchDate) throws Exception {
+        List<LectureAttendDto> Arr = new ArrayList<>();
+        String day = LectureDay.getLectureDayCode(
+                DateUtils.getDateDay(
+                        Util.returnToDate(DateUtils.DF_DATE_PATTERN), DateUtils.DF_DATE_PATTERN
+                ) - 1
+        ).toString();
+        Arr = lectureMapper.getLectureAttendListBySearch(lectureId, day, Util.isNullValue(searchDate, ""), Util.isNullValue(studentName, ""));
+        return Arr;
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 반 목록 가져오기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 01 .26
+     * </PRE>
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<LectureInfoDto> getLectureInfoMyClass() {
+        return lectureMapper.getLectureInfoMyClass(UserSession.flowMemberId(), UserSession.memberType());
+    }
+
+    /**
+     * <PRE>
      * 1. Comment : 강의실 명 저장
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .09
@@ -744,6 +781,22 @@ public class LectureService extends PagingSupport {
         }
         CalcLecturePayment calcLecturePayment = new CalcLecturePayment(lectureRelId, paymentPrice, calcType);
         lectureMapper.calcLecturePaymentPrice(calcLecturePayment);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 출석 상태 변경하기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 01 .28
+     * </PRE>
+     * @param lectureAttendDto
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void modifyLectureAttend(LectureAttendDto lectureAttendDto) {
+        if (lectureAttendDto == null) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        lectureMapper.updateLectureAttend(lectureAttendDto);
     }
 
 }
