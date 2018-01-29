@@ -195,7 +195,6 @@
         var detail_list = new Array();
 
         for(var i=0; i < num ; i++){
-            alert(lecture_detail_ids[i]);
             var lecture_detail_info = {
                 lectureRoomId: room_list[i],
                 startTime: start_time_list[i],
