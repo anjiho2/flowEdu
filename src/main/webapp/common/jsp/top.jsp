@@ -7,7 +7,7 @@
 	String version = ConfigHolder.gerVersion();
 %>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="ko">
+<html lang="ko">
 <head>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="<%=webRoot%>/common/dist/style.bundle.css?ver=<%=version%>">
@@ -17,7 +17,6 @@
 <script type='text/javascript' src="<%=webRoot%>/common/js/jquery-2.2.4.min.js"></script>
 <script type='text/javascript' src="<%=webRoot%>/calendar/lib/moment.min.js"></script>
 <script type='text/javascript' src="<%=webRoot%>/calendar/js/fullcalendar.js"></script>
-<script type='text/javascript' src="<%=webRoot%>/calendar/lib/locale-all.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <!-- dwr 필수 스트립트 -->

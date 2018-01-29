@@ -22,8 +22,8 @@
                 </li>
                 <li><a href="#">학습관리</a>
                     <ul class="sidebar-submenu">
-                        <li><a href="javascript:goPage('lecture', 'lecture_attend_list')" ><span class="fa fa-user"></span>출결관리</a></li>
-                        <li><a href="#"><span class="fa fa-headphones"></span>과제관리</a></li>
+                        <li><a href="javascript:goPage('lecture', 'lecture_attend_list')" ><span class="fa fa-address-book"></span>출결관리</a></li>
+                        <li><a href="javascript:goPage('lecture', 'assignment_list')"><span class="fa fa-book"></span>과제관리</a></li>
                     </ul>
                 </li>
                 <%--<li><a href="javascript:goPage('consult', 'early_consult_memo')" <%=depth1 == 3 ? "class='on'" : ""%>>학습관리</a></li>--%>

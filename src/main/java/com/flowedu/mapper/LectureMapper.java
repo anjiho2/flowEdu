@@ -53,6 +53,11 @@ public interface LectureMapper {
 
     LectureStudentRelByIdDto getLectureStudentRelInfo(@Param("lectureRelId") Long lectureRelId);
 
+    List<LectureAttendDto> getLectureAttendListBySearch(@Param("lectureId") Long lectureId, @Param("day") String day,
+                                                        @Param("searchDate") String searchDate, @Param("studentName") String studentName);
+
+    List<LectureInfoDto> getLectureInfoMyClass(@Param("flowMemberId") Long flowMemberId, @Param("memberType") String memberType);
+
     /** INSERT **/
     void saveLectureRoom(@Param("officeId") Long officeId, @Param("lectureRoomName") String lectureRoomName);
 
@@ -61,6 +66,8 @@ public interface LectureMapper {
     void saveLectureInfo(LectureInfoDto lectureInfoDto);
 
     void saveLectureDetailList(@Param("lectureDeatilList")List<LectureDetailDto> lectureDetailDtoList);
+
+    void saveLectureDetail(LectureDetailDto lectureDetailDto);
 
     void saveLectureStudentRel(@Param("relList") List<LectureStudentRelDto> lectureStudentRelDtoList);
 
@@ -84,5 +91,7 @@ public interface LectureMapper {
     void modifyAttendComment(@Param("lectureAttendId") Long lectureAttendId, @Param("attendType") String attendType, @Param("attendModifyComment") String attendModifyComment);
 
     void calcLecturePaymentPrice(CalcLecturePayment calcLecturePayment);
+
+    void updateLectureAttend(LectureAttendDto lectureAttendDto);
 
 }

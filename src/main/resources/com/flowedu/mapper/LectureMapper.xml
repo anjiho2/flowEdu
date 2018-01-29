@@ -225,6 +225,42 @@
 		-->
 	</select>
 
+	<select id="getLectureAttendListBySearch" resultType="com.flowedu.dto.LectureAttendDto">
+		SELECT Z.student_id, Z.student_name, ZZ.lecture_attend_id, ZZ.attend_type, ZZ.attend_start_time, ZZ.attend_end_time
+		FROM (
+				SELECT A.*, C.student_name
+				FROM LECTURE_STUDENT_REL A LEFT JOIN LECTURE_DETAIL_INFO B
+				ON A.lecture_id = B.lecture_id LEFT JOIN STUDENT C
+				ON A.student_id = C.student_id LEFT JOIN LECTURE_INFO D
+				ON A.lecture_id = D.lecture_id
+				WHERE A.lecture_id = #{lectureId}
+				AND B.lecture_day = #{day}
+				AND A.add_yn = true
+                <if test="studentName != ''">
+                    AND C.student_name LIKE CONCAT('%',#{studentName},'%')
+                </if>
+				<if test="searchDate != ''">
+					<![CDATA[
+						AND DATE(D.lecture_start_date) <= #{searchDate}
+					]]>
+					<![CDATA[
+						AND DATE(D.lecture_end_date) >= #{searchDate}
+					]]>
+				</if>
+		) Z LEFT OUTER JOIN LECTURE_ATTEND ZZ
+		ON Z. student_id = ZZ.student_id
+		AND ZZ.attend_day = #{day}
+	</select>
+
+	<select id="getLectureInfoMyClass" resultType="com.flowedu.dto.LectureInfoDto">
+		SELECT * FROM LECTURE_INFO
+		WHERE 1=1
+		<if test="memberType eq 'TEACHER_MANAGE' || memberType eq 'TEACHER'">
+			AND charge_member_id = #{flowMemberId}
+			OR manage_member_id = #{flowMemberId}
+		</if>
+	</select>
+
 	<insert id="saveLectureRoom">
 		INSERT INTO LECTURE_ROOM_INFO
 		(office_id, lecture_room_name)
@@ -266,6 +302,16 @@
 		</foreach>
 	</insert>
 
+	<insert id="saveLectureDetail" parameterType="com.flowedu.dto.LectureDetailDto">
+		INSERT INTO LECTURE_DETAIL_INFO
+		(
+		lecture_id, lecture_room_id, start_time, end_time, lecture_day
+		)
+		VALUES
+		( #{lectureId}, #{lectureRoomId}, #{startTime}, #{endTime}, #{lectureDay} )
+
+	</insert>
+
 	<insert id="saveLectureStudentRel" parameterType="com.flowedu.dto.LectureStudentRelDto">
 		INSERT INTO LECTURE_STUDENT_REL
 		( lecture_id , student_id )
@@ -284,10 +330,18 @@
 
 	<insert id="saveLectureAttendList" parameterType="com.flowedu.dto.LectureAttendDto">
 		INSERT INTO LECTURE_ATTEND
-		(lecture_id, student_id, attend_day, attend_type, attend_date, attend_start_time)
+		(lecture_id, student_id, attend_day, attend_type, attend_date, attend_start_time, attend_end_time)
 		VALUES
 		<foreach collection="attendList" item="values" separator=",">
-			(#{values.lectureId}, #{values.studentId}, #{values.attendDay}, #{values.attendType}, DATE_FORMAT(CURDATE(), '%Y-%m-%d'), DATE_FORMAT(NOW(), '%H:%i'))
+			(
+				#{values.lectureId},
+				#{values.studentId},
+				#{values.attendDay},
+				#{values.attendType},
+				DATE_FORMAT(CURDATE(), '%Y-%m-%d'),
+				#{values.attendStartTime},
+				#{values.attendEndTime}
+			)
 		</foreach>
 	</insert>
 
@@ -377,8 +431,14 @@
 		WHERE lecture_rel_id = #{lectureRelId}
 	</update>
 
-	<update id="modifyLectureStudentRelPaymentYn">
-		UPDATE LECTURE_STUDENT_REL
+	<update id="updateLectureAttend" parameterType="com.flowedu.dto.LectureAttendDto">
+		UPDATE LECTURE_ATTEND
+		<set>
+			<if test="attendType != ''">attend_type = #{attendType},</if>
+			<if test="attendModifyComment != ''">attend_modify_comment = #{attendModifyComment},</if>
+			<if test="attendEndTime != ''">attend_end_time = #{attendEndTime},</if>
+		</set>
+		WHERE lecture_attend_id = #{lectureAttendId}
 	</update>
 
 </mapper>
