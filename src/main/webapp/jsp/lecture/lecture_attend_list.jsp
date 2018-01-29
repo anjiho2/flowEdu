@@ -69,7 +69,8 @@
                         <th>메모</th>
                     </tr>
                 </tbody>
-                <tbody>
+                <tbody id="dataList"></tbody>
+                <!--<tbody>
                     <tr>
                         <td><input type="checkbox" class="form-control" name="" value=""></td>
                         <td>5</td>
@@ -78,39 +79,7 @@
                         <td><input type="text" class="form-control"></td>
                         <td><input type="text" class="form-control"></td>
                     </tr>
-                    <tr>
-                        <td><input type="checkbox" class="form-control" name="" value=""></td>
-                        <td>4</td>
-                        <td>김남호</td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" class="form-control" name="" value=""></td>
-                        <td>3</td>
-                        <td>박성결</td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" class="form-control" name="" value=""></td>
-                        <td>2</td>
-                        <td>이기훈</td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" class="form-control" name="" value=""></td>
-                        <td>1</td>
-                        <td>엄소라</td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                    </tr>
-                </tbody>
+                </tbody>-->
             </table>
             <button class="btn_pack blue s2">저장</button>
             <div style="float: right; margin-top:5px;">
