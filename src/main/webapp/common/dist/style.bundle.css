@@ -5191,6 +5191,12 @@ select.form-control.big:not([size]):not([multiple]) {
     border-color: #ff6200
 }
 
+.checkbox_t1.black label input[type=checkbox]:checked + span, .checkbox_t1.black label input[type=radio]:checked + span {
+    color: #fff;
+    background-color: #515356;
+    border-color: #515356
+}
+
 .checkbox_t2 label {
     position: relative;
     display: inline-block
@@ -5895,6 +5901,11 @@ ul.list_t2 button.confirm {
 .input-group.date .input-group-addon {
     cursor: pointer;
 }
+
+.input-group.date.common{
+    width: 200px;
+}
+
 .input-group-addon:last-child {
     border-left: 0;
 }
