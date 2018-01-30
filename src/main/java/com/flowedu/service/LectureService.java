@@ -466,7 +466,13 @@ public class LectureService extends PagingSupport {
                         Util.returnToDate(DateUtils.DF_DATE_PATTERN), DateUtils.DF_DATE_PATTERN
                 ) - 1
         ).toString();
-        Arr = lectureMapper.getLectureAttendListBySearch(lectureId, day, Util.isNullValue(searchDate, ""), Util.isNullValue(studentName, ""));
+        Arr = lectureMapper.getLectureAttendListBySearch(
+                lectureId,
+                day,
+                Util.isNullValue(searchDate, ""),
+                Util.isNullValue(studentName, ""),
+                Util.returnNowDateByYYMMDD()
+        );
         return Arr;
     }
 

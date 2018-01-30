@@ -54,7 +54,8 @@ public interface LectureMapper {
     LectureStudentRelByIdDto getLectureStudentRelInfo(@Param("lectureRelId") Long lectureRelId);
 
     List<LectureAttendDto> getLectureAttendListBySearch(@Param("lectureId") Long lectureId, @Param("day") String day,
-                                                        @Param("searchDate") String searchDate, @Param("studentName") String studentName);
+                                                        @Param("searchDate") String searchDate, @Param("studentName") String studentName,
+                                                        @Param("today") String today);
 
     List<LectureInfoDto> getLectureInfoMyClass(@Param("flowMemberId") Long flowMemberId, @Param("memberType") String memberType);
 

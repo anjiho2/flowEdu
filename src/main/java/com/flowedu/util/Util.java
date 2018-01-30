@@ -984,8 +984,7 @@ public class Util {
 	}
 
 	public static void main(String[] args) throws Exception {
-		File file = new File("/Users/jihoan/Downloads/TEST.mp4");
-		//getImageFromFrame(file);
+		//System.out.println(returnNowDateByYYMMDD());
 	}
 }
 
