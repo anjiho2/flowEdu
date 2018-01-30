@@ -97,12 +97,13 @@
 		<convert converter="bean" match="com.flowedu.domain.StudentMemo"/>
 		<convert converter="bean" match="com.flowedu.dto.AcademyGroupDto"/>
 		<convert converter="bean" match="com.flowedu.dto.EarlyConsultMemoDto"/>
+		<convert converter="bean" match="com.flowedu.dto.AssignmentInfoDto"/>
 		<!-- define -->
 		<convert converter="bean" match="com.flowedu.domain.KisPosOcx"/>
 		<convert converter="bean" match="com.flowedu.domain.LecturePaymentLog"/>
 		<convert converter="bean" match="com.flowedu.domain.RequestApi"/>
 
-		RequestApi
+
 	</allow>
 
 </dwr>

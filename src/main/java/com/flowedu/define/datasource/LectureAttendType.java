@@ -8,7 +8,9 @@ public enum LectureAttendType {
     LATE(1, "지각"),
     ABSENT(2, "결석"),
     LEAVE(3, "조퇴"),
-    MAKEUP(4, "보강출석");
+    MAKEUP(4, "보강출석"),
+    DISMISS(5, "하원")
+    ;
 
     int attendTypeCode;
 

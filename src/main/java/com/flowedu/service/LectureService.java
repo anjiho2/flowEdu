@@ -485,6 +485,32 @@ public class LectureService extends PagingSupport {
 
     /**
      * <PRE>
+     * 1. Comment : 과제 검색 리스트(상세 정보로 가져올때는 assignmentIdx > 0 , 리스트는 assignmentIdx == 0)
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 01 .29
+     * </PRE>
+     * @param lectureId
+     * @param useYn
+     * @param startDate
+     * @param endDate
+     * @param memberName
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<AssignmentInfoDto> getAssignmentInfoList(Long assignmentIdx, Long lectureId, boolean useYn,
+                                                         String startDate, String endDate, String memberName) {
+        return lectureMapper.getAssignmentInfoList(
+                assignmentIdx,
+                lectureId,
+                useYn,
+                Util.isNullValue(startDate, ""),
+                Util.isNullValue(endDate, ""),
+                Util.isNullValue(memberName, "")
+        );
+    }
+
+    /**
+     * <PRE>
      * 1. Comment : 강의실 명 저장
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .09
@@ -616,6 +642,34 @@ public class LectureService extends PagingSupport {
 
         List<LectureAttendDto> LectureAttendDtoArr = new LectureAttendDto().consume(lectureAttendDtoList);
         lectureMapper.saveLectureAttendList(LectureAttendDtoArr);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 과제 등록하기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 01 .29
+     * </PRE>
+     * @param lectureId
+     * @param useYn
+     * @param assignmentSubject
+     * @param assignmentContent
+     * @param attachFileName
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveAssignmentInfo(Long lectureId, boolean useYn, String assignmentSubject, String assignmentContent, String attachFileName) {
+        if (lectureId == null || lectureId == 0L) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        AssignmentInfoDto assignmentInfoDto = new AssignmentInfoDto(
+                lectureId,
+                UserSession.flowMemberId(),
+                assignmentSubject,
+                assignmentContent,
+                attachFileName,
+                useYn
+        );
+        lectureMapper.saveAssignmentInfo(assignmentInfoDto);
     }
 
     /**
@@ -806,6 +860,37 @@ public class LectureService extends PagingSupport {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
         lectureMapper.updateLectureAttend(lectureAttendDto);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 과제정보 수정하기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 01 .29
+     * </PRE>
+     * @param assignmentIdx
+     * @param lectureId
+     * @param useYn
+     * @param assignmentSubject
+     * @param assignmentContent
+     * @param attachFileName
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void modifyAssignmentInfo(Long assignmentIdx, Long lectureId, boolean useYn, String assignmentSubject,
+                                     String assignmentContent, String attachFileName) {
+        if (assignmentIdx == null || assignmentIdx == 0L) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        AssignmentInfoDto assignmentInfoDto = new AssignmentInfoDto(
+            assignmentIdx,
+            lectureId,
+            UserSession.flowMemberId(),
+            assignmentSubject,
+            assignmentContent,
+            attachFileName,
+            useYn
+        );
+        lectureMapper.modifyAssignmentInfo(assignmentInfoDto);
     }
 
 }

@@ -250,6 +250,7 @@
 		) Z LEFT OUTER JOIN LECTURE_ATTEND ZZ
 		ON Z. student_id = ZZ.student_id
 		AND ZZ.attend_day = #{day}
+		ORDER BY ZZ.lecture_attend_id ASC
 	</select>
 
 	<select id="getLectureInfoMyClass" resultType="com.flowedu.dto.LectureInfoDto">
@@ -260,6 +261,29 @@
 			OR manage_member_id = #{flowMemberId}
 		</if>
 	</select>
+
+    <select id="getAssignmentInfoList" resultType="com.flowedu.dto.AssignmentInfoDto">
+        SELECT A.*, C.member_name
+        FROM ASSIGNMENT_INFO A LEFT JOIN LECTURE_INFO B
+        ON A.lecture_id = B.lecture_id LEFT JOIN FLOWEDU_MEMBER C
+        ON A.reg_member_id = C.flow_member_id
+        WHERE 1=1
+		<if test="assignmentIdx > 0">
+			AND A.assignment_idx = #{assignmentIdx}
+		</if>
+		<if test="assignmentIdx == 0">
+			AND A.lecture_id = #{lectureId}
+			<if test="useYn != null">
+				AND A.use_yn = #{useYn}
+			</if>
+			<if test="startDate != ''">
+				AND DATE(A.create_date) BETWEEN #{startDate} AND #{endDate}
+			</if>
+			<if test="memberName != ''">
+				AND C.member_name LIKE CONCAT('%', #{memberName}, '%')
+			</if>
+		</if>
+    </select>
 
 	<insert id="saveLectureRoom">
 		INSERT INTO LECTURE_ROOM_INFO
@@ -343,6 +367,13 @@
 				#{values.attendEndTime}
 			)
 		</foreach>
+	</insert>
+
+	<insert id="saveAssignmentInfo" parameterType="com.flowedu.dto.AssignmentInfoDto">
+		INSERT INTO ASSIGNMENT_INFO
+		(lecture_id, reg_member_id, assignment_subject, assignment_content, assignment_file_name, attachment_file_url, use_yn)
+		VALUES
+		(#{lectureId}, #{regMemberId}, #{assignmentSubject}, #{assignmentContent}, #{assignmentFileName}, #{attachmentFileUrl}, #{useYn})
 	</insert>
 
 	<update id="modifyLectureRoom">
@@ -439,6 +470,20 @@
 			<if test="attendEndTime != ''">attend_end_time = #{attendEndTime},</if>
 		</set>
 		WHERE lecture_attend_id = #{lectureAttendId}
+	</update>
+
+	<update id="modifyAssignmentInfo" parameterType="com.flowedu.dto.AssignmentInfoDto">
+		UPDATE ASSIGNMENT_INFO
+		<set>
+			<if test="lectureId > 0">lecture_id = #{lectureId},</if>
+			<if test="regMemberId > 0">reg_member_id = #{regMemberId},</if>
+			<if test="assignmentSubject != ''">assignment_subject = #{assignmentSubject},</if>
+			<if test="assignmentContent != ''">assignment_content = #{assignmentContent},</if>
+			<if test="assignmentFileName != ''">assignment_file_name = #{assignmentFileName},</if>
+			<if test="attachmentFileUrl != ''">attachment_file_url = #{attachmentFileUrl},</if>
+			use_yn = #{useYn}
+		</set>
+		WHERE assignment_idx = #{assignmentIdx}
 	</update>
 
 </mapper>

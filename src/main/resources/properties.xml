@@ -41,4 +41,7 @@
 
     <entry key="google.email.username">${google.email.username}</entry>
     <entry key="google.email.password">${google.email.password}</entry>
+
+    <entry key="assignment.uploads.path">${assignment.uploads.path}</entry>
+
 </properties>

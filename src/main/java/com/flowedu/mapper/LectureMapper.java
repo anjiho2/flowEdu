@@ -58,6 +58,9 @@ public interface LectureMapper {
 
     List<LectureInfoDto> getLectureInfoMyClass(@Param("flowMemberId") Long flowMemberId, @Param("memberType") String memberType);
 
+    List<AssignmentInfoDto> getAssignmentInfoList(@Param("assignmentIdx") Long assignmentIdx, @Param("lectureId") Long lectureId, @Param("useYn") boolean useYn,
+                                                  @Param("startDate") String startDate, @Param("endDate") String endDate, @Param("memberName") String memberName);
+
     /** INSERT **/
     void saveLectureRoom(@Param("officeId") Long officeId, @Param("lectureRoomName") String lectureRoomName);
 
@@ -74,6 +77,8 @@ public interface LectureMapper {
     void saveLectureAttend(@Param("lectureId") Long lectureId, @Param("studentId") Long studentId, @Param("attendType") String attendType, @Param("attendDay") String attendDay);
 
     void saveLectureAttendList(@Param("attendList") List<LectureAttendDto> lectureAttendDtoList);
+
+    void saveAssignmentInfo(AssignmentInfoDto assignmentInfoDto);
 
     /** UPDATE **/
     void modifyLectureRoom(@Param("lectureRoomId") Long lectureRoomId, @Param("officeId") Long officeId, @Param("lectureRoomName") String lectureRoomName);
@@ -93,5 +98,7 @@ public interface LectureMapper {
     void calcLecturePaymentPrice(CalcLecturePayment calcLecturePayment);
 
     void updateLectureAttend(LectureAttendDto lectureAttendDto);
+
+    void modifyAssignmentInfo(AssignmentInfoDto assignmentInfoDto);
 
 }
