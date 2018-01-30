@@ -44,6 +44,8 @@ public class LectureAttendDto {
 
     private String lectureName;
 
+    private String endAttendType;
+
     public LectureAttendDto() {}
 
     public List<LectureAttendDto> consume(List<LectureAttendDto> lectureAttendDtoList) throws Exception {
