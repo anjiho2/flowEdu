@@ -7,6 +7,7 @@
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
+<script type='text/javascript' src='/flowEdu/dwr/interface/lectureManager.js'></script>
 <script type="text/javascript">
 
     function init() {
@@ -26,10 +27,29 @@
                 console.log(selList);
              for(var i = 0; i < selList.length; i++){
                  var cmpList = selList[i];
-                 var checkHTML = "<input type='checkbox' class='form-control' name='chkList' value="+cmpList.studentId+" checked>";
-                 var class_attend_time =  "<input type='text' class='form-control' id='class_start_"+ cmpList.studentId +"'>"; //등원시간
-                 var class_close_time =  "<input type='text' class='form-control' id='class_close_"+ cmpList.studentId +"'>"; //하원시간
-                 var class_attend_memo =  "<input type='text' class='form-control' id='class_memo_"+ cmpList.studentId+"'>"; //메모
+
+                 var startTime = cmpList.attendStartTime == null ? '' : cmpList.attendStartTime; //등원시간
+                 var endTime = cmpList.attendEndTime == null ? '' : cmpList.attendEndTime; // 하원시간
+                 var comment = cmpList.attendModifyComment == null ? '' : cmpList.attendModifyComment; //메모
+
+                 var isDisabled_start = 'disabled';
+                 var isDisabled_end = 'disabled';
+
+                 var check_start = '';
+                 if(cmpList.attendStartTime == null && cmpList.attendEndTime == null) {
+                     isDisabled_start = '';
+                     check_start = 'checked';
+                 }else if (cmpList.attendStartTime != null && cmpList.a){
+                     if(cmpList.attendEndTime == null){
+                         check_start = 'checked';
+                     }
+                 }
+                 if(cmpList.attendEndTime == null) isDisabled_end = '';
+
+                 var checkHTML = "<input type='checkbox' class='form-control' name='chkList' value="+cmpList.studentId+" "+ check_start +">";
+                 var class_attend_time = "<input type='text' class='form-control' name='start_time[]' id='class_start_"+ cmpList.studentId +"' value='"+ startTime +"' "+ isDisabled_start +">"; //등원시간
+                 var class_close_time = "<input type='text' class='form-control' name='end_time[]' id='class_close_"+ cmpList.studentId +"' value='"+ endTime +"' "+ isDisabled_end +">"; //하원시간
+                 var class_attend_memo = "<input type='text' class='form-control' name='memo[]' id='class_memo_"+ cmpList.studentId+"' value='"+ comment +"'>"; //메모
                  if(cmpList != undefined){
                         var cellData =[
                           function (data) {return checkHTML},
@@ -56,6 +76,81 @@
         });
     });
 
+    function save_attend_lecture() {
+        var attend_list  = new Array();
+        var sel_myclass = getSelectboxValue('sel_myClass');
+        var start_time_list = get_array_values_by_name("input", "start_time[]");
+        var end_time_list = get_array_values_by_name("input", "end_time[]");
+        var memo_list = get_array_values_by_name("input", "memo[]");
+        var checked_len = $("input[name=chkList]:checkbox:checked").length;
+        var student_id;
+        $('input:checkbox[name=chkList]').each(function() {
+            if($(this).is(':checked'))
+                student_id += $(this).val();
+        });
+        var attend_type = $("#attend_type").val();
+        //attendLecture
+        for(var i=0; i < checked_len;i++) {
+            var attend_detail_info = {
+                lectureId: sel_myclass,
+                studentId: student_id[i],
+                attendStartTime: start_time_list[i],
+                attendEndTime: end_time_list[i],
+                attendModifyComment: memo_list[i],
+                attendType: attend_type,
+            };
+        }
+           attend_list.push(attend_detail_info);
+           if(confirm(comment.isUpdate)){ //comment 처리 해야함
+                lectureManager.attendLecture(attend_list, function () {
+                   if(bl == true){
+                        switch (attend_type){
+                            case '0':
+                                alert("등원 하였습니다.");
+                                break;
+                            case '1':
+                                alert("지각저장");
+                                break;
+                            case '2':
+                                alert("조퇴저장");
+                                break;
+                            case '3':
+                                alert("결석저장");
+                                break;
+                            case '4':
+                                alert("보강저장");
+                                break;
+                            case '5':
+                                alert("하원 하였습니다.");
+                                break;
+                        }
+                   }else{
+                        alert('1');
+                   }
+                });
+           }
+        }
+
+    $(function () {
+        $("#start_btn").click(function () {
+            $("#attend_type").val(0);
+        });
+        $("#late_btn").click(function () {
+            $("#attend_type").val(1);
+        });
+        $("#leave_btn").click(function () {
+            $("#attend_type").val(2);
+        });
+        $("#absent_btn").click(function () {
+            $("#attend_type").val(3);
+        });
+        $("#makeup_btn").click(function () {
+            $("#attend_type").val(4);
+        });
+        $("#dismiss_btn").click(function () {
+            $("#attend_type").val(5);
+        });
+    });
 
 </script>
 <body onload="init();">
@@ -65,6 +160,7 @@
 </section>
 <form name="frm" id="frm" method="get">
     <input type="hidden" name="page_gbn" id="page_gbn">
+    <input type="hidden" name="attend_type" id="attend_type">
 </form>
 
     <section class="content">
@@ -118,25 +214,15 @@
                 <tr>
                     <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
                 </tr>
-                <!--<tbody>
-                    <tr>
-                        <td><input type="checkbox" class="form-control" name="" value=""></td>
-                        <td>5</td>
-                        <td>이성우</td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                        <td><input type="text" class="form-control"></td>
-                    </tr>
-                </tbody>-->
             </table>
-            <button class="btn_pack blue s2">저장</button>
+            <button class="btn_pack blue s2" onclick="save_attend_lecture()">저장</button>
             <div style="float: right; margin-top:5px;">
-                <button class="btn_pack black" onclick="getTimeStamp('chkList')">등원</button>
-                <button class="btn_pack black">지각</button>
-                <button class="btn_pack black">조퇴</button>
-                <button class="btn_pack black">결석</button>
-                <button class="btn_pack black">보강</button>
-                <button class="btn_pack black">하원</button>
+                <button class="btn_pack black" id="start_btn" onclick="getTimeStamp('chkList', 'start')">등원</button>
+                <button class="btn_pack black" id="late_btn">지각</button>
+                <button class="btn_pack black" id="leave_btn">조퇴</button>
+                <button class="btn_pack black" id="absent_btn">결석</button>
+                <button class="btn_pack black" id="makeup_btn">보강</button>
+                <button class="btn_pack black" id="dismiss_btn" onclick="getTimeStamp('chkList', 'close')">하원</button>
             </div>
         </div>
     </section><!--content-->

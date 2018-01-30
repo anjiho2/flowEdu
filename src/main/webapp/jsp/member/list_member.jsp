@@ -27,37 +27,33 @@ function fn_search(val) {//운영자,선생님 리스트불러오기
 
     memberService.getFlowEduMemberListCount( function(cnt) {
         paging.count(sPage, cnt, '10', '10', comment.blank_list);
-        memberService.getFlowEduMemberList(sPage, '10', function (selList) {
-            if (selList.length > 0) {
-                for (var i = 0; i < selList.length; i++) {
-                    var cmpList = selList[i];
-                    if (cmpList != undefined) {
-                        var modifyHTML = "<button class='btn_pack white' type='button' id='modify' onclick='member_modify(" + cmpList.flowMemberId + ");'/>수정</button>";
-                        var cellData = [
-                         //   function(data) {return checkHTML;},
-                            function(data) {return convert_memberType(cmpList.memberType);},
-                            function(data) {return cmpList.jobPositionName;},
-                            function(data) {return cmpList.memberName;},
-                            function(data) {return cmpList.phoneNumber;},
-                            //function(data) {return cmpList.memberBirthday;},
-                            //function(data) {return ellipsis(cmpList.memberAddress, 5);},
-                            function(data) {return cmpList.memberEmail;},
-                            function(data) {return cmpList.officeName;},
-                            function(data) {return cmpList.teamName;},
-                           // function(data) {return cmpList.sexualAssultConfirmDate;},
-                            //function(data) {return cmpList.educationRegDate;},
-                            function(data) {return modifyHTML;}
-                        ];
-                        dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
-                    }
+            memberService.getFlowEduMemberList(sPage, '10', function (selList) {
+                if (selList.length > 0) {
+                    for (var i = 0; i < selList.length; i++) {
+                          var cmpList = selList[i];
+                if (cmpList != undefined) {
+                    var modifyHTML = "<button class='btn_pack white' type='button' id='modify' onclick='member_modify(" + cmpList.flowMemberId + ");'/>수정</button>";
+                    var cellData = [
+                        //   function(data) {return checkHTML;},
+                        function(data) {return convert_memberType(cmpList.memberType);},
+                        function(data) {return cmpList.jobPositionName;},
+                        function(data) {return cmpList.memberName;},
+                        function(data) {return cmpList.phoneNumber;},
+                        //function(data) {return cmpList.memberBirthday;},
+                        //function(data) {return ellipsis(cmpList.memberAddress, 5);},
+                        function(data) {return cmpList.memberEmail;},
+                        function(data) {return cmpList.officeName;},
+                        function(data) {return cmpList.teamName;},
+                        // function(data) {return cmpList.sexualAssultConfirmDate;},
+                        //function(data) {return cmpList.educationRegDate;},
+                        function(data) {return modifyHTML;}
+                    ];
+                    dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
                 }
+              }
             }
         });
     });
-}
-
-function academy_sel_change() { //학원선택 검색
-    alert("1");
 }
 
 function member_modify(member_id) { //수정페이지 이동

@@ -2041,13 +2041,13 @@ function reset_html(tag_id) {
     }
 }
 
-function getTimeStamp(name) {
+function getTimeStamp(name, check_mode) {
     var d = new Date();
     var time = leadingZeros(d.getHours(), 2) + ':' +
         leadingZeros(d.getMinutes(), 2);
 
     $("input[name='"+name+"']:checked").each(function() {
         var inputValue = $(this).val();
-        $("#class_start_"+inputValue).val(time);
+        $("#class_"+check_mode+"_"+inputValue).val(time);
     });
 }
