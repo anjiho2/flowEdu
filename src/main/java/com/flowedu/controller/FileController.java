@@ -21,9 +21,6 @@ import java.util.Map;
 @RequestMapping(value = "/file")
 public class FileController {
 
-    @Autowired
-    private LectureService lectureService;
-
     @RequestMapping(value = "/upload.do", method = RequestMethod.POST)
     public @ResponseBody String fileUpload(MultipartHttpServletRequest request) {
         Map<String, Object> uploadInfoMap = FileUploadUtil.fileUploadYmdLocation(request, getFileUploadRoot());
@@ -34,32 +31,30 @@ public class FileController {
     }
 
     /**
-     *
+     * <PRE>
+     * 1. Comment : 과제파일 업로드
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 01 .30
+     * </PRE>
      * @param request
      * @param lectureId
-     * @param assignmentSubject
-     * @param assignmentContent
-     * @param useYn
      * @return
      */
     @RequestMapping(value = "/assignment_upload.do", method = RequestMethod.POST)
-    public @ResponseBody String assignmentFileUpload(MultipartHttpServletRequest request, @RequestParam(value = "lecture_id")Long lectureId,
-                                                     @RequestParam(value = "assignment_subject") String assignmentSubject,
-                                                     @RequestParam(value = "assignment_content") String assignmentContent,
-                                                     @RequestParam(value = "use_yn") boolean useYn) {
+    public @ResponseBody String assignmentFileUpload(MultipartHttpServletRequest request,
+                                                     @RequestParam(value = "lecture_id") Long lectureId) {
         Map<String, Object> resultInfo = FileUploadUtil.fileUploadAssignmentFile(request, getAssignmentUploadPath(), lectureId);
         if (resultInfo != null) {
-            lectureService.saveAssignmentInfo(lectureId, useYn, assignmentSubject, assignmentContent, resultInfo.get("file_name").toString());
             return new JsonBuilder().add("result", resultInfo).build();
         }
         return new JsonBuilder().add("result", null).build();
     }
 
-    public String getFileUploadRoot() {
+    private String getFileUploadRoot() {
         return ConfigHolder.uploadRoot();
     }
 
-    public String getAssignmentUploadPath() {
+    private String getAssignmentUploadPath() {
         return ConfigHolder.getAssignmentUploadsPath();
     }
 }
