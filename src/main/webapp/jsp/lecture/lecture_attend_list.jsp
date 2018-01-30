@@ -34,17 +34,14 @@
 
                  var isDisabled_start = 'disabled';
                  var isDisabled_end = 'disabled';
+                 var check_start = 'checked';
 
-                 var check_start = '';
-                 if(cmpList.attendStartTime == null && cmpList.attendEndTime == null) {
-                     isDisabled_start = '';
-                     check_start = 'checked';
-                 }else if (cmpList.attendStartTime != null && cmpList.a){
-                     if(cmpList.attendEndTime == null){
-                         check_start = 'checked';
-                     }
+                 if(cmpList.attendStartTime == null){
+                     var isDisabled_start = '';
                  }
-                 if(cmpList.attendEndTime == null) isDisabled_end = '';
+                 if(cmpList.attendEndTime == null){
+                     var isDisabled_end = '';
+                 }
 
                  var checkHTML = "<input type='checkbox' class='form-control' name='chkList' value="+cmpList.studentId+" "+ check_start +">";
                  var class_attend_time = "<input type='text' class='form-control' name='start_time[]' id='class_start_"+ cmpList.studentId +"' value='"+ startTime +"' "+ isDisabled_start +">"; //등원시간
