@@ -226,7 +226,7 @@
 	</select>
 
 	<select id="getLectureAttendListBySearch" resultType="com.flowedu.dto.LectureAttendDto">
-		SELECT Z.student_id, Z.student_name, ZZ.lecture_attend_id, ZZ.attend_type, ZZ.attend_start_time, ZZ.attend_end_time
+		SELECT Z.student_id, Z.student_name, ZZ.lecture_attend_id, ZZ.attend_type, ZZ.attend_start_time, ZZ.attend_end_time, ZZ.attend_modify_comment
 		FROM (
 				SELECT A.*, C.student_name
 				FROM LECTURE_STUDENT_REL A LEFT JOIN LECTURE_DETAIL_INFO B
