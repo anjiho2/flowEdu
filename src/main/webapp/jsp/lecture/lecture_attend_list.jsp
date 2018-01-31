@@ -103,15 +103,14 @@
             }
         }
 
-        console.log("start_time_array:"+start_time_array);
-
         if (attend_type == Number("5")) start_time_list = null;
-
+        console.log(start_time_list)
         $('input:checkbox[name=chkList]:checked').each(function(i) {
             var attend_detail_info;
             var lecture_attend_id =  $("#attendId_"+$(this).val()).val();
                 //하원시간
-                if (start_time_list == null || start_time_list == undefined) {
+                if (start_time_array == null || start_time_array == undefined) {
+                    alert(1);
                     attend_detail_info = {
                         lectureAttendId:lecture_attend_id,
                         lectureId: sel_myclass,
@@ -122,6 +121,7 @@
                         attendType: attend_type,
                     };
                 } else { //등원시간
+                    alert(2);
                     attend_detail_info = {
                         lectureId: sel_myclass,
                         studentId: $(this).val(),
