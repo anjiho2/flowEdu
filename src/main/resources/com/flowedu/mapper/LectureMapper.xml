@@ -355,7 +355,7 @@
 
 	<insert id="saveLectureAttendList" parameterType="com.flowedu.dto.LectureAttendDto">
 		INSERT INTO LECTURE_ATTEND
-		(lecture_id, student_id, attend_day, attend_type, attend_date, attend_start_time, attend_end_time)
+		(lecture_id, student_id, attend_day, attend_type, attend_date, attend_start_time, attend_end_time, attend_modify_comment)
 		VALUES
 		<foreach collection="attendList" item="values" separator=",">
 			(
@@ -365,7 +365,8 @@
 				#{values.attendType},
 				DATE_FORMAT(CURDATE(), '%Y-%m-%d'),
 				#{values.attendStartTime},
-				#{values.attendEndTime}
+				#{values.attendEndTime},
+				#{values.attendModifyComment}
 			)
 		</foreach>
 	</insert>
