@@ -101,12 +101,12 @@ public class LectureManager {
 
        //for (int i=0; i<2; i++) {
            LectureAttendDto lectureAttendDto = new LectureAttendDto();
-           //lectureAttendDto.setLectureId(5L);
-           lectureAttendDto.setLectureAttendId(9L);
-           //lectureAttendDto.setStudentId(559L);
-           lectureAttendDto.setAttendType("1");
-           lectureAttendDto.setAttendStartTime("");
-           lectureAttendDto.setAttendEndTime("18:00");
+           lectureAttendDto.setLectureId(5L);
+           //lectureAttendDto.setLectureAttendId(9L);
+           lectureAttendDto.setStudentId(559L);
+           lectureAttendDto.setAttendType("0");
+           lectureAttendDto.setAttendStartTime("18:00");
+           lectureAttendDto.setAttendEndTime("");
            lectureAttendDto.setAttendModifyComment("수정입니다.");
            arr.add(lectureAttendDto);
        //}
