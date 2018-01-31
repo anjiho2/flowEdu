@@ -31,7 +31,7 @@
             if(selList.length > 0){
                 $("#allStudent").html(selList.length); //전체학생수
              for(var i = 0; i < selList.length; i++){
-
+                    console.log(selList);
                  var cmpList = selList[i];
                  var startTime = cmpList.attendStartTime == null ? '' : cmpList.attendStartTime; //등원시간
                  var endTime = cmpList.attendEndTime == null ? '' : cmpList.attendEndTime; // 하원시간
