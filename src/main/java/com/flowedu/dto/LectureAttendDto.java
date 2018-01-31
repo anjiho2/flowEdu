@@ -57,6 +57,7 @@ public class LectureAttendDto {
             lectureAttendDto.setAttendType(dto.getAttendType());
             lectureAttendDto.setAttendDay(LectureDay.getDay());
             lectureAttendDto.setAttendStartTime(dto.getAttendStartTime());
+            lectureAttendDto.setAttendModifyComment(dto.getAttendModifyComment());
             Arr.add(lectureAttendDto);
         }
         return Arr;
