@@ -1,5 +1,7 @@
 package com.flowedu.manager;
 
+import com.flowedu.api.service.SendService;
+import com.flowedu.define.datasource.SmsSendData;
 import com.flowedu.dto.LectureAttendDto;
 import com.flowedu.dto.LectureCalendarDto;
 import com.flowedu.dto.LectureDetailDto;
@@ -13,8 +15,11 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * Created by jihoan on 2017. 8. 10..
@@ -24,6 +29,9 @@ public class LectureManager {
 
     @Autowired
     private LectureService lectureService;
+
+    @Autowired
+    private SendService sendService;
 
     /**
      * <PRE>
@@ -86,13 +94,17 @@ public class LectureManager {
                 .stream()
                 .filter(lectureAttendDto -> !lectureAttendDto.getAttendStartTime().equals(""))
                 .findFirst();
+        String smsSendType = null;
         if (findInfo.isPresent()) {
             lectureService.saveLectureAttendList(lectureAttendDtoList);
+            smsSendType = SmsSendData.LECTURE_ATTEND.toString();
         } else {
             for (LectureAttendDto dto : lectureAttendDtoList) {
                 lectureService.modifyLectureAttend(dto);
             }
+            smsSendType = SmsSendData.LECTURE_DISMISS.toString();
         }
+        sendService.sendAttendSms(lectureAttendDtoList, smsSendType);
         return true;
     }
 
