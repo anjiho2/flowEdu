@@ -10,6 +10,8 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureManager.js'></script>
 <script type="text/javascript">
 
+    var student_ids = new Array();
+
     function init() {
         myClassSelectbox("sel_myClass");
 
@@ -27,8 +29,9 @@
 
         lectureService.getLectureAttendListBySearch(selMyclass, studentName, searchDate, function (selList) {
             if(selList.length > 0){
-                //$("#allStudent").text(selList.length); //전체 인원수 표시
+                $("#allStudent").html(selList.length); //전체학생수
              for(var i = 0; i < selList.length; i++){
+
                  var cmpList = selList[i];
                  var startTime = cmpList.attendStartTime == null ? '' : cmpList.attendStartTime; //등원시간
                  var endTime = cmpList.attendEndTime == null ? '' : cmpList.attendEndTime; // 하원시간
@@ -39,17 +42,20 @@
 
                  if(cmpList.attendStartTime == null)  var isDisabled_start = '';
                  if(cmpList.attendEndTime == null) var isDisabled_end = '';
+                 if(cmpList.attendType == 1) var studnet_name_class = "style='color:red'"; //지각시 학생이름 강조
 
-                 //alert(cmpList.attendStartTime.length);
+                 innerValue("l_attendId", cmpList.lectureAttendId);
+
+                 var class_student_name = "<span " + studnet_name_class +">"+cmpList.studentName+"</span>";
                  var checkHTML = "<input type='checkbox' class='form-control' name='chkList' value="+cmpList.studentId+" "+ check_start +">";
-                 var class_attend_time = "<input type='text' class='form-control' name='start_time[]' id='class_start_"+ cmpList.studentId +"' value='"+ startTime +"' "+ isDisabled_start +">"; //등원시간
+                 var class_attend_time = "<input type='text' class='form-control test1' name='start_time[]' id='class_start_"+ cmpList.studentId +"' value='"+ startTime +"' "+ isDisabled_start +">"; //등원시간
                  var class_close_time = "<input type='text' class='form-control' name='end_time[]' id='class_close_"+ cmpList.studentId +"' value='"+ endTime +"' "+ isDisabled_end +">"; //하원시간
                  var class_attend_memo = "<input type='text' class='form-control' name='memo[]' id='class_memo_"+ cmpList.studentId+"' value='"+ comment +"'>"; //메모
                  if(cmpList != undefined){
                         var cellData =[
                           function (data) {return checkHTML},
                           function (data) {return i+1},
-                          function (data) {return cmpList.studentName},
+                          function (data) {return class_student_name},
                           function (data) {return class_attend_time},
                           function (data) {return class_close_time},
                           function (data) {return class_attend_memo}
@@ -57,6 +63,10 @@
                      dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
                  }
              }
+                function formatter(selList) {
+                    return "<input type=hidden id='attendId_"+ selList.studentId +"' value="+selList.lectureAttendId +">";
+                }
+                dwr.util.addOptions("dataList2", selList, formatter, {escapeHtml: false}); //lecture_attend_id 값 ul태그
             }
         });
     }
@@ -74,47 +84,62 @@
     function save_attend_lecture() {
         var attend_list  = new Array();
         var sel_myclass = getSelectboxValue('sel_myClass');
-        var start_time_list = get_array_values_by_name("input", "start_time[]");
-        var end_time_list = get_array_values_by_name("input", "end_time[]");
-        var memo_list = get_array_values_by_name("input", "memo[]");
         var attend_type = $("#attend_type").val();
 
-        if (attend_type == Number("5")) {
-            start_time_list = null;
+        //등원시간/하원시간/메모 체크된값 가져오기
+        var start_time_array  = new Array()
+        var end_time_array  = new Array();
+        var memo_list_array  = new Array();
+        for (var i = 2; i < $('table tr').size(); i++) {
+
+            var chk = $('table tr').eq(i).children().find('input[type="checkbox"]').is(':checked');
+            if (chk == true) {
+                var start_time_list =  $('table tr').eq(i).find('input[name="start_time[]"]').val();
+                var end_time_test   =  $('table tr').eq(i).find('input[name="end_time[]"]').val();
+                var memo_list       =  $('table tr').eq(i).find('input[name="memo[]"]').val();
+                start_time_array.push(start_time_list);
+                end_time_array.push(end_time_test);
+                memo_list_array.push(memo_list);
+            }
         }
-        $('input:checkbox[name=chkList]').each(function(i) {
+
+        console.log("start_time_array:"+start_time_array);
+
+        if (attend_type == Number("5")) start_time_list = null;
+
+        $('input:checkbox[name=chkList]:checked').each(function(i) {
             var attend_detail_info;
-            if($(this).is(':checked')){
+            var lecture_attend_id =  $("#attendId_"+$(this).val()).val();
+                //하원시간
                 if (start_time_list == null || start_time_list == undefined) {
                     attend_detail_info = {
+                        lectureAttendId:lecture_attend_id,
                         lectureId: sel_myclass,
                         studentId: $(this).val(),
                         attendStartTime: "",
-                        attendEndTime: end_time_list[i],
-                        attendModifyComment: memo_list[i],
+                        attendEndTime: end_time_array[i],
+                        attendModifyComment: memo_list_array[i],
                         attendType: attend_type,
                     };
-                } else {
+                } else { //등원시간
                     attend_detail_info = {
                         lectureId: sel_myclass,
                         studentId: $(this).val(),
-                        attendStartTime: start_time_list[i],
-                        attendEndTime: end_time_list[i],
-                        attendModifyComment: memo_list[i],
+                        attendStartTime: start_time_array[i],
+                        attendEndTime: end_time_array[i],
+                        attendModifyComment: memo_list_array[i],
                         attendType: attend_type,
                     };
                 }
-            }
             attend_list.push(attend_detail_info)
         });
         console.log(attend_list);
-
        if(confirm(comment.isUpdate)){
             lectureManager.attendLecture(attend_list, function (bl) {
                if(bl == true){
                     switch (attend_type){
                         case '0':
-                            alert("등원 하였습니다.");
+                            alert("등원처리 완료되었습니다..");
                             break;
                         case '1':
                             alert("지각저장");
@@ -129,7 +154,7 @@
                             alert("보강저장");
                             break;
                         case '5':
-                            alert("하원 하였습니다.");
+                            alert("하원처리 완료되었습니다.");
                             break;
                         }
                    goPage("lecture","lecture_attend_list");
@@ -197,12 +222,12 @@
         </div>
 
         <div class="tb_t1 attend_tb1">
-            <table>
+            <table class="tm">
                 <tbody>
                     <tr style="text-align: center;">
                         <td colspan="6">
                             [전체 : <span id="allStudent"></span>]&nbsp;
-                            [등원 : <span id="">0</span>]&nbsp;
+                            [등원 : <span id="start_num">0</span>]&nbsp;
                             [지각 : <span>0</span>]&nbsp;
                             [조퇴 : <span>0</span>]&nbsp;
                             [결석 : <span>0</span>]
@@ -227,12 +252,14 @@
             <button class="btn_pack blue s2" onclick="save_attend_lecture()">저장</button>
             <div style="float: right; margin-top:5px;">
                 <button class="btn_pack black" id="start_btn" onclick="getTimeStamp('chkList', 'start')">등원</button>
-                <button class="btn_pack black" id="late_btn">지각</button>
-                <button class="btn_pack black" id="leave_btn">조퇴</button>
+                <button class="btn_pack black" id="late_btn" onclick="getTimeStamp('chkList', 'start')">지각</button>
+                <button class="btn_pack black" id="leave_btn" onclick="getTimeStamp('chkList', 'close')">조퇴</button>
                 <button class="btn_pack black" id="absent_btn">결석</button>
                 <button class="btn_pack black" id="makeup_btn">보강</button>
                 <button class="btn_pack black" id="dismiss_btn" onclick="getTimeStamp('chkList', 'close')">하원</button>
             </div>
+
+            <ul id="dataList2"></ul>
         </div>
     </section><!--content-->
 

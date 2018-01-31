@@ -1971,7 +1971,11 @@ function get_array_values_by_name(type, name) {
         $("input[name="+ '"' + name + '"' + "]").each(function () {
             array.push($(this).val());
         });
-	}
+	} else if (type == "span") {
+        $("span[name="+ '"' + name + '"' + "]").each(function () {
+            array.push($(this).val());
+        });
+    }
     return array;
 }
 //브라우저 종류 값 가져오기
