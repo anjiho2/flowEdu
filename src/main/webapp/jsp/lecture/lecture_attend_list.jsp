@@ -26,12 +26,14 @@
 
         var studentName = getInputTextValue("student_name");
         var searchDate  = getInputTextValue("endDate");
-
+        var start_student_num=0;
+        var late_student_num=0;
+        var leave_student_num=0;
+        var absent_student_num=0;
         lectureService.getLectureAttendListBySearch(selMyclass, studentName, searchDate, function (selList) {
             if(selList.length > 0){
                 $("#allStudent").html(selList.length); //전체학생수
              for(var i = 0; i < selList.length; i++){
-                    console.log(selList);
                  var cmpList = selList[i];
                  var startTime = cmpList.attendStartTime == null ? '' : cmpList.attendStartTime; //등원시간
                  var endTime = cmpList.attendEndTime == null ? '' : cmpList.attendEndTime; // 하원시간
@@ -43,6 +45,16 @@
                  if(cmpList.attendStartTime == null)  var isDisabled_start = '';
                  if(cmpList.attendEndTime == null) var isDisabled_end = '';
                  if(cmpList.attendType == 1) var studnet_name_class = "style='color:red'"; //지각시 학생이름 강조
+
+                 /*인원수 체크*/
+                 if(cmpList.attendType == 0) start_student_num++;
+                 if(cmpList.attendType == 1) late_student_num++;
+                 if(cmpList.attendType == 2) leave_student_num++;
+                 if(cmpList.attendType == 3) absent_student_num++;
+                 $("#start_student_num").html(start_student_num);
+                 $("#late_student_num").html(late_student_num);
+                 $("#leave_student_num").html(leave_student_num);
+                 $("#absent_student_num").html(absent_student_num);
 
                  innerValue("l_attendId", cmpList.lectureAttendId);
 
@@ -95,74 +107,93 @@
             var chk = $('table tr').eq(i).children().find('input[type="checkbox"]').is(':checked');
             if (chk == true) {
                 var start_time_list =  $('table tr').eq(i).find('input[name="start_time[]"]').val();
-                var end_time_test   =  $('table tr').eq(i).find('input[name="end_time[]"]').val();
+                var end_time_list   =  $('table tr').eq(i).find('input[name="end_time[]"]').val();
                 var memo_list       =  $('table tr').eq(i).find('input[name="memo[]"]').val();
+                /*var isChange = false;
+                $('input[name="memo[]"]').change(function () {
+                    isChange = true;
+                    alert(isChange);
+                });
+                if(start_time_list != '' && end_time_list != '' ){
+                    alert("기능을 입력할수 없습니다.");
+                    return;
+                }*/
                 start_time_array.push(start_time_list);
-                end_time_array.push(end_time_test);
+                end_time_array.push(end_time_list);
                 memo_list_array.push(memo_list);
             }
         }
 
         if (attend_type == Number("5")) start_time_list = null;
-        console.log(start_time_list)
+
         $('input:checkbox[name=chkList]:checked').each(function(i) {
             var attend_detail_info;
             var lecture_attend_id =  $("#attendId_"+$(this).val()).val();
-                //하원시간
-                if (start_time_array == null || start_time_array == undefined) {
-                    alert(1);
-                    attend_detail_info = {
-                        lectureAttendId:lecture_attend_id,
-                        lectureId: sel_myclass,
-                        studentId: $(this).val(),
-                        attendStartTime: "",
-                        attendEndTime: end_time_array[i],
-                        attendModifyComment: memo_list_array[i],
-                        attendType: attend_type,
-                    };
-                } else { //등원시간
-                    alert(2);
-                    attend_detail_info = {
-                        lectureId: sel_myclass,
-                        studentId: $(this).val(),
-                        attendStartTime: start_time_array[i],
-                        attendEndTime: end_time_array[i],
-                        attendModifyComment: memo_list_array[i],
-                        attendType: attend_type,
-                    };
+
+                if(lecture_attend_id != "null"){
+                    if(attend_type == 1){
+                        alert( $(this).val() + "학생은 이미 등원처리가 된 학생입니다.");
+                        return false;
+                    }
                 }
+                if(lecture_attend_id == "null"){
+                   if(start_time_array[i] == "" && end_time_array[i] != "") {//등원이 입력안됬을때, 하원 or 조퇴 저장시
+                       alert($(this).val() + "학생은 등원하지 않은학생입니다.");
+                       return;
+                   }
+                      attend_detail_info = {
+                          lectureId: sel_myclass,
+                          studentId: $(this).val(),
+                          attendStartTime: start_time_array[i],
+                          attendEndTime: end_time_array[i],
+                          attendModifyComment: memo_list_array[i],
+                          attendType: attend_type,
+                      };
+                }else{
+                       attend_detail_info = {
+                           lectureAttendId: lecture_attend_id,
+                           lectureId: sel_myclass,
+                           studentId: $(this).val(),
+                           attendStartTime: "",
+                           attendEndTime: end_time_array[i],
+                           attendModifyComment: memo_list_array[i],
+                           attendType: attend_type,
+                       };
+               }
             attend_list.push(attend_detail_info)
         });
-        console.log(attend_list);
-       if(confirm(comment.isUpdate)){
-            lectureManager.attendLecture(attend_list, function (bl) {
-               if(bl == true){
-                    switch (attend_type){
-                        case '0':
-                            alert("등원처리 완료되었습니다..");
-                            break;
-                        case '1':
-                            alert("지각저장");
-                            break;
-                        case '2':
-                            alert("조퇴저장");
-                            break;
-                        case '3':
-                            alert("결석저장");
-                            break;
-                        case '4':
-                            alert("보강저장");
-                            break;
-                        case '5':
-                            alert("하원처리 완료되었습니다.");
-                            break;
+
+        if(attend_list.length > 0 ) {
+            if (confirm(comment.isUpdate)) {
+                lectureManager.attendLecture(attend_list, function (bl) {
+                    if (bl == true) {
+                        switch (attend_type) {
+                            case '0':
+                                alert("등원처리 완료되었습니다..");
+                                break;
+                            case '1':
+                                alert("지각저장");
+                                break;
+                            case '2':
+                                alert("조퇴저장");
+                                break;
+                            case '3':
+                                alert("결석저장");
+                                break;
+                            case '4':
+                                alert("보강저장");
+                                break;
+                            case '5':
+                                alert("하원처리 완료되었습니다.");
+                                break;
                         }
-                   goPage("lecture","lecture_attend_list");
-               }else{
-                   alert("출석정보 저장중 오류발생하였습니다. 관리자문의 부탁드립니다.");
-               }
-         });
-       }
+                        goPage("lecture", "lecture_attend_list");
+                    } else {
+                        alert("출석정보 저장중 오류발생하였습니다. 관리자문의 부탁드립니다.");
+                    }
+                });
+            }
+        }
      }
 
     $(function () { //출결타입설정
@@ -186,6 +217,18 @@
         });
     });
 
+    $(document).ready(function () {
+        /*
+        $(window).on("beforeunload", function () {
+            if (isChange) {
+                return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
+            }
+        });
+        */
+        $("#btn1").click(function(){
+            isChange = false;
+        });
+    });
 </script>
 <body onload="init();">
 <div class="container">
@@ -227,10 +270,10 @@
                     <tr style="text-align: center;">
                         <td colspan="6">
                             [전체 : <span id="allStudent"></span>]&nbsp;
-                            [등원 : <span id="start_num">0</span>]&nbsp;
-                            [지각 : <span>0</span>]&nbsp;
-                            [조퇴 : <span>0</span>]&nbsp;
-                            [결석 : <span>0</span>]
+                            [등원 : <span id="start_student_num">0</span>]&nbsp;
+                            [지각 : <span id="late_student_num">0</span>]&nbsp;
+                            [조퇴 : <span id="leaver_student_num">0</span>]&nbsp;
+                            [결석 : <span id="absent_student_num">0</span>]
                         </td>
                     </tr>
                 </tbody>
