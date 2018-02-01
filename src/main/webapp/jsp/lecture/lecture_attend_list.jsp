@@ -8,6 +8,7 @@
 <%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureManager.js'></script>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script type="text/javascript">
 
     var student_ids = new Array();
@@ -60,7 +61,7 @@
 
                  innerValue("l_attendId", cmpList.lectureAttendId);
 
-                 var class_student_name = "<span " + studnet_name_class +">"+cmpList.studentName+"</span>";
+                 var class_student_name = "<span " + studnet_name_class +" name='student_name[]'>"+cmpList.studentName+"</span>";
                  var checkHTML = "<input type='checkbox' class='form-control' name='chkList' value="+cmpList.studentId+" "+ check_start +">";
                  var class_attend_time = "<input type='text' class='form-control test1' name='start_time[]' id='class_start_"+ cmpList.studentId +"' value='"+ startTime +"' "+ isDisabled_start +">"; //등원시간
                  var class_close_time = "<input type='text' class='form-control' name='end_time[]' id='class_close_"+ cmpList.studentId +"' value='"+ endTime +"' "+ isDisabled_end +">"; //하원시간
@@ -104,6 +105,7 @@
         var start_time_array  = new Array()
         var end_time_array  = new Array();
         var memo_list_array  = new Array();
+        var student_name_list_array  = new Array();
         for (var i = 2; i < $('table tr').size(); i++) {
 
             var chk = $('table tr').eq(i).children().find('input[type="checkbox"]').is(':checked');
@@ -111,6 +113,7 @@
                 var start_time_list =  $('table tr').eq(i).find('input[name="start_time[]"]').val();
                 var end_time_list   =  $('table tr').eq(i).find('input[name="end_time[]"]').val();
                 var memo_list       =  $('table tr').eq(i).find('input[name="memo[]"]').val();
+                var student_name_list  =  $('table tr').eq(i).find('span[name="student_name[]"]').text();
                 /*var isChange = false;
                 $('input[name="memo[]"]').change(function () {
                     isChange = true;
@@ -123,6 +126,7 @@
                 start_time_array.push(start_time_list);
                 end_time_array.push(end_time_list);
                 memo_list_array.push(memo_list);
+                student_name_list_array.push(student_name_list);
             }
         }
 
@@ -134,13 +138,13 @@
 
                 if(lecture_attend_id != "null"){
                     if(attend_type == 1 || attend_type == 0){
-                        alert( $(this).val() + "학생은 이미 등원처리가 된 학생입니다.");
+                        alert( student_name_list_array[i] + "학생은 이미 등원처리가 된 학생입니다.");
                         return false;
                     }
                 }
                 if(lecture_attend_id == "null"){ //등원텍스트박스
                    if(start_time_array[i] == "" && end_time_array[i] != "") {//등원이 입력안됬을때, 하원 or 조퇴 저장시
-                       alert($(this).val() + "학생은 등원하지 않은학생입니다.");
+                       alert(student_name_list_array[i] + "학생은 등원하지 않은학생입니다.");
                        return;
                    }
                       attend_detail_info = {
@@ -165,10 +169,18 @@
             attend_list.push(attend_detail_info)
         });
 
-        console.log(attend_list);
 
         if(attend_list.length > 0 ) {
-            if (confirm(comment.isUpdate)) {
+            var comment_id;
+
+            if(attend_type == 0) comment = "등원 처리 하시겠습니까?";
+            if(attend_type == 1) comment = "지각 처리 하시겠습니까?";
+            if(attend_type == 2) comment = "조퇴 처리 하시겠습니까?";
+            if(attend_type == 3) comment = "결석 처리 하시겠습니까?";
+            if(attend_type == 4) comment = "보강 처리 하시겠습니까?";
+            if(attend_type == 5) comment = "하원 처리 하시겠습니까?";
+
+            if (confirm(comment)) {
                 lectureManager.attendLecture(attend_list, function (bl) {
                     if (bl == true) {
                         switch (attend_type) {
@@ -243,7 +255,6 @@
     <input type="hidden" name="page_gbn" id="page_gbn">
     <input type="hidden" name="attend_type" id="attend_type">
 </form>
-
     <section class="content">
         <h3 class="title_t1">출결 관리</h3>
         <div class="form-outer-group">
@@ -301,7 +312,7 @@
                 <button class="btn_pack black" id="start_btn" onclick="getTimeStamp('chkList', 'start')">등원</button>
                 <button class="btn_pack black" id="late_btn" onclick="getTimeStamp('chkList', 'start')">지각</button>
                 <button class="btn_pack black" id="leave_btn" onclick="getTimeStamp('chkList', 'close')">조퇴</button>
-                <button class="btn_pack black" id="absent_btn">결석</button>
+                <button class="btn_pack black btngray btn" id="absent_btn" onclick="openDaumPostcode()">결석</button>
                 <button class="btn_pack black" id="makeup_btn">보강</button>
                 <button class="btn_pack black" id="dismiss_btn" onclick="getTimeStamp('chkList', 'close')">하원</button>
             </div>

@@ -107,5 +107,6 @@ var comment = {
 		send_email : "입력하신 이메일 주소로 아이디를 전송 하였습니다.",
 		blank_send_email : "이름 또는 이메일 주소를 확인해 주세요.",
 
+
 }
 
