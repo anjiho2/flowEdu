@@ -15,7 +15,6 @@
 
     function init() {
         myClassSelectbox("sel_myClass");
-
     }
 
     function fn_search() {

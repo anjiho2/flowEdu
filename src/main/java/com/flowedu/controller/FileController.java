@@ -40,7 +40,7 @@ public class FileController {
      * @param lectureId
      * @return
      */
-    @RequestMapping(value = "/assignment_upload.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/assignment_upload.do", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
     public @ResponseBody String assignmentFileUpload(MultipartHttpServletRequest request,
                                                      @RequestParam(value = "lecture_id") Long lectureId) {
         Map<String, Object> resultInfo = FileUploadUtil.fileUploadAssignmentFile(request, getAssignmentUploadPath(), lectureId);
