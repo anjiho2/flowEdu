@@ -50,6 +50,25 @@ public class FileController {
         return new JsonBuilder().add("result", null).build();
     }
 
+    /**
+     * <PRE>
+     * 1. Comment : 학원 증명서 파일 업로드
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 01 .30
+     * </PRE>
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/certificate_upload.do", method = RequestMethod.POST)
+    public @ResponseBody String certificateFileUpload(MultipartHttpServletRequest request) {
+        ///Users/jihoan/Downloads // /var/www/html/download/cetificate
+        Map<String, Object> resultInfo = FileUploadUtil.fileUploadCertificateFile(request, "/Users/jihoan/Downloads");
+        if (resultInfo != null) {
+            return new JsonBuilder().add("result", resultInfo).build();
+        }
+        return new JsonBuilder().add("result", null).build();
+    }
+
     private String getFileUploadRoot() {
         return ConfigHolder.uploadRoot();
     }

@@ -2,6 +2,7 @@ package com.flowedu.manager;
 
 import com.flowedu.api.service.SendService;
 import com.flowedu.define.datasource.SmsSendData;
+import com.flowedu.domain.RequestApi;
 import com.flowedu.dto.LectureAttendDto;
 import com.flowedu.dto.LectureCalendarDto;
 import com.flowedu.dto.LectureDetailDto;
@@ -90,32 +91,31 @@ public class LectureManager {
     @Transactional(propagation = Propagation.REQUIRED)
     public boolean attendLecture(List<LectureAttendDto> lectureAttendDtoList) throws Exception {
         if (lectureAttendDtoList.size() == 0) return false;
-        Optional<LectureAttendDto> findInfo = lectureAttendDtoList
+        Optional<LectureAttendDto>findInfo = lectureAttendDtoList
                 .stream()
                 .filter(lectureAttendDto -> !lectureAttendDto.getAttendStartTime().equals(""))
                 .findFirst();
-        String smsSendType = null;
-        if (findInfo.isPresent()) {
+        if (findInfo.isPresent()) { // 등원일때
             lectureService.saveLectureAttendList(lectureAttendDtoList);
-            smsSendType = SmsSendData.LECTURE_ATTEND.toString();
         } else {
+            // 하원일때
             for (LectureAttendDto dto : lectureAttendDtoList) {
                 lectureService.modifyLectureAttend(dto);
             }
-            smsSendType = SmsSendData.LECTURE_DISMISS.toString();
         }
-        sendService.sendAttendSms(lectureAttendDtoList, smsSendType);
+        //출석 sms 전송
+        RequestApi requestApi = sendService.sendAttendSms(lectureAttendDtoList);
+        if (requestApi.getHttpStatusCode() != 200 || requestApi == null) return false;
         return true;
     }
 
     public void test() {
        List<LectureAttendDto> arr = new ArrayList<>();
-
        //for (int i=0; i<2; i++) {
            LectureAttendDto lectureAttendDto = new LectureAttendDto();
            lectureAttendDto.setLectureId(5L);
            //lectureAttendDto.setLectureAttendId(9L);
-           lectureAttendDto.setStudentId(559L);
+           lectureAttendDto.setStudentId(560L);
            lectureAttendDto.setAttendType("0");
            lectureAttendDto.setAttendStartTime("18:00");
            lectureAttendDto.setAttendEndTime("");
