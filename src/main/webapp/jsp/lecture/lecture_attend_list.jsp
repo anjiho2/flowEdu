@@ -44,7 +44,9 @@
 
                  if(cmpList.attendStartTime == null)  var isDisabled_start = '';
                  if(cmpList.attendEndTime == null) var isDisabled_end = '';
-                 if(cmpList.attendType == 1) var studnet_name_class = "style='color:red'"; //지각시 학생이름 강조
+                 if(cmpList.attendType == 1 || cmpList.attendType == 2 || cmpList.attendType == 3 ) {//지각,조퇴,결석 학생이름 강조
+                     var studnet_name_class = "style='color:red'";
+                 }
 
                  /*인원수 체크*/
                  if(cmpList.attendType == 0) start_student_num++;
@@ -83,7 +85,7 @@
         });
     }
 
-    $(function(){ //체크박스
+    $(function(){//처음화면 allcheck처리 함수
         $("#checkAll").click(function(){
             if($("#checkAll").prop("checked")) {
             $("input[type=checkbox]").prop("checked",true);}
@@ -96,7 +98,7 @@
     function save_attend_lecture() {
         var attend_list  = new Array();
         var sel_myclass = getSelectboxValue('sel_myClass');
-        var attend_type = $("#attend_type").val();
+        var attend_type = $("#attend_type").val(); //출결타입
 
         //등원시간/하원시간/메모 체크된값 가져오기
         var start_time_array  = new Array()
@@ -131,12 +133,12 @@
             var lecture_attend_id =  $("#attendId_"+$(this).val()).val();
 
                 if(lecture_attend_id != "null"){
-                    if(attend_type == 1){
+                    if(attend_type == 1 || attend_type == 0){
                         alert( $(this).val() + "학생은 이미 등원처리가 된 학생입니다.");
                         return false;
                     }
                 }
-                if(lecture_attend_id == "null"){
+                if(lecture_attend_id == "null"){ //등원텍스트박스
                    if(start_time_array[i] == "" && end_time_array[i] != "") {//등원이 입력안됬을때, 하원 or 조퇴 저장시
                        alert($(this).val() + "학생은 등원하지 않은학생입니다.");
                        return;
@@ -149,7 +151,7 @@
                           attendModifyComment: memo_list_array[i],
                           attendType: attend_type,
                       };
-                }else{
+                }else{ //학원텍스트박스
                        attend_detail_info = {
                            lectureAttendId: lecture_attend_id,
                            lectureId: sel_myclass,
@@ -162,6 +164,8 @@
                }
             attend_list.push(attend_detail_info)
         });
+
+        console.log(attend_list);
 
         if(attend_list.length > 0 ) {
             if (confirm(comment.isUpdate)) {
