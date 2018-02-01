@@ -9,7 +9,50 @@
 <%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script type="text/javascript">
+
+
+    /* function openDaumPostcode() {
+     new daum.Postcode({
+     oncomplete: function(data) {
+     // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분. 우편번호와 주소 정보를 해당 필드에 넣고, 커서를 상세주소 필드로 이동한다.
+         document.getElementById("addr1").value = data.postcode1;
+         document.getElementById("addr2").value = data.postcode2;
+         document.getElementById("member_address").value = data.address;
+         document.getElementById("member_address2").focus();
+     }
+     }).open();
+     }
+*/
+
+     // 우편번호 찾기 화면을 넣을 element
+     var element = document.getElementById('layer');
+
+     function closeDaumPostcode() {
+         // iframe을 넣은 element를 안보이게 한다.
+         element.style.display = 'none';
+     }
+
+     function openDaumPostcode() {
+         new daum.Postcode({
+             oncomplete: function(data) {
+                 // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분. 우편번호와 주소 정보를 해당 필드에 넣고, 커서를 상세주소 필드로 이동한다.
+                 document.getElementById("addr1").value = data.postcode1;
+                 document.getElementById("addr2").value = data.postcode2;
+                 document.getElementById("member_address").value = data.address;
+                 document.getElementById("member_address2").focus();
+                 // iframe을 넣은 element를 안보이게 한다.
+                 element.style.display = 'none';
+             },
+             width : '100%',
+             height : '100%'
+         }).embed(element);
+
+         // iframe을 넣은 element를 보이게 한다.
+         element.style.display = 'block';
+     }
+
     function init() {
         memberTypeSelectbox("sel_memberType", "");//직원타입
         //jobPositionSelectbox("l_jobPosition","");//직책리스트
@@ -142,7 +185,11 @@
         </div>
         <div class="form-group row">
             <label>주소<b>*</b></label>
+            <input type="button" value="우편번호" onclick="openDaumPostcode();">
+            <div><input type="text" class="form-control" id="addr1" style=""></div>
+            <div><input type="text" class="form-control" id="addr2" style=""></div>
             <div><input type="text" class="form-control" id="member_address" style="width:422px;"></div>
+            <div><input type="text" class="form-control" id="member_address2" style="width:300px;"></div>
         </div>
         <div class="form-group row">
             <label>이메일</label>
@@ -183,6 +230,9 @@
         </div>
     </form>
 </section>
+<div id="layer" style="display:none;border:5px solid;position:fixed;width:500px;height:500px;left:50%;margin-left:-250px;top:50%;margin-top:-250px;overflow:hidden">
+    <img src="http://i1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px" onclick="closeDaumPostcode()">
+</div>
 </div>
 <%@include file="/common/jsp/footer.jsp" %>
 </body>
