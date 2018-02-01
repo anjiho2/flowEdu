@@ -103,7 +103,20 @@
 
     <!-- Filter -->
     <bean id="userSessionFilter" class="com.flowedu.filter.UserSessionFilter"/>
-	
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>text/html;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
 	<!-- ========================= SERVICE OBJECT DEFINITIONS ======================== -->	
   	<!--<bean id="userService" class="com.challabros.birdletter.admin.service.UserService"/>-->
 

@@ -252,7 +252,7 @@
 		AND ZZ.lecture_id = #{lectureId}
 		AND ZZ.attend_day = #{day}
 		AND ZZ.attend_date = #{today}
-		ORDER BY ZZ.lecture_attend_id ASC
+		ORDER BY Z.student_id ASC, ZZ.lecture_attend_id ASC
 	</select>
 
 	<select id="getLectureInfoMyClass" resultType="com.flowedu.dto.LectureInfoDto">

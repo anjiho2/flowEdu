@@ -73,16 +73,6 @@
             <input type="hidden" id="student_id" name="student_id">
             <input type="hidden"  id="sPage" value="<%=sPage%>">
         </form>
-            <%--<div class="form-group row">--%>
-                <%--<div class="checkbox_t1">--%>
-                    <%--<label><input type="radio" name="school_type" value="elem_list" checked><span>초등학교</span></label>--%>
-                    <%--<label><input type="radio" name="school_type" value="midd_list" ><span>중학교</span></label>--%>
-                    <%--<label><input type="radio" name="school_type" value="high_list" ><span>고등학교</span></label>--%>
-                    <%--<label><input type="text" class="form-control"  id="student_name" placeholder="학생이름입력" onkeypress="javascript:if(event.keyCode == 13){fn_search('new'); return false;}" ></label>--%>
-                    <%--<button class="btn_pack blue" type="button" onclick="fn_search('new');">검색</button>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-
             <div class="form-group row">
                 <div class="checkbox_t1">
                     <label><input type="radio" name="school_type" value="elem_list" checked><span>초등학교</span></label>

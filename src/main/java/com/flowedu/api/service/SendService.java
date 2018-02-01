@@ -84,7 +84,6 @@ public class SendService extends ApiService {
         RequestApi requestApi = responseRestfulApi(concatURI("message", "send_sms"), RequestMethod.REQUEST_METHOD_POST, jsonStr);
 
         return requestApi;
-
     }
 
 }

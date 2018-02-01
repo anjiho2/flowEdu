@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<% request.setCharacterEncoding("utf-8"); %>
+<% response.setContentType("text/html; charset=utf-8"); %>
 <%
     //Long lecture_id = Long.parseLong(request.getParameter("lecture_id"));
     int depth1 = 5;
@@ -35,7 +37,7 @@
             processData: false,
             contentType: false,
             success: function (data) {
-
+                console.log(data);
                 var errorCode = data.result.error_code;
                 if (errorCode == "903") {
                     alert(comment.file_name_not_allow_korean);
