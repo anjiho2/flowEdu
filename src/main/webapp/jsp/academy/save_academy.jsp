@@ -54,7 +54,6 @@
 <section class="content">
     <h3 class="title_t1">학원정보입력</h3>
     <form name="frm" method="get" class="form_st1">
-        <input type="hidden" name="office_id" id="office_id">
         <input type="hidden" name="page_gbn" id="page_gbn">
         <input type="hidden"  id="sPage" value="<%=sPage%>">
         <div class="form-group row">

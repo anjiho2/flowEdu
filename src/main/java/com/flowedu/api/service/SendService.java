@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SendService extends ApiService {
@@ -31,7 +32,11 @@ public class SendService extends ApiService {
     private StudentMapper studentMapper;
 
     /**
-     * API서버에 이메일 예약 값 저장하기
+     * <PRE>
+     * 1. Comment : API서버에 이메일 예약 값 저장하기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 01 .29
+     * </PRE>
      * @param emailAddress
      * @param name
      * @param phoneNumber
@@ -49,8 +54,22 @@ public class SendService extends ApiService {
         return requestApi;
     }
 
-    public RequestApi sendAttendSms(List<LectureAttendDto>lectureAttendDtoList, String smsSendCode) {
+    /**
+     * * <PRE>
+     * 1. Comment : API서버에 출석관련 SMS발송 하기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 02 .01
+     * </PRE>
+     * @param lectureAttendDtoList
+     * @return
+     * @throws Exception
+     */
+    public RequestApi sendAttendSms(List<LectureAttendDto>lectureAttendDtoList) throws Exception {
         if (lectureAttendDtoList.size() == 0) return null;
+        Optional<LectureAttendDto>result = lectureAttendDtoList.stream().findFirst();
+        //출석종류가 무엇인지 가져오기
+        String smsSendCode = SmsSendData.getSmsSendType(result.get().getAttendType());
+        //SMS로 발송할 전화번호 목록 만들기 ("01012341234,01012341231,.....")
         List<String>phoneNumbers = new ArrayList<>();
         for (LectureAttendDto dto : lectureAttendDtoList) {
             StudentDto studentDto = studentMapper.getStudentInfo(dto.getStudentId());
@@ -59,8 +78,11 @@ public class SendService extends ApiService {
         String[] stringPhoneNumbers = StringUtil.listToStringArray(phoneNumbers);
         String motherPhoneNumbers = StringUtil.stringJoin(stringPhoneNumbers, ",");
         SmsSendInfoDto smsSendInfoDto = new SmsSendInfoDto(motherPhoneNumbers, smsSendCode);
+        //API로 전송할 데이터 JSON형식으로 변경
+        String jsonStr = GsonJsonUtil.convertToJsonString(smsSendInfoDto);
+        //API전송
+        RequestApi requestApi = responseRestfulApi(concatURI("message", "send_sms"), RequestMethod.REQUEST_METHOD_POST, jsonStr);
 
-        RequestApi requestApi = responseRestfulApi(concatURI("message", "send_sms"), RequestMethod.REQUEST_METHOD_POST, smsSendInfoDto.toString());
         return requestApi;
 
     }

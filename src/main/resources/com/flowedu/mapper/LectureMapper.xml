@@ -249,6 +249,7 @@
 				</if>
 		) Z LEFT OUTER JOIN LECTURE_ATTEND ZZ
 		ON Z. student_id = ZZ.student_id
+		AND ZZ.lecture_id = #{lectureId}
 		AND ZZ.attend_day = #{day}
 		AND ZZ.attend_date = #{today}
 		ORDER BY ZZ.lecture_attend_id ASC
