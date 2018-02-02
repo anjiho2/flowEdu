@@ -68,6 +68,7 @@
 </form>
 
 <section class="content">
+    <div class="title_top">학습관리</div>
     <h3 class="title_t1">출결 관리</h3>
     <div class="form-outer-group">
         <div class="form-group row">

@@ -4791,7 +4791,11 @@ h3.title_t1 {
     position: -webkit-sticky;
     position: sticky;
     top: -55px;
-    z-index: 2
+    z-index: 2;
+}
+
+.top_menu_title{
+    height: 50px;
 }
 
 .top_area .gnb {
@@ -4928,7 +4932,7 @@ h3.title_t1 {
     width: calc(100% - 20px);
     margin: 40px auto 50px;
     position: relative;
-    z-index: 1
+    z-index: 3;
 }
 
 .content > h3.title_t1 {
@@ -5242,6 +5246,18 @@ select.form-control.big:not([size]):not([multiple]) {
 .checkbox_t2 label input[type=checkbox]:checked + span, .checkbox_t2 label input[type=radio]:checked + span {
     color: #838383;
     border-color: #838383
+}
+
+.title_top{
+    margin-top:-80px;
+    font-size: 25px;
+    margin-bottom: 40px;
+}
+
+.title_top_on{
+    font-size: 25px;
+    margin-top:-63px;
+    padding-bottom: 20px;
 }
 
 .tile_t1 ul {
@@ -5957,7 +5973,7 @@ ul.list_t2 button.confirm {
     width: 30rem;
 }
 
-.info_student th{
+.table_width th{
     width: 13%;
 }
 
