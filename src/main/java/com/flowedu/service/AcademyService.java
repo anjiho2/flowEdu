@@ -102,7 +102,7 @@ public class AcademyService {
                 officeAddressDeatil,
                 officeMemo,
                 certificateFileName,
-                "/var/www/html/download/cetificate",
+                "/download/cetificate",
                 UserSession.flowMemberId()
         );
         officeMapper.saveAcademy(officeDto);
@@ -140,7 +140,7 @@ public class AcademyService {
                 officeAddressDeatil,
                 officeMemo,
                 certificateFileName,
-                "/var/www/html/download/cetificate",
+                "/download/cetificate",
                 UserSession.flowMemberId()
         );
         officeMapper.modifyAcademy(officeDto);

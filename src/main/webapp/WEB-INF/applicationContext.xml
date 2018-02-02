@@ -103,6 +103,7 @@
 
     <!-- Filter -->
     <bean id="userSessionFilter" class="com.flowedu.filter.UserSessionFilter"/>
+    <!-- @ResponseBoby 한글 깨짐 처리 -->
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
         <property name="messageConverters">
             <list>

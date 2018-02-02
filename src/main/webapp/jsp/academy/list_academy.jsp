@@ -211,7 +211,7 @@
                 </tr>
             </tbody>
         </table>
-        <button class="btn_pack s2 blue" onclick="javascript:goPage('academy', 'save_academy')">등록</button>
+        <button class="btn_pack s2 blue" onclick="javascript:goPage('academy', 'modify_academy')">등록</button>
     </div>
     <%@ include file="/common/inc/com_pageNavi.inc" %>
 

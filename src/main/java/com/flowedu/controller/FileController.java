@@ -62,7 +62,7 @@ public class FileController {
     @RequestMapping(value = "/certificate_upload.do", method = RequestMethod.POST)
     public @ResponseBody String certificateFileUpload(MultipartHttpServletRequest request) {
         ///Users/jihoan/Downloads // /var/www/html/download/cetificate
-        Map<String, Object> resultInfo = FileUploadUtil.fileUploadCertificateFile(request, "/Users/jihoan/Downloads");
+        Map<String, Object> resultInfo = FileUploadUtil.fileUploadCertificateFile(request, ConfigHolder.getCertificateUploadsPath());
         if (resultInfo != null) {
             return new JsonBuilder().add("result", resultInfo).build();
         }
