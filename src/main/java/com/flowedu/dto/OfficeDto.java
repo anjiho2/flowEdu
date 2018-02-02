@@ -62,7 +62,7 @@ public class OfficeDto {
         this.officeAddressDetail = officeAddressDetail;
         this.officeMemo = officeMemo;
         this.certificateFileName = certificateFileName;
-        this.certificateFileUrl = certificateFileUrl;
+        this.certificateFileUrl = !"".equals(certificateFileName) ? certificateFileUrl : null;
         this.regMemeberId = regMemeberId;
     }
 
@@ -80,7 +80,7 @@ public class OfficeDto {
         this.officeAddressDetail = officeAddressDetail;
         this.officeMemo = officeMemo;
         this.certificateFileName = certificateFileName;
-        this.certificateFileUrl = certificateFileUrl;
+        this.certificateFileUrl = !"".equals(certificateFileName) ? certificateFileUrl : null;
         this.regMemeberId = regMemeberId;
     }
 }

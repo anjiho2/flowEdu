@@ -8,7 +8,6 @@
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
-<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script type="text/javascript">
     var officeId = '<%=officeId%>';
 
@@ -28,57 +27,141 @@
         if(check.input("academy_phone1", comment.input_academy_phone1) == false) return;
         if(check.input("academy_phone2", comment.input_academy_phone2) == false) return;
         if(check.input("academy_phone3", comment.input_academy_phone3) == false) return;
+        if(check.input("academy_fax1", comment.input_academy_fax) == false) return;
+        if(check.input("academy_fax2", comment.input_academy_fax) == false) return;
+        if(check.input("academy_fax3", comment.input_academy_fax) == false) return;
+        if(check.input("zip_code", comment.input_zip_code) == false) return;
         if(check.input("academy_address", comment.input_academy_address) == false) return;
-        if(check.input("academy_fax", comment.input_academy_fax) == false) return;
+        if(check.input("academy_address_detail", comment.input_academy_address_detail) == false) return;
 
-        if (officeId != '') {
-            //수정일때
-            if (confirm(comment.isUpdate)) {
-                //var officeId                = getInputTextValue("officeId");
+        var group_id = getSelectboxValue("sel_academyGroup");
+        var academy_name            = getInputTextValue("academy_name");
+        var academy_directorname    = getInputTextValue("academy_directorname");
+        var academy_address   = getInputTextValue("academy_address");
+        var academy_address_detail = getInputTextValue("academy_address_detail");
+        var academy_group_id  = getSelectboxValue("sel_academyGroup");
+        var academy_phone1    = getInputTextValue("academy_phone1");
+        var academy_phone2    = getInputTextValue("academy_phone2");
+        var academy_phone3    = getInputTextValue("academy_phone3");
+        var academy_allphone  = academy_phone1+academy_phone2+academy_phone3;//관전번호
+        var academy_fax1 = getInputTextValue("academy_fax1");
+        var academy_fax2 = getInputTextValue("academy_fax2");
+        var academy_fax3 = getInputTextValue("academy_fax3");
+        var academy_fax  = academy_fax1 + academy_fax2 + academy_fax3;//팩스번호
+        var zip_code = getInputTextValue("zip_code");
+        var academy_memo = getInputTextValue("academy_memo");
 
-                var academy_name            = getInputTextValue("academy_name");
-                var academy_directorname    = getInputTextValue("academy_directorname");
-                var academy_address   = getInputTextValue("academy_address");
-                var academy_group_id  = getSelectboxValue("sel_academyGroup");
-                var academy_phone1    = getInputTextValue("academy_phone1");
-                var academy_phone2    = getInputTextValue("academy_phone2");
-                var academy_phone3    = getInputTextValue("academy_phone3");
-                var academy_allphone  = academy_phone1+academy_phone2+academy_phone3;//관전번호
-                var academy_fax1 = getInputTextValue("academy_fax1");
-                var academy_fax2 = getInputTextValue("academy_fax2");
-                var academy_fax3 = getInputTextValue("academy_fax3");
-                var academy_fax  = academy_fax1 + academy_fax2 + academy_fax3;//팩스번호
+        var data = new FormData();
+        $.each($("#attachFile")[0].files, function (i, file) {
+            data.append("file-" + i, file);
+        });
+        var attachFile = fn_clearFilePath($("#attachFile").val());
 
-                academyService.modifyAcademy(officeId, academy_name, academy_directorname, academy_address, academy_allphone, academy_fax, academy_group_id ,function () {
-                    alert("학원정보가 수정 되었습니다.");
-                    goPage("academy","list_academy");
-                });
+        if (officeId == '' || officeId == undefined || officeId == null) {
+            //입력일때
+            if (confirm(comment.isSave)) {
+                if (attachFile != '') {
+                    $.ajax({
+                        url: "<%=webRoot%>/file/certificate_upload.do",
+                        method: "post",
+                        dataType: "JSON",
+                        data: data,
+                        cache: false,
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            var errorCode = data.result.error_code;
+                            if (errorCode == "905") {
+                                alert(comment.file_size_not_allow_500kb);
+                                return;
+                            } else if (errorCode == "906") {
+                                alert(comment.certificate_file_extension_not_allow);
+                                return;
+                            }
+                            var fileName = data.result.file_name;
+                            academyService.saveAcademy(
+                                academy_name, academy_directorname, academy_address, academy_allphone, academy_fax,
+                                group_id, zip_code, academy_address_detail, academy_memo, fileName
+                            );
+                        }
+                    });
+                } else {
+                    academyService.saveAcademy(
+                        academy_name, academy_directorname, academy_address, academy_allphone, academy_fax,
+                        group_id, zip_code, academy_address_detail, academy_memo, null
+                    );
+                }
             }
         } else {
-            //저장일때
-            if (confirm(comment.isSave)) {
-
+            //수정일때
+            if (confirm(comment.isUpdate)) {
+                if (attachFile != '') {
+                    $.ajax({
+                        url: "<%=webRoot%>/file/certificate_upload.do",
+                        method: "post",
+                        dataType: "json",
+                        data: data,
+                        cache: false,
+                        processData: false,
+                        contentType: false,
+                        success: function (data) {
+                            var errorCode = data.result.error_code;
+                            if (errorCode == "905") {
+                                alert(comment.file_size_not_allow_500kb);
+                                return;
+                            } else if (errorCode == "906") {
+                                alert(comment.certificate_file_extension_not_allow);
+                                return;
+                            }
+                            var fileName = data.result.file_name;
+                            academyService.modifyAcademy(
+                                officeId, academy_name, academy_directorname, academy_address, academy_allphone, academy_fax,
+                                group_id, zip_code, academy_address_detail, academy_memo, fileName
+                            );
+                        }
+                    });
+                } else {
+                    academyService.modifyAcademy(
+                        officeId, academy_name, academy_directorname, academy_address, academy_allphone, academy_fax,
+                        group_id, zip_code, academy_address_detail, academy_memo, null
+                    );
+                }
             }
         }
-
+        goPage('academy', 'list_academy');
     }
 
     function academyList() { //학원정보가져오기
         var officeId = '<%=officeId%>';
         academyService.getAcademyList(officeId, function (selList) {
-         if (selList.length > 0) {
+        if (selList.length > 0) {
              for (var i=0; i<selList.length; i++) {
                  var cmpList = selList[i];
                  academyGroupSelectbox("academy_group", cmpList.academyGroupId);   //학원그룹명 추가로 기능 추가 (2017.09.12 안지호)
                  innerValue("academy_name", cmpList.officeName);
                  innerValue("academy_directorname", cmpList.officeDirectorName);
+                 innerValue("zip_code", cmpList.zipCode);
                  innerValue("academy_address", cmpList.officeAddress);
+                 innerValue("academy_address_detail", cmpList.officeAddressDetail);
                  fnSetPhoneNo(academy_phone1, academy_phone2, academy_phone3, cmpList.officeTelNumber);
                  fnSetPhoneNo(academy_fax1, academy_fax2, academy_fax3, cmpList.officeFaxNumber);
+                 innerValue("academy_memo", cmpList.officeMemo);
+
+                    //파일명이 있을때 파일명 보여주기
+                    if (cmpList.certificateFileName != null) {
+                        $(document).ready(function() {
+                            $('.custom-file-control').html(cmpList.certificateFileName);
+                        });
+                    }
                 }
             }
         });
     }
+
+    //파일 선택시 파일명 보이게 하기
+    $(document).on('change', '.custom-file-input', function() {
+        $(this).parent().find('.custom-file-control').html($(this).val().replace(/C:\\fakepath\\/i, ''));
+    });
 </script>
 <body onload="init();"> <!-- onload="academyList();" -->
 <div class="container">
@@ -91,48 +174,7 @@
     <h3 class="title_t1">학원정보수정</h3>
     <form name="frm" method="get"><!-- class="form_st1"-->
         <input type="hidden" name="page_gbn" id="page_gbn">
-        <%--<input type="hidden" name="officeId" id="officeId" value="<%=officeId%>" >--%>
-        <%--<div class="form-group row">--%>
-            <%--<label>그룹명<b>*</b></label>--%>
-            <%--<div><span id="academy_group"></span></div>--%>
-        <%--</div>--%>
-        <%--<div class="form-group row">--%>
-            <%--<label>관명<b>*</b></label>--%>
-            <%--<div><input type="text" class="form-control" id="academy_name" style="width:150px;"></div>--%>
-        <%--</div>--%>
-        <%--<div class="form-group row">--%>
-            <%--<label>원장이름<b>*</b></label>--%>
-            <%--<div><input type="text" class="form-control" id="academy_directorname" style="width:150px;"></div>--%>
-        <%--</div>--%>
-        <%--<div class="form-outer-group">--%>
-            <%--<div class="form-group row">--%>
-                <%--<label>관 전화번호</label>--%>
-                <%--<div class="inputs">--%>
-                    <%--<input type="text"  id="academy_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.academy_phone2,3)" style="width:50px;">&nbsp;-&nbsp;--%>
-                    <%--<input type="text"  id="academy_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.academy_phone3,4)" style="width:50px;">&nbsp;-&nbsp;--%>
-                    <%--<input type="text"  id="academy_phone3" class="form-control" maxlength="4" style="width:50px;">--%>
-                <%--</div>--%>
-            <%--</div>--%>
-            <%--<div class="form-group row">--%>
-                <%--<label>팩스번호</label>--%>
-                <%--<div class="inputs">--%>
-                    <%--<input type="text"  id="academy_fax1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.academy_fax2,3)" style="width:50px;">&nbsp;-&nbsp;--%>
-                    <%--<input type="text"  id="academy_fax2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.academy_fax3,4)" style="width:50px;">&nbsp;-&nbsp;--%>
-                    <%--<input type="text"  id="academy_fax3" class="form-control" maxlength="4" style="width:50px;">--%>
-                <%--</div>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-        <%--<div class="form-group row">--%>
-            <%--<label>관 주소<b>*</b></label>--%>
-            <%--<div><input type="text" class="form-control" id="academy_address" ></div>--%>
-        <%--</div>--%>
-        <%--<div class="bot_btns">--%>
-            <%--<button class="btn_pack blue s2" type="button"  onclick="modify_academy();">수정</button>--%>
-        <%--</div>--%>
-        <%--<%@ include file="/common/inc/com_pageNavi.inc" %>--%>
-        <%--</div>--%>
     </form>
-
     <div class="tb_t1">
         <table class="table_width">
             <tr>
@@ -194,7 +236,7 @@
                 <th>증명서 업로드</th>
                 <td colspan="3">
                     <label class="custom-file">
-                        <input type="file" class="custom-file-input">
+                        <input type="file" id="attachFile" class="custom-file-input">
                         <span class="custom-file-control"></span>
                     </label>
                     <span>첨부파일은 jpg, gif, pdf 파일 등록만 가능하며 500kbyte로 용량을 제한합니다.</span>
@@ -213,11 +255,39 @@
         <button class="btn_pack s2 blue">목록</button>
     </div>
 </section>
+<%@include file="/common/jsp/footer.jsp" %>
+<div id="layer" style="display:none;border:5px solid;position:fixed;width:500px;height:500px;left:50%;margin-left:-250px;top:50%;margin-top:-250px;overflow:hidden;z-index: 999;">
+    <img src="//t1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="closeDaumPostcode()" alt="접기 버튼">
+</div>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script>
+    // 우편번호 찾기 화면을 넣을 element
+    var element = document.getElementById('layer');
+
+    function closeDaumPostcode() {
+        // iframe을 넣은 element를 안보이게 한다.
+        element.style.display = 'none';
+    }
+
+    function openDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분. 우편번호와 주소 정보를 해당 필드에 넣고, 커서를 상세주소 필드로 이동한다.
+                document.getElementById("zip1").value = data.postcode1;
+                document.getElementById("zip2").value = data.postcode2;
+                document.getElementById("addr1").value = data.address;
+                document.getElementById("addr2").focus();
+                // iframe을 넣은 element를 안보이게 한다.
+                element.style.display = 'none';
+            },
+            width : '100%',
+            height : '100%'
+        }).embed(element);
+
+        // iframe을 넣은 element를 보이게 한다.
+        element.style.display = 'block';
+    }
+</script>
+
 </body>
 
-<%--<script  src="<%=webRoot%>/js/postcode.js"></script>--%>
-<!-- iOS에서는 position:fixed 버그가 있음, 적용하는 사이트에 맞게 position:absolute 등을 이용하여 top,left값 조정 필요 -->
-<div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;"></div>
-<div style="display:none;cursor:pointer;position:absolute;right:34.8%;top:15%;z-index:9999" id="closeBtn_layler">
-    <img src="//t1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnCloseLayer" onclick="closeDaumPostcode()" alt="닫기 버튼">
-</div>

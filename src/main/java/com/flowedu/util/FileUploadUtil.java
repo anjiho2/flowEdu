@@ -259,7 +259,7 @@ public class FileUploadUtil {
                     }
                     String finalFileName = makeFileName + "_" + Util.returnNowDateByYyyymmddhhmmss() + "." + fileExtension;
                     //디렉토리 존재 확인
-                    File certificateDirectory = new File(savePath);
+                    File certificateDirectory = new File(FileUtil.concatPath(savePath, "certificate"));
                     if (!certificateDirectory.isDirectory()) {
                         certificateDirectory.mkdirs();
                     }

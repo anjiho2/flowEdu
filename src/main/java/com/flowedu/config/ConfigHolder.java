@@ -29,6 +29,8 @@ public class ConfigHolder {
     private String academyThumbnailUrl;
     @Value("#{config['assignment.uploads.path']}")
     private String assignmentUploadsPath;
+    @Value("#{config['certificate.uploads.path']}")
+    private String certificateUploadsPath;
 
     @PostConstruct
     private ConfigHolder init() {
@@ -70,6 +72,10 @@ public class ConfigHolder {
 
     public static String getAssignmentUploadsPath() {
         return config.assignmentUploadsPath;
+    }
+
+    public static String getCertificateUploadsPath() {
+        return config.certificateUploadsPath;
     }
 
 }
