@@ -191,9 +191,8 @@
                 <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
             </tr>
         </table>
-        <br>
-        <%@ include file="/common/inc/com_pageNavi.inc" %>
         <button class="btn_pack s2 blue" onclick="javascript:goPage('academy', 'modify_academy')">등록</button>
+        <%@ include file="/common/inc/com_pageNavi.inc" %>
     </div>
     <!-- 검색 결과 리스트 테이블 끝 -->
 </section>
