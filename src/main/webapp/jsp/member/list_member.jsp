@@ -49,8 +49,7 @@ function fn_search(val) {//운영자,선생님 리스트불러오기
                         function(data) {return modifyHTML;}
                     ];
                     dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
-                }\
-                        \
+                }
               }
             }
         });

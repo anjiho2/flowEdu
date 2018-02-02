@@ -8,7 +8,56 @@
 <%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
 <script type="text/javascript">
+function init() {
+    myClassSelectbox("sel_myClass");
+    gfn_emptyView("V", comment.assignment_class_type);
+}
 
+function fn_search(val) {
+    dwr.util.removeAllRows("dataList");
+
+    var sel_myclass = getSelectboxValue('sel_myClass');
+    var sel_yn =  getSelectboxValue('assignment_yn');
+    var startDate = getInputTextValue('startDate');
+    var endDate = getInputTextValue('endDate');
+    var homework_date =  $('input:radio[name=homework_date]:checked').val();
+    var registe_info = getSelectboxValue('registe_info');
+    var registe_content = getInputTextValue('registe_content');
+
+    lectureService.getAssignmentInfoList(0, sel_myclass, sel_yn, startDate, endDate, registe_content,function (selList) {
+        if(selList.length > 0){
+            console.log(selList);
+            for(var i=0;i<selList.length;i++) {
+                var cmpList = selList[i];
+                if (cmpList != undefined) {
+                    var cellData = [
+                        function (data) {return i + 1;},
+                        function (data) {return cmpList.assignmentSubject;},
+                        function (data) {return cmpList.regMemberId;},
+                        function (data) {return cmpList.createDate;},
+                        function (data) {return cmpList.useYn;},
+                    ];
+                    dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
+                }
+            }
+        }
+
+    });
+}
+
+
+$(document).ready(function() {
+    $('input[type=radio][name=date_kind]').change(function() {
+        var dateKind = this.value;
+        var oldDate = getDayAgo(dateKind);
+        var now = today();
+        if (dateKind == 0) {
+            oldDate = now;
+        }
+        innerValue("startDate", oldDate);
+        innerValue("endDate", now);
+    });
+});
 
 </script>
 <body onload="init();">
@@ -29,18 +78,15 @@
                     <tr>
                         <th>반</th>
                         <td>
-                            <select class="form-control">
-                                <option value="">반선택</option>
-                                <option value="">1반</option>
-                                <option value="">2반</option>
+                            <select id="sel_myClass" class="form-control">
+                                <option value="">▶강의선택</option>
                             </select>
                         </td>
                         <th>사용여부</th>
                         <td>
-                            <select class="form-control">
-                                <option value="">전체</option>
-                                <option value="">사용</option>
-                                <option value="">사용하지않음</option>
+                            <select class="form-control" id="assignment_yn">
+                                <option value="1">사용</option>
+                                <option value="0">사용하지않음</option>
                             </select>
                         </td>
                     </tr>
@@ -62,23 +108,23 @@
                                 </div>
                                 <div class="checkbox_t1 black">
                                     <label>
-                                        <input type="radio" name="homework_date" value="" checked>
+                                        <input type="radio" name="date_kind" value="0" checked >
                                         <span>오늘</span>
                                     </label>
                                     <label>
-                                        <input type="radio" name="homework_date" value="">
+                                        <input type="radio" name="date_kind" value="7">
                                         <span>7일</span>
                                     </label>
                                     <label>
-                                        <input type="radio" name="homework_date" value="">
+                                        <input type="radio" name="date_kind" value="30" >
                                         <span>30일</span>
                                     </label>
                                     <label>
-                                        <input type="radio" name="homework_date" value="">
+                                        <input type="radio" name="date_kind" value="60" >
                                         <span>60일</span>
                                     </label>
                                     <label>
-                                        <input type="radio" name="homework_date" value="">
+                                        <input type="radio" name="date_kind" value="90" >
                                         <span>90일</span>
                                     </label>
                                 </div>
@@ -89,18 +135,17 @@
                         <th>등록 정보</th>
                         <td colspan="3">
                             <div class="form-group row marginX">
-                                <select class="form-control" style="width: 13rem;margin-right:10px;">
+                                <select class="form-control" style="width: 13rem;margin-right:10px;" id="registe_info">
                                     <option value="">이름</option>
-                                    <option value="">학교</option>
-                                    <option value="">학년</option>
+                                    <option value="">과제명</option>
                                 </select>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" id="registe_content">
                             </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <button class="btn_pack blue">검색</button>
+            <button class="btn_pack blue" onclick="fn_search('new');">검색</button>
         </div>
 
         <div class="tb_t1" style="margin-top: 2.5rem;">
@@ -114,37 +159,21 @@
                         <th>사용여부</th>
                     </tr>
                 </tbody>
-                <tbody>
-                    <tr>
+                <tbody id="dataList"></tbody>
+                <tr>
+                    <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
+                </tr>
+                 <!--   <tr>
                         <td>3</td>
                         <td><a href="javascript:goPage('lecture', 'assignment_detail')" class="font_color blue">중3 선행수업 과제</a></td>
                         <td>현미경</td>
                         <td>2018-01-15</td>
                         <td>사용</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td><a href="javascript:goPage('lecture', 'assignment_detail')" class="font_color blue">2017-11-02 수학 보강 과제</a></td>
-                        <td>오미자</td>
-                        <td>2017-11-02</td>
-                        <td>미사용</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td><a href="javascript:goPage('lecture', 'assignment_detail')" class="font_color blue">중간고사 문제풀이 과제</a></td>
-                        <td>현상금</td>
-                        <td>2017-09-25</td>
-                        <td>사용</td>
-                    </tr>
-                </tbody>
+                    </tr>-->
             </table>
             <button class="btn_pack s2 blue" onclick="javascript:goPage('lecture', 'assignment_info')">등록</button>
         </div>
     </section>
-
-
-
-
 <%@include file="/common/jsp/footer.jsp" %>
 </body>
 <script>

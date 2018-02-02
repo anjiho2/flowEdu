@@ -68,6 +68,7 @@
                 if(confirm(comment.isSave)){
                     lectureService.saveAssignmentInfo(sel_myclass, sel_yn, title, content, data.result.file_name,function () {
                         alert('과제저장완료');
+                        goPage('assignment','assignment_list')
                     });
                 }
             }
