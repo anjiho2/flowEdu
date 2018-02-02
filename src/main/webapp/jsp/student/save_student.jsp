@@ -467,8 +467,9 @@
         <button class="btn_pack blue s2" type="button" onclick="goPage('student','student_list')">목록</button>
         <%--<button class="btn_pack blue s2" type="button"  onclick="student_excel_upload_popup();">엑셀 업로드 하기</button>--%>
     </section>
+
     <!-- 학교 검색 팝업 레이어 시작 -->
-    <div class="layer_popup_template apt_request_layer" id="school_search_layer" style="display: none;width: 360px;">
+    <div class="layer_popup_template apt_request_layer" id="school_search_layer" style="display: none;width: 450px;">
         <div class="layer-title">
             <h3>학교검색</h3>
             <button id="close_btn" type="button" class="fa fa-close btn-close"></button>
