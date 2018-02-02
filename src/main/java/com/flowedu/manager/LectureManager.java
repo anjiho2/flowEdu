@@ -1,5 +1,8 @@
 package com.flowedu.manager;
 
+import com.flowedu.api.service.SendService;
+import com.flowedu.define.datasource.SmsSendData;
+import com.flowedu.domain.RequestApi;
 import com.flowedu.dto.LectureAttendDto;
 import com.flowedu.dto.LectureCalendarDto;
 import com.flowedu.dto.LectureDetailDto;
@@ -13,8 +16,11 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * Created by jihoan on 2017. 8. 10..
@@ -24,6 +30,9 @@ public class LectureManager {
 
     @Autowired
     private LectureService lectureService;
+
+    @Autowired
+    private SendService sendService;
 
     /**
      * <PRE>
@@ -82,31 +91,34 @@ public class LectureManager {
     @Transactional(propagation = Propagation.REQUIRED)
     public boolean attendLecture(List<LectureAttendDto> lectureAttendDtoList) throws Exception {
         if (lectureAttendDtoList.size() == 0) return false;
-        Optional<LectureAttendDto> findInfo = lectureAttendDtoList
+        Optional<LectureAttendDto>findInfo = lectureAttendDtoList
                 .stream()
                 .filter(lectureAttendDto -> !lectureAttendDto.getAttendStartTime().equals(""))
                 .findFirst();
-        if (findInfo.isPresent()) {
+        if (findInfo.isPresent()) { // 등원일때
             lectureService.saveLectureAttendList(lectureAttendDtoList);
         } else {
+            // 하원일때
             for (LectureAttendDto dto : lectureAttendDtoList) {
                 lectureService.modifyLectureAttend(dto);
             }
         }
+        //출석 sms 전송
+        RequestApi requestApi = sendService.sendAttendSms(lectureAttendDtoList);
+        if (requestApi.getHttpStatusCode() != 200 || requestApi == null) return false;
         return true;
     }
 
     public void test() {
        List<LectureAttendDto> arr = new ArrayList<>();
-
        //for (int i=0; i<2; i++) {
            LectureAttendDto lectureAttendDto = new LectureAttendDto();
-           //lectureAttendDto.setLectureId(5L);
-           lectureAttendDto.setLectureAttendId(9L);
-           //lectureAttendDto.setStudentId(559L);
-           lectureAttendDto.setAttendType("1");
-           lectureAttendDto.setAttendStartTime("");
-           lectureAttendDto.setAttendEndTime("18:00");
+           lectureAttendDto.setLectureId(5L);
+           //lectureAttendDto.setLectureAttendId(9L);
+           lectureAttendDto.setStudentId(560L);
+           lectureAttendDto.setAttendType("0");
+           lectureAttendDto.setAttendStartTime("18:00");
+           lectureAttendDto.setAttendEndTime("");
            lectureAttendDto.setAttendModifyComment("수정입니다.");
            arr.add(lectureAttendDto);
        //}

@@ -1971,7 +1971,11 @@ function get_array_values_by_name(type, name) {
         $("input[name="+ '"' + name + '"' + "]").each(function () {
             array.push($(this).val());
         });
-	}
+	} else if (type == "span") {
+        $("span[name="+ '"' + name + '"' + "]").each(function () {
+            array.push($(this).val());
+        });
+    }
     return array;
 }
 //브라우저 종류 값 가져오기
@@ -2041,13 +2045,15 @@ function reset_html(tag_id) {
     }
 }
 
-function getTimeStamp(name) {
+function getTimeStamp(name, check_mode) {
     var d = new Date();
     var time = leadingZeros(d.getHours(), 2) + ':' +
         leadingZeros(d.getMinutes(), 2);
 
     $("input[name='"+name+"']:checked").each(function() {
         var inputValue = $(this).val();
-        $("#class_start_"+inputValue).val(time);
+        if($("#class_"+check_mode+"_"+inputValue).val() == ""){
+        	$("#class_"+check_mode+"_"+inputValue).val(time);
+        }
     });
 }

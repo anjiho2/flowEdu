@@ -88,10 +88,22 @@ public class AcademyService {
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public void saveAcademy(String officeName, String officeDirectorName, String officeAddress,
-        String officeTelNumber, String officeFaxNumber, int academyGroupId) {
+                            String officeTelNumber, String officeFaxNumber, int academyGroupId, int zipCode,
+                            String officeAddressDeatil, String officeMemo, String certificateFileName) {
 
         OfficeDto officeDto = new OfficeDto(
-            officeName, officeDirectorName, officeTelNumber, officeAddress, officeFaxNumber, academyGroupId
+                officeName,
+                officeDirectorName,
+                officeTelNumber,
+                officeAddress,
+                officeFaxNumber,
+                academyGroupId,
+                zipCode,
+                officeAddressDeatil,
+                officeMemo,
+                certificateFileName,
+                "/var/www/html/download/cetificate",
+                UserSession.flowMemberId()
         );
         officeMapper.saveAcademy(officeDto);
     }
@@ -111,12 +123,25 @@ public class AcademyService {
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public void modifyAcademy(Long officeId, String officeName, String officeDirectorName, String officeAddress,
-        String officeTelNumber, String officeFaxNumber, int academyGroupId) {
+                            String officeTelNumber, String officeFaxNumber, int academyGroupId, int zipCode,
+                              String officeAddressDeatil, String officeMemo, String certificateFileName) {
         if (officeId == null || officeId < 1L) {
             throw new FlowEduException(FlowEduErrorCode.INTERNAL_ERROR);
         }
         OfficeDto officeDto = new OfficeDto(
-            officeId, officeName, officeDirectorName, officeTelNumber, officeAddress, officeFaxNumber, academyGroupId
+                officeId,
+                officeName,
+                officeDirectorName,
+                officeTelNumber,
+                officeAddress,
+                officeFaxNumber,
+                academyGroupId,
+                zipCode,
+                officeAddressDeatil,
+                officeMemo,
+                certificateFileName,
+                "/var/www/html/download/cetificate",
+                UserSession.flowMemberId()
         );
         officeMapper.modifyAcademy(officeDto);
     }

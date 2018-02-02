@@ -61,6 +61,7 @@ var comment = {
         input_academy_address : "학원주소를 입력해주세요",
 		input_academy_fax : "팩스번호를 입력해주세요.",
 
+
     	input_member_type : "직원타입을 선택해주세요.",
     	input_member_posiotion:"직책을 선택해주세요.",
     	input_member_academy:"소속부서를 선택해주세요.",
@@ -82,6 +83,7 @@ var comment = {
    		input_member_startSearchDate : "성범죄경력조회 확인일자를 선택해주세요.",
     	input_member_startSearchDate2: "교육청 강사등록일자를 선택해주세요.",
 		input_myclass_type : "반을 선택해 주세요.",
+    	input_assignment_type : "사용여부를 선택해 주세요.",
 
     	input_student_grade:"학생의 학년을 선택해주세요.",
 		input_student_name : "학생 이름을 입력하세요.",
@@ -106,6 +108,9 @@ var comment = {
 		success_update : "수정됬습니다",
 		send_email : "입력하신 이메일 주소로 아이디를 전송 하였습니다.",
 		blank_send_email : "이름 또는 이메일 주소를 확인해 주세요.",
+    	input_title : "제목을 입력해 주세요.",
+    	input_content : "내용을 입력해 주세요.",
+
 
 }
 

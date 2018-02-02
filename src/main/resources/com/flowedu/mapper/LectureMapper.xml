@@ -226,7 +226,7 @@
 	</select>
 
 	<select id="getLectureAttendListBySearch" resultType="com.flowedu.dto.LectureAttendDto">
-		SELECT Z.student_id, Z.student_name, ZZ.lecture_attend_id, ZZ.attend_type, ZZ.attend_start_time, ZZ.attend_end_time
+		SELECT Z.student_id, Z.student_name, ZZ.lecture_attend_id, ZZ.attend_type, ZZ.attend_start_time, ZZ.attend_end_time, ZZ.attend_modify_comment
 		FROM (
 				SELECT A.*, C.student_name
 				FROM LECTURE_STUDENT_REL A LEFT JOIN LECTURE_DETAIL_INFO B
@@ -249,9 +249,10 @@
 				</if>
 		) Z LEFT OUTER JOIN LECTURE_ATTEND ZZ
 		ON Z. student_id = ZZ.student_id
+		AND ZZ.lecture_id = #{lectureId}
 		AND ZZ.attend_day = #{day}
 		AND ZZ.attend_date = #{today}
-		ORDER BY ZZ.lecture_attend_id ASC
+		ORDER BY Z.student_id ASC, ZZ.lecture_attend_id ASC
 	</select>
 
 	<select id="getLectureInfoMyClass" resultType="com.flowedu.dto.LectureInfoDto">
@@ -355,7 +356,7 @@
 
 	<insert id="saveLectureAttendList" parameterType="com.flowedu.dto.LectureAttendDto">
 		INSERT INTO LECTURE_ATTEND
-		(lecture_id, student_id, attend_day, attend_type, attend_date, attend_start_time, attend_end_time)
+		(lecture_id, student_id, attend_day, attend_type, attend_date, attend_start_time, attend_end_time, attend_modify_comment)
 		VALUES
 		<foreach collection="attendList" item="values" separator=",">
 			(
@@ -365,7 +366,8 @@
 				#{values.attendType},
 				DATE_FORMAT(CURDATE(), '%Y-%m-%d'),
 				#{values.attendStartTime},
-				#{values.attendEndTime}
+				#{values.attendEndTime},
+				#{values.attendModifyComment}
 			)
 		</foreach>
 	</insert>

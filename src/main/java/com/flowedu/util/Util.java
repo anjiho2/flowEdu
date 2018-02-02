@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
+import com.flowedu.define.datasource.SmsSendData;
 import javafx.scene.media.MediaPlayer;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -984,7 +985,7 @@ public class Util {
 	}
 
 	public static void main(String[] args) throws Exception {
-		//System.out.println(returnNowDateByYYMMDD());
+		System.out.println(SmsSendData.getSmsSendType("1"));
 	}
 }
 
