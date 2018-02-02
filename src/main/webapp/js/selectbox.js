@@ -560,6 +560,7 @@ function myClassSelectbox(tag_id, val) {
 }
 
 function academyGroupBySearch(tag_id, val) {
+    if (val == undefined) val = "";
     academyService.getAcademyGroup(function (list) {
         dwr.util.addOptions(tag_id, list, "academyGroupId", "academyGroupName");
         dwr.util.setValue(tag_id, val);
@@ -567,13 +568,22 @@ function academyGroupBySearch(tag_id, val) {
 }
 
 function academyListBySearch(tag_id, val) {
-    academyService.getAcademyList(function (list) {
-        if (val == undefined) val = "";
-        if (val != '') {
-            dwr.util. removeAllOptions(tag_id);
+    if (val == "all") val = 0;
+    academyService.getAcademyListByGourpId(val, function (list) {
+        var html = "<select id='sel_academyList' class='form-control'>";
+        html += "<option value='all' selected>▶전체</option>";
+        for (var i=0; i<list.length; i++) {
+            html += "<option value="+list[i].officeId+">"+ list[i].officeName +"</option>";
+            /*
+            if (list[i].officeId == val) {
+                html += "<option value="+list[i].officeId+" selected>"+ list[i].officeName +"</option>";
+            } else {
+                html += "<option value="+list[i].officeId+">"+ list[i].officeName +"</option>";
+            }
+            */
         }
-        dwr.util.addOptions(tag_id, list, "officeId", "officeName");
-        dwr.util.setValue(tag_id, val);
+        html += "</select>";
+        innerHTML(tag_id, html);
     });
 }
 

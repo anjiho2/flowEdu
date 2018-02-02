@@ -2057,3 +2057,16 @@ function getTimeStamp(name, check_mode) {
         }
     });
 }
+// 몇일전 날짜 구하기
+function getDayAgo(dayCount) {
+    var today = new Date();
+    var oldday = new Date(today - ( 3600000 * 24 * dayCount ));
+    var year = oldday.getFullYear();
+    var month = oldday.getMonth() + 1;
+    var day = oldday.getDay();
+
+    if (("" + month).length == 1) { month = "0" + month; }
+    if (("" + day).length   == 1) { day   = "0" + day;   }
+
+    return year + "-" + month + "-" + day;
+}

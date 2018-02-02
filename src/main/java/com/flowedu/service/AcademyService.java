@@ -74,6 +74,11 @@ public class AcademyService {
         return academyThumbnailUrl;
     }
 
+    @Transactional(readOnly = true)
+    public List<OfficeDto> getAcademyListByGourpId(Long groupId) {
+        return officeMapper.getAcademyListByGourpId(groupId);
+    }
+
     /**
      * <PRE>
      * 1. Comment : 학원정보 저장

@@ -35,6 +35,16 @@
 		</if>
 	</select>
 
+	<select id="getAcademyListByGourpId" resultType="com.flowedu.dto.OfficeDto">
+		SELECT office_id, office_name
+		FROM OFFICE
+		<if test="academyGroupId > 0">
+			<where>
+				academy_group_id = #{academyGroupId}
+			</where>
+		</if>
+	</select>
+
 	<insert id="saveAcademy" parameterType="com.flowedu.dto.OfficeDto">
 		INSERT INTO OFFICE
 		(

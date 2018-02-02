@@ -16,13 +16,15 @@
     }
 
     function init(group_id) {
-        alert(group_id);
-        //academyGroupSelectbox('academy_group', '');
-        academyGroupBySearch('academy_group', '');
+        var dateKind = get_radio_value("date_kind");
+        if (dateKind == "0") {
+            innerValue("startDate", today());
+            innerValue("endDate", today());
+        }
         academyListBySearch('academy_list', group_id);
         academyList();
     }
-
+    
     function academyList() { //학원정보리스트 가져오기
         var officeId =0;
         academyService.getAcademyList(0, function (selList) {
@@ -49,8 +51,21 @@
             }
         });
     }
+
+    $(document).ready(function() {
+        $('input[type=radio][name=date_kind]').change(function() {
+            var dateKind = this.value;
+            var oldDate = getDayAgo(dateKind);
+            var now = today();
+            if (dateKind == 0) {
+                oldDate = now;
+            }
+            innerValue("startDate", oldDate);
+            innerValue("endDate", now);
+        });
+    });
 </script>
-<body onload="init();">
+<body onload="init();academyGroupBySearch('academy_group', '');">
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
     <%--<%@include file="/common/jsp/academy_top_menu.jsp" %>--%>
@@ -106,9 +121,11 @@
                 </td>
                 <th>학원</th>
                 <td>
-                    <select id="academy_list" class="form-control">
-                        <option value="all">▶전체</option>
-                    </select>
+                    <span id="academy_list"></span>
+
+                    <%--<select id="academy_list" class="form-control">--%>
+                        <%--<option value="all">▶전체</option>--%>
+                    <%--</select>--%>
                 </td>
             </tr>
             <tr>
@@ -129,23 +146,23 @@
                         </div>
                         <div class="checkbox_t1 black">
                             <label>
-                                <input type="radio" name="homework_date" value="" checked>
+                                <input type="radio" name="date_kind" value="0" checked>
                                 <span>오늘</span>
                             </label>
                             <label>
-                                <input type="radio" name="homework_date" value="">
+                                <input type="radio" name="date_kind" value="7">
                                 <span>7일</span>
                             </label>
                             <label>
-                                <input type="radio" name="homework_date" value="">
+                                <input type="radio" name="date_kind" value="30">
                                 <span>30일</span>
                             </label>
                             <label>
-                                <input type="radio" name="homework_date" value="">
+                                <input type="radio" name="date_kind" value="60">
                                 <span>60일</span>
                             </label>
                             <label>
-                                <input type="radio" name="homework_date" value="">
+                                <input type="radio" name="date_kind" value="90">
                                 <span>90일</span>
                             </label>
                         </div>
