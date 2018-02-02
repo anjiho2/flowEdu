@@ -14,6 +14,7 @@
 <body onload="init();">
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
+    <div class="title-top">학습관리ㄴ</div>
 </div>
 </section>
 <form name="frm" id="frm" method="get">
@@ -21,7 +22,6 @@
 </form>
 
     <section class="content">
-        <div class="title_top">학습관리</div>
         <h3 class="title_t1">과제 상세</h3>
         <div class="tb_t1">
             <table>

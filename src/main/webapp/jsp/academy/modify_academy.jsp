@@ -84,10 +84,10 @@
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
     <%--<%@include file="/common/jsp/academy_top_menu.jsp" %>--%>
+    <div class="title-top">행정관리</div>
 </div>
 </section>
 <section class="content">
-    <div class="title_top">행정관리</div>
     <h3 class="title_t1">학원정보수정</h3>
     <form name="frm" method="get"><!-- class="form_st1"-->
         <input type="hidden" name="page_gbn" id="page_gbn">

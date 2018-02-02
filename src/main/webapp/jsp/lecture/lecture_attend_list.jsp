@@ -248,6 +248,7 @@
 <body onload="init();">
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
+    <div class="title-top">학습관리</div>
 </div>
 </section>
 <form name="frm" id="frm" method="get">
