@@ -255,10 +255,11 @@
         <button class="btn_pack s2 blue">목록</button>
     </div>
 </section>
-<%@include file="/common/jsp/footer.jsp" %>
 <div id="layer" style="display:none;border:5px solid;position:fixed;width:500px;height:500px;left:50%;margin-left:-250px;top:50%;margin-top:-250px;overflow:hidden;z-index: 999;">
     <img src="//t1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="closeDaumPostcode()" alt="접기 버튼">
 </div>
+<%@include file="/common/jsp/footer.jsp" %>
+
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
     // 우편번호 찾기 화면을 넣을 element
@@ -273,17 +274,17 @@
         new daum.Postcode({
             oncomplete: function(data) {
                 // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분. 우편번호와 주소 정보를 해당 필드에 넣고, 커서를 상세주소 필드로 이동한다.
-                document.getElementById("zip1").value = data.postcode1;
-                document.getElementById("zip2").value = data.postcode2;
-                document.getElementById("addr1").value = data.address;
-                document.getElementById("addr2").focus();
+                document.getElementById("zip_code").value = (data.postcode1 + data.postcode2);
+                //document.getElementById("zip2").value = data.postcode2;
+                document.getElementById("academy_address").value = data.address;
+                document.getElementById("academy_address_detail").focus();
                 // iframe을 넣은 element를 안보이게 한다.
                 element.style.display = 'none';
+                //$("#layer").css('display', 'none');
             },
             width : '100%',
             height : '100%'
         }).embed(element);
-
         // iframe을 넣은 element를 보이게 한다.
         element.style.display = 'block';
     }
