@@ -559,3 +559,22 @@ function myClassSelectbox(tag_id, val) {
     });
 }
 
+function academyGroupBySearch(tag_id, val) {
+    academyService.getAcademyGroup(function (list) {
+        dwr.util.addOptions(tag_id, list, "academyGroupId", "academyGroupName");
+        dwr.util.setValue(tag_id, val);
+    });
+}
+
+function academyListBySearch(tag_id, val) {
+    academyService.getAcademyList(function (list) {
+        if (val == undefined) val = "";
+        if (val != '') {
+            dwr.util. removeAllOptions(tag_id);
+        }
+        dwr.util.addOptions(tag_id, list, "officeId", "officeName");
+        dwr.util.setValue(tag_id, val);
+    });
+}
+
+

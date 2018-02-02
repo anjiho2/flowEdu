@@ -216,7 +216,7 @@
                 <th>주소<b>*</b></th>
                 <td colspan="3">
                     <div class="form-group row">
-                        <input type="text" class="form-control" id="zip_code" style="width: 10rem;">&nbsp;
+                        <input type="text" class="form-control" id="zip_code" style="width: 10rem;" onclick="openDaumPostcode();" placeholder="우편번호">&nbsp;
                         <button class="btn_pack" onclick="openDaumPostcode();">우편번호 검색</button>
                     </div>
                     <div class="form-group row marginX">
@@ -252,14 +252,13 @@
             -->
         </table>
         <button class="btn_pack s2 blue" onclick="modify_academy();">저장</button>
-        <button class="btn_pack s2 blue">목록</button>
+        <button class="btn_pack s2 blue" onclick="goPage('academy', 'list_academy');">목록</button>
     </div>
 </section>
 <div id="layer" style="display:none;border:5px solid;position:fixed;width:500px;height:500px;left:50%;margin-left:-250px;top:50%;margin-top:-250px;overflow:hidden;z-index: 999;">
     <img src="//t1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="closeDaumPostcode()" alt="접기 버튼">
 </div>
 <%@include file="/common/jsp/footer.jsp" %>
-
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
     // 우편번호 찾기 화면을 넣을 element

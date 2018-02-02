@@ -9,12 +9,22 @@
 <%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type="text/javascript">
+
     function academy_modify(officeid) { //수정페이지 이동
         innerValue("office_id", officeid);
         goPage('academy', 'modify_academy');
     }
 
+    function init(group_id) {
+        alert(group_id);
+        //academyGroupSelectbox('academy_group', '');
+        academyGroupBySearch('academy_group', '');
+        academyListBySearch('academy_list', group_id);
+        academyList();
+    }
+
     function academyList() { //학원정보리스트 가져오기
+        var officeId =0;
         academyService.getAcademyList(0, function (selList) {
             if (selList.length > 0) {
                 for (var i = 0; i < selList.length; i++) {
@@ -40,7 +50,7 @@
         });
     }
 </script>
-<body onload="academyList();academyGroupSelectbox('academy_group', '');">
+<body onload="init();">
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
     <%--<%@include file="/common/jsp/academy_top_menu.jsp" %>--%>
@@ -90,18 +100,14 @@
             <tr>
                 <th>그룹</th>
                 <td>
-                    <select class="form-control">
-                        <option value="">전체</option>
-                        <option value="">1그룹</option>
-                        <option value="">2그룹</option>
+                    <select id="academy_group" class="form-control" onchange="init(this.value);">
+                        <option value="all">▶전체</option>
                     </select>
                 </td>
                 <th>학원</th>
                 <td>
-                    <select class="form-control">
-                        <option value="">전체</option>
-                        <option value="">수학의아침</option>
-                        <option value="">사이언스카이</option>
+                    <select id="academy_list" class="form-control">
+                        <option value="all">▶전체</option>
                     </select>
                 </td>
             </tr>
@@ -176,40 +182,46 @@
                     <th>생성일</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>4</td>
-                    <td>플로우교육</td>
-                    <td><a href="javascript:goPage('academy', 'modify_academy')" class="font_color blue">사이언스카이 중등관</a></td>
-                    <td>양창환</td>
-                    <td>031-717-1114</td>
-                    <td>2018-01-01 15:00:01</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>스타트업플래닛</td>
-                    <td><a href="javascript:goPage('academy', 'modify_academy')" class="font_color blue">TEdI</a></td>
-                    <td>유빛나</td>
-                    <td>031-717-1113</td>
-                    <td>2018-01-01 15:00:01</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>플로우교육</td>
-                    <td><a href="javascript:goPage('academy', 'modify_academy')" class="font_color blue">수학의아침 초등관</a></td>
-                    <td>나원래</td>
-                    <td>031-717-1112</td>
-                    <td>2018-01-01 15:00:01</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>스타트업플래닛</td>
-                    <td><a href="javascript:goPage('academy', 'modify_academy')" class="font_color blue">다빈치톡</a></td>
-                    <td>김학원</td>
-                    <td>031-717-1111</td>
-                    <td>2018-01-01 15:00:01</td>
-                </tr>
+            <tbody id="dataList">
+
+                <%--<tr>--%>
+                    <%--<td>4</td>--%>
+                    <%--<td>플로우교육</td>--%>
+                    <%--<td><a href="javascript:goPage('academy', 'modify_academy')" class="font_color blue">사이언스카이 중등관</a></td>--%>
+                    <%--<td>양창환</td>--%>
+                    <%--<td>031-717-1114</td>--%>
+                    <%--<td>2018-01-01 15:00:01</td>--%>
+                <%--</tr>--%>
+                <%--<tr>--%>
+                    <%--<td>3</td>--%>
+                    <%--<td>스타트업플래닛</td>--%>
+                    <%--<td><a href="javascript:goPage('academy', 'modify_academy')" class="font_color blue">TEdI</a></td>--%>
+                    <%--<td>유빛나</td>--%>
+                    <%--<td>031-717-1113</td>--%>
+                    <%--<td>2018-01-01 15:00:01</td>--%>
+                <%--</tr>--%>
+                <%--<tr>--%>
+                    <%--<td>2</td>--%>
+                    <%--<td>플로우교육</td>--%>
+                    <%--<td><a href="javascript:goPage('academy', 'modify_academy')" class="font_color blue">수학의아침 초등관</a></td>--%>
+                    <%--<td>나원래</td>--%>
+                    <%--<td>031-717-1112</td>--%>
+                    <%--<td>2018-01-01 15:00:01</td>--%>
+                <%--</tr>--%>
+                <%--<tr>--%>
+                    <%--<td>1</td>--%>
+                    <%--<td>스타트업플래닛</td>--%>
+                    <%--<td><a href="javascript:goPage('academy', 'modify_academy')" class="font_color blue">다빈치톡</a></td>--%>
+                    <%--<td>김학원</td>--%>
+                    <%--<td>031-717-1111</td>--%>
+                    <%--<td>2018-01-01 15:00:01</td>--%>
+                <%--</tr>--%>
+
             </tbody>
+            <tr>
+                <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
+            </tr>
+            <%@ include file="/common/inc/com_pageNavi.inc" %>
         </table>
         <button class="btn_pack s2 blue" onclick="javascript:goPage('academy', 'modify_academy')">등록</button>
     </div>
