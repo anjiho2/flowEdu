@@ -44,4 +44,6 @@
 
     <entry key="assignment.uploads.path">${assignment.uploads.path}</entry>
 
+    <entry key="certificate.uploads.path">${certificate.uploads.path}</entry>
+
 </properties>

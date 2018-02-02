@@ -74,6 +74,11 @@ public class AcademyService {
         return academyThumbnailUrl;
     }
 
+    @Transactional(readOnly = true)
+    public List<OfficeDto> getAcademyListByGourpId(Long groupId) {
+        return officeMapper.getAcademyListByGourpId(groupId);
+    }
+
     /**
      * <PRE>
      * 1. Comment : 학원정보 저장
@@ -102,7 +107,7 @@ public class AcademyService {
                 officeAddressDeatil,
                 officeMemo,
                 certificateFileName,
-                "/var/www/html/download/cetificate",
+                "/download/cetificate",
                 UserSession.flowMemberId()
         );
         officeMapper.saveAcademy(officeDto);
@@ -140,7 +145,7 @@ public class AcademyService {
                 officeAddressDeatil,
                 officeMemo,
                 certificateFileName,
-                "/var/www/html/download/cetificate",
+                "/download/cetificate",
                 UserSession.flowMemberId()
         );
         officeMapper.modifyAcademy(officeDto);

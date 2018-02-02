@@ -22,6 +22,8 @@ public interface OfficeMapper {
 
     List<AcademyGroupDto> getAcademyGroup(@Param("academyGroupId") Integer academyGroupId);
 
+    List<OfficeDto> getAcademyListByGourpId(@Param("academyGroupId") Long academyGroupId);
+
     /** INSERT **/
     void saveAcademy(OfficeDto officeDto);
 

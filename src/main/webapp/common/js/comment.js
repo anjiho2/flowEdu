@@ -59,7 +59,10 @@ var comment = {
 		input_academy_phone2 : "핸드폰번호 입력해주세요.",
 		input_academy_phone3 : "핸드폰번호 입력해주세요.",
         input_academy_address : "학원주소를 입력해주세요",
+    	input_academy_address_detail : "학원상세주소를 입력해주세요",
 		input_academy_fax : "팩스번호를 입력해주세요.",
+
+		input_zip_code : "우편번호를 입력하세요.",
 
 
     	input_member_type : "직원타입을 선택해주세요.",
@@ -97,6 +100,8 @@ var comment = {
 		file_name_not_allow_korean : "파일명이 한글입니다. 영문으로 바꿔주세요.",
 		file_extension_not_allow : "파일확장자는 'JPG, GIF'만 가능합니다.",
 		file_size_not_allow_300kb : "첨부된 파일크기가 큽니다. 300KB 이미지만 첨부 가능합니다.",
+    	file_size_not_allow_500kb : "첨부된 파일크기가 큽니다. 500KB 까지만 첨부 가능합니다.",
+    	certificate_file_extension_not_allow : "파일확장자는 'JPG, GIF, PDF'만 가능합니다.",
 
 		not_attend_log : "출결이력이 없습니다.",
 		not_lecture_log : "수강이력이 없습니다",
