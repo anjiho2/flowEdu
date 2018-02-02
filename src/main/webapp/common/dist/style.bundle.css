@@ -4801,9 +4801,7 @@ h3.title_t1 {
 
 .top_area {
     background-color: #fefefe;
-    position: -webkit-sticky;
-    position: sticky;
-    top: -55px;
+    position: relative;
     z-index: 2;
 }
 

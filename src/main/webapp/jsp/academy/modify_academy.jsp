@@ -255,6 +255,33 @@
         <button class="btn_pack s2 blue">목록</button>
     </div>
 </section>
+<!--원장명 검색 팝업 레이어 시작-->
+<div class="layer_popup_template apt_request_layer" id="" style="display: none;width: 450px;">
+    <div class="layer-title">
+        <h3>회원검색</h3>
+        <button id="close_btn" type="button" class="fa fa-close btn-close"></button>
+    </div>
+    <div class="layer-body">
+        <div class="cont">
+            <div class="form_st1">
+                <div class="form-group row">
+                    <label>이름</label>
+                    <div><input type="text" class="form-control"></div>
+                </div>
+                <div class="form-group row" style="display: none;">
+                    <label>검색결과</label>
+                    <a href="#"></a>
+                </div>
+            </div>
+        </div>
+        <div class="bot_btns_t1">
+            <button class="btn_pack btn-close" type="button">취소</button>
+            <button class="btn_pack blue" type="button">검색</button>
+        </div>
+    </div>
+</div>
+<!--원장명 검색 팝업 레이어 끝-->
+
 <div id="layer" style="display:none;border:5px solid;position:fixed;width:500px;height:500px;left:50%;margin-left:-250px;top:50%;margin-top:-250px;overflow:hidden;z-index: 999;">
     <img src="//t1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="closeDaumPostcode()" alt="접기 버튼">
 </div>
