@@ -42,7 +42,20 @@ a {
     -webkit-text-decoration-skip: objects
 }
 
-a.font_color.blue{color:#03A9F4;}
+a.font_color.blue{
+    color:#03A9F4;
+}
+
+.font_color.blue{
+    color:#03A9F4;}
+
+.font_color.red{
+    color:#ff6200;
+}
+
+.font_color.gray{
+    color:#90a4ae;
+}
 
 abbr[title] {
     border-bottom: none;
