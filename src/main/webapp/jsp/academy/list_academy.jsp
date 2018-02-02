@@ -43,44 +43,182 @@
 <body onload="academyList();academyGroupSelectbox('academy_group', '');">
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
-    <%@include file="/common/jsp/academy_top_menu.jsp" %>
+    <%--<%@include file="/common/jsp/academy_top_menu.jsp" %>--%>
 </div>
 </section>
 <section class="content">
-    <h3 class="title_t1">학원정보입력</h3>
+    <div class="title_top">행정관리</div>
+    <h3 class="title_t1">학원관리</h3>
+    <!--여기서부터 원래 만들어진-->
     <form name="frm" method="get">
         <input type="hidden" name="office_id" id="office_id">
         <input type="hidden" name="page_gbn" id="page_gbn">
         <input type="hidden"  id="sPage" value="<%=sPage%>">
-        <div class="tb_t1">
-            <table>
-                <colgroup>
-                    <col width="*" />
-                    <col width="*" />
-                    <col width="*" />
-                    <col width="*" />
-                    <col width="*" />
-                    <col width="*" />
-                    <col width="*" />
-                </colgroup>
-                <thead>
-                <tr>
-                    <th>그룹 / 관</th>
-                    <th>원장명</th>
-                    <th>주소</th>
-                    <th>관전화번호</th>
-                    <th>팩스번호</th>
-                    <th>생성일</th>
-                    <th>수정</th>
-                </tr>
-                <tbody id="dataList"></tbody>
-                <tr>
-                    <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
-                </tr>
-            </table>
-            <%@ include file="/common/inc/com_pageNavi.inc" %>
-        </div>
+        <%--<div class="tb_t1">--%>
+            <%--<table>--%>
+                <%--<colgroup>--%>
+                    <%--<col width="*" />--%>
+                    <%--<col width="*" />--%>
+                    <%--<col width="*" />--%>
+                    <%--<col width="*" />--%>
+                    <%--<col width="*" />--%>
+                    <%--<col width="*" />--%>
+                    <%--<col width="*" />--%>
+                <%--</colgroup>--%>
+                <%--<thead>--%>
+                <%--<tr>--%>
+                    <%--<th>그룹 / 관</th>--%>
+                    <%--<th>원장명</th>--%>
+                    <%--<th>주소</th>--%>
+                    <%--<th>관전화번호</th>--%>
+                    <%--<th>팩스번호</th>--%>
+                    <%--<th>생성일</th>--%>
+                    <%--<th>수정</th>--%>
+                <%--</tr>--%>
+                <%--<tbody id="dataList"></tbody>--%>
+                <%--<tr>--%>
+                    <%--<td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>--%>
+                <%--</tr>--%>
+            <%--</table>--%>
+            <%--<%@ include file="/common/inc/com_pageNavi.inc" %>--%>
+        <%--</div>--%>
     </form>
+    <!--여기까지-->
+    <div class="tb_t1">
+        <table>
+            <tbody>
+            <tr>
+                <th>그룹</th>
+                <td>
+                    <select class="form-control">
+                        <option value="">전체</option>
+                        <option value="">1그룹</option>
+                        <option value="">2그룹</option>
+                    </select>
+                </td>
+                <th>학원</th>
+                <td>
+                    <select class="form-control">
+                        <option value="">전체</option>
+                        <option value="">수학의아침</option>
+                        <option value="">사이언스카이</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>생성일</th>
+                <td colspan="3">
+                    <div class="form-group row marginX">
+                        <div class="input-group date common" style="margin-right:10px;">
+                            <input type="text" id="startDate" class="form-control date-picker">
+                            <span class="input-group-addon">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                        </div>
+                        <div class="input-group date common" style="margin-right:10px;">
+                            <input type="text" id="endDate" class="form-control date-picker">
+                            <span class="input-group-addon">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                        </div>
+                        <div class="checkbox_t1 black">
+                            <label>
+                                <input type="radio" name="homework_date" value="" checked>
+                                <span>오늘</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="homework_date" value="">
+                                <span>7일</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="homework_date" value="">
+                                <span>30일</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="homework_date" value="">
+                                <span>60일</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="homework_date" value="">
+                                <span>90일</span>
+                            </label>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>등록 정보</th>
+                <td colspan="3">
+                    <div class="form-group row marginX">
+                        <select class="form-control" style="width: 13rem;margin-right:10px;">
+                            <option value="">이름</option>
+                            <option value="">그룹명</option>
+                            <option value="">학원명</option>
+                        </select>
+                        <input type="text" class="form-control">
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <button class="btn_pack blue">검색</button>
+    </div>
+
+    <div class="tb_t1" style="margin-top:2.5rem;">
+        <table>
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>그룹명</th>
+                    <th>학원명</th>
+                    <th>원장명</th>
+                    <th>전화번호</th>
+                    <th>생성일</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>4</td>
+                    <td>플로우교육</td>
+                    <td><a href="javascript:goPage('academy', 'modify_academy')" class="font_color blue">사이언스카이 중등관</a></td>
+                    <td>양창환</td>
+                    <td>031-717-1114</td>
+                    <td>2018-01-01 15:00:01</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>스타트업플래닛</td>
+                    <td><a href="javascript:goPage('academy', 'modify_academy')" class="font_color blue">TEdI</a></td>
+                    <td>유빛나</td>
+                    <td>031-717-1113</td>
+                    <td>2018-01-01 15:00:01</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>플로우교육</td>
+                    <td><a href="javascript:goPage('academy', 'modify_academy')" class="font_color blue">수학의아침 초등관</a></td>
+                    <td>나원래</td>
+                    <td>031-717-1112</td>
+                    <td>2018-01-01 15:00:01</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>스타트업플래닛</td>
+                    <td><a href="javascript:goPage('academy', 'modify_academy')" class="font_color blue">다빈치톡</a></td>
+                    <td>김학원</td>
+                    <td>031-717-1111</td>
+                    <td>2018-01-01 15:00:01</td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn_pack s2 blue" onclick="javascript:goPage('academy', 'save_academy')">등록</button>
+    </div>
+    <%@ include file="/common/inc/com_pageNavi.inc" %>
+
 </section>
 </body>
+<script>
+    $(".sidebar-menu > li").eq(3).addClass("active");
+    $(".sidebar-menu > li:nth-child(4) > ul > li:nth-child(1) > a").addClass("on");
+</script>
 </html>

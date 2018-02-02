@@ -27,7 +27,11 @@
                     </ul>
                 </li>
                 <%--<li><a href="javascript:goPage('consult', 'early_consult_memo')" <%=depth1 == 3 ? "class='on'" : ""%>>학습관리</a></li>--%>
-                <li><a href="javascript:goPage('academy', 'list_academy')" <%=depth1 == 4 ? "class='on'" : ""%>>행정관리</a></li>
+                <li><a href="#">행정관리</a>
+                    <ul class="sidebar-submenu">
+                        <li><a href="javascript:goPage('academy', 'list_academy')"><span class="fa fa-address-book"></span>학원관리</a></li>
+                    </ul>
+                </li>
                 <li><a href="javascript:goPage('member', 'list_member')" <%=depth1 == 5 ? "class='on'" : ""%>>경영관리</a></li>
                 <li><a href="javascript:goPage('lecture', 'lecture_list')" <%=depth1 == 6 ? "class='on'" : ""%>>운영세팅관리</a></li>
                 <li><a href="javascript:goPage('', '')" <%=depth1 == 7 ? "class='on'" : ""%>>커뮤니티관리</a></li>

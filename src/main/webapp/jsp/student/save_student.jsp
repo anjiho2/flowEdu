@@ -330,7 +330,7 @@
     </form>
     <div class="tb_t1">
         <h3 class="title_t1">학생정보입력</h3>
-        <table class="info_student">
+        <table class="table_width">
             <tr>
                 <th>학생이름<b>*</b></th>
                 <td><input type="text" class="form-control" id="student_name" maxlength="8" onkeypress="nonHangulSpecialKey()"></td>
@@ -462,11 +462,9 @@
             </tr>
         </table>
     </div>
-    <div class="bot_btnswrap">
         <button class="btn_pack blue s2" type="button"  onclick="save_student();">저장</button>
         <button class="btn_pack blue s2" type="button" onclick="goPage('student','student_list')">목록</button>
         <%--<button class="btn_pack blue s2" type="button"  onclick="student_excel_upload_popup();">엑셀 업로드 하기</button>--%>
-    </div>
     </section>
     <!-- 학교 검색 팝업 레이어 시작 -->
     <div class="layer_popup_template apt_request_layer" id="school_search_layer" style="display: none;width: 360px;">

@@ -21,6 +21,7 @@
 </form>
 
     <section class="content">
+        <div class="title_top">학습관리</div>
         <h3 class="title_t1">과제 관리</h3>
         <div class="tb_t1">
             <table>

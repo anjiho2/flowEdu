@@ -67,6 +67,7 @@
 </div>
 </section>
     <section class="content">
+        <div class="title_top">학생관리</div>
         <h3 class="title_t1">학생 검색</h3>
         <form name="frm" method="get">
             <input type="hidden" name="page_gbn" id="page_gbn">
