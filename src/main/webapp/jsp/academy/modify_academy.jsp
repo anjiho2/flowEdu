@@ -162,6 +162,13 @@
     $(document).on('change', '.custom-file-input', function() {
         $(this).parent().find('.custom-file-control').html($(this).val().replace(/C:\\fakepath\\/i, ''));
     });
+
+    $(function () {
+        $("#academy_directorname").on('click', function () {
+            initPopup($("#find_member_popup"));
+            focusInputText("member_name");
+        });
+    });
 </script>
 <body onload="init();"> <!-- onload="academyList();" -->
 <div class="container">
@@ -242,21 +249,13 @@
                     <span>첨부파일은 jpg, gif, pdf 파일 등록만 가능하며 500kbyte로 용량을 제한합니다.</span>
                 </td>
             </tr>
-            <!--
-            <tr>
-                <th>등록자</th>
-                <td><input type="text" class="form-control" disabled placeholder="이상준"></td>
-                <th>등록일</th>
-                <td><input type="text" class="form-control" disabled placeholder="2018-01-03 17:25:43"></td>
-            </tr>
-            -->
         </table>
         <button class="btn_pack s2 blue" onclick="modify_academy();">저장</button>
         <button class="btn_pack s2 blue" onclick="goPage('academy', 'list_academy');">목록</button>
     </div>
 </section>
 <!--원장명 검색 팝업 레이어 시작-->
-<div class="layer_popup_template apt_request_layer" id="" style="display: none;width: 450px;">
+<div class="layer_popup_template apt_request_layer" id="find_member_popup" style="display: none;width: 450px;">
     <div class="layer-title">
         <h3>회원검색</h3>
         <button id="close_btn" type="button" class="fa fa-close btn-close"></button>
@@ -266,7 +265,7 @@
             <div class="form_st1">
                 <div class="form-group row">
                     <label>이름</label>
-                    <div><input type="text" class="form-control"></div>
+                    <div><input type="text" id="member_name" class="form-control"></div>
                 </div>
                 <div class="form-group row" style="display: none;">
                     <label>검색결과</label>

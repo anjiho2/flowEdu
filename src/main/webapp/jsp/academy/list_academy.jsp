@@ -93,13 +93,12 @@
 </section>
 <section class="content">
     <h3 class="title_t1">학원관리</h3>
-    <!--여기서부터 원래 만들어진-->
     <form name="frm" method="get">
         <input type="hidden" name="office_id" id="office_id">
         <input type="hidden" name="page_gbn" id="page_gbn">
         <input type="hidden"  id="sPage" value="<%=sPage%>">
     </form>
-    <!--여기까지-->
+    <!-- 검색 영역 시작 -->
     <div class="tb_t1">
         <table>
             <tbody>
@@ -113,10 +112,6 @@
                 <th>학원</th>
                 <td>
                     <span id="academy_list"></span>
-
-                    <%--<select id="academy_list" class="form-control">--%>
-                        <%--<option value="all">▶전체</option>--%>
-                    <%--</select>--%>
                 </td>
             </tr>
             <tr>
@@ -177,7 +172,8 @@
         </table>
         <button class="btn_pack blue" onclick="fn_search('new')">검색</button>
     </div>
-
+    <!-- 검색 영역 끝 -->
+    <!-- 검색 결과 리스트 테이블 시작 -->
     <div class="tb_t1" style="margin-top:2.5rem;">
         <table>
             <thead>
@@ -199,6 +195,7 @@
         <%@ include file="/common/inc/com_pageNavi.inc" %>
         <button class="btn_pack s2 blue" onclick="javascript:goPage('academy', 'modify_academy')">등록</button>
     </div>
+    <!-- 검색 결과 리스트 테이블 끝 -->
 </section>
 </body>
 <script>
