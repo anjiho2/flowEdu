@@ -64,10 +64,10 @@
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
     <%--<%@include file="/common/jsp/depth_menu.jsp" %>--%>
+    <div class="title-top">학생관리</div>
 </div>
 </section>
     <section class="content">
-        <div class="title_top">학생관리</div>
         <h3 class="title_t1">학생 검색</h3>
         <form name="frm" method="get">
             <input type="hidden" name="page_gbn" id="page_gbn">
@@ -75,7 +75,7 @@
             <input type="hidden"  id="sPage" value="<%=sPage%>">
         </form>
             <div class="form-group row">
-                <div class="checkbox_t1">
+                <div class="checkbox_t1 black">
                     <label><input type="radio" name="school_type" value="elem_list" checked><span>초등학교</span></label>
                     <label><input type="radio" name="school_type" value="midd_list" ><span>중학교</span></label>
                     <label><input type="radio" name="school_type" value="high_list" ><span>고등학교</span></label>

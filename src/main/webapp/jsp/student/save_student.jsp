@@ -318,8 +318,9 @@
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
     <%--<%@include file="/common/jsp/depth_menu.jsp" %>--%>
-            </div>
-    </section>
+    <div class="title-top">학생관리</div>
+</div>
+</section>
 <section class="content">
     <form name="frm" id="frm" method="get">
         <input type="hidden" name="page_gbn" id="page_gbn">
@@ -336,7 +337,7 @@
                 <td><input type="text" class="form-control" id="student_name" maxlength="8" onkeypress="nonHangulSpecialKey()"></td>
                 <th>성별<b>*</b></th>
                 <td colspan="2">
-                    <div class="checkbox_t1">
+                    <div class="checkbox_t1 black">
                         <label><input type="radio" name="student_gender" value="MALE" checked><span>남자</span></label>
                         <label><input type="radio" name="student_gender" value="FEMALE"><span>여자</span></label>
                     </div>

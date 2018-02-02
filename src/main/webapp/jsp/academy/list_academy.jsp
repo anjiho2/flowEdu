@@ -44,10 +44,10 @@
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
     <%--<%@include file="/common/jsp/academy_top_menu.jsp" %>--%>
+    <div class="title-top">행정관리</div>
 </div>
 </section>
 <section class="content">
-    <div class="title_top">행정관리</div>
     <h3 class="title_t1">학원관리</h3>
     <!--여기서부터 원래 만들어진-->
     <form name="frm" method="get">
