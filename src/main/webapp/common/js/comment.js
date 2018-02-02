@@ -109,6 +109,7 @@ var comment = {
 		not_consult_log : "상담 내역이 없습니다.",
 		search_input_student_name : "학생 이름을 입력 후 검색해주세요.",
         search_input_id_name : "이름을 입력해주세요.",
+		search_academy : "학원을 검색해주세요.",
 
 		success_update : "수정됬습니다",
 		send_email : "입력하신 이메일 주소로 아이디를 전송 하였습니다.",

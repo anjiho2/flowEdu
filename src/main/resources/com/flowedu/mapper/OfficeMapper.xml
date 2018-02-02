@@ -35,6 +35,30 @@
 		</if>
 	</select>
 
+	<select id="getAcademyListBySearchCount" resultType="Integer">
+		SELECT count(A.office_id)
+		FROM OFFICE A LEFT JOIN ACADEMY_GROUP B
+		ON A.academy_group_id = B.academy_group_id
+		WHERE 1=1
+		<if test="academyGroupId > 0">
+			AND A.academy_group_id = #{academyGroupId}
+		</if>
+		<if test="officeId > 0">
+			AND A.office_id = #{officeId}
+		</if>
+		<if test="startDate != ''">
+			AND DATE(A.create_date) BETWEEN #{startDate} AND #{endDate}
+		</if>
+		<if test="regType != ''">
+			<if test="regType == 'group_name'">
+				AND B.academy_group_name LIKE CONCAT('%', #{searchText}, '%')
+			</if>
+			<if test="regType == 'academy_name'">
+				AND A.office_name LIKE CONCAT('%', #{searchText}, '%')
+			</if>
+		</if>
+	</select>
+
 	<select id="getAcademyListByGourpId" resultType="com.flowedu.dto.OfficeDto">
 		SELECT office_id, office_name
 		FROM OFFICE
@@ -44,6 +68,31 @@
 			</where>
 		</if>
 	</select>
+
+    <select id="getAcademyListBySearch" resultType="com.flowedu.dto.OfficeDto">
+        SELECT A.*, B.academy_group_name
+        FROM OFFICE A LEFT JOIN ACADEMY_GROUP B
+        ON A.academy_group_id = B.academy_group_id
+        WHERE 1=1
+        <if test="academyGroupId > 0">
+            AND A.academy_group_id = #{academyGroupId}
+        </if>
+        <if test="officeId > 0">
+            AND A.office_id = #{officeId}
+        </if>
+        <if test="startDate != ''">
+            AND DATE(A.create_date) BETWEEN #{startDate} AND #{endDate}
+        </if>
+        <if test="regType != ''">
+            <if test="regType == 'group_name'">
+                AND B.academy_group_name LIKE CONCAT('%', #{searchText}, '%')
+            </if>
+            <if test="regType == 'academy_name'">
+                AND A.office_name LIKE CONCAT('%', #{searchText}, '%')
+            </if>
+        </if>
+		LIMIT #{start}, #{end}
+    </select>
 
 	<insert id="saveAcademy" parameterType="com.flowedu.dto.OfficeDto">
 		INSERT INTO OFFICE

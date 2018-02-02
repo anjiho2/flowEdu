@@ -314,7 +314,9 @@
         // iframe을 넣은 element를 보이게 한다.
         element.style.display = 'block';
     }
-</script>
 
+    $(".sidebar-menu > li").eq(3).addClass("active");
+    $(".sidebar-menu > li:nth-child(4) > ul > li:nth-child(1) > a").addClass("on");
+</script>
 </body>
 
