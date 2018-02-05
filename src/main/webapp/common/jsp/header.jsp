@@ -38,7 +38,7 @@
 
                 <li><a href="#">운영관리</a>
                     <ul class="sidebar-submenu">
-                        <a href="javascript:goPage('member', 'list_member')">운영자관리</a>
+                        <li><a href="javascript:goPage('member', 'list_member')"><span class="fa fa-address-card"></span>운영자관리</a></li>
                     </ul>
                 </li>
                 <li><a href="javascript:goPage('', '')" <%=depth1 == 7 ? "class='on'" : ""%>>커뮤니티관리</a></li>
