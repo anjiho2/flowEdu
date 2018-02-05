@@ -13,10 +13,12 @@
     function init() {
         myClassSelectbox("sel_myClass");
     }
+
     //파일 선택시 파일명 보이게 하기
     $(document).on('change', '.custom-file-input', function() {
         $(this).parent().find('.custom-file-control').html($(this).val().replace(/C:\\fakepath\\/i, ''));
     });
+
     function assignment_save() {
         var check = new isCheck();
 
@@ -64,15 +66,34 @@
                 }
                 if(check.input("assignment_title", comment.input_title)   == false) return;
                 if(check.input("assignment_content", comment.input_content)   == false) return;
-
+                if(sel_yn == 1) sel_yn = true;
+                else sel_yn = false;
+                alert(sel_yn);
                 if(confirm(comment.isSave)){
                     lectureService.saveAssignmentInfo(sel_myclass, sel_yn, title, content, data.result.file_name,function () {
-                        alert('과제저장완료');
+                        alert('과제저장 완료 되었습니다.');
                         goPage('lecture','assignment_list')
                     });
                 }
             }
         });
+    }
+
+    var isChange = false;
+    $(document).ready(function () {
+        $("input, select, textarea").change(function () {
+            isChange = true;
+        });
+    });
+
+    function go_list() {
+        if(isChange) {
+            if (confirm(comment.is_change_confirm)) {
+                goPage('lecture', 'assignment_list')
+            }
+        } else {
+            goPage('lecture', 'assignment_list')
+        }
     }
 </script>
 <body onload="init();">
@@ -130,7 +151,7 @@
                 </tbody>
             </table>
             <button class="btn_pack blue s2" onclick="assignment_save();">저장</button>
-            <button class="btn_pack blue s2" onclick="goPage('lecture', 'assignment_list')">목록</button>
+            <button class="btn_pack blue s2" onclick="go_list();">목록</button>
         </div>
     </section>
 
