@@ -24,6 +24,14 @@ public interface OfficeMapper {
 
     List<OfficeDto> getAcademyListByGourpId(@Param("academyGroupId") Long academyGroupId);
 
+    int getAcademyListBySearchCount(@Param("academyGroupId") Long academyGroupId,
+                                    @Param("officeId") Long officeId, @Param("startDate") String startDate,
+                                    @Param("endDate") String endDate, @Param("regType") String regType, @Param("searchText") String searchText);
+
+    List<OfficeDto> getAcademyListBySearch(@Param("start") int start, @Param("end") int end,  @Param("academyGroupId") Long academyGroupId,
+                                           @Param("officeId") Long officeId, @Param("startDate") String startDate,
+                                           @Param("endDate") String endDate, @Param("regType") String regType, @Param("searchText") String searchText);
+
     /** INSERT **/
     void saveAcademy(OfficeDto officeDto);
 

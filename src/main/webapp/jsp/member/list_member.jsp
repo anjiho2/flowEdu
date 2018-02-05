@@ -118,3 +118,7 @@ function member_modify(member_id) { //수정페이지 이동
 </section>
 </body>
 </html>
+<script>
+    $(".sidebar-menu > li").eq(5).addClass("active");
+    $(".sidebar-menu > li:nth-child(6) > ul > li:nth-child(1) > a").addClass("on");
+</script>

@@ -1,9 +1,11 @@
 package com.flowedu.service;
 
 import com.flowedu.config.ConfigHolder;
+import com.flowedu.config.PagingSupport;
 import com.flowedu.dto.AcademyGroupDto;
 import com.flowedu.dto.FlowEduTeamDto;
 import com.flowedu.dto.OfficeDto;
+import com.flowedu.dto.PagingDto;
 import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
 import com.flowedu.mapper.OfficeMapper;
@@ -22,7 +24,7 @@ import java.util.List;
  * Created by jihoan on 2017. 8. 7..
  */
 @Service
-public class AcademyService {
+public class AcademyService extends PagingSupport {
 
     @Autowired
     private OfficeMapper officeMapper;
@@ -74,9 +76,61 @@ public class AcademyService {
         return academyThumbnailUrl;
     }
 
+    /**
+     * <PRE>
+     * 1. Comment : 그룹에 따른 학원 리스트 가져오기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 02 .02
+     * </PRE>
+     * @param groupId
+     * @return
+     */
     @Transactional(readOnly = true)
     public List<OfficeDto> getAcademyListByGourpId(Long groupId) {
         return officeMapper.getAcademyListByGourpId(groupId);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 학원관리 리스트 개수
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 02 .02
+     * </PRE>
+     * @param groupId
+     * @param officeId
+     * @param startDate
+     * @param endDate
+     * @param regType
+     * @param searchText
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public int getAcademyListBySearchCount(Long groupId, Long officeId, String startDate,
+                                                  String endDate, String regType, String searchText) {
+        return officeMapper.getAcademyListBySearchCount(groupId, officeId, startDate, endDate, regType, searchText);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 학원관리 리스트
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 02 .02
+     * </PRE>
+     * @param sPage
+     * @param pageListCount
+     * @param groupId
+     * @param officeId
+     * @param startDate
+     * @param endDate
+     * @param regType
+     * @param searchText
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<OfficeDto> getAcademyListBySearch(int sPage, int pageListCount, Long groupId, Long officeId, String startDate,
+                                                  String endDate, String regType, String searchText) {
+        PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
+        return officeMapper.getAcademyListBySearch(pagingDto.getStart(), pageListCount, groupId, officeId, startDate, endDate, regType, searchText);
     }
 
     /**

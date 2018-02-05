@@ -111,12 +111,15 @@ var comment = {
     	assignment_class_type : "반 또는 과제를 검색해 주세요.",
    		attend_class_type : "반 또는 학생을 검색해 주세요.",
         search_input_id_name : "이름을 입력해주세요.",
+		search_academy : "학원을 검색해주세요.",
 
 		success_update : "수정됬습니다",
 		send_email : "입력하신 이메일 주소로 아이디를 전송 하였습니다.",
 		blank_send_email : "이름 또는 이메일 주소를 확인해 주세요.",
     	input_title : "제목을 입력해 주세요.",
     	input_content : "내용을 입력해 주세요.",
+
+		is_change_confirm : "작성한 내용이 저장되지 않습니다.\n계속하시겠습니까?"
 
 
 }

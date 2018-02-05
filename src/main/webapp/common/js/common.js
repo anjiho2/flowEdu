@@ -2063,7 +2063,7 @@ function getDayAgo(dayCount) {
     var oldday = new Date(today - ( 3600000 * 24 * dayCount ));
     var year = oldday.getFullYear();
     var month = oldday.getMonth() + 1;
-    var day = oldday.getDay();
+    var day = oldday.getDate();
 
     if (("" + month).length == 1) { month = "0" + month; }
     if (("" + day).length   == 1) { day   = "0" + day;   }

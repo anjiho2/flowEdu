@@ -23,7 +23,7 @@
         var check = new isCheck();
         if(check.selectbox("sel_academyGroup", comment.input_academy_group) == false) return;   //학원그룹명 추가로 기능 추가 (2017.09.12 안지호)
         if(check.input("academy_name", comment.input_academy_name) == false) return;
-        if(check.input("academy_directorname", comment.input_academy_directorname) == false) return;
+        //if(check.input("academy_directorname", comment.input_academy_directorname) == false) return;
         if(check.input("academy_phone1", comment.input_academy_phone1) == false) return;
         if(check.input("academy_phone2", comment.input_academy_phone2) == false) return;
         if(check.input("academy_phone3", comment.input_academy_phone3) == false) return;
@@ -36,7 +36,7 @@
 
         var group_id = getSelectboxValue("sel_academyGroup");
         var academy_name            = getInputTextValue("academy_name");
-        var academy_directorname    = getInputTextValue("academy_directorname");
+        //var academy_directorname    = getInputTextValue("academy_directorname");
         var academy_address   = getInputTextValue("academy_address");
         var academy_address_detail = getInputTextValue("academy_address_detail");
         var academy_group_id  = getSelectboxValue("sel_academyGroup");
@@ -80,14 +80,14 @@
                             }
                             var fileName = data.result.file_name;
                             academyService.saveAcademy(
-                                academy_name, academy_directorname, academy_address, academy_allphone, academy_fax,
+                                academy_name, "", academy_address, academy_allphone, academy_fax,
                                 group_id, zip_code, academy_address_detail, academy_memo, fileName
                             );
                         }
                     });
                 } else {
                     academyService.saveAcademy(
-                        academy_name, academy_directorname, academy_address, academy_allphone, academy_fax,
+                        academy_name, "", academy_address, academy_allphone, academy_fax,
                         group_id, zip_code, academy_address_detail, academy_memo, null
                     );
                 }
@@ -162,6 +162,58 @@
     $(document).on('change', '.custom-file-input', function() {
         $(this).parent().find('.custom-file-control').html($(this).val().replace(/C:\\fakepath\\/i, ''));
     });
+    /*
+    $(function () {
+        $("#academy_directorname").on('click', function () {
+            initPopup($("#find_member_popup"));
+            focusInputText("member_name");
+        });
+    });
+    */
+    /*
+    $(document).ready(function () {
+        var isChange = false;
+        $("input, select, textarea").change(function () {
+            isChange = true;
+            //alert(isChange);
+        });
+        alert(isChange);
+        window.onbeforeunload = function () {
+            alert(isChange);
+            if (isChange) {
+                return "Are you sure";
+            }
+        };
+        /*
+        $("#list_btn").click(function(){
+            window.onbeforeunload = function () {
+                return "Are you sure";
+            };
+        });
+    });
+    */
+
+    var isChange = false;
+    $(document).ready(function () {
+        $("input, select, textarea").change(function () {
+            isChange = true;
+        });
+    });
+
+    var checkUnload = true;
+    $(window).on("beforeunload", function(){
+        if(checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
+    });
+
+    function test() {
+        if(isChange) {
+            if (confirm(comment.is_change_confirm)) {
+                goPage('academy', 'list_academy');
+            }
+        } else {
+              goPage('academy', 'list_academy');
+        }
+    }
 </script>
 <body onload="init();"> <!-- onload="academyList();" -->
 <div class="container">
@@ -182,13 +234,15 @@
                 <td>
                     <span id="academy_group"></span>
                 </td>
-                <td colspan="2"></td>
-            </tr>
-            <tr>
                 <th>학원명<b>*</b></th>
                 <td><input type="text" class="form-control" id="academy_name"></td>
+                <%--<td colspan="2"></td>--%>
+            </tr>
+            <tr>
+                <!--
                 <th>원장명<b>*</b></th>
                 <td><input type="text" class="form-control" id="academy_directorname"></td>
+                -->
             </tr>
             <tr>
                 <th>전화번호<b>*</b></th>
@@ -242,21 +296,14 @@
                     <span>첨부파일은 jpg, gif, pdf 파일 등록만 가능하며 500kbyte로 용량을 제한합니다.</span>
                 </td>
             </tr>
-            <!--
-            <tr>
-                <th>등록자</th>
-                <td><input type="text" class="form-control" disabled placeholder="이상준"></td>
-                <th>등록일</th>
-                <td><input type="text" class="form-control" disabled placeholder="2018-01-03 17:25:43"></td>
-            </tr>
-            -->
         </table>
         <button class="btn_pack s2 blue" onclick="modify_academy();">저장</button>
-        <button class="btn_pack s2 blue" onclick="goPage('academy', 'list_academy');">목록</button>
+        <button class="btn_pack s2 blue" id="list_btn" onclick="test();">목록</button>
     </div>
 </section>
 <!--원장명 검색 팝업 레이어 시작-->
-<div class="layer_popup_template apt_request_layer" id="" style="display: none;width: 450px;">
+<!--
+<div class="layer_popup_template apt_request_layer" id="find_member_popup" style="display: none;width: 450px;">
     <div class="layer-title">
         <h3>회원검색</h3>
         <button id="close_btn" type="button" class="fa fa-close btn-close"></button>
@@ -266,7 +313,7 @@
             <div class="form_st1">
                 <div class="form-group row">
                     <label>이름</label>
-                    <div><input type="text" class="form-control"></div>
+                    <div><input type="text" id="member_name" class="form-control"></div>
                 </div>
                 <div class="form-group row" style="display: none;">
                     <label>검색결과</label>
@@ -280,6 +327,7 @@
         </div>
     </div>
 </div>
+-->
 <!--원장명 검색 팝업 레이어 끝-->
 
 <div id="layer" style="display:none;border:5px solid;position:fixed;width:500px;height:500px;left:50%;margin-left:-250px;top:50%;margin-top:-250px;overflow:hidden;z-index: 999;">
@@ -314,7 +362,9 @@
         // iframe을 넣은 element를 보이게 한다.
         element.style.display = 'block';
     }
-</script>
 
+    $(".sidebar-menu > li").eq(3).addClass("active");
+    $(".sidebar-menu > li:nth-child(4) > ul > li:nth-child(1) > a").addClass("on");
+</script>
 </body>
 

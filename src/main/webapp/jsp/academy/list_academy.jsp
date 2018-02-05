@@ -10,48 +10,69 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type="text/javascript">
 
-    function academy_modify(officeid) { //수정페이지 이동
-        innerValue("office_id", officeid);
+    function academy_modify(office_id) { //수정페이지 이동
+        innerValue("office_id", office_id);
         goPage('academy', 'modify_academy');
     }
 
     function init(group_id) {
         var dateKind = get_radio_value("date_kind");
+        /*
         if (dateKind == "0") {
             innerValue("startDate", today());
             innerValue("endDate", today());
         }
+        */
         academyListBySearch('academy_list', group_id);
-        academyList();
+
+        gfn_emptyView("V", comment.search_academy);
     }
     
-    function academyList() { //학원정보리스트 가져오기
-        var officeId =0;
-        academyService.getAcademyList(0, function (selList) {
-            if (selList.length > 0) {
-                for (var i = 0; i < selList.length; i++) {
-                    var cmpList = selList[i];
-                    if (cmpList != undefined) {
-                        var modifyHTML = "<button class='btn_pack white' type='button' id='modify' onclick='academy_modify(" + cmpList.officeId + ");'/>수정</button>";
-                        var acaName = "<span class='mini'>"+cmpList.academyGroupName+"</span><div class='title'>"+cmpList.officeName+"</div>";
-                        var cellData = [
-                             function(data) {return acaName;},                                                                                                                                                                                      
-                            //function(data) {return cmpList.academyGroupName;},  //학원그룹명 추가로 기능 추가 (2017.09.12 안지호)
-                            //function(data) {return cmpList.officeName;},
-                            function(data) {return cmpList.officeDirectorName;},
-                            function(data) {return cmpList.officeAddress;},
-                            function(data) {return cmpList.officeTelNumber;},
-                            function(data) {return cmpList.officeFaxNumber;},
-                            function(data) {return getDateTimeSplitComma(cmpList.createDate);},
-                            function(data) {return modifyHTML;}
-                        ];
-                        dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
+    function fn_search(val) { //학원정보리스트 가져오기
+        var paging = new Paging();
+        var sPage = $("#sPage").val();
+        if(val == "new") sPage = "1";
+
+        gfn_emptyView("H", "");
+
+        var groupId = getSelectboxValue("academy_group");
+        var officeId = getSelectboxValue("sel_academyList");
+        var startDate = getInputTextValue("startDate");
+        var endDate = getInputTextValue("endDate");
+        var regType = getSelectboxValue("sel_regType");
+        var searchText = getInputTextValue("search_text");
+
+        if (groupId == "all") groupId = 0;
+        if (officeId == "all") officeId = 0;
+
+        academyService.getAcademyListBySearchCount(groupId, officeId, startDate, endDate, regType, searchText, function (cnt) {
+            paging.count(sPage, cnt, '10', '10', comment.blank_list2);
+
+            var listNum = ((cnt-1)+1)-((sPage-1)*10); //리스트 넘버링
+
+            academyService.getAcademyListBySearch(sPage, "10", groupId, officeId, startDate, endDate, regType, searchText, function (selList) {
+                if (selList.length > 0) {
+                    dwr.util.removeAllRows("dataList");
+                    for (var i = 0; i < selList.length; i++) {
+                        var cmpList = selList[i];
+                        if (cmpList != undefined) {
+                            var academyHTML = "<a href='javascript:void(0);' class='font_color blue' onclick='academy_modify(" + cmpList.officeId + ");'/>" + cmpList.officeName + "</a>";
+                            //var acaName = "<span class='mini'>"+cmpList.academyGroupName+"</span><div class='title'>"+cmpList.officeName+"</div>";
+                            var cellData = [
+                                function(data) {return listNum--;},
+                                function(data) {return cmpList.academyGroupName;},
+                                function(data) {return academyHTML;},
+                                function(data) {return fn_tel_tag(cmpList.officeTelNumber);},
+                                function(data) {return getDateTimeSplitComma(cmpList.createDate);},
+                            ];
+                            dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
+                        }
                     }
                 }
-            }
+            });
         });
     }
-
+    //날짜 선택 라디오박스 이벤트
     $(document).ready(function() {
         $('input[type=radio][name=date_kind]').change(function() {
             var dateKind = this.value;
@@ -74,44 +95,16 @@
 </section>
 <section class="content">
     <h3 class="title_t1">학원관리</h3>
-    <!--여기서부터 원래 만들어진-->
     <form name="frm" method="get">
         <input type="hidden" name="office_id" id="office_id">
         <input type="hidden" name="page_gbn" id="page_gbn">
         <input type="hidden"  id="sPage" value="<%=sPage%>">
-        <%--<div class="tb_t1">--%>
-            <%--<table>--%>
-                <%--<colgroup>--%>
-                    <%--<col width="*" />--%>
-                    <%--<col width="*" />--%>
-                    <%--<col width="*" />--%>
-                    <%--<col width="*" />--%>
-                    <%--<col width="*" />--%>
-                    <%--<col width="*" />--%>
-                    <%--<col width="*" />--%>
-                <%--</colgroup>--%>
-                <%--<thead>--%>
-                <%--<tr>--%>
-                    <%--<th>그룹 / 관</th>--%>
-                    <%--<th>원장명</th>--%>
-                    <%--<th>주소</th>--%>
-                    <%--<th>관전화번호</th>--%>
-                    <%--<th>팩스번호</th>--%>
-                    <%--<th>생성일</th>--%>
-                    <%--<th>수정</th>--%>
-                <%--</tr>--%>
-                <%--<tbody id="dataList"></tbody>--%>
-                <%--<tr>--%>
-                    <%--<td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>--%>
-                <%--</tr>--%>
-            <%--</table>--%>
-            <%--<%@ include file="/common/inc/com_pageNavi.inc" %>--%>
-        <%--</div>--%>
     </form>
-    <!--여기까지-->
+    <!-- 검색 영역 시작 -->
     <div class="tb_t1">
         <table>
             <tbody>
+            <!--
             <tr>
                 <th>그룹</th>
                 <td>
@@ -122,12 +115,9 @@
                 <th>학원</th>
                 <td>
                     <span id="academy_list"></span>
-
-                    <%--<select id="academy_list" class="form-control">--%>
-                        <%--<option value="all">▶전체</option>--%>
-                    <%--</select>--%>
                 </td>
             </tr>
+            -->
             <tr>
                 <th>생성일</th>
                 <td colspan="3">
@@ -146,7 +136,7 @@
                         </div>
                         <div class="checkbox_t1 black">
                             <label>
-                                <input type="radio" name="date_kind" value="0" checked>
+                                <input type="radio" name="date_kind" value="0">
                                 <span>오늘</span>
                             </label>
                             <label>
@@ -173,20 +163,21 @@
                 <th>등록 정보</th>
                 <td colspan="3">
                     <div class="form-group row marginX">
-                        <select class="form-control" style="width: 13rem;margin-right:10px;">
-                            <option value="">이름</option>
-                            <option value="">그룹명</option>
-                            <option value="">학원명</option>
+                        <select id="sel_regType" class="form-control" style="width: 13rem;margin-right:10px;">
+                            <%--<option value="name">이름</option>--%>
+                            <option value="group_name">그룹명</option>
+                            <option value="academy_name" selected>학원명</option>
                         </select>
-                        <input type="text" class="form-control">
+                        <input type="text" id="search_text" class="form-control" onkeypress="javascript:if(event.keyCode == 13){fn_search('new'); return false;}">
                     </div>
                 </td>
             </tr>
             </tbody>
         </table>
-        <button class="btn_pack blue">검색</button>
+        <button class="btn_pack blue" onclick="fn_search('new')">검색</button>
     </div>
-
+    <!-- 검색 영역 끝 -->
+    <!-- 검색 결과 리스트 테이블 시작 -->
     <div class="tb_t1" style="margin-top:2.5rem;">
         <table>
             <thead>
@@ -194,56 +185,20 @@
                     <th>No.</th>
                     <th>그룹명</th>
                     <th>학원명</th>
-                    <th>원장명</th>
+                    <%--<th>원장명</th>--%>
                     <th>전화번호</th>
                     <th>생성일</th>
                 </tr>
             </thead>
-            <tbody id="dataList">
-
-                <%--<tr>--%>
-                    <%--<td>4</td>--%>
-                    <%--<td>플로우교육</td>--%>
-                    <%--<td><a href="javascript:goPage('academy', 'modify_academy')" class="font_color blue">사이언스카이 중등관</a></td>--%>
-                    <%--<td>양창환</td>--%>
-                    <%--<td>031-717-1114</td>--%>
-                    <%--<td>2018-01-01 15:00:01</td>--%>
-                <%--</tr>--%>
-                <%--<tr>--%>
-                    <%--<td>3</td>--%>
-                    <%--<td>스타트업플래닛</td>--%>
-                    <%--<td><a href="javascript:goPage('academy', 'modify_academy')" class="font_color blue">TEdI</a></td>--%>
-                    <%--<td>유빛나</td>--%>
-                    <%--<td>031-717-1113</td>--%>
-                    <%--<td>2018-01-01 15:00:01</td>--%>
-                <%--</tr>--%>
-                <%--<tr>--%>
-                    <%--<td>2</td>--%>
-                    <%--<td>플로우교육</td>--%>
-                    <%--<td><a href="javascript:goPage('academy', 'modify_academy')" class="font_color blue">수학의아침 초등관</a></td>--%>
-                    <%--<td>나원래</td>--%>
-                    <%--<td>031-717-1112</td>--%>
-                    <%--<td>2018-01-01 15:00:01</td>--%>
-                <%--</tr>--%>
-                <%--<tr>--%>
-                    <%--<td>1</td>--%>
-                    <%--<td>스타트업플래닛</td>--%>
-                    <%--<td><a href="javascript:goPage('academy', 'modify_academy')" class="font_color blue">다빈치톡</a></td>--%>
-                    <%--<td>김학원</td>--%>
-                    <%--<td>031-717-1111</td>--%>
-                    <%--<td>2018-01-01 15:00:01</td>--%>
-                <%--</tr>--%>
-
-            </tbody>
+            <tbody id="dataList"></tbody>
             <tr>
                 <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
             </tr>
-            <%@ include file="/common/inc/com_pageNavi.inc" %>
         </table>
         <button class="btn_pack s2 blue" onclick="javascript:goPage('academy', 'modify_academy')">등록</button>
+        <%@ include file="/common/inc/com_pageNavi.inc" %>
     </div>
-    <%@ include file="/common/inc/com_pageNavi.inc" %>
-
+    <!-- 검색 결과 리스트 테이블 끝 -->
 </section>
 </body>
 <script>
