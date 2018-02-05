@@ -104,88 +104,203 @@
 </div>
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
-    <%@include file="/common/jsp/member_top_menu.jsp" %>
+    <%--<%@include file="/common/jsp/member_top_menu.jsp" %>--%>
+    <div class="title-top">운영관리</div>
 </div>
 </section>
 <section class="content">
-    <h3 class="title_t1">운영자/선생님정보입력</h3>
-    <form name="frm" method="get" class="form_st1">
+    <h3 class="title_t1">운영자관리</h3>
+    <form name="frm" method="get">
         <input type="hidden" name="member_id" id="member_id">
         <input type="hidden" name="page_gbn" id="page_gbn">
         <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
-        <div class="form-group row">
-            <label>직원타입<b>*</b></label>
-            <div>
-                <%--<span id="l_memberType"></span>--%>
-                <select id="sel_memberType" class="form-control">
-                    <option value="">▶선택</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label>직원명<b>*</b></label>
-            <div><input type="text" class="form-control" id="member_name" style="width:150px;"></div>
-        </div>
-        <div class="form-outer-group">
-            <div class="form-group row">
-                <label>생년월일<b>*</b></label>
-                <div><input type="text" id="startDate" class="form-control date-picker" style="width:200px;"></div>
-            </div>
-            <div class="form-group row">
-                <label>핸드폰번호</label>
-                <div class="inputs">
-                    <input type="number" id="member_phone1" size="4" class="form-control" maxlength="3"  onkeyup="js_tab_order(this,'member_phone2',3)">&nbsp;-&nbsp;
-                    <input type="number" id="member_phone2" size="5" class="form-control" maxlength="4"  onkeyup="js_tab_order(this,'member_phone3',4)">&nbsp;-&nbsp;
-                    <input type="number" id="member_phone3" size="5" class="form-control" maxlength="4"  >
 
-                </div>
-            </div>
+        <div class="tb_t1">
+            <table>
+                <tr>
+                    <th>유형<b>*</b></th>
+                    <td>
+                        <select class="form-control">
+                            <option>선택</option>
+                            <option>AMS관리자</option>
+                            <option>강사</option>
+                            <option>CS</option>
+                        </select>
+                    </td>
+                    <th>직책<b>*</b></th>
+                    <td>
+                        <select class="form-control">
+                            <option>선택</option>
+                            <option>원장</option>
+                            <option>부원장</option>
+                            <option>팀장</option>
+                            <option>실장</option>
+                            <option>팀원</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>소속<b>*</b></th>
+                    <td>
+                        <select class="form-control">
+                            <option>선택</option>
+                            <option>수학의아침</option>
+                            <option>사이언스카이</option>
+                            <option>다빈치코드</option>
+                            <option>TEdI</option>
+                            <option>플로우교육</option>
+                        </select>
+                    </td>
+                    <th>소속팀</th>
+                    <td><input type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <th>이름<b>*</b></th>
+                    <td><input type="text" class="form-control"></td>
+                    <th>핸드폰번호<b>*</b></th>
+                    <td>
+                        <div class="form-group row marginX">
+                            <div class="inputs">
+                                <input type="number" size="3" class="form-control" maxlength="3" max="999">&nbsp;-&nbsp;
+                                <input type="number" size="4" class="form-control" maxlength="4" max="9999">&nbsp;-&nbsp;
+                                <input type="number" size="4" class="form-control" maxlength="4" max="9999">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>이메일</th>
+                    <td><input type="text" class="form-control"></td>
+                    <th>생년월일</th>
+                    <td>
+                        <div class="input-group date common">
+                            <input type="text" id="startDate" class="form-control date-picker">
+                            <span class="input-group-addon">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>주소<b>*</b></th>
+                    <td colspan="3">
+                        <div class="form-group row">
+                            <input type="text" class="form-control" style="width: 10rem;" placeholder="우편번호">&nbsp;
+                            <button class="btn_pack">우편번호 검색</button>
+                        </div>
+                        <div class="form-group row marginX">
+                            <input type="text" class="form-control">
+                            <input type="text" class="form-control">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>성범죄조회 확인일</th>
+                    <td>
+                        <div class="input-group date common">
+                            <input type="text" id="endDate" class="form-control date-picker">
+                            <span class="input-group-addon">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                        </div>
+                    </td>
+                    <th>교육청 강사등록일</th>
+                    <td>
+                        <div class="input-group date common">
+                            <input type="text" id="Date" class="form-control date-picker">
+                            <span class="input-group-addon">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>상태</th>
+                    <td>
+                        <select class="form-control">
+                            <option>재직</option>
+                            <option>퇴사</option>
+                        </select>
+                    </td>
+                    <td colspan="2"></td>
+                </tr>
+            </table>
+            <button class="btn_pack s2 blue">저장</button>
+            <button class="btn_pack s2 blue">목록</button>
         </div>
-        <div class="form-group row">
-            <label>주소<b>*</b></label>
-            <input type="button" value="우편번호" onclick="openDaumPostcode();">
-            <div><input type="text" class="form-control" id="addr1" style=""></div>
-            <div><input type="text" class="form-control" id="addr2" style=""></div>
-            <div><input type="text" class="form-control" id="member_address" style="width:422px;"></div>
-            <div><input type="text" class="form-control" id="member_address2" style="width:300px;"></div>
-        </div>
-        <div class="form-group row">
-            <label>이메일</label>
-            <div><input type="email" class="form-control datepicker" id="member_email" style="width:422px;"></div>
-        </div>
-        <div class="form-outer-group">
-            <div class="form-group row">
-                <label>직책<b>*</b></label>
-                <%--<div><span id="l_jobPosition"></span></div>--%>
-                <div>
-                    <select id="sel_jobPosition" class="form-control">
-                        <option value=''>▶선택</option>
-                    </select>
-                    <%--<span id="l_jobPosition"></span>--%>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label>소속부서(학원)<b>*</b></label>
-                <div><span id="sel_academy"></span></div>
-            </div>
-            <div class="form-group row">
-                <label>소속팀<b>*</b></label>
-                <div><span id="l_FlowEduTeam"></span></div>
-            </div>
-        </div>
-        <div class="form-outer-group">
-            <div class="form-group row">
-                <label>성범죄경력조회 확인일자<b>*</b></label>
-                <div><input type="text" id="startSearchDate" class="form-control date-picker" style="width:200px;"></div>
-            </div>
-            <div class="form-group row hiddenDate2">
-                <label>교육청 강사등록일자<b>*</b></label>
-                <div><input type="text" id="startSearchDate2" class="form-control date-picker" style="width:200px;"></div>
-            </div>
-        </div>
-        <div class="bot_btns">
-            <button class="btn_pack blue s2" type="button"  onclick="save_member();">저장</button>
-        </div>
+        <%--<div class="form-group row">--%>
+            <%--<label>직원타입<b>*</b></label>--%>
+            <%--<div>--%>
+                <%--&lt;%&ndash;<span id="l_memberType"></span>&ndash;%&gt;--%>
+                <%--<select id="sel_memberType" class="form-control">--%>
+                    <%--<option value="">▶선택</option>--%>
+                <%--</select>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+        <%--<div class="form-group row">--%>
+            <%--<label>직원명<b>*</b></label>--%>
+            <%--<div><input type="text" class="form-control" id="member_name" style="width:150px;"></div>--%>
+        <%--</div>--%>
+        <%--<div class="form-outer-group">--%>
+            <%--<div class="form-group row">--%>
+                <%--<label>생년월일<b>*</b></label>--%>
+                <%--<div><input type="text" id="startDate" class="form-control date-picker" style="width:200px;"></div>--%>
+            <%--</div>--%>
+            <%--<div class="form-group row">--%>
+                <%--<label>핸드폰번호</label>--%>
+                <%--<div class="inputs">--%>
+                    <%--<input type="number" id="member_phone1" size="4" class="form-control" maxlength="3"  onkeyup="js_tab_order(this,'member_phone2',3)">&nbsp;-&nbsp;--%>
+                    <%--<input type="number" id="member_phone2" size="5" class="form-control" maxlength="4"  onkeyup="js_tab_order(this,'member_phone3',4)">&nbsp;-&nbsp;--%>
+                    <%--<input type="number" id="member_phone3" size="5" class="form-control" maxlength="4"  >--%>
+
+                <%--</div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+        <%--<div class="form-group row">--%>
+            <%--<label>주소<b>*</b></label>--%>
+            <%--<input type="button" value="우편번호" onclick="openDaumPostcode();">--%>
+            <%--<div><input type="text" class="form-control" id="addr1" style=""></div>--%>
+            <%--<div><input type="text" class="form-control" id="addr2" style=""></div>--%>
+            <%--<div><input type="text" class="form-control" id="member_address" style="width:422px;"></div>--%>
+            <%--<div><input type="text" class="form-control" id="member_address2" style="width:300px;"></div>--%>
+        <%--</div>--%>
+        <%--<div class="form-group row">--%>
+            <%--<label>이메일</label>--%>
+            <%--<div><input type="email" class="form-control datepicker" id="member_email" style="width:422px;"></div>--%>
+        <%--</div>--%>
+        <%--<div class="form-outer-group">--%>
+            <%--<div class="form-group row">--%>
+                <%--<label>직책<b>*</b></label>--%>
+                <%--&lt;%&ndash;<div><span id="l_jobPosition"></span></div>&ndash;%&gt;--%>
+                <%--<div>--%>
+                    <%--<select id="sel_jobPosition" class="form-control">--%>
+                        <%--<option value=''>▶선택</option>--%>
+                    <%--</select>--%>
+                    <%--&lt;%&ndash;<span id="l_jobPosition"></span>&ndash;%&gt;--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="form-group row">--%>
+                <%--<label>소속부서(학원)<b>*</b></label>--%>
+                <%--<div><span id="sel_academy"></span></div>--%>
+            <%--</div>--%>
+            <%--<div class="form-group row">--%>
+                <%--<label>소속팀<b>*</b></label>--%>
+                <%--<div><span id="l_FlowEduTeam"></span></div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+        <%--<div class="form-outer-group">--%>
+            <%--<div class="form-group row">--%>
+                <%--<label>성범죄경력조회 확인일자<b>*</b></label>--%>
+                <%--<div><input type="text" id="startSearchDate" class="form-control date-picker" style="width:200px;"></div>--%>
+            <%--</div>--%>
+            <%--<div class="form-group row hiddenDate2">--%>
+                <%--<label>교육청 강사등록일자<b>*</b></label>--%>
+                <%--<div><input type="text" id="startSearchDate2" class="form-control date-picker" style="width:200px;"></div>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+        <%--<div class="bot_btns">--%>
+            <%--<button class="btn_pack blue s2" type="button"  onclick="save_member();">저장</button>--%>
+        <%--</div>--%>
     </form>
 </section>
 <div id="layer" style="display:none;border:5px solid;position:fixed;width:500px;height:500px;left:50%;margin-left:-250px;top:50%;margin-top:-250px;overflow:hidden">
@@ -194,6 +309,10 @@
 </div>
 <%@include file="/common/jsp/footer.jsp" %>
 </body>
+<script>
+    $(".sidebar-menu > li").eq(5).addClass("active");
+    $(".sidebar-menu > li:nth-child(6) > ul > li:nth-child(1) > a").addClass("on");
+</script>
 <!--
 <h1>운영자/선생님정보 LIST</h1>
 <div id="memberList">

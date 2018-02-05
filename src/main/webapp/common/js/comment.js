@@ -108,6 +108,8 @@ var comment = {
     	not_consult_log_three : "최근 상담 내역이 없습니다.",
 		not_consult_log : "상담 내역이 없습니다.",
 		search_input_student_name : "학생 이름을 입력 후 검색해주세요.",
+    	assignment_class_type : "반 또는 과제를 검색해 주세요.",
+   		attend_class_type : "반 또는 학생을 검색해 주세요.",
         search_input_id_name : "이름을 입력해주세요.",
 		search_academy : "학원을 검색해주세요.",
 

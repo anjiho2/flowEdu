@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-    //Long lecture_id = Long.parseLong(request.getParameter("lecture_id"));
+    Long assignment_id = Long.parseLong(request.getParameter("assignment_id"));
     int depth1 = 5;
     int depth2 = 2;
 %>
@@ -8,17 +8,34 @@
 <%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
 <script type="text/javascript">
+    function init() {
+        assignmentDetail();
+    }
+    
+    function modify_assignment() {
+        var assignment_id = getInputTextValue("assignment_id");
+        lectureService.modifyAssignmentInfo(function () {
 
+        });
+    }
+
+    function assignmentDetail() {
+        var assignmet_id = <%=assignment_id%>;
+        lectureService.getAssignmentInfoList(function () {
+
+        });
+    }
 
 </script>
 <body onload="init();">
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
-    <div class="title-top">학습관리ㄴ</div>
+    <div class="title-top">학습관리</div>
 </div>
 </section>
 <form name="frm" id="frm" method="get">
     <input type="hidden" name="page_gbn" id="page_gbn">
+    <input type="hidden" name="assignment_id" id="assignment_id" value="<%=assignment_id%>">
 </form>
 
     <section class="content">
@@ -67,8 +84,8 @@
                     </tr>
                 </tbody>
             </table>
-            <button class="btn_pack blue s2">저장</button>
-            <button class="btn_pack blue s2">목록</button>
+            <button class="btn_pack blue s2" onclick="modify_assignment();">저장</button>
+            <button class="btn_pack blue s2" onclick="goPage('lecture', 'assignment_list')">목록</button>
         </div>
     </section>
 

@@ -15,6 +15,7 @@
 
     function init() {
         myClassSelectbox("sel_myClass");
+        gfn_emptyView("V", comment.attend_class_type);
     }
 
     function fn_search() {
@@ -23,7 +24,7 @@
         var selMyclass = getSelectboxValue('sel_myClass');
 
         if(selMyclass == "") alert(comment.input_myclass_type);
-
+      //  gfn_emptyView("H", "");
         var studentName = getInputTextValue("student_name");
         var searchDate  = getInputTextValue("endDate");
         var start_student_num=0;
@@ -320,9 +321,6 @@
             <ul id="dataList2"></ul>
         </div>
     </section><!--content-->
-
-
-
 <%@include file="/common/jsp/footer.jsp" %>
 </body>
 <script>
