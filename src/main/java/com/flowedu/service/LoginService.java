@@ -63,7 +63,7 @@ public class LoginService {
             dto2.setFlowMemberId(dto.getFlowMemberId());
             dto2.setPhoneNumber(dto.getPhoneNumber());
             dto2.setOfficeId(dto.getOfficeId());
-            dto2.setTeamId(dto.getTeamId());
+            //dto2.setTeamId(dto.getTeamId());
             dto2.setMemberName(dto.getMemberName());
             dto2.setMemberType(dto.getMemberType());
             dto2.setAcademyThumbnail(academyThumbnail);

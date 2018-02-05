@@ -25,7 +25,7 @@ public class CreateSESSION {
 		FlowEduMemberDto dto = new FlowEduMemberDto();
 		dto.setFlowMemberId(Long.parseLong(request.getParameter("flow_member_id")));
 		dto.setOfficeId(Long.parseLong(request.getParameter("office_id")));
-		dto.setTeamId(Integer.parseInt(request.getParameter("team_id")));
+		//dto.setTeamId(Integer.parseInt(request.getParameter("team_id")));
 		dto.setPhoneNumber(request.getParameter("phone_number"));
 		dto.setMemberName(request.getParameter("member_name"));
 		dto.setMemberType(request.getParameter("member_type"));

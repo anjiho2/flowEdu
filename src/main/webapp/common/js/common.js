@@ -2070,9 +2070,3 @@ function getDayAgo(dayCount) {
 
     return year + "-" + month + "-" + day;
 }
-
-//시분초 자른 날짜 구하기
-function split_minute_getDay(day) {
-    var day = day.split(" ");
-    return day[0];
-}

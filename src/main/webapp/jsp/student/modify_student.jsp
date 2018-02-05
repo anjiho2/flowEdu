@@ -363,7 +363,7 @@
         <input type="hidden" name="student_name">
     </form>
     <div class="tb_t1">
-        <table class="info_student">
+        <table class="table_width">
             <tr>
                 <th>학생사진</th>
                 <td colspan="4">
