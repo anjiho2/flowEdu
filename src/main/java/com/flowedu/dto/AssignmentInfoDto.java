@@ -33,6 +33,8 @@ public class AssignmentInfoDto {
     //  등록일
     private String createDate;
 
+    private String memberName;
+
     public AssignmentInfoDto() {}
 
     public AssignmentInfoDto(Long lectureId, Long regMemberId, String assignmentSubject,

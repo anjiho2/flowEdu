@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-    //Long lecture_id = Long.parseLong(request.getParameter("lecture_id"));
     int depth1 = 5;
     int depth2 = 2;
 %>
@@ -82,6 +81,8 @@
                     return "<input type=hidden id='attendId_"+ selList.studentId +"' value="+selList.lectureAttendId +">";
                 }
                 dwr.util.addOptions("dataList2", selList, formatter, {escapeHtml: false}); //lecture_attend_id 값 ul태그
+            }else{
+                gfn_emptyView("V", "검색결과가 없습니다.");
             }
         });
     }

@@ -11,8 +11,6 @@
 function init() {
     myClassSelectbox("sel_myClass");
     gfn_emptyView("V", comment.assignment_class_type);
-    innerValue("startDate", today());
-    innerValue("endDate", today());
 }
 
 function  assignment_page(assignment_id) {
@@ -36,31 +34,40 @@ function fn_search(val) {
         return;
     }
 
+    if(sel_yn == 1) sel_yn = true;
+    else sel_yn = false;
+
     dwr.util.removeAllRows("dataList");
     gfn_emptyView("H", "");
 
     lectureService.getAssignmentInfoList(0, sel_myclass, sel_yn, startDate, endDate, registe_content,function (selList) {
         if(selList.length > 0){
+            var ynHTML;
             for(var i=0;i<selList.length;i++) {
                 var cmpList = selList[i]
-                // var detailHTML = "<button class='btn_pack white' style='min-width:75px;' type='button' id='"+cmpList.lectureId+"' onclick='lecture_page(this.id, "+ '"' + 'lecture_detail' + '"' + ");'/>
+
+                if(cmpList.useYn == "true") ynHTML = '사용';
+                else ynHTML = '미사용';
+
+
                 if (cmpList != undefined) {
                     var assignment_subject = "<a href='javascript:void(0);' style='color:blue;' onclick='assignment_page(" + cmpList.assignmentIdx + ")'>" + cmpList.assignmentSubject + "</a>";
                     var cellData = [
                         function (data) {return i + 1;},
                         function (data) {return assignment_subject;},
-                        function (data) {return cmpList.regMemberId;},
-                        function (data) {return cmpList.createDate;},
-                        function (data) {return cmpList.useYn;},
+                        function (data) {return cmpList.memberName;},
+                        function (data) {return split_minute_getDay(cmpList.createDate);},
+                        function (data) {return ynHTML;},
                     ];
                     dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
                 }
             }
+        }else{
+            gfn_emptyView("V", comment.blank_list2);
         }
 
     });
 }
-
 
 $(document).ready(function() {
     $('input[type=radio][name=date_kind]').change(function() {
@@ -73,6 +80,7 @@ $(document).ready(function() {
         innerValue("startDate", oldDate);
         innerValue("endDate", now);
     });
+
 });
 
 </script>
@@ -125,7 +133,7 @@ $(document).ready(function() {
                                 </div>
                                 <div class="checkbox_t1 black">
                                     <label>
-                                        <input type="radio" name="date_kind" value="0" checked >
+                                        <input type="radio" name="date_kind" value="0">
                                         <span>오늘</span>
                                     </label>
                                     <label>

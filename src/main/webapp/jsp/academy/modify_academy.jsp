@@ -55,6 +55,7 @@
         $.each($("#attachFile")[0].files, function (i, file) {
             data.append("file-" + i, file);
         });
+
         var attachFile = fn_clearFilePath($("#attachFile").val());
 
         if (officeId == '' || officeId == undefined || officeId == null) {
@@ -171,28 +172,11 @@
     });
     */
     /*
-    $(document).ready(function () {
-        var isChange = false;
-        $("input, select, textarea").change(function () {
-            isChange = true;
-            //alert(isChange);
-        });
-        alert(isChange);
-        window.onbeforeunload = function () {
-            alert(isChange);
-            if (isChange) {
-                return "Are you sure";
-            }
-        };
-        /*
-        $("#list_btn").click(function(){
-            window.onbeforeunload = function () {
-                return "Are you sure";
-            };
-        });
+    var checkUnload = true;
+    $(window).on("beforeunload", function(){
+        if(checkUnload)  return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
     });
     */
-
     var isChange = false;
     $(document).ready(function () {
         $("input, select, textarea").change(function () {
@@ -200,12 +184,7 @@
         });
     });
 
-    var checkUnload = true;
-    $(window).on("beforeunload", function(){
-        if(checkUnload) return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
-    });
-
-    function test() {
+    function go_list() {
         if(isChange) {
             if (confirm(comment.is_change_confirm)) {
                 goPage('academy', 'list_academy');
@@ -298,7 +277,7 @@
             </tr>
         </table>
         <button class="btn_pack s2 blue" onclick="modify_academy();">저장</button>
-        <button class="btn_pack s2 blue" id="list_btn" onclick="test();">목록</button>
+        <button class="btn_pack s2 blue" id="list_btn" onclick="go_list();">목록</button>
     </div>
 </section>
 <!--원장명 검색 팝업 레이어 시작-->
