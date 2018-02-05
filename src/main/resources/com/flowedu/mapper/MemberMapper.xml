@@ -30,20 +30,48 @@
 	<select id="getFlowEduMemberListCount" resultType="Integer">
 		SELECT count(A.flow_member_id) as cnt
 		FROM FLOWEDU_MEMBER A LEFT JOIN OFFICE B
-		ON A.office_id = B.office_id WHERE A.member_type != 'ADMIN'
+		ON A.office_id = B.office_id LEFT JOIN JOB_POSITION_INFO C
+		ON A.job_position_id = C.job_position_id
+		WHERE 1=1
+		<if test="memberType != ''">
+			AND A.member_type = #{memberType}
+		</if>
+		<if test="jobPositionId > 0">
+			AND C.job_position_id = #{jobPositionId}
+		</if>
+		<if test="officeId > 0">
+			AND A.office_id = #{officeId}
+		</if>
+		<if test="teamName != ''">
+			AND A.team_name = #{teamName}
+		</if>
+		<if test="memberName != ''">
+			AND A.member_name LIKE CONCAT ('%', #{memberName}, '%')
+		</if>
 	</select>
 
 	<select id="getFlowEduMemberList" resultType="com.flowedu.dto.FlowEduMemberListDto">
-		SELECT
-			A.flow_member_id, A.office_id, A.team_id, A.job_position_id, A.phone_number, A.member_name,
-			A.member_birthday, A.member_address, A.member_email, A.sexual_assult_confirm_date,
-			A.education_reg_date, A.member_type, B.office_name, C.team_name, D.job_position_name
+		SELECT A.flow_member_id, A.member_type, C.job_position_name, A.member_name, B.office_name, A.team_name, A.phone_number, A.serve_yn
 		FROM FLOWEDU_MEMBER A LEFT JOIN OFFICE B
-		ON A.office_id = B.office_id LEFT JOIN TEAM_INFO C
-		ON A.team_id = C.team_id LEFT JOIN JOB_POSITION_INFO D
-		ON A.job_position_id = D.job_position_id
-		WHERE A.member_type != 'ADMIN'
-		ORDER BY A.office_id ASC
+		ON A.office_id = B.office_id LEFT JOIN JOB_POSITION_INFO C
+		ON A.job_position_id = C.job_position_id
+		WHERE 1=1
+		<if test="memberType != ''">
+			AND A.member_type = #{memberType}
+		</if>
+		<if test="jobPositionId > 0">
+			AND C.job_position_id = #{jobPositionId}
+		</if>
+		<if test="officeId > 0">
+			AND A.office_id = #{officeId}
+		</if>
+		<if test="teamName != ''">
+			AND A.team_name = #{teamName}
+		</if>
+		<if test="memberName != ''">
+			AND A.member_name LIKE CONCAT ('%', #{memberName}, '%')
+		</if>
+		ORDER BY A.flow_member_id desc, A.office_id ASC
 		LIMIT #{start}, #{end}
 	</select>
 	
@@ -115,18 +143,26 @@
 		</if>
 	</select>
 
+	<select id="getMemberTeamList" resultType="String">
+		SELECT team_name
+		FROM FLOWEDU_MEMBER
+		GROUP BY team_name
+	</select>
+
 	<insert id="saveFlowEduMember" parameterType="com.flowedu.dto.FlowEduMemberDto">
 		INSERT INTO FLOWEDU_MEMBER
 		(
-			office_id, team_id, job_position_id, phone_number, member_password,
+			office_id, team_name, job_position_id, phone_number, member_password,
 			member_name, member_birthday, member_address, member_email,
-			sexual_assult_confirm_date, education_reg_date, member_type, member_auth_key
+			sexual_assult_confirm_date, education_reg_date, member_type, member_auth_key,
+			member_address_detail, zip_code
 		)
 		VALUES
 		(
-			#{officeId}, #{teamId}, #{jobPositionId}, #{phoneNumber}, #{memberPassword},
+			#{officeId}, #{teamName}, #{jobPositionId}, #{phoneNumber}, #{memberPassword},
 			#{memberName}, #{memberBirthday}, #{memberAddress}, #{memberEmail},
-			#{sexualAssultConfirmDate}, #{educationRegDate}, #{memberType}, #{memberAuthKey}
+			#{sexualAssultConfirmDate}, #{educationRegDate}, #{memberType}, #{memberAuthKey},
+			#{memberAddressDetail}, #{zipCode}
 		)
 		<selectKey resultType="Long" keyProperty="flowMemberId" order="AFTER">
 			SELECT LAST_INSERT_ID()
@@ -162,6 +198,12 @@
 		<where>
 			flow_member_id = #{flowMemberId}
 		</where>
+	</update>
+
+	<update id="updateMemberServed">
+		UPDATE FLOWEDU_MEMBER
+		<set>serve_yn = #{serveYn}</set>
+		WHERE flow_member_id = #{flowMemberId}
 	</update>
 
 	<delete id="deleteFlowEduMember" parameterType="Long">

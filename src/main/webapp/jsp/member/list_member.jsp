@@ -15,6 +15,7 @@ function init() {
     //jobPositionSelectbox("l_jobPosition","");//직책리스트
     //academyListSelectbox("sel_academy","");//학원리스트
     //flowEduTeamListSelectbox("l_FlowEduTeam","");//소속팀리스트
+    
     fn_search("new");
 }
 

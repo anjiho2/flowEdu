@@ -12,15 +12,14 @@ import com.flowedu.mapper.OfficeMapper;
 import com.flowedu.session.UserSession;
 import com.flowedu.util.Aes256;
 import com.flowedu.util.RandomMake;
+import com.flowedu.util.Util;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by jihoan on 2017. 8. 4..
@@ -90,8 +89,14 @@ public class MemberService extends PagingSupport {
      * @return Integer
      */
     @Transactional(readOnly = true)
-    public int getFlowEduMemberListCount() {
-        return memberMapper.getFlowEduMemberListCount();
+    public int getFlowEduMemberListCount(String memberType, int jobPostionId, Long officeId, String teamName, String memberName) {
+        return memberMapper.getFlowEduMemberListCount(
+                Util.isNullValue(memberType, ""),
+                jobPostionId,
+                officeId,
+                Util.isNullValue(teamName, ""),
+                Util.isNullValue(memberName, "")
+        );
     }
 
     /**
@@ -105,9 +110,18 @@ public class MemberService extends PagingSupport {
      * @return FlowEduMemberListDto
      */
     @Transactional(readOnly = true)
-    public List<FlowEduMemberListDto> getFlowEduMemberList(int sPage, int pageListCount) {
+    public List<FlowEduMemberListDto> getFlowEduMemberList(int sPage, int pageListCount, String memberType, int jobPostionId,
+                                                           Long officeId, String teamName, String memberName) {
         PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
-        List<FlowEduMemberListDto> list = memberMapper.getFlowEduMemberList(pagingDto.getStart(), pageListCount);
+        List<FlowEduMemberListDto> list = memberMapper.getFlowEduMemberList(
+                pagingDto.getStart(),
+                pageListCount,
+                Util.isNullValue(memberType, ""),
+                jobPostionId,
+                officeId,
+                Util.isNullValue(teamName, ""),
+                Util.isNullValue(memberName, "")
+        );
         return list;
     }
 
@@ -253,6 +267,19 @@ public class MemberService extends PagingSupport {
         return true;
     }
 
+    @Transactional(readOnly = true)
+    public List<Map<String, String>> getMemberTeamList() {
+        List<String>teamNames = memberMapper.getMemberTeamList();
+        List<Map<String, String>> resultArr = new ArrayList<>();
+        for (String teamName : teamNames) {
+            Map<String, String>resultMap = new HashMap<>();
+            resultMap.put("teamId", teamName);
+            resultMap.put("teamName", teamName);
+            resultArr.add(resultMap);
+        }
+        return resultArr;
+    }
+
     /**
      * <PRE>
      * 1. Comment : 운영자, 선생님정보 저장
@@ -260,7 +287,7 @@ public class MemberService extends PagingSupport {
      * 3. 작성일 : 2017. 08 .04
      * </PRE>
      * @param officeId
-     * @param teamId
+     * @param teamName
      * @param phoneNumber
      * @param memberPassword
      * @param memberName
@@ -273,18 +300,19 @@ public class MemberService extends PagingSupport {
      * @throws Exception
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void saveFlowEduMember(Long officeId, Integer teamId, Integer jobPositionId, String phoneNumber, String memberPassword, String memberName,
+    public void saveFlowEduMember(Long officeId, String teamName, Integer jobPositionId, String phoneNumber, String memberPassword, String memberName,
         String memberBirthDay, String memberAddress, String memeberEmail, String sexualAssultConfirmDate,
-        String educationRegDate, String memberType) throws Exception {
+        String educationRegDate, String memberType, String memberAddressDetail, String zipCode) throws Exception {
         if (officeId == null) {
             throw new FlowEduException(FlowEduErrorCode.INTERNAL_ERROR);
         }
         FlowEduMemberDto dto = new FlowEduMemberDto(
-            officeId, teamId, jobPositionId,  phoneNumber,  memberName, memberBirthDay, memberAddress,
-                memberPassword, memeberEmail, sexualAssultConfirmDate, educationRegDate, memberType
+            officeId, Util.isNullValue(teamName, ""), jobPositionId,  phoneNumber,  memberName, memberBirthDay, memberAddress,
+                memberPassword, memeberEmail, sexualAssultConfirmDate, educationRegDate, memberType, memberAddressDetail, zipCode
         );
         memberMapper.saveFlowEduMember(dto);
-        if (dto.getFlowMemberId()  != null) {
+        /*
+        if (dto.getFlowMemberId()  != null && !"".equals(dto.getMemberEmail())) {
             //이메일 발송 예약
             sendService.reserveEmail(
                     dto.getMemberEmail(),
@@ -293,6 +321,7 @@ public class MemberService extends PagingSupport {
                     dto.getMemberAuthKey()
             );
         }
+        */
     }
 
     /**
@@ -303,7 +332,7 @@ public class MemberService extends PagingSupport {
      * </PRE>
      * @param flowMemberId
      * @param officeId
-     * @param teamId
+     * @param teamName
      * @param phoneNumber
      * @param memberPassword
      * @param memberName
@@ -316,15 +345,15 @@ public class MemberService extends PagingSupport {
      * @throws Exception
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void modifyFlowEduMember(Long flowMemberId, Long officeId, Integer teamId, Integer jobPositionId, String phoneNumber,
+    public void modifyFlowEduMember(Long flowMemberId, Long officeId, String teamName, Integer jobPositionId, String phoneNumber,
         String memberPassword, String memberName, String memberBirthDay, String memberAddress, String memeberEmail,
-        String sexualAssultConfirmDate, String educationRegDate, String memberType) throws Exception {
+        String sexualAssultConfirmDate, String educationRegDate, String memberType, String memberAddressDetail, String zipCode) throws Exception {
         if (flowMemberId == null || flowMemberId == 0L) {
             throw new FlowEduException(FlowEduErrorCode.INTERNAL_ERROR);
         }
         FlowEduMemberDto dto = new FlowEduMemberDto(
-                flowMemberId, officeId, teamId, jobPositionId, phoneNumber,  memberName, memberBirthDay, memberAddress,
-                memberPassword, memeberEmail, sexualAssultConfirmDate, educationRegDate, memberType
+                flowMemberId, officeId,  Util.isNullValue(teamName, ""), jobPositionId, phoneNumber,  memberName, memberBirthDay, memberAddress,
+                memberPassword, memeberEmail, sexualAssultConfirmDate, educationRegDate, memberType, memberAddressDetail, zipCode
         );
         memberMapper.modifyFlowEduMember(dto);
     }
@@ -352,6 +381,14 @@ public class MemberService extends PagingSupport {
         }
         memberMapper.modifyFlowMemberPassword(memberId, Aes256.encrypt(modifyPassword));
         return 0;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void updateMemberServed(Long flowMemberId, boolean serveYn) {
+        if (flowMemberId == 0L) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        memberMapper.updateMemberServed(flowMemberId, serveYn);
     }
 
     /**

@@ -16,7 +16,7 @@ function jobPositionSelectbox(tag_id, val) {
 function academyListSelectbox(tag_id, val) { //소속부서(학원)리스트
     academyService.getAcademyList(function(list) {
         var html = "<select id='sel_academyList' onchange='academy_sel_change(this.value);' class='form-control'>";
-        html += "<option value=''>▶관선택</option>";
+        html += "<option value=''>▶선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].officeId == val) {
                 html += "<option value="+list[i].officeId+" selected>"+ list[i].officeName +"</option>";
@@ -587,4 +587,8 @@ function academyListBySearch(tag_id, val) {
     });
 }
 
-
+function teamListSelectbox(tag_id, val) {
+    memberService.getMemberTeamList(function (list) {
+        dwr.util.addOptions(tag_id, list, "teamId", "teamName");
+    });
+}

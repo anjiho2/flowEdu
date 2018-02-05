@@ -11,54 +11,12 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script type="text/javascript">
-
-
-    /* function openDaumPostcode() {
-     new daum.Postcode({
-     oncomplete: function(data) {
-     // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분. 우편번호와 주소 정보를 해당 필드에 넣고, 커서를 상세주소 필드로 이동한다.
-         document.getElementById("addr1").value = data.postcode1;
-         document.getElementById("addr2").value = data.postcode2;
-         document.getElementById("member_address").value = data.address;
-         document.getElementById("member_address2").focus();
-     }
-     }).open();
-     }
-*/
-
-     // 우편번호 찾기 화면을 넣을 element
-     var element = document.getElementById('layer');
-
-     function closeDaumPostcode() {
-         // iframe을 넣은 element를 안보이게 한다.
-         element.style.display = 'none';
-     }
-
-     function openDaumPostcode() {
-         new daum.Postcode({
-             oncomplete: function(data) {
-                 // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분. 우편번호와 주소 정보를 해당 필드에 넣고, 커서를 상세주소 필드로 이동한다.
-                 document.getElementById("addr1").value = data.postcode1;
-                 document.getElementById("addr2").value = data.postcode2;
-                 document.getElementById("member_address").value = data.address;
-                 document.getElementById("member_address2").focus();
-                 // iframe을 넣은 element를 안보이게 한다.
-                 element.style.display = 'none';
-             },
-             width : '100%',
-             height : '100%'
-         }).embed(element);
-
-         // iframe을 넣은 element를 보이게 한다.
-         element.style.display = 'block';
-     }
-
     function init() {
         memberTypeSelectbox("sel_memberType", "");//직원타입
         //jobPositionSelectbox("l_jobPosition","");//직책리스트
         jobPositionSelectbox("sel_jobPosition", "");
         academyListSelectbox("sel_academy","");//학원리스트
-        flowEduTeamListSelectbox("l_FlowEduTeam","");//소속팀리스트
+        //flowEduTeamListSelectbox("l_FlowEduTeam","");//소속팀리스트
     }
 
     function save_member() { // 운영자.선생님정보등록
