@@ -5983,12 +5983,12 @@ ul.list_t2 button.confirm {
 
 /*index 반응형*/
 @media screen and (max-device-width: 500px) {
-    #header{
-        position: absolute;
-        left: -350px;
-        width: 350px;
-        height: 100%;
-    }
+    /*#header{*/
+        /*position: absolute;*/
+        /*left: -350px;*/
+        /*width: 350px;*/
+        /*height: 100%;*/
+    /*}*/
     .top_area{
         height: 170px;
     }
