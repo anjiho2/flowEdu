@@ -117,6 +117,8 @@ var comment = {
     	input_title : "제목을 입력해 주세요.",
     	input_content : "내용을 입력해 주세요.",
 
+		is_change_confirm : "작성한 내용이 저장되지 않습니다.\n계속하시겠습니까?"
+
 
 }
 

@@ -17,10 +17,12 @@
 
     function init(group_id) {
         var dateKind = get_radio_value("date_kind");
+        /*
         if (dateKind == "0") {
             innerValue("startDate", today());
             innerValue("endDate", today());
         }
+        */
         academyListBySearch('academy_list', group_id);
 
         gfn_emptyView("V", comment.search_academy);
@@ -102,6 +104,7 @@
     <div class="tb_t1">
         <table>
             <tbody>
+            <!--
             <tr>
                 <th>그룹</th>
                 <td>
@@ -114,6 +117,7 @@
                     <span id="academy_list"></span>
                 </td>
             </tr>
+            -->
             <tr>
                 <th>생성일</th>
                 <td colspan="3">
@@ -132,7 +136,7 @@
                         </div>
                         <div class="checkbox_t1 black">
                             <label>
-                                <input type="radio" name="date_kind" value="0" checked>
+                                <input type="radio" name="date_kind" value="0">
                                 <span>오늘</span>
                             </label>
                             <label>
@@ -162,9 +166,9 @@
                         <select id="sel_regType" class="form-control" style="width: 13rem;margin-right:10px;">
                             <%--<option value="name">이름</option>--%>
                             <option value="group_name">그룹명</option>
-                            <option value="academy_name">학원명</option>
+                            <option value="academy_name" selected>학원명</option>
                         </select>
-                        <input type="text" id="search_text" class="form-control">
+                        <input type="text" id="search_text" class="form-control" onkeypress="javascript:if(event.keyCode == 13){fn_search('new'); return false;}">
                     </div>
                 </td>
             </tr>

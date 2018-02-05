@@ -32,8 +32,15 @@
                         <li><a href="javascript:goPage('academy', 'list_academy')"><span class="fa fa-building"></span>학원관리</a></li>
                     </ul>
                 </li>
-                <li><a href="javascript:goPage('member', 'list_member')" <%=depth1 == 5 ? "class='on'" : ""%>>경영관리</a></li>
-                <li><a href="javascript:goPage('lecture', 'lecture_list')" <%=depth1 == 6 ? "class='on'" : ""%>>운영세팅관리</a></li>
+                <li>
+                    <a href="javascript:goPage('lecture', 'lecture_list')">경영관리</a>
+                </li>
+
+                <li><a href="#">운영관리</a>
+                    <ul class="sidebar-submenu">
+                        <a href="javascript:goPage('member', 'list_member')">운영자관리</a>
+                    </ul>
+                </li>
                 <li><a href="javascript:goPage('', '')" <%=depth1 == 7 ? "class='on'" : ""%>>커뮤니티관리</a></li>
                 <li><a href="javascript:goPage('', '')" <%=depth1 == 8 ? "class='on'" : ""%>>ERP</a></li>
                 <li><a href="javascript:goPage('', '')" <%=depth1 == 9 ? "class='on'" : ""%>>시스템관리</a></li>
