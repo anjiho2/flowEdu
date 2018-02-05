@@ -11,11 +11,11 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type="text/javascript">
 function init() {
-    //memberTypeSelectbox("l_memberType", "");//직원타입
-    //jobPositionSelectbox("l_jobPosition","");//직책리스트
-    //academyListSelectbox("sel_academy","");//학원리스트
-    //flowEduTeamListSelectbox("l_FlowEduTeam","");//소속팀리스트
-    
+    memberTypeSelectbox("sel_memberType", "");  //유형
+    jobPositionSelectbox("sel_jobPosition", "");    //직책
+    searchAcademySelectbox("sel_academy",""); //소속
+    teamListSelectbox("sel_teamList", "");  //소속팀
+
     fn_search("new");
 }
 
@@ -72,7 +72,6 @@ function member_modify(member_id) { //수정페이지 이동
 </section>
 <section class="content">
     <h3 class="title_t1">운영자관리</h3>
-    <span id="sel_academy"></span>
     <form name="frm" id="frm" method="get">
     <input type="hidden" name="member_id" id="member_id">
     <input type="hidden" name="page_gbn" id="page_gbn">
@@ -83,42 +82,28 @@ function member_modify(member_id) { //수정페이지 이동
                 <tr>
                     <th>유형</th>
                     <td>
-                        <select class="form-control">
-                            <option>전체</option>
-                            <option>AMS관리자</option>
-                            <option>강사</option>
-                            <option>CS</option>
+                        <select id="sel_memberType" class="form-control">
+                            <option value="">전체</option>
                         </select>
                     </td>
                     <th>직책</th>
                     <td>
-                        <select class="form-control">
-                            <option>전체</option>
-                            <option>원장</option>
-                            <option>부원장</option>
-                            <option>팀장</option>
-                            <option>실장</option>
-                            <option>팀원</option>
+                        <select id="sel_jobPosition" class="form-control">
+                            <option value="">전체</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <th>소속</th>
                     <td>
-                        <select class="form-control">
-                            <option>전체</option>
-                            <option>플로우교육</option>
-                            <option>다빈치코드</option>
-                            <option>수학의아침</option>
-                            <option>사이언스카이</option>
+                        <select id="sel_academy" class="form-control">
+                            <option value="">전체</option>
                         </select>
                     </td>
                     <th>소속팀</th>
                     <td>
-                        <select class="form-control">
-                            <option>전체</option>
-                            <option>시스템운영팀</option>
-                            <option>CS실</option>
+                        <select id="sel_teamList" class="form-control">
+                            <option value="">전체</option>
                         </select>
                     </td>
                 </tr>
@@ -127,9 +112,8 @@ function member_modify(member_id) { //수정페이지 이동
                     <td colspan="3">
                         <div class="form-group row marginX">
                             <select class="form-control" style="width: 13rem;margin-right:10px;">
-                                <option>이름</option>
-                                <option>핸드폰번호</option>
-                                <option>상태</option>
+                                <option value="name">이름</option>
+                                <option value="phone">핸드폰번호</option>
                             </select>
                             <input type="text" class="form-control">
                         </div>

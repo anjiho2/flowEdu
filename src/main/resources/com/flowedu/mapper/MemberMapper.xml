@@ -45,8 +45,13 @@
 		<if test="teamName != ''">
 			AND A.team_name = #{teamName}
 		</if>
-		<if test="memberName != ''">
-			AND A.member_name LIKE CONCAT ('%', #{memberName}, '%')
+		<if test="searchText != ''">
+			<if test="searchType eq 'phone'">
+				AND A.phone_number LIKE CONCAT ('%', #{searchText}, '%')
+			</if>
+			<if test="searchType eq 'name'">
+				AND A.member_name LIKE CONCAT ('%', #{searchText}, '%')
+			</if>
 		</if>
 	</select>
 
@@ -68,8 +73,13 @@
 		<if test="teamName != ''">
 			AND A.team_name = #{teamName}
 		</if>
-		<if test="memberName != ''">
-			AND A.member_name LIKE CONCAT ('%', #{memberName}, '%')
+		<if test="searchText != ''">
+			<if test="searchType eq 'phone'">
+				AND A.phone_number LIKE CONCAT ('%', #{searchText}, '%')
+			</if>
+			<if test="searchType eq 'name'">
+				AND A.member_name LIKE CONCAT ('%', #{searchText}, '%')
+			</if>
 		</if>
 		ORDER BY A.flow_member_id desc, A.office_id ASC
 		LIMIT #{start}, #{end}

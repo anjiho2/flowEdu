@@ -89,13 +89,15 @@ public class MemberService extends PagingSupport {
      * @return Integer
      */
     @Transactional(readOnly = true)
-    public int getFlowEduMemberListCount(String memberType, int jobPostionId, Long officeId, String teamName, String memberName) {
+    public int getFlowEduMemberListCount(String memberType, int jobPostionId, Long officeId, String teamName,
+                                         String searchText, String searchType) {
         return memberMapper.getFlowEduMemberListCount(
                 Util.isNullValue(memberType, ""),
                 jobPostionId,
                 officeId,
                 Util.isNullValue(teamName, ""),
-                Util.isNullValue(memberName, "")
+                Util.isNullValue(searchText, ""),
+                searchType
         );
     }
 
@@ -111,7 +113,7 @@ public class MemberService extends PagingSupport {
      */
     @Transactional(readOnly = true)
     public List<FlowEduMemberListDto> getFlowEduMemberList(int sPage, int pageListCount, String memberType, int jobPostionId,
-                                                           Long officeId, String teamName, String memberName) {
+                                                           Long officeId, String teamName, String searchText, String searchType) {
         PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
         List<FlowEduMemberListDto> list = memberMapper.getFlowEduMemberList(
                 pagingDto.getStart(),
@@ -120,7 +122,8 @@ public class MemberService extends PagingSupport {
                 jobPostionId,
                 officeId,
                 Util.isNullValue(teamName, ""),
-                Util.isNullValue(memberName, "")
+                Util.isNullValue(searchText, ""),
+                searchType
         );
         return list;
     }

@@ -13,6 +13,12 @@ function jobPositionSelectbox(tag_id, val) {
     });
 }
 
+function searchAcademySelectbox(tag_id, val) {
+    academyService.getAcademyList(function(list) {
+        dwr.util.addOptions(tag_id, list, "officeId", "officeName");
+    });
+}
+
 function academyListSelectbox(tag_id, val) { //소속부서(학원)리스트
     academyService.getAcademyList(function(list) {
         var html = "<select id='sel_academyList' onchange='academy_sel_change(this.value);' class='form-control'>";

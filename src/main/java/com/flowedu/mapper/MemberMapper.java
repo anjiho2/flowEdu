@@ -19,11 +19,13 @@ public interface MemberMapper {
     FlowEduMemberDto getFlowEduMemberCheck(@Param("flowMemberId") Long flowMemberId);
 
     Integer getFlowEduMemberListCount(@Param("memberType") String memberType, @Param("jobPositionId") int jobPositionId,
-                                      @Param("officeId") Long officeId, @Param("teamName") String teamName, @Param("memberName") String memberName);
+                                      @Param("officeId") Long officeId, @Param("teamName") String teamName,
+                                      @Param("searchText") String searchText, @Param("searchType") String searchType);
 
     List<FlowEduMemberListDto> getFlowEduMemberList(@Param("start") int start, @Param("end") int end, @Param("memberType") String memberType,
                                                     @Param("jobPositionId") int jobPositionId, @Param("officeId") Long officeId,
-                                                    @Param("teamName") String teamName, @Param("memberName") String memberName);
+                                                    @Param("teamName") String teamName, @Param("searchText") String searchText,
+                                                    @Param("searchType") String searchType);
 
     List<JobPositionDto> getJobPositionList();
 
