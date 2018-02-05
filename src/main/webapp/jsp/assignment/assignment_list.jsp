@@ -49,8 +49,7 @@ function fn_search(val) {
                 if(cmpList.useYn == "true") ynHTML = '사용';
                 else ynHTML = '미사용';
 
-                var test = cmpList.createDate.split(" ");
-                console.log(test);
+
                 if (cmpList != undefined) {
                     var assignment_subject = "<a href='javascript:void(0);' style='color:blue;' onclick='assignment_page(" + cmpList.assignmentIdx + ")'>" + cmpList.assignmentSubject + "</a>";
                     var cellData = [
@@ -63,6 +62,8 @@ function fn_search(val) {
                     dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
                 }
             }
+        }else{
+            gfn_emptyView("V", comment.blank_list2);
         }
 
     });

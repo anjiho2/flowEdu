@@ -19,63 +19,70 @@
 
     function modify_assignment() {//과제수정하기
         var check = new isCheck();
-
         var data = new FormData();
+
         $.each($('#attachFile')[0].files, function(i, file) {
             data.append('file-' + i, file);
         });
         var attachFile = fn_clearFilePath($('#attachFile').val());
         var sel_myclass = getSelectboxValue('sel_myClass');
+        var sel_yn = getSelectboxValue('assignment_yn');
+        var title = getInputTextValue('assignment_title');
+        var content = getInputTextValue('assignment_content');
+        var assignment_id = getInputTextValue("assignment_id");
+
         data.append("lecture_id", sel_myclass);
+        if(confirm(comment.isUpdate)) {
+            if (attachFile != '') {
+                $.ajax({
+                    url: "<%=webRoot%>/file/assignment_upload.do",
+                    method: "post",
+                    dataType: "JSON",
+                    data: data,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        console.log(data);
+                        var errorCode = data.result.error_code;
+                        if (errorCode == "903") {
+                            alert(comment.file_name_not_allow_korean);
+                            return;
+                        } else if (errorCode == "904") {
+                            alert(comment.file_extension_not_allow);
+                            return;
+                        } else if (errorCode == "905") {
+                            alert(comment.file_size_not_allow_300kb);
+                            return;
+                        }
 
-        $.ajax({
-            url: "<%=webRoot%>/file/assignment_upload.do",
-            method : "post",
-            dataType: "JSON",
-            data: data,
-            cache: false,
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                var errorCode = data.result.error_code;
-                if (errorCode == "903") {
-                    alert(comment.file_name_not_allow_korean);
-                    return;
-                } else if (errorCode == "904") {
-                    alert(comment.file_extension_not_allow);
-                    return;
-                } else if (errorCode == "905") {
-                    alert(comment.file_size_not_allow_300kb);
-                    return;
-                }
+                        if (sel_myclass == '') {
+                            alert(comment.input_myclass_type);
+                            return;
+                        }
+                        if (sel_yn == '') {
+                            alert(comment.input_assignment_type);
+                            return;
+                        }
+                        if (check.input("assignment_title", comment.input_title) == false) return;
+                        if (check.input("assignment_content", comment.input_content) == false) return;
+                        if (sel_yn == 1) sel_yn = true;
+                        else sel_yn = false;
 
-                var sel_yn =  getSelectboxValue('assignment_yn');
-                var title = getInputTextValue('assignment_title');
-                var content = getInputTextValue('assignment_content');
-                var assignment_id = getInputTextValue("assignment_id");
+                        lectureService.modifyAssignmentInfo(assignment_id, sel_myclass, sel_yn, title, content, data.result.file_name, function () {
+                            alert('과제수정 완료 되었습니다');
+                            goPage('lecture', 'assignment_list');
+                        });
 
-
-                if(sel_myclass == ''){
-                    alert(comment.input_myclass_type);
-                    return;
-                }
-                if(sel_yn == '') {
-                    alert(comment.input_assignment_type);
-                    return;
-                }
-                if(check.input("assignment_title", comment.input_title)   == false) return;
-                if(check.input("assignment_content", comment.input_content)   == false) return;
-                if(sel_yn == 1) sel_yn = true;
-                else sel_yn = false;
-
-                if(confirm(comment.isUpdate)){
-                    lectureService.saveAssignmentInfo(assignment_id, sel_myclass, sel_yn, title, content, data.result.file_name,function () {
-                        alert('과제수정 완료 되었습니다');
-                        goPage('lecture','assignment_list');
-                    });
-                }
+                    }
+                });
+            } else {
+                lectureService.modifyAssignmentInfo(assignment_id, sel_myclass, sel_yn, title, content, "", function () {
+                    alert('과제수정 완료 되었습니다');
+                    goPage('lecture', 'assignment_list');
+                });
             }
-        });
+        }
     }
 
     function assignmentDetail() {//과제정보가져오기
@@ -92,7 +99,12 @@
                     if(cmpList.useYn == true) yn_sel = 1;
                     else yn_sel = 0;
                     $("#assignment_yn").val(yn_sel);
-                    innerValue("attachFile", cmpList.assignmentFileName);
+                    //파일명이 있을때 파일명 보여주기
+                    if (cmpList.assignmentFileName != null) {
+                        $(document).ready(function() {
+                            $('.custom-file-control').html(cmpList.assignmentFileName);
+                        });
+                    }
                 }
             }
         });

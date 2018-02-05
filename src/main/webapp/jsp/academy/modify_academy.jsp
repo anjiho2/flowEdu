@@ -55,6 +55,7 @@
         $.each($("#attachFile")[0].files, function (i, file) {
             data.append("file-" + i, file);
         });
+
         var attachFile = fn_clearFilePath($("#attachFile").val());
 
         if (officeId == '' || officeId == undefined || officeId == null) {
