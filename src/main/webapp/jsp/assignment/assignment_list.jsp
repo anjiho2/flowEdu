@@ -11,6 +11,13 @@
 function init() {
     myClassSelectbox("sel_myClass");
     gfn_emptyView("V", comment.assignment_class_type);
+    innerValue("startDate", today());
+    innerValue("endDate", today());
+}
+
+function  assignment_page(assignment_id) {
+    innerValue("assignment_id", assignment_id);
+    goPage('lecture', 'assignment_detail');
 }
 
 function fn_search(val) {
@@ -24,15 +31,24 @@ function fn_search(val) {
     var registe_info = getSelectboxValue('registe_info');
     var registe_content = getInputTextValue('registe_content');
 
+    if(sel_myclass == ''){
+        alert(comment.input_myclass_type);
+        return;
+    }
+
+    dwr.util.removeAllRows("dataList");
+    gfn_emptyView("H", "");
+
     lectureService.getAssignmentInfoList(0, sel_myclass, sel_yn, startDate, endDate, registe_content,function (selList) {
         if(selList.length > 0){
-            console.log(selList);
             for(var i=0;i<selList.length;i++) {
-                var cmpList = selList[i];
+                var cmpList = selList[i]
+                // var detailHTML = "<button class='btn_pack white' style='min-width:75px;' type='button' id='"+cmpList.lectureId+"' onclick='lecture_page(this.id, "+ '"' + 'lecture_detail' + '"' + ");'/>
                 if (cmpList != undefined) {
+                    var assignment_subject = "<a href='javascript:void(0);' style='color:blue;' onclick='assignment_page(" + cmpList.assignmentIdx + ")'>" + cmpList.assignmentSubject + "</a>";
                     var cellData = [
                         function (data) {return i + 1;},
-                        function (data) {return cmpList.assignmentSubject;},
+                        function (data) {return assignment_subject;},
                         function (data) {return cmpList.regMemberId;},
                         function (data) {return cmpList.createDate;},
                         function (data) {return cmpList.useYn;},
@@ -68,6 +84,7 @@ $(document).ready(function() {
 </section>
 <form name="frm" id="frm" method="get">
     <input type="hidden" name="page_gbn" id="page_gbn">
+    <input type="hidden" id="assignment_id" name="assignment_id">
 </form>
 
     <section class="content">
@@ -163,13 +180,6 @@ $(document).ready(function() {
                 <tr>
                     <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
                 </tr>
-                 <!--   <tr>
-                        <td>3</td>
-                        <td><a href="javascript:goPage('lecture', 'assignment_detail')" class="font_color blue">중3 선행수업 과제</a></td>
-                        <td>현미경</td>
-                        <td>2018-01-15</td>
-                        <td>사용</td>
-                    </tr>-->
             </table>
             <button class="btn_pack s2 blue" onclick="javascript:goPage('lecture', 'assignment_info')">등록</button>
         </div>

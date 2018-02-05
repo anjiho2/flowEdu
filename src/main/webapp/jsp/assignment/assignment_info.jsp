@@ -68,7 +68,7 @@
                 if(confirm(comment.isSave)){
                     lectureService.saveAssignmentInfo(sel_myclass, sel_yn, title, content, data.result.file_name,function () {
                         alert('과제저장완료');
-                        goPage('assignment','assignment_list')
+                        goPage('lecture','assignment_list')
                     });
                 }
             }
@@ -130,7 +130,7 @@
                 </tbody>
             </table>
             <button class="btn_pack blue s2" onclick="assignment_save();">저장</button>
-            <button class="btn_pack blue s2" onclick="goPage('assignment', 'assignment_list')">목록</button>
+            <button class="btn_pack blue s2" onclick="goPage('lecture', 'assignment_list')">목록</button>
         </div>
     </section>
 
