@@ -56,7 +56,7 @@ function fn_search(val) {
                     var cellData = [
                         function (data) {return i + 1;},
                         function (data) {return assignment_subject;},
-                        function (data) {return cmpList.regMemberId;},
+                        function (data) {return cmpList.memberName;},
                         function (data) {return split_minute_getDay(cmpList.createDate);},
                         function (data) {return ynHTML;},
                     ];

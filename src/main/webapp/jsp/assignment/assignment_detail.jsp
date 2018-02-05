@@ -37,7 +37,6 @@
             processData: false,
             contentType: false,
             success: function (data) {
-                console.log(data);
                 var errorCode = data.result.error_code;
                 if (errorCode == "903") {
                     alert(comment.file_name_not_allow_korean);
@@ -54,6 +53,7 @@
                 var title = getInputTextValue('assignment_title');
                 var content = getInputTextValue('assignment_content');
                 var assignment_id = getInputTextValue("assignment_id");
+
 
                 if(sel_myclass == ''){
                     alert(comment.input_myclass_type);
@@ -171,7 +171,7 @@
                     </tr>
                 </tbody>
             </table>
-            <button class="btn_pack blue s2" onclick="modify_assignment();">저장</button>
+            <button class="btn_pack blue s2" onclick="modify_assignment();">수정</button>
             <button class="btn_pack blue s2" onclick="go_list();">목록</button>
         </div>
     </section>
