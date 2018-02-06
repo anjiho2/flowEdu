@@ -184,6 +184,8 @@ public class AcademyService extends PagingSupport {
     public void modifyAcademy(Long officeId, String officeName, String officeDirectorName, String officeAddress,
                             String officeTelNumber, String officeFaxNumber, int academyGroupId, int zipCode,
                               String officeAddressDeatil, String officeMemo, String certificateFileName) {
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
         if (officeId == null || officeId < 1L) {
             throw new FlowEduException(FlowEduErrorCode.INTERNAL_ERROR);
         }

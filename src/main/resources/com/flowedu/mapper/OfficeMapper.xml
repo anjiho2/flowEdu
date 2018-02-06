@@ -119,7 +119,7 @@
 			<if test="officeFaxNumber != ''">office_fax_number = #{officeFaxNumber},</if>
 			<if test="academyGroupId > 0">academy_group_id = #{academyGroupId},</if>
 			<if test="officeMemo != ''">office_memo = #{officeMemo},</if>
-			<if test="certificateFileName != null">certificate_file_name = #{certificateFileName},</if>
+			<if test="certificateFileName != ''">certificate_file_name = #{certificateFileName},</if>
 			<if test="certificateFileUrl != ''">certificate_file_url = #{certificateFileUrl},</if>
 			<if test="regMemeberId > 0">reg_member_id = #{regMemeberId},</if>
 		</set>
