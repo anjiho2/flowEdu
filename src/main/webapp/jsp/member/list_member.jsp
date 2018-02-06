@@ -15,43 +15,53 @@ function init() {
     jobPositionSelectbox("sel_jobPosition", "");    //직책
     searchAcademySelectbox("sel_academy",""); //소속
     teamListSelectbox("sel_teamList", "");  //소속팀
-
-    fn_search("new");
+    gfn_emptyView("V", comment.search_member);
 }
 
+
 function fn_search(val) {//운영자,선생님 리스트불러오기
+    dwr.util.removeAllRows("dataList");
     var paging = new Paging();
     var sPage = $("#sPage").val();
 
     if(val == "new") sPage = "1";
-    dwr.util.removeAllRows("dataList");
 
-    memberService.getFlowEduMemberListCount( function(cnt) {
+    var sel_memberType  =  getSelectboxValue("sel_memberType");//유형
+    var sel_jobPosition = getSelectboxValue("sel_jobPosition");//직책
+    var sel_academy     = getSelectboxValue("sel_academy");//소속
+    var sel_teamList    =  getSelectboxValue("sel_teamList");//소속팀
+    var sel_registe     = getSelectboxValue("sel_registe");//등록정보
+    var registe_info    =  getInputTextValue("registe_info");
+
+    dwr.util.removeAllRows("dataList");
+    gfn_emptyView("H", "");
+    memberService.getFlowEduMemberListCount(sel_memberType, sel_jobPosition, sel_academy, sel_teamList, registe_info, sel_registe, function(cnt) {
         paging.count(sPage, cnt, '10', '10', comment.blank_list);
-            memberService.getFlowEduMemberList(sPage, '10', function (selList) {
+            memberService.getFlowEduMemberList(sPage, '10', sel_memberType, sel_jobPosition, sel_academy, sel_teamList, registe_info, sel_registe, function (selList) {
                 if (selList.length > 0) {
+                    console.log(selList);
                     for (var i = 0; i < selList.length; i++) {
                           var cmpList = selList[i];
+                          var serveYn;
+                          if(cmpList.serveYn == true) serveYn = '재직';
+                          else serveYn = '퇴직';
                 if (cmpList != undefined) {
-                    var modifyHTML = "<button class='btn_pack white' type='button' id='modify' onclick='member_modify(" + cmpList.flowMemberId + ");'/>수정</button>";
+                    var nameHTML = "<a href='javascript:void(0);' onclick='member_modify("+ cmpList.flowMemberId +")' style='color:blue;'>" + cmpList.memberName + "</a>"
                     var cellData = [
-                        //   function(data) {return checkHTML;},
+                        function(data) {return i+1;},
                         function(data) {return convert_memberType(cmpList.memberType);},
                         function(data) {return cmpList.jobPositionName;},
-                        function(data) {return cmpList.memberName;},
-                        function(data) {return cmpList.phoneNumber;},
-                        //function(data) {return cmpList.memberBirthday;},
-                        //function(data) {return ellipsis(cmpList.memberAddress, 5);},
-                        function(data) {return cmpList.memberEmail;},
+                        function(data) {return nameHTML;},
                         function(data) {return cmpList.officeName;},
-                        function(data) {return cmpList.teamName;},
-                        // function(data) {return cmpList.sexualAssultConfirmDate;},
-                        //function(data) {return cmpList.educationRegDate;},
-                        function(data) {return modifyHTML;}
+                        function(data) {return cmpList.teamName == "" ? "-" : cmpList.teamName},
+                        function(data) {return cmpList.phoneNumber;},
+                        function(data) {return serveYn;},
                     ];
                     dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
                 }
               }
+            }else{
+                    gfn_emptyView("V", comment.blank_list2);
             }
         });
     });
@@ -72,11 +82,11 @@ function member_modify(member_id) { //수정페이지 이동
 </section>
 <section class="content">
     <h3 class="title_t1">운영자관리</h3>
-    <form name="frm" id="frm" method="get">
-    <input type="hidden" name="member_id" id="member_id">
-    <input type="hidden" name="page_gbn" id="page_gbn">
-    <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
-
+    <form name="frm" method="get">
+        <input type="hidden" name="member_id" id="member_id">
+        <input type="hidden" name="page_gbn" id="page_gbn">
+        <input type="hidden" id="sPage" value="<%=sPage%>">
+    </form>
         <div class="tb_t1">
             <table>
                 <tr>
@@ -111,16 +121,16 @@ function member_modify(member_id) { //수정페이지 이동
                     <th>등록정보</th>
                     <td colspan="3">
                         <div class="form-group row marginX">
-                            <select class="form-control" style="width: 13rem;margin-right:10px;">
+                            <select class="form-control" style="width: 13rem;margin-right:10px;" id="sel_registe">
                                 <option value="name">이름</option>
                                 <option value="phone">핸드폰번호</option>
                             </select>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="registe_info">
                         </div>
                     </td>
                 </tr>
             </table>
-            <button class="btn_pack blue">검색</button>
+            <button class="btn_pack blue" onclick="fn_search('new')">검색</button>
         </div>
 
         <div class="tb_t1" style="margin-top:2.5rem;">
@@ -137,112 +147,16 @@ function member_modify(member_id) { //수정페이지 이동
                         <th>상태</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>6</td>
-                        <td>AMS관리자</td>
-                        <td>팀장</td>
-                        <td><a href="#" class="font_color blue">이형우</a></td>
-                        <td>플로우교육</td>
-                        <td>시스템운영팀</td>
-                        <td>010-5555-2222</td>
-                        <td>재직</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>강사</td>
-                        <td>원장</td>
-                        <td><a href="#" class="font_color blue">엄소라</a></td>
-                        <td>수학의아침 초등관</td>
-                        <td>-</td>
-                        <td>010-7575-8484</td>
-                        <td>재직</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>CS</td>
-                        <td>원장</td>
-                        <td><a href="#" class="font_color blue">박수현</a></td>
-                        <td>다빈치코드</td>
-                        <td>CS실</td>
-                        <td>010-5975-8224</td>
-                        <td>퇴사</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>AMS관리자</td>
-                        <td>팀원</td>
-                        <td><a href="#" class="font_color blue">오태원</a></td>
-                        <td>플로우교육</td>
-                        <td>시스템운영팀</td>
-                        <td>010-9995-6666</td>
-                        <td>재직</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>강사</td>
-                        <td>팀장</td>
-                        <td><a href="#" class="font_color blue">문채임</a></td>
-                        <td>사이언스카이 중등관</td>
-                        <td>-</td>
-                        <td>010-9999-2961</td>
-                        <td>퇴사</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>강사</td>
-                        <td>팀원</td>
-                        <td><a href="#" class="font_color blue">김형도</a></td>
-                        <td>수학의아침 초등관</td>
-                        <td>-</td>
-                        <td>010-9444-6154</td>
-                        <td>재직</td>
-                    </tr>
-                </tbody>
+                <tbody id="dataList"></tbody>
+                <tr>
+                    <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
+                </tr>
             </table>
             <button class="btn_pack blue s2" onclick="javascript:goPage('member', 'save_member')">등록</button>
         </div>
-    <%--<div class="tb_t1">--%>
-        <%--<table>--%>
-            <%--<colgroup>--%>
-                <%--<col width="*" />--%>
-                <%--<col width="*" />--%>
-                <%--<col width="*" />--%>
-                <%--<col width="*" />--%>
-                <%--<col width="*" />--%>
-                <%--<col width="*" />--%>
-                <%--<col width="*" />--%>
-                <%--<col width="*" />--%>
-                <%--<col width="*" />--%>
-                <%--<col width="*" />--%>
-                <%--<col width="*" />--%>
-                <%--<col width="110" />--%>
-            <%--</colgroup>--%>
-            <%--<thead>--%>
-            <%--<tr>--%>
-                <%--<th>직원타입</th>--%>
-                <%--<th>직책</th>--%>
-                <%--<th>직원명</th>--%>
-                <%--<th>직원핸드폰번호</th>--%>
-               <%--<!-- <th>생년월일</th>-->--%>
-               <%--<!-- <th>주소</th>-->--%>
-                <%--<th>이메일</th>--%>
-                <%--<th>소속부서</th>--%>
-                <%--<th>소속팀</th>--%>
-               <%--<!-- <th>성범죄경력조회 확인일자</th>--%>
-                <%--<th>교육청 강사등록일자</th>-->--%>
-                <%--<th>수정</th>--%>
-            <%--</tr>--%>
-            <%--</thead>--%>
-            <%--<tbody id="dataList"></tbody>--%>
-            <%--<tr>--%>
-                <%--<td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>--%>
-            <%--</tr>--%>
-        <%--</table>--%>
-    <%--<%@ include file="/common/inc/com_pageNavi.inc" %>--%>
-    <%--</div>--%>
-    </form>
+    <%@ include file="/common/inc/com_pageNavi.inc" %>
 </section>
+<%@include file="/common/jsp/footer.jsp" %>
 </body>
 </html>
 <script>

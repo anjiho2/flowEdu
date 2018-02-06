@@ -1,188 +1,279 @@
 <%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-    int depth1 = 4;
-    int depth2 = 2;
     Long member_id = Long.parseLong(request.getParameter("member_id"));
+    int depth1 = 5;
+    int depth2 = 2;
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
-<script>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script type="text/javascript">
     function init() {
-        academyListSelectbox("sel_academy","");
-        flowEduTeamListSelectbox("l_FlowEduTeam","");
-        memberList();
+        getMemberinfo();
+        memberTypeSelectbox("sel_memberType", "");  //유형
+        jobPositionSelectbox("sel_jobPosition", "");    //직책
+        searchAcademySelectbox("sel_academy",""); //소속
     }
 
-    function memberList() {//운영자.선생님정보 가져오기
-        var memberId        = getInputTextValue("member_id");
-        memberService.getFlowEduMember(memberId, function (selList) {
-            if (selList.length > 0) {
-                for (var i=0; i<selList.length; i++) {
-                    var cmpList = selList[i];
-                    memberTypeSelectbox("sel_memberType", cmpList.memberType);
-                    jobPositionSelectbox("sel_jobPosition", cmpList.jobPositionId);
-                    academyListSelectbox("sel_academy", cmpList.officeId);
-                    flowEduTeamListSelectbox("l_FlowEduTeam", cmpList.teamId);
-                    innerValue("member_name", cmpList.memberName);//직원명
-                    innerValue("startDate", cmpList.memberBirthday);//생년월일
-                    innerValue("member_address", cmpList.memberAddress);//주소
-                    innerValue("member_email", cmpList.memberEmail);//이메일
-                    innerValue("startSearchDate", cmpList.sexualAssultConfirmDate);//성범죄경력조회
-                    if(cmpList.memberType == 'TEACHER' ||cmpList.memberType == 'TEACHER_MANAGE'){
-                        innerValue("startSearchDate2", cmpList.educationRegDate);
-                        $(".hiddenDate2").show();
-                    }else{
-                        $(".hiddenDate2").hide();
-                    }
-                    fnSetPhoneNo(member_phone1, member_phone2, member_phone3, cmpList.phoneNumber);//핸드폰번호
-                }
-            }
-        });
-    }
-
-    function modify_member() {// 운영자.선생님정보수정
+   /* function modify_save() { // 운영자.선생님정보수정
         var check = new isCheck();
-        var member_id        = getInputTextValue("member_id");
+
         var sel_memberType = getSelectboxValue("sel_memberType");
         if(sel_memberType == ''){
             alert(comment.input_member_type);
             return false;
         }
-        if(check.input("member_name", comment.input_member_name)       == false) return;
-        if(check.input("startDate", comment.input_member_startDate)    == false) return;
-        if(check.input("member_address", comment.input_member_address) == false) return;
-        if(check.input("member_email", comment.input_member_email)     == false) return;
-        if(check.input("startSearchDate", comment.input_member_startSearchDate)   == false) return;
+        var sel_jobPosition = getSelectboxValue("sel_jobPosition");
+        if(sel_jobPosition == ''){
+            alert(comment.input_member_posiotion);
+            return false;
+        }
+        var sel_academy = getSelectboxValue("sel_academy");
+        if(sel_academy == ''){
+            alert(comment.input_member_academy);
+            return false;
+        }
+        var member_name = getInputTextValue("member_name");
+        if(member_name == ''){
+            alert(comment.search_input_id_name);
+            return false;
+        }
 
+        var member_phone1        = getInputTextValue("member_phone1");
+        var member_phone2        = getInputTextValue("member_phone2");
+        var member_phone3        = getInputTextValue("member_phone3");
+        if(member_phone1 == '' || member_phone2 == '' || member_phone3 == ''){
+            alert(comment.input_member_phone1);
+            return false;
+        }
+        var zip_code             = getInputTextValue("zip_code");//우편번호
+        var member_address       = getInputTextValue("member_address");//주소
+        var member_address_detail  = getInputTextValue("member_address_detail");//상세주소
+        if(member_address == ''){
+            alert(comment.input_member_address);
+            return false;
+
+        }
         var member_email   = getInputTextValue("member_email");
         if(member_email){ //이메일 유효성 체크
             var is_email = fn_isemail(member_email);
             if (is_email == true) return false;
         }
-        var member_name          = getInputTextValue("member_name");
-        var member_phone1        = getInputTextValue("member_phone1");
-        var member_phone2        = getInputTextValue("member_phone2");
-        var member_phone3        = getInputTextValue("member_phone3");
-        var member_allphone      = member_phone1+member_phone2+member_phone3;
-        var startDate            = getInputTextValue("startDate");
-        var member_address       = getInputTextValue("member_address");
-        var member_email         = getInputTextValue("member_email");
-        var startSearchDate      = getInputTextValue("startSearchDate");
-        var startSearchDate2     = getInputTextValue("startSearchDate2");
-        var sel_memberType       = getSelectboxValue("sel_memberType");
-        var sel_academy          = getSelectboxValue("sel_academyList");
-        var sel_FlowEduTeamList  = getSelectboxValue("sel_FlowEduTeamList");
-        var sel_jobPosition      = getSelectboxValue("sel_jobPosition");
-        var memtype = $("#sel_memberType option:selected").text();
-        var memtypeval = getSelectboxValue("sel_memberType");
 
-        if(memtypeval == "TEACHER" || memtypeval == "TEACHER_MANAGE"){
-            if(check.input("startSearchDate2", comment.input_member_startSearchDate2)  == false) return;
-        }else{
-            startSearchDate2 = null;
-        }
+        var member_teamName      = getInputTextValue("member_teamName");//소속팀
+        var member_allphone      = member_phone1+member_phone2+member_phone3;//핸드폰번호
+        var startDate            = getInputTextValue("startDate");//생년월일
+        var member_email         = getInputTextValue("member_email");//이메일
+        var sexualAssultDay      = getInputTextValue("sexualAssultDay");//성범죄경력조회확인일자
+        var educationRegDay      = getInputTextValue("educationRegDay");//교육청강사등록일자
+        gfn_display("loadingbar", true);
 
-        memberService.modifyFlowEduMember(member_id, sel_academy, sel_FlowEduTeamList, sel_jobPosition, member_allphone, member_phone3,member_name,
-            startDate, member_address,member_email, startSearchDate, startSearchDate2, sel_memberType,function () {
-                alert(memtype + " 정보가 수정 되었습니다.");
-                goPage("member","list_member");
+        memberService.isMember(member_allphone, function (bl) {
+            if(bl==true){
+                gfn_display("loadingbar", false);
+                alert("이미 가입된 전화번호가 있습니다.");
+                return false;
+            }else{
+                //저장
+                memberService.saveFlowEduMember(sel_academy, member_teamName, sel_jobPosition, member_allphone, member_phone3, member_name, startDate, member_address,
+                    member_email, sexualAssultDay, educationRegDay, sel_memberType, member_address_detail, zip_code,function () {
+                        alert(comment.isSave);
+                        gfn_display("loadingbar", false);
+                        goPage("member","list_member");
+                    });
+            }
         });
     }
-
-    $(function () {
-        $('#sel_memberType').change(function () {
-            var memtypeval = getSelectboxValue("sel_memberType");
-            if(memtypeval == 'TEACHER' ||memtypeval == 'TEACHER_MANAGE'){
-                $(".hiddenDate2").show();
-            }else{
-                $(".hiddenDate2").hide();
+    */
+    /*function getMemberinfo() {
+        var member_id = <%=member_id%>;
+        memberService.getFlowEduMemberList(0, 0, '', '','',,function (selList) {
+            //(int sPage, int pageListCount, String memberType, int jobPostionId,
+            //Long officeId, String teamName, String searchText, String searchType)
+            for(var i= 0; i < selList.length; i++){
+                console.log(selList);
+                var cmpList = selList[i];
+                if(cmpList != undefined){
+                }
             }
+        });
+    }*/
+
+    function go_list() {
+        if(isChange) {
+            if (confirm(comment.is_change_confirm)) {
+                goPage("member","list_member");
+            }
+        } else {
+            goPage("member","list_member");
+        }
+    }
+
+    var isChange = false;
+    $(document).ready(function () {
+        $("input, select, textarea").change(function () {
+            isChange = true;
         });
     });
 </script>
-
 <style><%--성범죄확인일자/교육청강사등록일자로인한 style예외처리--%>
 .form-group.row>label {-webkit-box-flex: 0;-ms-flex: 0 0 140px;flex: 0 0 187px;}
 </style>
 <body onload="init();">
+<div id="loadingbar" class="loadingbar" style="display:none;">
+    <img src="img/loading.gif">
+</div>
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
-    <%@include file="/common/jsp/member_top_menu.jsp" %>
+    <%--<%@include file="/common/jsp/member_top_menu.jsp" %>--%>
+    <div class="title-top">운영관리</div>
 </div>
 </section>
 <section class="content">
-    <h3 class="title_t1">운영자/선생님정보 수정</h3>
-    <form name="frm" id="frm" method="get" class="form_st1">
-        <input type="hidden" name="page_gbn" id="page_gbn">
+    <h3 class="title_t1">운영자관리</h3>
+    <form name="frm" method="get">
         <input type="hidden" name="member_id" id="member_id" value="<%=member_id%>">
-        <div class="form-group row">
-            <label>직원타입<b>*</b></label>
-            <div>
-                <%--<span id="l_memberType"></span>--%>
-                <select id="sel_memberType" class="form-control">
-                    <option value="">▶선택</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label>직원명<b>*</b></label>
-            <div><input type="text" class="form-control" id="member_name" style="width:150px;"></div>
-        </div>
-        <div class="form-group row">
-            <label>생년월일<b>*</b></label>
-            <div><input type="text" id="startDate" class="form-control date-picker" style="width:150px;"></div>
-        </div>
-        <div class="form-outer-group">
-            <div class="form-group row">
-                <label>핸드폰번호</label>
-                <div class="inputs">
-                    <input type="text" id="member_phone1" class="form-control" maxlength="3"  onkeyup="js_tab_order(this,frm.member_phone2,3)">&nbsp;-&nbsp;
-                    <input type="text" id="member_phone2" class="form-control" maxlength="4"  onkeyup="js_tab_order(this,frm.member_phone3,4)">&nbsp;-&nbsp;
-                    <input type="text" id="member_phone3" class="form-control" maxlength="4" >
-                </div>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label>주소<b>*</b></label>
-            <div><input type="text" class="form-control" id="member_address"></div>
-        </div>
-        <div class="form-group row">
-            <label>이메일</label>
-            <div><input type="email" class="form-control datepicker" id="member_email" style="width:422px;"></div>
-        </div>
-        <div class="form-group row">
-            <label>직책<b>*</b></label>
-            <div>
-                <select id="sel_jobPosition" class="form-control">
-                    <option value=''>▶선택</option>
-                </select>
-                <%--<span id="l_jobPosition"></span>--%>
-            </div>
-        </div>
-        <div class="form-group row">
-            <label>소속부서(학원)<b>*</b></label>
-            <div><span id="sel_academy"></span></div>
-        </div>
-        <div class="form-group row">
-            <label>소속팀<b>*</b></label>
-            <div><span id="l_FlowEduTeam"></span></div>
-        </div>
-        <div class="form-group row">
-            <label>성범죄경력조회 확인일자<b>*</b></label>
-            <div><input type="text" id="startSearchDate" class="form-control date-picker" style="width:200px;"></div>
-        </div>
-        <div class="form-group row hiddenDate2">
-            <label>교육청 강사등록일자<b>*</b></label>
-            <div><input type="text" id="startSearchDate2" class="form-control date-picker" style="width:200px;"></div>
-        </div>
-        <div class="bot_btns">
-            <button class="btn_pack blue s2" type="button"  onclick="modify_member();">저장</button>
-        </div>
+        <input type="hidden" name="page_gbn" id="page_gbn">
     </form>
+    <div class="tb_t1">
+        <table>
+            <tr>
+                <th>유형<b>*</b></th>
+                <td>
+                    <select id="sel_memberType" class="form-control">
+                        <option value="">선택</option>
+                    </select>
+                </td>
+                <th>직책<b>*</b></th>
+                <td>
+                    <select id="sel_jobPosition" class="form-control">
+                        <option value="">선택</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>소속<b>*</b></th>
+                <td>
+                    <select id="sel_academy" class="form-control">
+                        <option value="">선택</option>
+                    </select>
+                </td>
+                <th>소속팀</th>
+                <td><input type="text" class="form-control" id="member_teamName"></td>
+            </tr>
+            <tr>
+                <th>이름<b>*</b></th>
+                <td><input type="text" class="form-control" id="member_name"></td>
+                <th>핸드폰번호<b>*</b></th>
+                <td>
+                    <div class="form-group row marginX">
+                        <div class="inputs">
+                            <input type="number" size="3" class="form-control" maxlength="3" max="999" id="member_phone1">&nbsp;-&nbsp;
+                            <input type="number" size="4" class="form-control" maxlength="4" max="9999" id="member_phone2">&nbsp;-&nbsp;
+                            <input type="number" size="4" class="form-control" maxlength="4" max="9999" id="member_phone3">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>이메일</th>
+                <td><input type="text" class="form-control" id="member_email"></td>
+                <th>생년월일</th>
+                <td>
+                    <div class="input-group date common">
+                        <input type="text" id="startDate" class="form-control date-picker">
+                        <span class="input-group-addon">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>주소<b>*</b></th>
+                <td colspan="3">
+                    <div class="form-group row">
+                        <input type="text" id="zip_code" class="form-control" style="width: 10rem;" placeholder="우편번호" onclick="openDaumPostcode();">&nbsp;
+                        <button class="btn_pack" onclick="openDaumPostcode();">우편번호 검색</button>
+                    </div>
+                    <div class="form-group row marginX">
+                        <input type="text" id="member_address" class="form-control">
+                        <input type="text" id="member_address_detail" class="form-control">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>성범죄조회 확인일</th>
+                <td>
+                    <div class="input-group date common">
+                        <input type="text" id="sexualAssultDay" class="form-control date-picker">
+                        <span class="input-group-addon">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                    </div>
+                </td>
+                <th>교육청 강사등록일</th>
+                <td>
+                    <div class="input-group date common">
+                        <input type="text" id="educationRegDay" class="form-control date-picker">
+                        <span class="input-group-addon">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>상태</th>
+                <td>
+                    <select class="form-control">
+                        <option>재직</option>
+                        <option>퇴사</option>
+                    </select>
+                </td>
+                <td colspan="2"></td>
+            </tr>
+        </table>
+        <button class="btn_pack s2 blue" onclick="modify_save();">수정</button>
+        <button class="btn_pack s2 blue" onclick="go_list();">목록</button>
+    </div>
 </section>
+<div id="layer" style="display:none;border:5px solid;position:fixed;width:500px;height:500px;left:50%;margin-left:-250px;top:50%;margin-top:-250px;overflow:hidden;z-index: 999">
+    <img src="http://i1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="closeDaumPostcode()">
 </div>
 <%@include file="/common/jsp/footer.jsp" %>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script>
+    // 우편번호 찾기 화면을 넣을 element
+    var element = document.getElementById('layer');
+
+    function closeDaumPostcode() {
+        // iframe을 넣은 element를 안보이게 한다.
+        element.style.display = 'none';
+    }
+
+    function openDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분. 우편번호와 주소 정보를 해당 필드에 넣고, 커서를 상세주소 필드로 이동한다.
+                document.getElementById("zip_code").value = (data.postcode1 + data.postcode2);
+                //document.getElementById("zip2").value = data.postcode2;
+                document.getElementById("member_address").value = data.address;
+                document.getElementById("member_address_detail").focus();
+                // iframe을 넣은 element를 안보이게 한다.
+                element.style.display = 'none';
+                //$("#layer").css('display', 'none');
+            },
+            width : '100%',
+            height : '100%'
+        }).embed(element);
+        // iframe을 넣은 element를 보이게 한다.
+        element.style.display = 'block';
+    }
+
+    $(".sidebar-menu > li").eq(5).addClass("active");
+    $(".sidebar-menu > li:nth-child(6) > ul > li:nth-child(1) > a").addClass("on");
+</script>
 </body>
+

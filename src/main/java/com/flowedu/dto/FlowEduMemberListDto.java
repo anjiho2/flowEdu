@@ -60,4 +60,6 @@ public class FlowEduMemberListDto {
     private String jobPositionName;
 
     private String memberAuthKey;
+
+    private boolean serveYn;
 }

@@ -23,7 +23,7 @@
         var selMyclass = getSelectboxValue('sel_myClass');
 
         if(selMyclass == "") alert(comment.input_myclass_type);
-      //  gfn_emptyView("H", "");
+
         var studentName = getInputTextValue("student_name");
         var searchDate  = getInputTextValue("endDate");
         var start_student_num=0;
