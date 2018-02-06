@@ -4626,9 +4626,33 @@ div.space_between{
     justify-content: space-between;
 }
 
+input[type=button].btn_wrap{
+    border:none;
+    height: 36px;
+    padding: 0 10px;
+    color: #fff;
+    background-color: #515356;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    min-width: 100px
+}
+
+input[type=button].btn_wrap.s2{
+    border:none;
+    min-width: 140px;
+    height: 40px;
+    font-size: 14px;
+    border-radius: 20px;
+    font-weight: 400
+}
+
+input[type=button].btn_wrap.blue{
+    margin:5px;
+    background-color: #03a9f4
+}
+
 button.btn_pack {
-
-
     height: 36px;
     padding: 0 10px;
     color: #fff;
