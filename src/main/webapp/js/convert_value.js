@@ -77,10 +77,9 @@ function convert_attend(val) {
 
 function convert_memberType(val) {
     var str = "";
-    if(val == "OPERATOR") str ="운영자";
-    else if(val == "TEACHER") str = "담임선생님";
-    else if(val == "TEACHER_MANAGE") str = "관리선생님";
-    else if(val == "ADMIN") str = "관리자";
+    if(val == "CS") str ="CS";
+    else if(val == "TEACHER") str = "강사";
+    else if(val == "ADMIN") str = "AMS관리자";
 
     return str;
 }

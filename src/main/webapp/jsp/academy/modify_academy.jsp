@@ -2,6 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
     String officeId = Util.isNullValue(request.getParameter("office_id"), "");
+    String savePath = ConfigHolder.getCertificateUploadsPath();
+    String apiHost = ConfigHolder.getFlowEduApiUrl();
     int depth1 = 3;
     int depth2 = 2;
 %>
@@ -52,31 +54,34 @@
         var academy_memo = getInputTextValue("academy_memo");
 
         var data = new FormData();
+        data.append("save_path", '<%=savePath%>');
         $.each($("#attachFile")[0].files, function (i, file) {
-            data.append("file-" + i, file);
+            data.append("file_name", file);
         });
-
         var attachFile = fn_clearFilePath($("#attachFile").val());
 
         if (officeId == '' || officeId == undefined || officeId == null) {
             //입력일때
             if (confirm(comment.isSave)) {
                 if (attachFile != '') {
+                    alert(attachFile);
                     $.ajax({
                         url: "<%=webRoot%>/file/certificate_upload.do",
                         method: "post",
                         dataType: "JSON",
                         data: data,
-                        cache: false,
                         processData: false,
                         contentType: false,
                         success: function (data) {
                             var errorCode = data.result.error_code;
-                            if (errorCode == "905") {
+                            if (errorCode == "907") {
                                 alert(comment.file_size_not_allow_500kb);
                                 return;
                             } else if (errorCode == "906") {
                                 alert(comment.certificate_file_extension_not_allow);
+                                return;
+                            } else if (errorCode == "909") {
+                                alert(comment.file_name_not_allow_korean);
                                 return;
                             }
                             var fileName = data.result.file_name;
@@ -84,6 +89,7 @@
                                 academy_name, "", academy_address, academy_allphone, academy_fax,
                                 group_id, zip_code, academy_address_detail, academy_memo, fileName
                             );
+                            goPage('academy', 'list_academy');
                         }
                     });
                 } else {
@@ -91,6 +97,7 @@
                         academy_name, "", academy_address, academy_allphone, academy_fax,
                         group_id, zip_code, academy_address_detail, academy_memo, null
                     );
+                    goPage('academy', 'list_academy');
                 }
             }
         } else {
@@ -98,38 +105,57 @@
             if (confirm(comment.isUpdate)) {
                 if (attachFile != '') {
                     $.ajax({
-                        url: "<%=webRoot%>/file/certificate_upload.do",
+                        url: "<%=apiHost%>/upload/file",
                         method: "post",
                         dataType: "json",
                         data: data,
-                        cache: false,
                         processData: false,
                         contentType: false,
                         success: function (data) {
                             var errorCode = data.result.error_code;
-                            if (errorCode == "905") {
+                            if (errorCode == "907") {
                                 alert(comment.file_size_not_allow_500kb);
                                 return;
                             } else if (errorCode == "906") {
                                 alert(comment.certificate_file_extension_not_allow);
                                 return;
+                            } else if (errorCode == "909") {
+                                alert(comment.file_name_not_allow_korean);
+                                return;
                             }
                             var fileName = data.result.file_name;
                             academyService.modifyAcademy(
-                                officeId, academy_name, academy_directorname, academy_address, academy_allphone, academy_fax,
+                                officeId, academy_name, "", academy_address, academy_allphone, academy_fax,
                                 group_id, zip_code, academy_address_detail, academy_memo, fileName
                             );
+                            goPage('academy', 'list_academy');
+                        }, error : function (jqXHR, exception) {
+                            if (jqXHR.status === 0) {
+                                alert('Not connect.\n Verify Network.');
+                            } else if (jqXHR.status == 404) {
+                                alert('Requested page not found. [404]');
+                            } else if (jqXHR.status == 500) {
+                                alert('Internal Server Error [500].');
+                            } else if (exception === 'parsererror') {
+                                alert('Requested JSON parse failed.');
+                            } else if (exception === 'timeout') {
+                                alert('Time out error.');
+                            } else if (exception === 'abort') {
+                                alert('Ajax request aborted.');
+                            } else {
+                                alert('Uncaught Error.\n' + jqXHR.responseText);
+                            }
                         }
                     });
                 } else {
                     academyService.modifyAcademy(
-                        officeId, academy_name, academy_directorname, academy_address, academy_allphone, academy_fax,
+                        officeId, academy_name, "", academy_address, academy_allphone, academy_fax,
                         group_id, zip_code, academy_address_detail, academy_memo, null
                     );
+                    goPage('academy', 'list_academy');
                 }
             }
         }
-        goPage('academy', 'list_academy');
     }
 
     function academyList() { //학원정보가져오기
@@ -177,6 +203,7 @@
         if(checkUnload)  return "이 페이지를 벗어나면 작성된 내용은 저장되지 않습니다.";
     });
     */
+
     var isChange = false;
     $(document).ready(function () {
         $("input, select, textarea").change(function () {
@@ -206,6 +233,7 @@
     <form name="frm" method="get"><!-- class="form_st1"-->
         <input type="hidden" name="page_gbn" id="page_gbn">
     </form>
+    <form name="frm2" method="post">
     <div class="tb_t1">
         <table class="table_width">
             <tr>
@@ -276,9 +304,11 @@
                 </td>
             </tr>
         </table>
-        <button class="btn_pack s2 blue" onclick="modify_academy();">저장</button>
+        <input type="button" class="btn_wrap s2 blue" value="저장" onclick="modify_academy();">
+        <%--<button class="btn_pack s2 blue" onclick="modify_academy();">저장</button>--%>
         <button class="btn_pack s2 blue" id="list_btn" onclick="go_list();">목록</button>
     </div>
+    </form>
 </section>
 <!--원장명 검색 팝업 레이어 시작-->
 <!--

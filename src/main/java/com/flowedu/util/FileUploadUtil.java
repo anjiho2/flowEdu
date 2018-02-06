@@ -1,7 +1,10 @@
 package com.flowedu.util;
 
+import com.flowedu.controller.FileController;
 import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -16,6 +19,8 @@ import java.util.Map;
  * Created by jihoan on 2017. 7. 24..
  */
 public class FileUploadUtil {
+
+    protected final static Logger logger = LoggerFactory.getLogger(FileUploadUtil.class);
 
     /**
      * <pre>
@@ -203,10 +208,12 @@ public class FileUploadUtil {
                     }
                     if (originalFileName != null || !"".equals(originalFileName)) {
                         File serverFile = new File(FileUtil.concatPath(assignmentDirectory.toString(), finalFileName));
+                        logger.info("serverFile ---------------> " + serverFile);
                         multipartFile.transferTo(serverFile);
                         //root경로 파일 삭제
                         FileUtil.fileDelete(finalFileName);
                         FileUtil.fileDelete(originalFileName);
+                        logger.info("originalFileName ---------------> " + originalFileName);
 
                         fileName = serverFile.getName();
                     }
@@ -228,7 +235,6 @@ public class FileUploadUtil {
         try {
             while (it.hasNext()) {
                 String uploadFileName = it.next();
-
                 if (uploadFileName != null || !"".equals(uploadFileName)) {
                     MultipartFile multipartFile = request.getFile(uploadFileName);
                     long fileSize = multipartFile.getSize();
@@ -239,6 +245,7 @@ public class FileUploadUtil {
                     }
                     //한글 꺠짐 방지처리
                     String originalFileName = multipartFile.getOriginalFilename();
+                    logger.info("originalName -----------> " + originalFileName);
                     /** 파일명이 한글일때 에러 처리 **/
                     /*
                     if (StringUtil.isKorean(originalFileName)) {
@@ -258,6 +265,7 @@ public class FileUploadUtil {
                         return map;
                     }
                     String finalFileName = makeFileName + "_" + Util.returnNowDateByYyyymmddhhmmss() + "." + fileExtension;
+                    logger.info("finalFileName ------------>" + finalFileName);
                     //디렉토리 존재 확인
                     File certificateDirectory = new File(FileUtil.concatPath(savePath, "certificate"));
                     if (!certificateDirectory.isDirectory()) {
@@ -265,6 +273,7 @@ public class FileUploadUtil {
                     }
                     if (originalFileName != null || !"".equals(originalFileName)) {
                         File serverFile = new File(FileUtil.concatPath(certificateDirectory.toString(), finalFileName));
+                        logger.info("serverFile ------------>" + serverFile);
                         multipartFile.transferTo(serverFile);
                         //root경로 파일 삭제
                         FileUtil.fileDelete(finalFileName);

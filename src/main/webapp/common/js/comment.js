@@ -65,9 +65,9 @@ var comment = {
 		input_zip_code : "우편번호를 입력하세요.",
 
 
-    	input_member_type : "직원타입을 선택해주세요.",
+    	input_member_type : "유형을 선택해주세요.",
     	input_member_posiotion:"직책을 선택해주세요.",
-    	input_member_academy:"소속부서를 선택해주세요.",
+    	input_member_academy:"소속을 선택해주세요.",
     	input_member_team:"소속팀을 선택해주세요.",
 		input_member_name : "직원명을 입력해주세요.",
     	input_mother_name : "부모님(모)명을 입력해주세요.",
@@ -88,7 +88,8 @@ var comment = {
 		input_myclass_type : "반을 선택해 주세요.",
     	input_assignment_type : "사용여부를 선택해 주세요.",
 
-    	input_student_grade:"학생의 학년을 선택해주세요.",
+
+	    input_student_grade:"학생의 학년을 선택해주세요.",
 		input_student_name : "학생 이름을 입력하세요.",
     	input_school_name : "학교이름을 입력하세요.",
 
@@ -112,6 +113,7 @@ var comment = {
    		attend_class_type : "반 또는 학생을 검색해 주세요.",
         search_input_id_name : "이름을 입력해주세요.",
 		search_academy : "학원을 검색해주세요.",
+    	search_member : "운영자를 검색해 주세요.",
 
 		success_update : "수정됬습니다",
 		send_email : "입력하신 이메일 주소로 아이디를 전송 하였습니다.",
