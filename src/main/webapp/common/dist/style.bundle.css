@@ -228,6 +228,12 @@ canvas {
     -moz-osx-font-smoothing: grayscale
 }
 
+div.draghandle span{
+    font-size: 20px;
+    margin-left: 5px;
+    color: #515356;
+}
+
 .fa-glass:before {
     content: "\F000"
 }
@@ -4077,6 +4083,11 @@ select.form-control:focus::-ms-value {
     background-color: #fff
 }
 
+.form-control.select-space{
+    width: 13rem;
+    margin-right: 10px;
+}
+
 .form-control-file, .form-control-range {
     display: block
 }
@@ -4675,6 +4686,17 @@ button.btn_pack.s3{
     width: 49.5%;
 }
 
+button.btn_pack.s4 {
+    height: 36px;
+    padding: 0 10px;
+    color: #fff;
+    background-color: #515356;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    min-width: 30px
+}
+
 button.btn_pack.orange {
     background-color: #ff6200
 }
@@ -5009,6 +5031,10 @@ div.tb_t1 {
     border-radius: 4px
 }
 
+div.tb_t1.top-space{
+    margin-top: 2.5rem;
+}
+
 div.tb_t1 table {
     width: 100%
 }
@@ -5069,6 +5095,10 @@ div.tb_t1.attend_tb1 table tr td:nth-child(4){
 
 div.tb_t1.attend_tb1 table tr td:nth-child(5){
     width: .5rem;
+}
+
+.float-right{
+    float: right;
 }
 
 .form_st1 {

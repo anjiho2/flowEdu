@@ -163,7 +163,7 @@
                 <th>등록 정보</th>
                 <td colspan="3">
                     <div class="form-group row marginX">
-                        <select id="sel_regType" class="form-control" style="width: 13rem;margin-right:10px;">
+                        <select id="sel_regType" class="form-control select-space">
                             <%--<option value="name">이름</option>--%>
                             <option value="group_name">그룹명</option>
                             <option value="academy_name" selected>학원명</option>
@@ -178,7 +178,7 @@
     </div>
     <!-- 검색 영역 끝 -->
     <!-- 검색 결과 리스트 테이블 시작 -->
-    <div class="tb_t1" style="margin-top:2.5rem;">
+    <div class="tb_t1 top-space">
         <table>
             <thead>
                 <tr>

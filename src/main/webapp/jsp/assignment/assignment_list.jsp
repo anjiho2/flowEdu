@@ -160,7 +160,7 @@ $(document).ready(function() {
                         <th>등록 정보</th>
                         <td colspan="3">
                             <div class="form-group row marginX">
-                                <select class="form-control" style="width: 13rem;margin-right:10px;" id="registe_info">
+                                <select class="form-control select-space" id="registe_info">
                                     <option value="">이름</option>
                                     <option value="">과제명</option>
                                 </select>
@@ -173,7 +173,7 @@ $(document).ready(function() {
             <button class="btn_pack blue" onclick="fn_search('new');">검색</button>
         </div>
 
-        <div class="tb_t1" style="margin-top: 2.5rem;">
+        <div class="tb_t1 top-space">
             <table>
                 <tbody>
                     <tr>
