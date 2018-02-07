@@ -66,7 +66,7 @@
                 if (attachFile != '') {
                     alert(attachFile);
                     $.ajax({
-                        url: "<%=webRoot%>/file/certificate_upload.do",
+                        url: "<%=apiHost%>/upload/certificate_file",
                         method: "post",
                         dataType: "JSON",
                         data: data,
@@ -105,7 +105,7 @@
             if (confirm(comment.isUpdate)) {
                 if (attachFile != '') {
                     $.ajax({
-                        url: "<%=apiHost%>/upload/file",
+                        url: "<%=apiHost%>/upload/certificate_file",
                         method: "post",
                         dataType: "json",
                         data: data,

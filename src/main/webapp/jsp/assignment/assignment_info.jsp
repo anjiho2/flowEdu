@@ -3,6 +3,9 @@
 <% response.setContentType("text/html; charset=utf-8"); %>
 <%
     //Long lecture_id = Long.parseLong(request.getParameter("lecture_id"));
+    String savePath = ConfigHolder.getAssignmentUploadsPath();
+    String apiHost = ConfigHolder.getFlowEduApiUrl();
+
     int depth1 = 5;
     int depth2 = 2;
 %>
@@ -24,14 +27,15 @@
 
         var data = new FormData();
         $.each($('#attachFile')[0].files, function(i, file) {
-            data.append('file-' + i, file);
+            data.append('file_name', file);
         });
         var attachFile = fn_clearFilePath($('#attachFile').val())
         var sel_myclass = getSelectboxValue('sel_myClass');
         data.append("lecture_id", sel_myclass);
+        data.append("save_path", '<%=savePath%>');
 
         $.ajax({
-            url: "<%=webRoot%>/file/assignment_upload.do",
+            url: "<%=apiHost%>/upload/assignment_file",
             method : "post",
             dataType: "JSON",
             data: data,
@@ -39,19 +43,17 @@
             processData: false,
             contentType: false,
             success: function (data) {
-                console.log(data);
                 var errorCode = data.result.error_code;
-                if (errorCode == "903") {
+                if (errorCode == "909") {
                     alert(comment.file_name_not_allow_korean);
                     return;
-                } else if (errorCode == "904") {
+                } else if (errorCode == "906") {
                     alert(comment.file_extension_not_allow);
                     return;
-                } else if (errorCode == "905") {
+                } else if (errorCode == "907") {
                     alert(comment.file_size_not_allow_300kb);
                     return;
                 }
-
                 var sel_yn =  getSelectboxValue('assignment_yn');
                 var title = getInputTextValue('assignment_title');
                 var content = getInputTextValue('assignment_content');
@@ -68,12 +70,28 @@
                 if(check.input("assignment_content", comment.input_content)   == false) return;
                 if(sel_yn == 1) sel_yn = true;
                 else sel_yn = false;
-                alert(sel_yn);
+
                 if(confirm(comment.isSave)){
                     lectureService.saveAssignmentInfo(sel_myclass, sel_yn, title, content, data.result.file_name,function () {
                         alert('과제저장 완료 되었습니다.');
                         goPage('lecture','assignment_list')
                     });
+                }
+            }, error : function (jqXHR, exception) {
+                if (jqXHR.status === 0) {
+                    alert('Not connect.\n Verify Network.');
+                } else if (jqXHR.status == 404) {
+                    alert('Requested page not found. [404]');
+                } else if (jqXHR.status == 500) {
+                    alert('Internal Server Error [500].');
+                } else if (exception === 'parsererror') {
+                    alert('Requested JSON parse failed.');
+                } else if (exception === 'timeout') {
+                    alert('Time out error.');
+                } else if (exception === 'abort') {
+                    alert('Ajax request aborted.');
+                } else {
+                    alert('Uncaught Error.\n' + jqXHR.responseText);
                 }
             }
         });

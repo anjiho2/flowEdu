@@ -1,66 +1,107 @@
-<html lang="en">
-<head>
-    <title>Jquery - bootstrap Prompt modal using bootbox.js</title>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css" rel="stylesheet">
-</head>
-<body>
-<div class="container text-center">
-    <h2>Jquery - Sortable table rows example</h2>
-    <table class="table table-bordered pagin-table">
-        <thead>
-        <tr>
-            <th width="50px">No</th>
-            <th>Name</th>
-            <th width="220px">Action</th>
-        </tr>
-        </thead>
-        <tbody>
-
-        <tr>
-            <td>1</td>
-            <td>Hardik Savani</td>
-            <td><a href="" class="btn btn-danger">Delete</a></td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Rajesh Savani</td>
-            <td><a href="" class="btn btn-danger">Delete</a></td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Haresh Patel</td>
-            <td><a href="" class="btn btn-danger">Delete</a></td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>Vimal Patel</td>
-            <td><a href="" class="btn btn-danger">Delete</a></td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>Harshad Pathak</td>
-            <td><a href="" class="btn btn-danger">Delete</a></td>
-        </tr>
-        </tbody>
-    </table>
+<%@ page import="com.flowedu.util.Util" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+    String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
+    int depth1 = 5;
+    int depth2 = 2;
+%>
+<%@include file="/common/jsp/top.jsp" %>
+<%@include file="/common/jsp/header.jsp" %>
+<script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
+<script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
+<body onload="init();">
+<div id="loadingbar" class="loadingbar" style="display:none;">
+    <img src="img/loading.gif">
 </div>
-<script type="text/javascript">
-    $('tbody .btn btn-danger').sortable();
+<div class="container">
+    <%@include file="/common/jsp/titleArea.jsp" %>
+    <%--<%@include file="/common/jsp/member_top_menu.jsp" %>--%>
+    <div class="title-top">운영관리</div>
+</div>
+</section>
+<section class="content">
+    <h3 class="title_t1">셔틀버스관리</h3>
+    <form name="frm" method="get">
+        <input type="hidden" name="member_id" id="member_id">
+        <input type="hidden" name="page_gbn" id="page_gbn">
+        <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
+    </form>
 
-    $(function() {
-        var obj = document.getElementsByTagName("tr");
-        if( obj.length >= 0 ){
-            var orderList = "";
-            for(var i=1; i< obj.length; i++) {
+    <div class="tb_t1">
+        <table>
+            <tr>
+                <th>소속</th>
+                <td>
+                    <select class="form-control" style="width: 20rem;">
+                        <option>전체</option>
+                        <option>플로우교육</option>
+                        <option>수학의아침</option>
+                        <option>사이언스카이</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>소속정보</th>
+                <td>
+                    <div class="form-group row marginX">
+                        <select class="form-control select-space">
+                            <option>선택</option>
+                            <option>소속</option>
+                            <option>노선명</option>
+                            <option>기사명</option>
+                        </select>
+                        <input type="text" class="form-control">
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <button class="btn_pack blue">검색</button>
+    </div>
 
-            }
-        }
+    <div class="tb_t1 top-space">
+        <table>
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>소속</th>
+                    <th>노선명</th>
+                    <th>기사명</th>
+                    <th>차량번호</th>
+                    <th>핸드폰번호</th>
+                    <th>기간</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2</td>
+                    <td>수학의아침 초등관</td>
+                    <td>정든 / 수내</td>
+                    <td><a href="javascript:goPage('bus', 'driver_info')" class="font_color blue">백승주</a></td>
+                    <td>경기 70아 5689</td>
+                    <td>010-4794-5987</td>
+                    <td>2018-01-02 ~ 2018-02-28</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>수학의아침 초등관</td>
+                    <td>서판교 / 서판교</td>
+                    <td><a href="#" class="font_color blue">임광철</a></td>
+                    <td>경기 70아 1234</td>
+                    <td>010-2345-5678</td>
+                    <td>2018-01-02 ~ 2018-02-28</td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn_pack s2 blue" onclick="javascript:goPage('bus', 'save_driver')">등록</button>
+    </div>
 
-    });
+</section>
+<%@include file="/common/jsp/footer.jsp" %>
 
+<script>
+    $(".sidebar-menu > li").eq(5).addClass("active");
+    $(".sidebar-menu > li:nth-child(6) > ul > li:nth-child(2) > a").addClass("on");
 </script>
+
 </body>
-</html>
+
