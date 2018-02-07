@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
     Long assignment_id = Long.parseLong(request.getParameter("assignment_id"));
+    String savePath = ConfigHolder.getAssignmentUploadsPath();
+    String apiHost = ConfigHolder.getFlowEduApiUrl();
     int depth1 = 5;
     int depth2 = 2;
 %>
@@ -22,7 +24,7 @@
         var data = new FormData();
 
         $.each($('#attachFile')[0].files, function(i, file) {
-            data.append('file-' + i, file);
+            data.append('file_name', file);
         });
         var attachFile = fn_clearFilePath($('#attachFile').val());
         var sel_myclass = getSelectboxValue('sel_myClass');
@@ -32,10 +34,12 @@
         var assignment_id = getInputTextValue("assignment_id");
 
         data.append("lecture_id", sel_myclass);
+        data.append("save_path", '<%=savePath%>');
+
         if(confirm(comment.isUpdate)) {
             if (attachFile != '') {
                 $.ajax({
-                    url: "<%=webRoot%>/file/assignment_upload.do",
+                    url: "<%=apiHost%>/upload/assignment_file",
                     method: "post",
                     dataType: "JSON",
                     data: data,
@@ -43,15 +47,14 @@
                     processData: false,
                     contentType: false,
                     success: function (data) {
-                        console.log(data);
                         var errorCode = data.result.error_code;
-                        if (errorCode == "903") {
+                        if (errorCode == "909") {
                             alert(comment.file_name_not_allow_korean);
                             return;
-                        } else if (errorCode == "904") {
+                        } else if (errorCode == "906") {
                             alert(comment.file_extension_not_allow);
                             return;
-                        } else if (errorCode == "905") {
+                        } else if (errorCode == "907") {
                             alert(comment.file_size_not_allow_300kb);
                             return;
                         }
@@ -74,6 +77,22 @@
                             goPage('lecture', 'assignment_list');
                         });
 
+                    }, error : function (jqXHR, exception) {
+                        if (jqXHR.status === 0) {
+                            alert('Not connect.\n Verify Network.');
+                        } else if (jqXHR.status == 404) {
+                            alert('Requested page not found. [404]');
+                        } else if (jqXHR.status == 500) {
+                            alert('Internal Server Error [500].');
+                        } else if (exception === 'parsererror') {
+                            alert('Requested JSON parse failed.');
+                        } else if (exception === 'timeout') {
+                            alert('Time out error.');
+                        } else if (exception === 'abort') {
+                            alert('Ajax request aborted.');
+                        } else {
+                            alert('Uncaught Error.\n' + jqXHR.responseText);
+                        }
                     }
                 });
             } else {

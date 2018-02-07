@@ -6,6 +6,8 @@
     Long student_id = Long.parseLong(request.getParameter("student_id"));
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
     String imgUrl = ConfigHolder.getFileViewUrl();
+    String savePath = ConfigHolder.uploadRoot();
+    String apiHost = ConfigHolder.getFlowEduApiUrl();
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
@@ -16,7 +18,7 @@
         student_memo_list();
     }
 
-    function studentList() {
+    function studentList(school_type) {
         var student_id        = getInputTextValue("student_id");
         studentService.getStudentInfo(student_id, function (selList) {
 
@@ -28,10 +30,14 @@
             innerValue("student_name", selList.studentName);
             innerValue("startDate", selList.studentBirthday);
             genderRadio("l_gender", selList.studentGender, "");
-            schoolTypeSelectbox("sel_schoolType", selList.schoolType);
-            //$('input:radio[name=school_type]:input[value=' + selList.schoolType + ']').attr("checked", true);
-            //innerValue("sel_school", selList.studentGrade);
-            schoolSelectbox("student_grade", selList.studentGrade, selList.schoolType);
+            schoolTypeSelectbox2("l_schoolType", school_type == undefined ? convert_school_type(selList.schoolType) : school_type);
+            var studentGrade = selList.studentGrade;
+            if (school_type != undefined) {
+                if (convert_school_type(selList.schoolType) != school_type) {
+                    studentGrade = 0;
+                }
+            }
+            schoolSelectbox("student_grade", studentGrade, school_type);
             fnSetPhoneNo(student_phone1, student_phone2, student_phone3, selList.studentPhoneNumber);
             fnSetPhoneNo(student_tel1,   student_tel2,   student_tel3,   selList.homeTelNumber);
             fnSetPhoneNo(mother_phone1,  mother_phone2,  mother_phone3,  selList.motherPhoneNumber);
@@ -70,34 +76,35 @@
         if(check.input("mother_phone2", comment.input_mother_tel2)   == false) return;
         if(check.input("mother_phone3", comment.input_mother_tel3)   == false) return;
 
+        data.append("save_path", '<%=savePath%>');
         $.each($('#attachFile')[0].files, function(i, file) {
-            data.append('file-' + i, file);
+            data.append('file_name', file);
         });
         var attachFile = fn_clearFilePath($('#attachFile').val());
         if (attachFile != "") { //학생사진 업로드시
 
             $.ajax({
-                url: "<%=webRoot%>/file/upload.do",
+                url: "<%=apiHost%>/upload/student_img_file",
                 method : "post",
                 dataType: "JSON",
                 data: data,
                 cache: false,
                 processData: false,
                 contentType: false,
-                success: function(data) {
-                    var errorCode = data.result.error_code;
-                    if (errorCode == "903") {
+                success: function(result_data) {
+                    var errorCode = result_data.result.error_code;
+                    if (errorCode == "909") {
                         alert(comment.file_name_not_allow_korean);
                         return;
-                    } else if (errorCode == "904") {
+                    } else if (errorCode == "906") {
                         alert(comment.file_extension_not_allow);
                         return;
-                    } else if (errorCode == "905") {
+                    } else if (errorCode == "907") {
                         alert(comment.file_size_not_allow_300kb);
                         return;
                     }
-                    var fileName = data.result.file_name;
-                    var fileUrl = data.result.file_url;
+                    var fileName = result_data.result.file_name;
+                    var fileUrl = result_data.result.file_url;
                     var mother_phone3   = getInputTextValue("mother_phone3");
                     var student_name    = getInputTextValue("student_name");
                     var gender          = get_radio_value("gender_type");
@@ -431,8 +438,8 @@
             </tr>
             <tr>
                 <th>학교구분</th>
-                <%--<td><span id="l_schoolType"></span>--%>
-                    <td><select id="sel_schoolType" class="form-control"></select>
+                <td><span id="l_schoolType"></span>
+                    <%--<td><select id="sel_schoolType" class="form-control"></select>--%>
                     <%--<div class="checkbox_t1">--%>
                     <%--<label><input type="radio" name="school_type" class="form-control" value="elem_list"  onclick="school_radio(this.value);" checked><span>초등학교</span></label>--%>
                     <%--<label><input type="radio" name="school_type" class="form-control" value="midd_list"  onclick="school_radio(this.value);"><span>중학교</span></label>--%>

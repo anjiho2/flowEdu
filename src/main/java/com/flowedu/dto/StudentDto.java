@@ -87,7 +87,7 @@ public class StudentDto {
                       String fatherName, String fatherPhoneNumber, String etcName, String etcPhoneNumber) throws Exception {
         this.studentName = studentName;
         this.studentPassword = Aes256.encrypt(studentPassword);
-        this.studentGender = convertToGender(studentGender);
+        this.studentGender = studentGender;
         this.studentBirthday = studentBirthday;
         this.homeTelNumber = homeTelNumber;
         this.studentPhoneNumber = studentPhoneNumber;
@@ -114,13 +114,13 @@ public class StudentDto {
         this.studentId = studentId;
         this.studentPassword = Aes256.encrypt(studentPasword);
         this.studentName = studentName;
-        this.studentGender = convertToGender(studentGender);
+        this.studentGender = studentGender;
         this.studentBirthday = studentBirthday;
         this.homeTelNumber = homeTelNumber;
         this.studentPhoneNumber = studentPhoneNumber;
         this.studentEmail = studentEmail;
         this.schoolName = schoolName;
-        this.schoolType = schoolType;
+        this.schoolType = convertToSchoolType(schoolType);
         this.studentGrade = studentGrade;
         this.studentPhotoFile = studentPhotoFile;
         this.studentPhotoUrl = studentPhotoUrl;
@@ -138,7 +138,7 @@ public class StudentDto {
                       String motherName, String motherPhoneNumber) throws Exception {
         this.studentName = studentName;
         this.studentPassword = Aes256.encrypt(studentPassword);
-        this.studentGender = convertToGender(studentGender);
+        this.studentGender = studentGender;
         this.studentBirthday = studentBirthday;
         this.studentPhoneNumber = studentPhoneNumber;
         this.schoolName = schoolName;
@@ -151,9 +151,9 @@ public class StudentDto {
 
     private String convertToSchoolType(String korStr) {
         String engStr = null;
-        if ("초등학교".equals(korStr)) {
+        if ("ELEMENT".equals(korStr)) {
             engStr = "elem_list";
-        } else if ("중학교".equals(korStr)) {
+        } else if ("MIDDLE".equals(korStr)) {
             engStr = "midd_list";
         } else {
             engStr = "high_list";

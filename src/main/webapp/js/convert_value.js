@@ -121,3 +121,15 @@ function convert_day(val) {
     }
     return str;
 }
+
+function convert_school_type(val) {
+    var convert_val = "";
+    if (val == "elem_list") {
+        convert_val = "ELEMENT";
+    } else if (val == "midd_list") {
+        convert_val = "MIDDLE";
+    } else if (val == "high_list") {
+        convert_val = "HIGH";
+    }
+    return convert_val;
+}
