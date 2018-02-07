@@ -35,6 +35,12 @@ public class FlowEduMemberListDto {
     //  주소
     private String memberAddress;
 
+    // 우편번호
+    private String zipCode;
+
+    //상세주소
+    private String memberAddressDetail;
+
     //  이메일
     private String memberEmail;
 
