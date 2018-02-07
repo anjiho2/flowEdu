@@ -5,13 +5,15 @@
     int depth2 = 2;
     String newRegPhoneNumber = Util.isNullValue(request.getParameter("phone_number"), "");
     Boolean consultYn = Boolean.valueOf(Util.isNullValue(request.getParameter("consult_yn"), ""));
+    String savePath = ConfigHolder.uploadRoot();
+    String apiHost = ConfigHolder.getFlowEduApiUrl();
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
 <script type="text/javascript" charset="UTF-8">
 
-        function init() {
+    function init(val) {
         // 신규 상담에서 학생 등록 할때
         var newRegPhoneNumber = '<%=newRegPhoneNumber%>';
         if (newRegPhoneNumber != "") {
@@ -20,8 +22,13 @@
             $("#mother_phone2").attr("disabled", true);
             $("#mother_phone3").attr("disabled", true);
         }
-        schoolTypeSelectbox("sel_schoolType", "");
-        schoolSelectbox("student_grade","", "");
+        /*
+        if (val == undefined) val = "ELEMENT";
+        $("#sel_schoolType").val(val).prop("selected", true);
+        */
+        if (val == undefined) val = "ELEMENT";
+        schoolTypeSelectbox("l_schoolType", val);
+        schoolSelectbox("student_grade","", val);
     }
 
     function save_student() { //저장
@@ -49,34 +56,35 @@
          if(check.input("mother_phone3", comment.input_mother_tel3)   == false) return;
 
         var data = new FormData();
+        data.append("save_path", '<%=savePath%>');
         $.each($('#attachFile')[0].files, function(i, file) {
-            data.append('file-' + i, file);
+            data.append('file_name', file);
         });
         var attachFile = fn_clearFilePath($('#attachFile').val());
 
         if (attachFile != "") { //학생사진 업로드시
             $.ajax({
-                url: "<%=webRoot%>/file/upload.do",
+                url: "<%=apiHost%>/upload/student_img_file",
                 method : "post",
                 dataType: "JSON",
                 data: data,
                 cache: false,
                 processData: false,
                 contentType: false,
-                success: function(data) {
-                    var errorCode = data.result.error_code;
-                    if (errorCode == "903") {
+                success: function(result_data) {
+                    var errorCode = result_data.result.error_code;
+                    if (errorCode == "909") {
                         alert(comment.file_name_not_allow_korean);
                         return;
-                    } else if (errorCode == "904") {
+                    } else if (errorCode == "906") {
                         alert(comment.file_extension_not_allow);
                         return;
-                    } else if (errorCode == "905") {
+                    } else if (errorCode == "907") {
                         alert(comment.file_size_not_allow_300kb);
                         return;
                     }
-                    var fileName = data.result.file_name;
-                    var fileUrl = data.result.file_url;
+                    var fileName = result_data.result.file_name;
+                    var fileUrl = result_data.result.file_url;
                     var mother_phone3   = getInputTextValue("mother_phone3");
                     var student_name    = getInputTextValue("student_name");
                     var gender          = get_radio_value("student_gender");
@@ -394,14 +402,14 @@
             </tr>
             <tr>
                 <th>학교구분</th>
-                <%--<td><span id="l_schoolType"></span>--%>
-                    <td><select id="sel_schoolType" class="form-control"></select>
-                    <%--<div class="checkbox_t1">--%>
-                        <%--<label><input type="radio" name="school_type" class="form-control" value="elem_list"  onclick="school_radio(this.value);" checked><span>초등학교</span></label>--%>
-                        <%--<label><input type="radio" name="school_type" class="form-control" value="midd_list"  onclick="school_radio(this.value);"><span>중학교</span></label>--%>
-                        <%--<label><input type="radio" name="school_type" class="form-control" value="high_list"  onclick="school_radio(this.value);"><span>고등학교</span></label>--%>
-                    <%--</div>--%>
-                </td>
+                <td><span id="l_schoolType"></span>
+                    <%--<td>--%>
+                    <%--<select id="sel_schoolType" class="form-control" onchange="init(this.value)">--%>
+                        <%--<option value="ELEMENT">초등학교</option>--%>
+                        <%--<option value="MIDDEL">중학교</option>--%>
+                        <%--<option value="HIGH">고등학교</option>--%>
+                    <%--</select>--%>
+                    <%--</td>--%>
                 <th>학교이름<b>*</b></th>
                 <td>
                     <input type="text" class="form-control" id="schoolname" onclick="school_search_popup();">
