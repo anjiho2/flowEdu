@@ -9,6 +9,11 @@
 <%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <body onload="init();">
 <div id="loadingbar" class="loadingbar" style="display:none;">
     <img src="img/loading.gif">
@@ -59,7 +64,7 @@
     </div>
 
     <div class="tb_t1 top-space">
-        <table>
+        <table id="test">
             <thead>
                 <tr>
                     <th>No.</th>
@@ -101,6 +106,12 @@
 <script>
     $(".sidebar-menu > li").eq(5).addClass("active");
     $(".sidebar-menu > li:nth-child(6) > ul > li:nth-child(2) > a").addClass("on");
+
+    $( function() {
+        $("#test").sortable();
+        $("#test").disableSelection();
+    } );
+
 </script>
 
 </body>

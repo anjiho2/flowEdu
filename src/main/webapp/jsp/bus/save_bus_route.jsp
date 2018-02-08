@@ -59,7 +59,7 @@
             <tr>
                 <th>등원<b>*</b></th>
                 <td colspan="3">
-                    <table>
+                    <table id="test">
                         <thead>
                             <tr>
                                 <th><input type="checkbox"></th>
@@ -73,6 +73,36 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td><input type="text" class="form-control"></td>
+                                <td><input type="text" class="form-control"></td>
+                                <td><input type="text" class="form-control"></td>
+                                <td><input type="text" class="form-control"></td>
+                                <td><input type="text" class="form-control"></td>
+                                <td><input type="text" class="form-control"></td>
+                                <td>
+                                    <div class="form-group row marginX draghandle">
+                                        <input type="text" class="form-control">
+                                        <span class="fa fa-bars"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td><input type="text" class="form-control"></td>
+                                <td><input type="text" class="form-control"></td>
+                                <td><input type="text" class="form-control"></td>
+                                <td><input type="text" class="form-control"></td>
+                                <td><input type="text" class="form-control"></td>
+                                <td><input type="text" class="form-control"></td>
+                                <td>
+                                    <div class="form-group row marginX draghandle">
+                                        <input type="text" class="form-control">
+                                        <span class="fa fa-bars"></span>
+                                    </div>
+                                </td>
+                            </tr>
                             <tr>
                                 <td><input type="checkbox"></td>
                                 <td><input type="text" class="form-control"></td>
@@ -180,6 +210,14 @@
 <script>
     $(".sidebar-menu > li").eq(5).addClass("active");
     $(".sidebar-menu > li:nth-child(6) > ul > li:nth-child(2) > a").addClass("on");
+
+    $( "#test tbody" ).sortable( {
+        update: function( event, ui ) {
+            $(this).children().each(function(index) {
+                $(this).find('tr').last().html(index + 1)
+            });
+        }
+    });
 </script>
 
 </body>
