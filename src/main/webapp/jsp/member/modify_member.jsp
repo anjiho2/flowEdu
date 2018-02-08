@@ -12,13 +12,13 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script type="text/javascript">
     function init() {
-        getMemberinfo();
-        memberTypeSelectbox("sel_memberType", "");  //유형
+        getMemberinfo();//운영자정보가져오기
+     /*   memberTypeSelectbox("sel_memberType", "");  //유형
         jobPositionSelectbox("sel_jobPosition", "");    //직책
-        searchAcademySelectbox("sel_academy",""); //소속
+        searchAcademySelectbox("sel_academy",""); //소속*/
     }
 
-   /* function modify_save() { // 운영자.선생님정보수정
+    function modify_save() { // 운영자.선생님정보 수정
         var check = new isCheck();
 
         var sel_memberType = getSelectboxValue("sel_memberType");
@@ -69,38 +69,48 @@
         var member_email         = getInputTextValue("member_email");//이메일
         var sexualAssultDay      = getInputTextValue("sexualAssultDay");//성범죄경력조회확인일자
         var educationRegDay      = getInputTextValue("educationRegDay");//교육청강사등록일자
+        var status               = getSelectboxValue("status");
+        var member_id            = getInputTextValue("member_id");
+        var statusYn;
+        if(status == 1) statusYn = true;
+        else statusYn = false;
         gfn_display("loadingbar", true);
-
-        memberService.isMember(member_allphone, function (bl) {
-            if(bl==true){
-                gfn_display("loadingbar", false);
-                alert("이미 가입된 전화번호가 있습니다.");
-                return false;
-            }else{
-                //저장
-                memberService.saveFlowEduMember(sel_academy, member_teamName, sel_jobPosition, member_allphone, member_phone3, member_name, startDate, member_address,
-                    member_email, sexualAssultDay, educationRegDay, sel_memberType, member_address_detail, zip_code,function () {
-                        alert(comment.isSave);
-                        gfn_display("loadingbar", false);
-                        goPage("member","list_member");
-                    });
-            }
-        });
+        alert(sel_academy);
+        //수정
+        if(confirm(comment.isUpdate)) {
+            memberService.modifyFlowEduMember(member_id, sel_academy, member_teamName, sel_jobPosition, member_allphone, member_phone3, member_name, startDate, member_address,
+                member_email, sexualAssultDay, educationRegDay, sel_memberType, member_address_detail, zip_code, statusYn, function () {
+                    gfn_display("loadingbar", false);
+                    goPage("member", "list_member");
+                });
+        }
     }
-    */
-    /*function getMemberinfo() {
+
+    function getMemberinfo() { // 운영자정보가져오기
         var member_id = <%=member_id%>;
-        memberService.getFlowEduMemberList(0, 0, '', '','',,function (selList) {
-            //(int sPage, int pageListCount, String memberType, int jobPostionId,
-            //Long officeId, String teamName, String searchText, String searchType)
+        memberService.getFlowEduMember(member_id,function (selList) {
             for(var i= 0; i < selList.length; i++){
                 console.log(selList);
                 var cmpList = selList[i];
                 if(cmpList != undefined){
+                    memberTypeSelectbox("sel_memberType", cmpList.memberType);//유형
+                    jobPositionSelectbox("sel_jobPosition", cmpList.jobPositionId);//직책
+                    //searchAcademySelectbox("sel_academy", cmpList.officeId);//소속
+                    academyModifySelectbox("l_academy", cmpList.officeId);
+                    innerValue("member_teamName", cmpList.teamName);
+                    innerValue("member_name",cmpList.memberName);
+                    fnSetPhoneNo("member_phone1", "member_phone2", "member_phone3", cmpList.phoneNumber);
+                    innerValue("member_email", cmpList.memberEmail);
+                    innerValue("startDate",cmpList.memberBirthday);
+                    innerValue("member_address", cmpList.memberAddress);
+                    innerValue("zip_code",cmpList.zipCode);
+                    innerValue("member_address_detail",cmpList.memberAddressDetail);
+                    innerValue("sexualAssultDay",cmpList.sexualAssultConfirmDate);
+                    innerValue("educationRegDay",cmpList.educationRegDate);
                 }
             }
         });
-    }*/
+    }
 
     function go_list() {
         if(isChange) {
@@ -157,9 +167,10 @@
             <tr>
                 <th>소속<b>*</b></th>
                 <td>
-                    <select id="sel_academy" class="form-control">
-                        <option value="">선택</option>
-                    </select>
+                    <span id="l_academy"></span>
+                    <%--<select id="sel_academy" class="form-control">--%>
+                        <%--<option value="">선택</option>--%>
+                    <%--</select>--%>
                 </td>
                 <th>소속팀</th>
                 <td><input type="text" class="form-control" id="member_teamName"></td>
@@ -227,9 +238,9 @@
             <tr>
                 <th>상태</th>
                 <td>
-                    <select class="form-control">
-                        <option>재직</option>
-                        <option>퇴사</option>
+                    <select class="form-control" id="status">
+                        <option value="1">재직</option>
+                        <option value="0">퇴사</option>
                     </select>
                 </td>
                 <td colspan="2"></td>

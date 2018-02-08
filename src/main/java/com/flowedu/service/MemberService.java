@@ -350,13 +350,13 @@ public class MemberService extends PagingSupport {
     @Transactional(propagation = Propagation.REQUIRED)
     public void modifyFlowEduMember(Long flowMemberId, Long officeId, String teamName, Integer jobPositionId, String phoneNumber,
         String memberPassword, String memberName, String memberBirthDay, String memberAddress, String memeberEmail,
-        String sexualAssultConfirmDate, String educationRegDate, String memberType, String memberAddressDetail, String zipCode) throws Exception {
+        String sexualAssultConfirmDate, String educationRegDate, String memberType, String memberAddressDetail, String zipCode, boolean serveYn) throws Exception {
         if (flowMemberId == null || flowMemberId == 0L) {
             throw new FlowEduException(FlowEduErrorCode.INTERNAL_ERROR);
         }
         FlowEduMemberDto dto = new FlowEduMemberDto(
                 flowMemberId, officeId,  Util.isNullValue(teamName, ""), jobPositionId, phoneNumber,  memberName, memberBirthDay, memberAddress,
-                memberPassword, memeberEmail, sexualAssultConfirmDate, educationRegDate, memberType, memberAddressDetail, zipCode
+                memberPassword, memeberEmail, sexualAssultConfirmDate, educationRegDate, memberType, memberAddressDetail, zipCode, serveYn
         );
         memberMapper.modifyFlowEduMember(dto);
     }
