@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.flowedu.mapper.BusMapper">
+
+	<select id="selectDriverInfo" resultType="com.flowedu.dto.DriverInfoDto">
+		SELECT * FROM DRIVER_INFO
+		WHERE driver_idx = #{driverIdx}
+	</select>
+
+	<select id="selectDriverHelperInfo" resultType="com.flowedu.dto.DriverHelperInfoDto">
+		SELECT * FROM DRIVER_HELPER_INFO
+		WHERE driver_helper_idx = #{driverHelperIdx}
+	</select>
+
+	<insert id="insertDriverInfo" parameterType="com.flowedu.dto.DriverInfoDto">
+		INSERT INTO DRIVER_INFO
+		(
+			office_id, job_position_id, driver_name, phone_number, birth_day, reg_date, zip_code, address, address_detail,
+			bus_number, passengers_number, safety_certificate_date, serve_yn, sexual_assult_confirm_date
+		)
+		VALUES
+		(
+			#{officeId}, #{jobPositionId}, #{driverName}, #{phoneNumber}, #{birthDay}, #{regDate}, #{zipCode}, #{address}, #{addressDetail},
+			#{busNumber}, #{passengersNumber}, #{safetyCertificateDate}, #{serveYn}, #{sexualAssultConfirmDate}
+		)
+	</insert>
+
+	<insert id="insertDriverHelperInfo" parameterType="com.flowedu.dto.DriverHelperInfoDto">
+		INSERT INTO DRIVER_HELPER_INFO
+	  	(
+	  		driver_idx, office_id, helper_name, phone_number, birth_day, reg_date, zip_code,
+	  		address, address_detail, sexual_assult_confirm_date, serve_yn
+	  	)
+	  	VALUES
+	  	(
+	  		#{driverIdx}, #{officeId}, #{helperName}, #{phoneNumber}, #{birthDay}, #{regDate}, #{zipCode},
+	  		#{address}, #{addressDetail}, #{sexualAssultConfirmDate}, #{serveYn}
+	  	)
+	</insert>
+
+	<insert id="insertBusInfo" parameterType="com.flowedu.dto.BusInfoDto">
+		INSERT INTO BUS_INFO
+		(
+			route_number, start_route_name, end_route_name, bus_type, bus_status, apply_start_date, apply_end_date, bus_memo, driver_idx
+		)
+		VALUES
+		(
+			#{routeNumber}, #{startRouteName}, #{endRouteName}, #{busType}, #{busStatus}, #{applyStartDate}, #{applyEndDate}, #{busMemo}, #{driverIdx}
+		)
+		<selectKey resultType="Long" keyProperty="busIdx" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<insert id="insertBusAttendTimeList" parameterType="list">
+		INSERT INTO BUS_ATTEND_TIME
+		(
+			station_name, bus_idx, first_time, second_time, third_time, fourth_time, fifth_time, sixth_time, sort_number
+		)
+		VALUES
+		<foreach collection="busAttendTimeList" item="values" separator=",">
+			(
+				#{values.stationName}, #{values.busIdx}, #{values.firstTime}, #{values.secondTime}, #{values.thirdTime},
+				#{values.fourthTime}, #{values.fifthTime}, #{values.sixthTime}, #{values.sortNumber}
+			)
+		</foreach>
+	</insert>
+
+	<insert id="insertBusDismissTimeInfo" parameterType="com.flowedu.dto.BusDismissTimeDto">
+		INSERT INTO BUS_DISMISS_TIME_TIME
+		(
+			bus_idx, first_time, second_time, third_time, fourth_time, fifth_time, sixth_time
+		)
+		VALUES
+		(
+			#{busIdx}, #{firstTime}, #{secondTime}, #{thirdTime}, #{fourthTime}, #{fifthTime}, #{values.sixthTime}, #{values.sortNumber}
+		)
+	</insert>
+	
+	<update id="updateDriverInfo" parameterType="com.flowedu.dto.DriverInfoDto">
+		UPDATE DRIVER_INFO
+		<set>
+			<if test="officeId > 0">office_id = #{officeId},</if>
+			<if test="jobPositionId > 0">job_position_id = #{jobPositionId},</if>
+			<if test="driverName != ''">driver_name = #{driverName},</if>
+			<if test="phoneNumber != ''">phone_number = #{phoneNumber},</if>
+			<if test="birthDay != ''">birth_day = #{birthDay},</if>
+			<if test="regDate != ''">reg_date = #{regDate},</if>
+			<if test="zipCode != ''">zip_code = #{zipCode},</if>
+			<if test="address != ''">address = #{address},</if>
+			<if test="addressDetail != ''">address_detail = #{addressDetail},</if>
+			<if test="busNumber != ''">bus_number = #{busNumber},</if>
+			<if test="passengersNumber > 0">passengers_number = #{passengersNumber},</if>
+			<if test="safetyCertificateDate != ''">safety_certificate_date = #{safetyCertificateDate},</if>
+			<if test="serveYn != ''">serve_yn = #{serveYn},</if>
+			<if test="sexualAssultConfirmDate != ''">sexual_assult_confirm_date = #{sexualAssultConfirmDate},</if>
+		</set>
+		WHERE driver_idx = #{driverIdx}
+	</update>
+
+	<update id="updateDriverHelperInfo" parameterType="com.flowedu.dto.DriverHelperInfoDto">
+		UPDATE DRIVER_HELPER_INFO
+		<set>
+			<if test="driverIdx > 0">driver_idx = #{driverIdx},</if>
+			<if test="officeId > 0">office_id = #{officeId},</if>
+			<if test="helperName != ''">helper_name = #{helperName},</if>
+			<if test="phoneNumber != ''">phone_number = #{phoneNumber},</if>
+			<if test="birthDay != ''">birth_day = #{birthDay},</if>
+			<if test="regDate != ''">reg_date = #{regDate},</if>
+			<if test="zipCode != ''">zip_code = #{zipCode},</if>
+			<if test="address != ''">address = #{address},</if>
+			<if test="addressDetail != ''">address_detail = #{addressDetail},</if>
+			<if test="sexualAssultConfirmDate != ''">sexual_assult_confirm_date = #{sexualAssultConfirmDate},</if>
+			<if test="serveYn != ''">serve_yn = #{serveYn},</if>
+		</set>
+		WHERE driver_helper_idx = #{driverHelperIdx}
+	</update>
+	
+	<update id="updateBusInfo" parameterType="com.flowedu.dto.BusInfoDto">
+		UPDATE BUS_INFO
+		<set>
+			<if test="routeNumber != ''">route_number = #{routeNumber},</if>
+			<if test="startRouteName != ''">start_route_name = #{startRouteName},</if>
+			<if test="endRouteName != ''">end_route_name = #{endRouteName},</if>
+			<if test="busType != ''">bus_type = #{busType},</if>
+			<if test="busStatus != ''">bus_status = #{busStatus},</if>
+			<if test="applyStartDate != ''">apply_start_date = #{applyStartDate},</if>
+			<if test="applyEndDate != ''">apply_end_date = #{applyEndDate},</if>
+			<if test="busMemo != ''">bus_memo = #{busMemo},</if>
+			<if test="driverIdx != ''">driver_idx = #{driverIdx},</if>
+		</set>
+		WHERE bux_idx = #{busIdx}
+	</update>
+
+	<update id="updateBusAttendTime" parameterType="com.flowedu.dto.BusAttendTimeDto">
+		UPDATE BUS_ATTEND_TIME
+		<set>
+			<if test="statinName != ''">station_name = #{statinName},</if>
+			<if test="busIdx > 0">bus_idx = #{busIdx},</if>
+			<if test="firstTime != ''">first_time = #{firstTime},</if>
+			<if test="secondTime != ''">second_time = #{secondTime},</if>
+			<if test="thirdTime != ''">third_time = #{thirdTime},</if>
+			<if test="fourthTime != ''">fourth_time = #{fourthTime},</if>
+			<if test="fifthTime != ''">fifth_time = #{fifthTime},</if>
+			<if test="sixthTime != ''">sixth_time = #{sixthTime},</if>
+			<if test="sortNumber > 0">sort_number = #{sortNumber},</if>
+		</set>
+		WHERE bus_attend_time_idx = #{busAttendTimeIdx}
+	</update>
+
+	<update id="updateBusDismissTime" parameterType="com.flowedu.dto.BusDismissTimeDto">
+		UPDATE BUS_DISMISS_TIME
+		<set>
+			<if test="busIdx > 0">bus_idx = #{busIdx},</if>
+			<if test="firstTime != ''">first_time = #{firstTime},</if>
+			<if test="secondTime != ''">second_time = #{secondTime},</if>
+			<if test="thirdTime != ''">third_time = #{thirdTime},</if>
+			<if test="fourthTime != ''">fourth_time = #{fourthTime},</if>
+			<if test="fifthTime != ''">fifth_time = #{fifthTime},</if>
+			<if test="sixthTime != ''">sixth_time = #{sixthTime},</if>
+		</set>
+		WHERE bus_dismiss_time_idx = #{busDismissTimeIdx}
+	</update>
+</mapper>
