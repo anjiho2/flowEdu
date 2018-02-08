@@ -39,6 +39,7 @@
                 <li><a href="#">운영관리</a>
                     <ul class="sidebar-submenu">
                         <li><a href="javascript:goPage('member', 'list_member')"><span class="fa fa-address-card"></span>운영자관리</a></li>
+                        <li><a href="javascript:goPage('bus', 'bus_info')"><span class="fa fa-bus"></span>셔틀버스관리</a></li>
                     </ul>
                 </li>
                 <li><a href="javascript:goPage('', '')" <%=depth1 == 7 ? "class='on'" : ""%>>커뮤니티관리</a></li>

@@ -16,6 +16,7 @@ function jobPositionSelectbox(tag_id, val) {
 function searchAcademySelectbox(tag_id, val) {
     academyService.getAcademyList(function(list) {
         dwr.util.addOptions(tag_id, list, "officeId", "officeName");
+        dwr.util.setValue(tag_id, val);
     });
 }
 
@@ -626,5 +627,21 @@ function academyListBySearch(tag_id, val) {
 function teamListSelectbox(tag_id, val) {
     memberService.getMemberTeamList(function (list) {
         dwr.util.addOptions(tag_id, list, "teamId", "teamName");
+    });
+}
+
+function academyModifySelectbox(tag_id, val) {
+    academyService.getAcademyList(function(list) {
+        var html = "<select id='sel_academy' class='form-control'>";
+        html += "<option value=''>선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].officeId == val) {
+                html += "<option value="+list[i].officeId+" selected>"+ list[i].officeName +"</option>";
+            } else {
+                html += "<option value="+list[i].officeId+">"+ list[i].officeName +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
     });
 }

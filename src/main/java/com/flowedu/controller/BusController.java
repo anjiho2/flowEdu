@@ -19,7 +19,20 @@ public class BusController {
 
         if("bus_info".equals(page_gbn)) {
             mvc.setViewName("/bus/bus_info");
+        }else if("save_driver".equals(page_gbn)){
+            mvc.setViewName("/bus/save_driver");
+        }else if("driver_info".equals(page_gbn)){
+            mvc.setViewName("/bus/driver_info");
+        }else if("commute_assist_info".equals(page_gbn)){
+            mvc.setViewName("/bus/commute_assist_info");
+        }else if("save_commute_assist".equals(page_gbn)){
+            mvc.setViewName("/bus/save_commute_assist");
+        }else if("bus_route_info".equals(page_gbn)){
+            mvc.setViewName("/bus/bus_route_info");
+        }else if("save_bus_route".equals(page_gbn)){
+            mvc.setViewName("/bus/save_bus_route");
         }
+
         return mvc;
     }
 }

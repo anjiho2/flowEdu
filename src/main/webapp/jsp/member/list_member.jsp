@@ -121,7 +121,7 @@ function member_modify(member_id) { //수정페이지 이동
                     <th>등록정보</th>
                     <td colspan="3">
                         <div class="form-group row marginX">
-                            <select class="form-control" style="width: 13rem;margin-right:10px;" id="sel_registe">
+                            <select class="form-control select-space" id="sel_registe">
                                 <option value="name">이름</option>
                                 <option value="phone">핸드폰번호</option>
                             </select>
@@ -133,7 +133,7 @@ function member_modify(member_id) { //수정페이지 이동
             <button class="btn_pack blue" onclick="fn_search('new')">검색</button>
         </div>
 
-        <div class="tb_t1" style="margin-top:2.5rem;">
+        <div class="tb_t1 top-space">
             <table>
                 <thead>
                     <tr>

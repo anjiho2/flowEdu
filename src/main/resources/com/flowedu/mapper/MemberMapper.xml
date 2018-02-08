@@ -179,7 +179,7 @@
 		UPDATE FLOWEDU_MEMBER
 		<set>
 			<if test="officeId > -1">office_id = #{officeId},</if>
-			<if test="teamId > -1">team_id = #{teamId},</if>
+			<if test="teamName != ''">team_name = #{teamName},</if>
 			<if test="jobPositionId > -1">job_position_id = #{jobPositionId},</if>
 			<if test="phoneNumber != ''">phone_number= #{phoneNumber},</if>
 			<if test="memberPassword != ''">member_password = #{memberPassword},</if>
@@ -189,7 +189,8 @@
 			<if test="memberEmail != ''">member_email = #{memberEmail},</if>
 			<if test="sexualAssultConfirmDate != ''">sexual_assult_confirm_date = #{sexualAssultConfirmDate},</if>
 			<if test="educationRegDate != ''">education_reg_date = #{educationRegDate},</if>
-			<if test="memberType != ''">member_type = #{memberType}</if>
+			<if test="memberType != ''">member_type = #{memberType},</if>
+			<if test="serveYn != ''">serve_yn = #{serveYn},</if>
 		</set>
 		<where>
 			flow_member_id = #{flowMemberId}
