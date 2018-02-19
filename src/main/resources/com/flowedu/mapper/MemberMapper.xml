@@ -95,7 +95,7 @@
 	</select>
 
 	<select id="getTeacherList" resultType="com.flowedu.dto.FlowEduMemberListDto">
-		SELECT flow_member_id, office_id, team_id, member_name
+		SELECT flow_member_id, office_id, member_name
 		FROM FLOWEDU_MEMBER
 		WHERE office_id = #{officeId}
 		AND member_type LIKE CONCAT('TEACHER', '%')

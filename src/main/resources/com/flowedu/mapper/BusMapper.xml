@@ -67,13 +67,13 @@
 	</insert>
 
 	<insert id="insertBusDismissTimeInfo" parameterType="com.flowedu.dto.BusDismissTimeDto">
-		INSERT INTO BUS_DISMISS_TIME_TIME
+		INSERT INTO BUS_DISMISS_TIME
 		(
 			bus_idx, first_time, second_time, third_time, fourth_time, fifth_time, sixth_time
 		)
 		VALUES
 		(
-			#{busIdx}, #{firstTime}, #{secondTime}, #{thirdTime}, #{fourthTime}, #{fifthTime}, #{values.sixthTime}, #{values.sortNumber}
+			#{busIdx}, #{firstTime}, #{secondTime}, #{thirdTime}, #{fourthTime}, #{fifthTime}, #{sixthTime}
 		)
 	</insert>
 	
@@ -132,20 +132,57 @@
 		WHERE bux_idx = #{busIdx}
 	</update>
 
-	<update id="updateBusAttendTime" parameterType="com.flowedu.dto.BusAttendTimeDto">
-		UPDATE BUS_ATTEND_TIME
-		<set>
-			<if test="statinName != ''">station_name = #{statinName},</if>
-			<if test="busIdx > 0">bus_idx = #{busIdx},</if>
-			<if test="firstTime != ''">first_time = #{firstTime},</if>
-			<if test="secondTime != ''">second_time = #{secondTime},</if>
-			<if test="thirdTime != ''">third_time = #{thirdTime},</if>
-			<if test="fourthTime != ''">fourth_time = #{fourthTime},</if>
-			<if test="fifthTime != ''">fifth_time = #{fifthTime},</if>
-			<if test="sixthTime != ''">sixth_time = #{sixthTime},</if>
-			<if test="sortNumber > 0">sort_number = #{sortNumber},</if>
-		</set>
-		WHERE bus_attend_time_idx = #{busAttendTimeIdx}
+	<update id="updateBusAttendTime" parameterType="list">
+		UPDATE BUS_ATTEND_TIME SET
+		station_name = CASE
+		<foreach collection="attendTimeList" item="values" separator="">
+			WHEN bus_attend_time_idx = #{values.busAttendTimeIdx} THEN #{values.stationName}
+		</foreach>
+		END,
+		bus_idx = CASE
+		<foreach collection="attendTimeList" item="values" separator="">
+			WHEN bus_attend_time_idx = #{values.busAttendTimeIdx} THEN #{values.busIdx}
+		</foreach>
+		END,
+		first_time = CASE
+		<foreach collection="attendTimeList" item="values" separator="">
+			WHEN bus_attend_time_idx = #{values.busAttendTimeIdx} THEN #{values.firstTime}
+		</foreach>
+		END,
+		second_time = CASE
+		<foreach collection="attendTimeList" item="values" separator="">
+			WHEN bus_attend_time_idx = #{values.busAttendTimeIdx} THEN #{values.secondTime}
+		</foreach>
+		END,
+		third_time = CASE
+		<foreach collection="attendTimeList" item="values" separator="">
+			WHEN bus_attend_time_idx = #{values.busAttendTimeIdx} THEN #{values.thirdTime}
+		</foreach>
+		END,
+		fourth_time = CASE
+		<foreach collection="attendTimeList" item="values" separator="">
+			WHEN bus_attend_time_idx = #{values.busAttendTimeIdx} THEN #{values.fourthTime}
+		</foreach>
+		END,
+		fifth_time = CASE
+		<foreach collection="attendTimeList" item="values" separator="">
+			WHEN bus_attend_time_idx = #{values.busAttendTimeIdx} THEN #{values.fifthTime}
+		</foreach>
+		END,
+		sixth_time = CASE
+		<foreach collection="attendTimeList" item="values" separator="">
+			WHEN bus_attend_time_idx = #{values.busAttendTimeIdx} THEN #{values.sixthTime}
+		</foreach>
+		END,
+		sort_number = CASE
+		<foreach collection="attendTimeList" item="values" separator="">
+			WHEN bus_attend_time_idx = #{values.busAttendTimeIdx} THEN #{values.sortNumber}
+		</foreach>
+		END
+		WHERE bus_attend_time_idx IN
+		<foreach collection="attendTimeList" item="values" open="(" close=")" separator=",">
+			#{values.busAttendTimeIdx}
+		</foreach>
 	</update>
 
 	<update id="updateBusDismissTime" parameterType="com.flowedu.dto.BusDismissTimeDto">

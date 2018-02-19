@@ -30,7 +30,7 @@ public interface BusMapper {
 
     void updateDriverHelperInfo(DriverHelperInfoDto driverHelperInfoDto);
 
-    void updateBusAttendTime(BusAttendTimeDto busAttendTimeDto);
+    void updateBusAttendTime(@Param("attendTimeList") List<BusAttendTimeDto> busAttendTimeDtoList);
 
     void updateBusDismissTime(BusDismissTimeDto busDismissTimeDto);
 }

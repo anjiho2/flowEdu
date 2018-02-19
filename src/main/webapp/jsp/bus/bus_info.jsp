@@ -67,17 +67,36 @@
     <div class="tb_t1 top-space">
         <table>
             <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>소속</th>
-                    <th>노선명</th>
-                    <th>기사명</th>
-                    <th>차량번호</th>
-                    <th>핸드폰번호</th>
-                    <th>기간</th>
-                </tr>
+            <tr>
+                <th>No.</th>
+                <th>소속</th>
+                <th>노선명</th>
+                <th>기사명</th>
+                <th>차량번호</th>
+                <th>핸드폰번호</th>
+                <th>기간</th>
+            </tr>
             </thead>
-            <tbody id="dataList"></tbody>
+            <tbody>
+            <tr>
+                <td>2</td>
+                <td>수학의아침 초등관</td>
+                <td>정든 / 수내</td>
+                <td><a href="javascript:goPage('bus', 'driver_info')" class="font_color blue">백승주</a></td>
+                <td>경기 70아 5689</td>
+                <td>010-4794-5987</td>
+                <td>2018-01-02 ~ 2018-02-28</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>수학의아침 초등관</td>
+                <td>서판교 / 서판교</td>
+                <td><a href="#" class="font_color blue">임광철</a></td>
+                <td>경기 70아 1234</td>
+                <td>010-2345-5678</td>
+                <td>2018-01-02 ~ 2018-02-28</td>
+            </tr>
+            </tbody>
         </table>
         <button class="btn_pack s2 blue" onclick="javascript:goPage('bus', 'save_driver')">등록</button>
     </div>

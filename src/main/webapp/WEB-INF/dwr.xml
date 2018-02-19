@@ -16,6 +16,7 @@
 		<convert converter="bean" match="com.flowedu.service.PaymentService"/>
 		<convert converter="bean" match="com.flowedu.service.ConsultService"/>
 		<convert converter="bean" match="com.flowedu.service.BusService"/>
+		<convert converter="bean" match="com.flowedu.manager.BusManager"/>
 		<!-- ========================= API SERVICE ======================== -->
 		<convert converter="bean" match="com.flowedu.api.service.LogService"/>
 		<convert converter="bean" match="com.flowedu.api.service.SendService"/>
@@ -71,6 +72,11 @@
 			<param name="beanName" value="busService" />
 		</create>
 
+		<create creator="spring" javascript="busManager">
+			<param name="class" value="com.flowedu.manager.BusManager"/>
+			<param name="beanName" value="busManager" />
+		</create>
+
 		<create creator="spring" javascript="logService">
 			<param name="class" value="com.flowedu.api.service.LogService"/>
 			<param name="beanName" value="logService" />
@@ -108,6 +114,7 @@
 		<convert converter="bean" match="com.flowedu.dto.AssignmentInfoDto"/>
 		<convert converter="bean" match="com.flowedu.dto.DriverInfoDto"/>
 		<convert converter="bean" match="com.flowedu.dto.DriverHelperInfoDto"/>
+		<convert converter="bean" match="com.flowedu.dto.BusAttendTimeDto"/>
 		<!-- define -->
 		<convert converter="bean" match="com.flowedu.domain.KisPosOcx"/>
 		<convert converter="bean" match="com.flowedu.domain.LecturePaymentLog"/>
