@@ -21,6 +21,7 @@ function  assignment_page(assignment_id) {
 function fn_search(val) {
     dwr.util.removeAllRows("dataList");
 
+
     var sel_myclass = getSelectboxValue('sel_myClass');
     var sel_yn =  getSelectboxValue('assignment_yn');
     var startDate = getInputTextValue('startDate');
@@ -94,7 +95,6 @@ $(document).ready(function() {
     <input type="hidden" name="page_gbn" id="page_gbn">
     <input type="hidden" id="assignment_id" name="assignment_id">
 </form>
-
     <section class="content">
         <h3 class="title_t1">과제 관리</h3>
         <div class="tb_t1">
@@ -120,11 +120,11 @@ $(document).ready(function() {
                         <td colspan="3">
                             <div class="form-group row marginX">
                                 <div class="input-group date common" style="margin-right:10px;">
-                                    <input type="text" id="startDate" class="form-control date-picker">
-                                    <span class="input-group-addon">
+                                </div>
+                                <input type="text" id="startDate" class="form-control date-picker">
+                                <span class="input-group-addon">
                                         <span class="fa fa-calendar"></span>
                                     </span>
-                                </div>
                                 <div class="input-group date common" style="margin-right:10px;">
                                     <input type="text" id="endDate" class="form-control date-picker">
                                     <span class="input-group-addon">

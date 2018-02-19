@@ -9,11 +9,15 @@
 <%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
+<script>
+    function init() {
+        searchAcademySelectbox("sel_academy","");//소속
+    }
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    function fn_search(val) {
 
+    }
+</script>
 <body onload="init();">
 <div id="loadingbar" class="loadingbar" style="display:none;">
     <img src="img/loading.gif">
@@ -37,11 +41,8 @@
             <tr>
                 <th>소속</th>
                 <td>
-                    <select class="form-control" style="width: 20rem;">
-                        <option>전체</option>
-                        <option>플로우교육</option>
-                        <option>수학의아침</option>
-                        <option>사이언스카이</option>
+                    <select id="sel_academy" class="form-control" style="width: 20rem;">
+                        <option value="">전체</option>
                     </select>
                 </td>
             </tr>
@@ -64,7 +65,7 @@
     </div>
 
     <div class="tb_t1 top-space">
-        <table id="test">
+        <table>
             <thead>
                 <tr>
                     <th>No.</th>
@@ -76,26 +77,7 @@
                     <th>기간</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>2</td>
-                    <td>수학의아침 초등관</td>
-                    <td>정든 / 수내</td>
-                    <td><a href="javascript:goPage('bus', 'driver_info')" class="font_color blue">백승주</a></td>
-                    <td>경기 70아 5689</td>
-                    <td>010-4794-5987</td>
-                    <td>2018-01-02 ~ 2018-02-28</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>수학의아침 초등관</td>
-                    <td>서판교 / 서판교</td>
-                    <td><a href="#" class="font_color blue">임광철</a></td>
-                    <td>경기 70아 1234</td>
-                    <td>010-2345-5678</td>
-                    <td>2018-01-02 ~ 2018-02-28</td>
-                </tr>
-            </tbody>
+            <tbody id="dataList"></tbody>
         </table>
         <button class="btn_pack s2 blue" onclick="javascript:goPage('bus', 'save_driver')">등록</button>
     </div>
@@ -106,11 +88,6 @@
 <script>
     $(".sidebar-menu > li").eq(5).addClass("active");
     $(".sidebar-menu > li:nth-child(6) > ul > li:nth-child(2) > a").addClass("on");
-
-    $( function() {
-        $("#test").sortable();
-        $("#test").disableSelection();
-    } );
 
 </script>
 

@@ -61,6 +61,10 @@ var comment = {
         input_academy_address : "학원주소를 입력해주세요",
     	input_academy_address_detail : "학원상세주소를 입력해주세요",
 		input_academy_fax : "팩스번호를 입력해주세요.",
+    	input_register_date : "등록일을 입력해주세요.",
+    	input_busdriver_number : "차량번호를 입력해주세요.",
+    	input_busPass_number : "승차정원을 입력해주세요.",
+    	input_bussafe_date : "안전필증을 입력해주세요.",
 
 		input_zip_code : "우편번호를 입력하세요.",
 

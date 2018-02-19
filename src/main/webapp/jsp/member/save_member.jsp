@@ -77,12 +77,13 @@
                 return false;
             }else{
                 //저장
+                if(confirm(comment.isSave)){
                 memberService.saveFlowEduMember(sel_academy, member_teamName, sel_jobPosition, member_allphone, member_phone3, member_name, startDate, member_address,
                                                 member_email, sexualAssultDay, educationRegDay, sel_memberType, member_address_detail, zip_code,function () {
-                        alert(comment.isSave);
                         gfn_display("loadingbar", false);
                         goPage("member","list_member");
                     });
+                }
             }
         });
     }
