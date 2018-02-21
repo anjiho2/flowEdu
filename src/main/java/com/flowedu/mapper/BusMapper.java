@@ -14,6 +14,8 @@ public interface BusMapper {
 
     DriverHelperInfoDto selectDriverHelperInfo(@Param("driverHelperIdx") Long driverHelperIdx);
 
+    BusInfoDto selectBusInfoDto(@Param("busIdx") Long busIdx);
+
     /** INSERT **/
     void insertDriverInfo(DriverInfoDto driverInfoDto);
 

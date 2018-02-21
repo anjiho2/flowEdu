@@ -2,9 +2,8 @@ package com.flowedu.service;
 
 import com.flowedu.define.datasource.BusType;
 import com.flowedu.dto.*;
-import com.flowedu.error.FlowEduErrorCode;
-import com.flowedu.error.FlowEduException;
 import com.flowedu.mapper.BusMapper;
+import com.flowedu.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 @Service
 public class BusService {
@@ -45,6 +41,13 @@ public class BusService {
     public DriverHelperInfoDto getDriverHelperInfo(Long driverHelperIdx) {
         if (driverHelperIdx == 0L || driverHelperIdx == null) return null;
         return busMapper.selectDriverHelperInfo(driverHelperIdx);
+    }
+
+    public BusDto getBusInfo(Long busIdx) {
+        if (busIdx == null || busIdx == 0L) return null;
+        //busMapper.
+        return null;
+
     }
 
     /**
@@ -120,23 +123,38 @@ public class BusService {
     @Transactional(propagation = Propagation.REQUIRED)
     public Long saveBusInfo(BusInfoDto busInfoDto) {
         if (busInfoDto == null) return null;
-
         busMapper.insertBusInfo(busInfoDto);
         return busInfoDto.getBusIdx();
     }
 
+    /**
+     * <PRE>
+     * 1. Comment : 등교 노선 정보 저장
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 02 . 20
+     * </PRE>
+     * @param busIdx
+     * @param busAttendTimeDtoList
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public void saveBusAttendTimsList(Long busIdx, List<BusAttendTimeDto>busAttendTimeDtoList) {
         if (busIdx == 0L && busAttendTimeDtoList.size() == 0) return;
-
         busAttendTimeDtoList.forEach(dto -> dto.setBusIdx(busIdx));
         busMapper.insertBusAttendTimeList(busAttendTimeDtoList);
     }
 
+    /**
+     * <PRE>
+     * 1. Comment : 하교 노선 정보 저장
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 02 . 20
+     * </PRE>
+     * @param busIdx
+     * @param busDismissTimeDto
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public void saveBusDismissInfo(Long busIdx, BusDismissTimeDto busDismissTimeDto) {
         if (busIdx == 0L && busDismissTimeDto == null) return;
-
         busDismissTimeDto.setBusIdx(busIdx);
         busMapper.insertBusDismissTimeInfo(busDismissTimeDto);
     }
@@ -209,7 +227,7 @@ public class BusService {
         dto.setFifthTime("15:00");
         dto.setSixthTime("16:00");
 
-        updateBusAttendTime(list);
+        modifyBusAttendTime(list);
        // saveRouteList(busInfoDto, list, dto);
 
     }
@@ -276,7 +294,48 @@ public class BusService {
         busMapper.updateDriverHelperInfo(helperInfoDto);
     }
 
-    public void updateBusAttendTime(List<BusAttendTimeDto>busAttendTimeDtoList) {
+    /**
+     * <PRE>
+     * 1. Comment : 버스 등교 시간 수정
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 02 .20
+     * </PRE>
+     * @param busAttendTimeDtoList
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void modifyBusAttendTime(List<BusAttendTimeDto>busAttendTimeDtoList) {
+        if (busAttendTimeDtoList.size() == 0) return;
         busMapper.updateBusAttendTime(busAttendTimeDtoList);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 버스 하교 시간 수정
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 02 .20
+     * </PRE>
+     * @param busDismissTimeIdx
+     * @param busIdx
+     * @param firstTime
+     * @param secondTime
+     * @param thirdTime
+     * @param fourthTime
+     * @param fifthTime
+     * @param sixthTime
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void modifyBusDismissTime(Long busDismissTimeIdx, Long busIdx, String firstTime, String secondTime,
+                                     String thirdTime, String fourthTime, String fifthTime, String sixthTime) {
+        BusDismissTimeDto busDismissTimeDto = new BusDismissTimeDto(
+                busDismissTimeIdx,
+                busIdx,
+                Util.isNullValue(firstTime, ""),
+                Util.isNullValue(secondTime, ""),
+                Util.isNullValue(thirdTime, ""),
+                Util.isNullValue(fourthTime, ""),
+                Util.isNullValue(fifthTime, ""),
+                Util.isNullValue(sixthTime, "")
+        );
+        busMapper.updateBusDismissTime(busDismissTimeDto);
     }
 }

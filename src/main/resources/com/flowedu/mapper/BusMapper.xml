@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.flowedu.mapper.BusMapper">
+	
+	<resultMap id="busInfoTimeMap" type="com.flowedu.dto.BusDto">
+		<result property="busIdx" column="bus_idx"/>
+		<result property="routeNumber" column="route_number"/>
+		<result property="startRouteName" column="start_route_name"/>
+		<result property="endRouteName" column="end_route_name"/>
+		<result property="busType" column="bus_type"/>
+		<result property="busStatus" column="bus_status"/>
+		<result property="applyStartDate" column="apply_start_date"/>
+		<result property="applyEndDate" column="apply_end_date"/>
+		<result property="busMemo" column="bus_memo"/>
+		<result property="driverIdx" column="driver_idx"/>
+		<result property="busDismissTimeIdx" column="bus_dismiss_time_idx"/>
+		<result property="dismissFirstTime" column="dismiss_first_time"/>
+		<result property="dismissSecondTime" column="dismiss_second_time"/>
+		<result property="dismissThirdTime" column="dismiss_third_time"/>
+		<result property="dismissFourthTime" column="dismiss_fourth_time"/>
+		<result property="dissmissFifthTime" column="dismiss_fifth_time"/>
+		<result property="dismisssixthTime" column="dismiss_sixth_time"/>
+	</resultMap>
+	<resultMap id="busAttendTimsListMap" type="com.flowedu.dto.BusAttendTimeDto">
+		<result property="busAttendTimeIdx" column="bus_attend_time_idx"/>
+		<result property="firstTime" column="first_time"/>
+		<result property="secondTime" column="second_time"/>
+		<result property="thirdTime" column="third_time"/>
+		<result property="fourthTime" column="fourth_time"/>
+		<result property="fifthTime" column="fifth_time"/>
+		<result property="sixthTime" column="sixth_time"/>
+		<result property="sortNumber" column="sort_number"/>
+	</resultMap>
 
 	<select id="selectDriverInfo" resultType="com.flowedu.dto.DriverInfoDto">
 		SELECT * FROM DRIVER_INFO
@@ -10,6 +40,26 @@
 	<select id="selectDriverHelperInfo" resultType="com.flowedu.dto.DriverHelperInfoDto">
 		SELECT * FROM DRIVER_HELPER_INFO
 		WHERE driver_helper_idx = #{driverHelperIdx}
+	</select>
+
+	<select id="selectBusInfoDto" resultType="com.flowedu.dto.BusInfoDto">
+		SELECT * FROM BUS_INFO
+		WHERE bus_idx = #{busIdx}
+	</select>
+
+	<select id="selectBusAttendTimeList" resultType="com.flowedu.dto.BusAttendTimeDto">
+		SELECT * FROM BUS_ATTEND_TIME
+		WHERE bus_idx = #{busIdx}
+	</select>
+	
+	<select id="selectBusInfo" resultMap="busInfoTimeMap">
+		SELECT A.*, B.bus_dismiss_time_idx, B.first_time as dismiss_first_time, B.second_time as dismiss_second_time, B.third_time as dismiss_third_time,
+		B.fourth_time as dismiss_fourth_time, B.fifth_time as dismiss_fifth_time, B.sixth_time as dismiss_sixth_time, C.*
+		FROM BUS_INFO A LEFT JOIN BUS_DISMISS_TIME B
+		ON A.bus_idx = B.bus_idx LEFT JOIN BUS_ATTEND_TIME C
+		ON A.bus_idx = C.bus_idx
+		WHERE A.bus_idx = #{busIdx}
+		ORDER BY C.sort_number ASC
 	</select>
 
 	<insert id="insertDriverInfo" parameterType="com.flowedu.dto.DriverInfoDto">
