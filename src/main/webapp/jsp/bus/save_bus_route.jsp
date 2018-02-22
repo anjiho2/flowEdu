@@ -2,13 +2,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
+    String busId = Util.isNullValue(request.getParameter("bus_id"), "");
     int depth1 = 5;
     int depth2 = 2;
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
-<script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
+<script type='text/javascript' src='/flowEdu/dwr/interface/busService.js'></script>
+<script>
+    var busId = '<%=busId%>';
+
+    function init() {
+        busService.getBusRouteInfo(busId, function (routeInfo) {
+            console.log(routeInfo);
+            alert(routeInfo.busStatus);
+            innerValue("l_startRouteName", routeInfo.startRouteName);
+            innerValue("l_endRouteName", routeInfo.endRouteName);
+            $("#sel_busType").val(routeInfo.busType);
+            $("#sel_busStatus").val(routeInfo.busStatus == true ? "Y" : "N");
+
+            if (routeInfo.busAttendTimeList.length == 0) return;
+            //dwr.util.addRows("dataList", )
+        });
+    }
+
+</script>
 <body onload="init();">
 <div id="loadingbar" class="loadingbar" style="display:none;">
     <img src="img/loading.gif">
@@ -31,8 +49,8 @@
                 <th>노선명<b>*</b></th>
                 <td colspan="2">
                     <div class="form-group row marginX">
-                        <input type="text" class="form-control" placeholder="시점">&nbsp;
-                        <input type="text" class="form-control" placeholder="종점">
+                        <input type="text" class="form-control" id="l_startRouteName" placeholder="시점">&nbsp;
+                        <input type="text" class="form-control" id="l_endRouteName" placeholder="종점">
                     </div>
                 </td>
                 <td></td>
@@ -40,19 +58,19 @@
             <tr>
                 <th>구분<b>*</b></th>
                 <td>
-                    <select class="form-control">
-                        <option>선택</option>
-                        <option>학기중</option>
-                        <option>방학중</option>
-                        <option>기타</option>
+                    <select id="sel_busType" class="form-control">
+                        <option value="">선택</option>
+                        <option value="TERM">학기중</option>
+                        <option value="VACATION">방학중</option>
+                        <option value="ETC">기타</option>
                     </select>
                 </td>
                 <th>상태<b>*</b></th>
                 <td>
-                    <select class="form-control">
-                        <option>선택</option>
-                        <option>사용</option>
-                        <option>사용하지않음</option>
+                    <select id="sel_busStatus" class="form-control">
+                        <option value="">선택</option>
+                        <option value="Y">사용</option>
+                        <option value="N">사용하지않음</option>
                     </select>
                 </td>
             </tr>
@@ -72,6 +90,8 @@
                                 <th>6T</th>
                             </tr>
                         </thead>
+                        <tbody id="dataList"></tbody>
+                        <!--
                         <tbody>
                             <tr>
                                 <td><input type="checkbox"></td>
@@ -134,6 +154,7 @@
                                 </td>
                             </tr>
                         </tbody>
+                        -->
                     </table>
                     <div>
                         <button class="btn_pack blue">삭제</button>

@@ -79,6 +79,28 @@
 		LIMIT #{start}, #{end}
 	</select>
 
+    <select id="selectDriverListCount" resultType="Integer">
+        SELECT count(A.driver_idx)
+        FROM DRIVER_INFO A LEFT JOIN OFFICE B
+        ON A.office_id = B.office_id LEFT JOIN BUS_INFO C
+        ON A.driver_idx = C.driver_idx
+        WHERE 1=1
+        <if test="officeId > 0">
+            AND A.office_id = #{offceId}
+        </if>
+        <if test="searchType != ''">
+            <if test="searchType eq 'office'">
+                B.office_name LIKE CONCAT ('%', #{searchText}, '%')
+            </if>
+            <if test="searchType eq 'route'">
+                C.start_route_name LIKE CONCAT ('%', #{searchText}, '%') OR C.end_route_name LIKE CONCAT ('%', #{searchText}, '%')
+            </if>
+            <if test="searchType eq 'driver'">
+                A.driver_name LIKE CONCAT ('%', #{searchText}, '%')
+            </if>
+        </if>
+    </select>
+
 	<select id="selectDriverHelperList" resultType="com.flowedu.domain.DriverHelper">
 		SELECT B.office_name, A.driver_helper_idx, A.helper_name, A.serve_yn, A.create_date
 		FROM DRIVER_HELPER_INFO A LEFT JOIN OFFICE B

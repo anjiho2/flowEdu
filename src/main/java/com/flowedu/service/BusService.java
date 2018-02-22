@@ -98,6 +98,11 @@ public class BusService extends PagingSupport {
         );
     }
 
+    @Transactional(readOnly = true)
+    public int getDriverListCount(Long officeId, String searchType, String searchValue) {
+        return busMapper.selectDriverListCount(officeId, searchType, searchValue);
+    }
+
     /**
      * <PRE>
      * 1. Comment : 통학 도우미 리스트

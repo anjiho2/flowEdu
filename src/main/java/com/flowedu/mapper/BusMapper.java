@@ -22,6 +22,8 @@ public interface BusMapper {
     List<DriverList> selectDriverList(@Param("start") int start, @Param("end") int end, @Param("officeId") Long officeId,
                                       @Param("searchType") String searchType, @Param("searchValue") String searchValue);
 
+    int selectDriverListCount(@Param("officeId") Long officeId, @Param("searchType") String searchType, @Param("searchValue") String searchValue);
+
     DriverHelper selectDriverHelperList(@Param("driverIdx") Long driverIdx);
 
     List<DriverRoute> selectDrivetRouteInfo(@Param("driverIdx") Long driverIdx);
