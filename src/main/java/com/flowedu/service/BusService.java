@@ -1,6 +1,10 @@
 package com.flowedu.service;
 
+import com.flowedu.config.PagingSupport;
 import com.flowedu.define.datasource.BusType;
+import com.flowedu.domain.DriverHelper;
+import com.flowedu.domain.DriverList;
+import com.flowedu.domain.DriverRoute;
 import com.flowedu.dto.*;
 import com.flowedu.mapper.BusMapper;
 import com.flowedu.util.Util;
@@ -15,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class BusService {
+public class BusService extends PagingSupport {
 
     @Autowired
     private BusMapper busMapper;
@@ -37,17 +41,91 @@ public class BusService {
         return busMapper.selectDriverInfo(driverIdx);
     }
 
+    /**
+     * <PRE>
+     * 1. Comment : 통학도우미 정보 가져오기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 02 .07
+     * </PRE>
+     * @param driverHelperIdx
+     * @return
+     */
     @Transactional(readOnly = true)
     public DriverHelperInfoDto getDriverHelperInfo(Long driverHelperIdx) {
         if (driverHelperIdx == 0L || driverHelperIdx == null) return null;
         return busMapper.selectDriverHelperInfo(driverHelperIdx);
     }
 
-    public BusDto getBusInfo(Long busIdx) {
+    /**
+     * <PRE>
+     * 1. Comment : 노선 정보 가져오기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 02 .21
+     * </PRE>
+     * @param busIdx
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public BusDto getBusRouteInfo(Long busIdx) {
         if (busIdx == null || busIdx == 0L) return null;
-        //busMapper.
-        return null;
+        BusDto busDto = busMapper.selectBusRouteInfo(busIdx);
+        return busDto;
 
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 기사 정보 리스트
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 02 .21
+     * </PRE>
+     * @param sPage
+     * @param pageListCount
+     * @param officeId
+     * @param searchType
+     * @param searchValue
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<DriverList> getDriverList(int sPage, int pageListCount, Long officeId, String searchType, String searchValue) {
+        PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
+        return busMapper.selectDriverList(
+                pagingDto.getStart(),
+                pageListCount,
+                officeId,
+                Util.isNullValue(searchType, ""),
+                Util.isNullValue(searchValue, "")
+        );
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 통학 도우미 리스트
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 02 .21
+     * </PRE>
+     * @param driverIdx
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public DriverHelper getDriverHelperList(Long driverIdx) {
+        if (driverIdx == null || driverIdx == 0L) return null;
+        return busMapper.selectDriverHelperList(driverIdx);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 노선 정보 리스트
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 02 .22
+     * </PRE>
+     * @param driverIdx
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<DriverRoute> getDriverRouteList(Long driverIdx) {
+        if (driverIdx == null || driverIdx == 0L) return null;
+        return busMapper.selectDrivetRouteInfo(driverIdx);
     }
 
     /**
@@ -66,7 +144,6 @@ public class BusService {
      * @param address
      * @param addressDetail
      * @param busNumber
-     * @param passengersNumber
      * @param safetyCertificateDate
      * @param serveYn
      * @param sexualAssultConfirmDate

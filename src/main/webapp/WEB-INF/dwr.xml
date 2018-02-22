@@ -115,10 +115,14 @@
 		<convert converter="bean" match="com.flowedu.dto.DriverInfoDto"/>
 		<convert converter="bean" match="com.flowedu.dto.DriverHelperInfoDto"/>
 		<convert converter="bean" match="com.flowedu.dto.BusAttendTimeDto"/>
+		<convert converter="bean" match="com.flowedu.dto.BusDto"/>
 		<!-- define -->
 		<convert converter="bean" match="com.flowedu.domain.KisPosOcx"/>
 		<convert converter="bean" match="com.flowedu.domain.LecturePaymentLog"/>
 		<convert converter="bean" match="com.flowedu.domain.RequestApi"/>
+		<convert converter="bean" match="com.flowedu.domain.DriverList"/>
+		<convert converter="bean" match="com.flowedu.domain.DriverHelper"/>
+		<convert converter="bean" match="com.flowedu.domain.DriverRoute"/>
 
 
 	</allow>

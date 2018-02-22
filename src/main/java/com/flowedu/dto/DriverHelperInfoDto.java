@@ -44,6 +44,8 @@ public class DriverHelperInfoDto {
     //  생성일
     private String createDate;
 
+    private String officeName;
+
     public DriverHelperInfoDto() {}
 
     public DriverHelperInfoDto(Long officeId, Long driverIdx, String helperName, String phoneNumber, String birthDay,

@@ -20,6 +20,7 @@
 		<result property="dismissFourthTime" column="dismiss_fourth_time"/>
 		<result property="dissmissFifthTime" column="dismiss_fifth_time"/>
 		<result property="dismisssixthTime" column="dismiss_sixth_time"/>
+        <collection property="busAttendTimeList" javaType="java.util.ArrayList" resultMap="busAttendTimsListMap"/>
 	</resultMap>
 	<resultMap id="busAttendTimsListMap" type="com.flowedu.dto.BusAttendTimeDto">
 		<result property="busAttendTimeIdx" column="bus_attend_time_idx"/>
@@ -38,21 +39,13 @@
 	</select>
 
 	<select id="selectDriverHelperInfo" resultType="com.flowedu.dto.DriverHelperInfoDto">
-		SELECT * FROM DRIVER_HELPER_INFO
+		SELECT A.*, B.office_name
+		FROM DRIVER_HELPER_INFO A LEFT JOIN OFFICE B
+		ON A.office_id = B.office_id
 		WHERE driver_helper_idx = #{driverHelperIdx}
 	</select>
 
-	<select id="selectBusInfoDto" resultType="com.flowedu.dto.BusInfoDto">
-		SELECT * FROM BUS_INFO
-		WHERE bus_idx = #{busIdx}
-	</select>
-
-	<select id="selectBusAttendTimeList" resultType="com.flowedu.dto.BusAttendTimeDto">
-		SELECT * FROM BUS_ATTEND_TIME
-		WHERE bus_idx = #{busIdx}
-	</select>
-	
-	<select id="selectBusInfo" resultMap="busInfoTimeMap">
+	<select id="selectBusRouteInfo" resultMap="busInfoTimeMap">
 		SELECT A.*, B.bus_dismiss_time_idx, B.first_time as dismiss_first_time, B.second_time as dismiss_second_time, B.third_time as dismiss_third_time,
 		B.fourth_time as dismiss_fourth_time, B.fifth_time as dismiss_fifth_time, B.sixth_time as dismiss_sixth_time, C.*
 		FROM BUS_INFO A LEFT JOIN BUS_DISMISS_TIME B
@@ -60,6 +53,45 @@
 		ON A.bus_idx = C.bus_idx
 		WHERE A.bus_idx = #{busIdx}
 		ORDER BY C.sort_number ASC
+	</select>
+
+	<select id="selectDriverList" resultType="com.flowedu.domain.DriverList">
+		SELECT A.driver_idx, B.office_name, C.start_route_name, C.end_route_name, A.driver_name, A.bus_number, A.phone_number, C.apply_start_date, C.apply_end_date
+		FROM DRIVER_INFO A LEFT JOIN OFFICE B
+		ON A.office_id = B.office_id LEFT JOIN BUS_INFO C
+		ON A.driver_idx = C.driver_idx
+		WHERE 1=1
+		<if test="officeId > 0">
+			AND A.office_id = #{offceId}
+		</if>
+		<if test="searchType != ''">
+			<if test="searchType eq 'office'">
+				B.office_name LIKE CONCAT ('%', #{searchText}, '%')
+			</if>
+			<if test="searchType eq 'route'">
+				C.start_route_name LIKE CONCAT ('%', #{searchText}, '%') OR C.end_route_name LIKE CONCAT ('%', #{searchText}, '%')
+			</if>
+			<if test="searchType eq 'driver'">
+				A.driver_name LIKE CONCAT ('%', #{searchText}, '%')
+			</if>
+		</if>
+		ORDER BY A.driver_idx DESC
+		LIMIT #{start}, #{end}
+	</select>
+
+	<select id="selectDriverHelperList" resultType="com.flowedu.domain.DriverHelper">
+		SELECT B.office_name, A.driver_helper_idx, A.helper_name, A.serve_yn, A.create_date
+		FROM DRIVER_HELPER_INFO A LEFT JOIN OFFICE B
+		ON A.office_id = B.office_id
+		WHERE A.driver_idx = #{driverIdx}
+	</select>
+	
+	<select id="selectDrivetRouteInfo" resultType="com.flowedu.domain.DriverRoute">
+		SELECT A.bus_idx, A.route_number, A.start_route_name, A.end_route_name, A.bus_type, A.bus_status,
+			(SELECT count(*) FROM BUS_ATTEND_TIME WHERE bus_idx = 5) as attend_count,
+			(SELECT count(*) FROM BUS_DISMISS_TIME WHERE bus_idx = 5) as dismiss_count
+		FROM BUS_INFO A
+		WHERE A.driver_idx = #{driverIdx}
 	</select>
 
 	<insert id="insertDriverInfo" parameterType="com.flowedu.dto.DriverInfoDto">

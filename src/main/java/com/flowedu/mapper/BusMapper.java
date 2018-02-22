@@ -1,5 +1,8 @@
 package com.flowedu.mapper;
 
+import com.flowedu.domain.DriverHelper;
+import com.flowedu.domain.DriverList;
+import com.flowedu.domain.DriverRoute;
 import com.flowedu.dto.*;
 import org.apache.ibatis.annotations.Param;
 
@@ -14,7 +17,14 @@ public interface BusMapper {
 
     DriverHelperInfoDto selectDriverHelperInfo(@Param("driverHelperIdx") Long driverHelperIdx);
 
-    BusInfoDto selectBusInfoDto(@Param("busIdx") Long busIdx);
+    BusDto selectBusRouteInfo(@Param("busIdx") Long busIdx);
+
+    List<DriverList> selectDriverList(@Param("start") int start, @Param("end") int end, @Param("officeId") Long officeId,
+                                      @Param("searchType") String searchType, @Param("searchValue") String searchValue);
+
+    DriverHelper selectDriverHelperList(@Param("driverIdx") Long driverIdx);
+
+    List<DriverRoute> selectDrivetRouteInfo(@Param("driverIdx") Long driverIdx);
 
     /** INSERT **/
     void insertDriverInfo(DriverInfoDto driverInfoDto);
