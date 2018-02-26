@@ -26,7 +26,7 @@ public interface BusMapper {
 
     DriverHelper selectDriverHelperList(@Param("driverIdx") Long driverIdx);
 
-    List<DriverRoute> selectDrivetRouteInfo(@Param("driverIdx") Long driverIdx);
+    List<DriverRoute> selectDrivetRouteInfo(@Param("driverIdx") Long driverIdx, @Param("busIdx") Long busIdx);
 
     /** INSERT **/
     void insertDriverInfo(DriverInfoDto driverInfoDto);
