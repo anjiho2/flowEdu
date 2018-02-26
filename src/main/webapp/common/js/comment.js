@@ -137,6 +137,8 @@ var comment = {
 
 		is_change_confirm : "작성한 내용이 저장되지 않습니다.\n계속하시겠습니까?",
 
+        blank_bus_info : "버스를 검색해 주세요.",
+
         reg_add_btn_stop_station : "추가 버튼을 클릭하여 정차 위치를 등록해 주세요."
 }
 

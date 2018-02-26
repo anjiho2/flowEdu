@@ -21,17 +21,18 @@
     function trans_attendTime() {
         var trLength = $('#attendTimeList #dataList tr').length;
         if (trLength == 0) {
+            var i = 1;
             var j = trLength + 1;
                 var cellData = [
                     function(data) { return "<input type=\"checkbox\" name=\"chk\" value=\"1\">" },
-                    function(data) { return "<input type=\"text\" class=\"form-control \" name=\"stationName[]\" id='statinName_" + j + "'>" },
-                    function(data) { return "<input type=\"text\" class=\"form-control date-picker\" name=\"firstTime[]\" id='firstTime_" + j + "' >" },
-                    function(data) { return "<input type=\"text\" class=\"form-control\" name=\"secondTime[]\" id='secondTime_" + j + "' >" },
-                    function(data) { return "<input type=\"text\" class=\"form-control\" name=\"thirdTime[]\" id='thirdTime_" + j + "' >" },
-                    function(data) { return "<input type=\"text\" class=\"form-control\" name=\"fourthTime[]\" id='fourthTime_" + j + "'>" },
-                    function(data) { return "<input type=\"text\" class=\"form-control\" name=\"fifthime[]\" id='fifthime_" + j + "'>" },
+                    function(data) { return "<input type=\"text\" class=\"form-control \" name=\"stationName[]\" id='statinName_" + i + "'>" },
+                    function(data) { return "<input type=\"text\" class=\"form-control date-picker\" name=\"firstTime[]\" id='firstTime_" + i + "' >" },
+                    function(data) { return "<input type=\"text\" class=\"form-control\" name=\"secondTime[]\" id='secondTime_" + i + "' >" },
+                    function(data) { return "<input type=\"text\" class=\"form-control\" name=\"thirdTime[]\" id='thirdTime_" + i + "' >" },
+                    function(data) { return "<input type=\"text\" class=\"form-control\" name=\"fourthTime[]\" id='fourthTime_" + i + "'>" },
+                    function(data) { return "<input type=\"text\" class=\"form-control\" name=\"fifthime[]\" id='fifthime_" + i + "'>" },
                     function(data) { return "<div class=\"form-group row marginX draghandle\">\n" +
-                        "<input type=\"text\" class=\"form-control\" name=\"sixthTime[]\" id='sixthTime_" + j + "'>\n" +
+                        "<input type=\"text\" class=\"form-control\" name=\"sixthTime[]\" id='sixthTime_" + i + "'>\n" +
                         "<span class=\"fa fa-bars\"></span>\n" +
                         "</div>"}
                 ];
