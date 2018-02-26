@@ -8,23 +8,21 @@
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
-<script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/busService.js'></script>
 <script>
     function init() {
         gfn_emptyView("V", comment.search_member);
         var busdriver_id = <%=driver_id%>;
 
-        busService.getDriverHelperList(busdriver_id, function (sel) {
-            var nameHTML = "<a href='javascript:void(0);' style='color:blue;' onclick='assister_page(" + sel.driverHelperIdx + ")'>" + sel.helperName + "</a>";
-            var state;
-            if(sel.serveYn == true) state = '재직';
-            else state = '퇴사';
-            innerHTML("sel_academy", sel.officeName);
-            innerHTML("assister_name", nameHTML);
-            innerHTML("state", state);
-            innerHTML("regist_day", split_minute_getDay(sel.createDate));
+        busService.getDriverHelperList(busdriver_id, function (list) {
+            if (list.length == 0) return;
+            gfn_emptyView("H", "");
+            dwr.util.addRows("dataList", list, [
+                function (data) { return data.officeName;},
+                function (data) { return "<a href='javascript:void(0);' style='color:blue;' onclick='assister_page(" + data.driverHelperIdx + ")'>" + data.helperName + "</a>";},
+                function (data) { return data.serveYn == true ? "재직" : "퇴사";},
+                function (data) { return split_minute_getDay(data.createDate);},
+            ], {escapeHtml:false});
         });
     }
 
@@ -59,14 +57,7 @@
                     <th>등록일</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td><span id="sel_academy"></span></td>
-                    <td><span id="assister_name"></span></td>
-                    <td><span id="state"></span></td>
-                    <td><span id="regist_day"></span></td>
-                </tr>
-            </tbody>
+            <tbody id="dataList"></tbody>
             <tr>
                 <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
             </tr>

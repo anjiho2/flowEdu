@@ -3,6 +3,7 @@
 <%
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
     String busId = Util.isNullValue(request.getParameter("bus_id"), "");
+    String driverId = Util.isNullValue(request.getParameter("driver_id"), "");
     int depth1 = 5;
     int depth2 = 3;
 %>
@@ -242,6 +243,8 @@
         <input type="hidden" id="busDismissTimeId">
         <input type="hidden" name="page_gbn" id="page_gbn">
         <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
+        <input type="hidden" name="bus_id" value="<%=busId%>">
+        <input type="hidden" name="driver_id" value="<%=driverId%>">
     </form>
     <div class="tb_t1">
         <table>
@@ -369,7 +372,7 @@
             </tr>
         </table>
         <button class="btn_pack s2 blue" onclick="save();">저장</button>
-        <button class="btn_pack s2 blue">목록</button>
+        <button class="btn_pack s2 blue" onclick="goPage('bus', 'bus_route_info')">목록</button>
     </div>
 </section>
 <%@include file="/common/jsp/footer.jsp" %>

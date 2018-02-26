@@ -115,7 +115,7 @@ public class BusService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public DriverHelper getDriverHelperList(Long driverIdx) {
+    public List<DriverHelper >getDriverHelperList(Long driverIdx) {
         if (driverIdx == null || driverIdx == 0L) return null;
         return busMapper.selectDriverHelperList(driverIdx);
     }

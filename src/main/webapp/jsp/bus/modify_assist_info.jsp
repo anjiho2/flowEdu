@@ -1,7 +1,7 @@
 <%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-    Long busdriver_id = Long.parseLong(request.getParameter("busdriver_id"));
+    Long busdriver_id = Long.parseLong(request.getParameter("driver_id"));
     Long assister_id = Long.parseLong(request.getParameter("assister_id"));
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
     int depth1 = 5;

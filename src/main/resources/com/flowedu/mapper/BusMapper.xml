@@ -111,8 +111,8 @@
 	<select id="selectDrivetRouteInfo" resultType="com.flowedu.domain.DriverRoute">
 		SELECT A.bus_idx, A.route_number, A.start_route_name, A.end_route_name, A.bus_type, A.bus_status,
 		 	   A.apply_start_date, A.apply_end_date,
-			(SELECT count(*) FROM BUS_ATTEND_TIME WHERE bus_idx = #{busIdx}) as attend_count,
-			(SELECT count(*) FROM BUS_DISMISS_TIME WHERE bus_idx = #{busIdx}) as dismiss_count
+			(SELECT count(*) FROM BUS_ATTEND_TIME WHERE bus_idx = A.driver_idx) as attend_count,
+			(SELECT count(*) FROM BUS_DISMISS_TIME WHERE bus_idx = A.driver_idx) as dismiss_count
 		FROM BUS_INFO A
 		WHERE A.driver_idx = #{driverIdx}
 	</select>
