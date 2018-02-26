@@ -17,6 +17,10 @@ public class DriverRoute {
 
     private Boolean busStatus;
 
+    private String applyStartDate;
+
+    private String applyEndDate;
+
     private int attendCount;
 
     private int dismissCount;

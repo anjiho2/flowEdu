@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class StringUtil {
 	
@@ -24,6 +25,11 @@ public class StringUtil {
 		String[] stringArray = arrayList.toArray(new String[arrayList.size()]);
 		return stringArray;
 	}
+
+    public static String[] listToStringArrayTypeLong(List<Long> arrayList) {
+        String[] stringArray = arrayList.toArray(new String[arrayList.size()]);
+        return stringArray;
+    }
 	
 	/**
 	 * stringArray -> arrayList 변환
@@ -273,7 +279,11 @@ public class StringUtil {
 
 
 	public static void main(String[] args) {
-
+		List<String>list = new ArrayList<>();
+		list.add("1");
+		list.add("2");
+        String[] strings = list.stream().toArray(String[]::new);
+		System.out.println(strings.toString());
 	}
 
 }

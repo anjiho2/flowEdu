@@ -18,8 +18,8 @@
 		<result property="dismissSecondTime" column="dismiss_second_time"/>
 		<result property="dismissThirdTime" column="dismiss_third_time"/>
 		<result property="dismissFourthTime" column="dismiss_fourth_time"/>
-		<result property="dissmissFifthTime" column="dismiss_fifth_time"/>
-		<result property="dismisssixthTime" column="dismiss_sixth_time"/>
+		<result property="dismissFifthTime" column="dismiss_fifth_time"/>
+		<result property="dismissSixthTime" column="dismiss_sixth_time"/>
         <collection property="busAttendTimeList" javaType="java.util.ArrayList" resultMap="busAttendTimsListMap"/>
 	</resultMap>
 	<resultMap id="busAttendTimsListMap" type="com.flowedu.dto.BusAttendTimeDto">
@@ -110,6 +110,7 @@
 	
 	<select id="selectDrivetRouteInfo" resultType="com.flowedu.domain.DriverRoute">
 		SELECT A.bus_idx, A.route_number, A.start_route_name, A.end_route_name, A.bus_type, A.bus_status,
+		 	   A.apply_start_date, A.apply_end_date,
 			(SELECT count(*) FROM BUS_ATTEND_TIME WHERE bus_idx = 5) as attend_count,
 			(SELECT count(*) FROM BUS_DISMISS_TIME WHERE bus_idx = 5) as dismiss_count
 		FROM BUS_INFO A
@@ -170,6 +171,18 @@
 		</foreach>
 	</insert>
 
+	<insert id="insertBusAttendTime" parameterType="com.flowedu.dto.BusAttendTimeDto">
+		INSERT INTO BUS_ATTEND_TIME
+		(
+			station_name, bus_idx, first_time, second_time, third_time, fourth_time, fifth_time, sixth_time, sort_number
+		)
+		VALUES
+		(
+			#{stationName}, #{busIdx}, #{firstTime}, #{secondTime}, #{thirdTime},
+			#{fourthTime}, #{fifthTime}, #{sixthTime}, #{sortNumber}
+		)
+	</insert>
+
 	<insert id="insertBusDismissTimeInfo" parameterType="com.flowedu.dto.BusDismissTimeDto">
 		INSERT INTO BUS_DISMISS_TIME
 		(
@@ -223,17 +236,17 @@
 	<update id="updateBusInfo" parameterType="com.flowedu.dto.BusInfoDto">
 		UPDATE BUS_INFO
 		<set>
-			<if test="routeNumber != ''">route_number = #{routeNumber},</if>
-			<if test="startRouteName != ''">start_route_name = #{startRouteName},</if>
-			<if test="endRouteName != ''">end_route_name = #{endRouteName},</if>
-			<if test="busType != ''">bus_type = #{busType},</if>
-			<if test="busStatus != ''">bus_status = #{busStatus},</if>
-			<if test="applyStartDate != ''">apply_start_date = #{applyStartDate},</if>
-			<if test="applyEndDate != ''">apply_end_date = #{applyEndDate},</if>
-			<if test="busMemo != ''">bus_memo = #{busMemo},</if>
-			<if test="driverIdx != ''">driver_idx = #{driverIdx},</if>
+			<if test="routeNumber != '' and routeNumber != null">route_number = #{routeNumber},</if>
+			<if test="startRouteName != '' and startRouteName != null">start_route_name = #{startRouteName},</if>
+			<if test="endRouteName != '' and endRouteName != null">end_route_name = #{endRouteName},</if>
+			<if test="busType != '' and busType != null">bus_type = #{busType},</if>
+			<if test="applyStartDate != '' and applyStartDate != null">apply_start_date = #{applyStartDate},</if>
+			<if test="applyEndDate != '' and applyEndDate != null">apply_end_date = #{applyEndDate},</if>
+			<if test="busMemo != '' and busMemo != null">bus_memo = #{busMemo},</if>
+			<if test="driverIdx != '' and driverIdx != null">driver_idx = #{driverIdx},</if>
+			bus_status = #{busStatus}
 		</set>
-		WHERE bux_idx = #{busIdx}
+		WHERE bus_idx = #{busIdx}
 	</update>
 
 	<update id="updateBusAttendTime" parameterType="list">
@@ -302,4 +315,12 @@
 		</set>
 		WHERE bus_dismiss_time_idx = #{busDismissTimeIdx}
 	</update>
+
+	<delete id="deleteBusAttendTime" parameterType="list">
+		DELETE FROM BUS_ATTEND_TIME
+		WHERE bus_attend_time_idx IN
+		<foreach collection="busAttendTimeStrList" item="busAttendTimeId" index="index" open="(" separator="," close=")">
+			#{busAttendTimeId}
+		</foreach>
+	</delete>
 </mapper>

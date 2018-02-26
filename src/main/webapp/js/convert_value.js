@@ -133,3 +133,11 @@ function convert_school_type(val) {
     }
     return convert_val;
 }
+
+function convert_bus_type(val) {
+    var convert_val = "";
+    if (val == "TERM") convert_val = "학기중";
+    else if (val == "VACATION") convert_val = "방학중";
+    else if (val == "ETC") convert_val = "기타";
+    return convert_val;
+}
