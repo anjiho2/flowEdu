@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
-    String driverId = Util.isNullValue(request.getParameter("busdriver_id"), "");
+    String driverId = Util.isNullValue(request.getParameter("driver_id"), "");
     int depth1 = 5;
     int depth2 = 3;
 %>
@@ -58,6 +58,7 @@
     <form name="frm" method="get">
         <input type="hidden" name="page_gbn" id="page_gbn">
         <input type="hidden" id="sPage" value="<%=sPage%>">
+        <input type="hidden" name="driver_id" value="<%=driverId%>">
         <input type="hidden" name="bus_id">
     </form>
 

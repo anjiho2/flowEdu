@@ -130,9 +130,9 @@ public class BusService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public List<DriverRoute> getDriverRouteList(Long driverIdx) {
+    public List<DriverRoute> getDriverRouteList(Long driverIdx, Long busIdx) {
         if (driverIdx == null || driverIdx == 0L) return null;
-        return busMapper.selectDrivetRouteInfo(driverIdx);
+        return busMapper.selectDrivetRouteInfo(driverIdx, busIdx);
     }
 
     /**

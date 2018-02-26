@@ -225,7 +225,8 @@
     <%--<h4 class="title_t1"><span>강수원</span> 선생님의 노선 정보입니다.</h4>--%>
     <form name="frm" method="get">
         <input type="hidden" name="page_gbn" id="page_gbn">
-        <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
+        <input type="hidden" id="sPage" value="<%=sPage%>">
+        <input type="hidden" name="driver_id" value="<%=driverId%>">
     </form>
     <div class="tb_t1">
         <table>
