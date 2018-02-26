@@ -2,8 +2,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
     Long busdriver_id = Long.parseLong(request.getParameter("busdriver_id"));
+    Long assister_id = Long.parseLong(request.getParameter("assister_id"));
+    String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
     int depth1 = 5;
-    int depth2 = 1;
+    int depth2 = 2;
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
@@ -12,91 +14,65 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/busService.js'></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script>
+
     function init() {
-        getBusDriverInfo();//버스기사정보 가져오기
-    }
-
-    function getBusDriverInfo() {
+        getAssisterinfo();//운영자정보가져오기
         var busdriver_id = <%=busdriver_id%>;
-        busService.getDriverInfo(busdriver_id, function(sel) {
+        busService.getDriverInfo(busdriver_id, function (sel) {
             searchAcademySelectbox("sel_academy", sel.officeId);//소속
-            jobPositionSelectbox("sel_jobPosition", sel.jobPositionId);//직책
-            innerValue("busDriver_name", sel.driverName);
-            fnSetPhoneNo("phoneNum1", "phoneNum2", "phoneNum3", sel.phoneNumber);
-            innerValue("startDate" ,sel.birthDay);//생년월일
-            innerValue("registerDate" ,sel.regDate);//등록일
-            innerValue("zip_code" ,sel.zipCode);//우편번호
-            innerValue("driver_address" ,sel.address);//주소
-            innerValue("driver_address_detail" ,sel.addressDetail);//상세주소
-            innerValue("busNum" ,sel.busNumber);//차량번호
-            innerValue("busPassNum" ,sel.passengersNumber);//승차인원
-            innerValue("endDate" ,sel.safetyCertificateDate);//안전필증
-            innerValue("sexualAssultDay" ,sel.sexualAssultConfirmDate);//성범죄
-            if(sel.serveYn == true) $("#driverState").val(1);//상태
-            else $("#driverState").val(0);
-            var driver_year  = getAnnual(sel.regDate); //년차계산
-            $("#driver_year").html(driver_year);
-
-
         });
     }
 
-    function modify_busDriver() {
+    function modify_assist() {
+
         var check = new isCheck();
-        var busdriver_id    =  getInputTextValue("busdriver_id");
-        var sel_academy     = getSelectboxValue("sel_academy");//소속
-        var sel_jobPosition = getSelectboxValue("sel_jobPosition");//직책
-        var dirver_name     = getInputTextValue("busDriver_name");
-        var phoneNum1   = getInputTextValue("phoneNum1");
-        var phoneNum2   = getInputTextValue("phoneNum2");
-        var phoneNum3   = getInputTextValue("phoneNum3");
-        var allphoneNum = phoneNum1 + phoneNum2 + phoneNum3;
-        var startDate   = getInputTextValue("startDate");//생일
-        var sexualAssultDay = getInputTextValue("sexualAssultDay");//성범죄
-        var registerDate    = getInputTextValue("registerDate");//등록일
-        var zip_code        = getInputTextValue("zip_code");
-        var driver_address  = getInputTextValue("driver_address");
-        var driver_address_detail = getInputTextValue("driver_address_detail");
-        var busNum       =  getInputTextValue("busNum");//차량변호
-        var busPassNum   = getInputTextValue("busPassNum");//승차정원
-        var driverState  = getSelectboxValue("driverState"); //상태
-        var endDate      = getInputTextValue("endDate");//안전필증
+        var busdriver_id  = <%=busdriver_id%>;
+        var sel_academy = getSelectboxValue("sel_academy");
+        var assister_name =  getInputTextValue("assister_name");//이름
+        var allPhoneNum   = phoneNumber_sum("phoneNum1", "phoneNum2", "phoneNum3");//폰번호
+        var birthDay      = getInputTextValue("startDate");//생일
+        var endDate       = getInputTextValue("endDate");//등록일
+        var zip_code      =  getInputTextValue("zip_code");//우편번호
+        var assister_address_detail = getInputTextValue("assister_address_detail");
+        var assister_address = getInputTextValue("assister_address");
+        var sexualAssultDay  =  getInputTextValue("sexualAssultDay");//성범죄조회일자
+        var assister_state   = getSelectboxValue("assister_state");
+        var state;
+        if(assister_state == 1)  state = true;
+        else state = false;
 
-        if(sel_academy == ''){
-            alert(comment.input_member_academy);
-            return false;
+        if(assister_state == ""){
+            alert("상태를 체크해 주세요.");
+            return;
         }
-        if(sel_jobPosition == ''){
-            alert(comment.input_member_posiotion);
-            return false;
-        }
-        var state_sel;//상태
-
-        if(driverState == 1) state_sel = true;
-        else state_sel = false;
-
-        if(check.input("dirver_name", comment.search_input_id_name)   == false) return;
+        if(check.input("assister_name", comment.search_input_id_name)   == false) return;
         if(check.input("phoneNum1", comment.input_academy_phone1)   == false) return;
         if(check.input("phoneNum2", comment.input_academy_phone2)   == false) return;
         if(check.input("phoneNum3", comment.input_academy_phone3)   == false) return;
-        if(check.input("registerDate", comment.input_register_date)   == false) return;
+        if(check.input("endDate", comment.input_register_date)   == false) return;
         if(check.input("zip_code", comment.input_zip_code)   == false) return;
-        if(check.input("driver_address", comment.input_member_address)   == false) return;
-        if(check.input("busNum", comment.input_busdriver_number)   == false) return;
-        if(check.input("busPassNum", comment.input_busPass_number)   == false) return;
-        if(check.input("endDate", comment.input_bussafe_date)   == false) return;
+        if(check.input("assister_address", comment.input_member_address)   == false) return;
+        if(check.input("assister_address_detail", comment.input_member_address_detail)   == false) return;
         if(check.input("sexualAssultDay", comment.input_member_startSearchDate)   == false) return;
 
         gfn_display("loadingbar", true);
 
-        if(confirm(comment.isUpdate)){
-            busService.modifyDriverInfo(busdriver_id, sel_academy, sel_jobPosition, dirver_name, allphoneNum, startDate, registerDate,
-                zip_code, driver_address, driver_address_detail, busNum, busPassNum, endDate, state_sel, sexualAssultDay, function () {
+        if(confirm(comment.isSave)){
+            busService.saveDriverHelperInfo(busdriver_id, sel_academy, assister_name, allPhoneNum, birthDay, endDate, zip_code,
+                assister_address, assister_address_detail, sexualAssultDay, state ,function () {
                     gfn_display("loadingbar", false);
                 });
         }
+
     }
 
+    function getAssisterinfo() {
+        var assister_id = <%=assister_id%>;
+        busService.getDriverHelperInfo(assister_id, function (sel) {
+            console.log(sel);
+        });
+    }
+    
     var isChange = false;
     $(document).ready(function () {
 
@@ -115,13 +91,12 @@
     function go_list() {
         if(isChange) {
             if (confirm(comment.is_change_confirm)) {
-               goPage('bus', 'bus_info');
+                goPage('bus', 'bus_info');
             }
         } else {
-               goPage('bus', 'bus_info');
+            goPage('bus', 'bus_info');
         }
     }
-
 
 </script>
 <body onload="init();">
@@ -130,13 +105,16 @@
 </div>
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
-    <%@include file="/common/jsp/bus_top_menu.jsp" %>
+    <%--<%@include file="/common/jsp/member_top_menu.jsp" %>--%>
+    <div class="title-top">운영관리</div>
 </div>
 </section>
 <section class="content">
     <form name="frm" method="get">
         <input type="hidden" name="busdriver_id" id="busdriver_id" value="<%=busdriver_id%>">
+        <input type="hidden" name="assister_id" id="assister_id" value="<%=assister_id%>">
         <input type="hidden" name="page_gbn" id="page_gbn">
+        <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
     </form>
 
     <div class="tb_t1">
@@ -144,20 +122,22 @@
             <tr>
                 <th>소속<b>*</b></th>
                 <td>
-                    <select id="sel_academy" class="form-control">
+                    <select id="sel_academy" class="form-control" disabled>
                         <option value="">전체</option>
                     </select>
                 </td>
-                <th>직책<b>*</b></th>
+                <th>상태<b>*</b></th>
                 <td>
-                    <select id="sel_jobPosition" class="form-control">
-                        <option value="">전체</option>
+                    <select class="form-control" id="assister_state">
+                        <option value="">선택</option>
+                        <option value="1">재직</option>
+                        <option value="0">퇴사</option>
                     </select>
                 </td>
             </tr>
             <tr>
                 <th>이름<b>*</b></th>
-                <td><input type="text" class="form-control" id="busDriver_name"></td>
+                <td><input type="text" class="form-control" id="assister_name"></td>
                 <th>핸드폰번호<b>*</b></th>
                 <td>
                     <div class="form-group row marginX">
@@ -179,14 +159,11 @@
                 </td>
                 <th>등록일<b>*</b></th>
                 <td>
-                    <div class="form-group row marginX">
-                        <div class="input-group date common">
-                            <input type="text" id="registerDate" class="form-control date-picker">
-                            <span class="input-group-addon">
-                                <span class="fa fa-calendar"></span>
-                            </span>
-                        </div>
-                        <div>&nbsp;[ <span id="driver_year"></span> 년차 ]</div>
+                    <div class="input-group date common">
+                        <input type="text" id="endDate" class="form-control date-picker">
+                        <span class="input-group-addon">
+                            <span class="fa fa-calendar"></span>
+                        </span>
                     </div>
                 </td>
             </tr>
@@ -198,34 +175,9 @@
                         <button class="btn_pack" onclick="openDaumPostcode();">우편번호 검색</button>
                     </div>
                     <div class="form-group row marginX">
-                        <input type="text" class="form-control"  id="driver_address">
-                        <input type="text" class="form-control"  id="driver_address_detail">
+                        <input type="text" class="form-control" id="assister_address">
+                        <input type="text" class="form-control" id="assister_address_detail">
                     </div>
-                </td>
-            </tr>
-            <tr>
-                <th>차량번호<b>*</b></th>
-                <td><input type="text" class="form-control" id="busNum"></td>
-                <th>승차정원<b>*</b></th>
-                <td><input type="text" class="form-control" id="busPassNum"></td>
-            </tr>
-            <tr>
-                <th>안전필증<b>*</b></th>
-                <td>
-                    <div class="input-group date common">
-                        <input type="text" id="endDate" class="form-control date-picker">
-                        <span class="input-group-addon">
-                            <span class="fa fa-calendar"></span>
-                        </span>
-                    </div>
-                </td>
-                <th>상태<b>*</b></th>
-                <td>
-                    <select class="form-control" id="driverState">
-                        <option value="">선택</option>
-                        <option value="1">재직</option>
-                        <option value="0">퇴사</option>
-                    </select>
                 </td>
             </tr>
             <tr>
@@ -241,7 +193,7 @@
                 <td colspan="2"></td>
             </tr>
         </table>
-        <button class="btn_pack s2 blue" onclick="modify_busDriver();">수정</button>
+        <button class="btn_pack s2 blue" onclick="modify_assist();">수정</button>
         <button class="btn_pack s2 blue" onclick="go_list();">목록</button>
     </div>
 
@@ -266,8 +218,8 @@
                 // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분. 우편번호와 주소 정보를 해당 필드에 넣고, 커서를 상세주소 필드로 이동한다.
                 document.getElementById("zip_code").value = (data.postcode1 + data.postcode2);
                 //document.getElementById("zip2").value = data.postcode2;
-                document.getElementById("driver_address").value = data.address;
-                document.getElementById("driver_address_detail").focus();
+                document.getElementById("assister_address").value = data.address;
+                document.getElementById("assister_address_detail").focus();
                 // iframe을 넣은 element를 안보이게 한다.
                 element.style.display = 'none';
                 //$("#layer").css('display', 'none');
@@ -278,9 +230,9 @@
         // iframe을 넣은 element를 보이게 한다.
         element.style.display = 'block';
     }
-
     $(".sidebar-menu > li").eq(5).addClass("active");
-    $(".sidebar-menu > li:nth-child(6) > ul > li:nth-child(1) > a").addClass("on");
+    $(".sidebar-menu > li:nth-child(6) > ul > li:nth-child(2) > a").addClass("on");
 </script>
+
 </body>
 

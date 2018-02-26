@@ -112,6 +112,13 @@
         });
     }
 
+    var isChange = false;
+    $(document).ready(function () {
+        $("input, select, textarea").change(function () {
+            isChange = true;
+        });
+    });
+
     function go_list() {
         if(isChange) {
             if (confirm(comment.is_change_confirm)) {
@@ -122,12 +129,6 @@
         }
     }
 
-    var isChange = false;
-    $(document).ready(function () {
-        $("input, select, textarea").change(function () {
-            isChange = true;
-        });
-    });
 </script>
 <style><%--성범죄확인일자/교육청강사등록일자로인한 style예외처리--%>
 .form-group.row>label {-webkit-box-flex: 0;-ms-flex: 0 0 140px;flex: 0 0 187px;}

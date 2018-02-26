@@ -82,6 +82,11 @@
         $("input, select, textarea").change(function () {
             isChange = true;
         });
+        $('#registerDate').change(function () { //기사등록일기준 년차
+            var registerDate = $("#registerDate").val();
+            var driver_year  = getAnnual(registerDate);
+            $("#driver_year").html(driver_year);
+        });
     });
 </script>
 <body onload="init();">
@@ -149,7 +154,7 @@
                                 <span class="fa fa-calendar"></span>
                             </span>
                         </div>
-                        <div>&nbsp;[<span></span>년차]</div>
+                        <div>&nbsp;[ <span id="driver_year"></span> 년차 ]</div>
                     </div>
                 </td>
             </tr>

@@ -196,7 +196,7 @@
 			<if test="busNumber != ''">bus_number = #{busNumber},</if>
 			<if test="passengersNumber > 0">passengers_number = #{passengersNumber},</if>
 			<if test="safetyCertificateDate != ''">safety_certificate_date = #{safetyCertificateDate},</if>
-			<if test="serveYn != ''">serve_yn = #{serveYn},</if>
+			<if test="serveYn != '' or serveYn != null">serve_yn = #{serveYn},</if>
 			<if test="sexualAssultConfirmDate != ''">sexual_assult_confirm_date = #{sexualAssultConfirmDate},</if>
 		</set>
 		WHERE driver_idx = #{driverIdx}

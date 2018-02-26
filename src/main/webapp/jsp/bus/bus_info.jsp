@@ -7,15 +7,59 @@
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
-<script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
+<script type='text/javascript' src='/flowEdu/dwr/interface/busService.js'></script>
 <script>
     function init() {
         searchAcademySelectbox("sel_academy","");//소속
+        gfn_emptyView("V", comment.blank_bus_info);
     }
 
     function fn_search(val) {
+        dwr.util.removeAllRows("dataList");
+        var paging = new Paging();
+        var sPage = $("#sPage").val();
 
+        if(val == "new") sPage = "1";
+
+        var sel_academy  = getSelectboxValue("sel_academy");//소속
+        var sel_businfo  = getSelectboxValue("sel_businfo");//소속정보
+        var businfoValue = getInputTextValue("businfoValue");
+        dwr.util.removeAllRows("dataList");
+        gfn_emptyView("H", "");
+        busService.getDriverListCount(sel_academy, sel_businfo, businfoValue, function(cnt) {
+            paging.count(sPage, cnt, '10', '10', comment.blank_list);
+            busService.getDriverList(sPage, '10', sel_academy, sel_businfo, businfoValue, function (selList) {
+                if (selList.length > 0) {
+                    console.log(selList);
+                    for (var i = 0; i < selList.length; i++) {
+                        var cmpList = selList[i];
+                        var driver_date = cmpList.applyStartDate + " ~ " + cmpList.applyEndDate;
+                        var nameHTML =  "<a href='javascript:void(0);' onclick='businfo_modify("+ cmpList.driverIdx +")' style='color:blue;'>" + cmpList.driverName + "</a>";
+
+                        if (cmpList != undefined) {
+                            var cellData = [
+                                function(data) {return i+1;},
+                                function(data) {return cmpList.officeName;},//소속
+                                function(data) {return cmpList.startRouteName;},//노선명
+                                function(data) {return nameHTML;},//기사명
+                                function(data) {return cmpList.busNumber;},//차량번호
+                                function(data) {return cmpList.phoneNumber;},//핸드폰번호
+                                function(data) {return driver_date;},//기간
+                            ];
+                            dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
+                        }
+                    }
+                }else{
+                    gfn_emptyView("V", comment.blank_list2);
+                }
+            });
+        });
+    }
+
+    function businfo_modify(busdriver_id) {
+        innerValue("busdriver_id", busdriver_id);
+        goPage('bus', 'driver_info');
     }
 </script>
 <body onload="init();">
@@ -31,7 +75,7 @@
 <section class="content">
     <h3 class="title_t1">셔틀버스관리</h3>
     <form name="frm" method="get">
-        <input type="hidden" name="member_id" id="member_id">
+        <input type="hidden" name="busdriver_id" id="busdriver_id">
         <input type="hidden" name="page_gbn" id="page_gbn">
         <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
     </form>
@@ -50,18 +94,18 @@
                 <th>소속정보</th>
                 <td>
                     <div class="form-group row marginX">
-                        <select class="form-control select-space">
-                            <option>선택</option>
-                            <option>소속</option>
-                            <option>노선명</option>
-                            <option>기사명</option>
+                        <select class="form-control select-space" id="sel_businfo">
+                            <option value="">선택</option>
+                            <option value="office">소속</option>
+                            <option value="route">노선명</option>
+                            <option value="driver">기사명</option>
                         </select>
-                        <input type="text" class="form-control">
+                        <input type="text" class="form-control" id="businfoValue">
                     </div>
                 </td>
             </tr>
         </table>
-        <button class="btn_pack blue">검색</button>
+        <button class="btn_pack blue" onclick="fn_search('new')">검색</button>
     </div>
 
     <div class="tb_t1 top-space">
@@ -77,30 +121,14 @@
                 <th>기간</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="dataList"></tbody>
             <tr>
-                <td>2</td>
-                <td>수학의아침 초등관</td>
-                <td>정든 / 수내</td>
-                <td><a href="javascript:goPage('bus', 'driver_info')" class="font_color blue">백승주</a></td>
-                <td>경기 70아 5689</td>
-                <td>010-4794-5987</td>
-                <td>2018-01-02 ~ 2018-02-28</td>
+                <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
             </tr>
-            <tr>
-                <td>1</td>
-                <td>수학의아침 초등관</td>
-                <td>서판교 / 서판교</td>
-                <td><a href="#" class="font_color blue">임광철</a></td>
-                <td>경기 70아 1234</td>
-                <td>010-2345-5678</td>
-                <td>2018-01-02 ~ 2018-02-28</td>
-            </tr>
-            </tbody>
         </table>
         <button class="btn_pack s2 blue" onclick="javascript:goPage('bus', 'save_driver')">등록</button>
     </div>
-
+    <%@ include file="/common/inc/com_pageNavi.inc" %>
 </section>
 <%@include file="/common/jsp/footer.jsp" %>
 

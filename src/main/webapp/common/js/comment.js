@@ -86,6 +86,7 @@ var comment = {
 		input_mother_tel2 : "부모님(모)전화번호를 입력해주세요",
 		input_mother_tel3 : "부모님(모)전화번호를 입력해주세요",
     	input_member_address : "주소를 입력해주세요.",
+    	input_member_address_detail : "주소를 입력해주세요.",
     	input_member_email : "이메일주소를 입력해주세요.",
    		input_member_startSearchDate : "성범죄경력조회 확인일자를 선택해주세요.",
     	input_member_startSearchDate2: "교육청 강사등록일자를 선택해주세요.",
@@ -125,7 +126,9 @@ var comment = {
     	input_title : "제목을 입력해 주세요.",
     	input_content : "내용을 입력해 주세요.",
 
-		is_change_confirm : "작성한 내용이 저장되지 않습니다.\n계속하시겠습니까?"
+		is_change_confirm : "작성한 내용이 저장되지 않습니다.\n계속하시겠습니까?",
+
+		blank_bus_info : "버스를 검색해 주세요.",
 
 
 }

@@ -1920,6 +1920,16 @@ function js_tab_order(arg, tag_id, len) {
 	}
 }
 
+//핸드폰번호 붙이기
+function phoneNumber_sum(phone1, phone2, phone3) {
+    var phone1 = $("#" + phone1).val();
+    var phone2 = $("#" + phone2).val();
+    var phone3 = $("#" + phone3).val();
+    var allPhoneNum = phone1 + phone2 + phone3;
+    return allPhoneNum;
+
+}
+
 //라디오버튼 값가져오기
 function get_radio_value(name){
     var radio_value = $(":input:radio[name= "+ name +" ]:checked").val();
@@ -2075,4 +2085,29 @@ function getDayAgo(dayCount) {
 function split_minute_getDay(day) {
     var day = day.split(" ");
     return day[0];
+}
+
+//현재날짜기준으로 연차 구하기
+function getAnnual(registerDate) {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1;
+    var yyyy = today.getFullYear();
+    if(dd<10) dd='0'+dd;
+    if(mm<10) mm='0'+mm;
+    var todeyDate = yyyy+'-' + mm+'-'+dd;
+
+    var arr1 = registerDate.split('-');
+    var arr2 = todeyDate.split('-');
+    var dat1 = new Date(arr1[0], arr1[1], arr1[2]);
+    var dat2 = new Date(arr2[0], arr2[1], arr2[2]);
+
+    var diff = dat2 - dat1;
+    var currDay = 24 * 60 * 60 * 1000;// 시 * 분 * 초 * 밀리세컨
+    var currMonth = currDay * 30;// 월 만듬
+    var currYear = currMonth * 12; // 년 만듬
+
+    var driver_year = parseInt(diff/currYear);
+
+    return parseInt(diff/currYear);
 }

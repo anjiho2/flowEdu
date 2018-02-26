@@ -31,6 +31,8 @@ public class BusController {
             mvc.setViewName("/bus/bus_route_info");
         }else if("save_bus_route".equals(page_gbn)){
             mvc.setViewName("/bus/save_bus_route");
+        }else if("modify_assist_info".equals(page_gbn)){
+            mvc.setViewName("/bus/modify_assist_info");
         }
 
         return mvc;
