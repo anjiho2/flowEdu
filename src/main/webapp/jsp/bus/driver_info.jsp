@@ -1,7 +1,7 @@
 <%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-    Long busdriver_id = Long.parseLong(request.getParameter("busdriver_id"));
+    Long driver_id = Long.parseLong(request.getParameter("driver_id"));
     int depth1 = 5;
     int depth2 = 1;
 %>
@@ -17,7 +17,7 @@
     }
 
     function getBusDriverInfo() {
-        var busdriver_id = <%=busdriver_id%>;
+        var busdriver_id = <%=driver_id%>;
         busService.getDriverInfo(busdriver_id, function(sel) {
             searchAcademySelectbox("sel_academy", sel.officeId);//소속
             jobPositionSelectbox("sel_jobPosition", sel.jobPositionId);//직책
@@ -93,6 +93,7 @@
             busService.modifyDriverInfo(busdriver_id, sel_academy, sel_jobPosition, dirver_name, allphoneNum, startDate, registerDate,
                 zip_code, driver_address, driver_address_detail, busNum, busPassNum, endDate, state_sel, sexualAssultDay, function () {
                     gfn_display("loadingbar", false);
+                    isReloadPage(true);
                 });
         }
     }
@@ -135,7 +136,7 @@
 </section>
 <section class="content">
     <form name="frm" method="get">
-        <input type="hidden" name="busdriver_id" id="busdriver_id" value="<%=busdriver_id%>">
+        <input type="hidden" name="driver_id" value="<%=driver_id%>">
         <input type="hidden" name="page_gbn" id="page_gbn">
     </form>
 

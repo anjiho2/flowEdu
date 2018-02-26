@@ -31,21 +31,19 @@
             paging.count(sPage, cnt, '10', '10', comment.blank_list);
             busService.getDriverList(sPage, '10', sel_academy, sel_businfo, businfoValue, function (selList) {
                 if (selList.length > 0) {
-                    console.log(selList);
                     for (var i = 0; i < selList.length; i++) {
                         var cmpList = selList[i];
-                        var driver_date = cmpList.applyStartDate + " ~ " + cmpList.applyEndDate;
+                        //var driver_date = cmpList.applyStartDate + " ~ " + cmpList.applyEndDate;
                         var nameHTML =  "<a href='javascript:void(0);' onclick='businfo_modify("+ cmpList.driverIdx +")' style='color:blue;'>" + cmpList.driverName + "</a>";
-
                         if (cmpList != undefined) {
                             var cellData = [
                                 function(data) {return i+1;},
                                 function(data) {return cmpList.officeName;},//소속
-                                function(data) {return cmpList.startRouteName;},//노선명
+                                function(data) {return cmpList.startRouteName == null ? "-" : cmpList.startRouteName + " / " + cmpList.endRouteName;},//노선명
                                 function(data) {return nameHTML;},//기사명
                                 function(data) {return cmpList.busNumber;},//차량번호
                                 function(data) {return cmpList.phoneNumber;},//핸드폰번호
-                                function(data) {return driver_date;},//기간
+                                function(data) {return cmpList.applyStartDate == null ? "-" : cmpList.applyStartDate + " ~ " + cmpList.applyEndDate;},//기간
                             ];
                             dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
                         }
@@ -58,7 +56,7 @@
     }
 
     function businfo_modify(busdriver_id) {
-        innerValue("busdriver_id", busdriver_id);
+        innerValue("driver_id", busdriver_id);
         goPage('bus', 'driver_info');
     }
 </script>
@@ -75,9 +73,9 @@
 <section class="content">
     <h3 class="title_t1">셔틀버스관리</h3>
     <form name="frm" method="get">
-        <input type="hidden" name="busdriver_id" id="busdriver_id">
+        <input type="hidden" name="driver_id" id="driver_id">
         <input type="hidden" name="page_gbn" id="page_gbn">
-        <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
+        <input type="hidden" id="sPage" value="<%=sPage%>">
     </form>
 
     <div class="tb_t1">
