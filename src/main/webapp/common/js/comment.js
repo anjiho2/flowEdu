@@ -31,7 +31,9 @@ var comment = {
 		select_end_date : "종료일을 선택하세요.",
 		select_search_date : "검색일을 선택하세요.",
 		select_excel_file : "엑셀파일을 선택하세요.",
-		
+		select_category : "구분을 선택하세요.",
+		select_status : "상태를 선택하세요.",
+
 		check_item : "항목을 체크하세요.",
 		not_update_item : "변경될 항목이 없습니다.",
 		
@@ -86,7 +88,6 @@ var comment = {
 		input_mother_tel2 : "부모님(모)전화번호를 입력해주세요",
 		input_mother_tel3 : "부모님(모)전화번호를 입력해주세요",
     	input_member_address : "주소를 입력해주세요.",
-    	input_member_address_detail : "주소를 입력해주세요.",
     	input_member_email : "이메일주소를 입력해주세요.",
    		input_member_startSearchDate : "성범죄경력조회 확인일자를 선택해주세요.",
     	input_member_startSearchDate2: "교육청 강사등록일자를 선택해주세요.",
@@ -97,6 +98,13 @@ var comment = {
 	    input_student_grade:"학생의 학년을 선택해주세요.",
 		input_student_name : "학생 이름을 입력하세요.",
     	input_school_name : "학교이름을 입력하세요.",
+    	input_route_number : "노선번호를 입력하세요.",
+		input_start_route_name : "시점을 입력하세요.",
+		input_attend_time : "등원시간을 입력하세요.",
+		input_dismiss_time : "하원시간을 입력하세요.",
+		input_apply_start_date : "적용시간 시작일을 입력하세요.",
+    	input_apply_end_date : "적용시간 종료일을 입력하세요.",
+
 
 		payment_error : "결제결과 에러가 발생되었습니다.",
 		select_installMent : "할부개월을 선택해주세요.",
@@ -119,6 +127,7 @@ var comment = {
         search_input_id_name : "이름을 입력해주세요.",
 		search_academy : "학원을 검색해주세요.",
     	search_member : "운영자를 검색해 주세요.",
+		not_bus_route_info : "노선정보가 없습니다.",
 
 		success_update : "수정됬습니다",
 		send_email : "입력하신 이메일 주소로 아이디를 전송 하였습니다.",
@@ -128,8 +137,6 @@ var comment = {
 
 		is_change_confirm : "작성한 내용이 저장되지 않습니다.\n계속하시겠습니까?",
 
-		blank_bus_info : "버스를 검색해 주세요.",
-
-
+        reg_add_btn_stop_station : "추가 버튼을 클릭하여 정차 위치를 등록해 주세요."
 }
 

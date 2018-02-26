@@ -54,10 +54,10 @@ public class BusDto {
     private String dismissFourthTime;
 
     //  5T
-    private String dissmissFifthTime;
+    private String dismissFifthTime;
 
     //  6T
-    private String dismisssixthTime;
+    private String dismissSixthTime;
 
 
     List<BusAttendTimeDto> busAttendTimeList;

@@ -27,7 +27,7 @@ public class BusManager {
         if (busIdx > 0L) {
             //등원 정보 입력
             if (busAttendTimeDtoList.size() > 0) {
-                busService.saveBusAttendTimsList(busIdx, busAttendTimeDtoList);
+                busService.saveBusAttendTimeList(busIdx, busAttendTimeDtoList);
             }
             //하원 정보 입력
             if (busDismissTimeDto != null) {
@@ -35,6 +35,21 @@ public class BusManager {
             }
         }
         return busIdx;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void modifyRoute(BusInfoDto busInfoDto, List<BusAttendTimeDto> busAttendTimeDtoList, BusDismissTimeDto busDismissTimeDto) {
+        if (busInfoDto == null) return;
+        busService.modifyBusInfo(busInfoDto);
+        if (busAttendTimeDtoList.size() > 0) {
+            for (BusAttendTimeDto attendTimeDto : busAttendTimeDtoList) {
+                if (attendTimeDto.getBusAttendTimeIdx() == null) {
+                    busService.saveBusAttendTime(busInfoDto.getBusIdx(), attendTimeDto);
+                }
+            }
+            busService.modifyBusAttendTime(busAttendTimeDtoList);
+        }
+        busService.modifyBusDismissTime(busDismissTimeDto);
     }
 
     public void test() {

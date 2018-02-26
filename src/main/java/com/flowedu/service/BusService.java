@@ -7,6 +7,7 @@ import com.flowedu.domain.DriverList;
 import com.flowedu.domain.DriverRoute;
 import com.flowedu.dto.*;
 import com.flowedu.mapper.BusMapper;
+import com.flowedu.util.StringUtil;
 import com.flowedu.util.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BusService extends PagingSupport {
@@ -219,10 +221,17 @@ public class BusService extends PagingSupport {
      * @param busAttendTimeDtoList
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void saveBusAttendTimsList(Long busIdx, List<BusAttendTimeDto>busAttendTimeDtoList) {
+    public void saveBusAttendTimeList(Long busIdx, List<BusAttendTimeDto>busAttendTimeDtoList) {
         if (busIdx == 0L && busAttendTimeDtoList.size() == 0) return;
         busAttendTimeDtoList.forEach(dto -> dto.setBusIdx(busIdx));
         busMapper.insertBusAttendTimeList(busAttendTimeDtoList);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveBusAttendTime(Long busIdx, BusAttendTimeDto busAttendTimeDto) {
+        if (busIdx == 0L && busAttendTimeDto == null) return;
+        busAttendTimeDto.setBusIdx(busIdx);
+        busMapper.insertBusAttendTime(busAttendTimeDto);
     }
 
     /**
@@ -376,6 +385,12 @@ public class BusService extends PagingSupport {
         busMapper.updateDriverHelperInfo(helperInfoDto);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void modifyBusInfo(BusInfoDto busInfoDto) {
+        if (busInfoDto == null) return;
+        busMapper.updateBusInfo(busInfoDto);
+    }
+
     /**
      * <PRE>
      * 1. Comment : 버스 등교 시간 수정
@@ -396,28 +411,18 @@ public class BusService extends PagingSupport {
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2018. 02 .20
      * </PRE>
-     * @param busDismissTimeIdx
-     * @param busIdx
-     * @param firstTime
-     * @param secondTime
-     * @param thirdTime
-     * @param fourthTime
-     * @param fifthTime
-     * @param sixthTime
+     * @param busDismissTimeDto
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void modifyBusDismissTime(Long busDismissTimeIdx, Long busIdx, String firstTime, String secondTime,
-                                     String thirdTime, String fourthTime, String fifthTime, String sixthTime) {
-        BusDismissTimeDto busDismissTimeDto = new BusDismissTimeDto(
-                busDismissTimeIdx,
-                busIdx,
-                Util.isNullValue(firstTime, ""),
-                Util.isNullValue(secondTime, ""),
-                Util.isNullValue(thirdTime, ""),
-                Util.isNullValue(fourthTime, ""),
-                Util.isNullValue(fifthTime, ""),
-                Util.isNullValue(sixthTime, "")
-        );
+    public void modifyBusDismissTime(BusDismissTimeDto busDismissTimeDto) {
+        if (busDismissTimeDto == null) return;
         busMapper.updateBusDismissTime(busDismissTimeDto);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void deleteBusAttendTime(List<String> busAttendTimeIds) {
+        if (busAttendTimeIds.size() == 0) return;
+        String[] attendTimeStr = busAttendTimeIds.stream().toArray(String[]::new);
+        busMapper.deleteBusAttendTime(attendTimeStr);
     }
 }

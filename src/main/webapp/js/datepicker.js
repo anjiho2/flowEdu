@@ -113,6 +113,14 @@ $(function() {
     $.timepicker.setDefaults($.timepicker.regional['ko']);
 });
 
+$(function() {
+    $("#firstTime_1").timepicker({
+        hourText: '시',
+        minuteText: '분'
+    });
+    $.timepicker.setDefaults($.timepicker.regional['ko']);
+});
+
 $(function () {
     $("#datepicker_img").bind("click", function () {
         var options = {

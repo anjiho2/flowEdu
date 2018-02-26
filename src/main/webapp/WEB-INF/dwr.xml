@@ -116,6 +116,8 @@
 		<convert converter="bean" match="com.flowedu.dto.DriverHelperInfoDto"/>
 		<convert converter="bean" match="com.flowedu.dto.BusAttendTimeDto"/>
 		<convert converter="bean" match="com.flowedu.dto.BusDto"/>
+		<convert converter="bean" match="com.flowedu.dto.BusInfoDto"/>
+		<convert converter="bean" match="com.flowedu.dto.BusDismissTimeDto"/>
 		<!-- define -->
 		<convert converter="bean" match="com.flowedu.domain.KisPosOcx"/>
 		<convert converter="bean" match="com.flowedu.domain.LecturePaymentLog"/>

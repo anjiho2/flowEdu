@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
-    String driverId = Util.isNullValue(request.getParameter("driver_id"), "");
+    String busId = Util.isNullValue(request.getParameter("bus_id"), "");
     int depth1 = 5;
     int depth2 = 3;
 %>
@@ -12,120 +12,134 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/busManager.js'></script>
 <link rel="stylesheet" href="//cdn.rawgit.com/fgelinas/timepicker/master/jquery.ui.timepicker.css">
 <script>
-    var driverId = '<%=driverId%>';
+    var busId = '<%=busId%>';
 
     function init() {
-        gfn_emptyView("V", comment.reg_add_btn_stop_station);
+        busService.getBusRouteInfo(busId, function (routeInfo) {
+            innerValue("l_routeNumber", routeInfo.routeNumber);
+            innerValue("l_startRouteName", routeInfo.startRouteName);
+            innerValue("l_endRouteName", routeInfo.endRouteName);
+            $("#sel_busType").val(routeInfo.busType);
+            $("#sel_busStatus").val(routeInfo.busStatus == true ? "Y" : "N");
+
+            if (routeInfo.busAttendTimeList.length == 0) {
+                gfn_emptyView("V", comment.reg_add_btn_stop_station);
+                return;
+            }
+            for (var i=0; i<routeInfo.busAttendTimeList.length; i++) {
+                var cmpList = routeInfo.busAttendTimeList[i];
+                var j = i+1;
+                var cellData = [
+                    function(data) { return "<input type=\"checkbox\" name=\"chk\" value='"+ cmpList.busAttendTimeIdx +"'>" },
+                    function(data) { return "<input type=\"text\" class=\"form-control \" name=\"stationName[]\" id='statinName_" + j + "'  value='"+ cmpList.stationName +"'>" },
+                    function(data) { return "<input type=\"text\" class=\"form-control date-picker\" name=\"firstTime[]\" id='firstTime_" + j + "'  value='"+ cmpList.firstTime +"'>" },
+                    function(data) { return "<input type=\"text\" class=\"form-control\" name=\"secondTime[]\" id='secondTime_" + j + "' value='"+ cmpList.secondTime +"'>" },
+                    function(data) { return "<input type=\"text\" class=\"form-control\" name=\"thirdTime[]\" id='thirdTime_" + j + "' value='"+ cmpList.thirdTime +"'>" },
+                    function(data) { return "<input type=\"text\" class=\"form-control\" name=\"fourthTime[]\" id='fourthTime_" + j + "' value='"+ cmpList.fourthTime +"'>" },
+                    function(data) { return "<input type=\"text\" class=\"form-control\" name=\"fifthime[]\" id='fifthime_" + j + "' value='"+ cmpList.fifthTime +"'>" },
+                    function(data) { return "<div class=\"form-group row marginX draghandle\">\n" +
+                                                "<input type=\"text\" class=\"form-control\" name=\"sixthTime[]\" id='sixthTime_" + j + "' value='"+ cmpList.sixthTime +"'>\n" +
+                                                "<span class=\"fa fa-bars\"></span>\n" +
+                                            "</div>"}
+                ];
+                dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
+            }
+            /** timepicker 바인딩 하기 **/
+            var elem = $("#attendTimeList tbody tr td input[name='firstTime[]']");
+            elem.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
+                hourText: '시',
+                minuteText: '분'
+            });
+            var elem2 = $("#attendTimeList tbody tr td input[name='secondTime[]']");
+            elem2.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
+                hourText: '시',
+                minuteText: '분'
+            });
+            var elem3 = $("#attendTimeList tbody tr td input[name='thirdTime[]']");
+            elem3.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
+                hourText: '시',
+                minuteText: '분'
+            });
+            var elem4 = $("#attendTimeList tbody tr td input[name='fourthTime[]']");
+            elem4.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
+                hourText: '시',
+                minuteText: '분'
+            });
+            var elem5 = $("#attendTimeList tbody tr td input[name='fifthime[]']");
+            elem5.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
+                hourText: '시',
+                minuteText: '분'
+            });
+            var elem6 = $("#attendTimeList tbody tr td input[name='sixthTime[]']");
+            elem6.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
+                hourText: '시',
+                minuteText: '분'
+            });
+            $.timepicker.setDefaults($.timepicker.regional['ko']);
+
+            innerValue("busDismissTimeId", routeInfo.busDismissTimeIdx);
+            innerValue("l_dismissFirstTime", routeInfo.dismissFirstTime);
+            innerValue("l_dismissSecondTime", routeInfo.dismissSecondTime);
+            innerValue("l_dismissThirdTime", routeInfo.dismissThirdTime);
+            innerValue("l_dismissFourthTime", routeInfo.dismissFourthTime);
+            innerValue("l_dismissFifthTime", routeInfo.dismissFifthTime);
+            innerValue("l_dismissSixthTime", routeInfo.dismissSixthTime);
+            innerValue("startDate", routeInfo.applyStartDate);
+            innerValue("endDate", routeInfo.applyEndDate);
+            innerValue("memo", routeInfo.busMemo);
+        });
     }
     //추가버튼
     function trans_attendTime() {
-        var trLength = $('#attendTimeList #dataList tr').length;
-        if (trLength == 0) {
-            var j = trLength + 1;
-                var cellData = [
-                    function(data) { return "<input type=\"checkbox\" name=\"chk\" value=\"1\">" },
-                    function(data) { return "<input type=\"text\" class=\"form-control \" name=\"stationName[]\" id='statinName_" + j + "'>" },
-                    function(data) { return "<input type=\"text\" class=\"form-control date-picker\" name=\"firstTime[]\" id='firstTime_" + j + "' >" },
-                    function(data) { return "<input type=\"text\" class=\"form-control\" name=\"secondTime[]\" id='secondTime_" + j + "' >" },
-                    function(data) { return "<input type=\"text\" class=\"form-control\" name=\"thirdTime[]\" id='thirdTime_" + j + "' >" },
-                    function(data) { return "<input type=\"text\" class=\"form-control\" name=\"fourthTime[]\" id='fourthTime_" + j + "'>" },
-                    function(data) { return "<input type=\"text\" class=\"form-control\" name=\"fifthime[]\" id='fifthime_" + j + "'>" },
-                    function(data) { return "<div class=\"form-group row marginX draghandle\">\n" +
-                        "<input type=\"text\" class=\"form-control\" name=\"sixthTime[]\" id='sixthTime_" + j + "'>\n" +
-                        "<span class=\"fa fa-bars\"></span>\n" +
-                        "</div>"}
-                ];
-            j++;
-            dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
-            $("#attendTimeList").find("tbody").find("tr:last").attr('id', 'tr_1');
+        var num = $("input[name='chk']").length;
+        var newNum = num + 1;
+        var $tableBody = $('#attendTimeList').find("tbody"),
+        $trLast = $tableBody.find("tr:last"),
+        $trNew = $trLast.clone();
 
-            /** timepicker 바인딩 하기 **/
-            var elem1 = $("#attendTimeList tbody tr td input[name='firstTime[]']");
-            elem1.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
-                hourText: '시',
-                minuteText: '분'
-            });
-            var elem2 = $("#attendTimeList tbody tr td input[name='secondTime[]']");
-            elem2.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
-                hourText: '시',
-                minuteText: '분'
-            });
-            var elem3 = $("#attendTimeList tbody tr td input[name='thirdTime[]']");
-            elem3.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
-                hourText: '시',
-                minuteText: '분'
-            });
-            var elem4 = $("#attendTimeList tbody tr td input[name='fourthTime[]']");
-            elem4.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
-                hourText: '시',
-                minuteText: '분'
-            });
-            var elem5 = $("#attendTimeList tbody tr td input[name='fifthime[]']");
-            elem5.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
-                hourText: '시',
-                minuteText: '분'
-            });
-            var elem6 = $("#attendTimeList tbody tr td input[name='sixthTime[]']");
-            elem6.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
-                hourText: '시',
-                minuteText: '분'
-            });
-            $.timepicker.setDefaults($.timepicker.regional['ko']);
+        $trLast.after($trNew);
 
-            gfn_emptyView("H", "");
-        } else {
-            var num = $("input[name='chk']").length;
-            var newNum = num + 1;
-            var $tableBody = $('#attendTimeList').find("tbody"),
-                $trLast = $tableBody.find("tr:last"),
-                $trNew = $trLast.clone();
-                $trLast.after($trNew);
-
-            $trNew.attr('id', 'tr_' + newNum);
-            $trNew.find("td input").eq(0).val(newNum);
-            $trNew.find("td input").eq(1).val('').attr('id', 'statinName_'+newNum);
-            $trNew.find("td input").eq(2).attr('id', 'firstTime_'+newNum).val('');
-            $trNew.find("td input").eq(3).attr('id', 'secondTime_'+newNum).val('');
-            $trNew.find("td input").eq(4).attr('id', 'thirdTime_'+newNum).val('');
-            $trNew.find("td input").eq(5).attr('id', 'fourthTime_'+newNum).val('');
-            $trNew.find("td input").eq(6).attr('id', 'fifthTime_'+newNum).val('');
-            $trNew.find("td input").eq(7).attr('id', 'sixthTime_'+newNum).val('');
-
-            /** timepicker 바인딩 하기 **/
-            var elem1 = $("#attendTimeList tbody tr td input[name='firstTime[]']");
-            elem1.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
-                hourText: '시',
-                minuteText: '분'
-            });
-            var elem2 = $("#attendTimeList tbody tr td input[name='secondTime[]']");
-            elem2.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
-                hourText: '시',
-                minuteText: '분'
-            });
-            var elem3 = $("#attendTimeList tbody tr td input[name='thirdTime[]']");
-            elem3.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
-                hourText: '시',
-                minuteText: '분'
-            });
-            var elem4 = $("#attendTimeList tbody tr td input[name='fourthTime[]']");
-            elem4.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
-                hourText: '시',
-                minuteText: '분'
-            });
-            var elem5 = $("#attendTimeList tbody tr td input[name='fifthime[]']");
-            elem5.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
-                hourText: '시',
-                minuteText: '분'
-            });
-            var elem6 = $("#attendTimeList tbody tr td input[name='sixthTime[]']");
-            elem6.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
-                hourText: '시',
-                minuteText: '분'
-            });
-            $.timepicker.setDefaults($.timepicker.regional['ko']);
-        }
+        $trNew.find("td input").eq(0).val('');
+        $trNew.find("td input").eq(1).val('').attr('id', 'statinName_'+newNum);
+        $trNew.find("td input").eq(2).attr('id', 'firstTime_'+newNum).val('');
+        $trNew.find("td input").eq(3).attr('id', 'secondTime_'+newNum).val('');
+        $trNew.find("td input").eq(4).attr('id', 'thirdTime_'+newNum).val('');
+        $trNew.find("td input").eq(5).attr('id', 'fourthTime_'+newNum).val('');
+        $trNew.find("td input").eq(6).attr('id', 'fifthTime_'+newNum).val('');
+        $trNew.find("td input").eq(7).attr('id', 'sixthTime_'+newNum).val('');
+        /** timepicker 바인딩 하기 **/
+        var elem1 = $("#attendTimeList tbody tr td input[name='firstTime[]']");
+        elem1.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
+            hourText: '시',
+            minuteText: '분'
+        });
+        var elem2 = $("#attendTimeList tbody tr td input[name='secondTime[]']");
+        elem2.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
+            hourText: '시',
+            minuteText: '분'
+        });
+        var elem3 = $("#attendTimeList tbody tr td input[name='thirdTime[]']");
+        elem3.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
+            hourText: '시',
+            minuteText: '분'
+        });
+        var elem4 = $("#attendTimeList tbody tr td input[name='fourthTime[]']");
+        elem4.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
+            hourText: '시',
+            minuteText: '분'
+        });
+        var elem5 = $("#attendTimeList tbody tr td input[name='fifthime[]']");
+        elem5.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
+            hourText: '시',
+            minuteText: '분'
+        });
+        var elem6 = $("#attendTimeList tbody tr td input[name='sixthTime[]']");
+        elem6.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
+            hourText: '시',
+            minuteText: '분'
+        });
+        $.timepicker.setDefaults($.timepicker.regional['ko']);
     }
-
     //저장 버튼
     function save() {
         var check = new isCheck();
@@ -148,6 +162,7 @@
         }
         /** 버스 기본정보 **/
         var busInfo = {
+            busIdx:busId,
             routeNumber:getInputTextValue("l_routeNumber"),
             startRouteName:getInputTextValue("l_startRouteName"),
             endRouteName:endRouteName,
@@ -155,12 +170,12 @@
             busStatus:getSelectboxValue("sel_busStatus") == "Y" ? true : false,
             applyStartDate:getInputTextValue("startDate"),
             applyEndDate:getInputTextValue("endDate"),
-            busMemo:getInputTextValue("memo"),
-            driverIdx:driverId
+            busMemo:getInputTextValue("memo")
         };
         /** 등원정보 **/
         var busAttendTimeList = new Array();
         $('#attendTimeList tbody tr').each(function(index){
+            var busAttendTimeIds = $(this).find("td input").eq(0).val();
             var statinNames = $(this).find("td input").eq(1).val();
             var firstTimes = $(this).find("td input").eq(2).val();
             var secondTimes = $(this).find("td input").eq(3).val();
@@ -171,13 +186,14 @@
             var sortNums = index + 1;
 
             var busAttendTime = {
-                stationName:statinNames, firstTime:firstTimes, secondTime:secondTimes,
+                busAttendTimeIdx:busAttendTimeIds, stationName:statinNames, firstTime:firstTimes, secondTime:secondTimes,busIdx:busId,
                 thirdTime:thirdTimes, fourthTime:fourthTimes, fifthTime:fifthTimes, sixthTime:sixthTimes, sortNumber:sortNums
             };
             busAttendTimeList.push(busAttendTime);
         });
         /** 하원정보 **/
         var busDismissTime = {
+            busDismissTimeIdx:getInputTextValue("busDismissTimeId"),
             firstTime:getInputTextValue("l_dismissFirstTime"),
             secondTime:getInputTextValue("l_dismissSecondTime"),
             thirdTime:getInputTextValue("l_dismissThirdTime"),
@@ -185,28 +201,28 @@
             fifthTime:getInputTextValue("l_dismissFifthTime"),
             sixthTime:getInputTextValue("l_dismissSixthTime"),
         };
-        if (confirm(comment.isSave)) {
+
+        if (confirm(comment.isUpdate)) {
             gfn_display("loadingbar", true);
-            busManager.saveRoute(busInfo, busAttendTimeList, busDismissTime, function () {
+            busManager.modifyRoute(busInfo, busAttendTimeList, busDismissTime, function () {
                 isReloadPage(true);
                 gfn_display("loadingbar", false);
             });
-            goPage('bus', 'bus_route_info');
         }
     }
     //삭제 버튼
     function deleteAttendTime() {
+        var busAttendTimeIds = new Array();
+
+        $("input[name=chk]:checked").each(function() {
+            var busAttendTime = $(this).val();
+            busAttendTimeIds.push(busAttendTime);
+        });
         if (confirm(comment.isDelete)) {
-            $("input[name=chk]:checked").each(function() {
-                var checkVal = $(this).val();
-                $("#tr_" + checkVal).remove();
-
-                var chkLen = $("input[name='chk']").length;
-                if (chkLen < 1) {
-                    gfn_emptyView("V", comment.reg_add_btn_stop_station);
-                }
-                //var trLength = $('#attendTimeList #dataList tr').length;
-
+            gfn_display("loadingbar", true);
+            busService.deleteBusAttendTime(busAttendTimeIds, function() {
+                isReloadPage(true);
+                gfn_display("loadingbar", false);
             });
         }
     }
@@ -223,12 +239,13 @@
 <section class="content">
     <%--<h4 class="title_t1"><span>강수원</span> 선생님의 노선 정보입니다.</h4>--%>
     <form name="frm" method="get">
+        <input type="hidden" id="busDismissTimeId">
         <input type="hidden" name="page_gbn" id="page_gbn">
         <input type="hidden" name="sPage" id="sPage" value="<%=sPage%>">
     </form>
     <div class="tb_t1">
         <table>
-            <tr class="table_width">
+            <tr>
                 <th>노선번호<b>*</b></th>
                 <td colspan="2">
                     <div class="form-group row">
@@ -285,7 +302,7 @@
                         <tbody id="dataList"></tbody>
                     </table>
                     <table>
-                       <tr>
+                        <tr>
                             <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
                         </tr>
                     </table>
@@ -368,6 +385,7 @@
             });
         }
     });
+
     $(function() {
         $("#l_dismissFirstTime").timepicker({
             hourText: '시',

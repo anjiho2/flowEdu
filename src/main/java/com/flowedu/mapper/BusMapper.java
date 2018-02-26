@@ -37,6 +37,8 @@ public interface BusMapper {
 
     void insertBusAttendTimeList(@Param("busAttendTimeList")List<BusAttendTimeDto>busAttendTimeDtoList);
 
+    void insertBusAttendTime(BusAttendTimeDto busAttendTimeDto);
+
     void insertBusDismissTimeInfo(BusDismissTimeDto busDismissTimeDto);
 
     /** UPDATE **/
@@ -44,7 +46,12 @@ public interface BusMapper {
 
     void updateDriverHelperInfo(DriverHelperInfoDto driverHelperInfoDto);
 
+    void updateBusInfo(BusInfoDto busInfoDto);
+
     void updateBusAttendTime(@Param("attendTimeList") List<BusAttendTimeDto> busAttendTimeDtoList);
 
     void updateBusDismissTime(BusDismissTimeDto busDismissTimeDto);
+
+    /** DELETE **/
+    void deleteBusAttendTime(@Param("busAttendTimeStrList") String[] attendTimeStrList);
 }
