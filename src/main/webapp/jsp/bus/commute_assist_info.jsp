@@ -13,9 +13,9 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/busService.js'></script>
 <script>
     function init() {
+        gfn_emptyView("V", comment.search_member);
         var busdriver_id = <%=driver_id%>;
 
-        //gfn_emptyView("H", "");
         busService.getDriverHelperList(busdriver_id, function (sel) {
             var nameHTML = "<a href='javascript:void(0);' style='color:blue;' onclick='assister_page(" + sel.driverHelperIdx + ")'>" + sel.helperName + "</a>";
             var state;
@@ -67,6 +67,9 @@
                     <td><span id="regist_day"></span></td>
                 </tr>
             </tbody>
+            <tr>
+                <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
+            </tr>
         </table>
         <button class="btn_pack s2 blue" onclick="javascript:goPage('bus', 'save_commute_assist')">등록</button>
     </div>
