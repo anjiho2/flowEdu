@@ -226,7 +226,7 @@
     <form name="frm" method="get">
         <input type="hidden" name="page_gbn" id="page_gbn">
         <input type="hidden" id="sPage" value="<%=sPage%>">
-        <input type="hidden" name="driver_id" <%=driverId%>>
+        <input type="hidden" name="driver_id" value="<%=driverId%>">
     </form>
     <div class="tb_t1">
         <table>

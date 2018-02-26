@@ -44,7 +44,7 @@
 </section>
 <section class="content">
     <form name="frm" method="get">
-        <input type="hidden" name="busdriver_id" id="busdriver_id" value="<%=driver_id%>">
+        <input type="hidden" name="driver_id" id="busdriver_id" value="<%=driver_id%>">
         <input type="hidden" name="assister_id" id="assister_id">
         <input type="hidden" name="page_gbn" id="page_gbn">
     </form>
