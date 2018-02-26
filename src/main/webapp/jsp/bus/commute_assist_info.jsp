@@ -1,7 +1,7 @@
 <%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-    Long busdriver_id = Long.parseLong(request.getParameter("busdriver_id"));
+    Long driver_id = Long.parseLong(request.getParameter("driver_id"));
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
     int depth1 = 5;
     int depth2 = 2;
@@ -13,7 +13,7 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/busService.js'></script>
 <script>
     function init() {
-        var busdriver_id = <%=busdriver_id%>;
+        var busdriver_id = <%=driver_id%>;
 
         //gfn_emptyView("H", "");
         busService.getDriverHelperList(busdriver_id, function (sel) {
@@ -30,7 +30,7 @@
 
     function assister_page(assister_id) {
         innerValue("assister_id", assister_id);
-        goPage('bus', 'save_commute_assist');
+        goPage('bus', 'modify_assist_info');
     }
 </script>
 <body onload="init();">
@@ -44,7 +44,7 @@
 </section>
 <section class="content">
     <form name="frm" method="get">
-        <input type="hidden" name="busdriver_id" id="busdriver_id" value="<%=busdriver_id%>">
+        <input type="hidden" name="busdriver_id" id="busdriver_id" value="<%=driver_id%>">
         <input type="hidden" name="assister_id" id="assister_id">
         <input type="hidden" name="page_gbn" id="page_gbn">
     </form>

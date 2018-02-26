@@ -62,17 +62,17 @@
 		ON A.driver_idx = C.driver_idx
 		WHERE 1=1
 		<if test="officeId > 0">
-			AND A.office_id = #{offceId}
+			AND A.office_id = #{officeId}
 		</if>
 		<if test="searchType != ''">
 			<if test="searchType eq 'office'">
-				B.office_name LIKE CONCAT ('%', #{searchText}, '%')
+				AND B.office_name LIKE CONCAT ('%', #{searchValue}, '%')
 			</if>
 			<if test="searchType eq 'route'">
-				C.start_route_name LIKE CONCAT ('%', #{searchText}, '%') OR C.end_route_name LIKE CONCAT ('%', #{searchText}, '%')
+				AND C.start_route_name LIKE CONCAT('%', #{searchValue}, '%') OR C.end_route_name LIKE CONCAT ('%', #{searchValue}, '%')
 			</if>
 			<if test="searchType eq 'driver'">
-				A.driver_name LIKE CONCAT ('%', #{searchText}, '%')
+				AND A.driver_name LIKE CONCAT ('%', #{searchValue}, '%')
 			</if>
 		</if>
 		ORDER BY A.driver_idx DESC
@@ -86,17 +86,17 @@
         ON A.driver_idx = C.driver_idx
         WHERE 1=1
         <if test="officeId > 0">
-            AND A.office_id = #{offceId}
+            AND A.office_id = #{officeId}
         </if>
         <if test="searchType != ''">
             <if test="searchType eq 'office'">
-                B.office_name LIKE CONCAT ('%', #{searchText}, '%')
+				AND B.office_name LIKE CONCAT ('%', #{searchValue}, '%')
             </if>
             <if test="searchType eq 'route'">
-                C.start_route_name LIKE CONCAT ('%', #{searchText}, '%') OR C.end_route_name LIKE CONCAT ('%', #{searchText}, '%')
+				AND C.start_route_name LIKE CONCAT ('%', #{searchValue}, '%') OR C.end_route_name LIKE CONCAT ('%', #{searchValue}, '%')
             </if>
             <if test="searchType eq 'driver'">
-                A.driver_name LIKE CONCAT ('%', #{searchText}, '%')
+				AND A.driver_name LIKE CONCAT ('%', #{searchValue}, '%')
             </if>
         </if>
     </select>

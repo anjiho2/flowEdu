@@ -26,6 +26,7 @@
     function modify_assist() {
 
         var check = new isCheck();
+        var assister_id = <%=assister_id%>;
         var busdriver_id  = <%=busdriver_id%>;
         var sel_academy = getSelectboxValue("sel_academy");
         var assister_name =  getInputTextValue("assister_name");//이름
@@ -57,10 +58,11 @@
 
         gfn_display("loadingbar", true);
 
-        if(confirm(comment.isSave)){
-            busService.saveDriverHelperInfo(busdriver_id, sel_academy, assister_name, allPhoneNum, birthDay, endDate, zip_code,
+        if(confirm(comment.isUpdate)){
+            busService.modifyDriverHelperInfo(assister_id, busdriver_id, sel_academy, assister_name, allPhoneNum, birthDay, endDate, zip_code,
                 assister_address, assister_address_detail, sexualAssultDay, state ,function () {
                     gfn_display("loadingbar", false);
+                    isReloadPage(true);
                 });
         }
 
@@ -69,7 +71,18 @@
     function getAssisterinfo() {
         var assister_id = <%=assister_id%>;
         busService.getDriverHelperInfo(assister_id, function (sel) {
-            console.log(sel);
+            innerValue("assister_name", sel.helperName);
+            innerValue("startDate", sel.birthDay);
+            innerValue("endDate", sel.regDate);
+            innerValue("zip_code", sel.zipCode);
+            innerValue("assister_address", sel.address);
+            innerValue("assister_address_detail", sel.addressDetail);
+            innerValue("sexualAssultDay", sel.sexualAssultConfirmDate);
+            fnSetPhoneNo("phoneNum1", "phoneNum2", "phoneNum3", sel.phoneNumber);
+            var state;
+            if(sel.serveYn == true) state = 1;
+            else state = 0;
+            $("#assister_state").val(state);
         });
     }
     
