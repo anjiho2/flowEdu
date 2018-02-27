@@ -17,8 +17,8 @@
     }
 
     function getBusDriverInfo() {
-        var busdriver_id = <%=driver_id%>;
-        busService.getDriverInfo(busdriver_id, function(sel) {
+        var driver_id = <%=driver_id%>;
+        busService.getDriverInfo(driver_id, function(sel) {
             searchAcademySelectbox("sel_academy", sel.officeId);//소속
             jobPositionSelectbox("sel_jobPosition", sel.jobPositionId);//직책
             innerValue("busDriver_name", sel.driverName);
@@ -43,7 +43,7 @@
 
     function modify_busDriver() {
         var check = new isCheck();
-        var busdriver_id    =  getInputTextValue("busdriver_id");
+        var driver_id    =  getInputTextValue("driver_id");
         var sel_academy     = getSelectboxValue("sel_academy");//소속
         var sel_jobPosition = getSelectboxValue("sel_jobPosition");//직책
         var dirver_name     = getInputTextValue("busDriver_name");
@@ -88,9 +88,9 @@
         if(check.input("sexualAssultDay", comment.input_member_startSearchDate)   == false) return;
 
         gfn_display("loadingbar", true);
-
+        alert(driver_id);
         if(confirm(comment.isUpdate)){
-            busService.modifyDriverInfo(busdriver_id, sel_academy, sel_jobPosition, dirver_name, allphoneNum, startDate, registerDate,
+            busService.modifyDriverInfo(driver_id, sel_academy, sel_jobPosition, dirver_name, allphoneNum, startDate, registerDate,
                 zip_code, driver_address, driver_address_detail, busNum, busPassNum, endDate, state_sel, sexualAssultDay, function () {
                     gfn_display("loadingbar", false);
                     isReloadPage(true);
@@ -104,13 +104,20 @@
         $("input, select, textarea").change(function () {
             isChange = true;
         });
+
+        /*$(".depth2").click(function (event) { //탭메뉴 변경시
+            alert(isChange);
+            if (confirm(comment.is_change_confirm)) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        });*/
+
         $('#registerDate').change(function () { //기사등록일기준 년차
             var registerDate = $("#registerDate").val();
             var driver_year  = getAnnual(registerDate);
             $("#driver_year").html(driver_year);
         });
-
-
     });
 
     function go_list() {
@@ -136,7 +143,7 @@
 </section>
 <section class="content">
     <form name="frm" method="get">
-        <input type="hidden" name="driver_id" value="<%=driver_id%>">
+        <input type="hidden" name="driver_id" id="driver_id" value="<%=driver_id%>">
         <input type="hidden" name="page_gbn" id="page_gbn">
     </form>
 
@@ -281,7 +288,7 @@
     }
 
     $(".sidebar-menu > li").eq(5).addClass("active");
-    $(".sidebar-menu > li:nth-child(6) > ul > li:nth-child(1) > a").addClass("on");
+    $(".sidebar-menu > li:nth-child(6) > ul > li:nth-child(2) > a").addClass("on");
 </script>
 </body>
 

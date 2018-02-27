@@ -248,7 +248,7 @@
     }
 
     $(".sidebar-menu > li").eq(5).addClass("active");
-    $(".sidebar-menu > li:nth-child(6) > ul > li:nth-child(1) > a").addClass("on");
+    $(".sidebar-menu > li:nth-child(6) > ul > li:nth-child(2) > a").addClass("on");
 </script>
 </body>
 
