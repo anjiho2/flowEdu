@@ -120,11 +120,12 @@ $(document).ready(function() {
                         <td colspan="3">
                             <div class="form-group row marginX">
                                 <div class="input-group date common" style="margin-right:10px;">
-                                </div>
+
                                 <input type="text" id="startDate" class="form-control date-picker">
                                 <span class="input-group-addon">
                                         <span class="fa fa-calendar"></span>
                                     </span>
+                                </div>
                                 <div class="input-group date common" style="margin-right:10px;">
                                     <input type="text" id="endDate" class="form-control date-picker">
                                     <span class="input-group-addon">
