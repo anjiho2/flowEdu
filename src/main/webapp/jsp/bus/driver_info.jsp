@@ -119,6 +119,25 @@
             var driver_year  = getAnnual(registerDate);
             $("#driver_year").html(driver_year);
         });
+        /*우편번호 레이아웃 숨기기*/
+        $(document).mousedown(function(e){
+            $('#layer').each(function(){
+                if( $(this).css('display') == 'block' ){
+                    var l_position = $(this).offset();
+                    l_position.right = parseInt(l_position.left) + ($(this).width());
+                    l_position.bottom = parseInt(l_position.top) + parseInt($(this).height());
+                    if( ( l_position.left <= e.pageX && e.pageX <= l_position.right )
+                        && ( l_position.top <= e.pageY && e.pageY <= l_position.bottom ) ){
+                        //alert( 'popup in click' );
+                    }
+                    else{
+                        //alert( 'popup out click' );
+                        $(this).hide("fast");
+                    }
+                }
+            });
+        });
+        /*우편번호 레이아웃 숨기기*/
     });
 
     function go_list() {
@@ -255,8 +274,8 @@
     </div>
 
 </section>
-<div id="layer" style="display:none;border:5px solid;position:fixed;width:500px;height:500px;left:50%;margin-left:-250px;top:50%;margin-top:-250px;overflow:hidden;z-index: 999">
-    <img src="http://i1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="closeDaumPostcode()">
+<div id="layer" style="display:none;border:1px solid;position:fixed;width:500px;height:500px;left:50%;margin-left:-250px;top:50%;margin-top:-250px;overflow:hidden;z-index: 999">
+    <img src="http://i1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1;display:none;" onclick="closeDaumPostcode()">
 </div>
 <%@include file="/common/jsp/footer.jsp" %>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>

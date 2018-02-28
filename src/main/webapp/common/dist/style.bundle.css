@@ -4663,6 +4663,17 @@ input[type=button].btn_wrap.blue{
     background-color: #03a9f4
 }
 
+input[type=button].btn_wrap.pack{
+    height: 36px;
+    padding: 0 10px;
+    color: #fff;
+    background-color: #515356;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    min-width: 100px
+}
+
 button.btn_pack {
     height: 36px;
     padding: 0 10px;

@@ -209,6 +209,26 @@
         $("input, select, textarea").change(function () {
             isChange = true;
         });
+
+        /*우편번호 레이아웃 숨기기*/
+        $(document).mousedown(function(e){
+            $('#layer').each(function(){
+                if( $(this).css('display') == 'block' ){
+                    var l_position = $(this).offset();
+                    l_position.right = parseInt(l_position.left) + ($(this).width());
+                    l_position.bottom = parseInt(l_position.top) + parseInt($(this).height());
+                    if( ( l_position.left <= e.pageX && e.pageX <= l_position.right )
+                        && ( l_position.top <= e.pageY && e.pageY <= l_position.bottom ) ){
+                        //alert( 'popup in click' );
+                    }
+                    else{
+                        //alert( 'popup out click' );
+                        $(this).hide("fast");
+                    }
+                }
+            });
+        });
+        /*우편번호 레이아웃 숨기기*/
     });
 
     function go_list() {
@@ -273,19 +293,19 @@
                     </div>
                 </td>
             </tr>
+                </td>
             <tr>
                 <th>주소<b>*</b></th>
                 <td colspan="3">
                     <div class="form-group row">
                         <input type="text" class="form-control" id="zip_code" style="width: 10rem;" onclick="openDaumPostcode();" placeholder="우편번호">&nbsp;
-                        <button class="btn_pack" onclick="openDaumPostcode();">우편번호 검색</button>
+                        <%--<button class="btn_pack" onclick="openDaumPostcode();">우편번호 검색</button>--%>
+                        <input type="button" class="btn_wrap pack" value="우편번호 검색" onclick="openDaumPostcode();">
                     </div>
                     <div class="form-group row marginX">
                         <input type="text" class="form-control" id="academy_address">
                         <input type="text" class="form-control" id="academy_address_detail">
                     </div>
-
-                </td>
             </tr>
             <tr>
                 <th>메모</th>
@@ -339,8 +359,8 @@
 -->
 <!--원장명 검색 팝업 레이어 끝-->
 
-<div id="layer" style="display:none;border:5px solid;position:fixed;width:500px;height:500px;left:50%;margin-left:-250px;top:50%;margin-top:-250px;overflow:hidden;z-index: 999;">
-    <img src="//t1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="closeDaumPostcode()" alt="접기 버튼">
+<div id="layer" style="display:none;border:1px solid;position:fixed;width:500px;height:500px;left:50%;margin-left:-250px;top:50%;margin-top:-250px;overflow:hidden;z-index: 999;">
+    <img src="//t1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1;display:none;" onclick="closeDaumPostcode()" alt="접기 버튼">
 </div>
 <%@include file="/common/jsp/footer.jsp" %>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
