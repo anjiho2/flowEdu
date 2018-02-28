@@ -35,6 +35,7 @@
         var busNum =  getInputTextValue("busNum");//차량변호
         var busPassNum = getInputTextValue("busPassNum");//승차정원
         var endDate = getInputTextValue("endDate");//안전필증
+        var serveYn = getSelectboxValue("sel_serveYn");
 
         if(sel_academy == ''){
             alert(comment.input_member_academy);
@@ -60,10 +61,10 @@
 
         if(confirm(comment.isSave)){
             busService.saveDriverInfo(sel_academy, sel_jobPosition, dirver_name, allphoneNum, startDate, registerDate,
-                zip_code, driver_address, driver_address_detail, busNum, busPassNum, endDate, true, sexualAssultDay, function () {
+                zip_code, driver_address, driver_address_detail, busNum, busPassNum, endDate, serveYn, sexualAssultDay, function () {
                     gfn_display("loadingbar", false);
                     goPage('bus', 'bus_info');
-        });
+            });
         }
     }
 
@@ -129,9 +130,9 @@
                 <th>핸드폰번호<b>*</b></th>
                 <td>
                     <div class="form-group row marginX">
-                        <input type="number" size="3" class="form-control" maxlength="3" max="999" id="phoneNum1">&nbsp;-&nbsp;
-                        <input type="number" size="4" class="form-control" maxlength="4" max="9999" id="phoneNum2">&nbsp;-&nbsp;
-                        <input type="number" size="4" class="form-control" maxlength="4" max="9999" id="phoneNum3">
+                        <input type="number" size="3" class="form-control" maxlength="3" max="999" id="phoneNum1" onkeyup="js_tab_order(this,'phoneNum2',3)">&nbsp;-&nbsp;
+                        <input type="number" size="4" class="form-control" maxlength="4" max="9999" id="phoneNum2" onkeyup="js_tab_order(this,'phoneNum3',4)">&nbsp;-&nbsp;
+                        <input type="number" size="4" class="form-control" maxlength="4" max="9999" id="phoneNum3" onkeyup="js_tab_order(this,'startDate',4)">
                     </div>
                 </td>
             </tr>
@@ -189,7 +190,7 @@
                 </td>
                 <th>상태<b>*</b></th>
                 <td>
-                    <select class="form-control">
+                    <select id="sel_serveYn" class="form-control">
                         <option value="">선택</option>
                         <option value="1">재직</option>
                         <option value="0">퇴사</option>

@@ -88,7 +88,7 @@
         if(check.input("sexualAssultDay", comment.input_member_startSearchDate)   == false) return;
 
         gfn_display("loadingbar", true);
-        alert(driver_id);
+
         if(confirm(comment.isUpdate)){
             busService.modifyDriverInfo(driver_id, sel_academy, sel_jobPosition, dirver_name, allphoneNum, startDate, registerDate,
                 zip_code, driver_address, driver_address_detail, busNum, busPassNum, endDate, state_sel, sexualAssultDay, function () {
@@ -96,6 +96,7 @@
                     isReloadPage(true);
                 });
         }
+        isReloadPage(true);
     }
 
     var isChange = false;
@@ -169,9 +170,9 @@
                 <th>핸드폰번호<b>*</b></th>
                 <td>
                     <div class="form-group row marginX">
-                        <input type="number" size="3" class="form-control" maxlength="3" max="999" id="phoneNum1">&nbsp;-&nbsp;
-                        <input type="number" size="4" class="form-control" maxlength="4" max="9999" id="phoneNum2">&nbsp;-&nbsp;
-                        <input type="number" size="4" class="form-control" maxlength="4" max="9999" id="phoneNum3">
+                        <input type="number" size="3" class="form-control" maxlength="3" max="999" id="phoneNum1" onkeyup="js_tab_order(this,'phoneNum2',3)">&nbsp;-&nbsp;
+                        <input type="number" size="4" class="form-control" maxlength="4" max="9999" id="phoneNum2" onkeyup="js_tab_order(this,'phoneNum3',4)">&nbsp;-&nbsp;
+                        <input type="number" size="4" class="form-control" maxlength="4" max="9999" id="phoneNum3" onkeyup="js_tab_order(this,'startDate',4)">
                     </div>
                 </td>
             </tr>

@@ -11,7 +11,7 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/busService.js'></script>
 <script>
     function init() {
-        gfn_emptyView("V", comment.search_member);
+        gfn_emptyView("V", "통학도우미가 없습니다.");
         var busdriver_id = <%=driver_id%>;
 
         busService.getDriverHelperList(busdriver_id, function (list) {

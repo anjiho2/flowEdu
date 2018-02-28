@@ -62,7 +62,7 @@ public class DriverInfoDto {
         this.jobPositionId = jobPositionId;
         this.driverName = driverName;
         this.phoneNumber = phoneNumber;
-        this.birthDay = birthDay;
+        this.birthDay = birthDay.equals("") ? null : birthDay;
         this.regDate = regDate;
         this.zipCode = zipCode;
         this.address = address;

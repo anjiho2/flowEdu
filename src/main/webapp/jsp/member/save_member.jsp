@@ -157,9 +157,9 @@
                     <th>핸드폰번호<b>*</b></th>
                     <td>
                         <div class="form-group row marginX">
-                            <input type="number" size="3" class="form-control" maxlength="3" max="999" id="member_phone1">&nbsp;-&nbsp;
-                            <input type="number" size="4" class="form-control" maxlength="4" max="9999" id="member_phone2">&nbsp;-&nbsp;
-                            <input type="number" size="4" class="form-control" maxlength="4" max="9999" id="member_phone3">
+                            <input type="number" size="3" class="form-control" maxlength="3" max="999" id="member_phone1" onkeyup="js_tab_order(this,'member_phone2',3)">&nbsp;-&nbsp;
+                            <input type="number" size="4" class="form-control" maxlength="4" max="9999" id="member_phone2" onkeyup="js_tab_order(this,'member_phone3',4)">&nbsp;-&nbsp;
+                            <input type="number" size="4" class="form-control" maxlength="4" max="9999" id="member_phone3" onkeyup="js_tab_order(this,'member_email',4)">
                         </div>
                     </td>
                 </tr>

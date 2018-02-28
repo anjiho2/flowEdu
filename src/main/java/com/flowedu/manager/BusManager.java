@@ -40,7 +40,9 @@ public class BusManager {
     @Transactional(propagation = Propagation.REQUIRED)
     public void modifyRoute(BusInfoDto busInfoDto, List<BusAttendTimeDto> busAttendTimeDtoList, BusDismissTimeDto busDismissTimeDto) {
         if (busInfoDto == null) return;
+        //버스 기본정보 수정
         busService.modifyBusInfo(busInfoDto);
+        //등원 시간정보 입력 및 수정
         if (busAttendTimeDtoList.size() > 0) {
             for (BusAttendTimeDto attendTimeDto : busAttendTimeDtoList) {
                 if (attendTimeDto.getBusAttendTimeIdx() == null) {
@@ -49,7 +51,12 @@ public class BusManager {
             }
             busService.modifyBusAttendTime(busAttendTimeDtoList);
         }
-        busService.modifyBusDismissTime(busDismissTimeDto);
+        //하원 시간정보 입력 및 수정
+        if (busDismissTimeDto.getBusDismissTimeIdx() == null) {
+            busService.saveBusDismissInfo(busInfoDto.getBusIdx(), busDismissTimeDto);
+        } else {
+            busService.modifyBusDismissTime(busDismissTimeDto);
+        }
     }
 
     public void test() {

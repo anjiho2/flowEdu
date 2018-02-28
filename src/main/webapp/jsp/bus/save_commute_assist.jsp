@@ -62,8 +62,9 @@
                     isReloadPage(true);
                     gfn_display("loadingbar", false);
             });
+        } else {
+            gfn_display("loadingbar", false);
         }
-
     }
 
     var isChange = false;
@@ -133,9 +134,9 @@
                 <th>핸드폰번호<b>*</b></th>
                 <td>
                     <div class="form-group row marginX">
-                        <input type="number" size="3" class="form-control" maxlength="3" max="999" id="phoneNum1">&nbsp;-&nbsp;
-                        <input type="number" size="4" class="form-control" maxlength="4" max="9999" id="phoneNum2">&nbsp;-&nbsp;
-                        <input type="number" size="4" class="form-control" maxlength="4" max="9999" id="phoneNum3">
+                        <input type="number" size="3" class="form-control" maxlength="3" max="999" id="phoneNum1" onkeyup="js_tab_order(this,'phoneNum2',3)">&nbsp;-&nbsp;
+                        <input type="number" size="4" class="form-control" maxlength="4" max="9999" id="phoneNum2" onkeyup="js_tab_order(this,'phoneNum3',4)">&nbsp;-&nbsp;
+                        <input type="number" size="4" class="form-control" maxlength="4" max="9999" id="phoneNum3" onkeyup="js_tab_order(this,'startDate',4)">
                     </div>
                 </td>
             </tr>

@@ -16,6 +16,7 @@
 
     function init() {
         gfn_emptyView("V", comment.reg_add_btn_stop_station);
+        gfn_emptyView2("V", comment.reg_add_btn_stop_station);
     }
     //추가버튼
     function trans_attendTime() {
@@ -211,6 +212,12 @@
             });
         }
     }
+
+    function dismissAddBtn() {
+        var trLen = $("#dataList2 tr").length;
+        gfn_emptyView2("H", "");
+        gfn_display("dataList2", true);
+    }
 </script>
 <body onload="init();">
 <div id="loadingbar" class="loadingbar" style="display:none;">
@@ -312,7 +319,7 @@
                             <th>6T</th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="dataList2" style="display: none;">
                         <tr>
                             <td>정차위치는 등원과 반대로 적용</td>
                             <td><input type="text" id="l_dismissFirstTime" class="form-control"></td>
@@ -324,6 +331,14 @@
                         </tr>
                         </tbody>
                     </table>
+                    <table>
+                        <tr>
+                            <td id="emptys2" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
+                        </tr>
+                    </table>
+                    <div>
+                        <button class="btn_pack blue float-right" onclick="dismissAddBtn();">추가</button>
+                    </div>
                 </td>
             </tr>
             <tr>

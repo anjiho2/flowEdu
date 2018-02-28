@@ -78,16 +78,22 @@
             });
             $.timepicker.setDefaults($.timepicker.regional['ko']);
 
-            innerValue("busDismissTimeId", routeInfo.busDismissTimeIdx);
-            innerValue("l_dismissFirstTime", routeInfo.dismissFirstTime);
-            innerValue("l_dismissSecondTime", routeInfo.dismissSecondTime);
-            innerValue("l_dismissThirdTime", routeInfo.dismissThirdTime);
-            innerValue("l_dismissFourthTime", routeInfo.dismissFourthTime);
-            innerValue("l_dismissFifthTime", routeInfo.dismissFifthTime);
-            innerValue("l_dismissSixthTime", routeInfo.dismissSixthTime);
-            innerValue("startDate", routeInfo.applyStartDate);
-            innerValue("endDate", routeInfo.applyEndDate);
-            innerValue("memo", routeInfo.busMemo);
+            if (routeInfo.busDismissTimeIdx == null) {
+                gfn_emptyView2("V", comment.reg_add_btn_stop_station);
+            } else {
+                gfn_emptyView2("H", "");
+                gfn_display("dataList2", true);
+                innerValue("busDismissTimeId", routeInfo.busDismissTimeIdx);
+                innerValue("l_dismissFirstTime", routeInfo.dismissFirstTime);
+                innerValue("l_dismissSecondTime", routeInfo.dismissSecondTime);
+                innerValue("l_dismissThirdTime", routeInfo.dismissThirdTime);
+                innerValue("l_dismissFourthTime", routeInfo.dismissFourthTime);
+                innerValue("l_dismissFifthTime", routeInfo.dismissFifthTime);
+                innerValue("l_dismissSixthTime", routeInfo.dismissSixthTime);
+                innerValue("startDate", routeInfo.applyStartDate);
+                innerValue("endDate", routeInfo.applyEndDate);
+                innerValue("memo", routeInfo.busMemo);
+            }
         });
     }
     //추가버튼
@@ -227,6 +233,18 @@
             });
         }
     }
+
+    function dismissAddBtn() {
+        var dismissTimeId = getInputTextValue("busDismissTimeId");
+        var trLen = $("#dataList2 tr").length;
+        if (dismissTimeId == "") {
+            gfn_emptyView2("H", "");
+            gfn_display("dataList2", true);
+        } else {
+            alert("하원정보는 하나만 등록 가능합니다.");
+            return;
+        }
+    }
 </script>
 <body onload="init();">
 <div id="loadingbar" class="loadingbar" style="display:none;">
@@ -330,18 +348,26 @@
                             <th>6T</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <td>정차위치는 등원과 반대로 적용</td>
-                            <td><input type="text" id="l_dismissFirstTime" class="form-control"></td>
-                            <td><input type="text" id="l_dismissSecondTime" class="form-control"></td>
-                            <td><input type="text" id="l_dismissThirdTime" class="form-control"></td>
-                            <td><input type="text" id="l_dismissFourthTime" class="form-control"></td>
-                            <td><input type="text" id="l_dismissFifthTime" class="form-control"></td>
-                            <td><input type="text" id="l_dismissSixthTime" class="form-control"></td>
-                        </tr>
+                        <tbody id="dataList2" style="display: none;">
+                            <tr>
+                                <td>정차위치는 등원과 반대로 적용</td>
+                                <td><input type="text" id="l_dismissFirstTime" class="form-control"></td>
+                                <td><input type="text" id="l_dismissSecondTime" class="form-control"></td>
+                                <td><input type="text" id="l_dismissThirdTime" class="form-control"></td>
+                                <td><input type="text" id="l_dismissFourthTime" class="form-control"></td>
+                                <td><input type="text" id="l_dismissFifthTime" class="form-control"></td>
+                                <td><input type="text" id="l_dismissSixthTime" class="form-control"></td>
+                            </tr>
                         </tbody>
                     </table>
+                    <table>
+                        <tr>
+                            <td id="emptys2" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
+                        </tr>
+                    </table>
+                    <div>
+                        <button class="btn_pack blue float-right" onclick="dismissAddBtn();">추가</button>
+                    </div>
                 </td>
             </tr>
             <tr>
