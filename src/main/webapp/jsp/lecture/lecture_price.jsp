@@ -4,6 +4,10 @@
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
     int depth1 = 6;
     int depth2 = 3;
+
+    int siderMenuDepth1 = 4;
+    int siderMenuDepth2 = 0;
+    int siderMenuDepth3 = 0;
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>

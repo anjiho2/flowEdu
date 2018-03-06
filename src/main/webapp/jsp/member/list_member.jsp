@@ -2,8 +2,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
-    int depth1 = 5;
-    int depth2 = 1;
+
+    int siderMenuDepth1 = 5;
+    int siderMenuDepth2 = 6;
+    int siderMenuDepth3 = 1;
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
@@ -159,7 +161,3 @@ function member_modify(member_id) { //수정페이지 이동
 <%@include file="/common/jsp/footer.jsp" %>
 </body>
 </html>
-<script>
-    $(".sidebar-menu > li").eq(5).addClass("active");
-    $(".sidebar-menu > li:nth-child(6) > ul > li:nth-child(1) > a").addClass("on");
-</script>

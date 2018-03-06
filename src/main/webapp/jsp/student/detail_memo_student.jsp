@@ -4,6 +4,11 @@
 <%
     int depth1 = 2;
     int depth2 = 4;
+
+    int siderMenuDepth1 = 1;
+    int siderMenuDepth2 = 2;
+    int siderMenuDepth3 = 1;
+
     Long student_id = Long.parseLong(request.getParameter("student_id"));
     Long student_memo_id = Long.parseLong(request.getParameter("student_memo_id"));
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
@@ -179,7 +184,3 @@ function changeProccessYn() {
 </body>
 </form>
 </body>
-<script>
-    $(".sidebar-menu > li").eq(1).addClass("active");
-    $(".sidebar-menu > li:nth-child(2) > ul > li:nth-child(1) > a").addClass("on");
-</script>

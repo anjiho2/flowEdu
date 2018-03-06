@@ -2,8 +2,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
     Long member_id = Long.parseLong(request.getParameter("member_id"));
-    int depth1 = 5;
-    int depth2 = 2;
+
+    int siderMenuDepth1 = 5;
+    int siderMenuDepth2 = 6;
+    int siderMenuDepth3 = 1;
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>

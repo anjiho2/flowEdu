@@ -1,9 +1,11 @@
 <%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-    int depth1 = 2;
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
-    int det = 1;
+
+    int siderMenuDepth1 = 0;
+    int siderMenuDepth2 = 0;
+    int siderMenuDepth3 = 0;
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>

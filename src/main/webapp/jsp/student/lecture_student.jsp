@@ -4,9 +4,14 @@
 <%
     int depth1 = 2;
     int depth2 = 2;
+
     Long student_id = Long.parseLong(request.getParameter("student_id"));
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
     String student_name = StringUtil.convertParmeterStr(request.getParameter("student_name"), "UTF-8");
+
+    int siderMenuDepth1 = 1;
+    int siderMenuDepth2 = 2;
+    int siderMenuDepth3 = 1;
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
@@ -132,7 +137,3 @@ function lecture_apply() {
 </div>
 <%@include file="/common/jsp/footer.jsp" %>
 </body>
-<script>
-    $(".sidebar-menu > li").eq(1).addClass("active");
-    $(".sidebar-menu > li:nth-child(2) > ul > li:nth-child(1) > a").addClass("on");
-</script>

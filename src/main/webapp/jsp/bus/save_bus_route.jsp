@@ -3,8 +3,13 @@
 <%
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
     String driverId = Util.isNullValue(request.getParameter("driver_id"), "");
+
     int depth1 = 5;
     int depth2 = 3;
+
+    int siderMenuDepth1 = 5;
+    int siderMenuDepth2 = 6;
+    int siderMenuDepth3 = 2;
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
@@ -375,9 +380,6 @@
 <%@include file="/common/jsp/footer.jsp" %>
 
 <script>
-    $(".sidebar-menu > li").eq(5).addClass("active");
-    $(".sidebar-menu > li:nth-child(6) > ul > li:nth-child(2) > a").addClass("on");
-
     $( "#attendTimeList tbody" ).sortable( {
         update: function( event, ui ) {
             $(this).children().each(function(index) {

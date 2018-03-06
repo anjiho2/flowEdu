@@ -3,6 +3,10 @@
     //Long lecture_id = Long.parseLong(request.getParameter("lecture_id"));
     int depth1 = 5;
     int depth2 = 2;
+
+    int siderMenuDepth1 = 2;
+    int siderMenuDepth2 = 3;
+    int siderMenuDepth3 = 2;
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
@@ -195,7 +199,3 @@ $(document).ready(function() {
     </section>
 <%@include file="/common/jsp/footer.jsp" %>
 </body>
-<script>
-    $(".sidebar-menu > li").eq(2).addClass("active");
-    $(".sidebar-menu > li:nth-child(3) > ul > li:nth-child(2) > a").addClass("on");
-</script>

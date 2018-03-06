@@ -3,6 +3,10 @@
     Long lecture_id = Long.parseLong(request.getParameter("lecture_id"));
     int depth1 = 5;
     int depth2 = 2;
+
+    int siderMenuDepth1 = 4;
+    int siderMenuDepth2 = 0;
+    int siderMenuDepth3 = 0;
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>

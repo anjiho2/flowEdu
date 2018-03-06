@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
     int depth1 = 5;
+
+    int siderMenuDepth1 = 4;
+    int siderMenuDepth2 = 0;
+    int siderMenuDepth3 = 0;
+
     int lectureId = Integer.parseInt(request.getParameter("lecture_id"));
 %>
 <%@include file="/common/jsp/top.jsp" %>

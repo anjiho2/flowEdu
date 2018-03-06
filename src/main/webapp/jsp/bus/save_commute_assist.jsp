@@ -3,8 +3,13 @@
 <%
     Long driver_id = Long.parseLong(request.getParameter("driver_id"));
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
+
     int depth1 = 5;
     int depth2 = 2;
+
+    int siderMenuDepth1 = 5;
+    int siderMenuDepth2 = 6;
+    int siderMenuDepth3 = 2;
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
@@ -91,7 +96,7 @@
                     }
                     else{
                         //alert( 'popup out click' );
-                        $(this).hide("fast");
+     ``                   $(this).hide("fast");
                     }
                 }
             });

@@ -1,11 +1,13 @@
 <%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
+    int siderMenuDepth1 = 3;
+    int siderMenuDepth2 = 4;
+    int siderMenuDepth3 = 1;
+
     String officeId = Util.isNullValue(request.getParameter("office_id"), "");
     String savePath = ConfigHolder.getCertificateUploadsPath();
     String apiHost = ConfigHolder.getFlowEduApiUrl();
-    int depth1 = 3;
-    int depth2 = 2;
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
@@ -232,6 +234,7 @@
     });
 
     function go_list() {
+        alert("1");
         if(isChange) {
             if (confirm(comment.is_change_confirm)) {
                 goPage('academy', 'list_academy');
@@ -326,7 +329,7 @@
         </table>
         <input type="button" class="btn_wrap s2 blue" value="저장" onclick="modify_academy();">
         <%--<button class="btn_pack s2 blue" onclick="modify_academy();">저장</button>--%>
-        <button class="btn_pack s2 blue" id="list_btn" onclick="go_list();">목록</button>
+        <input type="button" class="btn_wrap s2 blue" value="목록" id="list_btn" onclick="goPage('academy', 'list_academy');"/>
     </div>
     </form>
 </section>
