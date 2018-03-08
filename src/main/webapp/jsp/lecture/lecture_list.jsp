@@ -2,15 +2,145 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
-    int depth1 = 6;
-    int depth2 = 1;
 
     int siderMenuDepth1 = 4;
-    int siderMenuDepth2 = 0;
-    int siderMenuDepth3 = 0;
+    int siderMenuDepth2 = 2;
+    int siderMenuDepth3 = 3;
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
+<script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
+<script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
+<script type="text/javascript">
+
+</script>
+
+<body onload="init();">
+<div class="container">
+    <%@include file="/common/jsp/titleArea.jsp" %>
+    <%--<%@include file="/common/jsp/member_top_menu.jsp" %>--%>
+    <div class="title-top">강의관리</div>
+</div>
+</section>
+<section class="content">
+    <h3 class="title_t1">강의관리</h3>
+    <form name="frm" method="get">
+        <input type="hidden" name="page_gbn" id="page_gbn">
+        <input type="hidden" id="sPage" value="<%=sPage%>">
+    </form>
+    <div class="tb_t1">
+        <table>
+            <tr>
+                <th>그룹</th>
+                <td>
+                    <select id="sel_memberType" class="form-control">
+                        <option value="">전체</option>
+                    </select>
+                </td>
+                <th>학원</th>
+                <td>
+                    <select  class="form-control">
+                        <option value="">전체</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>학교구분</th>
+                <td>
+                    <select class="form-control">
+                        <option value="">전체</option>
+                    </select>
+                </td>
+                <th>학년구분</th>
+                <td>
+                    <select  class="form-control">
+                        <option value="">전체</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th>과목구분</th>
+                <td>
+                    <select  class="form-control">
+                        <option value="">전체</option>
+                    </select>
+                </td>
+                <th>강의상태</th>
+                <td>
+                    <select id="sel_jobPosition" class="form-control">
+                        <option value="">전체</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <th>검색정보</th>
+                <td colspan="3">
+                    <div class="form-group row marginX">
+                        <select class="form-control select-space" id="sel_registe">
+                            <option value="name">이름</option>
+                            <option value="phone">핸드폰번호</option>
+                        </select>
+                        <input type="text" class="form-control" id="registe_info">
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <button class="btn_pack blue" onclick="fn_search('new')">검색</button>
+    </div>
+
+    <div class="tb_t1 top-space">
+        <table>
+            <thead>
+            <tr>
+                <th>No.</th>
+                <th>그룹</th>
+                <th>학원</th>
+                <th>강의</th>
+                <th>학교</th>
+                <th>학년</th>
+                <th>선생님</th>
+                <th>정원</th>
+                <th>상태</th>
+            </tr>
+            </thead>
+            <tbody id="dataList"></tbody>
+            <tr>
+                <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
+            </tr>
+        </table>
+        <button class="btn_pack blue s2" onclick="javascript:goPage('lecture', 'save_lecture')">등록</button>
+    </div>
+    <%@ include file="/common/inc/com_pageNavi.inc" %>
+</section>
+<%@include file="/common/jsp/footer.jsp" %>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureManager.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
@@ -104,8 +234,7 @@
 </script>
 <body onload="init();">
 <div class="container">
-    <%@include file="/common/jsp/titleArea.jsp" %>
-    <%@include file="/common/jsp/lecture_top_menu.jsp" %>
+
 </div>
 </section>
 <section class="content">
@@ -116,7 +245,7 @@
         <input type="hidden" name="lecture_id" id="lecture_id" value="">
         <input type="hidden" id="office_id" value="">
         <div class="form-group row"><!--검색-->
-            <div class="checkbox_t1">
+           <!--<div class="checkbox_t1">
                 <label id="sel_academy"></label>
                 <label id="sel_member"></label>
                 <label><input type="radio" name="school_type" value="elem_list" checked><span>초등학교</span></label>
@@ -127,7 +256,7 @@
             </div>
         </div>
         <div class="tb_t1"><!--리스트-->
-        <table>
+       <!-- <table>
             <colgroup>
                 <col width="*" />
                 <col width="*" />
@@ -160,9 +289,9 @@
                 <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
             </tr>
             <!--input type="button" value="삭제" onclick="Delete();">-->
-        </table>
+        <!--</table>
         <div class="form-group row"></div>
-        <%@ include file="/common/inc/com_pageNavi.inc" %>
+
     </div>
     </div>
     </form>

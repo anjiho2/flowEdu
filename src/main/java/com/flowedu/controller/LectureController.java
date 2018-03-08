@@ -37,8 +37,10 @@ public class LectureController {
             mvc.setViewName("/lecture/lecture_attend");
         }else if("lecture_attend_list".equals(page_gbn)) {
             mvc.setViewName("/lecture/lecture_attend_list");
-        }else if("assignment_list".equals(page_gbn)) {
-            mvc.setViewName("/assignment/assignment_list");
+        }else if("save_lecture".equals(page_gbn)) {
+            mvc.setViewName("/lecture/save_lecture");
+        }else if("assignment_detail".equals(page_gbn)) {
+            mvc.setViewName("/assignment/assignment_detail");
         }else if("assignment_info".equals(page_gbn)) {
             mvc.setViewName("/assignment/assignment_info");
         }else if("assignment_detail".equals(page_gbn)) {

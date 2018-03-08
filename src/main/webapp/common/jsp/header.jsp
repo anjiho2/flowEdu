@@ -33,7 +33,12 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="javascript:goPage('lecture', 'lecture_list')">경영관리</a>
+                    <a href="javascript:goPage('lecture', 'lecture_list')">강의관리</a>
+                    <ul class="sidebar-submenu">
+                        <li><a href=""><span class="fa far fa-calendar"></span>반관리</a></li>
+                        <li><a href=""><span class="fa far fa-credit-card"></span>수강료관리</a></li>
+                        <li><a href="javascript:goPage('lecture', 'lecture_list')"><span class="fa far fa-bell"></span>강의관리</a></li>
+                    </ul>
                 </li>
 
                 <li><a href="#">운영관리</a>
