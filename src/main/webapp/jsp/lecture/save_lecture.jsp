@@ -126,7 +126,7 @@
                 <th>종료일 *</th>
                 <td>
                     <div class="input-group date common">
-                        <input type="text" id="startDate" class="form-control date-picker">
+                        <input type="text" id="startDate1" class="form-control date-picker">
                         <span class="input-group-addon">
                                 <span class="fa fa-calendar"></span>
                             </span>
