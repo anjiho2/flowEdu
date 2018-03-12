@@ -5,8 +5,8 @@
     int depth2 = 2;
 
     int siderMenuDepth1 = 4;
-    int siderMenuDepth2 = 2;
-    int siderMenuDepth3 = 4;
+    int siderMenuDepth2 = 5;
+    int siderMenuDepth3 = 3;
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
@@ -44,6 +44,7 @@
                 <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
             </tr>
         </table>
+        <button class="btn_pack s2 blue" >저장</button>
         <button class="btn_pack s2 blue" onclick="javascript:goPage('lecture', 'save_schedule')">등록</button>
     </div>
 

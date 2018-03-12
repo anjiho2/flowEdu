@@ -4,7 +4,7 @@
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
 
     int siderMenuDepth1 = 3;
-    int siderMenuDepth2 = 4;
+    int siderMenuDepth2 = 1;
     int siderMenuDepth3 = 1;
 
 %>

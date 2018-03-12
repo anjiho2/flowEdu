@@ -3,6 +3,11 @@
 <%
     int depth1 = 2;
     int depth2 = 2;
+
+    int siderMenuDepth1 = 1;
+    int siderMenuDepth2 = 2;
+    int siderMenuDepth3 = 1;
+
     String newRegPhoneNumber = Util.isNullValue(request.getParameter("phone_number"), "");
     Boolean consultYn = Boolean.valueOf(Util.isNullValue(request.getParameter("consult_yn"), ""));
     String savePath = ConfigHolder.uploadRoot();

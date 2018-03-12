@@ -8,6 +8,10 @@
 
     int depth1 = 5;
     int depth2 = 2;
+
+    int siderMenuDepth1 = 2;
+    int siderMenuDepth2 = 2;
+    int siderMenuDepth3 = 2;
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>

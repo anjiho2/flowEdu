@@ -58,7 +58,7 @@
     </header>
 
 <script>
-    $.sidebarMenu($('.sidebar-menu'))
+    $.sidebarMenu($('.sidebar-menu'));
 
     $(".sidebar-menu > li").eq(<%=siderMenuDepth1%>).addClass("active");
     $(".sidebar-menu > li:nth-child(<%=siderMenuDepth2%>) > ul > li:nth-child(<%=siderMenuDepth3%>) > a").addClass("on");

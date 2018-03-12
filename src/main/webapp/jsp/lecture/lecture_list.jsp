@@ -4,15 +4,20 @@
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
 
     int siderMenuDepth1 = 4;
-    int siderMenuDepth2 = 2;
+    int siderMenuDepth2 = 5;
     int siderMenuDepth3 = 3;
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
+<script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
 <script type="text/javascript">
-
+    function init(val) {
+        schoolTypeSelectbox("l_schoolType", val);
+        schoolSelectbox("student_grade","", val);
+        searchAcademySelectbox("sel_academy",""); //소속
+    }
 </script>
 
 <body onload="init();">
@@ -39,23 +44,19 @@
                 </td>
                 <th>학원</th>
                 <td>
-                    <select  class="form-control">
+                    <select id="sel_academy" class="form-control">
                         <option value="">전체</option>
                     </select>
                 </td>
             </tr>
             <tr>
-                <th>학교구분</th>
+                <th>학교구분<b>*</b></th>
                 <td>
-                    <select class="form-control">
-                        <option value="">전체</option>
-                    </select>
+                    <span id="l_schoolType"></span>
                 </td>
-                <th>학년구분</th>
+                <th>학년구분<b>*</b></th>
                 <td>
-                    <select  class="form-control">
-                        <option value="">전체</option>
-                    </select>
+                    <span id="student_grade"></span>
                 </td>
             </tr>
             <tr>
@@ -116,28 +117,6 @@
 <%@include file="/common/jsp/footer.jsp" %>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <!--
 
