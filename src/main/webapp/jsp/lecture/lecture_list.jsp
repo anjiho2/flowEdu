@@ -4,8 +4,8 @@
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
 
     int siderMenuDepth1 = 4;
-    int siderMenuDepth2 = 2;
-    int siderMenuDepth3 = 3;
+    int siderMenuDepth2 = 1;
+    int siderMenuDepth3 = 1;
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
@@ -110,6 +110,8 @@
             </tr>
         </table>
         <button class="btn_pack blue s2" onclick="javascript:goPage('lecture', 'save_lecture')">등록</button>
+        <input type="button" value="강의실 팝업" class="btn_wrap s2 blue" onclick="javascript:goPage('template', 'classPopup')">
+
     </div>
     <%@ include file="/common/inc/com_pageNavi.inc" %>
 </section>

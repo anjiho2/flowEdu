@@ -31,6 +31,8 @@ public class FrontEndTemplateController {
             mvc.setViewName("/templates/viewDevelop");
         } else if("layer".equals(page_gbn)){
             mvc.setViewName("/templates/layer");
+        } else if ("classPopup".equals(page_gbn)) {
+            mvc.setViewName("/lecture/class_popup");
         }
         return mvc;
     }

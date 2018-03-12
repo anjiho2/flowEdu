@@ -1,6 +1,7 @@
 package com.flowedu.mapper;
 
 import com.flowedu.domain.CalcLecturePayment;
+import com.flowedu.domain.LectureSearch;
 import com.flowedu.dto.*;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,11 +21,9 @@ public interface LectureMapper {
 
     Integer getLecturePriceCount(@Param("lecturePrice") int lecturePrice);
 
-    List<LectureInfoDto> getLectureInfoList(@Param("start") int start, @Param("end") int end, @Param("officeId") Long officeId, @Param("flowMemberId") Long flowMemberId,
-                                            @Param("memberType") String memberType, @Param("chargeMemberId") Long chargeMemberId, @Param("schoolType") String schoolType, @Param("lectureGrade") int lectureGrade);
+    List<LectureInfoDto> getLectureInfoList(LectureSearch lectureSearch);
 
-    int getLectureInfoCount(@Param("officeId") Long officeId, @Param("flowMemberId") Long flowMemberId, @Param("memberType") String memberType,
-                            @Param("chargeMemberId") Long chargeMemberId, @Param("schoolType") String schoolType, @Param("lectureGrade") int lectureGrade);
+    int getLectureInfoCount(LectureSearch lectureSearch);
 
     List<LectureDetailDto> getLectureDetailInfoList(@Param("lectureId") Long lectureId);
 
@@ -61,6 +60,9 @@ public interface LectureMapper {
 
     List<AssignmentInfoDto> getAssignmentInfoList(@Param("assignmentIdx") Long assignmentIdx, @Param("lectureId") Long lectureId, @Param("useYn") boolean useYn,
                                                   @Param("startDate") String startDate, @Param("endDate") String endDate, @Param("memberName") String memberName);
+
+    List<LectureRoomDto>selectLecutreRoomRegSuccess(@Param("lectureDay") String lectureDay, @Param("startTime") String startTime,
+                                                     @Param("endTime") String endTime, @Param("officeId") Long officeId);
 
     /** INSERT **/
     void saveLectureRoom(@Param("officeId") Long officeId, @Param("lectureRoomName") String lectureRoomName);

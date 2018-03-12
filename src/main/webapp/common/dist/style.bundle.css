@@ -6035,6 +6035,66 @@ ul.list_t2 button.confirm {
     width: 13%;
 }
 
+.class_btn {
+    display: inline-block;
+    padding: .375rem 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+}
+
+.class_btn_block {
+    display: block;
+    width: 100%;
+}
+
+.class_btn_success {
+    color: #000000;
+    background-color: #FFFFFF;
+    border-color: #000000;
+}
+
+.class_btn_danger {
+    color: #FFFFFF;
+    background-color: #03a9f4;
+    border-color: #000000;
+    font-weight: bolder;
+}
+
+.class_btn_checked {
+    color: #FFFFFF;
+    background-color: #515357;
+    border-color: #000000;
+    font-weight: bolder;
+}
+
+.class_btn_default {
+    background-color: #FFFFFF;
+    border-color: #000000;
+    pointer-events:none;
+    display:block;
+}
+
+
+[data-toggle=buttons]>.class_btn input[type=checkbox], [data-toggle=buttons]>.btn input[type=radio], [data-toggle=buttons]>.btn-group>.btn input[type=checkbox], [data-toggle=buttons]>.btn-group>.btn input[type=radio] {
+    position: absolute;
+    clip: rect(0,0,0,0);
+    pointer-events: none;
+}
+
+
+
+
 /*index 반응형*/
 @media screen and (max-device-width: 500px) {
     /*#header{*/

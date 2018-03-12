@@ -3,6 +3,7 @@ package com.flowedu.service;
 import com.flowedu.config.PagingSupport;
 import com.flowedu.define.datasource.*;
 import com.flowedu.domain.CalcLecturePayment;
+import com.flowedu.domain.LectureSearch;
 import com.flowedu.dto.*;
 import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
@@ -191,10 +192,22 @@ public class LectureService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public List<LectureInfoDto> getLectureInfoList(int sPage, int pageListCount, Long officeId, Long chargeMemberId, String schoolType, int lectureGrade) {
+    public List<LectureInfoDto> getLectureInfoList(int sPage, int pageListCount, int groupId, Long officeId, String schoolType,
+                                                   int schoolGrade, String lectureSubject, String lectureStatus, String searchType, String searchValue) {
         PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
-        List<LectureInfoDto> Arr = lectureMapper.getLectureInfoList(
-                pagingDto.getStart(), pageListCount, officeId, UserSession.flowMemberId(), UserSession.memberType(), chargeMemberId, schoolType, lectureGrade);
+        LectureSearch lectureSearch = new LectureSearch(
+                pagingDto.getStart(),
+                pageListCount,
+                groupId,
+                officeId,
+                schoolType,
+                schoolGrade,
+                lectureSubject,
+                lectureStatus,
+                searchType,
+                searchValue
+        );
+        List<LectureInfoDto> Arr = lectureMapper.getLectureInfoList(lectureSearch);
         return Arr;
     }
 
@@ -207,8 +220,21 @@ public class LectureService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public int getLectureInfoCount(Long officeId, Long chargeMemberId, String schoolType, int lectureGrade) {
-        return lectureMapper.getLectureInfoCount(officeId, UserSession.flowMemberId(), UserSession.memberType(), chargeMemberId, schoolType, lectureGrade);
+    public int getLectureInfoCount(int groupId, Long officeId, String schoolType, int schoolGrade, String lectureSubject,
+                                   String lectureStatus, String searchType, String searchValue) {
+        LectureSearch lectureSearch = new LectureSearch(
+                0,
+                0,
+                groupId,
+                officeId,
+                schoolType,
+                schoolGrade,
+                lectureSubject,
+                lectureStatus,
+                searchType,
+                searchValue
+        );
+        return lectureMapper.getLectureInfoCount(lectureSearch);
     }
 
     /**
@@ -513,6 +539,17 @@ public class LectureService extends PagingSupport {
                 Util.isNullValue(endDate, ""),
                 Util.isNullValue(memberName, "")
         );
+    }
+
+    @Transactional(readOnly = true)
+        public List<LectureRoomDto>getLectureRoomListByRegSuccess(Long officeId, String lectureDay, String startTime, String endTime) throws Exception {
+        /*String lectureDay = LectureDay.getLectureDayCode(
+                DateUtils.getDateDay(
+                        Util.returnToDate(DateUtils.DF_DATE_PATTERN), DateUtils.DF_DATE_PATTERN
+                ) - 1
+        ).toString();
+        */
+        return lectureMapper.selectLecutreRoomRegSuccess(lectureDay, startTime, endTime, officeId);
     }
 
     /**

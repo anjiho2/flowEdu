@@ -4,10 +4,7 @@
     int depth2 = 5;
 %>
 <%@include file="/common/jsp/top.jsp" %>
-<%@include file="/common/jsp/header.jsp" %>
     <div class="container">
-        <%@include file="/common/jsp/titleArea.jsp" %>
-        <%@include file="/common/jsp/depth_menu.jsp" %>
             </div>
         </section>
         <section class="content">

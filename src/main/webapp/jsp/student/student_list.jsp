@@ -25,7 +25,7 @@
         var paging = new Paging();
         var sPage = $("#sPage").val();
         var school_type = get_radio_value("school_type");
-        //var school_type = "high_list";
+        //varR school_type = "high_list";
         var student_name = getInputTextValue("student_name");
 
         if(val == "new") sPage = "1";

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/common/jsp/top.jsp" %>
-<script type="text/javascript" src="http://jsgetip.appspot.com"></script>
+<script type='text/javascript' src="<%=webRoot%>/js/jquery.seat-charts.min.js"></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/loginService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
@@ -10,7 +10,7 @@
     function loginCheck() {
         var memberId = getInputTextValue("loginMemberId");
         var pass = getInputTextValue("memberPass");
-        var connectIp = ip();
+        var connectIp = "";
 
         if (check.input("loginMemberId", comment.insert_id) == false) return;
         if (check.input("memberPass", comment.insert_password) == false) return;
@@ -142,37 +142,6 @@
             </form>
         </div>
     </div>
-    <!-- 비밀번호 찾기 레이어 시작 -->
-<%--<div class="layer_popup_template apt_request_layer" id="test_layer" style="display: none;">--%>
-<%--<div class="layer-title">--%>
-<%--<h3>비밀번호 찾기</h3>--%>
-<%--<button class="fa fa-close btn-close"></button>--%>
-<%--</div>--%>
-<%--<div class="layer-body">--%>
-<%--<form name="pop_frm" class="form_st1">--%>
-<%--<div class="cont">--%>
-<%--<div class="form-group row">--%>
-<%--<div class="inputs">--%>
-<%--<input type="text" size="2" id="student_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this, pop_frm.student_phone2, 3)" placeholder="핸드폰 번호">&nbsp;-&nbsp;--%>
-<%--<input type="text" size="5" id="student_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this, pop_frm.student_phone3, 4)">&nbsp;-&nbsp;--%>
-<%--<input type="text" size="5" id="student_phone3" class="form-control" maxlength="4">--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--<div class="form-group"><div><input type="email" class="form-control" id="member_email" placeholder="이메일"></div></div>--%>
-<%--<div class="form-group row" id="temporaryPassword_div" style="display: none;">--%>
-<%--<label>임시비밀번호</label>--%>
-<%--<span id="l_temporaryPassword"></span>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</form>--%>
-<%--<div class="bot_btns_t1">--%>
-<%--<button class="btn_pack btn-close">취소</button>--%>
-<%--<button class="btn_pack blue" type="button" onclick="find_password();">찾기</button>--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--</div>--%>
-<!-- 비밀번호 찾기 레이어 끝 -->
-
 <!--아이디 찾기 레이어 시작-->
     <div class="layer_popup_template apt_request_layer loginpopup" id="IdFindLayer" style="display: none;">
         <div class="layer-title">
@@ -233,6 +202,38 @@
 <%--<iframe width="420" height="315"--%>
         <%--src="https://www.youtube.com/embed/Gj5DQ8NZheY">--%>
 <%--</iframe>--%>
+        <%--<div data-toggle="buttons">--%>
+            <%--<label class="class_btn class_btn_block class_btn_checked" id="label_1" data-book="1">--%>
+                <%--<input type="checkbox" name="oil" checked autocomplete="off"> Oil--%>
+            <%--</label>--%>
+            <%--<label class="class_btn class_btn_block class_btn_success">--%>
+                <%--<input type="checkbox" name="coolant" checked autocomplete="off"> Coolant--%>
+            <%--</label>--%>
+            <%--<label class="class_btn class_btn_block class_btn_success">--%>
+                <%--<input type="checkbox" name="breakfluid" checked autocomplete="off"> Break Fluid--%>
+            <%--</label>--%>
+            <%--<label class="class_btn class_btn_block class_btn_success">--%>
+                <%--<input type="checkbox" name="screenwash" checked autocomplete="off"> Screen Wash--%>
+            <%--</label>--%>
+            <%--<label class="class_btn class_btn_block class_btn_checked">--%>
+                <%--<input type="checkbox"  name="leaks" checked autocomplete="off"> No Leaks--%>
+            <%--</label>--%>
+            <%--<label class="class_btn class_btn_block class_btn_success">--%>
+                <%--<input type="checkbox" name="tyres" checked autocomplete="off"> Tyres--%>
+            <%--</label>--%>
+            <%--<label class="class_btn class_btn_block class_btn_success">--%>
+                <%--<input type="checkbox" name="wiperblades" checked autocomplete="off"> Wiper Blades--%>
+            <%--</label>--%>
+            <%--<label class="class_btn class_btn_block class_btn_success">--%>
+                <%--<input type="checkbox" name="lights" checked autocomplete="off"> Lights--%>
+            <%--</label>--%>
+            <%--<label class="class_btn class_btn_block class_btn_success">--%>
+                <%--<input type="checkbox" name="indicators" checked autocomplete="off"> Indicators--%>
+            <%--</label>--%>
+            <%--<label class="class_btn class_btn_block class_btn_success">--%>
+                <%--<input type="checkbox" name="cleanliness" checked autocomplete="off"> Cleanliness--%>
+            <%--</label>--%>
+    <%--</div>--%>
 <%
     } else {
         System.out.print("========================================");

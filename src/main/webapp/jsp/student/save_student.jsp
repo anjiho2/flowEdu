@@ -3,10 +3,15 @@
 <%
     int depth1 = 2;
     int depth2 = 2;
+
     String newRegPhoneNumber = Util.isNullValue(request.getParameter("phone_number"), "");
     Boolean consultYn = Boolean.valueOf(Util.isNullValue(request.getParameter("consult_yn"), ""));
     String savePath = ConfigHolder.uploadRoot();
     String apiHost = ConfigHolder.getFlowEduApiUrl();
+
+    int siderMenuDepth1 = 1;
+    int siderMenuDepth2 = 2;
+    int siderMenuDepth3 = 1;
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
@@ -555,7 +560,3 @@
 </div>
 <%@include file="/common/jsp/footer.jsp" %>
 </body>
-<script>
-    $(".sidebar-menu > li").eq(1).addClass("active");
-    $(".sidebar-menu > li:nth-child(2) > ul > li:nth-child(1) > a").addClass("on");
-</script>

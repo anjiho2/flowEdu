@@ -104,12 +104,14 @@ var comment = {
 		input_dismiss_time : "하원시간을 입력하세요.",
 		input_apply_start_date : "적용시간 시작일을 입력하세요.",
     	input_apply_end_date : "적용시간 종료일을 입력하세요.",
-
+		input_lecture_start_time : "강의시작시간을 입력하세요.",
+    	input_lecture_end_time : "강의종료시간을 입력하세요.",
 
 		payment_error : "결제결과 에러가 발생되었습니다.",
 		select_installMent : "할부개월을 선택해주세요.",
 		select_cash_receipt_type : "현금영수증을 선택해주세요.",
 		select_consult_type : "상담유형을 선택해주세요.",
+		select_day : "요일을 선택해주세요.",
 
 		file_name_not_allow_korean : "파일명이 한글입니다. 영문으로 바꿔주세요.",
 		file_extension_not_allow : "파일확장자는 'JPG, GIF'만 가능합니다.",

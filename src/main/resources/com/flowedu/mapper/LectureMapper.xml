@@ -31,56 +31,72 @@
 	</select>
 
 	<select id="getLectureInfoList" resultType="com.flowedu.dto.LectureInfoDto">
-		SELECT A.*, B.member_name as charge_member_name, C.member_name as manage_member_name,
-			   D.office_name, E.lecture_price,
-			   (SELECT count(lecture_rel_id) FROM LECTURE_STUDENT_REL WHERE lecture_id = A.lecture_id) as reg_count
+		SELECT F.academy_group_name, A.lecture_id, D.office_name, A.lecture_name, A.school_type, A.lecture_grade, B.member_name, A.lecture_status,
+				(SELECT count(lecture_rel_id) FROM LECTURE_STUDENT_REL WHERE lecture_id = A.lecture_id) as reg_count
 		FROM LECTURE_INFO A LEFT JOIN FLOWEDU_MEMBER B
 		ON A.charge_member_id = B.flow_member_id LEFT JOIN FLOWEDU_MEMBER C
 		ON A.manage_member_id = C.flow_member_id LEFT JOIN OFFICE D
 		ON A.office_id = D.office_id LEFT JOIN LECTURE_PRICE E
-		ON A.lecture_price_id = E.lecture_price_id
+		ON A.lecture_price_id = E.lecture_price_id LEFT JOIN ACADEMY_GROUP F
+		ON D.academy_group_id = F.academy_group_id
 		WHERE 1=1
+		<if test="academyGroupId > 0">
+			AND F.academy_group_id = #{academyGroupId}
+		</if>
 		<if test="officeId > 0">
-			AND  A.office_id = #{officeId}
+			AND A.office_id = #{officeId}
 		</if>
-		<if test="memberType == 'TEACHER' or memberType == 'TEACHER_MANAGE'">
-			AND A.charge_member_id = #{flowMemberId} OR A.manage_member_id = #{flowMemberId}
-		</if>
-        <if test="chargeMemberId > 0">
-            AND A.charge_member_id = #{chargeMemberId}
-        </if>
-        <if test="schoolType != ''">
-            AND A.school_type = #{schoolType}
-        </if>
-		<if test="lectureGrade > 0">
-			AND A.lecture_grade = #{lectureGrade}
-		</if>
-		LIMIT #{start}, #{end}
-	</select>
-
-	<select id="getLectureInfoCount" resultType="Integer">
-		SELECT count(A.lecture_id)
-		FROM LECTURE_INFO A LEFT JOIN FLOWEDU_MEMBER B
-		ON A.charge_member_id = B.flow_member_id LEFT JOIN FLOWEDU_MEMBER C
-		ON A.manage_member_id = C.flow_member_id LEFT JOIN OFFICE D
-		ON A.office_id = D.office_id LEFT JOIN LECTURE_PRICE E
-		ON A.lecture_price_id = E.lecture_price_id
-		WHERE 1=1
-        <if test="officeId > 0">
-            AND  A.office_id = #{officeId}
-        </if>
-        <if test="memberType == 'TEACHER' or memberType == 'TEACHER_MANAGE'">
-            AND A.charge_member_id = #{flowMemberId} OR A.manage_member_id = #{flowMemberId}
-        </if>
-        <if test="chargeMemberId > 0">
-            AND A.charge_member_id = #{chargeMemberId}
-        </if>
 		<if test="schoolType != ''">
 			AND A.school_type = #{schoolType}
 		</if>
 		<if test="lectureGrade > 0">
 			AND A.lecture_grade = #{lectureGrade}
 		</if>
+		<if test="lectureSubject != ''">
+			AND A.lecture_subject = #{lectureSubject}
+		</if>
+		<if test="lectureStatus != ''">
+			AND A.lecture_status = #{lectureStatus}
+		</if>
+		<if test="searchType != ''">
+			<if test="searchValue != ''">
+				AND A.lecture_name LIKE CONCAT ('%', #{searchValue}, '%')
+			</if>
+		</if>
+		LIMIT #{start}, #{end}
+	</select>
+
+	<select id="getLectureInfoCount" resultType="Integer">
+        SELECT count(A.lecture_id) FROM LECTURE_INFO A LEFT JOIN FLOWEDU_MEMBER B
+        ON A.charge_member_id = B.flow_member_id LEFT JOIN FLOWEDU_MEMBER C
+        ON A.manage_member_id = C.flow_member_id LEFT JOIN OFFICE D
+        ON A.office_id = D.office_id LEFT JOIN LECTURE_PRICE E
+        ON A.lecture_price_id = E.lecture_price_id LEFT JOIN ACADEMY_GROUP F
+        ON D.academy_group_id = F.academy_group_id
+        WHERE 1=1
+        <if test="academyGroupId > 0">
+            AND F.academy_group_id = #{academyGroupId}
+        </if>
+        <if test="officeId > 0">
+            AND A.office_id = #{officeId}
+        </if>
+        <if test="schoolType != ''">
+            AND A.school_type = #{schoolType}
+        </if>
+        <if test="lectureGrade > 0">
+            AND A.lecture_grade = #{lectureGrade}
+        </if>
+        <if test="lectureSubject != ''">
+            AND A.lecture_subject = #{lectureSubject}
+        </if>
+        <if test="lectureStatus != ''">
+            AND A.lecture_status = #{lectureStatus}
+        </if>
+        <if test="searchType != ''">
+            <if test="searchValue != ''">
+                AND A.lecture_name LIKE CONCAT ('%', #{searchValue}, '%')
+            </if>
+        </if>
 	</select>
 
 	<select id="getLectureDetailInfoList" parameterType="Long" resultType="com.flowedu.dto.LectureDetailDto">
@@ -287,6 +303,26 @@
 		</if>
     </select>
 
+	<select id="selectLecutreRoomRegSuccess" resultType="com.flowedu.dto.LectureRoomDto">
+		SELECT A.lecture_room_id, A.lecture_room_name, A.room_limit_student,
+		(
+			SELECT count(lecture_detail_id) as cnt
+			FROM LECTURE_DETAIL_INFO C LEFT JOIN LECTURE_INFO B
+			ON C.lecture_id = B.lecture_id
+			WHERE C.lecture_room_id = A.lecture_room_id
+			AND DATE_FORMAT(now(), '%Y-%m-%d') BETWEEN B.lecture_start_date AND B.lecture_end_date
+			AND lecture_day = #{lectureDay}
+			<![CDATA[
+			AND TIME_TO_SEC(TIME(start_time)) < TIME_TO_SEC(TIME(#{endTime}))
+			]]>
+			AND TIME_TO_SEC(TIME(end_time)) > TIME_TO_SEC(TIME(#{startTime}))
+		) as cnt
+		FROM LECTURE_ROOM_INFO A
+		WHERE A.office_id = #{officeId}
+		ORDER BY lecture_room_name ASC
+
+	</select>
+
 	<insert id="saveLectureRoom">
 		INSERT INTO LECTURE_ROOM_INFO
 		(office_id, lecture_room_name)
@@ -304,13 +340,13 @@
 		(
 			office_id, charge_member_id, manage_member_id, lecture_price_id, lecture_name,
 			lecture_subject, lecture_grade, lecture_level, lecture_operation_type,
-			lecture_start_date, lecture_end_date, lecture_limit_student, lecture_status, school_type
+			lecture_start_date, lecture_end_date, lecture_limit_student, lecture_status, school_type, academy_group_id
 		)
 		VALUES
 		(
 			#{officeId}, #{chargeMemberId}, #{manageMemberId}, #{lecturePriceId}, #{lectureName},
 			#{lectureSubject}, #{lectureGrade}, #{lectureLevel}, #{lectureOperationType},
-			#{lectureStartDate}, #{lectureEndDate}, #{lectureLimitStudent}, #{lectureStatus}, #{schoolType}
+			#{lectureStartDate}, #{lectureEndDate}, #{lectureLimitStudent}, #{lectureStatus}, #{schoolType}, #{academyGroupId}
 		)
 		<selectKey resultType="Long" keyProperty="lectureId" order="AFTER">
 			SELECT LAST_INSERT_ID()
@@ -412,6 +448,7 @@
 			<if test="lectureEndDate != ''">lecture_end_date = #{lectureEndDate},</if>
 			<if test="lectureLimitStudent > 0">lecture_limit_student = #{lectureLimitStudent},</if>
 			<if test="lectureStatus != ''">lecture_status = #{lectureStatus},</if>
+            <if test="academyGroupId > 0">academy_group_id = #{academyGroupId},</if>
 		</set>
 		WHERE lecture_id = #{lectureId}
 	</update>

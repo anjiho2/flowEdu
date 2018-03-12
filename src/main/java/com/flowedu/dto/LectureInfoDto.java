@@ -53,6 +53,8 @@ public class LectureInfoDto {
     //  생성일
     private String createDate;
 
+    private int academyGroupId;
+
 
     // 학교 타입(초, 중, 고)
     private String schoolType;
