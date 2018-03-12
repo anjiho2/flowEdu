@@ -5525,6 +5525,17 @@ select.form-control.big:not([size]):not([multiple]) {
     z-index: 1
 }
 
+.layer_popup_template .layer-title1 {
+    /*position: -webkit-sticky;*/
+    position: relative; /*원래 sticky*/
+    text-align: center;
+    padding: 15px;
+    box-sizing: border-box;
+    top: 0;
+    background-color: #fff;
+    z-index: 1
+}
+
 .layer_popup_template .layer-title h3 {
     line-height: 20px;
     font-size: 17px;
