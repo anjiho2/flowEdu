@@ -40,11 +40,11 @@
         var check = new isCheck();
         var school_type = getSelectboxValue("sel_schoolType");
 
-         var student_email   = getInputTextValue("student_email");
-         if(student_email){
+        var student_email   = getInputTextValue("student_email");
+        if(student_email){
              var is_email = fn_isemail(student_email);
              if (is_email == true) return false;
-         }
+        }
 
         if($("#student_name").val().length == 1){
             alert("학생명은 2자 이상 이여야 합니다.");

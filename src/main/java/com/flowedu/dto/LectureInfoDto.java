@@ -14,6 +14,7 @@ public class LectureInfoDto {
     //  관 구분 코드
     private Long officeId;
 
+
     //  담임 선생님 아이디
     private Long chargeMemberId;
 

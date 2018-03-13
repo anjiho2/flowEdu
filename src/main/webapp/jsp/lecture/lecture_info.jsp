@@ -20,6 +20,12 @@
         schoolTypeSelectbox("l_schoolType", val);
         schoolSelectbox("student_grade","", val);
         searchAcademySelectbox("sel_academy",""); //소속
+        academyGroupSelectbox("sel_memberType", "");//그룹
+        lectureStatusSelectbox("sel_lectureState", "");
+        lectureSubjectSelectbox("sel_lectureSubject", "");
+        lectureLevelSelectbox("sel_lectureLevel", "");//레벨
+        lecturePriceSelectbox("sel_lecturePrice", "");
+        classLimitNumberSelectbox("sel_classLimit", "");
     }
 
     var isChange = false;
@@ -59,7 +65,7 @@
             <tr>
                 <th>그룹<b>*</b></th>
                 <td>
-                    <select class="form-control" style="width: 20rem;">
+                    <select id="sel_memberType" class="form-control" style="width: 20rem;">
                         <option value="">전체</option>
                     </select>
                 </td>
@@ -81,7 +87,7 @@
                 </td>
                 <th>과목<b>*</b></th>
                 <td>
-                    <select class="form-control" style="width: 20rem;">
+                    <select id="sel_lectureSubject" class="form-control" style="width: 20rem;">
                         <option value="">수학</option>
                         <option value="">과학</option>
                         <option value="">국어</option>
@@ -92,13 +98,11 @@
             <tr>
                 <th>선생님1<b>*</b></th>
                 <td>
-                    <select class="form-control" style="width: 20rem;">
-                        <option value="">전체</option>
-                    </select>
+                   <input type="text" class="form-control" placeholder="선생님1 이름을 입력하세요.">
                 </td>
                 <th>선생님2 </th>
                 <td>
-                    <input type="text" class="form-control" placeholder="선생님 이름을 입력하세요.">
+                    <input type="text" class="form-control" placeholder="선생님2 이름을 입력하세요.">
                 </td>
             </tr>
             <tr>
@@ -114,16 +118,13 @@
             <tr>
                 <th>레벨</th>
                 <td>
-                    <select class="form-control" style="width: 20rem;">
+                    <select id="sel_lectureLevel" class="form-control" style="width: 20rem;">
                         <option value="">구분없음</option>
-                        <option value="">상</option>
-                        <option value="">중</option>
-                        <option value="">하</option>
                     </select>
                 </td>
                 <th>수강료<b>*</b></th>
                 <td>
-                    <select class="form-control" style="width: 20rem;">
+                    <select id="sel_lecturePrice" class="form-control" style="width: 20rem;">
                         <option value="">전체</option>
                     </select>
                 </td>
@@ -131,13 +132,13 @@
             <tr>
                 <th>정원<b>*</b></th>
                 <td>
-                    <select class="form-control" style="width: 20rem;">
+                    <select id="sel_classLimit" class="form-control" style="width: 20rem;">
                         <option value="">전체</option>
                     </select>
                 </td>
                 <th>강의상태<b>*</b></th>
                 <td>
-                    <select class="form-control" style="width: 20rem;">
+                    <select id="sel_lectureState" class="form-control" style="width: 20rem;">
                         <option value="">전체</option>
                     </select>
                 </td>
