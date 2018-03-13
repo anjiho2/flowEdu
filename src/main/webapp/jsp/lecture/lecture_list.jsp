@@ -12,11 +12,15 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
+<script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
 <script type="text/javascript">
     function init(val) {
         schoolTypeSelectbox("l_schoolType", val);
-        schoolSelectbox("student_grade","", val);
-        searchAcademySelectbox("sel_academy",""); //소속
+        schoolSelectbox("student_grade", "", val);
+        searchAcademySelectbox("sel_academy", ""); //소속
+        academyGroupSelectbox("sel_memberType", "");//그룹
+        lectureStatusSelectbox("sel_lectureState", "");
+        lectureSubjectSelectbox("sel_lectureSubject", "");
     }
 </script>
 
@@ -62,13 +66,13 @@
             <tr>
                 <th>과목구분</th>
                 <td>
-                    <select  class="form-control">
+                    <select  class="form-control" id="sel_lectureSubject">
                         <option value="">전체</option>
                     </select>
                 </td>
                 <th>강의상태</th>
                 <td>
-                    <select id="sel_jobPosition" class="form-control">
+                    <select id="sel_lectureState" class="form-control">
                         <option value="">전체</option>
                     </select>
                 </td>
@@ -78,11 +82,11 @@
                 <th>검색정보</th>
                 <td colspan="3">
                     <div class="form-group row marginX">
-                        <select class="form-control select-space" id="sel_registe">
+                        <select class="form-control select-space" id="sel_search">
                             <option value="name">이름</option>
                             <option value="phone">핸드폰번호</option>
                         </select>
-                        <input type="text" class="form-control" id="registe_info">
+                        <input type="text" class="form-control" id="search_info">
                     </div>
                 </td>
             </tr>
