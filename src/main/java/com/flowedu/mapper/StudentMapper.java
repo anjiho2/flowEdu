@@ -30,6 +30,11 @@ public interface StudentMapper {
 
     int getStudentByPhoneNumber(@Param("phoneNumber") String phoneNumber);
 
+    List<StudentDto> selectStudentListByLectureRegSearch(@Param("start") int start, @Param("end") int end, @Param("schoolType") String schoolType,
+                                                         @Param("searchType") String searchType, @Param("searchValue") String searchValue);
+
+    Integer selectStudentListByLectureRegSearchCount(@Param("schoolType") String schoolType, @Param("searchType") String searchType, @Param("searchValue") String searchValue);
+
     int motherPhoneNumberCount(@Param("motherPhoneNumber") String motherPhoneNumber);
 
     Long test1(@Param("mediaKey") String mediaKey);

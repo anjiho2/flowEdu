@@ -218,7 +218,7 @@ function lectureSubjectSelectbox(tag_id, val) {
 function lecturePriceSelectbox(tag_id, val) {
     lectureService.getLecturePriceList(function (list) {
         var html = "<select id='sel_lecturePrice' class='form-control'>";
-        html += "<option value=''>▶가격선택</option>";
+        html += "<option value=''>▶선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].lecturePriceId == val) {
                 html += "<option value="+list[i].lecturePriceId+" selected>"+ addThousandSeparatorCommas(list[i].lecturePrice) +"원</option>";
@@ -644,4 +644,55 @@ function academyModifySelectbox(tag_id, val) {
         html += "</select>";
         innerHTML(tag_id, html);
     });
+}
+
+/**
+ * 강의 레벨 셀렉트 박스
+ * @param tag_id
+ * @param val
+ */
+function lectureLevelSelectbox(tag_id, val) {
+    lectureService.getLectureLevelList(function (list) {
+        var html = "<select id='sel_lectureStatusList' class='form-control'>";
+        html += "<option value=''>▶선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].statusCode == val) {
+                html += "<option value="+list[i].levelCode+" selected>"+ list[i].levelName +"</option>";
+            } else {
+                html += "<option value="+list[i].levelCode+">"+ list[i].levelName +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
+function classLimitNumberSelectbox(tag_id, val) {
+    var html = "<select id='sel_classLimit' class='form-control'>";
+    html += "<option value=''>▶선택</option>";
+    for (var i=5; i<35; i+=5) {
+        if (i == val) {
+            html += "<option value="+i+" selected>"+ i +"</option>";
+        } else {
+            html += "<option value="+i+">"+ i +"</option>";
+        }
+    }
+    if (val == "1000") {
+        html += "<option value='1000' selected>제한없음</option>";
+    } else {
+        html += "<option value='1000'>제한없음</option>";
+    }
+
+    html += "</select>";
+    innerHTML(tag_id, html);
+}
+
+function studentSearchTypeSelectbox(tag_id) {
+    var html = "<select id='sel_studentSearchType' class='form-control'>";
+    html += "<option value='STUDENT_NAME' selected>이름</option>";
+    html += "<option value='STUDENT_PHONE_NUMBER'>전화번호</option>";
+    html += "<option value='MOTHER_NAME'>학부모(모) 이름</option>";
+    html += "<option value='MOTHER_PHONE_NUMBER'>학부모(모) 전화번호</option>";
+    html += "</select>";
+    innerHTML(tag_id, html);
 }

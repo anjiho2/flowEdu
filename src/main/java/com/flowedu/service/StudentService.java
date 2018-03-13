@@ -256,7 +256,53 @@ public class StudentService extends PagingSupport {
             return false;
         }
         return true;
-}
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 강의에 등록가능한 학생 리스트
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 03 .13
+     * </PRE>
+     * @param sPage
+     * @param pageListCount
+     * @param schoolType
+     * @param searchType
+     * @param searchValue
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<StudentDto> getStudentListByLectureRegSearch(int sPage, int pageListCount, String schoolType, String searchType, String searchValue) {
+        PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
+        List<StudentDto> Arr = studentMapper.selectStudentListByLectureRegSearch(
+                pagingDto.getStart(),
+                pageListCount,
+                Util.isNullValue(schoolType, ""),
+                Util.isNullValue(searchType, ""),
+                Util.isNullValue(searchValue, "")
+        );
+        return Arr;
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 강의에 등록가능한 학생 리스트 개수
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 03 .13
+     * </PRE>
+     * @param schoolType
+     * @param searchType
+     * @param searchValue
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Integer getStudentListByLectureRegSearchCount(String schoolType, String searchType, String searchValue) {
+        return studentMapper.selectStudentListByLectureRegSearchCount(
+                Util.isNullValue(schoolType, ""),
+                Util.isNullValue(searchType, ""),
+                Util.isNullValue(searchValue, "")
+        );
+    }
 
     /**
      * <PRE>
