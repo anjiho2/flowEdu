@@ -41,7 +41,7 @@
         var subject    =  getSelectboxValue("sel_lectureSubject", "");//과목
         var teacher1   = getInputTextValue("teacher1");
         var teacher2   = getInputTextValue("teacher2");
-        var schoolType = getSelectboxValue("sel_schoolType", "");//학교구분
+        var schoolType = convert_school_value(getSelectboxValue("sel_schoolType", ""));//학교구분
         var schoolNum  =  getSelectboxValue("sel_school", "");//학년구분
         var level = getSelectboxValue("sel_lectureLevel", ""); //레벨
         var lecturePrice = getSelectboxValue("sel_lecturePrice", "");//수강료
@@ -63,6 +63,7 @@
         if(check.input("startDate", comment.input_lecture_start_time)   == false) return;
         if(check.input("endDate", comment.input_lecture_end_time)   == false) return;
 
+
         var data = {
             academyGroupId: academy_group,//그룹
             officeId: academy,//학원
@@ -78,6 +79,7 @@
             lectureStatus: lectureState,//강의상태
             lectureStartDate : startDate,
             lectureEndDate : endDate,
+            lectureOperationType : "MONTH",
         };
         console.log(data);
         //lectureEndDate,academyGroupId,lectureStartDate

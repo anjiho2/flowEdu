@@ -141,3 +141,15 @@ function convert_bus_type(val) {
     else if (val == "ETC") convert_val = "기타";
     return convert_val;
 }
+
+function convert_school_value(val) {
+    var str = "";
+    if (val == "ELEMENT") {
+        str = "elem_list";
+    } else if (val == "MIDDLE") {
+        str = "midd_list";
+    } else{
+        str = "high_list";
+    }
+    return str;
+}
