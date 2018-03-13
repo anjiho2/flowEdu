@@ -526,4 +526,8 @@
 		WHERE assignment_idx = #{assignmentIdx}
 	</update>
 
+	<delete id="deleteLectureDetailInfo">
+		DELETE FROM LECTURE_DETAIL_INFO WHERE lecture_id = #{lectureId}
+	</delete>
+
 </mapper>
