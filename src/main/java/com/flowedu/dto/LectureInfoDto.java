@@ -57,7 +57,7 @@ public class LectureInfoDto {
 
 
     // 학교 타입(초, 중, 고)
-    private String schoolType;
+    private String schoolType = convertToSchoolType(this.getSchoolType());
 
 
     private String chargeMemberName;
@@ -69,6 +69,19 @@ public class LectureInfoDto {
     private Integer lecturePrice;
 
     private Integer regCount;
+
+    private String convertToSchoolType(String korStr) {
+        String engStr = null;
+        if ("ELEMENT".equals(korStr)) {
+            engStr = "elem_list";
+        } else if ("MIDDLE".equals(korStr)) {
+            engStr = "midd_list";
+        } else {
+            engStr = "high_list";
+        }
+        return engStr;
+
+    }
 
 
 }

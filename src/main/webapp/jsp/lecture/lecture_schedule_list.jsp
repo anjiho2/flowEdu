@@ -1,6 +1,8 @@
 <%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
+    String lectureId = Util.isNullValue(request.getParameter("lecture_id"), "");
+
     int depth1 = 4;
     int depth2 = 2;
 
@@ -10,13 +12,50 @@
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
-<script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
+<script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <link rel="stylesheet" href="//cdn.rawgit.com/fgelinas/timepicker/master/jquery.ui.timepicker.css">
 <script>
+    function init2() {
+        var lectureId = '<%=lectureId%>';
+        lectureService.getLectureDetailInfoList(lectureId, function (selList) {
+            if (selList.length == 0) return;
+            for (var i=0; i<selList.length; i++) {
+                var cmpList = selList[i];
+                var cellData = [
+                    function(data) { return "<input type=\"hidden\" name=\"lectureRoomId[]\" class=\"form-control\" id='lectureRoomId_" + i + "' value='" + cmpList.lectureRoomId + "'>" +
+                                            "<input type=\"hidden\" name=\"lectureDetailId[]\" class=\"form-control\" id='lectureDetailId_" + i + "' value='" + cmpList.lectureDetailId + "'>" +
+                                            "<select id='day_" + i + "' name=\"lecture_day[]\" class=\"form-control\"><option value=\"\">▶요일선택</option><option value=\"SUN\">일요일</option><option value=\"MON\">월요일</option><option value=\"TUE\">화요일</option><option value=\"WEN\">수요일</option><option value=\"THU\">목요일</option><option value=\"FRI\">금요일</option><option value=\"SAT\">토요일</option></select>" },
+                    function(data) { return "<input type=\"text\" name=\"startTime[]\" class=\"form-control\" id='startTime_" + i + "' value='" + cmpList.startTime + "'>" },
+                    function(data) { return "<input type=\"text\" name=\"endTime[]\" class=\"form-control\" id='endTime_" + i + "' value='" + cmpList.endTime + "'>" },
+                    function(data) { return "<div class=\"form-group row marginX draghandle\">\n" +
+                        "                            <input type=\"text\" class=\"form-control hasTimepicker\" name=\"roonName[]\" id='roomName_" + i + "' value='" + cmpList.lectureRoomName + "'  onclick='open_lecture_room(this.id);'>\n" +
+                        "                            <button type=\"button\" class=\"fa fa-close\" aria-label=\"Close\" value='" + i +"' onclick='del_html(this.value)'>\n" +
+                        "                            </button>\n" +
+                        "                        </div>" },
+                ];
+                dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
+                $("#day_"+i).val(cmpList.lectureDay);
+                $("#timeTableList").find("tbody").find("tr:last").attr("id", "tr_"+i);
+            }
+            /** timepicker 바인딩 하기 **/
+            var elem1 = $("#timeTableList tbody tr td input[name='startTime[]']");
+            elem1.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
+                hourText: '시',
+                minuteText: '분'
+            });
+            var elem2 = $("#timeTableList tbody tr td input[name='endTime[]']");
+            elem2.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
+                hourText: '시',
+                minuteText: '분'
+            });
+            $.timepicker.setDefaults($.timepicker.regional['ko']);
+        });
+    }
     //등록버튼 (리스트 복제하기)
     function trans_row() {
-        var trLen = $("timeTableList #dataList tr").length;
+        var trLen = $("#timeTableList tbody tr").length;
+
         if (trLen == 0) {
             var i = getInputTextValue("num");
             var j = trLen + 1;
@@ -47,11 +86,39 @@
                 minuteText: '분'
             });
             $.timepicker.setDefaults($.timepicker.regional['ko']);
+        } else {
+            var newNum = trLen + 1;
+            var $tableBody = $("#timeTableList").find("tbody"),
+                $trLast = $tableBody.find("tr:last"),
+                $trNew = $trLast.clone();
+
+            $trLast.after($trNew);
+
+            $trNew.attr("id", "tr_" + trLen);
+            $trNew.find("td input").eq(0).val('').attr("id", "lectureRoomId_" + trLen);
+            $trNew.find("td input[name='lectureDetailId[]']").eq(0).val('').attr("id", "lectureDetailId_" + trLen);
+            $trNew.find("td select").eq(0).val('').attr("id", "day_" + trLen);
+            $trNew.find("td input").eq(1).val('');
+            $trNew.find("td input").eq(2).val('').attr("id", "startTime_" + trLen);
+            $trNew.find("td input").eq(3).val('').attr("id", "endTime" + trLen);
+            $trNew.find("td input").eq(4).val('').attr("id", "roomName_" + trLen);
+            /** timepicker 바인딩 하기 **/
+            var elem1 = $("#timeTableList tbody tr td input[name='startTime[]']");
+            elem1.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
+                hourText: '시',
+                minuteText: '분'
+            });
+            var elem2 = $("#timeTableList tbody tr td input[name='endTime[]']");
+            elem2.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
+                hourText: '시',
+                minuteText: '분'
+            });
+            $.timepicker.setDefaults($.timepicker.regional['ko']);
         }
     }
     //복제된 html 삭제하기
     function del_html(num) {
-        if (num > 0) {
+        if (num != "") {
             $('#tr_' + num).remove();
         }
     }
@@ -73,6 +140,7 @@
 
         innerValue("sel_academy", "");
         gfn_display("listDiv", false);
+        $("#sel_academy").val('');
         //초기화하기
         for (var j=0; j<25; j++) {
             $("#class_"+j).attr('data-book', '');
@@ -92,6 +160,9 @@
 
         for (var k=1; k<=25; k++) {
             $("#td_"+k).hide();
+            $("#class_"+k).attr('data-book', '');
+            $("#class_"+k).addClass('class_btn class_btn_block class_btn_default');
+            $("#class_"+k).find("input").val("");
         }
 
         var lectureDay = getInputTextValue("lectureDay");
@@ -130,10 +201,11 @@
             var classHTML = $(this).next().html();
             var classNames = gfn_split(classHTML, " ");
             var lectureRoomId = getInputTextValue("lectureRoomId");
-
             var nums = gfn_split(lectureRoomId, "_");
+
             innerValue("roomName_"+nums[1], classNames[0]);
             innerValue(lectureRoomId, classId);
+
             $("#sel_academy").val("");
             $("#close_btn").trigger("click");
             innerValue("isClassClick", "0");
@@ -181,9 +253,39 @@
             return false; //Click event is triggered twice and this prevents re-toggling of classes
         });
     });
+    
+    function saveLectueRoom() {
+        var lectureRoomList = new Array();
+        $("#timeTableList tbody tr").each(function () {
+            var lectureDetailId = $(this).find("td input").next().eq(0).val();
+            var lectureRoomId = $(this).find("td input").eq(0).val();
+            var day = $(this).find("td select").eq(0).val();
+            var startTime = $(this).find("td input").eq(2).val();
+            var endTime = $(this).find("td input").eq(3).val();
+
+            var lectureDetailInfo = {
+                lectureId:'<%=lectureId%>',
+                lectureDetailId:lectureDetailId,
+                lectureRoomId:lectureRoomId,
+                lectureDay:day,
+                startTime:startTime,
+                endTime:endTime
+            }
+            lectureRoomList.push(lectureDetailInfo);
+        });
+        if (lectureRoomList.length > 0) {
+            if (confirm(comment.isSave)) {
+                gfn_display("loadingbar", true);
+                lectureService.saveLectureDetailInfo('<%=lectureId%>', lectureRoomList, function () {
+                    isReloadPage(true);
+                });
+                gfn_display("loadingbar", false);
+            }
+        }
+    }
 </script>
 
-<body>
+<body onload="init2();">
 <div id="loadingbar" class="loadingbar" style="display:none;">
     <img src="img/loading.gif">
 </div>
@@ -210,7 +312,7 @@
             <tbody id="dataList">
             </tbody>
         </table>
-        <button class="btn_pack s2 blue" onclick="javascript:goPage('lecture', 'save_schedule')">저장</button>
+        <button class="btn_pack s2 blue" onclick="javascript:saveLectueRoom();">저장</button>
         <button class="btn_pack s2 blue" onclick="javascript:trans_row();">등록</button>
     </div>
 </section>

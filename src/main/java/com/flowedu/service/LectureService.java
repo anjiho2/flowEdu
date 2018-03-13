@@ -629,18 +629,16 @@ public class LectureService extends PagingSupport {
         if (lectureId < 1L && lectureDetailDtoList.size() == 0) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
-        ArrayList<LectureDetailDto> Arr = new ArrayList<>();
-        for (LectureDetailDto lectureDetailDto : lectureDetailDtoList) {
-            LectureDetailDto dto = new LectureDetailDto(
-                    lectureId,
-                    lectureDetailDto.getLectureRoomId(),
-                    lectureDetailDto.getStartTime(),
-                    lectureDetailDto.getEndTime(),
-                    lectureDetailDto.getLectureDay()
-            );
-            Arr.add(dto);
+        if (lectureDetailDtoList.size() > 0) {
+            lectureMapper.deleteLectureDetailInfo(lectureId);
+            for (LectureDetailDto lectureDetailDto : lectureDetailDtoList) {
+                //if (lectureDetailDto.getLectureDetailId() == null) {
+                    lectureMapper.saveLectureDetail(lectureDetailDto);
+                //} else {
+                //    lectureMapper.modifyLectureDetailInfo(lectureDetailDto);
+               // }
+            }
         }
-        lectureMapper.saveLectureDetailList(Arr);
     }
 
     /**

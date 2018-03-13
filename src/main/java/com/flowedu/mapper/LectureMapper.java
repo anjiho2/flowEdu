@@ -104,4 +104,6 @@ public interface LectureMapper {
 
     void modifyAssignmentInfo(AssignmentInfoDto assignmentInfoDto);
 
+    void deleteLectureDetailInfo(@Param("lectureId") Long lectureId);
+
 }
