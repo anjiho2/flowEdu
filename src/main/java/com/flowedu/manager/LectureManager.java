@@ -2,11 +2,9 @@ package com.flowedu.manager;
 
 import com.flowedu.api.service.SendService;
 import com.flowedu.define.datasource.SmsSendData;
+import com.flowedu.domain.LectureRegInfo;
 import com.flowedu.domain.RequestApi;
-import com.flowedu.dto.LectureAttendDto;
-import com.flowedu.dto.LectureCalendarDto;
-import com.flowedu.dto.LectureDetailDto;
-import com.flowedu.dto.LectureInfoDto;
+import com.flowedu.dto.*;
 import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
 import com.flowedu.service.LectureService;
@@ -107,6 +105,27 @@ public class LectureManager {
         RequestApi requestApi = sendService.sendAttendSms(lectureAttendDtoList);
         if (requestApi.getHttpStatusCode() != 200 || requestApi == null) return false;
         return true;
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 강의 신청 메뉴
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 03 .13
+     * </PRE>
+     * @param lectureId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public LectureRegInfo getLectureRegInfo(Long lectureId) {
+        //강의 기본 정보 가져오기
+        LectureInfoDto lectureInfoDto = lectureService.getLectureInfo(lectureId);
+        //기존 수강중인 학생
+        List<LectureStudentRelDto> lectureStudentRelDtoList = lectureService.getStudentListByLectureRegister(lectureId);
+        LectureRegInfo lectureRegInfo = new LectureRegInfo(
+                lectureInfoDto, lectureStudentRelDtoList
+        );
+        return lectureRegInfo;
     }
 
     public void test() {

@@ -114,6 +114,51 @@
 		OR etc_phone_number IN (#{phoneNumber})
 	</select>
 
+	<select id="selectStudentListByLectureRegSearch" resultType="com.flowedu.dto.StudentDto">
+		SELECT * FROM STUDENT
+		WHERE 1=1
+		<if test="schoolType != ''">
+			AND	school_type = #{schoolType}
+		</if>
+		<if test="searchValue != ''">
+			<if test="searchType eq 'STUDENT_NAME'">
+				 AND student_name LIKE CONCAT ('%', #{searchValue}, '%')
+			</if>
+			<if test="searchType eq 'PHONE_NUMBER'">
+				AND student_phone_number LIKE CONCAT ('%', #{searchValue}, '%')
+			</if>
+			<if test="searchType eq 'MOTHER_NAME'">
+				AND mother_name LIKE CONCAT ('%', #{searchValue}, '%')
+			</if>
+			<if test="searchType eq 'MOTHER_PHONE_NUMBER'">
+				AND mother_phone_number LIKE CONCAT ('%', #{searchValue}, '%')
+			</if>
+		</if>
+        LIMIT #{start}, #{end}
+	</select>
+
+    <select id="selectStudentListByLectureRegSearchCount" resultType="Integer">
+        SELECT count(student_id) FROM STUDENT
+        WHERE 1=1
+        <if test="schoolType != ''">
+            AND	school_type = #{schoolType}
+        </if>
+        <if test="searchValue != ''">
+            <if test="searchType eq 'STUDENT_NAME'">
+                AND student_name LIKE CONCAT ('%', #{searchValue}, '%')
+            </if>
+            <if test="searchType eq 'PHONE_NUMBER'">
+                AND student_phone_number LIKE CONCAT ('%', #{searchValue}, '%')
+            </if>
+            <if test="searchType eq 'MOTHER_NAME'">
+                AND mother_name LIKE CONCAT ('%', #{searchValue}, '%')
+            </if>
+            <if test="searchType eq 'MOTHER_PHONE_NUMBER'">
+                AND mother_phone_number LIKE CONCAT ('%', #{searchValue}, '%')
+            </if>
+        </if>
+    </select>
+
 	<select id="motherPhoneNumberCount" resultType="Integer">
 		SELECT count(student_id) FROM STUDENT WHERE mother_phone_number = #{motherPhoneNumber}
 	</select>

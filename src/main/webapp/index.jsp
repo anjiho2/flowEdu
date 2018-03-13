@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/common/jsp/top.jsp" %>
-<script type='text/javascript' src="<%=webRoot%>/js/jquery.seat-charts.min.js"></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/loginService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
@@ -94,6 +93,7 @@
             initPopup($("#PwFindLayer"));
         });
     });
+
 </script>
 <style>
     body{
