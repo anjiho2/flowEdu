@@ -71,6 +71,10 @@ public class LectureInfoDto {
 
     private Integer regCount;
 
+    private String academyGroupName;
+
+    private String memberName;
+
     private String convertToSchoolType(String korStr) {
         String engStr = null;
         if ("ELEMENT".equals(korStr)) {

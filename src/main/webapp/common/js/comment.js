@@ -138,6 +138,7 @@ var comment = {
 		search_academy : "학원을 검색해주세요.",
     	search_member : "운영자를 검색해 주세요.",
 		not_bus_route_info : "노선정보가 없습니다.",
+    	search_lecture : "강의를 검색해 주세요.",
 
 		success_update : "수정됬습니다",
 		send_email : "입력하신 이메일 주소로 아이디를 전송 하였습니다.",

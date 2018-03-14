@@ -656,7 +656,7 @@ function lectureLevelSelectbox(tag_id, val) {
         var html = "<select id='sel_lectureStatusList' class='form-control'>";
         html += "<option value=''>▶선택</option>";
         for (var i=0; i<list.length; i++) {
-            if (list[i].statusCode == val) {
+            if (list[i].levelCode == val) {
                 html += "<option value="+list[i].levelCode+" selected>"+ list[i].levelName +"</option>";
             } else {
                 html += "<option value="+list[i].levelCode+">"+ list[i].levelName +"</option>";

@@ -12,28 +12,90 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
+<script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>1
 <script type="text/javascript">
     function init(val) {
-        schoolTypeSelectbox("l_schoolType", val);
-        schoolSelectbox("student_grade", "", val);
-        searchAcademySelectbox("sel_academy", ""); //소속
-        academyGroupSelectbox("sel_memberType", "");//그룹
-        lectureStatusSelectbox("sel_lectureState", "");
-        lectureSubjectSelectbox("sel_lectureSubject", "");
+        if(val == undefined) {
+            val = "ELEMENT";
+            schoolTypeSelectbox("l_schoolType", val);
+            schoolSelectbox("student_grade", "", val);
+            searchAcademySelectbox("sel_academy", ""); //소속
+            academyGroupSelectbox("sel_group", "");//그룹
+            lectureStatusSelectbox("sel_lectureState", "");
+            lectureSubjectSelectbox("sel_lectureSubject", "");
+        }else{
+            schoolTypeSelectbox("l_schoolType", val);
+            schoolSelectbox("student_grade", "", val);
+        }
+
+        gfn_emptyView("V", comment.search_lecture);
+
+    }
+
+    function fn_search(val) {
+        var paging = new Paging();
+        var sPage = $("#sPage").val();
+
+        var academy_group =  getSelectboxValue("sel_group", "");//그룹
+        var academy    =  getSelectboxValue("sel_academy", "");//학원
+        var schoolType = convert_school_value(getSelectboxValue("sel_schoolType", ""));//학교구분
+        var schoolNum  =  getSelectboxValue("sel_school", "");//학년구분
+        var subject    =  getSelectboxValue("sel_lectureSubject", "");//과목
+        var lectureState = getSelectboxValue("sel_lectureState", "");//강의상태
+        var sel_search = getSelectboxValue("sel_search", "");//검색정보
+        var search_info = getInputTextValue("search_info");
+
+        if(val == "new")  sPage = "1";
+        dwr.util.removeAllRows("dataList");
+        gfn_emptyView("H", "");//페이징 예외사항처리
+
+        lectureService.getLectureInfoCount(academy_group, academy, schoolType, schoolNum, subject, lectureState, sel_search, search_info, function(cnt) {
+            paging.count(sPage, cnt, '10', '10', comment.blank_list);
+            var listNum = ((cnt-1)+1)-((sPage-1)*10); //리스트 넘버링d
+            lectureService.getLectureInfoList(sPage, '10', academy_group, academy, schoolType, schoolNum, subject, lectureState, sel_search, search_info, function (selList) {
+                if (selList.length == 0) return;
+                dwr.util.addRows("dataList", selList, [
+                    function(data) {return listNum--;},
+                    function(data) {return data.academyGroupName;},
+                    function(data) {return data.officeName;},
+                    function(data) {return "<a href='javascript:void(0);' style='color:blue;' onclick='lecture_page(" + data.lectureId + ")'>" + data.lectureName + "</a>";},
+                    function(data) {return lecture_convert_school(data.schoolType);},
+                    function(data) {return data.lectureGrade == ""? "-" : data.lectureGrade;},
+                    function(data) {return data.memberName;},//선생님
+                    function(data) {return data.regCount + " / " + data.lectureLimitStudent;},
+                    function(data) {return convert_lecture_status(data.lectureStatus);},
+                ],
+                    {
+                    cellCreator:function(options) {
+                        console.log(options.rowData);
+                        var td = document.createElement("td");
+                        var index = 255 - (options.rowIndex * 50);
+                        if (options.rowData.lectureStatus == "CLOSE") {
+                            td.style.backgroundColor = "#e9edef";
+                        }
+                        return td;
+                    },
+                    escapeHtml:false});
+            });
+        });
+    }
+
+    function lecture_page(lecture_id) {
+        innerValue("lecture_id", lecture_id);
+        goPage('lecture', 'lecture_info');
     }
 </script>
 
 <body onload="init();">
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
-    <%--<%@include file="/common/jsp/member_top_menu.jsp" %>--%>
     <div class="title-top">강의관리</div>
 </div>
 </section>
 <section class="content">
     <h3 class="title_t1">강의관리</h3>
     <form name="frm" method="get">
+        <input type="hidden" name="lecture_id" id="lecture_id">
         <input type="hidden" name="page_gbn" id="page_gbn">
         <input type="hidden" id="sPage" value="<%=sPage%>">
     </form>
@@ -42,7 +104,7 @@
             <tr>
                 <th>그룹</th>
                 <td>
-                    <select id="sel_memberType" class="form-control">
+                    <select id="sel_group" class="form-control" style="width: 20rem;">
                         <option value="">전체</option>
                     </select>
                 </td>

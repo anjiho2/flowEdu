@@ -31,7 +31,7 @@
 	</select>
 
 	<select id="getLectureInfoList" resultType="com.flowedu.dto.LectureInfoDto">
-		SELECT F.academy_group_name, A.lecture_id, D.office_name, A.lecture_name, A.school_type, A.lecture_grade, B.member_name, A.lecture_status,
+		SELECT F.academy_group_name, A.lecture_id, D.office_name, A.lecture_name, A.school_type, A.lecture_grade, B.member_name, A.lecture_status, A.lecture_limit_student,
 				(SELECT count(lecture_rel_id) FROM LECTURE_STUDENT_REL WHERE lecture_id = A.lecture_id) as reg_count
 		FROM LECTURE_INFO A LEFT JOIN FLOWEDU_MEMBER B
 		ON A.charge_member_id = B.flow_member_id LEFT JOIN FLOWEDU_MEMBER C
@@ -100,7 +100,7 @@
 	</select>
 
 	<select id="getLectureDetailInfoList" parameterType="Long" resultType="com.flowedu.dto.LectureDetailDto">
-		SELECT A.*, B.office_id, B.lecture_room_name, C.office_name
+		SELECT A.*, B.office_id, B.lecture_room_name, C.office_name,
 		FROM LECTURE_DETAIL_INFO A LEFT JOIN LECTURE_ROOM_INFO B
 		ON A.lecture_room_id = B.lecture_room_id LEFT JOIN OFFICE C
 		ON B.office_id = C.office_id

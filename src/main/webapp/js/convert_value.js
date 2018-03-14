@@ -10,6 +10,18 @@ function convert_school(val) {
 	return str;
 }
 
+function lecture_convert_school(val) {
+    var str = "";
+    if (val == "elem_list") {
+        str = "초등";
+    } else if (val == "midd_list") {
+        str = "중등";
+    } else if (val == "high_list") {
+        str = "고등";
+    }
+    return str;
+}
+
 function convert_lecture_subject(val) {
 	var str = "";
     switch (val) {
@@ -59,6 +71,8 @@ function convert_lecture_status(val) {
         str = "휴강";
     }  else if (val == "CLOSE") {
         str = "폐강";
+    }  else if (val == "WAIT") {
+        str = "대기";
     }
     return str;
 }
