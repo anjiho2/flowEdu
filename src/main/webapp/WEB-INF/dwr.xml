@@ -125,7 +125,7 @@
 		<convert converter="bean" match="com.flowedu.domain.DriverList"/>
 		<convert converter="bean" match="com.flowedu.domain.DriverHelper"/>
 		<convert converter="bean" match="com.flowedu.domain.DriverRoute"/>
-
+		<convert converter="bean" match="com.flowedu.domain.LectureRegInfo"/>
 
 	</allow>
 

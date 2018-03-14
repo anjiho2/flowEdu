@@ -153,6 +153,7 @@ function gfn_getPageNav_new(totalPageCnt,printNum,curPage) {
     if (ibefore < 1) ibefore = 1;
     sHtml += "<li class='page-item'><a class='page-link' href='javascript:gfn_fnList2(1)' >&laquo;</a></li>";
     //sHtml += "<li><a href='javascript:gfn_fnList2(" + ibefore + ")' ><img src='"+webRoot+"/img/arrow2.png' border='0' align='absmiddle'></a></li>";
+    sHtml += "<li class='page-item'><a class='page-link' href='javascript:gfn_fnList2(" + ibefore + ")' >&lt;</a></li>";
 
     for(var i=iStart; i<= iEnd; i++) {
         if(curPage== i) {
@@ -170,6 +171,7 @@ function gfn_getPageNav_new(totalPageCnt,printNum,curPage) {
     if (inext > totalPageCnt) inext = totalPageCnt;
     //sHtml += "<li><a href='javascript:gfn_fnList2(" + inext + ")' ><img src='"+webRoot+"/img/arrow3.png' border='0' align='absmiddle'></a></li>";
     //sHtml += "<li><a href='javascript:gfn_fnList2(" + totalPageCnt + ")'><img src='"+webRoot+"/img/arrow4.png' border='0' align='absmiddle'></a></li>";
+    sHtml += "<li class='page-item'><a class='page-link' href='javascript:gfn_fnList2(" + inext + ")' >&gt;</a></li>";
     sHtml += "<li class='page-item'><a class='page-link' href='javascript:gfn_fnList2(" + totalPageCnt + ")'>&raquo;</a></li>";
     sHtml += "</ul>";
     return sHtml;
@@ -221,7 +223,7 @@ function gfn_getPageNav_new2(totalPageCnt,printNum,curPage) {
 	var ibefore = parseInt(curPage) - parseInt(printNum) ;
 	if (ibefore < 1) ibefore = 1;
 	sHtml += "<li class='page-item'><a class='page-link' href='javascript:gfn_fnList2(1)' >&laquo;</a></li>";
-	//sHtml += "<li><a href='javascript:gfn_fnList2(" + ibefore + ")' ><img src='"+webRoot+"/img/arrow2.png' border='0' align='absmiddle'></a></li>";
+	sHtml += "<li class='page-item'><a class='page-link' href='javascript:gfn_fnList2(" + ibefore + ")' >&lt;</a></li>";
 	
 	for(var i=iStart; i<= iEnd; i++) {  
 		if(curPage== i) {
@@ -237,7 +239,7 @@ function gfn_getPageNav_new2(totalPageCnt,printNum,curPage) {
 	} 
 	var inext = parseInt(curPage) + parseInt(printNum) ;
 	if (inext > totalPageCnt) inext = totalPageCnt;
-	//sHtml += "<li><a href='javascript:gfn_fnList2(" + inext + ")' ><img src='"+webRoot+"/img/arrow3.png' border='0' align='absmiddle'></a></li>";
+	sHtml += "<li class='page-item'><a class='page-link' href='javascript:gfn_fnList2(" + inext + ")' >&gt;</a></li>";
 	//sHtml += "<li><a href='javascript:gfn_fnList2(" + totalPageCnt + ")'><img src='"+webRoot+"/img/arrow4.png' border='0' align='absmiddle'></a></li>";
     sHtml += "<li class='page-item'><a class='page-link' href='javascript:gfn_fnList2(" + totalPageCnt + ")'>&raquo;</a></li>";
 	sHtml += "</ul>";

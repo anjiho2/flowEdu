@@ -134,7 +134,6 @@
 				AND mother_phone_number LIKE CONCAT ('%', #{searchValue}, '%')
 			</if>
 		</if>
-        LIMIT #{start}, #{end}
 	</select>
 
     <select id="selectStudentListByLectureRegSearchCount" resultType="Integer">

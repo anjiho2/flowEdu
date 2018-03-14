@@ -264,19 +264,15 @@ public class StudentService extends PagingSupport {
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2018. 03 .13
      * </PRE>
-     * @param sPage
-     * @param pageListCount
      * @param schoolType
      * @param searchType
      * @param searchValue
      * @return
      */
     @Transactional(readOnly = true)
-    public List<StudentDto> getStudentListByLectureRegSearch(int sPage, int pageListCount, String schoolType, String searchType, String searchValue) {
-        PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
+    public List<StudentDto> getStudentListByLectureRegSearch(String schoolType, String searchType, String searchValue) {
+        //PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
         List<StudentDto> Arr = studentMapper.selectStudentListByLectureRegSearch(
-                pagingDto.getStart(),
-                pageListCount,
                 Util.isNullValue(schoolType, ""),
                 Util.isNullValue(searchType, ""),
                 Util.isNullValue(searchValue, "")

@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-    int depth1 = 5;
+    int depth1 = 4;
+    int depth2 = 2;
 
     int siderMenuDepth1 = 4;
-    int siderMenuDepth2 = 0;
-    int siderMenuDepth3 = 0;
+    int siderMenuDepth2 = 5;
+    int siderMenuDepth3 = 3;
 
     int lectureId = Integer.parseInt(request.getParameter("lecture_id"));
 %>

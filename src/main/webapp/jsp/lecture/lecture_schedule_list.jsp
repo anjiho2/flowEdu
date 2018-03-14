@@ -18,6 +18,9 @@
 <script>
     function init2() {
         var lectureId = '<%=lectureId%>';
+
+        if (lectureId == "") return;
+
         lectureService.getLectureDetailInfoList(lectureId, function (selList) {
             if (selList.length == 0) return;
             for (var i=0; i<selList.length; i++) {
