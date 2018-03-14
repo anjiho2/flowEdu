@@ -16,6 +16,7 @@
 <script type="text/javascript">
     function init(val) {
         if(val == undefined) {
+            val = "ELEMENT";
             schoolTypeSelectbox("l_schoolType", val);
             schoolSelectbox("student_grade", "", val);
             searchAcademySelectbox("sel_academy",""); //소속

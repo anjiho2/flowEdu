@@ -1,6 +1,7 @@
 <%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
+    Long lecture_id = Long.parseLong(request.getParameter("lecture_id"));
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
     String lectureId = Util.isNullValue(request.getParameter("lecture_id"), "");
 
@@ -188,6 +189,7 @@
 <section class="content">
     <form name="frm" method="get">
         <input type="hidden" name="page_gbn" id="page_gbn">
+        <input type="hidden" name="lecture_id" id="lecture_id" value="<%=lecture_id%>">
     </form>
     <input type="hidden" id="isAddStudentIds">
     <div class="tb_t1">
