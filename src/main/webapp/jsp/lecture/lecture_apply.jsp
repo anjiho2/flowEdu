@@ -54,7 +54,7 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
 <script>
     var lecutreId = '<%=lectureId%>';
-
+    //강의 기본정보, 기존수강중인 학생 목록
     function init() {
         lectureManager.getLectureRegInfo(lecutreId, function (selList) {
             var lectureInfo = selList.lectureInfo;
@@ -102,7 +102,7 @@
                 escapeHtml:false});
         });
     }
-
+    //팝업 콜 초기 값 세팅
     function popupInit() {
         schoolTypeSelectbox("l_schoolType", "");
         dwr.util.removeAllRows("dataList2");
@@ -110,7 +110,7 @@
         gfn_emptyView2("V", comment.search_input_student_name);
 
     }
-
+    //학생 팝업에서 학생 리스트 검색
     function fn_search(val) {
         var paging = new Paging();
         var sPage = $("#sPage").val();
@@ -158,12 +158,14 @@
             });
         });
     }
-
+    //삭제(x)이벤트
     function removeStudent(val) {
         var lectureRelId = val;
-        $("#tr_" + lectureRelId).remove();
+        if (confirm(comment.isDelete)) {
+            lectureService.modifyLectureStudentRel(lectureRelId, lecutreId, 0, 0);
+            $("#tr_" + lectureRelId).remove();
+        }
     }
-
     //팝업창에서 학생 체크박스 선택시
     function addStudent(val) {
         var studentIds = new Array();
@@ -217,7 +219,7 @@
             }
         }
     }
-
+    //학생 선택 팝업창에서 선택버튼
     function selectStudent() {
         var addCount = getInputTextValue("addCount");
         var limitStudent = getInputTextValue("limitStudentCount");
@@ -247,7 +249,7 @@
 
         $('#close_btn').trigger('click');
     }
-
+    //저장하기 버튼
     function save() {
         var studentIds = new Array();
         $("input[name='newAddStudentId[]']").each(function () {
@@ -386,9 +388,6 @@
         <button id="close_btn" type="button" class="fa fa-close btn-close"></button>
     </div>
     <section class="content">
-       <!-- <form name="frm" method="get">
-            <input type="hidden"  id="sPage" value="<%=sPage%>">
-        </form>-->
         <div class="tb_t1">
             <input type="hidden" id="sPage" value="<%=sPage%>">
             <table>
@@ -415,7 +414,6 @@
                 </tr>
             </table>
             <div class="bot_btns_t1">
-                <%--<input type="button" value="검색" class="btn_wrap blue" onclick="fn_search('new');">--%>
                 <button class="btn_pack blue" type="button" onclick="fn_search('new');">검색</button>
             </div>
         </div>
@@ -442,13 +440,6 @@
                     <td id="emptys2" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
                 </tr>
             </table>
-            <%--<%@ include file="/common/inc/com_pageNavi2.inc" %>--%>
-            <%--<div class="bot_btns_t1" style="text-align: center;">--%>
-                <%--<button class="btn_pack blue" type="button">선택</button>--%>
-                <%--<button class="btn_pack btn-close" type="button" onclick="javascript:$('#close_btn').trigger('click');">취소</button>--%>
-            <%--</div>--%>
-            <!--<input type="button" class="btn_pack blue s2" value="선택" >
-            <input type="button" class="btn_pack blue s2" value="취소">-->
         </div>
     </section>
     <section class="content">
@@ -473,8 +464,6 @@
                 <button class="btn_pack blue" type="button" onclick="selectStudent();">선택</button>
                 <button class="btn_pack btn-close" type="button" onclick="javascript:$('#close_btn').trigger('click');">취소</button>
             </div>
-            <!--<input type="button" class="btn_pack blue s2" value="선택" >
-            <input type="button" class="btn_pack blue s2" value="취소">-->
         </div>
     </section>
 </div>
