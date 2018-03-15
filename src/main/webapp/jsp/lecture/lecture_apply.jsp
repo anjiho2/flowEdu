@@ -15,7 +15,21 @@
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
 <style>
+    .table-fixed thead {
+        width: 97%;
+    }
+    .table-fixed tbody {
+        height: 230px;
+        overflow-y: auto;
+        width: 100%;
+    }
+    .table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
 
+    }
+    .table-fixed tbody td, .table-fixed thead > tr> th {
+        float: left;
+        border-bottom-width: 0;
+    }
 </style>
 <script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureManager.js'></script>
@@ -300,7 +314,7 @@
     </section>
     <section class="content">
         <div class="tb_t1">
-            <table id="searchTable">
+            <table id="searchTable" class="table-fixed">
                 <thead>
                 <tr>
                     <th>선택</th>
@@ -313,7 +327,7 @@
                     <th>학부모(모) 전화번호</th>
                 </tr>
                 </thead>
-                <tbody id="dataList2"></tbody>
+                <tbody id="dataList2" style="display: block;"></tbody>
             </table>
             <table>
                 <tr>
