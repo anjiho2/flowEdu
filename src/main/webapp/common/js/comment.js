@@ -99,6 +99,8 @@ var comment = {
     	input_lecture_price : "수강료를 입력해주세요.",
     	input_class_limit : "정원을 입력해주세요.",
 
+		excess_lecture_reg_student : "등록 가능한 인원수가 초과되었습니다.",
+
 
 	    input_student_grade:"학생의 학년을 선택해주세요.",
 		input_student_name : "학생 이름을 입력하세요.",

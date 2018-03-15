@@ -15,24 +15,11 @@
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
 <style>
-    .table-fixed thead {
-        width: 97%;
-    }
-    .table-fixed tbody {
-        height: 230px;
-        overflow-y: auto;
-        width: 100%;
-    }
-    .table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
 
-    }
-    .table-fixed tbody td, .table-fixed thead > tr> th {
-        float: left;
-        border-bottom-width: 0;
-    }
 </style>
 <script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureManager.js'></script>
+<script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
 <script>
     var lecutreId = '<%=lectureId%>';
 
@@ -47,6 +34,10 @@
 
             innerHTML("l_limitCount", lectureInfo.regCount == 0 ? "0" : lectureInfo.regCount);
             innerHTML("l_isAddCount", (lectureInfo.lectureLimitStudent - lectureInfo.regCount));
+
+            innerValue("regCount", (lectureInfo.lectureLimitStudent - lectureInfo.regCount));
+            innerValue("addCount", lectureInfo.regCount == 0 ? "0" : lectureInfo.regCount);
+            innerValue("limitStudentCount", lectureInfo.lectureLimitStudent);
 
             var lectureStudentRelList = selList.lectureStudentRelList;
             if (lectureStudentRelList.length == 0) {
@@ -63,8 +54,8 @@
             innerValue("isAddStudentIds", studentIds.join());
 
             dwr.util.addRows("dataList", lectureStudentRelList, [
-                function (data) { return data.studentName},
-                function (data) { return data.schoolName},
+                function (data) { return "<input type=\"hidden\" name=\"studentId[]\" class=\"form-control\" id='studentId_" + data.studentId + "' value='" + data.studentId + "'><span id='l_addedStudentName_" + data.studentId + "'>" + data.studentName + "</span>"},
+                function (data) { return "<span>" + data.schoolName + "</span>"},
                 function (data) { return "<div class=\"form-group row marginX draghandle\">\n" +
                     "                            <button type=\"button\" style=\"font-size: 25px\" class=\"fa fa-close\" aria-label=\"Close\" value='" + data.lectureRelId +"' onclick='removeStudent(this.value)'>\n" +
                     "                            </button>\n" +
@@ -112,8 +103,8 @@
             }
             var listNum = ((cnt-1)+1)-((sPage-1) * 5); //리스트 넘버링
 
-            dwr.util.removeAllRows("dataList2");
             studentService.getStudentListByLectureRegSearch(schoolType, searchType, searchValue, function (selList) {
+                dwr.util.removeAllRows("dataList2");
                 if (selList.length == 0) return;
                 dwr.util.addRows("dataList2", selList, [
                     function(data) { return "<input type=\"checkbox\" class=\"checkbox_t1\" name=\"chk\" id='check_"+ data.studentId + "'   value='"+ data.studentId +"' onclick='addStudent(this.value);'>" },
@@ -143,35 +134,115 @@
 
     //팝업창에서 학생 체크박스 선택시
     function addStudent(val) {
-        var studentId = val;
-        var addedStudentIds = getInputTextValue("isAddStudentIds");
-        var splitStudentId = addedStudentIds.split(",");
-        var addStudentIds = new Array();
-        for ( var i in splitStudentId ) {
-            if (studentId == splitStudentId[i]) {
-                alert("이미 수강생으로 등록된 학생압니다.\n다른 수강생을 선택하세요.");
+        var studentIds = new Array();
+        $("input[name=add_check]").each(function () {
+            studentIds.push($(this).val());
+        });
+        var joinStudentIds = studentIds.join();
+        var splitJoinStudentIds =  joinStudentIds.split(",");
+
+
+        if ($("#check_"+val).is(":checked") == true) {
+            var studentId = val;
+            var regCount = getInputTextValue("addCount");
+            var limitStudent = getInputTextValue("limitStudentCount");
+            var addedStudentIds = getInputTextValue("isAddStudentIds");
+            var splitStudentId = addedStudentIds.split(",");
+            //var addStudentIds = new Array();
+            //인원수 체크
+            if (Number(regCount) >= Number(limitStudent)) {
+                alert(comment.excess_lecture_reg_student);
                 $("input:checkbox[id='check_" + studentId + "']").prop("checked", false)
                 return;
+            } else {
+                for ( var j in splitJoinStudentIds) {
+                    if (studentId == splitJoinStudentIds[j]) {
+                        alert("이미 추가된 학생압니다.\n다른 수강생을 선택하세요.");
+                        $("input:checkbox[id='check_" + studentId + "']").prop("checked", false)
+                        return;
+                    }
+                }
+                for ( var i in splitStudentId ) {
+                    if (studentId == splitStudentId[i]) {
+                        alert("이미 수강생으로 등록된 학생압니다.\n다른 수강생을 선택하세요.");
+                        $("input:checkbox[id='check_" + studentId + "']").prop("checked", false)
+                        return;
+                    }
+                }
+                var $tableBody = $("#searchTable").find("tbody"),
+                    $trLast = $tableBody.find("#tr_" + val),
+                    $trNew = $trLast.clone();
+
+                $trNew.attr("id", "tr_add_" + val);
+                $trNew.find("td").eq(0).css("display","none").find("input").attr("name", "add_check");
+                $trNew.find("td").eq(0).css("display","none").find("input").attr("checked", true);
+                $trNew.find("td").eq(1).css("display","none");
+
+                var $resultTableBody = $("#resultTable tbody tr:last");
+                $resultTableBody.after($trNew);
+
+                innerValue("addCount", ++regCount);
             }
         }
+    }
 
+    function selectStudent() {
+        var addCount = getInputTextValue("addCount");
+        var limitStudent = getInputTextValue("limitStudentCount");
 
-        var $tableBody = $("#searchTable").find("tbody"),
-            $trLast = $tableBody.find("#tr_" + val),
-            $trNew = $trLast.clone();
+        $("input[name=add_check]:checked").each(function() {
+            var studentId = $(this).val();
+            var $tr = $("#tr_add_" + studentId);
+            var studentName = $tr.find("td").eq(2).html();
+            var schoolName = $tr.find("td").eq(4).html();
 
-        $trNew.find("td").eq(0).css("display","none").find("input").attr("name", "add_check");
-        $trNew.find("td").eq(0).css("display","none").find("input").attr("checked", true);
-        $trNew.find("td").eq(1).css("display","none");
+            var $tableBody = $("#duringStudentTable").find("tbody"),
+                $trLast = $tableBody.find("tr:last"),
+                $trNew = $trLast.clone();
 
-        var $resultTableBody = $("#resultTable").find("tbody");
-        $resultTableBody.after($trNew);
+            $trNew.attr("id", "tr_" + studentId);
+            $trNew.find("td input").eq(0).attr("name", "newAddStudentId[]");
+            $trNew.find("td input").eq(0).val(studentId).attr("id", "studentId_"+studentId);
+            $trNew.find("td span").eq(0).attr("id", "l_addedStudentName_"+studentId).text(studentName);
+            $trNew.find("td span").eq(1).text(schoolName);
+            $trNew.find("td div").find("button").val(studentId);
 
+            $trLast.after($trNew);
+        });
+        var calcCount = limitStudent - addCount;
+        innerHTML("l_isAddCount", calcCount == 0 ? "0" : calcCount);
+        innerHTML("l_limitCount", addCount == 0 ? "0" : addCount);
 
+        $('#close_btn').trigger('click');
+    }
+    
+    function save() {
+        var studentIds = new Array();
+        $("input[name='newAddStudentId[]']").each(function () {
+            studentIds.push($(this).val());
+        });
+        console.log(studentIds);
+        if (confirm(comment.isSave)) {
+            $("#loadingbar").show();
+            lectureService.saveLectureStudentRel(lecutreId, studentIds, function (bl) {
+                if (bl == true) {
+                    isReloadPage(true);
+                }
+            });
+        }
+        $("#loadingbar").hide();
     }
 
     $(function () {
-        $("#student_add").on('click', function () { //아이디찾기 팝업
+        //추가버튼 시 학생검색 팝업
+        $("#student_add").on('click', function () {
+            var studentIds = new Array();
+            $("input[name='studentId[]']").each(function () {
+                studentIds.push($(this).val());
+            });
+            $("#isAddStudentIds").val('');
+            innerValue("isAddStudentIds", studentIds.join());
+
             initPopup($("#StudentFindLayer"));
         });
     });
@@ -248,7 +319,10 @@
 <section class="content">
     <h3 class="title_t1">기존 수강중인 학생</h3>
     <div class="tb_t1">
-        <table>
+        <input type="hidden" id="addCount">
+        <input type="hidden" id="regCount">
+        <input type="hidden" id="limitStudentCount">
+        <table id="duringStudentTable">
             <thead>
             <tr>
                 <th>이름</th>
@@ -257,6 +331,8 @@
             </tr>
             </thead>
             <tbody id="dataList"></tbody>
+        </table>
+        <table>
             <tr>
                 <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
             </tr>
@@ -267,7 +343,7 @@
                 <td style="width:30px;"><button style="float:right;"  id="student_add" class="btn_pack blue s2" onclick="popupInit();">추가</button></td>
             </table>
         </div>
-        <button class="btn_pack blue s2" >저장</button>
+        <button class="btn_pack blue s2" onclick="save();">저장</button>
         <button class="btn_pack blue s2" onclick="go_list();">목록</button>
     </div>
 </section>
@@ -275,7 +351,7 @@
 <!--학생추가 레이어 시작-->
 <div class="layer_popup_template apt_request_layer" id="StudentFindLayer" style="display: none;">
     <div class="layer-title" style="border-bottom: 0px ;">
-        <button id="close_btn_pw" type="button" class="fa fa-close btn-close"></button>
+        <button id="close_btn" type="button" class="fa fa-close btn-close"></button>
     </div>
     <section class="content">
        <!-- <form name="frm" method="get">
@@ -327,7 +403,7 @@
                     <th>학부모(모) 전화번호</th>
                 </tr>
                 </thead>
-                <tbody id="dataList2" style="display: block;"></tbody>
+                <tbody id="dataList2"></tbody>
             </table>
             <table>
                 <tr>
@@ -357,10 +433,12 @@
                     <th>학부모(모) 전화번호</th>
                 </tr>
                 </thead>
-                <tbody id="dataList3" style="overflow-y: scroll;"></tbody>
+                <tbody id="dataList3">
+                    <tr style="display:none;"></tr>
+                </tbody>
             </table>
             <div class="bot_btns_t1" style="text-align: center;">
-                <button class="btn_pack blue" type="button">선택</button>
+                <button class="btn_pack blue" type="button" onclick="selectStudent();">선택</button>
                 <button class="btn_pack btn-close" type="button" onclick="javascript:$('#close_btn').trigger('click');">취소</button>
             </div>
             <!--<input type="button" class="btn_pack blue s2" value="선택" >
