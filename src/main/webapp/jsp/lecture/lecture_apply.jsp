@@ -15,22 +15,42 @@
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
 <style>
-    .table-fixed thead {
-        width: 97%;
+    .scrolltbody {
+        display: block;
+        border-collapse: collapse;
     }
-    .table-fixed tbody {
-        height: 230px;
-        overflow-y: auto;
-        width: 100%;
+    .scrolltbody tbody {
+        display: block;
+        height: 200px;
+        overflow: auto;
     }
-    .table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+    .scrolltbody th:nth-of-type(1), .scrolltbody td:nth-of-type(1) { width: 6%; }
+    .scrolltbody th:nth-of-type(2), .scrolltbody td:nth-of-type(2) { width: 8%; }
+    .scrolltbody th:nth-of-type(3), .scrolltbody td:nth-of-type(3) { width: 11%; }
+    .scrolltbody th:nth-of-type(4), .scrolltbody td:nth-of-type(4) { width: 17%; }
+    .scrolltbody th:nth-of-type(5), .scrolltbody td:nth-of-type(5) { width: 12%; }
+    .scrolltbody th:nth-of-type(6), .scrolltbody td:nth-of-type(6) { width: 12%; }
+    .scrolltbody th:nth-of-type(7), .scrolltbody td:nth-of-type(7) { width: 12%; }
+    .scrolltbody th:nth-of-type(8), .scrolltbody td:nth-of-type(8) { width: 15%; }
 
+    .scrolltbody1 {
+        display: block;
+        border-collapse: collapse;
     }
-    .table-fixed tbody td, .table-fixed thead > tr> th {
-        float: left;
-        border-bottom-width: 0;
+    .scrolltbody1 tbody {
+        display: block;
+        height: 200px;
+        overflow: auto;
     }
+    .scrolltbody1 th:nth-of-type(3), .scrolltbody1 td:nth-of-type(3) { width: 10%; }
+    .scrolltbody1 th:nth-of-type(4), .scrolltbody1 td:nth-of-type(4) { width: 17%; }
+    .scrolltbody1 th:nth-of-type(5), .scrolltbody1 td:nth-of-type(5) { width: 12%; }
+    .scrolltbody1 th:nth-of-type(6), .scrolltbody1 td:nth-of-type(6) { width: 12%; }
+    .scrolltbody1 th:nth-of-type(7), .scrolltbody1 td:nth-of-type(7) { width: 12%; }
+    .scrolltbody1 th:nth-of-type(8), .scrolltbody1 td:nth-of-type(8) { width: 15%; }
+
 </style>
+
 <script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureManager.js'></script>
 <script>
@@ -149,7 +169,7 @@
         var addStudentIds = new Array();
         for ( var i in splitStudentId ) {
             if (studentId == splitStudentId[i]) {
-                alert("이미 수강생으로 등록된 학생압니다.\n다른 수강생을 선택하세요.");
+                alert("이미 수강생으로 등록된 학생입니다.\n다른 수강생을 선택하세요.");
                 $("input:checkbox[id='check_" + studentId + "']").prop("checked", false)
                 return;
             }
@@ -164,10 +184,8 @@
         $trNew.find("td").eq(0).css("display","none").find("input").attr("checked", true);
         $trNew.find("td").eq(1).css("display","none");
 
-        var $resultTableBody = $("#resultTable").find("tbody");
+        var $resultTableBody = $("#resultTable tbody tr:last");
         $resultTableBody.after($trNew);
-
-
     }
 
     $(function () {
@@ -314,7 +332,7 @@
     </section>
     <section class="content">
         <div class="tb_t1">
-            <table id="searchTable" class="table-fixed">
+            <table id="searchTable" class="table-fixed  scrolltbody">
                 <thead>
                 <tr>
                     <th>선택</th>
@@ -327,7 +345,8 @@
                     <th>학부모(모) 전화번호</th>
                 </tr>
                 </thead>
-                <tbody id="dataList2" style="display: block;"></tbody>
+                <tbody id="dataList2">
+                </tbody>
             </table>
             <table>
                 <tr>
@@ -346,18 +365,20 @@
     <section class="content">
         선택된 학생
         <div class="tb_t1">
-            <table id="resultTable">
+            <table id="resultTable" class="scrolltbody1">
                 <thead>
                 <tr>
-                    <th>이름</th>
-                    <th>전화번호</th>
-                    <th>학교명</th>
-                    <th>학년</th>
-                    <th>학부모(모) 이름</th>
-                    <th>학부모(모) 전화번호</th>
+                    <th style="width:10%;">이름</th>
+                    <th style="width:19%;">전화번호</th>
+                    <th style="width:12%;">학교명</th>
+                    <th style="width:13%;">학년</th>
+                    <th style="width:17%;">학부모(모) 이름</th>
+                    <th style="width:16%;">학부모(모) 전화번호</th>
                 </tr>
                 </thead>
-                <tbody id="dataList3" style="overflow-y: scroll;"></tbody>
+                  <tbody id="dataList3">
+                    <tr style="display: none;"></tr>
+                  </tbody>
             </table>
             <div class="bot_btns_t1" style="text-align: center;">
                 <button class="btn_pack blue" type="button">선택</button>
