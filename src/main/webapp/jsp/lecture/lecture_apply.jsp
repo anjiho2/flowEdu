@@ -15,7 +15,39 @@
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
 <style>
+    .scrolltbody {
+        display: block;
+        border-collapse: collapse;
+    }
+    .scrolltbody tbody {
+        display: block;
+        height: 200px;
+        overflow: auto;
+    }
+    .scrolltbody th:nth-of-type(1), .scrolltbody td:nth-of-type(1) { width: 6%; }
+    .scrolltbody th:nth-of-type(2), .scrolltbody td:nth-of-type(2) { width: 8%; }
+    .scrolltbody th:nth-of-type(3), .scrolltbody td:nth-of-type(3) { width: 11%; }
+    .scrolltbody th:nth-of-type(4), .scrolltbody td:nth-of-type(4) { width: 17%; }
+    .scrolltbody th:nth-of-type(5), .scrolltbody td:nth-of-type(5) { width: 12%; }
+    .scrolltbody th:nth-of-type(6), .scrolltbody td:nth-of-type(6) { width: 12%; }
+    .scrolltbody th:nth-of-type(7), .scrolltbody td:nth-of-type(7) { width: 12%; }
+    .scrolltbody th:nth-of-type(8), .scrolltbody td:nth-of-type(8) { width: 15%; }
 
+    .scrolltbody1 {
+        display: block;
+        border-collapse: collapse;
+    }
+    .scrolltbody1 tbody {
+        display: block;
+        height: 200px;
+        overflow: auto;
+    }
+    .scrolltbody1 th:nth-of-type(3), .scrolltbody1 td:nth-of-type(3) { width: 10%; }
+    .scrolltbody1 th:nth-of-type(4), .scrolltbody1 td:nth-of-type(4) { width: 17%; }
+    .scrolltbody1 th:nth-of-type(5), .scrolltbody1 td:nth-of-type(5) { width: 12%; }
+    .scrolltbody1 th:nth-of-type(6), .scrolltbody1 td:nth-of-type(6) { width: 12%; }
+    .scrolltbody1 th:nth-of-type(7), .scrolltbody1 td:nth-of-type(7) { width: 12%; }
+    .scrolltbody1 th:nth-of-type(8), .scrolltbody1 td:nth-of-type(8) { width: 15%; }
 </style>
 <script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureManager.js'></script>
@@ -215,7 +247,7 @@
 
         $('#close_btn').trigger('click');
     }
-    
+
     function save() {
         var studentIds = new Array();
         $("input[name='newAddStudentId[]']").each(function () {
@@ -390,7 +422,7 @@
     </section>
     <section class="content">
         <div class="tb_t1">
-            <table id="searchTable" class="table-fixed">
+            <table id="searchTable" class="scrolltbody">
                 <thead>
                 <tr>
                     <th>선택</th>
@@ -422,15 +454,15 @@
     <section class="content">
         선택된 학생
         <div class="tb_t1">
-            <table id="resultTable">
+            <table id="resultTable" class="scrolltbody1">
                 <thead>
                 <tr>
-                    <th>이름</th>
-                    <th>전화번호</th>
-                    <th>학교명</th>
-                    <th>학년</th>
-                    <th>학부모(모) 이름</th>
-                    <th>학부모(모) 전화번호</th>
+                    <th style="width:10%;">이름</th>
+                    <th style="width:19%;">전화번호</th>
+                    <th style="width:12%;">학교명</th>
+                    <th style="width:13%;">학년</th>
+                    <th style="width:17%;">학부모(모) 이름</th>
+                    <th style="width:16%;">학부모(모) 전화번호</th>
                 </tr>
                 </thead>
                 <tbody id="dataList3">
