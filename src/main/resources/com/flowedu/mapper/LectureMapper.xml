@@ -100,7 +100,7 @@
 	</select>
 
 	<select id="getLectureDetailInfoList" parameterType="Long" resultType="com.flowedu.dto.LectureDetailDto">
-		SELECT A.*, B.office_id, B.lecture_room_name, C.office_name,
+		SELECT A.*, B.office_id, B.lecture_room_name, C.office_name
 		FROM LECTURE_DETAIL_INFO A LEFT JOIN LECTURE_ROOM_INFO B
 		ON A.lecture_room_id = B.lecture_room_id LEFT JOIN OFFICE C
 		ON B.office_id = C.office_id

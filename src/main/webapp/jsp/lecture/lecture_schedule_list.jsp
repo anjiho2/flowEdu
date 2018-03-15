@@ -300,6 +300,7 @@
 <section class="content">
     <form name="frm" method="get">
         <input type="hidden" name="page_gbn" id="page_gbn">
+        <input type="hidden" name="lecture_id" id="lecture_id" value="<%=lectureId%>">
     </form>
     <div class="tb_t1">
         <input type="hidden" id="num" value="0">
