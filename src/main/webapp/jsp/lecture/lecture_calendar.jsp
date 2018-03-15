@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
     int depth1 = 4;
-    int depth2 = 2;
+    int depth2 = 4;
 
     int siderMenuDepth1 = 4;
     int siderMenuDepth2 = 5;
     int siderMenuDepth3 = 3;
 
-    int lectureId = Integer.parseInt(request.getParameter("lecture_id"));
+    int lecture_id = Integer.parseInt(request.getParameter("lecture_id"));
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
@@ -18,7 +18,7 @@
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/calendarService.js'></script>
 <script type="text/javascript">
-    var lectureId = '<%=lectureId%>';
+    var lectureId = '<%=lecture_id%>';
 
     $(document).ready(function() {
         // page is now ready, initialize the calendar...
@@ -57,13 +57,15 @@
 <body>
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
-    <h2>강의달력</h2>
+    <%@include file="/common/jsp/lecture_top_menu.jsp" %>
     <%--<%@include file="/common/jsp/depth_menu.jsp" %>--%>
 </div>
 </section>
 <section class="content">
+    <h3 class="title_t1">강의달력</h3>
     <form name="frm" method="get" class="form_st1">
         <input type="hidden" name="page_gbn" id="page_gbn">
+        <input type="hidden" name="lecture_id" id="lecture_id" value="<%=lecture_id%>">
         <div class="content">
             <div id='calendar'></div>
         </div>
