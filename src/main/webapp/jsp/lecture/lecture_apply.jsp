@@ -14,6 +14,9 @@
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
+<style>
+
+</style>
 <script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureManager.js'></script>
 <script>
@@ -96,7 +99,7 @@
             var listNum = ((cnt-1)+1)-((sPage-1) * 5); //리스트 넘버링
 
             dwr.util.removeAllRows("dataList2");
-            studentService.getStudentListByLectureRegSearch(sPage, 5, schoolType, searchType, searchValue, function (selList) {
+            studentService.getStudentListByLectureRegSearch(schoolType, searchType, searchValue, function (selList) {
                 if (selList.length == 0) return;
                 dwr.util.addRows("dataList2", selList, [
                     function(data) { return "<input type=\"checkbox\" class=\"checkbox_t1\" name=\"chk\" id='check_"+ data.studentId + "'   value='"+ data.studentId +"' onclick='addStudent(this.value);'>" },
