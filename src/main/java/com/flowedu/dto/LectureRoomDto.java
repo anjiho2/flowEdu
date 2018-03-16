@@ -23,4 +23,9 @@ public class LectureRoomDto {
     // 조인에 의해서 관 이름 추가
     private String officeName;
 
+    //
+    private int cnt;
+
+    private int roomLimitStudent;
+
 }

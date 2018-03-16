@@ -11,6 +11,10 @@
       <param-name>encoding</param-name>
       <param-value>utf-8</param-value>
     </init-param>
+    <init-param>
+      <param-name>forceEncoding</param-name>
+      <param-value>true</param-value>
+    </init-param>
   </filter>
   <filter>
     <filter-name>userSessionFilter</filter-name>
@@ -89,7 +93,7 @@
    -->
   <context-param>
     <param-name>logbackConfigLocation</param-name>
-    <!--<param-value>../resources/config/logback.xml</param-value>-->
+    <!--<param-value>classpath*:/config/logback.xml</param-value>-->
     <param-value>/WEB-INF/logback.xml</param-value>
   </context-param>
   <context-param>
@@ -103,6 +107,10 @@
   <error-page>
     <error-code>500</error-code>
     <location>/common/error/error500.jsp</location>
+  </error-page>
+  <error-page>
+    <error-code>901</error-code>
+    <location>/index.jsp</location>
   </error-page>
   <distributable/>
 </web-app>

@@ -5,12 +5,9 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.IsoFields;
 import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
+import com.flowedu.define.datasource.KisPosAuthType;
 import com.flowedu.define.datasource.LectureDay;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.joda.time.DateTime;
@@ -607,11 +604,8 @@ public class DateUtils {
 		return calendar.get(Calendar.DAY_OF_WEEK);
 	}
 
-
-	
-	
 	public static void main(String[] args) throws Exception {
-		System.out.print(getMonth("yyyy-MM", 0));
+		System.out.print(KisPosAuthType.getKisPosAuthTypeName("CC").toString());
 	}
 	
 }

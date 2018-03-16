@@ -38,6 +38,14 @@ public class LectureAttendDto {
 
     private String modifyDate;
 
+    private String attendStartTime;
+
+    private String attendEndTime;
+
+    private String lectureName;
+
+    private String endAttendType;
+
     public LectureAttendDto() {}
 
     public List<LectureAttendDto> consume(List<LectureAttendDto> lectureAttendDtoList) throws Exception {
@@ -48,6 +56,8 @@ public class LectureAttendDto {
             lectureAttendDto.setStudentId(dto.getStudentId());
             lectureAttendDto.setAttendType(dto.getAttendType());
             lectureAttendDto.setAttendDay(LectureDay.getDay());
+            lectureAttendDto.setAttendStartTime(dto.getAttendStartTime());
+            lectureAttendDto.setAttendModifyComment(dto.getAttendModifyComment());
             Arr.add(lectureAttendDto);
         }
         return Arr;

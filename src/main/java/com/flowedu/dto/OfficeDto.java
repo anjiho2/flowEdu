@@ -19,8 +19,14 @@ public class OfficeDto {
     //  관 전화번호
     private String officeTelNumber;
 
+    // 우편번호
+    private int zipCode;
+
     //  주소
     private String officeAddress;
+
+    // 상세주소
+    private String officeAddressDetail;
 
     //  팩스번호
     private String officeFaxNumber;
@@ -32,20 +38,37 @@ public class OfficeDto {
 
     private String academyGroupName;
 
+    private String officeMemo;
+
+    private String certificateFileName;
+
+    private String certificateFileUrl;
+
+    private Long regMemeberId;
+
+
     public OfficeDto() {}
 
     public OfficeDto(String officeName, String officeDirectorName, String officeTelNumber, String officeAddress,
-                     String officeFaxNumber, int academyGroupId) {
+                     String officeFaxNumber, int academyGroupId, int zipCode, String officeAddressDetail,
+                     String officeMemo, String certificateFileName, String certificateFileUrl, Long regMemeberId) {
         this.officeName = officeName;
         this.officeDirectorName = officeDirectorName;
         this.officeTelNumber = officeTelNumber;
         this.officeAddress = officeAddress;
         this.officeFaxNumber = officeFaxNumber;
         this.academyGroupId = academyGroupId;
+        this.zipCode = zipCode;
+        this.officeAddressDetail = officeAddressDetail;
+        this.officeMemo = officeMemo;
+        this.certificateFileName = certificateFileName;
+        this.certificateFileUrl = !"".equals(certificateFileName) ? certificateFileUrl : null;
+        this.regMemeberId = regMemeberId;
     }
 
     public OfficeDto(Long officeId, String officeName, String officeDirectorName, String officeTelNumber,
-        String officeAddress, String officeFaxNumber, int academyGroupId) {
+        String officeAddress, String officeFaxNumber, int academyGroupId, int zipCode, String officeAddressDetail,
+                     String officeMemo, String certificateFileName, String certificateFileUrl, Long regMemeberId) {
         this.officeId = officeId;
         this.officeName = officeName;
         this.officeDirectorName = officeDirectorName;
@@ -53,5 +76,11 @@ public class OfficeDto {
         this.officeAddress = officeAddress;
         this.officeFaxNumber = officeFaxNumber;
         this.academyGroupId = academyGroupId;
+        this.zipCode = zipCode;
+        this.officeAddressDetail = officeAddressDetail;
+        this.officeMemo = officeMemo;
+        this.certificateFileName = certificateFileName;
+        this.certificateFileUrl = !"".equals(certificateFileName) ? certificateFileUrl : null;
+        this.regMemeberId = regMemeberId;
     }
 }

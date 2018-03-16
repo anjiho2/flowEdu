@@ -1,7 +1,18 @@
+<%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+    String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
+    int depth1 = 4;
+    int depth2 = 2;
+%>
 <%@include file="/common/jsp/top.jsp" %>
+<%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type="text/javascript">
+    function init() {
+        academyGroupSelectbox('academy_group', '');
+        academyListSelectbox("academy_name","");//학원리스트
+    }
     function save_academy() { //학원정보 저장
         var check = new isCheck();
 
@@ -33,145 +44,58 @@
             location.reload();
         });
     }
-
-   function academy_modify(officeid) { //수정페이지 이동
-        innerValue("office_id", officeid);
-        goPage('academy', 'modify_academy');
-    }
-
-    function academyList() { //학원정보리스트 가져오기
-        academyService.getAcademyList(0, function (selList) {
-            if (selList.length > 0) {
-                for (var i = 0; i < selList.length; i++) {
-                    var cmpList = selList[i];
-                    if (cmpList != undefined) {
-                        //var checkHTML = "<input type='checkbox' name='chk' id='chk' value='" + cmpList.officeId + "'/>";
-                        var modifyHTML = "<input type='button' name='modify' id='modify' value='수정' onclick='academy_modify(" + cmpList.officeId + ");'/>";
-
-                        var cellData = [
-                           // function(data) {return checkHTML;},
-                            function(data) {return cmpList.academyGroupName;},  //학원그룹명 추가로 기능 추가 (2017.09.12 안지호)
-                            function(data) {return cmpList.officeName;},
-                            function(data) {return cmpList.officeDirectorName;},
-                            function(data) {return cmpList.officeTelNumber;},
-                            function(data) {return cmpList.officeAddress;},
-                            function(data) {return cmpList.officeFaxNumber;},
-                            function(data) {return getDateTimeSplitComma(cmpList.createDate);},
-                            function(data) {return modifyHTML;}
-                        ];
-
-                        dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
-                    }
-                }
-            }
-        });
-    }
-
-    /*function Delete() { //학원정보 삭제
-        confirm("삭제 하시겠습니까?");
-       $("input[name=chk]:checked").each(function() {
-            var officeid = $(this).val();
-
-            if (officeid == "") {
-                alert(comment.blank_check);
-                return;
-            }
-            academyService.deleteAcademy(officeid, function() {});
-        });
-       alert(comment.success_delete);
-       location.reload();
-    }*/
-
-
 </script>
-<body onload="academyList();academyGroupSelectbox('academy_group', '');">
-<form name="frm" method="get">
-    <input type="hidden" name="office_id" id="office_id">
-    <input type="hidden" name="page_gbn" id="page_gbn">
-    <h1>학원정보입력page</h1>
-    <table>
-        <tr>
-            <th>그룹명</th>
-            <td>
-                <span id="academy_group"></span>
-            </td>
-        </tr>
-        <tr>
-            <th>관명</th>
-            <td>
-                <input type="text" id="academy_name">
-            </td>
-        </tr>
-        <tr>
-            <th>원장이름</th>
-            <td>
-                <input type="text" id="academy_directorname">
-            </td>
-        </tr>
-        <tr>
-            <th>관 전화번호</th>
-            <td>
-                <input type="text" size="2" id="academy_phone1" maxlength="3" onkeyup="js_tab_order(this,frm.academy_phone2,3)">
-                -
-                <input type="text" size="5" id="academy_phone2" maxlength="4" onkeyup="js_tab_order(this,frm.academy_phone3,4)">
-                -
-                <input type="text" size="5" id="academy_phone3" maxlength="4">
-            </td>
-        </tr>
-        <tr>
-            <th>주소</th>
-            <td>
-                <input type="text" id="academy_address">
-            </td>
-        </tr>
-        <tr>
-            <th>팩스번호</th>
-            <td>
-                <input type="text" size="2" id="academy_fax1">
-                -
-                <input type="text" size="5" id="academy_fax2">
-                -
-                <input type="text" size="5" id="academy_fax3">
-            </td>
-
-        </tr>
-    </table>
-    <input type="button" value="등록" onclick="save_academy();">
-
-
-<h1>학원정보list</h1>
-<div id="academyList">
-    <table class="table_list" border="1">
-        <colgroup>
-            <!--<col width="2%" />-->
-            <col width="*" />
-            <col width="*" />
-            <col width="*" />
-            <col width="*" />
-            <col width="*" />
-            <col width="*" />
-            <col width="*" />
-            <col width="*" />
-        </colgroup>
-        <thead>
-        <tr>
-            <!--<th>
-                <input type="checkbox" id="chkAll" onclick="javascript:checkall('chkAll');">
-            </th>-->
-            <th>그룹명</th>
-            <th>관명</th>
-            <th>원장명</th>
-            <th>관전화번호</th>
-            <th>주소</th>
-            <th>팩스번호</th>
-            <th>생성일</th>
-            <th>수정</th>
-        </tr>
-        </thead>
-        <tbody id="dataList"></tbody>
-        <!--<input type="button" value="삭제" onclick="Delete();">-->
-    </table>
+<body onload="init();">
+<div class="container">
+    <%@include file="/common/jsp/titleArea.jsp" %>
+    <%@include file="/common/jsp/academy_top_menu.jsp" %>
 </div>
-</form>
+</section>
+<section class="content">
+    <h3 class="title_t1">학원정보입력</h3>
+    <form name="frm" method="get" class="form_st1">
+        <input type="hidden" name="page_gbn" id="page_gbn">
+        <input type="hidden"  id="sPage" value="<%=sPage%>">
+        <div class="form-group row">
+            <label>그룹명<b>*</b></label>
+            <div><span id="academy_group"></span></div>
+        </div>
+        <div class="form-group row">
+            <label>관명<b>*</b></label>
+            <div><input type="text" class="form-control" id="academy_name" style="width:150px;"></div>
+        </div>
+        <div class="form-group row">
+            <label>원장이름<b>*</b></label>
+            <div><input type="text" class="form-control" id="academy_directorname" style="width:150px;"></div>
+        </div>
+        <div class="form-outer-group">
+            <div class="form-group row">
+                <label>관 전화번호</label>
+                <div class="inputs">
+                    <input type="text"  id="academy_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.academy_phone2,3)" style="width:100px;">&nbsp;-&nbsp;
+                    <input type="text"  id="academy_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.academy_phone3,4)" style="width:100px;">&nbsp;-&nbsp;
+                    <input type="text"  id="academy_phone3" class="form-control" maxlength="4" style="width:100px;">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label>팩스번호</label>
+                <div class="inputs">
+                    <input type="text"  id="academy_fax1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,frm.academy_fax2,3)" style="width:100px;">&nbsp;-&nbsp;
+                    <input type="text"  id="academy_fax2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,frm.academy_fax3,4)" style="width:100px;">&nbsp;-&nbsp;
+                    <input type="text"  id="academy_fax3" class="form-control" maxlength="4" style="width:100px;">
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label>관 주소<b>*</b></label>
+            <div><input type="text" class="form-control" id="academy_address" ></div>
+        </div>
+        <div class="bot_btns">
+            <button class="btn_pack blue s2" type="button"  onclick="save_academy();">등록</button>
+        </div>
+            <%@ include file="/common/inc/com_pageNavi.inc" %>
+        </div>
+    </form>
+</section>
 </body>
 </html>

@@ -9,10 +9,9 @@ import java.util.List;
  * Created by jihoan on 2017. 8. 4..
  */
 public enum MemberType {
-    OPERATOR(1, "운영자"),
-    TEACHER(2, "담임 선생님"),
-    TEACHER_MANAGE(3, "관리 선생님"),
-    ADMIN(4, "관리자");
+    CS(1, "CS"),
+    TEACHER(2, "강사"),
+    ADMIN(3, "AMS관리자");
 
     int memberTypeCode;
 

@@ -1,7 +1,7 @@
 package com.flowedu.service;
 
+import com.flowedu.config.ConfigHolder;
 import com.flowedu.config.PagingSupport;
-import com.flowedu.config.SchoolSearchConfigHoler;
 import com.flowedu.define.datasource.SchoolType;
 import com.flowedu.define.datasource.StudentMemoType;
 import com.flowedu.domain.StudentMemo;
@@ -13,19 +13,13 @@ import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
 import com.flowedu.mapper.StudentMapper;
 import com.flowedu.session.UserSession;
-import com.flowedu.util.GsonJsonReader;
-import com.flowedu.util.JsonBuilder;
+import com.flowedu.util.GsonJsonUtil;
 import com.flowedu.util.JsonParser;
 import com.flowedu.util.Util;
-import com.google.api.client.json.Json;
+
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.json.simple.JSONObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +56,8 @@ public class StudentService extends PagingSupport {
 
         for (int i=0; i<SchoolType.size(); i++) {
             HashMap<String, Object> map = new HashMap<>();
-            map.put("schoolTypeCode", SchoolType.getSchoolTypeCode(i).toString());
-            map.put("schoolTypeName", SchoolType.getSchoolTypeName(i));
+            map.put("id", SchoolType.getSchoolTypeCode(i).toString());
+            map.put("name", SchoolType.getSchoolTypeName(i));
             Arr.add(map);
         }
         return Arr;
@@ -149,15 +143,15 @@ public class StudentService extends PagingSupport {
      * @throws Exception
      */
     public String getApiSchoolName(String gubun, Integer region, String searchScoolName) throws Exception {
-        if ("".equals(gubun) && region == null) {
+        if (gubun == null || region == null) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
-        String schoolSearchApikey = SchoolSearchConfigHoler.getSchoolSearchApiKey();
-        String schoolSearchApiUrl = SchoolSearchConfigHoler.getSchoolSearchApiUrl();
+        String schoolSearchApikey = ConfigHolder.getSchoolSearchApiKey();
+        String schoolSearchApiUrl = ConfigHolder.getSchoolSearchApiUrl();
         String url = schoolSearchApiUrl + "?apiKey=" + schoolSearchApikey + "&svcType=api&svcCode=SCHOOL&contentType=json&gubun="
                 + gubun + "&region=" + region + "&searchSchulNm=" + URLEncoder.encode(searchScoolName, "UTF-8");
 
-        JsonObject jsonStr = GsonJsonReader.readJsonFromUrl(url);
+        JsonObject jsonStr = GsonJsonUtil.readJsonFromUrl(url);
         JsonObject firstJsonObjet = jsonStr.getAsJsonObject("dataSearch");
         JsonArray jsonArray = firstJsonObjet.getAsJsonArray("content");
         if (jsonArray.size() == 0) {
@@ -178,10 +172,10 @@ public class StudentService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public int getStudentMemoListCount(Long studentId, String searchDate, String memoType, String memberName, String memoContent) {
+    public int getStudentMemoListCount(Long studentId, String searchDate, String memoType, String memberName, String memoContent, Boolean processYn) {
         return studentMapper.getStudentMemoListCount(
                 studentId, Util.isNullValue(searchDate, ""), Util.isNullValue(memoType, ""),
-                Util.isNullValue(memberName, ""), Util.isNullValue(memoContent, "")
+                Util.isNullValue(memberName, ""), Util.isNullValue(memoContent, ""), processYn
         );
     }
 
@@ -198,11 +192,12 @@ public class StudentService extends PagingSupport {
      */
     @Transactional(readOnly = true)
     public List<StudentMemoDto> getStudentMemoList(int sPage, int pageListCount, Long studentId, String searchDate,
-                                                   String memoType, String memberName, String memoContent) {
+                                                   String memoType, String memberName, String memoContent, Boolean processYn) {
         PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
         List<StudentMemoDto> list = studentMapper.getStudentMemoList(
                 pagingDto.getStart(), pageListCount, studentId, Util.isNullValue(searchDate, ""),
-                Util.isNullValue(memoType, ""), Util.isNullValue(memberName, ""), Util.isNullValue(memoContent, "")
+                Util.isNullValue(memoType, ""), Util.isNullValue(memberName, ""),
+                Util.isNullValue(memoContent, ""), processYn
         );
         return list;
     }
@@ -218,7 +213,7 @@ public class StudentService extends PagingSupport {
      */
     @Transactional(readOnly = true)
     public List<StudentMemoDto> getStudentMemoLastThree(Long studentId) {
-        return studentMapper.getStudentMemoList(0, 3, studentId, "", "", "", "");
+        return studentMapper.getStudentMemoList(0, 3, studentId, "", "", "", "", null);
     }
 
     /**
@@ -244,6 +239,69 @@ public class StudentService extends PagingSupport {
 
     /**
      * <PRE>
+     * 1. Comment : 특정 전화번호로 학생, 엄마, 아빠, 기타 전화번호중 존재하는 번호인지 확인하기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 09 .11
+     * </PRE>
+     * @param phoneNumber
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public boolean isStudentByPhoneNumber(String phoneNumber) {
+        if ("".equals(phoneNumber)) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        int result = studentMapper.getStudentByPhoneNumber(phoneNumber);
+        if (result == 0) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 강의에 등록가능한 학생 리스트
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 03 .13
+     * </PRE>
+     * @param schoolType
+     * @param searchType
+     * @param searchValue
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<StudentDto> getStudentListByLectureRegSearch(String schoolType, String searchType, String searchValue) {
+        //PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
+        List<StudentDto> Arr = studentMapper.selectStudentListByLectureRegSearch(
+                Util.isNullValue(schoolType, ""),
+                Util.isNullValue(searchType, ""),
+                Util.isNullValue(searchValue, "")
+        );
+        return Arr;
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 강의에 등록가능한 학생 리스트 개수
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 03 .13
+     * </PRE>
+     * @param schoolType
+     * @param searchType
+     * @param searchValue
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Integer getStudentListByLectureRegSearchCount(String schoolType, String searchType, String searchValue) {
+        return studentMapper.selectStudentListByLectureRegSearchCount(
+                Util.isNullValue(schoolType, ""),
+                Util.isNullValue(searchType, ""),
+                Util.isNullValue(searchValue, "")
+        );
+    }
+
+    /**
+     * <PRE>
      * 1. Comment : 학생정보 입력하기
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .08
@@ -261,7 +319,7 @@ public class StudentService extends PagingSupport {
             studentDto.getStudentEmail(), studentDto.getSchoolName(), studentDto.getSchoolType(),
             studentDto.getStudentGrade(), studentDto.getStudentPhotoFile(), studentDto.getStudentPhotoUrl(),
             studentDto.getStudentMemo(), studentDto.getMotherName(), studentDto.getMotherPhoneNumber(),
-            studentDto.getFatherName(), studentDto.getFatherPhoneNumber()
+            studentDto.getFatherName(), studentDto.getFatherPhoneNumber(), studentDto.getEtcName(), studentDto.getEtcPhoneNumber()
         );
         studentMapper.saveStudentInfo(dto);
     }
@@ -276,12 +334,12 @@ public class StudentService extends PagingSupport {
      * @param memoContent
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void saveStudentMemo(Long studentId, String memoContent, String memoType) {
+    public void saveStudentMemo(Long studentId, String memoContent, String memoType, String memoTitle) {
         if (studentId < 1L) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
         Long flowMemberId = UserSession.flowMemberId();
-        studentMapper.saveStudentMemo(studentId, flowMemberId, memoContent, memoType);
+        studentMapper.saveStudentMemo(studentId, flowMemberId, memoContent, memoType, memoTitle);
     }
 
     /**
@@ -322,7 +380,7 @@ public class StudentService extends PagingSupport {
                 studentDto.getStudentEmail(), studentDto.getSchoolName(), studentDto.getSchoolType(),
                 studentDto.getStudentGrade(), studentDto.getStudentPhotoFile(), studentDto.getStudentPhotoUrl(),
                 studentDto.getStudentMemo(), studentDto.getMotherName(), studentDto.getMotherPhoneNumber(),
-                studentDto.getFatherName(), studentDto.getFatherPhoneNumber()
+                studentDto.getFatherName(), studentDto.getFatherPhoneNumber(), studentDto.getEtcName(), studentDto.getEtcPhoneNumber()
         );
         studentMapper.modifyStudentInfo(dto);
     }

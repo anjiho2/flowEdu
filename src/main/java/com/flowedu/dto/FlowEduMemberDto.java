@@ -1,6 +1,7 @@
 package com.flowedu.dto;
 
 import com.flowedu.util.Aes256;
+import com.flowedu.util.RandomMake;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -17,7 +18,7 @@ public class FlowEduMemberDto implements Serializable {
     private Long officeId;
 
     //  팀 아이디
-    private Integer teamId;
+    private String teamName;
 
     //  직책 아이디
     private Integer jobPositionId;
@@ -52,13 +53,23 @@ public class FlowEduMemberDto implements Serializable {
     //  생성일
     private String createDate;
 
+    private String academyThumbnail;
+
+    private String memberAuthKey;
+
+    private boolean serveYn;
+
+    private String memberAddressDetail;
+
+    private String zipCode;
+
     public FlowEduMemberDto() {}
 
-    public FlowEduMemberDto(Long officeId, int teamId, int jobPositionId,  String phoneNumber, String memberName, String memberBirthDay,
+    public FlowEduMemberDto(Long officeId, String teamName, int jobPositionId,  String phoneNumber, String memberName, String memberBirthDay,
                 String memeberAddress, String memberPassword, String memberEmail, String sexualAssultConfirmDate,
-                String educationRegDate, String memberType) throws Exception {
+                String educationRegDate, String memberType, String memberAddressDetail, String zipCode) throws Exception {
         this.officeId = officeId;
-        this.teamId = teamId;
+        this.teamName = teamName;
         this.jobPositionId = jobPositionId;
         this.phoneNumber = phoneNumber;
         this.memberName = memberName;
@@ -70,14 +81,18 @@ public class FlowEduMemberDto implements Serializable {
         this.educationRegDate = educationRegDate;
         this.memberName = memberName;
         this.memberType = memberType;
+        this.memberAuthKey = RandomMake.getMemberAuthKey();
+        this.memberAddressDetail = memberAddressDetail;
+        this.zipCode = zipCode;
     }
 
-    public FlowEduMemberDto(Long flowMemberId,Long officeId, Integer teamId, int jobPositionId, String phoneNumber, String memberName,
+    public FlowEduMemberDto(Long flowMemberId,Long officeId, String teamName, int jobPositionId, String phoneNumber, String memberName,
                             String memberBirthDay, String memeberAddress, String memberPassword, String memberEmail,
-                            String sexualAssultConfirmDate, String educationRegDate, String memberType) throws Exception {
+                            String sexualAssultConfirmDate, String educationRegDate, String memberType,
+                            String memberAddressDetail, String zipCode, boolean serveYn) throws Exception {
         this.flowMemberId = flowMemberId;
         this.officeId = officeId;
-        this.teamId = teamId;
+        this.teamName = teamName;
         this.jobPositionId = jobPositionId;
         this.phoneNumber = phoneNumber;
         this.memberName = memberName;
@@ -89,11 +104,17 @@ public class FlowEduMemberDto implements Serializable {
         this.educationRegDate = educationRegDate;
         this.memberName = memberName;
         this.memberType = memberType;
+        this.memberAuthKey = RandomMake.getMemberAuthKey();
+        this.memberAddressDetail = memberAddressDetail;
+        this.zipCode = zipCode;
+        this.serveYn = serveYn;
     }
 
-    public FlowEduMemberDto(Long flowMemberId, String memberType, String memberName) {
+    public FlowEduMemberDto(Long flowMemberId, String memberType, String memberName, Long officeId, String academyThumbnail) {
         this.flowMemberId = flowMemberId;
         this.memberType = memberType;
         this.memberName = memberName;
+        this.officeId = officeId;
+        this.academyThumbnail = academyThumbnail;
     }
 }

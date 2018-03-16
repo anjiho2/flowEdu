@@ -1,5 +1,10 @@
 package com.flowedu.util;
 
+import com.flowedu.controller.FileController;
+import com.flowedu.error.FlowEduErrorCode;
+import com.flowedu.error.FlowEduException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -14,6 +19,8 @@ import java.util.Map;
  * Created by jihoan on 2017. 7. 24..
  */
 public class FileUploadUtil {
+
+    protected final static Logger logger = LoggerFactory.getLogger(FileUploadUtil.class);
 
     /**
      * <pre>
@@ -82,7 +89,6 @@ public class FileUploadUtil {
     public static Map<String, Object> fileUploadYmdLocation(MultipartHttpServletRequest request, String savePath) {
         Map<String, Object> map = new HashMap<>();
         String fileName = "";
-
         Iterator<String> it = request.getFileNames();
         try {
             while (it.hasNext()) {
@@ -90,19 +96,29 @@ public class FileUploadUtil {
 
                 if (uploadFileName != null || !"".equals(uploadFileName)) {
                     MultipartFile multipartFile = request.getFile(uploadFileName);
+                    long fileSize = multipartFile.getSize();
+                    //이미지 용량 제한 300kb
+                    if (fileSize > 300000) {
+                        map.put("error_code", FlowEduErrorCode.CUSTOM_IMAGE_FILE_SIZE_LIMIT.code());
+                        return map;
+                    }
                     //한글 꺠짐 방지처리
                     String originalFileName = multipartFile.getOriginalFilename();
                     /** 파일명이 한글일때 에러 처리 **/
-                    /*
                     if (StringUtil.isKorean(originalFileName)) {
-                        return fileName;
+                        map.put("error_code", FlowEduErrorCode.CUSTOM_IMAGE_FILE_NAME_KOREAN.code());
+                        return map;
                     }
-                    */
                     //파일명 변경
                     //String finalFileName = FileUploadRename.multipartFileRename(multipartFile).toString();
                     String makeFileName = originalFileName.substring(0, originalFileName.lastIndexOf("."));
                     int filePos = originalFileName.lastIndexOf(".");
                     String fileExtension = originalFileName.substring(filePos+1);
+                    //파일 확장자 예외처리
+                    if (!("JPG".equalsIgnoreCase(fileExtension) || "GIF".equalsIgnoreCase(fileExtension))) {
+                        map.put("error_code", FlowEduErrorCode.CUSTOM_IMAGE_FILE_EXTENSION_NOT_ALLOW.code());
+                        return map;
+                    }
                     String finalFileName = makeFileName + "_" + Util.returnNowDateByYyyymmddhhmmss() + "." + fileExtension;
 
                     //년도 디렉토리 존재 확인
@@ -119,6 +135,145 @@ public class FileUploadUtil {
                     map.put("file_url", DateUtils.getNowYear()+"/"+mmdd);
                     if (originalFileName != null || !"".equals(originalFileName)) {
                         File serverFile = new File(FileUtil.concatPath(todayDirectory.toString(), finalFileName));
+                        multipartFile.transferTo(serverFile);
+                        //root경로 파일 삭제
+                        FileUtil.fileDelete(finalFileName);
+                        FileUtil.fileDelete(originalFileName);
+
+                        fileName = serverFile.getName();
+                    }
+                    map.put("file_name", fileName);
+                }
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return map;
+    }
+
+    /**
+     * <pre>
+     * 1. Comment : 과제파일 저장
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 01. 29
+     * </pre>
+     * @param request
+     * @param savePath
+     * @return
+     */
+    public static Map<String, Object> fileUploadAssignmentFile(MultipartHttpServletRequest request, String savePath, Long lectureId) {
+        Map<String, Object> map = new HashMap<>();
+        String fileName = "";
+        Iterator<String> it = request.getFileNames();
+        try {
+            while (it.hasNext()) {
+                String uploadFileName = it.next();
+
+                if (uploadFileName != null || !"".equals(uploadFileName)) {
+                    MultipartFile multipartFile = request.getFile(uploadFileName);
+                    long fileSize = multipartFile.getSize();
+                    //이미지 용량 제한 500kb
+                    if (fileSize > 500000) {
+                        map.put("error_code", FlowEduErrorCode.CUSTOM_IMAGE_FILE_SIZE_LIMIT.code());
+                        return map;
+                    }
+                    //한글 꺠짐 방지처리
+                    String originalFileName = multipartFile.getOriginalFilename();
+                    /** 파일명이 한글일때 에러 처리 **/
+                    /*
+                    if (StringUtil.isKorean(originalFileName)) {
+                        map.put("error_code", FlowEduErrorCode.CUSTOM_IMAGE_FILE_NAME_KOREAN.code());
+                        return map;
+                    }
+                    */
+                    //파일명 변경
+                    //String finalFileName = FileUploadRename.multipartFileRename(multipartFile).toString();
+                    String makeFileName = originalFileName.substring(0, originalFileName.lastIndexOf("."));
+                    int filePos = originalFileName.lastIndexOf(".");
+                    String fileExtension = originalFileName.substring(filePos+1);
+                    //파일 확장자 예외처리
+                    if (!("hwp".equalsIgnoreCase(fileExtension) || "doc".equalsIgnoreCase(fileExtension)
+                            || "docx".equalsIgnoreCase(fileExtension) || "pdf".equalsIgnoreCase(fileExtension))) {
+                        map.put("error_code", FlowEduErrorCode.CUSTOM_IMAGE_FILE_EXTENSION_NOT_ALLOW.code());
+                        return map;
+                    }
+                    String finalFileName = makeFileName + "_" + Util.returnNowDateByYyyymmddhhmmss() + "." + fileExtension;
+                    //디렉토리 존재 확인
+                    File assignmentDirectory = new File(FileUtil.concatPath(savePath, "assignment", String.valueOf(lectureId)));
+                    if (!assignmentDirectory.isDirectory()) {
+                        assignmentDirectory.mkdirs();
+                    }
+                    if (originalFileName != null || !"".equals(originalFileName)) {
+                        File serverFile = new File(FileUtil.concatPath(assignmentDirectory.toString(), finalFileName));
+                        logger.info("serverFile ---------------> " + serverFile);
+                        multipartFile.transferTo(serverFile);
+                        //root경로 파일 삭제
+                        FileUtil.fileDelete(finalFileName);
+                        FileUtil.fileDelete(originalFileName);
+                        logger.info("originalFileName ---------------> " + originalFileName);
+
+                        fileName = serverFile.getName();
+                    }
+                    map.put("file_name", fileName);
+                }
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    public static Map<String, Object> fileUploadCertificateFile(MultipartHttpServletRequest request, String savePath) {
+        Map<String, Object> map = new HashMap<>();
+        String fileName = "";
+        Iterator<String> it = request.getFileNames();
+        try {
+            while (it.hasNext()) {
+                String uploadFileName = it.next();
+                if (uploadFileName != null || !"".equals(uploadFileName)) {
+                    MultipartFile multipartFile = request.getFile(uploadFileName);
+                    long fileSize = multipartFile.getSize();
+                    //파일 용량 제한 500kb
+                    if (fileSize > 500000) {
+                        map.put("error_code", FlowEduErrorCode.CUSTOM_IMAGE_FILE_SIZE_LIMIT.code());
+                        return map;
+                    }
+                    //한글 꺠짐 방지처리
+                    String originalFileName = multipartFile.getOriginalFilename();
+                    logger.info("originalName -----------> " + originalFileName);
+                    /** 파일명이 한글일때 에러 처리 **/
+                    /*
+                    if (StringUtil.isKorean(originalFileName)) {
+                        map.put("error_code", FlowEduErrorCode.CUSTOM_IMAGE_FILE_NAME_KOREAN.code());
+                        return map;
+                    }
+                    */
+                    //파일명 변경
+                    //String finalFileName = FileUploadRename.multipartFileRename(multipartFile).toString();
+                    String makeFileName = originalFileName.substring(0, originalFileName.lastIndexOf("."));
+                    int filePos = originalFileName.lastIndexOf(".");
+                    String fileExtension = originalFileName.substring(filePos+1);
+                    //파일 확장자 예외처리
+                    if (!("jpg".equalsIgnoreCase(fileExtension) || "gif".equalsIgnoreCase(fileExtension)
+                            || "pdf".equalsIgnoreCase(fileExtension))) {
+                        map.put("error_code", FlowEduErrorCode.CUSTOM_IMAGE_FILE_EXTENSION_NOT_ALLOW.code());
+                        return map;
+                    }
+                    String finalFileName = makeFileName + "_" + Util.returnNowDateByYyyymmddhhmmss() + "." + fileExtension;
+                    logger.info("finalFileName ------------>" + finalFileName);
+                    //디렉토리 존재 확인
+                    File certificateDirectory = new File(FileUtil.concatPath(savePath, "certificate"));
+                    if (!certificateDirectory.isDirectory()) {
+                        certificateDirectory.mkdirs();
+                    }
+                    if (originalFileName != null || !"".equals(originalFileName)) {
+                        File serverFile = new File(FileUtil.concatPath(certificateDirectory.toString(), finalFileName));
+                        logger.info("serverFile ------------>" + serverFile);
                         multipartFile.transferTo(serverFile);
                         //root경로 파일 삭제
                         FileUtil.fileDelete(finalFileName);

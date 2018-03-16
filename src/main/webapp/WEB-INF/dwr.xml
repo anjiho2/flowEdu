@@ -3,6 +3,7 @@
 <!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 3.0//EN" "http://getahead.org/dwr//dwr30.dtd">
 
 <dwr>
+
 	<allow>
 		<!-- ========================= SERVICE ======================== -->
 		<convert converter="bean" match="com.flowedu.service.LoginService"/>
@@ -13,6 +14,12 @@
 		<convert converter="bean" match="com.flowedu.manager.LectureManager"/>
 		<convert converter="bean" match="com.flowedu.service.CalendarService"/>
 		<convert converter="bean" match="com.flowedu.service.PaymentService"/>
+		<convert converter="bean" match="com.flowedu.service.ConsultService"/>
+		<convert converter="bean" match="com.flowedu.service.BusService"/>
+		<convert converter="bean" match="com.flowedu.manager.BusManager"/>
+		<!-- ========================= API SERVICE ======================== -->
+		<convert converter="bean" match="com.flowedu.api.service.LogService"/>
+		<convert converter="bean" match="com.flowedu.api.service.SendService"/>
 
 
 		<create creator="spring" javascript="loginService">
@@ -55,6 +62,31 @@
 			<param name="beanName" value="paymentService" />
 		</create>
 
+		<create creator="spring" javascript="consultService">
+			<param name="class" value="com.flowedu.service.ConsultService"/>
+			<param name="beanName" value="consultService" />
+		</create>
+
+		<create creator="spring" javascript="busService">
+			<param name="class" value="com.flowedu.service.BusService"/>
+			<param name="beanName" value="busService" />
+		</create>
+
+		<create creator="spring" javascript="busManager">
+			<param name="class" value="com.flowedu.manager.BusManager"/>
+			<param name="beanName" value="busManager" />
+		</create>
+
+		<create creator="spring" javascript="logService">
+			<param name="class" value="com.flowedu.api.service.LogService"/>
+			<param name="beanName" value="logService" />
+		</create>
+
+		<create creator="spring" javascript="sendService">
+			<param name="class" value="com.flowedu.api.service.SendService"/>
+			<param name="beanName" value="sendService" />
+		</create>
+
 
 		<!-- ========================= MANAGER ======================== -->
 
@@ -78,9 +110,23 @@
 		<convert converter="bean" match="com.flowedu.dto.StudentMemoReplyDto"/>
 		<convert converter="bean" match="com.flowedu.domain.StudentMemo"/>
 		<convert converter="bean" match="com.flowedu.dto.AcademyGroupDto"/>
+		<convert converter="bean" match="com.flowedu.dto.EarlyConsultMemoDto"/>
+		<convert converter="bean" match="com.flowedu.dto.AssignmentInfoDto"/>
+		<convert converter="bean" match="com.flowedu.dto.DriverInfoDto"/>
+		<convert converter="bean" match="com.flowedu.dto.DriverHelperInfoDto"/>
+		<convert converter="bean" match="com.flowedu.dto.BusAttendTimeDto"/>
+		<convert converter="bean" match="com.flowedu.dto.BusDto"/>
+		<convert converter="bean" match="com.flowedu.dto.BusInfoDto"/>
+		<convert converter="bean" match="com.flowedu.dto.BusDismissTimeDto"/>
 		<!-- define -->
+		<convert converter="bean" match="com.flowedu.domain.KisPosOcx"/>
+		<convert converter="bean" match="com.flowedu.domain.LecturePaymentLog"/>
+		<convert converter="bean" match="com.flowedu.domain.RequestApi"/>
+		<convert converter="bean" match="com.flowedu.domain.DriverList"/>
+		<convert converter="bean" match="com.flowedu.domain.DriverHelper"/>
+		<convert converter="bean" match="com.flowedu.domain.DriverRoute"/>
+		<convert converter="bean" match="com.flowedu.domain.LectureRegInfo"/>
 
-		
 	</allow>
 
 </dwr>

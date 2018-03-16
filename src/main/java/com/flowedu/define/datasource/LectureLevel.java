@@ -6,7 +6,8 @@ package com.flowedu.define.datasource;
 public enum LectureLevel {
     HIGH(0, "상"),
     MIDDLE(1, "중"),
-    LOW(2, "하");
+    LOW(2, "하"),
+    NONE(3, "구분없음");
 
     int lectureLevelCode;
 

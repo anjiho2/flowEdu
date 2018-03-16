@@ -29,7 +29,7 @@ public class ExecutionDatasourceAspect {
 		if (method.getDeclaringClass().isInterface()) {
 			method = joinPoint.getTarget().getClass().getDeclaredMethod(methodName, method.getParameterTypes());
 		}
-		
+
 		DataSource dataSource = method.getAnnotation(DataSource.class);
 		if (dataSource != null) {
 			ContextHolder.setDataSourceType(dataSource.value());

@@ -1,6 +1,7 @@
 package com.flowedu.filter;
 
 import com.flowedu.dto.FlowEduMemberDto;
+import com.flowedu.service.AcademyService;
 import com.flowedu.service.MemberService;
 import com.flowedu.session.UserSession;
 import org.slf4j.Logger;
@@ -26,12 +27,14 @@ public class UserSessionFilter extends DelegatingFilterProxy {
         try {
             HttpServletRequest req = ((HttpServletRequest)request);
             MemberService memberService = findWebApplicationContext().getBean(MemberService.class);
+            AcademyService academyService = findWebApplicationContext().getBean(AcademyService.class);
 
             FlowEduMemberDto dto = (FlowEduMemberDto)req.getSession().getAttribute("member_info");
             if (dto != null) {
                 if (UserSession.get() == null) {
                     FlowEduMemberDto flowEduMemberDto = memberService.getFlowEduMemberCheck(dto.getFlowMemberId());
-                    UserSession.set(new FlowEduMemberDto(flowEduMemberDto.getFlowMemberId(), flowEduMemberDto.getMemberType(), flowEduMemberDto.getMemberName()));
+                    String academyThumbnail = academyService.getAcademyThumbnailUrl(flowEduMemberDto.getOfficeId());
+                    UserSession.set(new FlowEduMemberDto(flowEduMemberDto.getFlowMemberId(), flowEduMemberDto.getMemberType(), flowEduMemberDto.getMemberName(), flowEduMemberDto.getOfficeId(), academyThumbnail));
                     logger.info("userSession >>>>>>>>>>>>>>> " + flowEduMemberDto);
                 }
             }

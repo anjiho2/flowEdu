@@ -35,13 +35,19 @@ public class FlowEduMemberListDto {
     //  주소
     private String memberAddress;
 
+    // 우편번호
+    private String zipCode;
+
+    //상세주소
+    private String memberAddressDetail;
+
     //  이메일
     private String memberEmail;
 
     //  성범죄경력조회 확인일자
     private String sexualAssultConfirmDate;
 
-    //  교육정 강사등록일자
+    //  교육청 강사등록일자
     private String educationRegDate;
 
     //  운영자, 선생님인지 구분
@@ -58,4 +64,8 @@ public class FlowEduMemberListDto {
 
     //직책 명
     private String jobPositionName;
+
+    private String memberAuthKey;
+
+    private boolean serveYn;
 }

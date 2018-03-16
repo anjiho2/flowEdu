@@ -79,7 +79,7 @@
     <aop:aspectj-autoproxy>
     	<aop:include name="datasourceAspect"/>
     </aop:aspectj-autoproxy>
-    
+
     <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="routingDataSource"/>
         <property name="typeAliasesPackage" value="com.challabros.birdletter.admin.dto"/>
@@ -103,7 +103,21 @@
 
     <!-- Filter -->
     <bean id="userSessionFilter" class="com.flowedu.filter.UserSessionFilter"/>
-	
+    <!-- @ResponseBoby 한글 깨짐 처리 -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>text/html;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
 	<!-- ========================= SERVICE OBJECT DEFINITIONS ======================== -->	
   	<!--<bean id="userService" class="com.challabros.birdletter.admin.service.UserService"/>-->
 
@@ -111,8 +125,9 @@
   	<!-- ========================= BUSINESS OBJECT DEFINITIONS MANAGER ======================== -->
 
   	<!-- ========================= CONFIG OBJECT DEFINITIONS CONFIG ======================== -->
-  	<!--<bean id="QuartzConfigHolder" class="QuartzConfigHolder"/>-->
-  	
+  	<bean id="ConfigHolder" class="com.flowedu.config.ConfigHolder"/>
+
+
   	<!-- ========================= CRONQUARTZ DEFINITIONS ======================== -->
   	<!--
   	<bean id="anniversaryQuartz" class="org.springframework.scheduling.quartz.JobDetailBean">
@@ -150,23 +165,23 @@
 	<!---->
 	<!-- SPRING JAVA MAIL -->
 
-	<!--<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">-->
-		<!--<property name="host" value="smtp.gmail.com" />-->
-		<!--<property name="port" value="587" />-->
-		<!--<property name="defaultEncoding" value="UTF-8" />-->
-		<!--<property name="username" value="#{config['google.email.username']}" />-->
-		<!--<property name="password" value="#{config['google.email.password']}" />-->
-		<!--<property name="javaMailProperties">-->
-			<!--<props>-->
-				<!--<prop key="mail.smtp.auth">true</prop>-->
-				<!--<prop key="mail.smtp.starttls.required">true</prop>-->
-				<!--<prop key="mail.smtp.starttls.enable">true</prop>-->
-				<!--<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>-->
-				<!--<prop key="mail.smtp.socketFactory.fallback">false</prop>-->
-				<!--<prop key="mail.smtp.port">465</prop>-->
-				<!--<prop key="mail.smtp.socketFactory.port">465</prop>-->
-			<!--</props>-->
-		<!--</property>-->
-	<!--</bean>-->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="username" value="#{config['google.email.username']}" />
+		<property name="password" value="#{config['google.email.password']}" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.required">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+				<prop key="mail.smtp.socketFactory.fallback">false</prop>
+				<prop key="mail.smtp.port">465</prop>
+				<prop key="mail.smtp.socketFactory.port">465</prop>
+			</props>
+		</property>
+	</bean>
 
 </beans>

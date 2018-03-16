@@ -6,7 +6,9 @@ package com.flowedu.define.datasource;
 public enum LectureStatus {
     OPEN(0, "개강"),
     CANCEL(1, "휴강"),
-    CLOSE(2, "폐강");
+    CLOSE(2, "폐강"),
+    WAIT(3, "대기")
+    ;
 
     int lectureStatusCode;
 

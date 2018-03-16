@@ -30,14 +30,15 @@ public class LectureDetailDto {
 
     private Long officeId;
 
-    private String lectureLoomName;
+    private String lectureRoomName;
 
     private String officeName;
 
     public LectureDetailDto() {}
 
-    public LectureDetailDto(Long lectureId, Long lectureRoomId,
+    public LectureDetailDto(Long lectureDetailId, Long lectureId, Long lectureRoomId,
                 String startTime, String endTime, String lectureDay) {
+        this.lectureDetailId = lectureDetailId;
         this.lectureId = lectureId;
         this.lectureRoomId = lectureRoomId;
         this.startTime = startTime;

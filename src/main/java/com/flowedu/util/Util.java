@@ -1,5 +1,9 @@
 package com.flowedu.util;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -7,26 +11,29 @@ import java.security.SecureRandom;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Locale;
-import java.util.SimpleTimeZone;
-import java.util.StringTokenizer;
 
+import com.flowedu.define.datasource.SmsSendData;
+import javafx.scene.media.MediaPlayer;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * <PRE>
@@ -919,26 +926,6 @@ public class Util {
 		
 	}
 	
-	/**
-	 * 페이징 값 가져오기
-	 * @param sPage
-	 * @param pageInList
-	 * @return
-	 */
-	/*
-	public static PagingDto getPaging(int sPage, int pageInList) {
-		PagingDto pagingDto = new PagingDto();
-		
-		int page_cnt = pageInList;
-		int srow = page_cnt * (sPage -1) + 1;
-		String start = Integer.toString(srow);
-		String end = Integer.toString(page_cnt * sPage);
-		
-		pagingDto.setStart(start);
-		pagingDto.setEnd(end);
-		return pagingDto;
-	}
-	*/
 	public static HttpResponse http(String url, String body) {
 
         try (CloseableHttpClient httpClient = HttpClientBuilder.create().build()) {
@@ -996,9 +983,9 @@ public class Util {
 		int rewardPopcorn = (int)((corn * 10 ) * Float.valueOf(String.format("%.2f", calcPercent)));
 		return rewardPopcorn;
 	}
-	
-	public static void main(String[] args) throws Exception {
 
-	 }
+	public static void main(String[] args) throws Exception {
+		System.out.println(SmsSendData.getSmsSendType("1"));
+	}
 }
 

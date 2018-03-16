@@ -1,274 +1,200 @@
 <%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+    Long lecture_id = Long.parseLong(request.getParameter("lecture_id"));
+    int depth1 = 4;
+    int depth2 = 1;
+
+    int siderMenuDepth1 = 4;
+    int siderMenuDepth2 = 5;
+    int siderMenuDepth3 = 3;
+%>
 <%@include file="/common/jsp/top.jsp" %>
-<script type='text/javascript' src='/flowEdu/dwr/interface/lectureManager.js'></script>
+<%@include file="/common/jsp/header.jsp" %>
 <script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
 <script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
-<link rel="stylesheet" href="//cdn.rawgit.com/fgelinas/timepicker/master/jquery.ui.timepicker.css">
-<style>
-    /*초기화와 메뉴폭 지정*/
-    #navi{padding:0;width:200px;margin:0;}
-    #navi h2{margin: 0;padding: 0;}
-    /*메인메뉴 스타일 지정*/
-    #navi h2 a{display: block;font-weight: bold;text-decoration: none;margin: 0;padding: 10px;font-family:'돋움', sans-serif;font-size: 14px;color: #ccc;text-shadow: 0 1px 1px #000; background:#1d4ab3;background: -moz-linear-gradient(#1d4ab3 0%, #163887 100%);background: -webkit-linear-gradient(#1d4ab3 0%, #163887 100%);background: -o-linear-gradient(#1d4ab3 0%, #163887 100%);background: linear-gradient(#1d4ab3 0%, #163887 100%);}
-
-    /*메인 메뉴에 대한 마우스 이벤트에 대한 효과 지정*/
-    #navi :target h2 a,
-    #navi h2 a:focus,
-    #navi h2 a:hover,
-    #navi h2 a:active{background:#1a1a1a;background:-moz-linear-gradient(#1a1a1a 0%, #000000 100%);background:-webkit-linear-gradient(#1a1a1a 0%, #000000 100%);background:-o-linear-gradient(#1a1a1a 0%, #000000 100%);background:linear-gradient(#1a1a1a 0%, #000000 100%);color:#eee;text-shadow: 0 1px 1px #000000;}
-</style>
-<script type="text/javascript">
+<script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
+<script>
     function init(val) {
-        var office_id;
-        if(val == undefined || val == "") office_id = 0;
-        else office_id = val;
-
-        academyListSelectbox2("sel_academy",office_id);
-        lectureOperationTypeSelectbox("sel_lectureOperation","");
-        lectureStatusSelectbox("sel_lectureStatus","","50");
-        lectureStudentLimitSelectbox("sel_lectureStudentlimit","", "30");
-        schoolSelectbox("student_grade","", "elem_list");
-        lectureSubjectSelectbox("sel_lectureSubject","");
-        lectureLevelRadio("lecture_level","HIGH","");
-        lecturePriceSelectbox("lecture_price","");
-        teacherList(office_id, "sel_member", "");
-        teacherList2(office_id,"sel_member2","");
-        lectureDaySelectbox("lectureDaySelectbox","");
-        lectureRoomSelectbox(office_id,"lectureRoomSelectbox","");
-
-    }
-    // 관 선택시 onChange
-    function academy_sel_change(val) {
-
-        init(val);
-    }
-    //학년 구분에 따른 학년 셀렉트 박스 변경
-    function school_radio(school_grade) {
-        schoolSelectbox("student_grade","", school_grade);
-    }
-    //강의실 중복 체크
-    function dupcheck_lecture_room() {
-        var sel_lectureRoom = $('select[name="sel_lectureRoom[]"]').last().val();
-        var sel_lectureDay  = $('select[name="lecture_day[]"]').last().val();
-        var start_time      = $('input[name="start_time[]"]').last().val();
-        var end_time        = $('input[name="end_time[]"]').last().val();
-
-        lectureService.checkDuplicateLectureDetail(sel_lectureRoom, start_time, end_time, sel_lectureDay, function (bl) {
-            if(bl==true){
-                alert("등록할수없는 시간대와 강의실 입니다.\n다른 시간대와 강의실을 선택하세요.");
-                $('input[name="start_time[]"]').last().val("");
-                $('input[name="end_time[]"]').last().val("");
-            } else {
-                trans_html();
-            }
-        });
-    }
-
-    //html 복제하기
-    function trans_html() {
-        var num = $(".clonedDiv").length;   //복사할 영역 클래스 길이
-        var newNum = num + 1;
-        var newElem = $("#input1").clone().attr('id', 'input' + newNum);    //복사할 영역 원본 id 값 변경
-        newElem.find("#start_time_input_1 input").attr('id', 'start_time_' + newNum).val('');   //시간이 보여줄 input 접근 후 id 값 변경
-        //복제된 영역에서 시간이 보여줄 input jquery.timepicker 바인딩시켜주기
-        newElem.find("#start_time_input_1 input")
-            .removeClass('hasTimepicker')
-            .removeData('timepicker')
-            .unbind()
-            .timepicker({
-                hourText: '시',
-                minuteText: '분'
-            });
-            $.timepicker.setDefaults($.timepicker.regional['ko']);
-        //종료시간 input박스
-        newElem.find("#end_time_input_1 input").attr('id', 'end_time_' + newNum).val('');
-        newElem.find("#end_time_input_1 input")
-            .removeClass('hasTimepicker')
-            .removeData('timepicker')
-            .unbind()
-            .timepicker({
-                hourText: '시',
-                minuteText: '분'
-            });
-        $.timepicker.setDefaults($.timepicker.regional['ko']);
-        //복제시 삭제 버튼 추가
-        newElem.find('#lectureRoomSelectbox').after("<input type='button' class='btn_less1' onclick='del_html();' value='삭제' id='del_btn'/>")
-        $("#input" + num).after(newElem);
-    }
-
-    //복제된 html 삭제하기
-    function del_html() {
-        var num = $('.clonedDiv').length;
-        $('#input' + num).remove();
-        $('#del_btn').attr('disabled', false);
-        if (num - 1 == 1) {
-            $('#del_btn').attr('disabled', 'disabled');
+        getLectureinfo();
+        if(val == undefined) {
+            val = "ELEMENT";
+            schoolTypeSelectbox("l_schoolType", val);
+            schoolSelectbox("student_grade", "", val);
+            searchAcademySelectbox("sel_academy",""); //소속
+            academyGroupSelectbox("sel_group", "");//그룹
+            lectureStatusSelectbox("sel_lectureState", "WAIT");
+            lectureSubjectSelectbox("sel_lectureSubject", "");
+            lectureLevelSelectbox("sel_lectureLevel", "");//레벨
+            lecturePriceSelectbox("sel_lecturePrice", "");
+            classLimitNumberSelectbox("sel_classLimit", "");
+        }else{
+            schoolTypeSelectbox("l_schoolType", val);
+            schoolSelectbox("student_grade", "", val);
         }
     }
 
-    //강의정보 저장
-    function save_lecture_info() {
+    function modify_lecture_detail() {
+        var lecture_id = <%=lecture_id%>;
+        var check = new isCheck();
 
-        var sel_academy  = getSelectboxValue("sel_academyList2");//관선택
-        var manager      = getSelectboxValue("sel_teacherList2");//관리선생님
-        var teacher      = getSelectboxValue("sel_teacherList");//담당선생님
-        var sel_price    = getSelectboxValue("sel_lecturePrice");//가격
-        var lecture_name = getInputTextValue("lecture_name");//강의명
-        var lecture_subject   =  getSelectboxValue("sel_lectureSubject");//강의과목
-        var school_type  = get_radio_value("school_type");//학교구분
-        var sel_school   = getSelectboxValue("sel_school");//학년
-        var lecture_level  = get_radio_value("lecture_level");//레벨
-        var lecture_operation = getSelectboxValue("sel_lectureOperationTypeList");//강의기간단위
-        var lecture_start  = getInputTextValue("startDate");//강의시작일
-        var lecture_end    = getInputTextValue("startDate2");//강의종료일
-        var lecture_student_limit   = getSelectboxValue("sel_lectureStudentLimitList");//강의인원수
-        var lecture_state  = getSelectboxValue("sel_lectureStatusList");//강의상태
+        var academy_group =  getSelectboxValue("sel_group", "");//그룹
+        var academy    =  getSelectboxValue("sel_academy", "");//학원
+        var lecture_name    =  getInputTextValue("lecture_name", "");//강의명
+        var subject    =  getSelectboxValue("sel_lectureSubject", "");//과목
+        var teacher1   = getInputTextValue("teacher1");
+        var teacher2   = getInputTextValue("teacher2");
+        var schoolType = convert_school_value(getSelectboxValue("sel_schoolType", ""));//학교구분
+        var schoolNum  =  getSelectboxValue("sel_school", "");//학년구분
+        var level = getSelectboxValue("sel_lectureLevel", ""); //레벨
+        var lecturePrice = getSelectboxValue("sel_lecturePrice", "");//수강료
+        var classLimit   = getSelectboxValue("sel_classLimit", "");//정원
+        var lectureState = getSelectboxValue("sel_lectureState", "");//강의상태
+        var startDate = getInputTextValue("startDate", "");//시작일
+        var endDate   = getInputTextValue("endDate", "");//종료일
 
-        var lecture_info = {
-            officeId: sel_academy,
-            chargeMemberId: teacher,
-            manageMemberId: manager,
-            lecturePriceId: sel_price,
-            lectureName: lecture_name,
-            lectureSubject: lecture_subject,
-            lectureGrade: sel_school,
-            lectureLevel: lecture_level,
-            lectureOperationType: lecture_operation,
-            lectureStartDate: lecture_start,
-            lectureEndDate: lecture_end,
-            lectureLimitStudent: lecture_student_limit,
-            lectureStatus: lecture_state,
-            schoolType: school_type
+        if(check.selectbox("sel_memberType", comment.input_academy_group)   == false) return;
+        if(check.selectbox("sel_academy", comment.input_academy_name)   == false) return;
+        if(check.input("lecture_name", comment.input_lecture_class)   == false) return;
+        if(check.selectbox("sel_lectureSubject", comment.input_lecture_subject)   == false) return;
+        if(check.input("teacher1", comment.input_teacher_name)   == false) return;
+        if(check.selectbox("sel_schoolType", comment.input_schoolType)   == false) return;
+        if(check.selectbox("sel_school", comment.input_school)   == false) return;
+        if(check.selectbox("sel_lecturePrice", comment.input_lecture_price)   == false) return;
+        if(check.selectbox("sel_classLimit", comment.input_class_limit)   == false) return;
+        if(check.selectbox("sel_lectureState", comment.select_status)   == false) return;
+        if(check.input("startDate", comment.input_lecture_start_time)   == false) return;
+        if(check.input("endDate", comment.input_lecture_end_time)   == false) return;
+        var data = {
+            lectureId: lecture_id,
+            academyGroupId: academy_group,//그룹
+            officeId: academy,//학원
+            lectureName: lecture_name,//강의명
+            lectureSubject:subject,//과목
+            manageMemberId : '1',         //선생님1
+            chargeMemberId : '2',              //선생님2
+            schoolType: schoolType,//학교구분
+            lectureGrade: schoolNum,//학년구분
+            lectureLevel: level,//레벨
+            lecturePriceId : lecturePrice,//수강료
+            lectureLimitStudent: classLimit,//정원
+            lectureStatus: lectureState,//강의상태
+            lectureStartDate : startDate,
+            lectureEndDate : endDate,
+            lectureOperationType : "MONTH",
         };
-
-        var end_time_list = new Array();
-        var start_time_list = new Array();
-        var room_list = new Array();
-        var day_list = new Array();
-
-        $('select[name="sel_lectureRoom[]"]').each(function () {
-            room_list.push($(this).val());
-        });
-        $('select[name="lecture_day[]"]').each(function () {
-            day_list.push($(this).val());
-        });
-        $('input[name="start_time[]"]').each(function () {
-            start_time_list.push($(this).val());
-        });
-        $('input[name="end_time[]"]').each(function () {
-            end_time_list.push($(this).val());
-        });
-        var num = $('.clonedDiv').length;
-        var detail_list = new Array();
-
-        for(var i=0; i < num ; i++){
-
-            //강의상세정보 강의시작/종료시간 유효성체크
-            var detail_compare_time = compareTime(start_time_list[i], end_time_list[i]);
-            if(detail_compare_time == false) {
-                alert("강의종료시간이 강의시작시간보다 작습니다.");
-                return false;
-            }
-
-            //배열에 값넣기 강의상세정보
-            var lecture_detail_info = {
-                lectureRoomId: room_list[i],
-                startTime: start_time_list[i],
-                endTime: end_time_list[i],
-                lectureDay: day_list[i]
-            };
-            detail_list.push(lecture_detail_info);
+        console.log(data);
+        if(confirm(comment.isUpdate)) {
+            lectureService.modifyLectureInfo(data, function () {
+                gfn_display("loadingbar", false);
+                isReloadPage(true);
+                //goPage("lecture", "list_member");
+            });
         }
+        //modifyLectureInfo
+    }
+    
+    
+    function getLectureinfo() {
+        var lecture_id = <%=lecture_id%>;
 
-        //강의 시작일&종료일 시간비교 유효성체크
-        var compare_time = compareTime(lecture_start,lecture_end);
-        if(compare_time == false) {
-            alert("강의종료일이 강의시작일보다 작습니다.");
-            return false;
-        }
-
-
-
-
-        lectureManager.regLecture(lecture_info, detail_list, function (bl) {
-            if(bl==true){
-                //TODO : 등록이 완료되면 강의 리스트로 이동시키는 기능 추가하기
-                lecture_go('lecture_list');
-            } else {
-                alert(comment.error);
-            }
+        lectureService.getLectureInfo(lecture_id, function (sel) {
+            academyGroupSelectbox("sel_group", sel.academyGroupId);//그룹
+            innerValue("lecture_name",sel.lectureName);
+            searchAcademySelectbox("sel_academy", sel.officeId); //학원
+            lectureSubjectSelectbox("sel_lectureSubject", sel.lectureSubject);
+            innerValue("teacher1",sel.chargeMemberName);
+            innerValue("teacher2",sel.manageMemberName);
+            innerValue("startDate",sel.lectureStartDate);
+            innerValue("endDate",sel.lectureEndDate);
+            schoolTypeSelectbox("l_schoolType", sel.schoolType);
+            schoolSelectbox("student_grade", sel.lectureGrade, "");
+            lectureLevelSelectbox("sel_lectureLevel", sel.lectureLevel);
+            lecturePriceSelectbox("sel_lecturePrice", sel.lecturePriceId);
+            classLimitNumberSelectbox("sel_classLimit", sel.lectureLimitStudent);
+            lectureStatusSelectbox("sel_lectureState", sel.lectureStatus);
         });
     }
 
-    function test_event(id) {
-        $("#all_menu_m").show();
-    }
-    function close_layer() {
-        $("#all_menu_m").hide();
+
+    var isChange = false;
+    $(document).ready(function () {
+        $("input, select, textarea").change(function () {
+            isChange = true;
+        });
+    });
+
+    function go_list() {
+        if(isChange) {
+            if (confirm(comment.is_change_confirm)) {
+                goPage('lecture', 'lecture_list')
+            }
+        } else {
+            goPage('lecture', 'lecture_list')
+        }
     }
 </script>
+
 <body onload="init();">
-<form name="frm" id="frm" method="get">
-    <input type="hidden" name="page_gbn" id="page_gbn">
-    <div id="navi">
-        <div id="menu1">
-            <h2><a href="">강의관리</a></h2>
-            <p><a onclick="lecture_go('price');">강의가격</a></p>
-            <p><a onclick="lecture_go('room');">강의룸</a></p>
-            <p><a onclick="lecture_go('lecture_list');">강의상세보기</a></p>
-        </div>
-    </div>
-    <div id="lectureInfo">
-        <h1>강의정보입력</h1>
+<div id="loadingbar" class="loadingbar" style="display:none;">
+    <img src="img/loading.gif">
+</div>
+<div class="container">
+    <%@include file="/common/jsp/titleArea.jsp" %>
+    <%@include file="/common/jsp/lecture_top_menu.jsp" %>
+</div>
+</section>
+<section class="content">
+    <form name="frm" method="get">
+        <input type="hidden" name="page_gbn" id="page_gbn">
+        <input type="hidden" name="lecture_id" id="lecture_id" value="<%=lecture_id%>">
+    </form>
+    <div class="tb_t1">
         <table>
+            <tbody>
             <tr>
-                <th>관선택</th>
+                <th>그룹<b>*</b></th>
                 <td>
-                    <span id="sel_academy"></span>
+                    <select id="sel_group" class="form-control" style="width: 20rem;">
+                        <option value="">전체</option>
+                    </select>
+                </td>
+                <th>학원<b>*</b></th>
+                <td>
+                    <select id="sel_academy" class="form-control">
+                        <option value="">전체</option>
+                    </select>
                 </td>
             </tr>
             <tr>
-                <th>관리선생님</th>
+                <th>강의명<b>*</b></th>
                 <td>
-                    <span id="sel_member2"></span>
+                    <input type="text" class="form-control" id="lecture_name" placeholder="강의명을 입력하세요.">
+                </td>
+                <th>과목<b>*</b></th>
+                <td>
+                    <select id="sel_lectureSubject" class="form-control" style="width: 20rem;">
+                        <option value="">▶과목선택</option>
+                    </select>
                 </td>
             </tr>
             <tr>
-                <th>담당선생님</th>
+                <th>선생님1<b>*</b></th>
                 <td>
-                    <span id="sel_member"></span>
+                   <input type="text" id="teacher1" class="form-control" placeholder="선생님1 이름을 입력하세요.">
+                </td>
+                <th>선생님2 </th>
+                <td>
+                    <input type="text" id="teacher2" class="form-control" placeholder="선생님2 이름을 입력하세요.">
                 </td>
             </tr>
             <tr>
-                <th>가격</th>
+                <th>학교구분<b>*</b></th>
                 <td>
-                   <span id="lecture_price"></span>
+                    <span id="l_schoolType"></span>
                 </td>
-            </tr>
-            <tr>
-                <th>강의명</th>
-                <td>
-                    <input type="text" id="lecture_name">
-                </td>
-            </tr>
-            <tr>
-                <th>강의과목</th>
-                <td>
-                    <span id="sel_lectureSubject"> </span>
-                </td>
-            </tr>
-            <tr>
-                <th>학교구분</th>
-                <td>
-                    <input type="radio" name="school_type" value="elem_list" onclick="school_radio(this.value);" checked>초등학교
-                    <input type="radio" name="school_type" value="midd_list" onclick="school_radio(this.value);">중학교
-                    <input type="radio" name="school_type" value="high_list" onclick="school_radio(this.value);">고등학교
-                </td>
-            </tr>
-            <tr>
-                <th>학년</th>
+                <th>학년구분<b>*</b></th>
                 <td>
                     <span id="student_grade"></span>
                 </td>
@@ -276,78 +202,58 @@
             <tr>
                 <th>레벨</th>
                 <td>
-                    <span id="lecture_level"></span>
+                    <select id="sel_lectureLevel" class="form-control" style="width: 20rem;">
+                        <option value="">구분없음</option>
+                    </select>
+                </td>
+                <th>수강료<b>*</b></th>
+                <td>
+                    <select id="sel_lecturePrice" class="form-control" style="width: 20rem;">
+                        <option value="">전체</option>
+                    </select>
                 </td>
             </tr>
             <tr>
-                <th>강의기간단위</th>
+                <th>정원<b>*</b></th>
                 <td>
-                    <span id="sel_lectureOperation"></span>
+                    <select id="sel_classLimit" class="form-control" style="width: 20rem;">
+                        <option value="">전체</option>
+                    </select>
+                </td>
+                <th>강의상태<b>*</b></th>
+                <td>
+                    <select id="sel_lectureState" class="form-control" style="width: 20rem;">
+                        <option value="">전체</option>
+                    </select>
                 </td>
             </tr>
             <tr>
-                <th>시작일</th>
+                <th>시작일<b>*</b></th>
                 <td>
-                    <input type="text" id="startDate">
+                    <div class="input-group date common">
+                        <input type="text" id="startDate" class="form-control date-picker">
+                        <span class="input-group-addon">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                    </div>
+                </td>
+                <th>종료일<b>*</b></th>
+                <td>
+                    <div class="input-group date common">
+                        <input type="text" id="endDate" class="form-control date-picker">
+                        <span class="input-group-addon">
+                                <span class="fa fa-calendar"></span>
+                            </span>
+                    </div>
                 </td>
             </tr>
-            <tr>
-                <th>종료일</th>
-                <td>
-                    <input type="text" id="startDate2">
-                </td>
-            </tr>
-            <tr>
-                <th>강의정원명</th>
-                <td>
-                    <span id="sel_lectureStudentlimit"></span>
-                </td>
-            </tr>
-            <tr>
-                <th>강의상태</th>
-                <td>
-                    <span id="sel_lectureStatus"></span>
-                </td>
-            </tr>
+            </tbody>
         </table>
+        <button class="btn_pack s2 blue" onclick="modify_lecture_detail();">수정</button>
+        <button class="btn_pack s2 blue" onclick="go_list();">목록</button>
     </div>
 
-    <h2>강의 상세정보 입력</h2>
-    <input type="button" value="추가" class="add_btn" id="addBtn" onclick="dupcheck_lecture_room();">
-    <input type="button" value="저장" onclick="save_lecture_info();">
-    <div id="input1" class="clonedDiv">
-      <table border="1">
-                <tr>
-                    <th>강의실선택</th>
-                    <td>
-                        <span id="lectureRoomSelectbox"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <th>강의시작시간</th>
-                    <td id="start_time_input_1">
-                       <input type="text" id="start_time_1" name="start_time[]">
-                    </td>
-                </tr>
-                <tr>
-                    <th>강의종료시간</th>
-                    <td id="end_time_input_1">
-                        <input type="text" id="end_time" name="end_time[]">
-                    </td>
-                </tr>
-                <tr>
-                    <th>강의요일</th>
-                    <td>
-                        <span id="lectureDaySelectbox"></span>
-                    </td>
-                </tr>
-      </table>
-        <br>
-    </div>
-</form>
-
-
-
-
+</section>
+<%@include file="/common/jsp/footer.jsp" %>
 </body>
-</html>
+

@@ -3,14 +3,10 @@
 <mapper namespace="com.flowedu.mapper.MemberMapper">
 
 	<select id="getFlowEduMember" parameterType="Long" resultType="com.flowedu.dto.FlowEduMemberListDto">
-		SELECT
-		A.flow_member_id, A.office_id, A.team_id, A.job_position_id, A.phone_number, A.member_name,
-		A.member_birthday, A.member_address, A.member_email, A.sexual_assult_confirm_date,
-		A.education_reg_date, A.member_type, B.office_name, C.team_name, D.job_position_name
+		SELECT A.*, C.job_position_id, B.office_name
 		FROM FLOWEDU_MEMBER A LEFT JOIN OFFICE B
-		ON A.office_id = B.office_id LEFT JOIN TEAM_INFO C
-		ON A.team_id = C.team_id LEFT JOIN JOB_POSITION_INFO D
-		ON A.job_position_id = D.job_position_id
+		ON A.office_id = B.office_id LEFT JOIN JOB_POSITION_INFO C
+		ON A.job_position_id = C.job_position_id
 		<if test="flowMemberId > 0">
 			<where>
 				A.flow_member_id = #{flowMemberId}
@@ -30,20 +26,58 @@
 	<select id="getFlowEduMemberListCount" resultType="Integer">
 		SELECT count(A.flow_member_id) as cnt
 		FROM FLOWEDU_MEMBER A LEFT JOIN OFFICE B
-		ON A.office_id = B.office_id WHERE A.member_type != 'ADMIN'
+		ON A.office_id = B.office_id LEFT JOIN JOB_POSITION_INFO C
+		ON A.job_position_id = C.job_position_id
+		WHERE 1=1
+		<if test="memberType != ''">
+			AND A.member_type = #{memberType}
+		</if>
+		<if test="jobPositionId > 0">
+			AND C.job_position_id = #{jobPositionId}
+		</if>
+		<if test="officeId > 0">
+			AND A.office_id = #{officeId}
+		</if>
+		<if test="teamName != ''">
+			AND A.team_name = #{teamName}
+		</if>
+		<if test="searchText != ''">
+			<if test="searchType eq 'phone'">
+				AND A.phone_number LIKE CONCAT ('%', #{searchText}, '%')
+			</if>
+			<if test="searchType eq 'name'">
+				AND A.member_name LIKE CONCAT ('%', #{searchText}, '%')
+			</if>
+		</if>
 	</select>
 
 	<select id="getFlowEduMemberList" resultType="com.flowedu.dto.FlowEduMemberListDto">
-		SELECT
-			A.flow_member_id, A.office_id, A.team_id, A.job_position_id, A.phone_number, A.member_name,
-			A.member_birthday, A.member_address, A.member_email, A.sexual_assult_confirm_date,
-			A.education_reg_date, A.member_type, B.office_name, C.team_name, D.job_position_name
+		SELECT A.flow_member_id, A.member_type, C.job_position_name, A.member_name, B.office_name, A.team_name, A.phone_number, A.serve_yn
 		FROM FLOWEDU_MEMBER A LEFT JOIN OFFICE B
-		ON A.office_id = B.office_id LEFT JOIN TEAM_INFO C
-		ON A.team_id = C.team_id LEFT JOIN JOB_POSITION_INFO D
-		ON A.job_position_id = D.job_position_id
-		WHERE A.member_type != 'ADMIN'
-		ORDER BY A.office_id ASC
+		ON A.office_id = B.office_id LEFT JOIN JOB_POSITION_INFO C
+		ON A.job_position_id = C.job_position_id
+		WHERE 1=1
+		<if test="memberType != ''">
+			AND A.member_type = #{memberType}
+		</if>
+		<if test="jobPositionId > 0">
+			AND C.job_position_id = #{jobPositionId}
+		</if>
+		<if test="officeId > 0">
+			AND A.office_id = #{officeId}
+		</if>
+		<if test="teamName != ''">
+			AND A.team_name = #{teamName}
+		</if>
+		<if test="searchText != ''">
+			<if test="searchType eq 'phone'">
+				AND A.phone_number LIKE CONCAT ('%', #{searchText}, '%')
+			</if>
+			<if test="searchType eq 'name'">
+				AND A.member_name LIKE CONCAT ('%', #{searchText}, '%')
+			</if>
+		</if>
+		ORDER BY A.flow_member_id desc, A.office_id ASC
 		LIMIT #{start}, #{end}
 	</select>
 	
@@ -55,10 +89,13 @@
 		SELECT count(flow_member_id) as cnt
 		FROM FLOWEDU_MEMBER
 		WHERE phone_number = #{phoneNumber}
+		<if test="memberPass != ''">
+			AND member_password = #{memberPass}
+		</if>
 	</select>
 
 	<select id="getTeacherList" resultType="com.flowedu.dto.FlowEduMemberListDto">
-		SELECT flow_member_id, office_id, team_id, member_name
+		SELECT flow_member_id, office_id, member_name
 		FROM FLOWEDU_MEMBER
 		WHERE office_id = #{officeId}
 		AND member_type LIKE CONCAT('TEACHER', '%')
@@ -73,26 +110,77 @@
 		</foreach>
 	</select>
 
+	<select id="findFlowEduMember" resultType="Long">
+		SELECT flow_member_id
+		FROM FLOWEDU_MEMBER
+		WHERE 1=1
+		<if test="memberId != ''">
+			AND phone_number = #{memberId} OR member_auth_key = #{memberId}
+		</if>
+		<if test="password != ''">
+			AND member_password = #{password}
+		</if>
+		<if test="email != ''">
+			AND member_email = #{email}
+		</if>
+	</select>
+
+	<select id="findFlowEudMemberId" resultType="Long">
+		SELECT flow_member_id
+		FROM FLOWEDU_MEMBER
+		WHERE 1=1
+		<if test="memberName != ''">
+			AND member_name = #{memberName}
+		</if>
+		<if test="email != ''">
+			AND member_email = #{email}
+		</if>
+	</select>
+
+	<select id="findFlowEudMemberByCount" resultType="Integer">
+		SELECT count(flow_member_id)
+		FROM FLOWEDU_MEMBER
+		WHERE 1=1
+		<if test="memberName != ''">
+			AND member_name = #{memberName}
+		</if>
+		<if test="email != ''">
+			AND member_email = #{email}
+		</if>
+	</select>
+
+	<select id="getMemberTeamList" resultType="String">
+		SELECT team_name
+		FROM FLOWEDU_MEMBER
+		GROUP BY team_name
+	</select>
+
 	<insert id="saveFlowEduMember" parameterType="com.flowedu.dto.FlowEduMemberDto">
 		INSERT INTO FLOWEDU_MEMBER
 		(
-			office_id, team_id, job_position_id, phone_number, member_password,
+			office_id, team_name, job_position_id, phone_number, member_password,
 			member_name, member_birthday, member_address, member_email,
-			sexual_assult_confirm_date, education_reg_date, member_type
+			sexual_assult_confirm_date, education_reg_date, member_type, member_auth_key,
+			member_address_detail, zip_code
 		)
 		VALUES
 		(
-			#{officeId}, #{teamId}, #{jobPositionId}, #{phoneNumber}, #{memberPassword},
+			#{officeId}, #{teamName}, #{jobPositionId}, #{phoneNumber}, #{memberPassword},
 			#{memberName}, #{memberBirthday}, #{memberAddress}, #{memberEmail},
-			#{sexualAssultConfirmDate}, #{educationRegDate}, #{memberType}
+			#{sexualAssultConfirmDate}, #{educationRegDate}, #{memberType}, #{memberAuthKey},
+			#{memberAddressDetail}, #{zipCode}
 		)
+		<selectKey resultType="Long" keyProperty="flowMemberId" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 	</insert>
 
 	<update id="modifyFlowEduMember" parameterType="com.flowedu.dto.FlowEduMemberDto">
 		UPDATE FLOWEDU_MEMBER
 		<set>
 			<if test="officeId > -1">office_id = #{officeId},</if>
-			<if test="teamId > -1">team_id = #{teamId},</if>
+			<if test="teamName != ''">team_name = #{teamName},</if>
+			<if test="jobPositionId > -1">job_position_id = #{jobPositionId},</if>
 			<if test="phoneNumber != ''">phone_number= #{phoneNumber},</if>
 			<if test="memberPassword != ''">member_password = #{memberPassword},</if>
 			<if test="memberName != ''">member_name = #{memberName},</if>
@@ -101,11 +189,28 @@
 			<if test="memberEmail != ''">member_email = #{memberEmail},</if>
 			<if test="sexualAssultConfirmDate != ''">sexual_assult_confirm_date = #{sexualAssultConfirmDate},</if>
 			<if test="educationRegDate != ''">education_reg_date = #{educationRegDate},</if>
-			<if test="memberType != ''">member_type = #{memberType}</if>
+			<if test="memberType != ''">member_type = #{memberType},</if>
+			<if test="serveYn != ''">serve_yn = #{serveYn},</if>
 		</set>
 		<where>
 			flow_member_id = #{flowMemberId}
 		</where>
+	</update>
+	
+	<update id="modifyFlowMemberPassword">
+		UPDATE FLOWEDU_MEMBER
+		<set>
+			<if test="password != ''">member_password = #{password}</if>
+		</set>
+		<where>
+			flow_member_id = #{flowMemberId}
+		</where>
+	</update>
+
+	<update id="updateMemberServed">
+		UPDATE FLOWEDU_MEMBER
+		<set>serve_yn = #{serveYn}</set>
+		WHERE flow_member_id = #{flowMemberId}
 	</update>
 
 	<delete id="deleteFlowEduMember" parameterType="Long">

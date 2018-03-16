@@ -1,8 +1,10 @@
 package com.flowedu.manager;
 
-import com.flowedu.dto.LectureCalendarDto;
-import com.flowedu.dto.LectureDetailDto;
-import com.flowedu.dto.LectureInfoDto;
+import com.flowedu.api.service.SendService;
+import com.flowedu.define.datasource.SmsSendData;
+import com.flowedu.domain.LectureRegInfo;
+import com.flowedu.domain.RequestApi;
+import com.flowedu.dto.*;
 import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
 import com.flowedu.service.LectureService;
@@ -12,7 +14,11 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * Created by jihoan on 2017. 8. 10..
@@ -22,6 +28,9 @@ public class LectureManager {
 
     @Autowired
     private LectureService lectureService;
+
+    @Autowired
+    private SendService sendService;
 
     /**
      * <PRE>
@@ -67,39 +76,76 @@ public class LectureManager {
         return true;
     }
 
-    public void test() {
-        LectureInfoDto dto = new LectureInfoDto();
-        dto.setLectureId(26L);
-        dto.setOfficeId(4L);
-        dto.setChargeMemberId(5L);
-        dto.setManageMemberId(6L);
-        dto.setLecturePriceId(2L);
-        dto.setLectureName("강의1111");
-        dto.setLectureSubject("수학");
-        dto.setLectureGrade(1);
-        dto.setLectureLevel("LOW");
-        dto.setLectureOperationType("MONTH");
-        dto.setLectureStartDate("2017-10-01");
-        dto.setLectureEndDate("2017-10-30");
-        dto.setLectureLimitStudent(30);
-        dto.setLectureStatus("CANCEL");
-
-        //this.saveLectureInfo(dto);
-
-        List<LectureDetailDto> Arr = new ArrayList<>();
-
-        for (int i=0; i<2; i++) {
-            LectureDetailDto detailDto = new LectureDetailDto();
-            Long l = new Long(i+1);
-            detailDto.setLectureRoomId(2L);
-            detailDto.setStartTime("11:00:00");
-            detailDto.setEndTime("12:00:00");
-            detailDto.setLectureDay("MON");
-            detailDto.setLectureDetailId(l);
-            Arr.add(detailDto);
+    /**
+     * <PRE>
+     * 1. Comment : 출석하기 기능
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 01 .29
+     * </PRE>
+     * @param lectureAttendDtoList
+     * @return
+     * @throws Exception
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean attendLecture(List<LectureAttendDto> lectureAttendDtoList) throws Exception {
+        if (lectureAttendDtoList.size() == 0) return false;
+        Optional<LectureAttendDto>findInfo = lectureAttendDtoList
+                .stream()
+                .filter(lectureAttendDto -> !lectureAttendDto.getAttendStartTime().equals(""))
+                .findFirst();
+        if (findInfo.isPresent()) { // 등원일때
+            lectureService.saveLectureAttendList(lectureAttendDtoList);
+        } else {
+            // 하원일때
+            for (LectureAttendDto dto : lectureAttendDtoList) {
+                lectureService.modifyLectureAttend(dto);
+            }
         }
+        //출석 sms 전송
+        RequestApi requestApi = sendService.sendAttendSms(lectureAttendDtoList);
+        if (requestApi.getHttpStatusCode() != 200 || requestApi == null) return false;
+        return true;
+    }
 
-        this.modifyLecture(dto, Arr);
+    /**
+     * <PRE>
+     * 1. Comment : 강의 신청 메뉴
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 03 .13
+     * </PRE>
+     * @param lectureId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public LectureRegInfo getLectureRegInfo(Long lectureId) {
+        //강의 기본 정보 가져오기
+        LectureInfoDto lectureInfoDto = lectureService.getLectureInfo(lectureId);
+        //기존 수강중인 학생
+        List<LectureStudentRelDto> lectureStudentRelDtoList = lectureService.getStudentListByLectureRegister(lectureId);
+        LectureRegInfo lectureRegInfo = new LectureRegInfo(
+                lectureInfoDto, lectureStudentRelDtoList
+        );
+        return lectureRegInfo;
+    }
+
+    public void test() {
+       List<LectureAttendDto> arr = new ArrayList<>();
+       //for (int i=0; i<2; i++) {
+           LectureAttendDto lectureAttendDto = new LectureAttendDto();
+           lectureAttendDto.setLectureId(5L);
+           //lectureAttendDto.setLectureAttendId(9L);
+           lectureAttendDto.setStudentId(560L);
+           lectureAttendDto.setAttendType("0");
+           lectureAttendDto.setAttendStartTime("18:00");
+           lectureAttendDto.setAttendEndTime("");
+           lectureAttendDto.setAttendModifyComment("수정입니다.");
+           arr.add(lectureAttendDto);
+       //}
+       try {
+           attendLecture(arr);
+       } catch (Exception e) {
+           e.printStackTrace();
+       }
     }
 
 }

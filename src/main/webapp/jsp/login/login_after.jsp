@@ -23,7 +23,7 @@
                 <%
                     if (session.getAttribute("member_info") != null) {
                         FlowEduMemberDto flowEduMemberDto = (FlowEduMemberDto)session.getAttribute("member_info");
-                        String memberName = flowEduMemberDto.getMemberName();
+                        memberName = flowEduMemberDto.getMemberName();
                 %>
                 <li><input type="button" id="logoutBtn" value="로그아웃" onclick="goLogout();"></li>
                 <li> <%=memberName%>님 반갑습니다.</li>

@@ -28,6 +28,10 @@ public class StudentController {
             mvc.setViewName("/student/memo_student");
         }else if("detail_memo_student".equals(page_gbn)){
             mvc.setViewName("/student/detail_memo_student");
+        }else if("attend_student_list".equals(page_gbn)){
+            mvc.setViewName("/student/attend_student_list");
+        }else if("student_list".equals(page_gbn)){
+            mvc.setViewName("/student/student_list");
         }
 
         return mvc;

@@ -39,7 +39,7 @@
 	<repositories>
 		<repository>
 			<id>central</id>
-			<url>http://192.168.0.201:8081/nexus/content/groups/public</url>
+			<url>http://211.111.239.32:8081/nexus/content/groups/public</url>
 			<releases><enabled>true</enabled></releases>
 			<snapshots><enabled>true</enabled></snapshots>
 		</repository>
@@ -48,7 +48,7 @@
 	<pluginRepositories>
 		<pluginRepository>
 			<id>central</id>
-			<url>http://192.168.0.201:8081/nexus/content/groups/public</url>
+			<url>http://211.111.239.32:8081/nexus/content/groups/public</url>
 			<releases><enabled>true</enabled></releases>
 			<snapshots><enabled>true</enabled></snapshots>
 		</pluginRepository>
@@ -395,7 +395,11 @@
 			<artifactId>spring-erlang</artifactId>
 			<version>1.4.6.RELEASE</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.10</version>
+		</dependency>
 	</dependencies>
 
 

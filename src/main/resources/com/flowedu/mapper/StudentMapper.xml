@@ -39,7 +39,7 @@
 			AND A.student_id = #{studentId}
 		</if>
 		<if test="searchDate != ''">
-			AND DATE_FORMAT(A.create_date, '%Y-%m') = #{searchDate}
+			AND DATE_FORMAT(A.create_date, '%Y-%m-%d') = #{searchDate}
 		</if>
 		<if test="memoType != ''">
 			AND A.memo_type = #{memoType}
@@ -48,7 +48,10 @@
 			AND B.member_name LIKE CONCAT ('%', #{memberName}, '%')
 		</if>
 		<if test="memoContent != ''">
-			AND A.memo_content LIKE CONCAT ('%', #{memoContent}, '%')
+			AND A.memo_content LIKE CONCAT ('%', #{memoContent}, '%') OR A.memo_title LIKE CONCAT ('%', #{memoContent}, '%')
+		</if>
+		<if test="processYn != null">
+			AND A.process_yn = #{processYn}
 		</if>
 	</select>
 
@@ -62,7 +65,7 @@
 			AND student_id = #{studentId}
 		</if>
 		<if test="searchDate != ''">
-			AND DATE_FORMAT(A.create_date, '%Y-%m') = #{searchDate}
+			AND DATE_FORMAT(A.create_date, '%Y-%m-%d') = #{searchDate}
 		</if>
 		<if test="memoType != ''">
 			AND A.memo_type = #{memoType}
@@ -71,7 +74,10 @@
 			AND B.member_name LIKE CONCAT ('%', #{memberName}, '%')
 		</if>
 		<if test="memoContent != ''">
-			AND A.memo_content LIKE CONCAT ('%', #{memoContent}, '%')
+			AND A.memo_content LIKE CONCAT ('%', #{memoContent}, '%') OR A.memo_title LIKE CONCAT ('%', #{memoContent}, '%')
+		</if>
+		<if test="processYn != null">
+			AND A.process_yn = #{processYn}
 		</if>
 		ORDER BY A.create_date DESC
 		LIMIT #{start}, #{end}
@@ -99,28 +105,120 @@
 		</if>
 	</select>
 
+	<select id="getStudentByPhoneNumber" resultType="Integer">
+		SELECT count(student_id)
+		FROM STUDENT
+		WHERE student_phone_number IN (#{phoneNumber})
+		OR mother_phone_number IN (#{phoneNumber})
+		OR father_phone_number IN (#{phoneNumber})
+		OR etc_phone_number IN (#{phoneNumber})
+	</select>
+
+	<select id="selectStudentListByLectureRegSearch" resultType="com.flowedu.dto.StudentDto">
+		SELECT * FROM STUDENT
+		WHERE 1=1
+		<if test="schoolType != ''">
+			AND	school_type = #{schoolType}
+		</if>
+		<if test="searchValue != ''">
+			<if test="searchType eq 'STUDENT_NAME'">
+				 AND student_name LIKE CONCAT ('%', #{searchValue}, '%')
+			</if>
+			<if test="searchType eq 'PHONE_NUMBER'">
+				AND student_phone_number LIKE CONCAT ('%', #{searchValue}, '%')
+			</if>
+			<if test="searchType eq 'MOTHER_NAME'">
+				AND mother_name LIKE CONCAT ('%', #{searchValue}, '%')
+			</if>
+			<if test="searchType eq 'MOTHER_PHONE_NUMBER'">
+				AND mother_phone_number LIKE CONCAT ('%', #{searchValue}, '%')
+			</if>
+		</if>
+	</select>
+
+    <select id="selectStudentListByLectureRegSearchCount" resultType="Integer">
+        SELECT count(student_id) FROM STUDENT
+        WHERE 1=1
+        <if test="schoolType != ''">
+            AND	school_type = #{schoolType}
+        </if>
+        <if test="searchValue != ''">
+            <if test="searchType eq 'STUDENT_NAME'">
+                AND student_name LIKE CONCAT ('%', #{searchValue}, '%')
+            </if>
+            <if test="searchType eq 'PHONE_NUMBER'">
+                AND student_phone_number LIKE CONCAT ('%', #{searchValue}, '%')
+            </if>
+            <if test="searchType eq 'MOTHER_NAME'">
+                AND mother_name LIKE CONCAT ('%', #{searchValue}, '%')
+            </if>
+            <if test="searchType eq 'MOTHER_PHONE_NUMBER'">
+                AND mother_phone_number LIKE CONCAT ('%', #{searchValue}, '%')
+            </if>
+        </if>
+    </select>
+
+	<select id="motherPhoneNumberCount" resultType="Integer">
+		SELECT count(student_id) FROM STUDENT WHERE mother_phone_number = #{motherPhoneNumber}
+	</select>
+
+	<select id="test1" resultType="Long">
+		SELECT idx FROM sooa_ucc WHERE media_key = #{mediaKey}
+	</select>
+
+	<update id="test2">
+		UPDATE sooa_ucc SET
+		thumbnail_file = #{t},
+		media_file = #{m},
+		server_type = 'IBM'
+		WHERE media_key = #{mediaKey}
+	</update>
+
 	<insert id="saveStudentInfo" parameterType="com.flowedu.dto.StudentDto">
 		INSERT INTO STUDENT
 		(
 			student_name, student_password, student_gender, student_birthday, home_tel_number,
 			student_phone_number, student_email, school_name, school_type, student_grade,
 			student_photo_file, student_photo_url, student_memo, mother_name,
-			mother_phone_number, father_name, father_phone_number, parent_password
+			mother_phone_number, father_name, father_phone_number, parent_password,
+			etc_name, etc_phone_number, student_auth_key
 		)
 		VALUES
 		(
 			#{studentName}, #{studentPassword}, #{studentGender}, #{studentBirthday}, #{homeTelNumber},
 			#{studentPhoneNumber}, #{studentEmail}, #{schoolName}, #{schoolType}, #{studentGrade},
 			#{studentPhotoFile}, #{studentPhotoUrl}, #{studentMemo}, #{motherName},
-			#{motherPhoneNumber}, #{fatherName}, #{fatherPhoneNumber}, #{parentPassword}
+			#{motherPhoneNumber}, #{fatherName}, #{fatherPhoneNumber}, #{parentPassword},
+			#{etcName}, #{etcPhoneNumber}, #{studentAuthKey}
 		)
+	</insert>
+
+	<insert id="saveStudentInfoList" parameterType="list">
+		INSERT INTO STUDENT
+		(
+		student_name, student_password, student_gender, student_birthday, home_tel_number,
+		student_phone_number, student_email, school_name, school_type, student_grade,
+		student_photo_file, student_photo_url, student_memo, mother_name,
+		mother_phone_number, father_name, father_phone_number, parent_password,
+		etc_name, etc_phone_number, student_auth_key
+		)
+		VALUES
+		<foreach collection="studentList" item="value" separator=",">
+			(
+			#{value.studentName}, #{value.studentPassword}, #{value.studentGender}, #{value.studentBirthday}, #{value.homeTelNumber},
+			#{value.studentPhoneNumber}, #{value.studentEmail}, #{value.schoolName}, #{value.schoolType}, #{value.studentGrade},
+			#{value.studentPhotoFile}, #{value.studentPhotoUrl}, #{value.studentMemo}, #{value.motherName},
+			#{value.motherPhoneNumber}, #{value.fatherName}, #{value.fatherPhoneNumber}, #{value.parentPassword},
+			#{value.etcName}, #{value.etcPhoneNumber}, #{value.studentAuthKey}
+			)
+		</foreach>
 	</insert>
 
 	<insert id="saveStudentMemo">
 		INSERT INTO STUDENT_MEMO
-		( student_id, flow_member_id, memo_content, memo_type )
+		( student_id, flow_member_id, memo_content, memo_type, memo_title )
 		VALUES
-		( #{studentId}, #{flowMemberId}, #{memoContent}, #{memoType} )
+		( #{studentId}, #{flowMemberId}, #{memoContent}, #{memoType}, #{memoTitle} )
 	</insert>
 
 	<insert id="saveStudentMemoReply">
@@ -150,6 +248,8 @@
 			<if test="motherPhoneNumber != ''">mother_phone_number = #{motherPhoneNumber},</if>
 			<if test="fatherName != ''">father_name = #{fatherName},</if>
 			<if test="fatherPhoneNumber != ''">father_phone_number = #{fatherPhoneNumber},</if>
+			<if test="etcName != ''">etc_name = #{etcName},</if>
+			<if test="etcPhoneNumber != ''">etc_phone_number = #{etcPhoneNumber},</if>
 		</set>
 		<where>
 			student_id = #{studentId}

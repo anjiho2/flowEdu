@@ -1,5 +1,6 @@
 package com.flowedu.mapper;
 
+import com.flowedu.dto.FlowEduMemberDto;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -9,6 +10,6 @@ import java.util.List;
  */
 public interface LoginMapper {
 
-    Long findFlowEduMember(@Param("phoneNumber") String phoneNumber, @Param("password") String password, @Param("memberType") String memberType);
+    FlowEduMemberDto findFlowEduMemberByMemberId(@Param("memberId") String memberId);
 
 }

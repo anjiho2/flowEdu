@@ -1,5 +1,7 @@
 package com.flowedu.mapper;
 
+import com.flowedu.domain.CalcLecturePayment;
+import com.flowedu.domain.LectureSearch;
 import com.flowedu.dto.*;
 import org.apache.ibatis.annotations.Param;
 
@@ -19,11 +21,9 @@ public interface LectureMapper {
 
     Integer getLecturePriceCount(@Param("lecturePrice") int lecturePrice);
 
-    List<LectureInfoDto> getLectureInfoList(@Param("start") int start, @Param("end") int end, @Param("officeId") Long officeId, @Param("flowMemberId") Long flowMemberId,
-                                            @Param("memberType") String memberType, @Param("chargeMemberId") Long chargeMemberId, @Param("schoolType") String schoolType, @Param("lectureGrade") int lectureGrade);
+    List<LectureInfoDto> getLectureInfoList(LectureSearch lectureSearch);
 
-    int getLectureInfoCount(@Param("officeId") Long officeId, @Param("flowMemberId") Long flowMemberId, @Param("memberType") String memberType,
-                            @Param("chargeMemberId") Long chargeMemberId, @Param("schoolType") String schoolType, @Param("lectureGrade") int lectureGrade);
+    int getLectureInfoCount(LectureSearch lectureSearch);
 
     List<LectureDetailDto> getLectureDetailInfoList(@Param("lectureId") Long lectureId);
 
@@ -37,17 +37,32 @@ public interface LectureMapper {
 
     int getLectureStudentRel(@Param("lectureId") Long lectureId, @Param("studentId") Long studentId);
 
-    List<LectureStudentRelByIdDto> getLectureStudentRelByStudentId(@Param("studentId") Long studentId, @Param("type") String type);
+    List<LectureStudentRelByIdDto> getLectureStudentRelByStudentId(@Param("studentId") Long studentId, @Param("type") String type,
+                                                                   @Param("startDate") String startDate, @Param("endDate") String endDate);
 
-    int getLectureStudentRelByStudentIdCount(@Param("studentId") Long studentId, @Param("type") String type);
+    int getLectureStudentRelByStudentIdCount(@Param("studentId") Long studentId, @Param("type") String type,
+                                             @Param("startDate") String startDate, @Param("endDate") String endDate);
 
     List<LectureAttendDto> getLectureAttendList(@Param("lectureId") Long lectureId, @Param("day") String day);
 
-    Integer getLectureAttendListByStudentIdCount(@Param("studentId") Long studentId, @Param("searchMonth") String searchMonth);
+    Integer getLectureAttendListByStudentIdCount(@Param("studentId") Long studentId, @Param("startDate") String startDate, @Param("endDate") String endDate, @Param("officeId") Long offceId);
 
-    List<LectureAttendDto> getLectureAttendListByStudentId(@Param("studentId") Long studentId, @Param("searchMonth") String searchMonth);
+    List<LectureAttendDto> getLectureAttendListByStudentId(@Param("studentId") Long studentId, @Param("startDate") String startDate, @Param("endDate") String endDate, @Param("officeId") Long offceId,
+                                                           @Param("start") int start, @Param("end") int end);
 
     LectureStudentRelByIdDto getLectureStudentRelInfo(@Param("lectureRelId") Long lectureRelId);
+
+    List<LectureAttendDto> getLectureAttendListBySearch(@Param("lectureId") Long lectureId, @Param("day") String day,
+                                                        @Param("searchDate") String searchDate, @Param("studentName") String studentName,
+                                                        @Param("today") String today);
+
+    List<LectureInfoDto> getLectureInfoMyClass(@Param("flowMemberId") Long flowMemberId, @Param("memberType") String memberType);
+
+    List<AssignmentInfoDto> getAssignmentInfoList(@Param("assignmentIdx") Long assignmentIdx, @Param("lectureId") Long lectureId, @Param("useYn") boolean useYn,
+                                                  @Param("startDate") String startDate, @Param("endDate") String endDate, @Param("memberName") String memberName);
+
+    List<LectureRoomDto>selectLecutreRoomRegSuccess(@Param("lectureDay") String lectureDay, @Param("startTime") String startTime,
+                                                     @Param("endTime") String endTime, @Param("officeId") Long officeId);
 
     /** INSERT **/
     void saveLectureRoom(@Param("officeId") Long officeId, @Param("lectureRoomName") String lectureRoomName);
@@ -58,11 +73,15 @@ public interface LectureMapper {
 
     void saveLectureDetailList(@Param("lectureDeatilList")List<LectureDetailDto> lectureDetailDtoList);
 
+    void saveLectureDetail(LectureDetailDto lectureDetailDto);
+
     void saveLectureStudentRel(@Param("relList") List<LectureStudentRelDto> lectureStudentRelDtoList);
 
     void saveLectureAttend(@Param("lectureId") Long lectureId, @Param("studentId") Long studentId, @Param("attendType") String attendType, @Param("attendDay") String attendDay);
 
     void saveLectureAttendList(@Param("attendList") List<LectureAttendDto> lectureAttendDtoList);
+
+    void saveAssignmentInfo(AssignmentInfoDto assignmentInfoDto);
 
     /** UPDATE **/
     void modifyLectureRoom(@Param("lectureRoomId") Long lectureRoomId, @Param("officeId") Long officeId, @Param("lectureRoomName") String lectureRoomName);
@@ -78,5 +97,13 @@ public interface LectureMapper {
     void modifyLectureStudentRel(@Param("lectureRelId") Long lectureRelId, @Param("lectureId") Long lectureId, @Param("studentId") Long studentId, @Param("addYn") boolean addYn);
 
     void modifyAttendComment(@Param("lectureAttendId") Long lectureAttendId, @Param("attendType") String attendType, @Param("attendModifyComment") String attendModifyComment);
+
+    void calcLecturePaymentPrice(CalcLecturePayment calcLecturePayment);
+
+    void updateLectureAttend(LectureAttendDto lectureAttendDto);
+
+    void modifyAssignmentInfo(AssignmentInfoDto assignmentInfoDto);
+
+    void deleteLectureDetailInfo(@Param("lectureId") Long lectureId);
 
 }

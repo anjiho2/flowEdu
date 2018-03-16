@@ -1,38 +1,28 @@
+/** 멤버 종류 선택 셀렉트박스 **/
 function memberTypeSelectbox(tag_id, val) {
-	memberService.getMemberType(function(list) {
-		var html = "<select id='sel_memberType'>";
-		html += "<option value=''>▶선택</option>";
-		for (var i=0; i<list.length; i++) {
-			if (list[i].memberTypeCode == val) {
-				html += "<option value="+list[i].memberTypeCode+" selected>"+ list[i].memberTypeName +"</option>";
-			} else {
-                html += "<option value="+list[i].memberTypeCode+">"+ list[i].memberTypeName +"</option>";
-			}
-		}
-		html += "</select>";
-		innerHTML(tag_id, html);
+    memberService.getMemberType(function(list) {
+        dwr.util.addOptions(tag_id, list, "memberTypeCode", "memberTypeName");
+        dwr.util.setValue(tag_id, val);
+    });
+}
+/** 직책 셀렉트박스 **/
+function jobPositionSelectbox(tag_id, val) {
+    memberService.getJobPositionList(function(list) {
+        dwr.util.addOptions(tag_id, list, "jobPositionId", "jobPositionName");
+        dwr.util.setValue(tag_id, val);
     });
 }
 
-function jobPositionSelectbox(tag_id, val) { //직책 리스트
-    memberService.getJobPositionList(function(list) {
-        var html = "<select id='sel_jobPosition'>";
-        html += "<option value=''>▶선택</option>";
-        for (var i=0; i<list.length; i++) {
-            if (list[i].jobPositionId == val) {
-                html += "<option value="+list[i].jobPositionId+" selected>"+ list[i].jobPositionName +"</option>";
-            } else {
-                html += "<option value="+list[i].jobPositionId+">"+ list[i].jobPositionName +"</option>";
-            }
-        }
-        html += "</select>";
-        innerHTML(tag_id, html);
+function searchAcademySelectbox(tag_id, val) {
+    academyService.getAcademyList(function(list) {
+        dwr.util.addOptions(tag_id, list, "officeId", "officeName");
+        dwr.util.setValue(tag_id, val);
     });
 }
 
 function academyListSelectbox(tag_id, val) { //소속부서(학원)리스트
     academyService.getAcademyList(function(list) {
-        var html = "<select id='sel_academyList'>";
+        var html = "<select id='sel_academyList' onchange='academy_sel_change(this.value);' class='form-control'>";
         html += "<option value=''>▶선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].officeId == val) {
@@ -48,7 +38,7 @@ function academyListSelectbox(tag_id, val) { //소속부서(학원)리스트
 
 function academyListSelectbox2(tag_id, val) { //소속부서(학원)리스트
     academyService.getAcademyList(function(list) {
-        var html = "<select id='sel_academyList2' onchange='academy_sel_change(this.value);' >";
+        var html = "<select id='sel_academyList2' onchange='academy_sel_change(this.value);' class='form-control'>";
         html += "<option value=''>▶선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].officeId == val) {
@@ -64,7 +54,7 @@ function academyListSelectbox2(tag_id, val) { //소속부서(학원)리스트
 
 function flowEduTeamListSelectbox(tag_id, val) { //소속팀 리스트
     memberService.getFlowEduTeamList(function(list) {
-        var html = "<select id='sel_FlowEduTeamList'>";
+        var html = "<select id='sel_FlowEduTeamList' class='form-control'>";
         html += "<option value=''>▶선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].teamId == val) {
@@ -85,7 +75,7 @@ function flowEduTeamListSelectbox(tag_id, val) { //소속팀 리스트
  */
 function lectureDaySelectbox(tag_id, val) {
 	lectureService.getLectureDayList(function (list) {
-		var html = "<select id='sel_lectureDayList' name='lecture_day[]'>";
+		var html = "<select id='sel_lectureDayList' name='lecture_day[]' class='form-control'>";
 		html += "<option value=''>▶요일선택</option>";
 		for (var i=0; i<list.length; i++) {
 			if (list[i].dayCode == val) {
@@ -106,7 +96,7 @@ function lectureDaySelectbox(tag_id, val) {
  */
 function lectureStatusSelectbox(tag_id, val) {
     lectureService.getLectureStatusList(function (list) {
-        var html = "<select id='sel_lectureStatusList'>";
+        var html = "<select id='sel_lectureStatusList' class='form-control'>";
         html += "<option value=''>▶강의상태선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].statusCode == val) {
@@ -127,7 +117,7 @@ function lectureStatusSelectbox(tag_id, val) {
  */
 function lectureOperationTypeSelectbox(tag_id, val) {
     lectureService.getLectureOperationTypeList(function (list) {
-        var html = "<select id='sel_lectureOperationTypeList'>";
+        var html = "<select id='sel_lectureOperationTypeList' class='form-control'>";
         html += "<option value=''>▶운영형태선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].operationTypeCode == val) {
@@ -148,7 +138,7 @@ function lectureOperationTypeSelectbox(tag_id, val) {
  * @param limitCount
  */
 function lectureStudentLimitSelectbox(tag_id, val, limitCount) {
-    var html = "<select id='sel_lectureStudentLimitList'>";
+    var html = "<select id='sel_lectureStudentLimitList' class='form-control'>";
     html += "<option value=''>▶인원수선택</option>";
     for (var i=1; i<=limitCount; i++) {
         if (i == val) {
@@ -169,7 +159,7 @@ function lectureStudentLimitSelectbox(tag_id, val, limitCount) {
  */
 function teacherList(office_id, tag_id, val) {
     memberService.getTeacherList(office_id, function (list) {
-        var html = "<select id='sel_teacherList'>";
+        var html = "<select id='sel_teacherList' class='form-control'>";
         html += "<option value=''>▶선생님선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].flowMemberId == val) {
@@ -185,7 +175,7 @@ function teacherList(office_id, tag_id, val) {
 
 function teacherList2(office_id, tag_id, val) {
     memberService.getTeacherList(office_id, function (list) {
-        var html = "<select id='sel_teacherList2'>";
+        var html = "<select id='sel_teacherList2' class='form-control'>";
         html += "<option value=''>▶선생님선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].flowMemberId == val) {
@@ -206,7 +196,7 @@ function teacherList2(office_id, tag_id, val) {
  */
 function lectureSubjectSelectbox(tag_id, val) {
     lectureService.getLectureSubjectList(function (list) {
-        var html = "<select id='sel_lectureSubject'>";
+        var html = "<select id='sel_lectureSubject' class='form-control'>";
         html += "<option value=''>▶과목선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].subjectCode == val) {
@@ -227,8 +217,8 @@ function lectureSubjectSelectbox(tag_id, val) {
  */
 function lecturePriceSelectbox(tag_id, val) {
     lectureService.getLecturePriceList(function (list) {
-        var html = "<select id='sel_lecturePrice'>";
-        html += "<option value=''>▶가격선택</option>";
+        var html = "<select id='sel_lecturePrice' class='form-control'>";
+        html += "<option value=''>▶선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].lecturePriceId == val) {
                 html += "<option value="+list[i].lecturePriceId+" selected>"+ addThousandSeparatorCommas(list[i].lecturePrice) +"원</option>";
@@ -243,7 +233,7 @@ function lecturePriceSelectbox(tag_id, val) {
 
 function lectureRoomSelectbox(office_id, tag_id, val) {
     lectureService.getLectureRoomList(office_id, function (list) {
-        var html = "<select id='sel_lectureRoom' name='sel_lectureRoom[]'>";
+        var html = "<select id='sel_lectureRoom' name='sel_lectureRoom[]' class='form-control'>";
         html += "<option value=''>▶강의실선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].lectureRoomId == val) {
@@ -447,10 +437,10 @@ function pagingListSelectbox4(val, tagName) {
 //학교구분별 학년 셀렉트박스
 function schoolSelectbox(tag_id, val, school_grade) {
 	var count = 0;
-    var html = "<select id='sel_school'>";
+    var html = "<select id='sel_school' class='form-control'>";
     html += "<option value=''>▶선택</option>";
     //초등(6)
-	if(school_grade == "elem_list" || school_grade == ""){
+	if(school_grade == "ELEMENT" || school_grade == ""){
 		count = 6;
 	}else{	//중,고등(3)
 		count = 3;
@@ -474,7 +464,23 @@ function schoolSelectbox(tag_id, val, school_grade) {
  */
 function attendTypeSelectbox(tag_id, val) {
     lectureService.getLectureAttendTypeList(function (list) {
-        var html = "<select id='sel_attendType'>";
+        var html = "<select id='sel_attendType' class='form-control'>";
+        html += "<option value=''>▶출결 종류선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].attendCode == val) {
+                html += "<option value="+list[i].attendCode+" selected>"+ list[i].attendName +"</option>";
+            } else {
+                html += "<option value="+list[i].attendCode+">"+ list[i].attendName +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
+function attendTypeSelectbox2(tag_id, val) {
+    lectureService.getLectureAttendTypeList(function (list) {
+        var html = "<select id='sel_attendType2' class='form-control'>";
         html += "<option value=''>▶선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].attendCode == val) {
@@ -490,8 +496,8 @@ function attendTypeSelectbox(tag_id, val) {
 
 function academyGroupSelectbox(tag_id, val) {
     academyService.getAcademyGroup(function (list) {
-        var html = "<select id='sel_academyGroup'>";
-        html += "<option value=''>▶선택</option>";
+        var html = "<select id='sel_academyGroup' class='form-control'>";
+        html += "<option value=''>▶그룹선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].academyGroupId == val) {
                 html += "<option value="+list[i].academyGroupId+" selected>"+ list[i].academyGroupName +"</option>";
@@ -505,10 +511,10 @@ function academyGroupSelectbox(tag_id, val) {
 
 }
 
-
+/*  메모 종류 선택 셀렉트 박스 */
 function studentmemoTypeSelectbox(tag_id, val) {
     studentService.getStudentMemoTypeList(function (list) {
-        var html = "<select id='sel_memoType'>";
+        var html = "<select id='sel_memoType' class='form-control'>";
         html += "<option value=''>▶선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].memoCode == val) {
@@ -520,4 +526,173 @@ function studentmemoTypeSelectbox(tag_id, val) {
         html += "</select>";
         innerHTML(tag_id, html);
     });
+}
+
+
+/*  메모 종류 선택 셀렉트 박스2 */
+function studentmemoTypeSelectbox2(tag_id, val) {
+    studentService.getStudentMemoTypeList(function (list) {
+        var html = "<select id='sel_memoType2' class='form-control'>";
+        html += "<option value=''>▶선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].memoCode == val) {
+                html += "<option value="+list[i].memoCode+" selected>"+ list[i].memoName +"</option>";
+            } else {
+                html += "<option value="+list[i].memoCode +">"+ list[i].memoName  +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+/** 학교 종류 선택 셀렉트박스 **/
+/*
+function schoolTypeSelectbox(tag_id, val) {
+    studentService.getSchoolTypeList(function (list) {
+        dwr.util.addOptions(tag_id, list, "id", "name");
+        //dwr.util.setValue(tag_id, val);
+    });
+}
+*/
+/** 학교 종류 선택 셀렉트박스 **/
+function schoolTypeSelectbox(tag_id, val) {
+    studentService.getSchoolTypeList(function (list) {
+        var html = "<select id='sel_schoolType' class='form-control' onchange='init(this.value);'>";
+        //html += "<option value=''>▶선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].id == val) {
+                html += "<option value="+list[i].id+" selected>"+ list[i].name +"</option>";
+            } else {
+                html += "<option value="+list[i].id +">"+ list[i].name  +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
+/** 학교 종류 선택 셀렉트박스 **/
+function schoolTypeSelectbox2(tag_id, val) {
+    studentService.getSchoolTypeList(function (list) {
+        var html = "<select id='sel_schoolType' class='form-control' onchange='studentList(this.value);'>";
+        //html += "<option value=''>▶선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].id == val) {
+                html += "<option value="+list[i].id+" selected>"+ list[i].name +"</option>";
+            } else {
+                html += "<option value="+list[i].id +">"+ list[i].name  +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
+/** 선생님 반 셀렉트박스 **/
+function myClassSelectbox(tag_id, val) {
+    lectureService.getLectureInfoMyClass(function(list) {
+        dwr.util.addOptions(tag_id, list, "lectureId", "lectureName");
+        dwr.util.setValue(tag_id, val);
+    });
+}
+
+function academyGroupBySearch(tag_id, val) {
+    if (val == undefined) val = "";
+    academyService.getAcademyGroup(function (list) {
+        dwr.util.addOptions(tag_id, list, "academyGroupId", "academyGroupName");
+        dwr.util.setValue(tag_id, val);
+    });
+}
+
+function academyListBySearch(tag_id, val) {
+    if (val == "all") val = 0;
+    academyService.getAcademyListByGourpId(val, function (list) {
+        var html = "<select id='sel_academyList' class='form-control'>";
+        html += "<option value='all' selected>▶전체</option>";
+        for (var i=0; i<list.length; i++) {
+            html += "<option value="+list[i].officeId+">"+ list[i].officeName +"</option>";
+            /*
+            if (list[i].officeId == val) {
+                html += "<option value="+list[i].officeId+" selected>"+ list[i].officeName +"</option>";
+            } else {
+                html += "<option value="+list[i].officeId+">"+ list[i].officeName +"</option>";
+            }
+            */
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
+function teamListSelectbox(tag_id, val) {
+    memberService.getMemberTeamList(function (list) {
+        dwr.util.addOptions(tag_id, list, "teamId", "teamName");
+    });
+}
+
+function academyModifySelectbox(tag_id, val) {
+    academyService.getAcademyList(function(list) {
+        var html = "<select id='sel_academy' class='form-control'>";
+        html += "<option value=''>선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].officeId == val) {
+                html += "<option value="+list[i].officeId+" selected>"+ list[i].officeName +"</option>";
+            } else {
+                html += "<option value="+list[i].officeId+">"+ list[i].officeName +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
+/**
+ * 강의 레벨 셀렉트 박스
+ * @param tag_id
+ * @param val
+ */
+function lectureLevelSelectbox(tag_id, val) {
+    lectureService.getLectureLevelList(function (list) {
+        var html = "<select id='sel_lectureStatusList' class='form-control'>";
+        html += "<option value=''>▶선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].levelCode == val) {
+                html += "<option value="+list[i].levelCode+" selected>"+ list[i].levelName +"</option>";
+            } else {
+                html += "<option value="+list[i].levelCode+">"+ list[i].levelName +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
+function classLimitNumberSelectbox(tag_id, val) {
+    var html = "<select id='sel_classLimit' class='form-control'>";
+    html += "<option value=''>▶선택</option>";
+    for (var i=5; i<35; i+=5) {
+        if (i == val) {
+            html += "<option value="+i+" selected>"+ i +"</option>";
+        } else {
+            html += "<option value="+i+">"+ i +"</option>";
+        }
+    }
+    if (val == "1000") {
+        html += "<option value='1000' selected>제한없음</option>";
+    } else {
+        html += "<option value='1000'>제한없음</option>";
+    }
+
+    html += "</select>";
+    innerHTML(tag_id, html);
+}
+
+function studentSearchTypeSelectbox(tag_id) {
+    var html = "<select id='sel_studentSearchType' class='form-control'>";
+    html += "<option value='STUDENT_NAME' selected>이름</option>";
+    html += "<option value='STUDENT_PHONE_NUMBER'>전화번호</option>";
+    html += "<option value='MOTHER_NAME'>학부모(모) 이름</option>";
+    html += "<option value='MOTHER_PHONE_NUMBER'>학부모(모) 전화번호</option>";
+    html += "</select>";
+    innerHTML(tag_id, html);
 }

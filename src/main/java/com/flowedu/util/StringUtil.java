@@ -1,11 +1,18 @@
 package com.flowedu.util;
 
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class StringUtil {
 	
@@ -18,6 +25,11 @@ public class StringUtil {
 		String[] stringArray = arrayList.toArray(new String[arrayList.size()]);
 		return stringArray;
 	}
+
+    public static String[] listToStringArrayTypeLong(List<Long> arrayList) {
+        String[] stringArray = arrayList.toArray(new String[arrayList.size()]);
+        return stringArray;
+    }
 	
 	/**
 	 * stringArray -> arrayList 변환
@@ -126,10 +138,18 @@ public class StringUtil {
 		return leavedStr;
 	}
 	
-	public static String leaveLastStrNum(String str, int num) {
+	public static String leaveStartStrNum(String str, int num) {
 		String leavedStr = "";
 		if (!"".equals(str)) {
 			leavedStr = str.substring(0, str.length() - num);
+		}
+		return leavedStr;
+	}
+
+	public static String leaveLastStrNum(String str, int num) {
+		String leavedStr = "";
+		if (!"".equals(str)) {
+			leavedStr = str.substring(str.length() - num, str.length());
 		}
 		return leavedStr;
 	}
@@ -231,12 +251,39 @@ public class StringUtil {
 		return convertStr;
 	}
 
+	public static boolean isEmpty(String txt) {
+		if (txt == null || "".equals(txt.trim())) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * 문자열안에 특정 문자가 몇개인지 확인하기
+	 * @param val
+	 * @param val2
+	 * @return
+	 */
+	public static int strMatchCount(String val, String val2) {
+		Pattern p = Pattern.compile(val2);
+		Matcher m = p.matcher(val);
+		int count  = 0;
+		for( int i = 0; m.find(i); i = m.end()){
+			if(count < 4){
+				count++;
+			}
+		}
+		return count;
+	}
+
+
+
 	public static void main(String[] args) {
-		/*
-		String z=x.replace("\"", "");
-		System.out.println(z);
-		*/
-		
+		List<String>list = new ArrayList<>();
+		list.add("1");
+		list.add("2");
+        String[] strings = list.stream().toArray(String[]::new);
+		System.out.println(strings.toString());
 	}
 
 }

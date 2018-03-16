@@ -14,6 +14,7 @@ public class LectureInfoDto {
     //  관 구분 코드
     private Long officeId;
 
+
     //  담임 선생님 아이디
     private Long chargeMemberId;
 
@@ -53,9 +54,11 @@ public class LectureInfoDto {
     //  생성일
     private String createDate;
 
+    private int academyGroupId;
+
 
     // 학교 타입(초, 중, 고)
-    private String schoolType;
+    private String schoolType = convertToSchoolType(this.getSchoolType());
 
 
     private String chargeMemberName;
@@ -67,6 +70,23 @@ public class LectureInfoDto {
     private Integer lecturePrice;
 
     private Integer regCount;
+
+    private String academyGroupName;
+
+    private String memberName;
+
+    private String convertToSchoolType(String korStr) {
+        String engStr = null;
+        if ("ELEMENT".equals(korStr)) {
+            engStr = "elem_list";
+        } else if ("MIDDLE".equals(korStr)) {
+            engStr = "midd_list";
+        } else {
+            engStr = "high_list";
+        }
+        return engStr;
+
+    }
 
 
 }

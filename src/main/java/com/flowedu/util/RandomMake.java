@@ -1,17 +1,21 @@
 package com.flowedu.util;
 
+import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
 public class RandomMake {
 
-	public static String getPhoneNumber() {
+	public static String getNumber(int len, boolean isPhone) {
 		String[] no = {"1","2","3","4","5","6","7","8","9"};
 		StringBuffer sb = new StringBuffer();
 		Random rm = new Random();
-		sb.append("010");
-		for (int i = 0; i < 8; i++) {
-			sb.append(no[rm.nextInt(8)]);
+		if (isPhone) {
+			sb.append("010");
+		}
+		for (int i = 0; i < len; i++) {
+			sb.append(no[rm.nextInt(len)]);
 		}
 		return sb.toString();
 	}
@@ -108,11 +112,36 @@ public class RandomMake {
 		}
 		return sb.toString();
 	 }
+
+	 public static String getRandomPassword() {
+		 String[] str = {"a","b","c","d","e","f","g","h","i","j","k",
+				 "l","m","n","o","p","q","r","s","t","u","v",
+				 "w","x","y","z"};
+		 StringBuffer sb = new StringBuffer();
+		 Random rn = new Random();
+		 for (int i = 0; i < 8; i++) {
+			 sb.append(str[rn.nextInt(26)]);
+		 }
+		 return sb.toString();
+	 }
+
+	 public static String getMemberAuthKey() {
+		Calendar calendar = Calendar.getInstance();
+		DecimalFormat df = new DecimalFormat("0");
+
+		String year = DateUtils.getNowYear();
+		String strMonth = df.format(calendar.get(Calendar.MONTH) + 1);
+		String ranCode = getNumber(4, false);
+		String month  = null;
+		if (Integer.parseInt(strMonth) < 10) {
+			month = "0" + strMonth;
+		}
+		return year + month + ranCode;
+
+	 }
 	
 	public static void main(String[] args) {
-		for (int i = 1; i < 300; i++) {
-			System.out.println(getCornIdx(300));	
-		} 
+		System.out.print(getMemberAuthKey());
 		
 	}
 }

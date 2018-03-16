@@ -15,16 +15,16 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>/home/ec2-user/bird-admin-logs/log4j_root_${byDay}.log</file>
+        <file>/usr/local/flowedu-logs/flowedu-${byDay}.log</file>
         <append>true</append>
         <encoder>
             <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
         </encoder>
     </appender>
-    
-	<logger name="org.mybatis" level="trace" />
-    <logger name="com.flowedu.mapper" level="DEBUG"/>
-    <logger name="com.flowedu.service.INFO" level="INFO"/>
+
+    <logger name="org.mybatis" level="trace" />
+    <logger name="com.flowedu.DEBUG" level="DEBUG"/>
+    <logger name="com.flowedu.INFO" level="INFO"/>
 
     <root level="DEBUG">
         <appender-ref ref="STDOUT" />

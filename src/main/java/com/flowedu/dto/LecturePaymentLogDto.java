@@ -1,5 +1,7 @@
 package com.flowedu.dto;
 
+import com.flowedu.domain.KisPosOcx;
+import com.flowedu.session.UserSession;
 import lombok.Data;
 
 /**
@@ -9,6 +11,8 @@ import lombok.Data;
 public class LecturePaymentLogDto {
 
     private Long lecturePaymentLogId;
+
+    private Long lectureRelId;
 
     private String lectureName;
 
@@ -20,12 +24,16 @@ public class LecturePaymentLogDto {
 
     private String createDate;
 
+    private KisPosOcx kisPosOcx;
+
     LecturePaymentLogDto() {}
 
-    public LecturePaymentLogDto(String lectureName, Integer paymentPrice, String studentName, String memberName) {
+    public LecturePaymentLogDto(Long lectureRelId, String lectureName, Integer paymentPrice, String studentName, KisPosOcx kisPosOcx) {
+        this.lectureRelId = lectureRelId;
         this.lectureName = lectureName;
         this.paymentPrice = paymentPrice;
         this.studentName = studentName;
-        this.memberName = memberName;
+        this.memberName = UserSession.memberName();
+        this.kisPosOcx = kisPosOcx;
     }
 }

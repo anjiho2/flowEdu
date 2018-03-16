@@ -2,6 +2,8 @@ package com.flowedu.service;
 
 import com.flowedu.config.PagingSupport;
 import com.flowedu.define.datasource.*;
+import com.flowedu.domain.CalcLecturePayment;
+import com.flowedu.domain.LectureSearch;
 import com.flowedu.dto.*;
 import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
@@ -190,10 +192,22 @@ public class LectureService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public List<LectureInfoDto> getLectureInfoList(int sPage, int pageListCount, Long officeId, Long chargeMemberId, String schoolType, int lectureGrade) {
+    public List<LectureInfoDto> getLectureInfoList(int sPage, int pageListCount, int groupId, Long officeId, String schoolType,
+                                                   int schoolGrade, String lectureSubject, String lectureStatus, String searchType, String searchValue) {
         PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
-        List<LectureInfoDto> Arr = lectureMapper.getLectureInfoList(
-                pagingDto.getStart(), pageListCount, officeId, UserSession.flowMemberId(), UserSession.memberType(), chargeMemberId, schoolType, lectureGrade);
+        LectureSearch lectureSearch = new LectureSearch(
+                pagingDto.getStart(),
+                pageListCount,
+                groupId,
+                officeId,
+                schoolType,
+                schoolGrade,
+                lectureSubject,
+                lectureStatus,
+                searchType,
+                searchValue
+        );
+        List<LectureInfoDto> Arr = lectureMapper.getLectureInfoList(lectureSearch);
         return Arr;
     }
 
@@ -206,8 +220,21 @@ public class LectureService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public int getLectureInfoCount(Long officeId, Long chargeMemberId, String schoolType, int lectureGrade) {
-        return lectureMapper.getLectureInfoCount(officeId, UserSession.flowMemberId(), UserSession.memberType(), chargeMemberId, schoolType, lectureGrade);
+    public int getLectureInfoCount(int groupId, Long officeId, String schoolType, int schoolGrade, String lectureSubject,
+                                   String lectureStatus, String searchType, String searchValue) {
+        LectureSearch lectureSearch = new LectureSearch(
+                0,
+                0,
+                groupId,
+                officeId,
+                schoolType,
+                schoolGrade,
+                lectureSubject,
+                lectureStatus,
+                searchType,
+                searchValue
+        );
+        return lectureMapper.getLectureInfoCount(lectureSearch);
     }
 
     /**
@@ -267,8 +294,8 @@ public class LectureService extends PagingSupport {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
         LectureInfoDto lectureInfo = lectureMapper.getLectureInfo(lectureId);
-        if (lectureInfo != null) {
-            //학생 제한 숫자 정보 가져오기
+            if (lectureInfo != null) {
+                //학생 제한 숫자 정보 가져오기
             int limitStudent = lectureInfo.getLectureLimitStudent();
             //강의에 등록 되어있는 학생 수 가져오기
             int registeredLectureStudentCount = lectureMapper.getRegisteredLectureStudentCount(lectureId);
@@ -324,8 +351,8 @@ public class LectureService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public List<LectureStudentRelByIdDto> getLectureStudentRelById(Long studentId) {
-        List<LectureStudentRelByIdDto> Arr = lectureMapper.getLectureStudentRelByStudentId(studentId, "MONTH");
+    public List<LectureStudentRelByIdDto> getLectureStudentRelById(Long studentId, String startDate, String endDate) {
+        List<LectureStudentRelByIdDto> Arr = lectureMapper.getLectureStudentRelByStudentId(studentId, "MONTH", startDate, endDate);
         if (Arr != null) {
             //담임 선생님, 관리 선생님 이름 주입하기
             memberNameRepository.fillMemberNameAny(Arr);
@@ -343,8 +370,8 @@ public class LectureService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public int getLectureStudentRelByStudentIdCount(Long studentId) {
-        return lectureMapper.getLectureStudentRelByStudentIdCount(studentId, "MONTH");
+    public int getLectureStudentRelByStudentIdCount(Long studentId, String startDate, String endDate) {
+        return lectureMapper.getLectureStudentRelByStudentIdCount(studentId, "MONTH", startDate, endDate);
     }
 
     /**
@@ -358,7 +385,7 @@ public class LectureService extends PagingSupport {
      */
     @Transactional(readOnly = true)
     public List<LectureStudentRelByIdDto> getLecturePaymentList(Long studentId) {
-        List<LectureStudentRelByIdDto> Arr = lectureMapper.getLectureStudentRelByStudentId(studentId, "");
+        List<LectureStudentRelByIdDto> Arr = lectureMapper.getLectureStudentRelByStudentId(studentId, "", null, null);
         if (Arr != null) {
             //담임 선생님, 관리 선생님 이름 주입하기
             memberNameRepository.fillMemberNameAny(Arr);
@@ -377,7 +404,7 @@ public class LectureService extends PagingSupport {
      */
     @Transactional(readOnly = true)
     public int getLecturePaymentListCount(Long studentId) {
-        return lectureMapper.getLectureStudentRelByStudentIdCount(studentId, "");
+        return lectureMapper.getLectureStudentRelByStudentIdCount(studentId, "", null, null);
     }
 
     /**
@@ -409,15 +436,14 @@ public class LectureService extends PagingSupport {
      * 3. 작성일 : 2017. 09 .11
      * </PRE>
      * @param studentId
-     * @param searchMonth
+     * @param startDate
+     * @param endDate
+     * @param officeId
      * @return
      */
     @Transactional(readOnly = true)
-    public int getLectureAttendListByStudentIdCount(Long studentId, String searchMonth) {
-        if ("".equals(Util.isNullValue(searchMonth, ""))) {
-            searchMonth = Util.returnToDate(DateUtils.DF_MONTH_PATTERN);
-        }
-        return lectureMapper.getLectureAttendListByStudentIdCount(studentId, searchMonth);
+    public int getLectureAttendListByStudentIdCount(Long studentId, String startDate, String endDate, Long officeId) {
+        return lectureMapper.getLectureAttendListByStudentIdCount(studentId, startDate, endDate, officeId);
     }
 
     /**
@@ -427,21 +453,103 @@ public class LectureService extends PagingSupport {
      * 3. 작성일 : 2017. 09 .11
      * </PRE>
      * @param studentId
-     * @param searchMonth
+     * @param startDate
+     * @param endDate
      * @return
      */
     @Transactional(readOnly = true)
-    public List<LectureAttendDto> getLectureAttendListByStudentId(Long studentId, String searchMonth) {
-        if ("".equals(Util.isNullValue(searchMonth, ""))) {
-            searchMonth = Util.returnToDate(DateUtils.DF_MONTH_PATTERN);
+    public List<LectureAttendDto> getLectureAttendListByStudentId(int sPage, int pageInList, Long studentId, String startDate, String endDate, Long officeId) {
+        if (studentId == null) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
-        List<LectureAttendDto> Arr = lectureMapper.getLectureAttendListByStudentId(studentId, searchMonth);
+        PagingDto pagingDto = getPagingInfo(sPage, pageInList);
+        List<LectureAttendDto> Arr = lectureMapper.getLectureAttendListByStudentId(studentId, startDate, endDate, officeId, pagingDto.getStart(), pagingDto.getEnd());
         return Arr;
     }
 
     @Transactional(readOnly = true)
     public LectureStudentRelByIdDto getLectureStudentRelInfo(Long lectureRelId) {
         return lectureMapper.getLectureStudentRelInfo(lectureRelId);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 출결할 리스트 가져오기(반, 이름, 년-월-일 검색)
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 01 .26
+     * </PRE>
+     * @param lectureId
+     * @param studentName
+     * @param searchDate
+     * @return
+     * @throws Exception
+     */
+    @Transactional(readOnly = true)
+    public List<LectureAttendDto> getLectureAttendListBySearch(Long lectureId, String studentName, String searchDate) throws Exception {
+        List<LectureAttendDto> Arr = new ArrayList<>();
+        String day = LectureDay.getLectureDayCode(
+                DateUtils.getDateDay(
+                        Util.returnToDate(DateUtils.DF_DATE_PATTERN), DateUtils.DF_DATE_PATTERN
+                ) - 1
+        ).toString();
+        Arr = lectureMapper.getLectureAttendListBySearch(
+                lectureId,
+                day,
+                Util.isNullValue(searchDate, ""),
+                Util.isNullValue(studentName, ""),
+                Util.returnNowDateByYYMMDD()
+        );
+        return Arr;
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 반 목록 가져오기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 01 .26
+     * </PRE>
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<LectureInfoDto> getLectureInfoMyClass() {
+        return lectureMapper.getLectureInfoMyClass(UserSession.flowMemberId(), UserSession.memberType());
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 과제 검색 리스트(상세 정보로 가져올때는 assignmentIdx > 0 , 리스트는 assignmentIdx == 0)
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 01 .29
+     * </PRE>
+     * @param lectureId
+     * @param useYn
+     * @param startDate
+     * @param endDate
+     * @param memberName
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<AssignmentInfoDto> getAssignmentInfoList(Long assignmentIdx, Long lectureId, boolean useYn,
+                                                         String startDate, String endDate, String memberName) {
+        return lectureMapper.getAssignmentInfoList(
+                assignmentIdx,
+                lectureId,
+                useYn,
+                Util.isNullValue(startDate, ""),
+                Util.isNullValue(endDate, ""),
+                Util.isNullValue(memberName, "")
+        );
+    }
+
+    @Transactional(readOnly = true)
+        public List<LectureRoomDto>getLectureRoomListByRegSuccess(Long officeId, String lectureDay, String startTime, String endTime) throws Exception {
+        /*String lectureDay = LectureDay.getLectureDayCode(
+                DateUtils.getDateDay(
+                        Util.returnToDate(DateUtils.DF_DATE_PATTERN), DateUtils.DF_DATE_PATTERN
+                ) - 1
+        ).toString();
+        */
+        return lectureMapper.selectLecutreRoomRegSuccess(lectureDay, startTime, endTime, officeId);
     }
 
     /**
@@ -521,18 +629,16 @@ public class LectureService extends PagingSupport {
         if (lectureId < 1L && lectureDetailDtoList.size() == 0) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
-        ArrayList<LectureDetailDto> Arr = new ArrayList<>();
-        for (LectureDetailDto lectureDetailDto : lectureDetailDtoList) {
-            LectureDetailDto dto = new LectureDetailDto(
-                    lectureId,
-                    lectureDetailDto.getLectureRoomId(),
-                    lectureDetailDto.getStartTime(),
-                    lectureDetailDto.getEndTime(),
-                    lectureDetailDto.getLectureDay()
-            );
-            Arr.add(dto);
+        if (lectureDetailDtoList.size() > 0) {
+            lectureMapper.deleteLectureDetailInfo(lectureId);
+            for (LectureDetailDto lectureDetailDto : lectureDetailDtoList) {
+                //if (lectureDetailDto.getLectureDetailId() == null) {
+                    lectureMapper.saveLectureDetail(lectureDetailDto);
+                //} else {
+                //    lectureMapper.modifyLectureDetailInfo(lectureDetailDto);
+               // }
+            }
         }
-        lectureMapper.saveLectureDetailList(Arr);
     }
 
     /**
@@ -577,6 +683,34 @@ public class LectureService extends PagingSupport {
 
         List<LectureAttendDto> LectureAttendDtoArr = new LectureAttendDto().consume(lectureAttendDtoList);
         lectureMapper.saveLectureAttendList(LectureAttendDtoArr);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 과제 등록하기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 01 .29
+     * </PRE>
+     * @param lectureId
+     * @param useYn
+     * @param assignmentSubject
+     * @param assignmentContent
+     * @param attachFileName
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveAssignmentInfo(Long lectureId, boolean useYn, String assignmentSubject, String assignmentContent, String attachFileName) {
+        if (lectureId == null || lectureId == 0L) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        AssignmentInfoDto assignmentInfoDto = new AssignmentInfoDto(
+                lectureId,
+                UserSession.flowMemberId(),
+                assignmentSubject,
+                assignmentContent,
+                attachFileName,
+                useYn
+        );
+        lectureMapper.saveAssignmentInfo(assignmentInfoDto);
     }
 
     /**
@@ -663,6 +797,14 @@ public class LectureService extends PagingSupport {
     public void modifyLectureDetailInfoList(List<LectureDetailDto> lectureDetailDtoList) {
         if (lectureDetailDtoList.size() == 0) return;
         List<LectureDetailDto> Arr = lectureMapper.getLectureDetailInfoList(lectureDetailDtoList.get(0).getLectureId());
+        for (LectureDetailDto dto : lectureDetailDtoList) {
+            if (dto.getLectureDetailId() == null) {
+                lectureMapper.saveLectureDetail(dto);
+            } else {
+                lectureMapper.modifyLectureDetailInfo(dto);
+            }
+        }
+        /*
         if (Arr.size() == 0) {
             lectureMapper.saveLectureDetailList(lectureDetailDtoList);
         } else {
@@ -670,6 +812,7 @@ public class LectureService extends PagingSupport {
                 lectureMapper.modifyLectureDetailInfo(dto);
             }
         }
+        */
     }
 
     /**
@@ -723,6 +866,72 @@ public class LectureService extends PagingSupport {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
         lectureMapper.modifyAttendComment(lectureAttendId, attendType, attendModifyComment);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 결재금액 업데이트 하기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2017. 11 .08
+     * </PRE>
+     * @param lectureRelId
+     * @param paymentPrice
+     * @param calcType
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void calcLecturePaymentPrice(Long lectureRelId, int paymentPrice, String calcType) {
+        if (lectureRelId == null && "".equals(calcType)) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        CalcLecturePayment calcLecturePayment = new CalcLecturePayment(lectureRelId, paymentPrice, calcType);
+        lectureMapper.calcLecturePaymentPrice(calcLecturePayment);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 출석 상태 변경하기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 01 .28
+     * </PRE>
+     * @param lectureAttendDto
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void modifyLectureAttend(LectureAttendDto lectureAttendDto) {
+        if (lectureAttendDto == null) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        lectureMapper.updateLectureAttend(lectureAttendDto);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 과제정보 수정하기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 01 .29
+     * </PRE>
+     * @param assignmentIdx
+     * @param lectureId
+     * @param useYn
+     * @param assignmentSubject
+     * @param assignmentContent
+     * @param attachFileName
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void modifyAssignmentInfo(Long assignmentIdx, Long lectureId, boolean useYn, String assignmentSubject,
+                                     String assignmentContent, String attachFileName) {
+        if (assignmentIdx == null || assignmentIdx == 0L) {
+            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
+        }
+        AssignmentInfoDto assignmentInfoDto = new AssignmentInfoDto(
+            assignmentIdx,
+            lectureId,
+            UserSession.flowMemberId(),
+            assignmentSubject,
+            assignmentContent,
+            attachFileName,
+            useYn
+        );
+        lectureMapper.modifyAssignmentInfo(assignmentInfoDto);
     }
 
 }

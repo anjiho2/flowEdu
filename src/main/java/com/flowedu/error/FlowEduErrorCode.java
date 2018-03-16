@@ -7,7 +7,12 @@ public enum FlowEduErrorCode {
 		INTERNAL_ERROR(500, "Internal server error"),
 		BAD_REQUEST(400, "Bad request, parameter not accepted"),
 	 	NOT_ALLOW_FILE_NAME_KOREAN(901, "not allow korean name"),
-	 	CUSTOM_DATA_LIST_NULL(902, "data list is null!");
+	 	CUSTOM_DATA_LIST_NULL(902, "data list is null!"),
+		CUSTOM_IMAGE_FILE_NAME_KOREAN(903, "image file name is Korean!"),
+		CUSTOM_IMAGE_FILE_EXTENSION_NOT_ALLOW(904, "file extension not allow!"),
+		CUSTOM_IMAGE_FILE_SIZE_LIMIT(905, "ifile size limit error!"),
+		CUSTOM_ASSIGNMENT_FILE_EXTENSION_NOT_ALLOW(906, "assignment file extension not allow!"),
+		CUSTOM_PAYMENT_ACCESS_CODE_NULL(911, "payment access code is null!");
 
 		int code;
 		String msg;
