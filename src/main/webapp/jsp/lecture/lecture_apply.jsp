@@ -108,7 +108,7 @@
         $("#sel_searchType").val("STUDENT_NAME");
         $("#search_value").val("");
         dwr.util.removeAllRows("dataList2");
-        dwr.util.removeAllRows("dataList3");
+        //dwr.util.removeAllRows("dataList3");
         $("#pages2").hide();
         $("#searchTable tbody").css("height", "0px");
         gfn_emptyView2("V", comment.search_input_student_name);

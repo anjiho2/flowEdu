@@ -63,7 +63,7 @@
         if(check.selectbox("sel_lectureState", comment.select_status)   == false) return;
         if(check.input("startDate", comment.input_lecture_start_time)   == false) return;
         if(check.input("endDate", comment.input_lecture_end_time)   == false) return;
-
+        gfn_display("loadingbar", true);
 
         var data = {
             academyGroupId: academy_group,//그룹
@@ -82,11 +82,14 @@
             lectureEndDate : endDate,
             lectureOperationType : "MONTH",
         };
-        console.log(data);
-        //lectureEndDate,academyGroupId,lectureStartDate
-        lectureService.saveLectureInfo(data, function () {
-            alert("저장");
-        });
+
+        if(confirm(comment.isSave)){
+            lectureService.saveLectureInfo(data, function () {
+                gfn_display("loadingbar", false);
+                isReloadPage(true);
+            });
+        }
+
     }
 
 
@@ -109,6 +112,9 @@
 
 </script>
 <body onload="init();">
+<div id="loadingbar" class="loadingbar" style="display:none;">
+    <img src="img/loading.gif">
+</div>
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
     <div class="title-top">강의관리</div>

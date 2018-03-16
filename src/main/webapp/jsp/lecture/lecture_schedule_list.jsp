@@ -17,10 +17,9 @@
 <link rel="stylesheet" href="//cdn.rawgit.com/fgelinas/timepicker/master/jquery.ui.timepicker.css">
 <script>
     function init2() {
+        gfn_emptyView("V","통학도우미가 없습니다.");
         var lectureId = '<%=lectureId%>';
-
         if (lectureId == "") return;
-
         lectureService.getLectureDetailInfoList(lectureId, function (selList) {
             if (selList.length == 0) return;
             for (var i=0; i<selList.length; i++) {
