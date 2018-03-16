@@ -105,8 +105,12 @@
     //팝업 콜 초기 값 세팅
     function popupInit() {
         schoolTypeSelectbox("l_schoolType", "");
+        $("#sel_searchType").val("STUDENT_NAME");
+        $("#search_value").val("");
         dwr.util.removeAllRows("dataList2");
+        dwr.util.removeAllRows("dataList3");
         $("#pages2").hide();
+        $("#searchTable tbody").css("height", "0px");
         gfn_emptyView2("V", comment.search_input_student_name);
 
     }
@@ -133,6 +137,8 @@
                 gfn_emptyView2("V", comment.blank_list2);
                 return;
             }
+            $("#searchTable tbody").css("height", "200px");
+
             var listNum = ((cnt-1)+1)-((sPage-1) * 5); //리스트 넘버링
 
             studentService.getStudentListByLectureRegSearch(schoolType, searchType, searchValue, function (selList) {
@@ -158,12 +164,28 @@
             });
         });
     }
-    //삭제(x)이벤트
+    //이미 등록 되어있는 학생 목록 삭제(x)이벤트
     function removeStudent(val) {
         var lectureRelId = val;
+        var addCount = getInputTextValue("addCount");
+        var regCount = getInputTextValue("regCount");
+
         if (confirm(comment.isDelete)) {
             lectureService.modifyLectureStudentRel(lectureRelId, lecutreId, 0, 0);
             $("#tr_" + lectureRelId).remove();
+            innerHTML("l_limitCount", --addCount);
+            innerHTML("l_isAddCount", ++regCount);
+        }
+    }
+
+    //입력해야할 학생 목록 삭제(x)이벤트
+    function addRemoveStudent(val) {
+        var addCount = $("#l_limitCount").html();
+        var regCount = $("#l_isAddCount").html();
+        if (confirm(comment.isDelete)) {
+            $("#tr_" + val).remove();
+            innerHTML("l_limitCount", --addCount);
+            innerHTML("l_isAddCount", ++regCount);
         }
     }
     //팝업창에서 학생 체크박스 선택시
@@ -240,6 +262,7 @@
             $trNew.find("td span").eq(0).attr("id", "l_addedStudentName_"+studentId).text(studentName);
             $trNew.find("td span").eq(1).text(schoolName);
             $trNew.find("td div").find("button").val(studentId);
+            $trNew.find("td div").find("button").attr("onclick", "addRemoveStudent(this.value);");
 
             $trLast.after($trNew);
         });
