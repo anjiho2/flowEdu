@@ -108,11 +108,10 @@
         $("#sel_searchType").val("STUDENT_NAME");
         $("#search_value").val("");
         dwr.util.removeAllRows("dataList2");
-        dwr.util.removeAllRows("dataList3");
+        $('#resultTable tbody tr').empty();
         $("#pages2").hide();
         $("#searchTable tbody").css("height", "0px");
         gfn_emptyView2("V", comment.search_input_student_name);
-
     }
     //학생 팝업에서 학생 리스트 검색
     function fn_search(val) {
