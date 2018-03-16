@@ -22,7 +22,10 @@
         if (lectureId == "") return;
 
         lectureService.getLectureDetailInfoList(lectureId, function (selList) {
-            if (selList.length == 0) return;
+            if (selList.length == 0) {
+                gfn_emptyView("V", comment.not_reg_schedule_lecture);
+                return;
+            }
             for (var i=0; i<selList.length; i++) {
                 var cmpList = selList[i];
                 var cellData = [
@@ -59,21 +62,25 @@
     function trans_row() {
         var trLen = $("#timeTableList tbody tr").length;
 
+        gfn_emptyView("H", "");
+
         if (trLen == 0) {
             var i = getInputTextValue("num");
             var j = trLen + 1;
 
             var cellData = [
-                function(data) { return "<input type=\"hidden\" name=\"lectureRoomId[]\" class=\"form-control\" id='lectureRoomId_" + i + "'><select id='day_" + i + "' name=\"lecture_day[]\" class=\"form-control\"><option value=\"\">▶요일선택</option><option value=\"SUN\">일요일</option><option value=\"MON\">월요일</option><option value=\"TUE\">화요일</option><option value=\"WEN\">수요일</option><option value=\"THU\">목요일</option><option value=\"FRI\">금요일</option><option value=\"SAT\">토요일</option></select>" },
-                function(data) { return "<input type=\"text\" name=\"startTime[]\" class=\"form-control\" id='startTime_" + i + "'>" },
-                function(data) { return "<input type=\"text\" name=\"endTime[]\" class=\"form-control\" id='endTime_" + i + "'>" },
+                function(data) { return "<input type=\"hidden\" name=\"lectureRoomId[]\" class=\"form-control\" id='lectureRoomId_" + trLen + "'>" +
+                                    "<input type=\"hidden\" name=\"lectureDetailId[]\" class=\"form-control\" id='lectureDetailId_" + trLen + "'>" +
+                                    "<select id='day_" + trLen + "' name=\"lecture_day[]\" class=\"form-control\"><option value=\"\">▶요일선택</option><option value=\"SUN\">일요일</option><option value=\"MON\">월요일</option><option value=\"TUE\">화요일</option><option value=\"WEN\">수요일</option><option value=\"THU\">목요일</option><option value=\"FRI\">금요일</option><option value=\"SAT\">토요일</option></select>" },
+                function(data) { return "<input type=\"text\" name=\"startTime[]\" class=\"form-control\" id='startTime_" + trLen + "'>" },
+                function(data) { return "<input type=\"text\" name=\"endTime[]\" class=\"form-control\" id='endTime_" + trLen + "'>" },
                 function(data) { return "<div class=\"form-group row marginX draghandle\">\n" +
-                    "                            <input type=\"text\" class=\"form-control hasTimepicker\" name=\"roonName[]\" id='roomName_" + i + "' onclick='open_lecture_room(this.id);'>\n" +
-                    "                            <button type=\"button\" class=\"fa fa-close\" aria-label=\"Close\" value='" + i +"' onclick='del_html(this.value)'>\n" +
+                    "                            <input type=\"text\" class=\"form-control hasTimepicker\" name=\"roonName[]\" id='roomName_" + trLen + "' onclick='open_lecture_room(this.id);'>\n" +
+                    "                            <button type=\"button\" class=\"fa fa-close\" aria-label=\"Close\" value='" + trLen +"' onclick='del_html(this.value)'>\n" +
                     "                            </button>\n" +
                     "                        </div>" },
             ];
-            innerValue("num", ++i);
+            innerValue("num", trLen);
             dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
             $("#timeTableList").find("tbody").find("tr:last").attr("id", "tr_"+i);
 
@@ -90,21 +97,26 @@
             });
             $.timepicker.setDefaults($.timepicker.regional['ko']);
         } else {
-            var newNum = trLen + 1;
+            var newNum = trLen;
             var $tableBody = $("#timeTableList").find("tbody"),
                 $trLast = $tableBody.find("tr:last"),
                 $trNew = $trLast.clone();
 
             $trLast.after($trNew);
 
-            $trNew.attr("id", "tr_" + trLen);
-            $trNew.find("td input").eq(0).val('').attr("id", "lectureRoomId_" + trLen);
-            $trNew.find("td input[name='lectureDetailId[]']").eq(0).val('').attr("id", "lectureDetailId_" + trLen);
-            $trNew.find("td select").eq(0).val('').attr("id", "day_" + trLen);
-            $trNew.find("td input").eq(1).val('');
-            $trNew.find("td input").eq(2).val('').attr("id", "startTime_" + trLen);
-            $trNew.find("td input").eq(3).val('').attr("id", "endTime" + trLen);
-            $trNew.find("td input").eq(4).val('').attr("id", "roomName_" + trLen);
+            $trNew.attr("id", "tr_" + newNum);
+            $trNew.find("td input").eq(0).val('').attr("id", "lectureRoomId_" + newNum);
+            $trNew.find("td input").eq(1).val('').attr("id", "lectureDetailId_" + newNum);
+            $trNew.find("td select").eq(0).val('').attr("id", "day_" + newNum);
+            $trNew.find("td").eq(1).find("input").val('').attr("id", "startTime_" + newNum);
+            $trNew.find("td").eq(2).find("input").val('').attr("id", "endTime_" + newNum);
+            //$trNew.find("td input[name='lectureDetailId[]']").eq(0).val('').attr("id", "lectureDetailId_" + newNum);
+
+            //$trNew.find("td input").eq(1).val('').attr("id", "startTime_" + newNum);
+            //$trNew.find("td input").eq(2).val('').attr("id", "endTime_" + newNum);
+            //$trNew.find("td input").eq(3).val('').attr("id", "endTime_" + newNum);
+            $trNew.find("td div").find("input").val('').attr("id", "roomName_" + newNum);
+            $trNew.find("td div").find("button").val(newNum);
             /** timepicker 바인딩 하기 **/
             var elem1 = $("#timeTableList tbody tr td input[name='startTime[]']");
             elem1.removeClass('hasTimepicker').removeData('timepicker').unbind().timepicker({
@@ -260,7 +272,7 @@
     function saveLectueRoom() {
         var lectureRoomList = new Array();
         $("#timeTableList tbody tr").each(function () {
-            var lectureDetailId = $(this).find("td input").next().eq(0).val();
+            var lectureDetailId = $(this).find("td input").eq(1).val();
             var lectureRoomId = $(this).find("td input").eq(0).val();
             var day = $(this).find("td select").eq(0).val();
             var startTime = $(this).find("td input").eq(2).val();
@@ -313,8 +325,12 @@
                 <th>강의실</th>
             </tr>
             </thead>
-            <tbody id="dataList">
-            </tbody>
+            <tbody id="dataList"></tbody>
+            <table>
+                <tr>
+                    <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
+                </tr>
+            </table>
         </table>
         <button class="btn_pack s2 blue" onclick="javascript:saveLectueRoom();">저장</button>
         <button class="btn_pack s2 blue" onclick="javascript:trans_row();">등록</button>
