@@ -7,6 +7,21 @@
     var check = new isCheck();
 
     function loginCheck() {
+        var URL = null;
+        if (httpCode == '901') {
+            URL = window.location.protocol + window.location.host + "/" + window.location.pathname ;
+            var data = getSearchParams();
+            var i = 0;
+            $.each(data, function(key, value){
+                var spl = "?";
+                if (i >= 1) {
+                    spl = "&";
+                }
+                URL += spl + key + "=" + value;
+                //alert('key:' + key + ' / ' + 'value:' + value);
+                ++i;
+            });
+        }
         var memberId = getInputTextValue("loginMemberId");
         var pass = getInputTextValue("memberPass");
         var connectIp = "";
@@ -16,7 +31,7 @@
 
         loginService.isMember(memberId, pass, connectIp, function(data) {
             if (data.flowMemberId != null ) {
-                loginOk(data);
+                loginOk(data, URL);
             } else {
                 alert(comment.blank_login_check);
                 return;
@@ -24,7 +39,13 @@
         });
     }
 
-    function loginOk(val) {
+    function getSearchParams(k){
+        var p={};
+        location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi,function(s,k,v){p[k]=v})
+        return k?p[k]:p;
+    }
+
+    function loginOk(val, url) {
         with(document.frm) {
             innerValue("flow_member_id", val.flowMemberId);
             innerValue("office_id", val.officeId);
@@ -33,6 +54,7 @@
             innerValue("member_name", val.memberName);
             innerValue("member_type", val.memberType);
             innerValue("academy_thumbnail", val.academyThumbnail);
+            innerValue("target_url", url);
 
             page_gbn.value = "session";
             action = "<%=webRoot%>/login.do";
@@ -118,6 +140,7 @@
                 <input type="hidden" id="member_name" name="member_name" />
                 <input type="hidden" id="member_type" name="member_type" />
                 <input type="hidden" id="academy_thumbnail" name="academy_thumbnail" />
+                <input type="hidden" id="target_url" name="target_url" />
                 <input type="hidden" name="page_gbn" id="page_gbn">
                <!-- <div class="form-group input-group">
                     <%--<span id="l_memberType" ></span>--%>
