@@ -23,6 +23,8 @@
             if (list.length == 0) return;
             gfn_emptyView("H", "");
             dwr.util.addRows("dataList", list, [
+
+
                 function (data) { return data.officeName;},
                 function (data) { return "<a href='javascript:void(0);' style='color:blue;' onclick='assister_page(" + data.driverHelperIdx + ")'>" + data.helperName + "</a>";},
                 function (data) { return data.serveYn == true ? "재직" : "퇴사";},
