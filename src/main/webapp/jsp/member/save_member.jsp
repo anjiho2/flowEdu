@@ -9,8 +9,8 @@
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
-<script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/memberService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/academyService.js'></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script type="text/javascript">
     function init() {

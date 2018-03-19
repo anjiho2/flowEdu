@@ -15,8 +15,8 @@
     .fc-sat { color:blue; }
     .fc-sun { color:red;  }
 </style>
-<script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/calendarService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/lectureService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/calendarService.js'></script>
 <script type="text/javascript">
     var lectureId = '<%=lecture_id%>';
 

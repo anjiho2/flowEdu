@@ -16,9 +16,9 @@
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
 <script src="<%=webRoot%>/js/trans_payment.js?ver=<%=version%>"></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/paymentService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/logService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/lectureService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/paymentService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/logService.js'></script>
 <script>
 
 if (get_browser_type() != "IE") {

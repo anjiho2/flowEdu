@@ -1,7 +1,8 @@
 <%@ page import="com.flowedu.util.Util" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
+<%@include file="/common/jsp/top.jsp" %>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/academyService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/lectureService.js'></script>
 <script type="text/javascript">
     $(document).ready(function () {
         searchAcademySelectbox("sel_academy", "");

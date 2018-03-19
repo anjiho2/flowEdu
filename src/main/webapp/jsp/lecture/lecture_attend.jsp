@@ -6,7 +6,7 @@
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
-<script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/lectureService.js'></script>
 <script type="text/javascript">
 function init() {
     attendTypeSelectbox("l_attendType",""); //출석타입 셀렉박스

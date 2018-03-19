@@ -49,9 +49,9 @@
     .scrolltbody1 th:nth-of-type(7), .scrolltbody1 td:nth-of-type(7) { width: 12%; }
     .scrolltbody1 th:nth-of-type(8), .scrolltbody1 td:nth-of-type(8) { width: 15%; }
 </style>
-<script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/lectureManager.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/studentService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/lectureManager.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/lectureService.js'></script>
 <script>
     var lecutreId = '<%=lectureId%>';
     //강의 기본정보, 기존수강중인 학생 목록

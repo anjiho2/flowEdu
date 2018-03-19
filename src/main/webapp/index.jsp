@@ -1,15 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/common/jsp/top.jsp" %>
-<script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/loginService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/memberService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/loginService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/lectureService.js'></script>
 <script type="text/javascript">
     var check = new isCheck();
 
     function loginCheck() {
         var URL = null;
         if (httpCode == '901') {
-            URL = window.location.protocol + window.location.host + "/" + window.location.pathname ;
+            URL = window.location.pathname ;
             var data = getSearchParams();
             var i = 0;
             $.each(data, function(key, value){
@@ -261,10 +261,14 @@
     } else {
         System.out.print("========================================");
 %>
-
-    <script>
+<form name="frm" method="post">
+    <input type="hidden" name="page_gbn">
+</form>
+<script>
+    $(document).ready(function () {
         goPage("dashboard", "dashboard_list");
-    </script>
+    });
+</script>
 <%
     }
 %>

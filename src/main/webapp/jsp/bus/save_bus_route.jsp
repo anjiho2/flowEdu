@@ -13,8 +13,8 @@
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
-<script type='text/javascript' src='/flowEdu/dwr/interface/busService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/busManager.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/busService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/busManager.js'></script>
 <link rel="stylesheet" href="//cdn.rawgit.com/fgelinas/timepicker/master/jquery.ui.timepicker.css">
 <script>
     var driverId = '<%=driverId%>';
