@@ -3,7 +3,27 @@
 <%
     String academyThumbnail = UserSession.academyThumbnail();
 %>
-<div id="wrap">
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/authService.js'></script>
+<script>
+    function init() {
+        authService.getLeftMenuInfo(function(selList) {
+            if (selList.length == 0) {
+                return;
+            }
+            console.log(selList);
+            for (var i=0; i<selList.length; i++) {
+                var cmpList = selList[i];
+                console.log(cmpList.mainMenuName);
+                var subMenu = cmpList.subMenus;
+                for (var j=0; j<subMenu.length; j++) {
+                    var cmpList2 = subMenu[j];
+                    console.log(cmpList2.subMenuName);
+                }
+            }
+        });
+    }
+</script>
+<div id="wrap" >
     <header id="header">
         <div style="margin-left: 22px;">
             <img id="academy_img" src="<%=academyThumbnail%>" alt="" style="width: auto; height: 80px">
@@ -12,6 +32,7 @@
 
         <nav id="lnb" class="depth1">
             <ul class="sidebar-menu">
+
                 <%--<li><a href="#"><span class="fa fa-times menu_close_btn"></span></a></li>--%>
                 <li><a href="javascript:goPage('dashboard', 'dashboard_list')" >메인</a></li>
                 <li><a href="#">학생관리</a>
@@ -52,12 +73,14 @@
                 <li><a href="javascript:goPage('', '')">시스템관리</a></li>
                 <%--<li><a href="javascript:goPage('template', 'formType1')" <%=depth1 == 10 ? "class='on'" : ""%>>프론트 개발 페이지</a></li>--%>
                 <%--<li><a href="javascript:goLogout();"><span class="fa fa-power-off"></span>로그아웃</a></li>--%>
+
             </ul>
         </nav>
 
     </header>
 
 <script>
+    init();
     $.sidebarMenu($('.sidebar-menu'));
 
     $(".sidebar-menu > li").eq(<%=siderMenuDepth1%>).addClass("active");

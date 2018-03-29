@@ -84,7 +84,6 @@
             lectureEndDate : endDate,
             lectureOperationType : "MONTH",
         };
-        console.log(data);
         if(confirm(comment.isUpdate)) {
             lectureService.modifyLectureInfo(data, function () {
                 gfn_display("loadingbar", false);

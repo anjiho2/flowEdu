@@ -2,7 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/jsp/common.jsp" %>
 <%
-	String webRoot = request.getContextPath();
 	String serverName = request.getServerName();
 	String version = ConfigHolder.gerVersion();
 %>

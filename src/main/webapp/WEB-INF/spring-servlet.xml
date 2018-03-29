@@ -18,7 +18,6 @@
 	<tx:annotation-driven proxy-target-class="true"/>
 
   	<!-- 세션 인터셉터 설정 -->
-
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/academy.do"/>
@@ -29,6 +28,8 @@
 			<mvc:mapping path="/dashboard.do"/>
 			<mvc:mapping path="/lecture.do"/>
 			<mvc:mapping path="/consult.do"/>
+			<mvc:mapping path="/bus.do"/>
+			<mvc:mapping path="/payment.do"/>
    			<bean class="com.flowedu.config.SessionInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>
