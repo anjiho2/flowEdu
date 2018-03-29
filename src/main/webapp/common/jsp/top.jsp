@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="<%=webRoot%>/common/dist/style.bundle.css?ver=<%=version%>">
 <link rel="stylesheet" href="<%=webRoot%>/common/css/sider_menu.css?ver=<%=version%>">
+<link rel="stylesheet" href="<%=webRoot%>/common/css/addStyle.css?ver=<%=version%>">
 
 <!--  jquery plugin -->
 <script type='text/javascript' src="<%=webRoot%>/common/js/jquery-2.2.4.min.js"></script>
