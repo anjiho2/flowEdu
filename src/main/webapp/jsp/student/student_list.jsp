@@ -78,44 +78,80 @@
             <input type="hidden" id="student_id" name="student_id">
             <input type="hidden"  id="sPage" value="<%=sPage%>">
         </form>
-            <div class="form-group row">
-                <div class="checkbox_t1 black">
-                    <label><input type="radio" name="school_type" value="elem_list" checked><span>초등학교</span></label>
-                    <label><input type="radio" name="school_type" value="midd_list" ><span>중학교</span></label>
-                    <label><input type="radio" name="school_type" value="high_list" ><span>고등학교</span></label>
-                    <label><input type="text" class="form-control"  id="student_name" placeholder="학생이름입력" onkeypress="javascript:if(event.keyCode == 13){fn_search('new'); return false;}" ></label>
-                    <button class="btn_pack blue" type="button" onclick="fn_search('new');">검색</button>
-                </div>
+
+        <div class="cont-wrap">
+            <div class="tb_t1 colTable searchInfo">
+                <table>
+                    <colsgroup>
+                        <col width="10%">
+                        <col width="90%">
+                    </colsgroup>
+                    <tr>
+                        <th>검색정보</th>
+                        <td>
+                            <div class="form-group">
+                                <div class="search-box clear">
+                                    <select id="" class="form-control">
+                                        <option value="">이름</option>
+                                        <option value="">전화번호</option>
+                                        <option value="">학부모 이름</option>
+                                        <option value="">학부모 전화번호</option>
+                                    </select>
+                                    <div class="search-input-box">
+                                        <label><input type="text" class="form-control"  id="student_name" placeholder="학생이름입력" onkeypress="javascript:if(event.keyCode == 13){fn_search('new'); return false;}" ></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <button class="btn_pack blue" type="button" onclick="fn_search('new');">검색</button>
             </div>
+
             <div class="tb_t1">
                 <table>
                     <colsgroup>
-                        <col width="*" />
-                        <col width="*" />
-                        <col width="*" />
-                        <col width="*" />
-                        <col width="*" />
-                        <col width="*" />
-                        <col width="140">
+                        <col width="5%" />
+                        <col width="15%" />
+                        <col width="15%" />
+                        <col width="15%" />
+                        <col width="15%" />
+                        <col width="5%" />
+                        <col width="15%" />
+                        <col width="15%">
                     </colsgroup>
-                    <tr>
+                    <tr class="t_head">
                         <th>No.</th>
                         <th>이름</th>
+                        <th>상태</th>
                         <th>전화번호</th>
                         <th>학교명</th>
                         <th>학년</th>
-                        <th>학부모(모)이름</th>
-                        <th>학부모(모)전화번호</th>
+                        <th>학부모이름</th>
+                        <th>학부모전화번호</th>
                     </tr>
-                    <tbody id="dataList"></tbody>
+                    <tbody id="dataList">
+                        <tr>
+                            <td>141</td>
+                            <td><a href="javascript:void(0);" class="font_color blue" onclick="student_modify(559);">강민재</a></td>
+                            <td>재원생</td>
+                            <td>-</td>
+                            <td>수내초등학교</td>
+                            <td>3</td>
+                            <td>강민재</td>
+                            <td>010-5053-1224</td>
+                        </tr>
+                    </tbody>
                     <tr>
                         <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
                     </tr>
                 </table>
-                <button class="btn_pack blue" onclick='goPage("student", "save_student")'>학생정보입력</button>
+                <button class="btn_pack blue" onclick='goPage("student", "save_student")'>등록</button>
                 <div class="form-group row"></div>
                 <%@ include file="/common/inc/com_pageNavi.inc" %>
             </div>
+        </div>
     </section>
 </div>
 <%@include file="/common/jsp/footer.jsp" %>

@@ -16,8 +16,10 @@
                 <li><a href="javascript:goPage('dashboard', 'dashboard_list')" >메인</a></li>
                 <li><a href="#">학생관리</a>
                     <ul class="sidebar-submenu">
-                        <li><a href="javascript:goPage('student', 'student_list')" ><span class="fa fa-user"></span>학생관리</a></li>
+                        <li><a href="javascript:goPage('student', 'student_list')" ><span class="fa fa-user"></span>개별학생관리</a></li>
+                        <li><a href="#"><span class="fa fa-street-view"></span>강사별학생관리</a></li>
                         <li><a href="#"><span class="fa fa-headphones"></span>상담관리</a></li>
+                        <li><a href="#"><span class="fa fa-cc-visa"></span>수납관리</a></li>
                     </ul>
                 </li>
                 <li><a href="#">학습관리</a>
