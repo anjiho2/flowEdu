@@ -40,50 +40,43 @@
                 <li id="main_li_0">
                     <a href="javascript:goPage('dashboard', 'dashboard_list')" id="main_0" >메인</a>
                 </li>
-                <li id="main_li_1">
-                    <a href="#" id="main_1">학생관리</a>
+                <li id="main_li_1"><a href="#" id="main_1">학생관리</a>
                     <ul class="sidebar-submenu" id="main_ul_1">
-                        <li><a id="sub_menu_1" href="void(0)" onclick="goPage('student', 'student_list', this); return false;" ><span class="fa fa-user"></span>학생관리</a></li>
-                        <li><a id="sub_menu_2" href="#" onclick=""><span class="fa fa-headphones"></span>상담관리</a></li>
-                        <li><a id="sub_menu_3" href="#" onclick=""><span class="fa fa-headphones"></span>수납관리</a></li>
-                <li><a href="javascript:goPage('dashboard', 'dashboard_list')" >메인</a></li>
-                <li><a href="#">학생관리</a>
-                    <ul class="sidebar-submenu">
-                        <li><a href="javascript:goPage('student', 'student_list')" ><span class="fa fa-user"></span>개별학생관리</a></li>
-                        <li><a href="#"><span class="fa fa-street-view"></span>강사별학생관리</a></li>
-                        <li><a href="#"><span class="fa fa-headphones"></span>상담관리</a></li>
-                        <li><a href="#"><span class="fa fa-cc-visa"></span>수납관리</a></li>
+                        <li><a id="sub_menu_1" href="void(0)" onclick="goPage('student', 'student_list', this); return false;"><span class="fa fa-user"></span>개별학생관리</a></li>
+                        <li><a id="sub_menu_2" href="#"><span class="fa fa-street-view"></span>강사별학생관리</a></li>
+                        <li><a id="sub_menu_3" href="#"><span class="fa fa-headphones"></span>상담관리</a></li>
+                        <li><a id="sub_menu_4 "href="#"><span class="fa fa-cc-visa"></span>수납관리</a></li>
                     </ul>
                 </li>
                 <li id="main_li_2">
                     <a href="#" id="main_2">학습관리</a>
                     <ul class="sidebar-submenu" id="main_ul_2">
                         <!-- javascript: -->
-                        <li><a id="sub_menu_4" href="void(0)" onclick="goPage('lecture', 'lecture_attend_list', this); return false;" ><span class="fa fa-address-book"></span>출결관리</a></li>
-                        <li><a id="sub_menu_5" href="void(0)" onclick="goPage('lecture', 'assignment_list', this); return false;"><span class="fa fa-book"></span>과제관리</a></li>
+                        <li><a id="sub_menu_5" href="void(0)" onclick="goPage('lecture', 'lecture_attend_list', this); return false;" ><span class="fa fa-address-book"></span>출결관리</a></li>
+                        <li><a id="sub_menu_6" href="void(0)" onclick="goPage('lecture', 'assignment_list', this); return false;"><span class="fa fa-book"></span>과제관리</a></li>
                     </ul>
                 </li>
                 <%--<li><a href="javascript:goPage('consult', 'early_consult_memo')" <%=depth1 == 3 ? "class='on'" : ""%>>학습관리</a></li>--%>
                 <li id="main_li_3">
                     <a href="#" id="main_3">행정관리</a>
                     <ul class="sidebar-submenu" id="main_ul_3">
-                        <li><a id="sub_menu_6" href="void(0)" onclick="goPage('academy', 'list_academy', this); return false;"><span class="fa fa-building"></span>학원관리</a></li>
+                        <li><a id="sub_menu_7" href="void(0)" onclick="goPage('academy', 'list_academy', this); return false;"><span class="fa fa-building"></span>학원관리</a></li>
                     </ul>
                 </li>
                 <li id="main_li_4">
                     <a href="#" id="main_4">강의관리</a>
                     <ul class="sidebar-submenu" id="main_ul_4">
-                        <li><a id="sub_menu_7" href="#"><span class="fa far fa-calendar"></span>반관리</a></li>
-                        <li><a id="sub_menu_8" href="#"><span class="fa far fa-credit-card"></span>수강료관리</a></li>
-                        <li><a id="sub_menu_9" href="void(0)" onclick="goPage('lecture', 'lecture_list', this); return false;"><span class="fa far fa-bell"></span>강의관리</a></li>
+                        <li><a id="sub_menu_8" href="#"><span class="fa far fa-calendar"></span>반관리</a></li>
+                        <li><a id="sub_menu_9" href="#"><span class="fa far fa-credit-card"></span>수강료관리</a></li>
+                        <li><a id="sub_menu_10" href="void(0)" onclick="goPage('lecture', 'lecture_list', this); return false;"><span class="fa far fa-bell"></span>강의관리</a></li>
                     </ul>
                 </li>
 
                 <li id="main_li_5">
                     <a href="#" id="main_5">운영관리</a>
                     <ul class="sidebar-submenu" id="main_ul_5">
-                        <li><a id="sub_menu_10" href="void(0)" onclick="goPage('member', 'list_member', this); return false;"><span class="fa fa-address-card"></span>운영자관리</a></li>
-                        <li><a id="sub_menu_11" href="void(0)" onclick="goPage('bus', 'bus_info', this); return false;"><span class="fa fa-bus"></span>셔틀버스관리</a></li>
+                        <li><a id="sub_menu_11" href="void(0)" onclick="goPage('member', 'list_member', this); return false;"><span class="fa fa-address-card"></span>운영자관리</a></li>
+                        <li><a id="sub_menu_12" href="void(0)" onclick="goPage('bus', 'bus_info', this); return false;"><span class="fa fa-bus"></span>셔틀버스관리</a></li>
                     </ul>
                 </li>
                 <li id="main_li_6">
