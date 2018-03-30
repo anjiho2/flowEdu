@@ -342,196 +342,208 @@
         <input type="hidden" id="fileName" value="">
         <input type="hidden" id="fileUrl" value="">
     </form>
-    <div class="tb_t1">
-        <h3 class="title_t1">학생정보입력</h3>
-        <table class="table_width">
-            <tr>
-                <th>학생이름<b>*</b></th>
-                <td><input type="text" class="form-control" id="student_name" maxlength="8" onkeypress="nonHangulSpecialKey()"></td>
-                <th>성별<b>*</b></th>
-                <td colspan="2">
-                    <div class="checkbox_t1 black">
-                        <label><input type="radio" name="student_gender" value="MALE" checked><span>남자</span></label>
-                        <label><input type="radio" name="student_gender" value="FEMALE"><span>여자</span></label>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th>생일<b>*</b></th>
-                <td>
-                    <div class="input-group date">
-                        <input type="text" id="startDate" class="form-control date-picker">
-                        <span class="input-group-addon" id="datepicker_img">
-                        <span class="fa fa-calendar"></span>
-                        </span>
-                    </div>
-                </td>
-                <th>학생사진</th>
-                <td colspan="2">
-                    <div>
-                        <label class="custom-file">
-                            <input type="file" id="attachFile" onchange="preViewImage(this, 'modify_preView', 'preview');" class="custom-file-input" required>
-                            <span class="custom-file-control"></span>
-                        </label>
-                    </div>
-                    <%--<div class="preview_imgbox">--%>
-                    <%--<img id="modify_preView" src="" onerror="this.src='<%=webRoot%>/img/user_img_default.jpg'">--%>
-                    <%--</div>--%>
-                </td>
-            </tr>
-            <tr>
-                <th>핸드폰번호</th>
-                <td>
-                    <div class="form-group row marginX">
-                        <div class="inputs">
-                            <input type="number" size="3" id="student_phone1" class="form-control" maxlength="3" max="999" onkeyup="js_tab_order(this,'student_phone2',3)">&nbsp;-&nbsp;
-                            <input type="number" size="4" id="student_phone2" class="form-control" maxlength="4" max="9999" onkeyup="js_tab_order(this,'student_phone3',4)">&nbsp;-&nbsp;
-                            <input type="number" size="4" id="student_phone3" class="form-control" maxlength="4" max="9999" onkeyup="js_tab_order(this,'student_tel1',4)">
+
+    <h3 class="title_t1">학생정보등록</h3>
+
+    <div class="cont-wrap">
+        <div class="tb_t1 colTable">
+            <table class="table_width">
+                <colsgroup>
+                    <col width="12%" />
+                    <col width="38%" />
+                    <col width="12%" />
+                    <col width="38%" />
+                </colsgroup>
+
+                <tr>
+                    <th>학생이름 <b>*</b></th>
+                    <td><input type="text" class="form-control" id="student_name" maxlength="8" onkeypress="nonHangulSpecialKey()"></td>
+                    <th>성별 <b>*</b></th>
+                    <td>
+                        <div class="checkbox_t1 black">
+                            <label><input type="radio" name="student_gender" value="MALE" checked><span>남자</span></label>
+                            <label><input type="radio" name="student_gender" value="FEMALE"><span>여자</span></label>
                         </div>
-                    </div>
-                </td>
-                <th>집전화번호</th>
-                <td colspan="2">
-                    <div class="form-group row marginX">
-                        <div class="inputs">
-                            <input type="number" size="3" id="student_tel1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'student_tel2',3)">&nbsp;-&nbsp;
-                            <input type="number" size="4" id="student_tel2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'student_tel3',4)">&nbsp;-&nbsp;
-                            <input type="number" size="4" id="student_tel3" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'student_email',4)">
+                    </td>
+                </tr>
+                <tr>
+                    <th>생일 <b>*</b></th>
+                    <td>
+                        <div class="input-group date">
+                            <input type="text" id="startDate" class="form-control date-picker">
+                            <span class="input-group-addon" id="datepicker_img">
+                            <span class="fa fa-calendar"></span>
+                            </span>
                         </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th>이메일</th>
-                <td colspan="4"><input type="email" class="form-control datepicker" id="student_email"></td>
-            </tr>
-            <tr>
-                <th>학교구분</th>
-                <td><span id="l_schoolType"></span>
-                    <%--<td>--%>
-                    <%--<select id="sel_schoolType" class="form-control" onchange="init(this.value)">--%>
-                        <%--<option value="ELEMENT">초등학교</option>--%>
-                        <%--<option value="MIDDEL">중학교</option>--%>
-                        <%--<option value="HIGH">고등학교</option>--%>
-                    <%--</select>--%>
-                    <%--</td>--%>
-                <th>학교이름<b>*</b></th>
-                <td>
-                    <input type="text" class="form-control" id="schoolname" onclick="school_search_popup();">
-                </td>
-                <td>
-                    <span id="student_grade"></span>
-                </td>
-            </tr>
-            <tr>
-                <th>메모</th>
-                <td colspan="4">
-                    <textarea class="form-control" id="student_memo" name="student_memo" rows="5" onFocus="clearMessage();" onKeyUp="checkByte();" ></textarea>
-                    <div class="memo_byte">
-                        <span name="messagebyte" id="messagebyte" value="0" size="4" maxlength="2" readonly>0</span>/ 1000 byte
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th>학부모(모)이름<b>*</b></th>
-                <td><input type="text" class="form-control" id="mother_name"></td>
-                <th>학부모(모)전화번호<b>*</b></th>
-                <td colspan="2">
-                    <div class="form-group row marginX">
-                        <div class="inputs">
-                            <input type="number" size="4" id="mother_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'mother_phone2',3)">&nbsp;-&nbsp;
-                            <input type="number" size="5" id="mother_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'mother_phone3',4)">&nbsp;-&nbsp;
-                            <input type="number" size="5" id="mother_phone3" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'father_name',4)">
+                    </td>
+                    <th>상태 <b>*</b></th>
+                    <td>
+                        <select class="form-control">
+                            <option value="">대기생</option>
+                            <option value="">재원생</option>
+                            <option value="">휴원생</option>
+                            <option value="">퇴원생</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>전화번호</th>
+                    <td class="tel">
+                        <div class="form-group row marginX">
+                            <div class="inputs">
+                                <input type="number" size="3" id="student_phone1" class="form-control" maxlength="3" max="999" onkeyup="js_tab_order(this,'student_phone2',3)">
+                                <span class="hyphen">-</span>
+                                <input type="number" size="4" id="student_phone2" class="form-control" maxlength="4" max="9999" onkeyup="js_tab_order(this,'student_phone3',4)">
+                                <span class="hyphen">-</span>
+                                <input type="number" size="4" id="student_phone3" class="form-control" maxlength="4" max="9999" onkeyup="js_tab_order(this,'student_tel1',4)">
+                            </div>
                         </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th>학부모(부)이름</th>
-                <td><input type="text" class="form-control" id="father_name"></td>
-                <th>학부모(부)전화번호</th>
-                <td colspan="2">
-                    <div class="form-group row marginX">
-                        <div class="inputs">
-                            <input type="number" size="4" id="father_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'father_phone2',3)">&nbsp;-&nbsp;
-                            <input type="number" size="5" id="father_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'father_phone3',4)">&nbsp;-&nbsp;
-                            <input type="number" size="5" id="father_phone3" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'etc_name',4)">
+                    </td>
+                    <th>집전화번호</th>
+                    <td class="tel">
+                        <div class="form-group row marginX">
+                            <div class="inputs">
+                                <input type="number" size="3" id="student_tel1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'student_tel2',3)">
+                                <span class="hyphen">-</span>
+                                <input type="number" size="4" id="student_tel2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'student_tel3',4)">
+                                <span class="hyphen">-</span>
+                                <input type="number" size="4" id="student_tel3" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'student_email',4)">
+                            </div>
                         </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th>기타이름</th>
-                <td><input type="text" class="form-control" id="etc_name"></td>
-                <th>기타번호</th>
-                <td colspan="2">
-                    <div class="form-group row marginX">
-                        <div class="inputs">
-                            <input type="number" size="4" id="etc_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'etc_phone2',3)">&nbsp;-&nbsp;
-                            <input type="number" size="5" id="etc_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this, 'etc_phone3',4)">&nbsp;-&nbsp;
-                            <input type="number" size="5" id="etc_phone3" class="form-control" maxlength="4">
+                    </td>
+                </tr>
+                <tr>
+                    <th>학교이름 <b>*</b></th>
+                    <td>
+                        <input type="text" class="form-control" id="schoolname" onclick="school_search_popup();">
+                    </td>
+
+
+                    <th>학년 <b>*</b></th>
+                    <td>
+                        <span id="student_grade"></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>학부모이름 <b>*</b></th>
+                    <td><input type="text" class="form-control" id="mother_name"></td>
+                    <th>학부모전화번호 <b>*</b></th>
+                    <td class="tel">
+                        <div class="form-group row marginX">
+                            <div class="inputs">
+                                <input type="number" size="4" id="mother_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'mother_phone2',3)">
+                                <span class="hyphen">-</span>
+                                <input type="number" size="5" id="mother_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'mother_phone3',4)">
+                                <span class="hyphen">-</span>
+                                <input type="number" size="5" id="mother_phone3" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'father_name',4)">
+                            </div>
                         </div>
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-        <button class="btn_pack blue s2" type="button"  onclick="save_student();">저장</button>
-        <button class="btn_pack blue s2" type="button" onclick="goPage('student','student_list')">목록</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>이메일주소 <b>*</b></th>
+                    <td class="email">
+                        <input type="email" class="form-control" id="student_email">
+                        <span>@</span>
+                        <input type="email" class="form-control" id="student_email">
+
+                        <select class="form-control">
+                            <option value="">직접 입력</option>
+                        </select>
+                    </td>
+                    <th>셔틀탑승여부 <b>*</b></th>
+                    <td>
+                        <div class="checkbox_t1 black">
+                            <label><input type="radio" name="shuttle-bus-check" value="" checked><span>Yes</span></label>
+                            <label><input type="radio" name="shuttle-bus-check" value=""><span>No</span></label>
+                        </div>
+
+                    </td>
+                </tr>
+
+                <tr class="brother">
+                    <th>형제정보</th>
+                    <td class="brother-input">
+                        <input type="text" class="form-control" id="">
+                    </td>
+                    <td colspan="2" class="add">
+                        <button class="btn_pack" onclick="brotherAdd();">+</button>
+                    </td>
+                </tr>
+
+                <tr class="memo">
+                    <th>메모</th>
+                    <td colspan="4">
+                        <textarea class="form-control" id="student_memo" name="student_memo" rows="5" onFocus="clearMessage();" onKeyUp="checkByte();" ></textarea>
+                        <div class="memo_byte">
+                            <span name="messagebyte" id="messagebyte" value="0" size="4" maxlength="2" readonly>0</span>/ 1000 byte
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+
+        <button class="btn_pack blue" type="button"  onclick="save_student();">저장</button>
+        <button class="btn_pack blue" type="button" onclick="goPage('student','student_list')">목록</button>
         <%--<button class="btn_pack blue s2" type="button"  onclick="student_excel_upload_popup();">엑셀 업로드 하기</button>--%>
-    </section>
+    </div>
+</section>
 
     <!-- 학교 검색 팝업 레이어 시작 -->
     <div class="layer_popup_template apt_request_layer" id="school_search_layer" style="display: none;width: 450px;">
         <div class="layer-title">
             <h3>학교검색</h3>
-            <button id="close_btn" type="button" class="fa fa-close btn-close"></button>
         </div>
-            <div class="layer-body">
-                <div class="cont">
-                    <form class="form_st1" name="frm2" method="get">
-                        <div class="form-group row">
-                            <label>학교구분</label> [ <span id="l_schoolName"></span> ]
-                        </div>
-                        <div class="form-group row">
-                            <label>지역</label>
-                            <select title="선택" name="inputregion" id="inputregion" class="form-control" style="width: 120px;">
-                                <option value="">전체</option>
-                                <option value="100260">서울특별시</option>
-                                <option value="100267">부산광역시</option>
-                                <option value="100269">인천광역시</option>
-                                <option value="100272">대구광역시</option>
-                                <option value="100275">광주광역시</option>
-                                <option value="100271">대전광역시</option>
-                                <option value="100273">울산광역시</option>
-                                <option value="100704">세종특별자치시</option>
-                                <option value="100276" selected>경기도</option>
-                                <option value="100278">강원도</option>
-                                <option value="100281">충청남도</option>
-                                <option value="100280">충청북도</option>
-                                <option value="100285">경상북도</option>
-                                <option value="100291">경상남도</option>
-                                <option value="100282">전라북도</option>
-                                <option value="100283">전라남도</option>
-                                <option value="100292">제주특별자치도</option>
-                                <option value="100771">해외거주</option>
-                            </select>
-                        </div>
-                        <div class="form-group row">
-                            <label>학교이름</label>
-                            <div><input type="text" id="schoo_name" class="form-control" style="width: 140px;" onkeypress="javascript:if(event.keyCode == 13){school_search(); return false;}"></div>
-                        </div>
-                        <div class="form-group row" style="display: none;" id="search_result_div">
-                            <label>검색결과</label>
-                            <a href="javascript:void(0);" class="font_color blue" onclick="school_name_html();" id="a_school_name"></a>
-                        </div>
-                    </form>
-                </div>
-                <div class="bot_btns_t1">
-                    <button class="btn_pack btn-close" type="button">취소</button>
-                    <button class="btn_pack blue" type="button" onclick="school_search();">검색</button>
-                </div>
+        <div class="layer-body">
+            <div class="cont">
+                <form class="form_st1" name="frm2" method="get">
+                    <div class="form-group row">
+                        <label>학교구분</label> [ <span id="l_schoolName"></span> ]
+                    </div>
+                    <div class="form-group row">
+                        <label>지역</label>
+                        <select title="선택" name="inputregion" id="inputregion" class="form-control" style="width: 140px;">
+                            <option value="">전체</option>
+                            <option value="100260">서울특별시</option>
+                            <option value="100267">부산광역시</option>
+                            <option value="100269">인천광역시</option>
+                            <option value="100272">대구광역시</option>
+                            <option value="100275">광주광역시</option>
+                            <option value="100271">대전광역시</option>
+                            <option value="100273">울산광역시</option>
+                            <option value="100704">세종특별자치시</option>
+                            <option value="100276" selected>경기도</option>
+                            <option value="100278">강원도</option>
+                            <option value="100281">충청남도</option>
+                            <option value="100280">충청북도</option>
+                            <option value="100285">경상북도</option>
+                            <option value="100291">경상남도</option>
+                            <option value="100282">전라북도</option>
+                            <option value="100283">전라남도</option>
+                            <option value="100292">제주특별자치도</option>
+                            <option value="100771">해외거주</option>
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <label>학교이름</label>
+                        <div><input type="text" id="schoo_name" class="form-control" style="width: 140px;" onkeypress="javascript:if(event.keyCode == 13){school_search(); return false;}"></div>
+                    </div>
+                    <div class="form-group row" style="display: none;" id="search_result_div">
+                        <label>검색결과</label>
+                        <a href="javascript:void(0);" class="font_color blue" onclick="school_name_html();" id="a_school_name"></a>
+                    </div>
+                </form>
             </div>
+            <div class="bot_btns_t1">
+                <button class="btn_pack btn-close" type="button">취소</button>
+                <button class="btn_pack blue" type="button" onclick="school_search();">검색</button>
+            </div>
+        </div>
+
+        <button id="close_btn" type="button" class="fa fa-close btn-close popup-close"></button>
     </div>
     <!-- 학교 검색 팝업 레이어 끝 -->
 <!-- 학생 엑셀 업로드 팝업 레이어 시작 -->

@@ -48,6 +48,9 @@
 <!-- 공통으로 쓰는 값 모여있는 스크립트 -->
 <script src="<%=webRoot%>/js/convert_value.js?ver=<%=version%>"></script>
 
+<!-- 학생관리 추가 -->
+<script type='text/javascript' src="<%=webRoot%>/common/js/studentAdd.js?ver=<%=version%>"></script>
+
 <meta http-equiv="content-Type" content="text/html;charset=utf-8">
 <title>플로우 교육 관리자</title>
 </head>

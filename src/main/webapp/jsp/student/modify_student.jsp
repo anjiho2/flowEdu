@@ -365,7 +365,7 @@
     <%@include file="/common/jsp/student_depth_menu.jsp" %>
 </div>
 </section>
-<section class="content">
+<section class="content detail">
     <form name="frm" id="frm" method="get">
         <input type="hidden" name="page_gbn" id="page_gbn">
         <input type="hidden" id="school"  value="">
@@ -375,165 +375,229 @@
         <input type="hidden" name="student_memo_id" id="student_memo_id">
         <input type="hidden" name="student_name">
     </form>
-    <div class="tb_t1">
-        <table class="table_width">
-            <tr>
-                <th>학생사진</th>
-                <td colspan="4">
-                    <div style="display: flex;">
-                        <div>
-                            <img id="modify_preView" src="" width="100px" height="100px" onerror="this.src='<%=webRoot%>/img/user_img_default.jpg'">
-                        </div>
-                        <div class="form-group row" style="margin: 66px 0 0 10px;">
-                            <label class="custom-file">
-                                <input type="file" id="attachFile"  onchange="preViewImage(this, 'modify_preView', 'preview');" class="custom-file-input" required>
-                                <span class="custom-file-control" style="width: 246px;"></span>
-                            </label>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th>학생이름</th>
-                <td><input type="text" class="form-control" id="student_name" maxlength="8"></td>
-                <th>성별<b>*</b></th>
-                <td colspan="2">
-                    <span id="l_gender"></span>
-                    <%--<div class="checkbox_t1">--%>
-                        <%--<label><input type="radio" name="student_gender" value="MALE" checked><span>남자</span></label>--%>
-                        <%--<label><input type="radio" name="student_gender" value="FEMALE"><span>여자</span></label>--%>
-                    <%--</div>--%>
-                </td>
-            </tr>
-            <tr>
-                <th>생일<b>*</b></th>
-                <td colspan="4">
-                    <div class="input-group date">
-                        <input type="text" id="startDate" class="form-control date-picker">
-                        <span class="input-group-addon" id="datepicker_img">
-                        <span class="fa fa-calendar"></span>
-                        </span>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th>핸드폰번호</th>
-                <td>
-                    <div class="form-group row marginX">
-                        <div class="inputs">
-                            <input type="number" size="4" id="student_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'student_phone2',3)">&nbsp;-&nbsp;
-                            <input type="number" size="5" id="student_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'student_phone3',4)">&nbsp;-&nbsp;
-                            <input type="number" size="5" id="student_phone3" class="form-control" maxlength="4" onkeyup="js_tab_order(this, 'student_tel1', 4)">
-                        </div>
-                    </div>
-                </td>
-                <th>집전화번호</th>
-                <td colspan="2">
-                    <div class="form-group row marginX">
-                        <div class="inputs">
-                            <input type="number" size="4" id="student_tel1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'student_tel2',3)">&nbsp;-&nbsp;
-                            <input type="number" size="5" id="student_tel2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'student_tel3',4)">&nbsp;-&nbsp;
-                            <input type="number" size="5" id="student_tel3" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'student_email',4)">
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th>이메일</th>
-                <td colspan="4"><input type="email" class="form-control datepicker" id="student_email"></td>
-            </tr>
-            <tr>
-                <th>학교구분</th>
-                <td><span id="l_schoolType"></span>
-                    <%--<td><select id="sel_schoolType" class="form-control"></select>--%>
-                    <%--<div class="checkbox_t1">--%>
-                    <%--<label><input type="radio" name="school_type" class="form-control" value="elem_list"  onclick="school_radio(this.value);" checked><span>초등학교</span></label>--%>
-                    <%--<label><input type="radio" name="school_type" class="form-control" value="midd_list"  onclick="school_radio(this.value);"><span>중학교</span></label>--%>
-                    <%--<label><input type="radio" name="school_type" class="form-control" value="high_list"  onclick="school_radio(this.value);"><span>고등학교</span></label>--%>
-                    <%--</div>--%>
-                </td>
-                <th>학교이름<b>*</b></th>
-                <td>
-                    <input type="text" class="form-control" id="schoolname" onclick="school_search_popup();">
-                </td>
-                <td>
-                    <span id="student_grade"></span>
-                </td>
-            </tr>
-            <tr>
-                <th>메모</th>
-                <td colspan="4">
-                    <textarea class="form-control" id="student_memo" name="student_memo" rows="5" onKeyUp="checkByte();" ></textarea>
-                    <div class="memo_byte">
-                        <span name="messagebyte" id="messagebyte" value="0" size="4" maxlength="2" readonly>0</span>/ 1000 byte
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th>학부모(모)이름<b>*</b></th>
-                <td><input type="text" class="form-control" id="mother_name"></td>
-                <th>학부모(모)전화번호<b>*</b></th>
-                <td colspan="2">
-                    <div class="form-group row marginX">
-                        <div class="inputs">
-                            <input type="number" size="4" id="mother_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'mother_phone2',3)">&nbsp;-&nbsp;
-                            <input type="number" size="5" id="mother_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'mother_phone3',4)">&nbsp;-&nbsp;
-                            <input type="number" size="5" id="mother_phone3" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'father_name',4)">
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th>학부모(부)이름</th>
-                <td><input type="text" class="form-control" id="father_name"></td>
-                <th>학부모(부)전화번호</th>
-                <td colspan="2">
-                    <div class="form-group row marginX">
-                        <div class="inputs">
-                            <input type="number" size="4" id="father_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'father_phone2',3)">&nbsp;-&nbsp;
-                            <input type="number" size="5" id="father_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'father_phone3',4)">&nbsp;-&nbsp;
-                            <input type="number" size="5" id="father_phone3" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'etc_name',4)">
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th>기타이름</th>
-                <td><input type="text" class="form-control" id="etc_name"></td>
-                <th>기타번호</th>
-                <td colspan="2">
-                    <div class="form-group row marginX">
-                        <div class="inputs">
-                            <input type="number" size="4" id="etc_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'etc_phone2',3)">&nbsp;-&nbsp;
-                            <input type="number" size="5" id="etc_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'etc_phone3',4)">&nbsp;-&nbsp;
-                            <input type="number" size="5" id="etc_phone3" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'',4)">
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div>
-        <button class="btn_pack blue s2" type="button"  onclick="modify_student();">수정</button>
-        <button class="btn_pack blue s2" type="button" onclick="goPage('student','student_list')">목록</button>
-        <%--<button class="btn_pack blue s2" type="button"  onclick="student_excel_upload_popup();">엑셀 업로드 하기</button>--%>
-    </div>
-    <div class="tb_t1">
-        <h3 class="title_t1">최근 상담 내역</h3>
+    <div class="cont-wrap">
+        <div class="tb_t1 colTable">
+            <table class="table_width">
+                <colsgroup>
+                    <col width="12%" />
+                    <col width="38%" />
+                    <col width="12%" />
+                    <col width="38%" />
+                </colsgroup>
+                <tr>
+                    <th>학생이름 <b>*</b></th>
+                    <td><input type="text" class="form-control" id="student_name" maxlength="8"></td>
+                    <th>성별<b>*</b></th>
+                    <td colspan="2">
+                        <span id="l_gender"></span>
+                        <%--<div class="checkbox_t1">--%>
+                            <%--<label><input type="radio" name="student_gender" value="MALE" checked><span>남자</span></label>--%>
+                            <%--<label><input type="radio" name="student_gender" value="FEMALE"><span>여자</span></label>--%>
+                        <%--</div>--%>
+                    </td>
+                </tr>
 
-        <table>
-            <tr>
-                <th>제목</th>
-                <th>내용</th>
-                <th>처리상태</th>
-                <th>등록자</th>
-                <th>등록일시</th>
-            </tr>
-            <tbody id="dataList"></tbody>
-            <tr>
-                <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
-            </tr>
-        </table>
+                <tr>
+                    <th>생일 <b>*</b></th>
+                    <td>
+                        <div class="input-group date">
+                            <input type="text" id="startDate" class="form-control date-picker">
+                            <span class="input-group-addon" id="datepicker_img">
+                            <span class="fa fa-calendar"></span>
+                            </span>
+                        </div>
+                    </td>
+                    <th>상태 <b>*</b></th>
+                    <td>
+                        <select class="form-control">
+                            <option value="">대기생</option>
+                            <option value="">재원생</option>
+                            <option value="">휴원생</option>
+                            <option value="">퇴원생</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>전화번호</th>
+                    <td class="tel">
+                        <div class="form-group row marginX">
+                            <div class="inputs">
+                                <input type="number" size="3" id="student_phone1" class="form-control" maxlength="3" max="999" onkeyup="js_tab_order(this,'student_phone2',3)">
+                                <span class="hyphen">-</span>
+                                <input type="number" size="4" id="student_phone2" class="form-control" maxlength="4" max="9999" onkeyup="js_tab_order(this,'student_phone3',4)">
+                                <span class="hyphen">-</span>
+                                <input type="number" size="4" id="student_phone3" class="form-control" maxlength="4" max="9999" onkeyup="js_tab_order(this,'student_tel1',4)">
+                            </div>
+                        </div>
+                    </td>
+                    <th>집전화번호</th>
+                    <td class="tel">
+                        <div class="form-group row marginX">
+                            <div class="inputs">
+                                <input type="number" size="3" id="student_tel1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'student_tel2',3)">
+                                <span class="hyphen">-</span>
+                                <input type="number" size="4" id="student_tel2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'student_tel3',4)">
+                                <span class="hyphen">-</span>
+                                <input type="number" size="4" id="student_tel3" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'student_email',4)">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>학교이름 <b>*</b></th>
+                    <td>
+                        <input type="text" class="form-control" id="schoolname" onclick="school_search_popup();">
+                    </td>
+
+
+                    <th>학년 <b>*</b></th>
+                    <td>
+                        <span id="student_grade"></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>학부모이름 <b>*</b></th>
+                    <td><input type="text" class="form-control" id="mother_name"></td>
+                    <th>학부모전화번호 <b>*</b></th>
+                    <td class="tel">
+                        <div class="form-group row marginX">
+                            <div class="inputs">
+                                <input type="number" size="4" id="mother_phone1" class="form-control" maxlength="3" onkeyup="js_tab_order(this,'mother_phone2',3)">
+                                <span class="hyphen">-</span>
+                                <input type="number" size="5" id="mother_phone2" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'mother_phone3',4)">
+                                <span class="hyphen">-</span>
+                                <input type="number" size="5" id="mother_phone3" class="form-control" maxlength="4" onkeyup="js_tab_order(this,'father_name',4)">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>이메일주소 <b>*</b></th>
+                    <td class="email">
+                        <input type="email" class="form-control" id="student_email">
+                        <span>@</span>
+                        <input type="email" class="form-control" id="student_email">
+
+                        <select class="form-control">
+                            <option value="">직접 입력</option>
+                        </select>
+                    </td>
+                    <th>셔틀탑승여부 <b>*</b></th>
+                    <td>
+                        <div class="checkbox_t1 black">
+                            <label><input type="radio" name="shuttle-bus-check" value="" checked><span>Yes</span></label>
+                            <label><input type="radio" name="shuttle-bus-check" value=""><span>No</span></label>
+                        </div>
+
+                    </td>
+                </tr>
+
+                <tr class="brother">
+                    <th>형제정보</th>
+                    <td class="brother-input">
+                        <input type="text" class="form-control" id="">
+                    </td>
+                    <td colspan="2" class="add">
+                        <button class="btn_pack" onclick="brotherAdd();">+</button>
+                    </td>
+                </tr>
+
+                <tr class="memo">
+                    <th>메모</th>
+                    <td colspan="4">
+                        <div class="memo-history">
+                            <div class="cont">
+                                작성자: <span class="name">임예원</span>
+                                작성일: <span class="date">2018.02.11</span>
+                                <p class="memo-cont">공부에 관심이 없고, 집중을 못해 이번 학기에 제대로 성적을 올리고 싶어함</p>
+                            </div>
+
+                            <div class="cont">
+                                <span class="name">작성자: 박수원</span>
+                                <span class="date">작성일: 2018.02.21</span>
+                                <p class="memo-cont">우선 다음주에 입학테스트를 진행 하기로 하였고, 진학 담당 강사이신 차호진 원장님께 테스트 후 입학 상담을 추가로 받기로 하였음</p>
+                            </div>
+                            <div class="cont">
+                                <span class="name">작성자: 박수원</span>
+                                <span class="date">작성일: 2018.02.21</span>
+                                <p class="memo-cont">우선 다음주에 입학테스트를 진행 하기로 하였고, 진학 담당 강사이신 차호진 원장님께 테스트 후 입학 상담을 추가로 받기로 하였음</p>
+                            </div>
+                            <div class="cont">
+                                <span class="name">작성자: 박수원</span>
+                                <span class="date">작성일: 2018.02.21</span>
+                                <p class="memo-cont">우선 다음주에 입학테스트를 진행 하기로 하였고, 진학 담당 강사이신 차호진 원장님께 테스트 후 입학 상담을 추가로 받기로 하였음</p>
+                            </div>
+                            <div class="cont">
+                                <span class="name">작성자: 박수원</span>
+                                <span class="date">작성일: 2018.02.21</span>
+                                <p class="memo-cont">우선 다음주에 입학테스트를 진행 하기로 하였고, 진학 담당 강사이신 차호진 원장님께 테스트 후 입학 상담을 추가로 받기로 하였음</p>
+                            </div>
+                        </div>
+
+                        <textarea class="form-control" id="student_memo" name="student_memo" rows="5" onFocus="clearMessage();" onKeyUp="checkByte();" ></textarea>
+                        <div class="memo_byte">
+                            <span name="messagebyte" id="messagebyte" value="0" size="4" maxlength="2" readonly>0</span>/ 1000 byte
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div>
+            <button class="btn_pack blue" type="button"  onclick="modify_student();">수정</button>
+            <button class="btn_pack blue" type="button" onclick="goPage('student','student_list')">목록</button>
+            <%--<button class="btn_pack blue s2" type="button"  onclick="student_excel_upload_popup();">엑셀 업로드 하기</button>--%>
+        </div>
+    </div>
+
+
+    <h3 class="title_t1">최근상담내역</h3>
+    <div class="cont-wrap">
+        <div class="tb_t1">
+            <table>
+                <colsgroup>
+                    <col width="30%" />
+                    <col width="10%" />
+                    <col width="20%" />
+                    <col width="10%" />
+                    <col width="10%" />
+                    <col width="20%" />
+                </colsgroup>
+
+                <tr class="t_head">
+                    <th>제목</th>
+                    <th>등록자</th>
+                    <th>동록일시</th>
+                    <th>처리자</th>
+                    <th>상태</th>
+                    <th>처리일시</th>
+                </tr>
+                <tbody id="dataList">
+                    <tr>
+                        <td><a href="" class="font_color blue">이금빛 학생 담당 선생님 통화 요망</a></td>
+                        <td>김안내</td>
+                        <td>2017-12-29 18:05:43</td>
+                        <td>김안내</td>
+                        <td style="color:red">대기</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><a href="" class="font_color blue">입학 상담</a></td>
+                        <td>김안내</td>
+                        <td>2017-12-29 18:05:43</td>
+                        <td>김안내</td>
+                        <td>완료</td>
+                        <td>2017-12-29 18:05:43</td>
+                    </tr>
+                </tbody>
+                <tr>
+                    <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
+                </tr>
+            </table>
+        </div>
     </div>
 </section>
 
