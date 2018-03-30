@@ -10,11 +10,21 @@
 	</select>
 
 	<select id="selectSubMenuList" resultType="com.flowedu.domain.SubMenu">
-		SELECT A.sub_menu_id,  A.main_menu_id, A.sub_menu_name, IF(ISNULL(B.sub_menu_auth_id), 'false', 'true') as view_yn
-		FROM SUB_MENU_INFO A LEFT JOIN SUB_MENU_AUTH B
+		SELECT A.sub_menu_id, A.sub_menu_name, IF(ISNULL(B.sub_menu_auth_id), 'false', 'true') as view_yn
+		FROM SUB_MENU_INFO A LEFT OUTER JOIN SUB_MENU_AUTH B
 		ON A.sub_menu_id = B.sub_menu_id
-		WHERE  A.main_menu_id = #{mainMenuId}
 		AND B.flow_member_id = #{memberId}
 	</select>
+
+	<select id="selectOfficeList" resultType="com.flowedu.dto.OfficeDto">
+		SELECT A.office_id, B.office_name
+		FROM OFFICE_AUTH A LEFT JOIN OFFICE B
+		ON A.office_id = B.office_id
+		WHERE A.flow_member_id = #{memberId}
+	</select>
+
+    <select id="getOfficeAllList" resultType="com.flowedu.dto.OfficeDto">
+        SELECT office_id, office_name FROM OFFICE
+    </select>
 
 </mapper>

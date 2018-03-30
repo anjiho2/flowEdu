@@ -19,14 +19,26 @@ function goLogout() {
 	}
 }
 
-function goPage(mapping_value, page_value) {
-	with(document.frm) {
-		if (mapping_value != "" && page_value != "") {
-			page_gbn.value = page_value;
-		}
-		action = getContextPath()+"/"+mapping_value+".do";
-		submit();
-	}
+function goPage(mapping_value, page_value, obj) {
+ 	var data = $(obj).attr('data');
+ 	if (data == 1) {
+        return false;
+    } else {
+        with (document.frm) {
+            if (mapping_value != "" && page_value != "") {
+                page_gbn.value = page_value;
+            }
+            action = getContextPath() + "/" + mapping_value + ".do";
+            submit();
+        }
+    }
+	// with(document.frm) {
+	// 	if (mapping_value != "" && page_value != "") {
+	// 		page_gbn.value = page_value;
+	// 	}
+	// 	action = getContextPath()+"/"+mapping_value+".do";
+	// 	submit();
+	// }
 }
 
 function lecture_go(val) {

@@ -76,7 +76,7 @@
                 gfn_emptyView("V", comment.not_lecture_student_rel);
                 return;
             }
-
+            gfn_emptyView("H", "");
             var studentIds = new Array();
             for (var i=0; i<lectureStudentRelList.length; i++) {
                 var studentId = lectureStudentRelList[i].studentId;
@@ -168,12 +168,18 @@
         var lectureRelId = val;
         var addCount = getInputTextValue("addCount");
         var regCount = getInputTextValue("regCount");
+        var $tableBody = $("#duringStudentTable").find("tbody").find("tr");
 
         if (confirm(comment.isDelete)) {
-            lectureService.modifyLectureStudentRel(lectureRelId, lecutreId, 0, 0);
+            lectureService.deleteLectureStudentRel(lectureRelId);
             $("#tr_" + lectureRelId).remove();
+
             innerHTML("l_limitCount", --addCount);
             innerHTML("l_isAddCount", ++regCount);
+
+            if ($tableBody.length == 1) {
+                gfn_emptyView("V", comment.not_lecture_student_rel);
+            }
         }
     }
 
@@ -181,10 +187,16 @@
     function addRemoveStudent(val) {
         var addCount = $("#l_limitCount").html();
         var regCount = $("#l_isAddCount").html();
+
         if (confirm(comment.isDelete)) {
             $("#tr_" + val).remove();
             innerHTML("l_limitCount", --addCount);
             innerHTML("l_isAddCount", ++regCount);
+
+            var $tableBody = $("#duringStudentTable").find("tbody").find("tr");
+            if ($tableBody.length == 0) {
+                gfn_emptyView("V", comment.not_lecture_student_rel);
+            }
         }
     }
     //팝업창에서 학생 체크박스 선택시
@@ -254,16 +266,34 @@
             var $tableBody = $("#duringStudentTable").find("tbody"),
                 $trLast = $tableBody.find("tr:last"),
                 $trNew = $trLast.clone();
+                $tr = $tableBody.find("tr");
 
-            $trNew.attr("id", "tr_" + studentId);
-            $trNew.find("td input").eq(0).attr("name", "newAddStudentId[]");
-            $trNew.find("td input").eq(0).val(studentId).attr("id", "studentId_"+studentId);
-            $trNew.find("td span").eq(0).attr("id", "l_addedStudentName_"+studentId).text(studentName);
-            $trNew.find("td span").eq(1).text(schoolName);
-            $trNew.find("td div").find("button").val(studentId);
-            $trNew.find("td div").find("button").attr("onclick", "addRemoveStudent(this.value);");
+            if ($tr.length == 0) {
+                gfn_emptyView("H", "");
 
-            $trLast.after($trNew);
+                var cellData = [
+                    function (data) { return "<input type=\"hidden\" name=\"newAddStudentId[]\" class=\"form-control\" id='studentId_" + studentId + "' value='" + studentId + "'><span id='l_addedStudentName_" + studentId + "'>" + studentName + "</span>"},
+                    function (data) { return "<span>" + schoolName + "</span>"},
+                    function (data) { return "<div class=\"form-group row marginX draghandle\">\n" +
+                        "                            <button type=\"button\" style=\"font-size: 25px\" class=\"fa fa-close\" aria-label=\"Close\" value='" + studentId +"' onclick='addRemoveStudent(this.value)'>\n" +
+                        "                            </button>\n" +
+                        "                        </div>"}
+                ];
+                dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
+                $("#duringStudentTable").find("tbody").find("tr:first").attr("id", "tr_" + studentId);
+
+            } else {
+
+                $trNew.attr("id", "tr_" + studentId);
+                $trNew.find("td input").eq(0).attr("name", "newAddStudentId[]");
+                $trNew.find("td input").eq(0).val(studentId).attr("id", "studentId_"+studentId);
+                $trNew.find("td span").eq(0).attr("id", "l_addedStudentName_"+studentId).text(studentName);
+                $trNew.find("td span").eq(1).text(schoolName);
+                $trNew.find("td div").find("button").val(studentId);
+                $trNew.find("td div").find("button").attr("onclick", "addRemoveStudent(this.value);");
+
+                $trLast.after($trNew);
+            }
         });
         var calcCount = limitStudent - addCount;
         innerHTML("l_isAddCount", calcCount == 0 ? "0" : calcCount);

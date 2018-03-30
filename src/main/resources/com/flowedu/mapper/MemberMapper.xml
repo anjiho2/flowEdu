@@ -213,6 +213,12 @@
 		WHERE flow_member_id = #{flowMemberId}
 	</update>
 
+	<update id="updateMemberOffice">
+		UPDATE FLOWEDU_MEMBER
+		SET office_id = #{officeId}
+		WHERE flow_member_id = #{flowMemberId}
+	</update>
+
 	<delete id="deleteFlowEduMember" parameterType="Long">
 		DELETE FROM FLOWEDU_MEMBER
 		<where>

@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+    String officeId = String.valueOf(UserSession.officeId());
+%>
 <section class="top_area clear">
     <div class="gnb">
         <div class="total_search">
@@ -9,11 +12,7 @@
             <%--<span></span>--%>
             <%--<span></span>--%>
         <%--</div>--%>
-
-        <select id="" class="form-control">
-            <option value="">수학의 아침 초등관</option>
-        </select>
-
+        <span id="l_office"></span>
         <div class="my_box">
             <%--<a href="javascript:void(0);" onclick="goPage('member','login_member_modify')"></a>--%>
             <button id="my_menu_btn"><%=memberName%>님 안녕하세요. <span class="caret"></span></button>
@@ -49,5 +48,20 @@
         $('#header .menu_close_btn').click(function(){
             $('#header').animate({"left":"-350px"},500);
         });
+        var officeId = getCookie("office_id");
+        if (officeId == undefined) {
+            officeId = '<%=officeId%>';
+        }
+        var memberType = '<%=memberType%>';
+        if (memberType == 'ADMIN' || memberType == "CS") {
+            officeAllList("l_office", officeId);
+        } else {
+            memberOfficeList("l_office", officeId);
+        }
     });
+    // 상단 관 변경
+    function change_ofiice(val) {
+        setCookie("office_id", val, 1);
+        isReloadPage(true);
+    }
 </script>

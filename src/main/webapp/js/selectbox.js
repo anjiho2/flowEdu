@@ -1,3 +1,33 @@
+function memberOfficeList(tag_id, val) {
+    authService.getMemberOfficeInfo(function (list) {
+        var html = "<select id='sel_office' onchange='change_ofiice(this.value);' class='form-control'>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].officeId == val) {
+                html += "<option value="+list[i].officeId+" selected>"+ list[i].officeName +"</option>";
+            } else {
+                html += "<option value="+list[i].officeId+">"+ list[i].officeName +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
+function officeAllList(tag_id, val) {
+    authService.getOfficeAllList(function (list) {
+        var html = "<select id='sel_office' onchange='change_ofiice(this.value);' class='form-control'>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].officeId == val) {
+                html += "<option value="+list[i].officeId+" selected>"+ list[i].officeName +"</option>";
+            } else {
+                html += "<option value="+list[i].officeId+">"+ list[i].officeName +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
 /** 멤버 종류 선택 셀렉트박스 **/
 function memberTypeSelectbox(tag_id, val) {
     memberService.getMemberType(function(list) {

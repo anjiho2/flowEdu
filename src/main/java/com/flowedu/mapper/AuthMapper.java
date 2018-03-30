@@ -17,5 +17,9 @@ public interface AuthMapper {
     /** SELECT **/
     List<MainMenu>selectMainMenuList(@Param("memberId") Long memberId);
 
-    List<SubMenu>selectSubMenuList(@Param("memberId") Long memberId, @Param("mainMenuId") int mainMenuId);
+    List<SubMenu>selectSubMenuList(@Param("memberId") Long memberId);
+
+    List<OfficeDto>selectOfficeList(@Param("memberId") Long memberId);
+
+    List<OfficeDto>getOfficeAllList();
 }

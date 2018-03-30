@@ -53,6 +53,8 @@ public interface MemberMapper {
 
     void updateMemberServed(@Param("flowMemberId") Long flowMemberId, @Param("serveYn") boolean serveYn);
 
+    void updateMemberOffice(@Param("flowMemberId") Long flowMemberId, @Param("officeId") Long officeId);
+
     /** DELETE **/
     void deleteFlowEduMember(@Param("flowMemberId") Long flowMemberId);
 }

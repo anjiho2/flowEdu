@@ -5,5 +5,6 @@
 	if (dto != null) session.invalidate();
 %>
 <script>
+    setCookie('office_id', '', -1);
 	location.href="<%=webRoot%>";
 </script>

@@ -934,4 +934,12 @@ public class LectureService extends PagingSupport {
         lectureMapper.modifyAssignmentInfo(assignmentInfoDto);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void deleteLectureStudentRel(Long lectureRelId) {
+        if (lectureRelId == null) {
+            return;
+        }
+        lectureMapper.deleteLectureStudentRel(lectureRelId);
+    }
+
 }

@@ -11,5 +11,4 @@ public class SubMenu {
 
     private boolean viewYn;
 
-    private int mainMenuId;
 }

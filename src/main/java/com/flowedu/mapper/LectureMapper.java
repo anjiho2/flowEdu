@@ -106,4 +106,6 @@ public interface LectureMapper {
 
     void deleteLectureDetailInfo(@Param("lectureId") Long lectureId);
 
+    void deleteLectureStudentRel(@Param("lectureRelId") Long lectureRelId);
+
 }

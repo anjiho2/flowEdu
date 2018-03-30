@@ -530,4 +530,8 @@
 		DELETE FROM LECTURE_DETAIL_INFO WHERE lecture_id = #{lectureId}
 	</delete>
 
+	<delete id="deleteLectureStudentRel">
+		DELETE FROM LECTURE_STUDENT_REL WHERE lecture_rel_id = #{lectureRelId}
+	</delete>
+
 </mapper>

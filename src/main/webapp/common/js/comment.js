@@ -156,6 +156,8 @@ var comment = {
 
         blank_bus_info : "버스를 검색해 주세요.",
 
-        reg_add_btn_stop_station : "추가 버튼을 클릭하여 정차 위치를 등록해 주세요."
+        reg_add_btn_stop_station : "추가 버튼을 클릭하여 정차 위치를 등록해 주세요.",
+
+		auth_error_menu : "메뉴 권한이 없습니다.",
 }
 
