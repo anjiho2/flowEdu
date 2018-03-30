@@ -318,6 +318,9 @@ public class MemberService extends PagingSupport {
                 memberPassword, memeberEmail, sexualAssultConfirmDate, educationRegDate, memberType, memberAddressDetail, zipCode
         );
         memberMapper.saveFlowEduMember(dto);
+
+
+
         /*
         if (dto.getFlowMemberId()  != null && !"".equals(dto.getMemberEmail())) {
             //이메일 발송 예약
