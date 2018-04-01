@@ -95,7 +95,7 @@ var comment = {
 		input_myclass_type : "반을 선택해 주세요.",
     	input_assignment_type : "사용여부를 선택해 주세요.",
     	input_schoolType : "학년구분을 선택해 주세요.",
-    	input_school : "학년구분을 선택해 주세요.",
+    	input_school : "학년을 선택해 주세요.",
     	input_lecture_price : "수강료를 입력해주세요.",
     	input_class_limit : "정원을 입력해주세요.",
 
@@ -122,6 +122,8 @@ var comment = {
 		select_cash_receipt_type : "현금영수증을 선택해주세요.",
 		select_consult_type : "상담유형을 선택해주세요.",
 		select_day : "요일을 선택해주세요.",
+		select_school_type : "학교구분을 선택하세요",
+		select_region : "지역을 선택하세요",
 
 		file_name_not_allow_korean : "파일명이 한글입니다. 영문으로 바꿔주세요.",
 		file_extension_not_allow : "파일확장자는 'JPG, GIF'만 가능합니다.",

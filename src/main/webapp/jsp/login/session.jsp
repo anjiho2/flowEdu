@@ -7,7 +7,7 @@
 	response.setDateHeader("Expires", 0);
 	if (request.getProtocol().equals("HTTP/1.1"))
 		response.setHeader("Cache-Control", "no-cache");
-	
+
 	String webRoot = request.getContextPath();
 
 	String targetUrl = request.getParameter("target_url");
@@ -23,7 +23,7 @@
 			e.printStackTrace();
 		}
 
-	
+
 %>
 <script type="text/javascript">
 var page_gbn = "<%=page_gbn%>";

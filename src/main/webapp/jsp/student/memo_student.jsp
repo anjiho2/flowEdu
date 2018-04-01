@@ -11,7 +11,7 @@
 
     Long student_id = Long.parseLong(request.getParameter("student_id"));
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
-    String student_name = StringUtil.convertParmeterStr(request.getParameter("student_name"), "UTF-8");
+    //String student_name = StringUtil.convertParmeterStr(request.getParameter("student_name"), "UTF-8");
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
@@ -118,9 +118,9 @@
 </section>
 <section class="content detail">
     <form name="frm" method="get" class="form_st1">
-        <input type="hidden" id="student_id" name="student_id" value="<%=student_id%>">
-        <input type="hidden" name="student_name" value="<%=student_name%>">
         <input type="hidden" name="page_gbn" id="page_gbn">
+        <input type="hidden" id="student_id" name="student_id" value="<%=student_id%>">
+        <%--<input type="hidden" name="student_name" value="<%=UserSession.memberName()%>">--%>
         <input type="hidden"  id="sPage" value="<%=sPage%>">
         <input type="hidden" name="student_memo_id" id="student_memo_id">
     </form>
@@ -176,7 +176,7 @@
             <button class="btn_pack blue" type="button" onclick="fn_search('new');">검색</button>
         </div>
 
-        <h3 class="title_t1"><%=student_name%>학생 상담 목록</h3>
+        <h3 class="title_t1">학생 상담 목록</h3>
         <div class="tb_t1" style="margin-bottom:4rem">
             <table>
                 <tr>

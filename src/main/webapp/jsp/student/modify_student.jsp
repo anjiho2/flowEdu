@@ -17,217 +17,348 @@
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
+<style>
+    .scrolltbody {
+        display: block;
+        border-collapse: collapse;
+    }
+    .scrolltbody tbody {
+        display: block;
+        height: 200px;
+        overflow: auto;
+    }
+    .scrolltbody th:nth-of-type(1), .scrolltbody td:nth-of-type(1) { width: 6%; }
+    .scrolltbody th:nth-of-type(2), .scrolltbody td:nth-of-type(2) { width: 8%; }
+    .scrolltbody th:nth-of-type(3), .scrolltbody td:nth-of-type(3) { width: 11%; }
+    .scrolltbody th:nth-of-type(4), .scrolltbody td:nth-of-type(4) { width: 17%; }
+    .scrolltbody th:nth-of-type(5), .scrolltbody td:nth-of-type(5) { width: 12%; }
+    .scrolltbody th:nth-of-type(6), .scrolltbody td:nth-of-type(6) { width: 12%; }
+    .scrolltbody th:nth-of-type(7), .scrolltbody td:nth-of-type(7) { width: 12%; }
+    .scrolltbody th:nth-of-type(8), .scrolltbody td:nth-of-type(8) { width: 15%; }
+
+    .scrolltbody1 {
+        display: block;
+        border-collapse: collapse;
+    }
+    .scrolltbody1 tbody {
+        display: block;
+        height: 200px;
+        overflow: auto;
+    }
+    .scrolltbody1 th:nth-of-type(3), .scrolltbody1 td:nth-of-type(3) { width: 10%; }
+    .scrolltbody1 th:nth-of-type(4), .scrolltbody1 td:nth-of-type(4) { width: 17%; }
+    .scrolltbody1 th:nth-of-type(5), .scrolltbody1 td:nth-of-type(5) { width: 12%; }
+    .scrolltbody1 th:nth-of-type(6), .scrolltbody1 td:nth-of-type(6) { width: 12%; }
+    .scrolltbody1 th:nth-of-type(7), .scrolltbody1 td:nth-of-type(7) { width: 12%; }
+    .scrolltbody1 th:nth-of-type(8), .scrolltbody1 td:nth-of-type(8) { width: 15%; }
+</style>
 <script type='text/javascript' src='<%=webRoot%>/dwr/interface/studentService.js'></script>
 <script>
-    function init() {
-        studentList();
+    function init(val) {
+        studentList(val);
         student_memo_list();
     }
 
-    function studentList(school_type) {
+    function studentList(val) {
         var student_id        = getInputTextValue("student_id");
         studentService.getStudentInfo(student_id, function (selList) {
 
-            var file_url = '<%=imgUrl%>' + selList.studentPhotoUrl + "/" + selList.studentPhotoFile;
-           
-            $("#modify_preView").attr("src", file_url);
-            if(file_url != null) gfn_display("preview", true);
+            <%--var file_url = '<%=imgUrl%>' + selList.studentPhotoUrl + "/" + selList.studentPhotoFile;--%>
+            <%--$("#modify_preView").attr("src", file_url);--%>
+            <%--if(file_url != null) gfn_display("preview", true);--%>
 
             innerValue("student_name", selList.studentName);
             innerValue("startDate", selList.studentBirthday);
+            $("#sel_studentStatus").val(selList.studentStatus);
             genderRadio("l_gender", selList.studentGender, "");
-            schoolTypeSelectbox2("l_schoolType", school_type == undefined ? convert_school_type(selList.schoolType) : school_type);
+            //schoolTypeSelectbox2("l_schoolType", school_type == undefined ? convert_school_type(selList.schoolType) : school_type);
+
             var studentGrade = selList.studentGrade;
-            if (school_type != undefined) {
-                if (convert_school_type(selList.schoolType) != school_type) {
-                    studentGrade = 0;
-                }
-            }
-            schoolSelectbox("student_grade", studentGrade, school_type);
+            schoolSelectbox("student_grade", studentGrade, val == undefined ? convert_school_type(selList.schoolType) : val);
             fnSetPhoneNo(student_phone1, student_phone2, student_phone3, selList.studentPhoneNumber);
             fnSetPhoneNo(student_tel1,   student_tel2,   student_tel3,   selList.homeTelNumber);
             fnSetPhoneNo(mother_phone1,  mother_phone2,  mother_phone3,  selList.motherPhoneNumber);
-            fnSetPhoneNo(father_phone1,  father_phone2,  father_phone3,  selList.fatherPhoneNumber);
+            fn_mail_cut("email", "email_domain", selList.studentEmail);
             innerValue("student_email", selList.studentEmail);
+            $("#sel_emailDomain").val(get_email_domain(selList.studentEmail));
+
+            $('input:radio[name=is_bus_boarding]:input[value=' + selList.busBoardYn + ']').attr("checked", true);
             innerValue("student_grade", selList.memberAddress);
             innerValue("schoolname", selList.schoolName);
-            innerValue("student_memo", selList.studentMemo);
+            //innerValue("student_memo", selList.studentMemo);
             innerValue("mother_name", selList.motherName);
-            innerValue("father_name", selList.fatherName);
-            innerValue("etc_name", selList.etcName);
-            fnSetPhoneNo(etc_phone1,  etc_phone2,  etc_phone3,  selList.etcPhoneNumber);
             $("input[name=student_name]").val(selList.studentName);
-            checkByte(selList.studentMemo);
+            //checkByte(selList.studentMemo);
+            //형제정보 가져오기
+            studentService.getStudentBrother(student_id, function(brotherList) {
+                var $brother_tr = $(".brother").find(".brother-input");
+                if (brotherList.length == 0) {
+                    var input = "<input type='text' class='form-control' id='cur_0' onclick='student_search_popup(this);'>\n" +
+    "                            <input type='hidden' name='addBrotherId[]'>"
+                    $brother_tr.append(input);
+                    return;
+                }
+                for (var i=0; i<brotherList.length; i++) {
+                    var cmpList = brotherList[i];
+                    var input_value = cmpList.studentName + " / " + cmpList.schoolName + " / " + cmpList.studentGrade + "학년";
+                    var input ="<input type='text' class='form-control' id='cur_"+ cmpList.studentBrotherId +"' value='"+ input_value +"' onclick='student_search_popup(this);'>";
+                        input += "<input type='hidden' id='"+ cmpList.studentBrotherId +"' name='addBrotherId[]' value=" + cmpList.brotherId + ">";
+                    $brother_tr.append(input);
+                }
+            });
+            //메모 목록 가져오기
+            studentService.getStudentSimpleMemo(student_id, function(simpleMemoList) {
+               if (simpleMemoList.length == 0) return;
+
+               var $memo_div = $(".memo-history");
+               for (var i=0; i<simpleMemoList.length; i++) {
+                   var cmpList = simpleMemoList[i];
+                   var data =
+                       "<div class=\"cont\">\n" +
+                       "작성자: <span class=\"name\">"+ cmpList.memberName +"</span>\n" +
+                       "작성일: <span class=\"date\">"+ getDateTimeSplitComma(cmpList.createDate) + "</span>\n" +
+                       "<p class=\"memo-cont\">" + cmpList.memoContent + "</p>\n" +
+                       "</div>"
+                   $memo_div.append(data);
+               }
+            });
         });
     }
 
-    //수정
+    //수정(2018. 04. 01 기획안 변경으로 내용 변경, 작성자 : 안지호)
     function modify_student() {
         var check = new isCheck();
-        var student_id   = getInputTextValue("student_id");
-        var data = new FormData();
+        var school_type = getSelectboxValue("sel_schoolType");
 
-        //이메일형식체크
-        var student_email   = getInputTextValue("student_email");
-        if(student_email){
+        var student_email = getInputTextValue("student_email");
+        if (student_email) {
             var is_email = fn_isemail(student_email);
             if (is_email == true) return false;
         }
-        if(check.input("student_name", comment.input_student_name)   == false) return;
-        if(check.input("startDate", comment.input_member_startDate)   == false) return;
-        if(check.input("schoolname", comment.input_school_name)   == false) return;
-        //if(check.input("sel_school", comment.input_student_grade)   == false) return;
-        if(check.input("mother_name", comment.input_mother_name)   == false) return;
-        if(check.input("mother_phone1", comment.input_mother_tel1)   == false) return;
-        if(check.input("mother_phone2", comment.input_mother_tel2)   == false) return;
-        if(check.input("mother_phone3", comment.input_mother_tel3)   == false) return;
 
-        data.append("save_path", '<%=savePath%>');
-        $.each($('#attachFile')[0].files, function(i, file) {
-            data.append('file_name', file);
-        });
-        var attachFile = fn_clearFilePath($('#attachFile').val());
-        if (attachFile != "") { //학생사진 업로드시
-
-            $.ajax({
-                url: "<%=apiHost%>/upload/student_img_file",
-                method : "post",
-                dataType: "JSON",
-                data: data,
-                cache: false,
-                processData: false,
-                contentType: false,
-                success: function(result_data) {
-                    var errorCode = result_data.result.error_code;
-                    if (errorCode == "909") {
-                        alert(comment.file_name_not_allow_korean);
-                        return;
-                    } else if (errorCode == "906") {
-                        alert(comment.file_extension_not_allow);
-                        return;
-                    } else if (errorCode == "907") {
-                        alert(comment.file_size_not_allow_300kb);
-                        return;
-                    }
-                    var fileName = result_data.result.file_name;
-                    var fileUrl = result_data.result.file_url;
-                    var mother_phone3   = getInputTextValue("mother_phone3");
-                    var student_name    = getInputTextValue("student_name");
-                    var gender          = get_radio_value("gender_type");
-                    var startDate       = getInputTextValue("startDate");
-                    var student_phonenum = get_allphonenum("student_phone1","student_phone2","student_phone3");
-                    var student_telnum  = get_allphonenum("student_tel1","student_tel2","student_tel3");
-                    var student_email   = getInputTextValue("student_email");
-                    var student_grade   = getInputTextValue("sel_school");
-                    var schoolname      = getInputTextValue("schoolname");
-                    var student_memo    = getInputTextValue("student_memo");
-                    var mother_name     = getInputTextValue("mother_name");
-                    var father_name     = getInputTextValue("father_name");
-                    var mother_phonenum = get_allphonenum("mother_phone1","mother_phone2","mother_phone3");
-                    var father_phonenum = get_allphonenum("father_phone1","father_phone2","father_phone3");
-                    //var school_type =  $(":input:radio[name=school_type]:checked").val();
-                    var school_type = getSelectboxValue("sel_schoolType");  //2017.12.13 셀렉트박스로 변경되면서 수정(안지호)
-                    var etc_phonenum = get_allphonenum("etc_phone1","etc_phone2","etc_phone3");
-                    var etc_name     = getInputTextValue("etc_name");
-
-                    var data = {
-                        studentId:student_id,
-                        studentPhotoFile:fileName, //파일명
-                        studentPhotoUrl:fileUrl, //경로
-                        studentName:student_name,
-                        studentPassword:mother_phone3,
-                        studentGender:gender,
-                        studentBirthday:startDate,
-                        studentPhoneNumber:student_phonenum,
-                        homeTelNumber:student_telnum,
-                        studentEmail:student_email,
-                        studentGrade:student_grade,
-                        schoolType:school_type,
-                        schoolName:schoolname,
-                        studentMemo:student_memo,
-                        motherName:mother_name,
-                        motherPhoneNumber:mother_phonenum,
-                        fatherName:father_name,
-                        fatherPhoneNumber:father_phonenum,
-                        etcName:etc_name,
-                        etcPhoneNumber:etc_phonenum,
-                    };
-                    if (confirm(comment.isUpdate2)) {
-                        studentService.modifyStudentInfo(data,function () {
-                            goPage("student","student_list");
-                        });
-                    }
-                },
-                error : function (xhr, textStatus, errorThrown) {
-                    alert(comment.file_name_not_allow_korean);
-                    return;
-                }
-            });
-        } else { //학생사진 없을때
-            var mother_phone3    = getInputTextValue("mother_phone3");
-            var student_name    = getInputTextValue("student_name");
-            var gender          = get_radio_value("gender_type");
-            var startDate       = getInputTextValue("startDate");
-            var student_phonenum= get_allphonenum("student_phone1","student_phone2","student_phone3");
-            var student_telnum  = get_allphonenum("student_tel1","student_tel2","student_tel3");
-            var student_email   = getInputTextValue("student_email");
-            var student_grade   = getInputTextValue("sel_school");
-            var schoolname      = getInputTextValue("schoolname");
-            var student_memo    = getInputTextValue("student_memo");
-            var mother_name     = getInputTextValue("mother_name");
-            var father_name     = getInputTextValue("father_name");
-            var mother_phonenum = get_allphonenum("mother_phone1","mother_phone2","mother_phone3");
-            var father_phonenum = get_allphonenum("father_phone1","father_phone2","father_phone3");
-            //var school_type =  $(":input:radio[name=school_type]:checked").val();
-            var school_type = getSelectboxValue("sel_schoolType");  //2017.12.13 셀렉트박스로 변경되면서 수정(안지호)
-            var etc_phonenum = get_allphonenum("etc_phone1","etc_phone2","etc_phone3");
-            var etc_name     = getInputTextValue("etc_name");
-
-            var data = {
-                studentPhotoFile:"", //파일명
-                studentPhotoUrl:"", //경로
-                studentId:student_id,
-                studentName:student_name,
-                studentPassword:mother_phone3,
-                studentGender:gender,
-                studentBirthday:startDate,
-                studentPhoneNumber:student_phonenum,
-                homeTelNumber:student_telnum,
-                studentEmail:student_email,
-                studentGrade:student_grade,
-                schoolType:school_type,
-                schoolName:schoolname,
-                studentMemo:student_memo,
-                motherName:mother_name,
-                motherPhoneNumber:mother_phonenum,
-                fatherName:father_name,
-                fatherPhoneNumber:father_phonenum,
-                etcName:etc_name,
-                etcPhoneNumber:etc_phonenum,
-            };
-            if (confirm(comment.isUpdate2)) {
-                studentService.modifyStudentInfo(data,function () {
-                    goPage("student","student_list");
-                });
-            }
+        if ($("#student_name").val().length == 1) {
+            alert("학생명은 2자 이상 이여야 합니다.");
+            return false;
         }
+
+        if (check.input("student_name", comment.input_student_name) == false) return;
+        if (check.input("startDate", comment.input_member_startDate) == false) return;
+        if (check.input("schoolname", comment.input_school_name) == false) return;
+        if (check.selectbox("sel_school", comment.input_school) == false) return;
+        if (check.input("mother_name", comment.input_mother_name) == false) return;
+        if (check.input("mother_phone1", comment.input_mother_tel1) == false) return;
+        if (check.input("mother_phone2", comment.input_mother_tel2) == false) return;
+        if (check.input("mother_phone3", comment.input_mother_tel3) == false) return;
+        if (check.input("email", comment.input_member_email) == false) return;
+        if (check.input("email_domain", comment.input_member_email) == false) return;
+
+        var student_name = getInputTextValue("student_name");    //학생이름
+        var gender = get_radio_value("student_gender");    //성별
+        var startDate = getInputTextValue("startDate");   //생일
+        var studentStatus = getSelectboxValue("sel_studentStatus");   //학생상태
+        var student_phonenum = get_allphonenum("student_phone1", "student_phone2", "student_phone3");   //전화번호
+        var student_telnum = get_allphonenum("student_tel1", "student_tel2", "student_tel3");   //집전화번호
+        var schoolname = getInputTextValue("schoolname");   //학교이름
+        var student_grade = getInputTextValue("sel_school");    //학년
+        var mother_name = getInputTextValue("mother_name"); //학부모 이름
+        var mother_phonenum = get_allphonenum("mother_phone1", "mother_phone2", "mother_phone3");   //학부모 전화번호
+        var email = make_email(getInputTextValue("email"), getInputTextValue("email_domain"));
+        var isBusBoarding = get_radio_value("is_bus_boarding");
+        var student_memo = getInputTextValue("student_memo");
+        var school_type = getSelectboxValue("sel_schoolType");  //2017.12.13 셀렉트박스로 변경되면서 수정(안지호)
+        var studentPasword = getInputTextValue("mother_phone3");
+
+        var data = {
+            studentId:'<%=student_id%>',
+            studentName: student_name,
+            studentPassword: studentPasword,
+            studentGender: gender,
+            studentBirthday: startDate,
+            studentPhoneNumber: student_phonenum,
+            homeTelNumber: student_telnum,
+            studentEmail: email,
+            studentGrade: student_grade,
+            schoolType: school_type,
+            schoolName: schoolname,
+            studentMemo: student_memo,
+            motherName: mother_name,
+            motherPhoneNumber: mother_phonenum,
+            studentStatus:studentStatus,
+            busBoardYn:isBusBoarding
+        };
+        //형제 목록 값 가져오기
+        var addBrotherInfo= new Array();
+        $('input[name^="addBrotherId[]"]').each(function() {
+            var studentBrotherId = ($(this).attr("id"));
+            var brotherId = ($(this).val());
+            var data = {
+                studentBrotherId:studentBrotherId,
+                brotherId:brotherId,
+                studentId:'<%=student_id%>'
+            }
+            addBrotherInfo.push(data);
+        });
+        if (confirm(comment.isUpdate2)) {
+            gfn_display("loadingbar", true);
+            studentService.modifyStudentInfo(data, addBrotherInfo, function () {
+                isReloadPage(true);
+            });
+            gfn_display("loadingbar", false);
+        }
+
+        <%--var check = new isCheck();--%>
+        <%--var student_id   = getInputTextValue("student_id");--%>
+        <%--var data = new FormData();--%>
+
+        <%--//이메일형식체크--%>
+        <%--var student_email   = getInputTextValue("student_email");--%>
+        <%--if(student_email){--%>
+            <%--var is_email = fn_isemail(student_email);--%>
+            <%--if (is_email == true) return false;--%>
+        <%--}--%>
+        <%--if(check.input("student_name", comment.input_student_name)   == false) return;--%>
+        <%--if(check.input("startDate", comment.input_member_startDate)   == false) return;--%>
+        <%--if(check.input("schoolname", comment.input_school_name)   == false) return;--%>
+        <%--//if(check.input("sel_school", comment.input_student_grade)   == false) return;--%>
+        <%--if(check.input("mother_name", comment.input_mother_name)   == false) return;--%>
+        <%--if(check.input("mother_phone1", comment.input_mother_tel1)   == false) return;--%>
+        <%--if(check.input("mother_phone2", comment.input_mother_tel2)   == false) return;--%>
+        <%--if(check.input("mother_phone3", comment.input_mother_tel3)   == false) return;--%>
+
+        <%--data.append("save_path", '<%=savePath%>');--%>
+        <%--$.each($('#attachFile')[0].files, function(i, file) {--%>
+            <%--data.append('file_name', file);--%>
+        <%--});--%>
+        <%--var attachFile = fn_clearFilePath($('#attachFile').val());--%>
+        <%--if (attachFile != "") { //학생사진 업로드시--%>
+
+            <%--$.ajax({--%>
+                <%--url: "<%=apiHost%>/upload/student_img_file",--%>
+                <%--method : "post",--%>
+                <%--dataType: "JSON",--%>
+                <%--data: data,--%>
+                <%--cache: false,--%>
+                <%--processData: false,--%>
+                <%--contentType: false,--%>
+                <%--success: function(result_data) {--%>
+                    <%--var errorCode = result_data.result.error_code;--%>
+                    <%--if (errorCode == "909") {--%>
+                        <%--alert(comment.file_name_not_allow_korean);--%>
+                        <%--return;--%>
+                    <%--} else if (errorCode == "906") {--%>
+                        <%--alert(comment.file_extension_not_allow);--%>
+                        <%--return;--%>
+                    <%--} else if (errorCode == "907") {--%>
+                        <%--alert(comment.file_size_not_allow_300kb);--%>
+                        <%--return;--%>
+                    <%--}--%>
+                    <%--var fileName = result_data.result.file_name;--%>
+                    <%--var fileUrl = result_data.result.file_url;--%>
+                    <%--var mother_phone3   = getInputTextValue("mother_phone3");--%>
+                    <%--var student_name    = getInputTextValue("student_name");--%>
+                    <%--var gender          = get_radio_value("gender_type");--%>
+                    <%--var startDate       = getInputTextValue("startDate");--%>
+                    <%--var student_phonenum = get_allphonenum("student_phone1","student_phone2","student_phone3");--%>
+                    <%--var student_telnum  = get_allphonenum("student_tel1","student_tel2","student_tel3");--%>
+                    <%--var student_email   = getInputTextValue("student_email");--%>
+                    <%--var student_grade   = getInputTextValue("sel_school");--%>
+                    <%--var schoolname      = getInputTextValue("schoolname");--%>
+                    <%--var student_memo    = getInputTextValue("student_memo");--%>
+                    <%--var mother_name     = getInputTextValue("mother_name");--%>
+                    <%--var father_name     = getInputTextValue("father_name");--%>
+                    <%--var mother_phonenum = get_allphonenum("mother_phone1","mother_phone2","mother_phone3");--%>
+                    <%--var father_phonenum = get_allphonenum("father_phone1","father_phone2","father_phone3");--%>
+                    <%--//var school_type =  $(":input:radio[name=school_type]:checked").val();--%>
+                    <%--var school_type = getSelectboxValue("sel_schoolType");  //2017.12.13 셀렉트박스로 변경되면서 수정(안지호)--%>
+                    <%--var etc_phonenum = get_allphonenum("etc_phone1","etc_phone2","etc_phone3");--%>
+                    <%--var etc_name     = getInputTextValue("etc_name");--%>
+
+                    <%--var data = {--%>
+                        <%--studentId:student_id,--%>
+                        <%--studentPhotoFile:fileName, //파일명--%>
+                        <%--studentPhotoUrl:fileUrl, //경로--%>
+                        <%--studentName:student_name,--%>
+                        <%--studentPassword:mother_phone3,--%>
+                        <%--studentGender:gender,--%>
+                        <%--studentBirthday:startDate,--%>
+                        <%--studentPhoneNumber:student_phonenum,--%>
+                        <%--homeTelNumber:student_telnum,--%>
+                        <%--studentEmail:student_email,--%>
+                        <%--studentGrade:student_grade,--%>
+                        <%--schoolType:school_type,--%>
+                        <%--schoolName:schoolname,--%>
+                        <%--studentMemo:student_memo,--%>
+                        <%--motherName:mother_name,--%>
+                        <%--motherPhoneNumber:mother_phonenum,--%>
+                        <%--fatherName:father_name,--%>
+                        <%--fatherPhoneNumber:father_phonenum,--%>
+                        <%--etcName:etc_name,--%>
+                        <%--etcPhoneNumber:etc_phonenum,--%>
+                    <%--};--%>
+                    <%--if (confirm(comment.isUpdate2)) {--%>
+                        <%--studentService.modifyStudentInfo(data,function () {--%>
+                            <%--goPage("student","student_list");--%>
+                        <%--});--%>
+                    <%--}--%>
+                <%--},--%>
+                <%--error : function (xhr, textStatus, errorThrown) {--%>
+                    <%--alert(comment.file_name_not_allow_korean);--%>
+                    <%--return;--%>
+                <%--}--%>
+            <%--});--%>
+        <%--} else { //학생사진 없을때--%>
+            <%--var mother_phone3    = getInputTextValue("mother_phone3");--%>
+            <%--var student_name    = getInputTextValue("student_name");--%>
+            <%--var gender          = get_radio_value("gender_type");--%>
+            <%--var startDate       = getInputTextValue("startDate");--%>
+            <%--var student_phonenum= get_allphonenum("student_phone1","student_phone2","student_phone3");--%>
+            <%--var student_telnum  = get_allphonenum("student_tel1","student_tel2","student_tel3");--%>
+            <%--var student_email   = getInputTextValue("student_email");--%>
+            <%--var student_grade   = getInputTextValue("sel_school");--%>
+            <%--var schoolname      = getInputTextValue("schoolname");--%>
+            <%--var student_memo    = getInputTextValue("student_memo");--%>
+            <%--var mother_name     = getInputTextValue("mother_name");--%>
+            <%--var father_name     = getInputTextValue("father_name");--%>
+            <%--var mother_phonenum = get_allphonenum("mother_phone1","mother_phone2","mother_phone3");--%>
+            <%--var father_phonenum = get_allphonenum("father_phone1","father_phone2","father_phone3");--%>
+            <%--//var school_type =  $(":input:radio[name=school_type]:checked").val();--%>
+            <%--var school_type = getSelectboxValue("sel_schoolType");  //2017.12.13 셀렉트박스로 변경되면서 수정(안지호)--%>
+            <%--var etc_phonenum = get_allphonenum("etc_phone1","etc_phone2","etc_phone3");--%>
+            <%--var etc_name     = getInputTextValue("etc_name");--%>
+
+            <%--var data = {--%>
+                <%--studentPhotoFile:"", //파일명--%>
+                <%--studentPhotoUrl:"", //경로--%>
+                <%--studentId:student_id,--%>
+                <%--studentName:student_name,--%>
+                <%--studentPassword:mother_phone3,--%>
+                <%--studentGender:gender,--%>
+                <%--studentBirthday:startDate,--%>
+                <%--studentPhoneNumber:student_phonenum,--%>
+                <%--homeTelNumber:student_telnum,--%>
+                <%--studentEmail:student_email,--%>
+                <%--studentGrade:student_grade,--%>
+                <%--schoolType:school_type,--%>
+                <%--schoolName:schoolname,--%>
+                <%--studentMemo:student_memo,--%>
+                <%--motherName:mother_name,--%>
+                <%--motherPhoneNumber:mother_phonenum,--%>
+                <%--fatherName:father_name,--%>
+                <%--fatherPhoneNumber:father_phonenum,--%>
+                <%--etcName:etc_name,--%>
+                <%--etcPhoneNumber:etc_phonenum,--%>
+            <%--};--%>
+            <%--if (confirm(comment.isUpdate2)) {--%>
+                <%--studentService.modifyStudentInfo(data,function () {--%>
+                    <%--goPage("student","student_list");--%>
+                <%--});--%>
+            <%--}--%>
+        <%--}--%>
     }
 
     function changeSchoolGrade(school_grade) {
         schoolSelectbox("student_grade","", school_grade);
     }
-    /*
-    function school_search_popup() { //학교검색 팝업창 뛰우기
-        var school_type =  $(":input:radio[name=school_type]:checked").val();
-
-        if(school_type == null){
-            alert("학교구분을 선택해 주세요.");
-            return false;
-        }
-        var param = "?school_type="+school_type;
-        gfn_winPop(550,400,"jsp/popup/school_search_popup.jsp",param);
-    }
-    */
     // 처리하기 버튼
     function changeProccessYn(studentMemoId) {
         if (confirm("처리하시겠습니까?")) {
@@ -236,7 +367,7 @@
         }
     }
 
-    //최근상담 3건 리스트
+    //최근상담 5건 리스트 (기획안 변경에 따른 수정 2018. 04. 01 안지호)
     function student_memo_list() {
         var student_id = getInputTextValue("student_id");
         studentService.getStudentMemoLastThree(student_id, function (memoList) {
@@ -245,13 +376,16 @@
                     var cmpList = memoList[i];
                     if (cmpList != undefined) {
                         var processHTML = "";
-                        cmpList.processYn ==  false ? processHTML = "<a href='javascript:void(0);'  class='font_color blue'  id="+cmpList.studentMemoId+" onclick='changeProccessYn(this.id);'>처리하기</a>" :  processHTML = "<span><h4>완료</h4></span>";
+                        cmpList.processYn ==  false ? processHTML = "<span style='color: red;'>대기</a>" :  processHTML = "<span><h4>완료</h4></span>";
+
+                        var memoTitleHTML = "<a href='<%=webRoot%>/student.do?page_gbn=detail_memo_student&student_id=" + student_id + "&student_memo_id="+ cmpList.studentMemoId+ "' class='font_color blue'>"+cmpList.memoTitle+"</a>";
                         var cellData = [
-                            function(data) {return cmpList.memoTitle;},
-                            function(data) {return ellipsis(cmpList.memoContent, 30);},
-                            function(data) {return processHTML;},//처리하기
+                            function(data) {return memoTitleHTML;},
                             function(data) {return cmpList.memberName;},
-                            function(data) {return getDateTimeSplitComma(cmpList.createDate);},
+                            function(data) {return getDateTimeSplitComma(cmpList.createDate)},
+                            function(data) {return cmpList.targetMemberName;},
+                            function(data) {return processHTML;},//처리하기
+                            function(data) {return cmpList.processDate == null ? "-" : getDateTimeSplitComma(cmpList.processDate)},
                         ];
                         dwr.util.addRows("dataList", [0], cellData, {escapeHtml: false});
                     }
@@ -261,35 +395,14 @@
             }
         });
     }
-    //댓글 페이지 이동
-    function go_reply(mapping_value, page_value, memo_id) {
-        with(document.frm) {
-            if (mapping_value != "" && page_value != "") {
-                page_gbn.value = page_value;
-                student_memo_id.value = memo_id;
-            }
-            action = getContextPath()+"/"+mapping_value+".do";
-            submit();
-        }
-    }
 
     function school_search_popup() {//학교검색
         //var school_type =  $(":input:radio[name=school_type]:checked").val();
         //초기화
         reset_value("schoo_name");
         reset_html("a_school_name");
+        schoolTypeSelectbox4("l_schoolType", "");
 
-        var school_type =  getSelectboxValue("sel_schoolType");
-
-        var school_name = "";
-        if (school_type == "ELEMENT") {
-            school_name = "초등학교";
-        } else if (school_type == "MIDDLE") {
-            school_name = "중학교";
-        } else {
-            school_name = "고등학교";
-        }
-        innerHTML("l_schoolName", school_name);
         initPopup($("#school_search_layer"));
     }
 
@@ -298,8 +411,8 @@
         document.getElementById("schoolname").value = school_name;
         $("#close_btn").trigger("click");
     }
-
-    function school_search() {//학교검색
+    //학교검색
+    function school_search() {
         var school_type =  getSelectboxValue("sel_schoolType");
         var region =  getSelectboxValue("inputregion");
         var searchSchoolName = getInputTextValue("schoo_name");
@@ -325,56 +438,109 @@
             }
         });
     }
-    /*메모입력 바이트 제한기능*/
-    var clearChk=true;
-    var limitByte = 1000;
-    // textarea에 마우스가 클릭되었을때 초기 메시지를 클리어
-    function clearMessage(){
-        if(clearChk){
-            $("#student_memo").val("");
-            clearChk=false;
-        }
+    //학생검색 팝업
+    function student_search_popup(obj) {
+        var id = $(obj).attr("id");
+
+        schoolTypeSelectbox3("l_schoolType2", "");
+        innerValue("addBrotherTextboxId", id);
+        initPopup($("#StudentFindLayer"));
     }
-    // textarea에 입력된 문자의 바이트 수를 체크
-    function checkByte(val) {
-        var totalByte = 0;
-        var message = $("#student_memo").val();
-        if (val != null || val != undefined) {
-            message = val;
-        }
-        for (var i = 0; i < message.length; i++) {
-            var currentByte = message.charCodeAt(i);
-            if (currentByte > 128) totalByte += 2;
-            else totalByte++;
-        }
-        $("#messagebyte").html(totalByte);
-        if (totalByte > limitByte) {
-            var memolimit = message.substring(0, limitByte);
-            $("#student_memo").val(memolimit);
-        }
+
+    //학생 팝업에서 학생 리스트 검색
+    function fn_search(val) {
+        var paging = new Paging();
+        var sPage = $("#sPage").val();
+        //var schoolType = convert_school_value(getSelectboxValue("sel_schoolType"));
+        var schoolType =  convert_school_value($("#l_schoolType2").find("select").val());
+        var searchType = getSelectboxValue("sel_searchType");
+        var searchValue = getInputTextValue("search_value");
+
+        var check = new isCheck();
+        if (check.input("search_value", comment.input_content) == false) return;
+
+        if(val == "new") sPage = "1";
+
+        gfn_emptyView2("H", "");
+        $("#pages2").show();
+
+        studentService.getStudentListByLectureRegSearchCount(schoolType, searchType, searchValue, function (cnt) {
+            //paging.count2(sPage, cnt, '5', '5', comment.blank_list2);
+            if (cnt == 0) {
+                dwr.util.removeAllRows("dataList2");
+                gfn_emptyView2("V", comment.blank_list2);
+                return;
+            }
+            $("#searchTable tbody").css("height", "200px");
+
+            var listNum = ((cnt-1)+1)-((sPage-1) * 5); //리스트 넘버링
+
+            studentService.getStudentListByLectureRegSearch(schoolType, searchType, searchValue, function (selList) {
+                dwr.util.removeAllRows("dataList2");
+                if (selList.length == 0) return;
+                dwr.util.addRows("dataList2", selList, [
+                    function(data) { return "<input type=\"radio\" class=\"checkbox_t1\" name=\"sel_radio\" id='check_"+ data.studentId + "'   value='"+ data.studentId +"'>" },
+                    function(data) { return listNum--},
+                    function(data) { return data.studentName},
+                    function(data) { return data.studentPhoneNumber == null ? "-" : fn_tel_tag(data.studentPhoneNumber)},
+                    function(data) { return data.schoolName},
+                    function(data) { return data.studentGrade},
+                    function(data) { return data.motherName},
+                    function(data) { return fn_tel_tag(data.motherPhoneNumber)},
+                ], {escapeHtml:false});
+            });
+        });
+    }
+    //학생 검색 팝업에서 학생 선택시
+    function select_student() {
+        var addBrotherTextboxId = getInputTextValue("addBrotherTextboxId");
+        var selectedStudentId = get_radio_value("sel_radio");
+
+        studentService.getStudentInfo(selectedStudentId, function(studentInfo) {
+            var input_value = studentInfo.studentName + " / " + studentInfo.schoolName + " / " + studentInfo.studentGrade + "학년";
+            innerValue(addBrotherTextboxId, input_value);
+            $("#"+addBrotherTextboxId).next().val(selectedStudentId);
+        });
+        $('#close_btn2').trigger('click');
+    }
+    //학생검색 팝업에서 초,중,고 선택시 학년 변경하기
+    function select_school_type(val) {
+        var schoolType = val;
+        schoolSelectbox("student_grade", "", schoolType);
     }
 
     //파일 선택시 파일명 보이게 하기
     $(document).on('change', '.custom-file-input', function() {
         $(this).parent().find('.custom-file-control').html($(this).val().replace(/C:\\fakepath\\/i, ''));
     });
+
+    $(document).ready(function () {
+        //이메일 셀렉트 박스 변경
+        $("#sel_emailDomain").change(function () {
+            innerValue("email_domain", this.value == "" ? " " : this.value);
+        });
+    });
 </script>
 <body onload="init();">
+<div id="loadingbar" class="loadingbar" style="display:none;">
+    <img src="img/loading.gif">
+</div>
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
     <%@include file="/common/jsp/student_depth_menu.jsp" %>
 </div>
 </section>
+<span id="span_addBrother" style="display: none">
+
+</span>
+
 <section class="content detail">
     <form name="frm" id="frm" method="get">
         <input type="hidden" name="page_gbn" id="page_gbn">
-        <input type="hidden" id="school"  value="">
-        <input type="hidden" id="fileName"  value="">
-        <input type="hidden" id="fileUrl"  value="">
         <input type="hidden" id="student_id" name="student_id" value="<%=student_id%>">
-        <input type="hidden" name="student_memo_id" id="student_memo_id">
-        <input type="hidden" name="student_name">
     </form>
+    <input type="hidden" id="addNewBrotherLen">
+    <input type="hidden" id="addBrotherTextboxId">
     <div class="cont-wrap">
         <div class="tb_t1 colTable">
             <table class="table_width">
@@ -386,14 +552,10 @@
                 </colsgroup>
                 <tr>
                     <th>학생이름 <b>*</b></th>
-                    <td><input type="text" class="form-control" id="student_name" maxlength="8"></td>
+                    <td><input type="text" class="form-control" id="student_name" maxlength="8" onkeypress="nonHangulSpecialKey();"></td>
                     <th>성별<b>*</b></th>
                     <td colspan="2">
                         <span id="l_gender"></span>
-                        <%--<div class="checkbox_t1">--%>
-                            <%--<label><input type="radio" name="student_gender" value="MALE" checked><span>남자</span></label>--%>
-                            <%--<label><input type="radio" name="student_gender" value="FEMALE"><span>여자</span></label>--%>
-                        <%--</div>--%>
                     </td>
                 </tr>
 
@@ -409,11 +571,11 @@
                     </td>
                     <th>상태 <b>*</b></th>
                     <td>
-                        <select class="form-control">
-                            <option value="">대기생</option>
-                            <option value="">재원생</option>
-                            <option value="">휴원생</option>
-                            <option value="">퇴원생</option>
+                        <select class="form-control" id="sel_studentStatus">
+                            <option value="WAIT">대기생</option>
+                            <option value="ATTEND">재원생</option>
+                            <option value="CLOSE">휴원생</option>
+                            <option value="DISMISS">퇴원생</option>
                         </select>
                     </td>
                 </tr>
@@ -477,19 +639,25 @@
                 <tr>
                     <th>이메일주소 <b>*</b></th>
                     <td class="email">
-                        <input type="email" class="form-control" id="student_email">
+                        <input type="email" class="form-control" id="email">
                         <span>@</span>
-                        <input type="email" class="form-control" id="student_email">
+                        <input type="email" class="form-control" id="email_domain">
 
-                        <select class="form-control">
+                        <select class="form-control" id="sel_emailDomain">
                             <option value="">직접 입력</option>
+                            <option value="naver.com">NAVER</option>
+                            <option value="daum.net">DAUM</option>
+                            <option value="hanmail.net">HANMAIL</option>
+                            <option value="gmail.com">GMAIL</option>
+                            <option value="nate.com">NATE</option>
+                            <option value="hotmail.com">HOTMAIL</option>
                         </select>
                     </td>
                     <th>셔틀탑승여부 <b>*</b></th>
                     <td>
                         <div class="checkbox_t1 black">
-                            <label><input type="radio" name="shuttle-bus-check" value="" checked><span>Yes</span></label>
-                            <label><input type="radio" name="shuttle-bus-check" value=""><span>No</span></label>
+                            <label><input type="radio" name="is_bus_boarding" value="true" checked><span>예</span></label>
+                            <label><input type="radio" name="is_bus_boarding" value="false"><span>아니오</span></label>
                         </div>
 
                     </td>
@@ -498,7 +666,7 @@
                 <tr class="brother">
                     <th>형제정보</th>
                     <td class="brother-input">
-                        <input type="text" class="form-control" id="">
+                        <%--<input type="text" class="form-control" id="">--%>
                     </td>
                     <td colspan="2" class="add">
                         <button class="btn_pack" onclick="brotherAdd();">+</button>
@@ -508,36 +676,9 @@
                 <tr class="memo">
                     <th>메모</th>
                     <td colspan="4">
-                        <div class="memo-history">
-                            <div class="cont">
-                                작성자: <span class="name">임예원</span>
-                                작성일: <span class="date">2018.02.11</span>
-                                <p class="memo-cont">공부에 관심이 없고, 집중을 못해 이번 학기에 제대로 성적을 올리고 싶어함</p>
-                            </div>
+                        <div class="memo-history"></div>
 
-                            <div class="cont">
-                                <span class="name">작성자: 박수원</span>
-                                <span class="date">작성일: 2018.02.21</span>
-                                <p class="memo-cont">우선 다음주에 입학테스트를 진행 하기로 하였고, 진학 담당 강사이신 차호진 원장님께 테스트 후 입학 상담을 추가로 받기로 하였음</p>
-                            </div>
-                            <div class="cont">
-                                <span class="name">작성자: 박수원</span>
-                                <span class="date">작성일: 2018.02.21</span>
-                                <p class="memo-cont">우선 다음주에 입학테스트를 진행 하기로 하였고, 진학 담당 강사이신 차호진 원장님께 테스트 후 입학 상담을 추가로 받기로 하였음</p>
-                            </div>
-                            <div class="cont">
-                                <span class="name">작성자: 박수원</span>
-                                <span class="date">작성일: 2018.02.21</span>
-                                <p class="memo-cont">우선 다음주에 입학테스트를 진행 하기로 하였고, 진학 담당 강사이신 차호진 원장님께 테스트 후 입학 상담을 추가로 받기로 하였음</p>
-                            </div>
-                            <div class="cont">
-                                <span class="name">작성자: 박수원</span>
-                                <span class="date">작성일: 2018.02.21</span>
-                                <p class="memo-cont">우선 다음주에 입학테스트를 진행 하기로 하였고, 진학 담당 강사이신 차호진 원장님께 테스트 후 입학 상담을 추가로 받기로 하였음</p>
-                            </div>
-                        </div>
-
-                        <textarea class="form-control" id="student_memo" name="student_memo" rows="5" onFocus="clearMessage();" onKeyUp="checkByte();" ></textarea>
+                        <textarea class="form-control" id="student_memo" name="student_memo" rows="5" onFocus="clearMessage(this.id);" onKeyUp="checkByte(this.id, 'messagebyte', 1000);" ></textarea>
                         <div class="memo_byte">
                             <span name="messagebyte" id="messagebyte" value="0" size="4" maxlength="2" readonly>0</span>/ 1000 byte
                         </div>
@@ -575,24 +716,7 @@
                     <th>상태</th>
                     <th>처리일시</th>
                 </tr>
-                <tbody id="dataList">
-                    <tr>
-                        <td><a href="" class="font_color blue">이금빛 학생 담당 선생님 통화 요망</a></td>
-                        <td>김안내</td>
-                        <td>2017-12-29 18:05:43</td>
-                        <td>김안내</td>
-                        <td style="color:red">대기</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td><a href="" class="font_color blue">입학 상담</a></td>
-                        <td>김안내</td>
-                        <td>2017-12-29 18:05:43</td>
-                        <td>김안내</td>
-                        <td>완료</td>
-                        <td>2017-12-29 18:05:43</td>
-                    </tr>
-                </tbody>
+                <tbody id="dataList"></tbody>
                 <tr>
                     <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
                 </tr>
@@ -605,17 +729,19 @@
 <div class="layer_popup_template apt_request_layer" id="school_search_layer" style="display: none;width: 450px;">
     <div class="layer-title">
         <h3>학교검색</h3>
-        <button id="close_btn" type="button" class="fa fa-close btn-close"></button>
     </div>
     <div class="layer-body">
         <div class="cont">
             <form class="form_st1" name="frm2" method="get">
                 <div class="form-group row">
-                    <label>학교구분</label> [ <span id="l_schoolName"></span> ]
+                    <label>학교구분</label>
+                    <span id="l_schoolType"></span>
+                    <%--[ <span id="l_schoolName"></span> ]--%>
                 </div>
                 <div class="form-group row">
                     <label>지역</label>
-                    <select title="선택" name="inputregion" id="inputregion" class="form-control" style="width: 120px;">
+                    <select title="선택" name="inputregion" id="inputregion" class="form-control" style="width: 140px;">
+                        <option value="0" selected>선택</option>
                         <option value="">전체</option>
                         <option value="100260">서울특별시</option>
                         <option value="100267">부산광역시</option>
@@ -625,7 +751,7 @@
                         <option value="100271">대전광역시</option>
                         <option value="100273">울산광역시</option>
                         <option value="100704">세종특별자치시</option>
-                        <option value="100276" selected>경기도</option>
+                        <option value="100276">경기도</option>
                         <option value="100278">강원도</option>
                         <option value="100281">충청남도</option>
                         <option value="100280">충청북도</option>
@@ -645,14 +771,80 @@
                     <label>검색결과</label>
                     <a href="javascript:void(0);" class="font_color blue" onclick="school_name_html();" id="a_school_name"></a>
                 </div>
+            </form>
         </div>
         <div class="bot_btns_t1">
             <button class="btn_pack btn-close" type="button">취소</button>
             <button class="btn_pack blue" type="button" onclick="school_search();">검색</button>
         </div>
     </div>
+    <button id="close_btn" type="button" class="fa fa-close btn-close popup-close"></button>
 </div>
 <!-- 학교 검색 팝업 레이어 끝 -->
+
+<div class="layer_popup_template apt_request_layer" id="StudentFindLayer" style="display: none;">
+    <div class="layer-title" style="border-bottom: 0px ;">
+        <button id="close_btn2" type="button" class="fa fa-close btn-close"></button>
+    </div>
+    <section class="content">
+        <div class="tb_t1">
+            <input type="hidden" id="sPage" value="<%=sPage%>">
+            <table>
+                <thead>
+                <tr>
+                    <th>학교선택</th>
+                    <td>
+                        <span id="l_schoolType2"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>검색정보</th>
+                    <td colspan="2">
+                        <div class="form-group row marginX">
+                            <select id="sel_searchType" class="form-control" style="width: 15rem;">
+                                <option value="STUDENT_NAME">이름</option>
+                                <option value="PHONE_NUMBER">전화번호</option>
+                                <option value="MOTHER_NAME">학부모(모)이름</option>
+                                <option value="MOTHER_PHONE_NUMBER">학부모(모)전화번호</option>
+                            </select>
+                            <input type="text" id="search_value" class="form-control" onkeypress="javascript:if(event.keyCode == 13){fn_search('new'); return false;}">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div class="bot_btns_t1">
+                <button class="btn_pack blue" type="button" onclick="fn_search('new');">검색</button>
+            </div>
+        </div>
+    </section>
+    <section class="content">
+        <div class="tb_t1">
+            <table id="searchTable" class="scrolltbody">
+                <thead>
+                <tr>
+                    <th>선택</th>
+                    <th>No.</th>
+                    <th>이름</th>
+                    <th>전화번호</th>
+                    <th>학교명</th>
+                    <th>학년</th>
+                    <th>학부모(모) 이름</th>
+                    <th>학부모(모) 전화번호</th>
+                </tr>
+                </thead>
+                <tbody id="dataList2"></tbody>
+                <tr>
+                    <td id="emptys2" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
+                </tr>
+            </table>
+            <div>
+                <button class="btn_pack blue" type="button" onclick="select_student();">선택</button>
+                <button class="btn_pack btn-close" type="button">취소</button>
+            </div>
+        </div>
+    </section>
 </div>
-<%@include file="/common/jsp/footer.jsp" %>
+<!--학생 추가 레이어 끝-->
+</div>
 </body>
+<%@include file="/common/jsp/footer.jsp" %>

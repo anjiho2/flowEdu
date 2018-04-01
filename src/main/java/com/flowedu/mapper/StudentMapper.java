@@ -1,5 +1,7 @@
 package com.flowedu.mapper;
 
+import com.flowedu.domain.StudentSimpleMemo;
+import com.flowedu.dto.StudentBrotherDto;
 import com.flowedu.dto.StudentDto;
 import com.flowedu.dto.StudentMemoDto;
 import com.flowedu.dto.StudentMemoReplyDto;
@@ -14,9 +16,9 @@ public interface StudentMapper {
 
     StudentDto getStudentInfo(@Param("studentId") Long studentId);
 
-    int getSudentListCount(@Param("gubun") String gubun, @Param("studentName") String studentName);
+    int getSudentListCount(@Param("officeId") Long officeId, @Param("searchType") String searchType, @Param("searchValue") String searchValue);
 
-    List<StudentDto> getSudentList(@Param("start") int start, @Param("end") int end, @Param("gubun") String gubun, @Param("studentName") String studentName);
+    List<StudentDto> getSudentList(@Param("start") int start, @Param("end") int end,@Param("officeId") Long officeId, @Param("searchType") String searchType, @Param("searchValue") String searchValue);
 
     int getStudentMemoListCount(@Param("studentId") Long studentId, @Param("searchDate") String searchDate, @Param("memoType") String memoType,
                                 @Param("memberName") String memberName, @Param("memoContent") String memoContent, @Param("processYn") Boolean processYn);
@@ -38,6 +40,10 @@ public interface StudentMapper {
 
     Long test1(@Param("mediaKey") String mediaKey);
 
+    List<StudentDto>selectStudentBrotherList(@Param("studentId") Long studentId);
+
+    List<StudentSimpleMemo>selectStudentSimpleMemo(@Param("studentId") Long studentId);
+
     void test2(@Param("mediaKey") String mediaKey, @Param("t") String t, @Param("m") String m);
 
     void saveStudentInfo(StudentDto studentDto);
@@ -49,9 +55,17 @@ public interface StudentMapper {
 
     void saveStudentMemoReply(@Param("studentMemoId") Long studentMemoId, @Param("flowMemberId") Long flowMemberId, @Param("replyContent") String replyContent);
 
+    void saveStudentBrothers(@Param("brotherIdList") List<StudentBrotherDto>studentBrotherDtoList);
+
+    void insertStudentBrother(StudentBrotherDto studentBrotherDto);
+
+    void insertStudentSimpleMemo(@Param("studentId") Long studentId, @Param("flowMemberId") Long flowMemberId, @Param("memoContent") String memoContent);
+
     void modifyStudentInfo(StudentDto studentDto);
 
     void modifyMemoProcessYn(@Param("studentMemoId") Long studentMemoId, @Param("processYn") boolean processYn);
 
     void modifyStudentMemoReply(@Param("studentMemoReplyId") Long studentMemoReplyId, @Param("replyContent") String replyContent, @Param("deleteYn") boolean deleteYn);
+
+    void updateStudentBrother(StudentBrotherDto studentBrotherDto);
 }

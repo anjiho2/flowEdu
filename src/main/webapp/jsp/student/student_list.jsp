@@ -24,21 +24,22 @@
     function fn_search(val) {
         var paging = new Paging();
         var sPage = $("#sPage").val();
-        var school_type = get_radio_value("school_type");
+        //var school_type = get_radio_value("school_type");
         //varR school_type = "high_list";
-        var student_name = getInputTextValue("student_name");
+        var searchType = getSelectboxValue("sel_searchType");
+        var searchValue = getInputTextValue("search_value");
 
         if(val == "new") sPage = "1";
 
         gfn_emptyView("H", "");
 
-        studentService.getSudentListCount(school_type, student_name, function (cnt) {
+        dwr.util.removeAllRows("dataList");
+        studentService.getSudentListCount(searchType, searchValue, function (cnt) {
             paging.count(sPage, cnt, '10', '10', comment.blank_list2);
 
             var listNum = ((cnt-1)+1)-((sPage-1)*10); //리스트 넘버링
 
-            dwr.util.removeAllRows("dataList");
-            studentService.getSudentList(sPage, '10', school_type, student_name, function (selList) {
+            studentService.getSudentList(sPage, '10', searchType, searchValue, function (selList) {
                 if (selList.length > 0) {
                     dwr.util.removeAllRows("dataList");
                     for (var i = 0; i < selList.length; i++) {
@@ -49,6 +50,7 @@
                             var cellData = [
                                 function(data) {return listNum--;},
                                 function(data) {return studentNameHTML;},
+                                function(data) {return convert_student_status(cmpList.studentStatus)},
                                 function(data) {return fn_tel_tag(cmpList.studentPhoneNumber) == "" ? "-" : fn_tel_tag(cmpList.studentPhoneNumber)},
                                 function(data) {return cmpList.schoolName == "" ? "-" : cmpList.schoolName},
                                 function(data) {return cmpList.studentGrade;},
@@ -91,14 +93,14 @@
                         <td>
                             <div class="form-group">
                                 <div class="search-box clear">
-                                    <select id="" class="form-control">
-                                        <option value="">이름</option>
-                                        <option value="">전화번호</option>
-                                        <option value="">학부모 이름</option>
-                                        <option value="">학부모 전화번호</option>
+                                    <select id="sel_searchType" class="form-control">
+                                        <option value="NAME">이름</option>
+                                        <option value="PHONE">전화번호</option>
+                                        <option value="MOTHER_NAME">학부모 이름</option>
+                                        <option value="MOTHER_PHONE">학부모 전화번호</option>
                                     </select>
                                     <div class="search-input-box">
-                                        <label><input type="text" class="form-control"  id="student_name" placeholder="학생이름입력" onkeypress="javascript:if(event.keyCode == 13){fn_search('new'); return false;}" ></label>
+                                        <label><input type="text" class="form-control"  id="search_value" placeholder="" onkeypress="javascript:if(event.keyCode == 13){fn_search('new'); return false;}" ></label>
                                     </div>
                                 </div>
                             </div>
@@ -132,16 +134,16 @@
                         <th>학부모전화번호</th>
                     </tr>
                     <tbody id="dataList">
-                        <tr>
-                            <td>141</td>
-                            <td><a href="javascript:void(0);" class="font_color blue" onclick="student_modify(559);">강민재</a></td>
-                            <td>재원생</td>
-                            <td>-</td>
-                            <td>수내초등학교</td>
-                            <td>3</td>
-                            <td>강민재</td>
-                            <td>010-5053-1224</td>
-                        </tr>
+                        <%--<tr>--%>
+                            <%--<td>141</td>--%>
+                            <%--<td><a href="javascript:void(0);" class="font_color blue" onclick="student_modify(559);">강민재</a></td>--%>
+                            <%--<td>재원생</td>--%>
+                            <%--<td>-</td>--%>
+                            <%--<td>수내초등학교</td>--%>
+                            <%--<td>3</td>--%>
+                            <%--<td>강민재</td>--%>
+                            <%--<td>010-5053-1224</td>--%>
+                        <%--</tr>--%>
                     </tbody>
                     <tr>
                         <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
@@ -154,6 +156,5 @@
         </div>
     </section>
 </div>
-<%@include file="/common/jsp/footer.jsp" %>
-
 </body>
+<%@include file="/common/jsp/footer.jsp" %>

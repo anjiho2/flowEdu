@@ -54,8 +54,8 @@ function genderRadio(tag_id, gender, on_click) {
     else if (gender == "FEMALE") female_check = "checked";
 
     var radio = "<div class='checkbox_t1 black'>";
-    radio += "<label><input type='radio' name='gender_type' value='MALE' onclick=" + "'" + on_click + "'" + male_check + "><span>남</span></label>";
-    radio += "<label><input type='radio' name='gender_type' value='FEMALE' onclick=" + "'" + on_click + "'" + female_check + "><span>여</span></label></div>";
+    radio += "<label><input type='radio' name='student_gender' value='MALE' onclick=" + "'" + on_click + "'" + male_check + "><span>남</span></label>";
+    radio += "<label><input type='radio' name='student_gender' value='FEMALE' onclick=" + "'" + on_click + "'" + female_check + "><span>여</span></label></div>";
 
     innerHTML(tag_id, radio);
 }

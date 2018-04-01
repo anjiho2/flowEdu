@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%
-    String officeId = String.valueOf(UserSession.officeId());
-%>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/studentService.js'></script>
 <section class="top_area clear">
     <div class="gnb">
         <div class="total_search">
@@ -48,20 +46,32 @@
         $('#header .menu_close_btn').click(function(){
             $('#header').animate({"left":"-350px"},500);
         });
-        var officeId = getCookie("office_id");
-        if (officeId == undefined) {
-            officeId = '<%=officeId%>';
-        }
+
         var memberType = '<%=memberType%>';
         if (memberType == 'ADMIN' || memberType == "CS") {
-            officeAllList("l_office", officeId);
+            officeAllList("l_office", '<%=officeId%>');
         } else {
-            memberOfficeList("l_office", officeId);
+            memberOfficeList("l_office", '<%=officeId%>');
         }
     });
+
     // 상단 관 변경
     function change_ofiice(val) {
-        setCookie("office_id", val, 1);
+        var data = new FormData();
+        data.append("office_id", val);
+
+        $.ajax({
+            url: "<%=webRoot%>/session/change.do",
+            method: "POST",
+            dataType: "JSON",
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+            }, error: function (response) {
+            }
+        });
         isReloadPage(true);
     }
 </script>

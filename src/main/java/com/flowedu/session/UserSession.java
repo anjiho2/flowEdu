@@ -18,6 +18,10 @@ public class UserSession {
         return local.get();
     }
 
+    public static void remove() {
+        local.remove();
+    }
+
     public static Long flowMemberId() {
         return local.get().getFlowMemberId();
     }

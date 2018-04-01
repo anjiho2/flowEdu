@@ -4,7 +4,13 @@ function brotherAdd(){
         $brotherInput = $('.cont-wrap .brother .brother-input');
 
     if($brotherInput.find('.form-control').length < brotherLimit){
-        $brotherInput.append('<input type="text" class="form-control add-input" id="">');
+        var len = $("#addNewBrotherLen").val();
+        if (len == "") len = 1;
+
+        $brotherInput.append("<input type='text' class='form-control' id='new_cur_"+ len +"' name='studentInfo[]' value='' onclick='student_search_popup(this);'>");
+        $brotherInput.append('<input type="hidden" id="" name="addBrotherId[]">');
+
+        innerValue("addNewBrotherLen", ++len);
     } else {
         alert('더 이상 추가할 수 없습니다.');
     }

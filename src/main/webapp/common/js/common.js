@@ -2135,5 +2135,49 @@ function getCookie(cName) {
     }
     return unescape(cValue);
 }
+//이메일 만들기
+function make_email(emailStr, emailDomain) {
+    var email;
+	if (emailStr != "" && emailDomain != "") {
+	    email = emailStr + "@" + emailDomain;
+    }
+	return email;
+}
 
+//이메일의 도메인명 구하기
+function get_email_domain(email){
+    if(email == null){
+        return;
+    }
 
+    if(email.length == 0){
+        return;
+    }
+
+    var mail = email.split("@");
+    return mail[1];
+}
+//마우스가 클릭되었을때 초기 메시지를 클리어
+function clearMessage(input_id) {
+	if (input_id == null) return;
+	var clearChk = true;
+	if (clearChk) {
+		$("#" + input_id).val("");
+		clearChk = false;
+	}
+}
+//입력된 문자의 바이트 수를 체크 후 출력하기
+function checkByte(input_id, byte_message_id, limitByte) {
+    var totalByte = 0;
+    var message = $("#" + input_id).val();
+    for (var i = 0; i < message.length; i++) {
+        var currentByte = message.charCodeAt(i);
+        if (currentByte > 128) totalByte += 2;
+        else totalByte++;
+    }
+    $("#" + byte_message_id).html(totalByte);
+    if (totalByte > limitByte) {
+        var memolimit = message.substring(0, limitByte);
+        $("#" + input_id).val(memolimit);
+    }
+}

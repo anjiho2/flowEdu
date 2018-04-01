@@ -588,7 +588,7 @@ function schoolTypeSelectbox(tag_id, val) {
 function schoolTypeSelectbox(tag_id, val) {
     studentService.getSchoolTypeList(function (list) {
         var html = "<select id='sel_schoolType' class='form-control' onchange='init(this.value);'>";
-        //html += "<option value=''>▶선택</option>";
+        html += "<option value=''>선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].id == val) {
                 html += "<option value="+list[i].id+" selected>"+ list[i].name +"</option>";
@@ -606,6 +606,38 @@ function schoolTypeSelectbox2(tag_id, val) {
     studentService.getSchoolTypeList(function (list) {
         var html = "<select id='sel_schoolType' class='form-control' onchange='studentList(this.value);'>";
         //html += "<option value=''>▶선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].id == val) {
+                html += "<option value="+list[i].id+" selected>"+ list[i].name +"</option>";
+            } else {
+                html += "<option value="+list[i].id +">"+ list[i].name  +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
+function schoolTypeSelectbox3(tag_id, val) {
+    studentService.getSchoolTypeList(function (list) {
+        var html = "<select id='sel_schoolType' class='form-control'>";
+        html += "<option value=''>선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].id == val) {
+                html += "<option value="+list[i].id+" selected>"+ list[i].name +"</option>";
+            } else {
+                html += "<option value="+list[i].id +">"+ list[i].name  +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
+function schoolTypeSelectbox4(tag_id, val) {
+    studentService.getSchoolTypeList(function (list) {
+        var html = "<select id='sel_schoolType' class='form-control' onchange='select_school_type(this.value);'>";
+        html += "<option value=''>선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].id == val) {
                 html += "<option value="+list[i].id+" selected>"+ list[i].name +"</option>";

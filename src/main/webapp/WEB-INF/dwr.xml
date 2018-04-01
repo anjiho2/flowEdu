@@ -124,6 +124,7 @@
 		<convert converter="bean" match="com.flowedu.dto.BusDto"/>
 		<convert converter="bean" match="com.flowedu.dto.BusInfoDto"/>
 		<convert converter="bean" match="com.flowedu.dto.BusDismissTimeDto"/>
+		<convert converter="bean" match="com.flowedu.dto.StudentBrotherDto"/>
 		<!-- define -->
 		<convert converter="bean" match="com.flowedu.domain.KisPosOcx"/>
 		<convert converter="bean" match="com.flowedu.domain.LecturePaymentLog"/>
@@ -135,6 +136,7 @@
 		<convert converter="bean" match="com.flowedu.domain.MainMenu"/>
 		<convert converter="bean" match="com.flowedu.domain.SubMenu"/>
 		<convert converter="bean" match="com.flowedu.domain.Menu"/>
+		<convert converter="bean" match="com.flowedu.domain.StudentSimpleMemo"/>
 
 	</allow>
 

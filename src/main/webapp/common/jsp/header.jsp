@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
     String academyThumbnail = UserSession.academyThumbnail();
+    Long officeId = Long.valueOf(UserSession.officeId());
 %>
 <script type='text/javascript' src='<%=webRoot%>/dwr/interface/authService.js'></script>
 <script>
@@ -30,7 +31,7 @@
 <div id="wrap" >
     <header id="header">
         <div style="margin-left: 22px;">
-            <img id="academy_img" src="<%=academyThumbnail%>" alt="" style="width: auto; height: 80px">
+            <%--<img id="academy_img" src="<%=academyThumbnail%>" alt="" style="width: auto; height: 80px">--%>
         </div>
         <button class="toggle_aside"></button>
 

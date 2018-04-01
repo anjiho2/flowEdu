@@ -79,12 +79,22 @@ public class StudentDto {
 
     private String studentAuthKey;
 
+    private String studentStatus;
+
+    private Long officeId;
+
+    private boolean busBoardYn;
+
+    private Long studentBrotherId;
+
+    private Long brotherId;
+
     public StudentDto() {}
 
     public StudentDto(String studentName, String studentPassword, String studentGender, String studentBirthday, String homeTelNumber,
                       String studentPhoneNumber, String studentEmail, String schoolName, String schoolType, int studentGrade,
                       String studentPhotoFile, String studentPhotoUrl, String studentMemo, String motherName, String motherPhoneNumber,
-                      String fatherName, String fatherPhoneNumber, String etcName, String etcPhoneNumber) throws Exception {
+                      String fatherName, String fatherPhoneNumber, String etcName, String etcPhoneNumber, Long officeId, boolean busBoardYn, String studentStatus) throws Exception {
         this.studentName = studentName;
         this.studentPassword = Aes256.encrypt(studentPassword);
         this.studentGender = studentGender;
@@ -105,12 +115,15 @@ public class StudentDto {
         this.etcName = etcName;
         this.etcPhoneNumber = etcPhoneNumber;
         this.studentAuthKey = RandomMake.getMemberAuthKey();
+        this.officeId = officeId;
+        this.busBoardYn = busBoardYn;
+        this.studentStatus = studentStatus;
     }
 
     public StudentDto(Long studentId, String studentPasword, String studentName, String studentGender, String studentBirthday, String homeTelNumber,
                       String studentPhoneNumber, String studentEmail, String schoolName, String schoolType, int studentGrade,
                       String studentPhotoFile, String studentPhotoUrl, String studentMemo, String motherName, String motherPhoneNumber,
-                      String fatherName, String fatherPhoneNumber, String etcName, String etcPhoneNumber) throws Exception {
+                      String fatherName, String fatherPhoneNumber, String etcName, String etcPhoneNumber, String studentStatus, boolean busBoardYn) throws Exception {
         this.studentId = studentId;
         this.studentPassword = Aes256.encrypt(studentPasword);
         this.studentName = studentName;
@@ -131,6 +144,8 @@ public class StudentDto {
         this.fatherPhoneNumber = fatherPhoneNumber;
         this.etcName = etcName;
         this.etcPhoneNumber = etcPhoneNumber;
+        this.studentStatus = studentStatus;
+        this.busBoardYn = busBoardYn;
     }
 
     public StudentDto(String studentName, String studentPassword, String studentGender, String studentBirthday,
