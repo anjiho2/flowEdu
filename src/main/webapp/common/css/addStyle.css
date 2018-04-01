@@ -62,7 +62,7 @@ h3.title_t1 {font-size:20px;color:#797979;font-weight:bold}
 .cont-wrap .search-input-box {float:left;position:relative;width:40%;margin-left:10px}
 .cont-wrap .search-input-box label {position:absolute;top:0;left:0;width:100%;margin:0;}
 .cont-wrap .search-input-box .form-control {width:100%;height:calc(2.25rem + 2px)}
-.cont-wrap .btn_pack.blue{height:calc(2.25rem + 2px);padding:9px 16px;margin:0;border-radius:.25rem;transition:background-color 0.3s}
+.cont-wrap .btn_pack.blue{height:calc(2.25rem + 2px);padding:9px 16px;margin:0;margin-right:5px;border-radius:.25rem;transition:background-color 0.3s}
 .cont-wrap .btn_pack.blue:hover{background-color:#0493d4;}
 
 /*content table*/
