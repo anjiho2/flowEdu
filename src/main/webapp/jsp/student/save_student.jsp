@@ -61,14 +61,9 @@
             $("#mother_phone2").attr("disabled", true);
             $("#mother_phone3").attr("disabled", true);
         }
-        /*
-        if (val == undefined) val = "ELEMENT";
-        $("#sel_schoolType").val(val).prop("selected", true);
-        */
         if (val == undefined) {
             val = "ELEMENT";
         }
-        //schoolTypeSelectbox("l_schoolType", val);
         schoolSelectbox("student_grade","", val);
     }
 
@@ -133,8 +128,8 @@
             officeId:'<%=officeId%>',
             busBoardYn:isBusBoarding
         };
-        console.log(data);
         var addBrotherInfo= new Array();
+        //형제 정보가 있으면 저장
         $('input[name^="addBrotherId[]"]').each(function() {
             var studentBrotherId = ($(this).attr("id"));
             var brotherId = ($(this).val());
@@ -146,139 +141,11 @@
         });
         if (confirm(comment.isSave2)) {
             studentService.saveStudentInfo(data, addBrotherInfo, function (studentId) {
+                //저장 완료후 학생 상세페이지로 이동
                 location.href = "<%=webRoot%>/student.do?page_gbn=modify_student&student_id=" + studentId;
             });
         }
     }
-        <%----%>
-        <%--var data = new FormData();--%>
-        <%--data.append("save_path", '<%=savePath%>');--%>
-        <%--$.each($('#attachFile')[0].files, function(i, file) {--%>
-            <%--data.append('file_name', file);--%>
-        <%--});--%>
-        <%--var attachFile = fn_clearFilePath($('#attachFile').val());--%>
-
-        <%--if (attachFile != "") { //학생사진 업로드시--%>
-            <%--$.ajax({--%>
-                <%--url: "<%=apiHost%>/upload/student_img_file",--%>
-                <%--method : "post",--%>
-                <%--dataType: "JSON",--%>
-                <%--data: data,--%>
-                <%--cache: false,--%>
-                <%--processData: false,--%>
-                <%--contentType: false,--%>
-                <%--success: function(result_data) {--%>
-                    <%--var errorCode = result_data.result.error_code;--%>
-                    <%--if (errorCode == "909") {--%>
-                        <%--alert(comment.file_name_not_allow_korean);--%>
-                        <%--return;--%>
-                    <%--} else if (errorCode == "906") {--%>
-                        <%--alert(comment.file_extension_not_allow);--%>
-                        <%--return;--%>
-                    <%--} else if (errorCode == "907") {--%>
-                        <%--alert(comment.file_size_not_allow_300kb);--%>
-                        <%--return;--%>
-                    <%--}--%>
-                    <%--var fileName = result_data.result.file_name;--%>
-                    <%--var fileUrl = result_data.result.file_url;--%>
-                    <%--var mother_phone3   = getInputTextValue("mother_phone3");--%>
-                    <%--var student_name    = getInputTextValue("student_name");--%>
-                    <%--var gender          = get_radio_value("student_gender");--%>
-                    <%--var startDate       = getInputTextValue("startDate");--%>
-                    <%--var student_phonenum= get_allphonenum("student_phone1","student_phone2","student_phone3");--%>
-                    <%--var student_telnum  = get_allphonenum("student_tel1","student_tel2","student_tel3");--%>
-                    <%--var student_email   = getInputTextValue("student_email");--%>
-                    <%--var student_grade   = getInputTextValue("sel_school");--%>
-                    <%--var schoolname      = getInputTextValue("schoolname");--%>
-                    <%--var student_memo    = getInputTextValue("student_memo");--%>
-                    <%--var mother_name     = getInputTextValue("mother_name");--%>
-                    <%--var father_name     = getInputTextValue("father_name");--%>
-                    <%--var mother_phonenum = get_allphonenum("mother_phone1","mother_phone2","mother_phone3");--%>
-                    <%--var father_phonenum = get_allphonenum("father_phone1","father_phone2","father_phone3");--%>
-                    <%--var etc_phonenum = get_allphonenum("etc_phone1","etc_phone2","etc_phone3");--%>
-                    <%--var etc_name     = getInputTextValue("etc_name");--%>
-
-                    <%--//var school_type =  $(":input:radio[name=school_type]:checked").val();--%>
-                    <%--var school_type = getSelectboxValue("sel_schoolType");  //2017.12.13 셀렉트박스로 변경되면서 수정(안지호)--%>
-
-                    <%--var data = {--%>
-                        <%--studentPhotoFile:fileName, //파일명--%>
-                        <%--studentPhotoUrl:fileUrl, //경로--%>
-                        <%--studentName:student_name,--%>
-                        <%--studentPassword:mother_phone3,--%>
-                        <%--studentGender:gender,--%>
-                        <%--studentBirthday:startDate,--%>
-                        <%--studentPhoneNumber:student_phonenum,--%>
-                        <%--homeTelNumber:student_telnum,--%>
-                        <%--studentEmail:student_email,--%>
-                        <%--studentGrade:student_grade,--%>
-                        <%--schoolType:school_type,--%>
-                        <%--schoolName:schoolname,--%>
-
-                        <%--studentMemo:student_memo,--%>
-                        <%--motherName:mother_name,--%>
-                        <%--motherPhoneNumber:mother_phonenum,--%>
-                        <%--fatherName:father_name,--%>
-                        <%--fatherPhoneNumber:father_phonenum,--%>
-                        <%--etcName:etc_name,--%>
-                        <%--etcPhoneNumber:etc_phonenum,--%>
-                    <%--};--%>
-                    <%--if (confirm(comment.isSave2)) {--%>
-                        <%--studentService.saveStudentInfo(data, function () {--%>
-                            <%--goPage("student","student_list");--%>
-                        <%--});--%>
-                    <%--}--%>
-                <%--}--%>
-            <%--});--%>
-        <%--} else { //학생사진 없을때--%>
-            <%--var mother_phone3    = getInputTextValue("mother_phone3");--%>
-            <%--var student_name    = getInputTextValue("student_name");--%>
-            <%--var gender          = get_radio_value("student_gender");--%>
-            <%--var startDate       = getInputTextValue("startDate");--%>
-            <%--var student_phonenum= get_allphonenum("student_phone1","student_phone2","student_phone3");--%>
-            <%--var student_telnum  = get_allphonenum("student_tel1","student_tel2","student_tel3");--%>
-            <%--var student_email   = getInputTextValue("student_email");--%>
-            <%--var student_grade   = getInputTextValue("sel_school");--%>
-            <%--var schoolname      = getInputTextValue("schoolname");--%>
-            <%--var student_memo    = getInputTextValue("student_memo");--%>
-            <%--var mother_name     = getInputTextValue("mother_name");--%>
-            <%--var father_name     = getInputTextValue("father_name");--%>
-            <%--var mother_phonenum = get_allphonenum("mother_phone1","mother_phone2","mother_phone3");--%>
-            <%--var father_phonenum = get_allphonenum("father_phone1","father_phone2","father_phone3");--%>
-            <%--var etc_phonenum = get_allphonenum("etc_phone1","etc_phone2","etc_phone3");--%>
-            <%--var etc_name     = getInputTextValue("etc_name");--%>
-           <%--// var office_id    =--%>
-
-            <%--//var school_type =  $(":input:radio[name=school_type]:checked").val();--%>
-            <%--var school_type = getSelectboxValue("sel_schoolType");  //2017.12.13 셀렉트박스로 변경되면서 수정(안지호)--%>
-
-            <%--var data = {--%>
-                <%--studentName:student_name,--%>
-                <%--studentPassword:mother_phone3,--%>
-                <%--studentGender:gender,--%>
-                <%--studentBirthday:startDate,--%>
-                <%--studentPhoneNumber:student_phonenum,--%>
-                <%--homeTelNumber:student_telnum,--%>
-                <%--studentEmail:student_email,--%>
-                <%--studentGrade:student_grade,--%>
-                <%--schoolType:school_type,--%>
-                <%--schoolName:schoolname,--%>
-                <%--studentMemo:student_memo,--%>
-                <%--motherName:mother_name,--%>
-                <%--motherPhoneNumber:mother_phonenum,--%>
-                <%--fatherName:father_name,--%>
-                <%--fatherPhoneNumber:father_phonenum,--%>
-                <%--etcName:etc_name,--%>
-                <%--etcPhoneNumber:etc_phonenum,--%>
-                <%--officeId : officeId--%>
-            <%--};--%>
-            <%--if (confirm(comment.isSave2)) {--%>
-                <%--studentService.saveStudentInfo(data,function () {--%>
-                    <%--goPage("dashboard","dashboard_list");--%>
-                <%--});--%>
-             <%--}--%>
-        <%--}--%>
-    <%--}--%>
 
     function changeSchoolGrade(school_grade) {
         schoolSelectbox("student_grade","", school_grade);

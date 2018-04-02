@@ -368,7 +368,7 @@ public class StudentService extends PagingSupport {
                     studentDto.getStudentMemo()
             );
         }
-        //형제 정보가 있을때 입력
+        //형제 정보가 있을때 입력(2018. 04. 01 안지호)
         if (studentBrotherDtoList.size() > 0) {
             for (StudentBrotherDto brotherDto : studentBrotherDtoList) {
                 if (brotherDto.getBrotherId() != null) {
@@ -482,6 +482,7 @@ public class StudentService extends PagingSupport {
                     studentDto.getStudentMemo()
             );
         }
+        //학생 형제 목록 입력
         if (studentBrotherDtoList.size() == 0) return;
         for (StudentBrotherDto brotherDto : studentBrotherDtoList) {
             if (brotherDto.getStudentBrotherId() != null) {

@@ -351,8 +351,17 @@ public class LectureService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public List<LectureStudentRelByIdDto> getLectureStudentRelById(Long studentId, String startDate, String endDate) {
-        List<LectureStudentRelByIdDto> Arr = lectureMapper.getLectureStudentRelByStudentId(studentId, "MONTH", startDate, endDate);
+    public List<LectureStudentRelByIdDto> getLectureStudentRelById(int sPage, int pageLimitCount, Long studentId, String startDate, String endDate, String searchType, String searchValue) {
+        PagingDto pagingDto = getPagingInfo(sPage, pageLimitCount);
+        List<LectureStudentRelByIdDto> Arr = lectureMapper.getLectureStudentRelByStudentId(
+                pagingDto.getStart(),
+                pageLimitCount,
+                studentId,
+                Util.isNullValue(startDate, ""),
+                Util.isNullValue(endDate, ""),
+                Util.isNullValue(searchType, ""),
+                Util.isNullValue(searchValue, "")
+        );
         if (Arr != null) {
             //담임 선생님, 관리 선생님 이름 주입하기
             memberNameRepository.fillMemberNameAny(Arr);
@@ -370,8 +379,14 @@ public class LectureService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public int getLectureStudentRelByStudentIdCount(Long studentId, String startDate, String endDate) {
-        return lectureMapper.getLectureStudentRelByStudentIdCount(studentId, "MONTH", startDate, endDate);
+    public int getLectureStudentRelByStudentIdCount(Long studentId, String startDate, String endDate, String searchType, String searchValue) {
+        return lectureMapper.getLectureStudentRelByStudentIdCount(
+                studentId,
+                Util.isNullValue(startDate, ""),
+                Util.isNullValue(endDate, ""),
+                Util.isNullValue(searchType, ""),
+                Util.isNullValue(searchValue, "")
+        );
     }
 
     /**
@@ -385,7 +400,7 @@ public class LectureService extends PagingSupport {
      */
     @Transactional(readOnly = true)
     public List<LectureStudentRelByIdDto> getLecturePaymentList(Long studentId) {
-        List<LectureStudentRelByIdDto> Arr = lectureMapper.getLectureStudentRelByStudentId(studentId, "", null, null);
+        List<LectureStudentRelByIdDto> Arr = lectureMapper.getLectureStudentRelByStudentId(0, 0, studentId, "", "", "", "");
         if (Arr != null) {
             //담임 선생님, 관리 선생님 이름 주입하기
             memberNameRepository.fillMemberNameAny(Arr);
@@ -404,7 +419,7 @@ public class LectureService extends PagingSupport {
      */
     @Transactional(readOnly = true)
     public int getLecturePaymentListCount(Long studentId) {
-        return lectureMapper.getLectureStudentRelByStudentIdCount(studentId, "", null, null);
+        return lectureMapper.getLectureStudentRelByStudentIdCount(studentId, "", "", "", "");
     }
 
     /**

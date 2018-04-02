@@ -62,16 +62,10 @@
     function studentList(val) {
         var student_id        = getInputTextValue("student_id");
         studentService.getStudentInfo(student_id, function (selList) {
-
-            <%--var file_url = '<%=imgUrl%>' + selList.studentPhotoUrl + "/" + selList.studentPhotoFile;--%>
-            <%--$("#modify_preView").attr("src", file_url);--%>
-            <%--if(file_url != null) gfn_display("preview", true);--%>
-
             innerValue("student_name", selList.studentName);
             innerValue("startDate", selList.studentBirthday);
             $("#sel_studentStatus").val(selList.studentStatus);
             genderRadio("l_gender", selList.studentGender, "");
-            //schoolTypeSelectbox2("l_schoolType", school_type == undefined ? convert_school_type(selList.schoolType) : school_type);
 
             var studentGrade = selList.studentGrade;
             schoolSelectbox("student_grade", studentGrade, val == undefined ? convert_school_type(selList.schoolType) : val);
@@ -85,7 +79,6 @@
             $('input:radio[name=is_bus_boarding]:input[value=' + selList.busBoardYn + ']').attr("checked", true);
             innerValue("student_grade", selList.memberAddress);
             innerValue("schoolname", selList.schoolName);
-            //innerValue("student_memo", selList.studentMemo);
             innerValue("mother_name", selList.motherName);
             $("input[name=student_name]").val(selList.studentName);
             //checkByte(selList.studentMemo);
@@ -205,155 +198,6 @@
             });
             gfn_display("loadingbar", false);
         }
-
-        <%--var check = new isCheck();--%>
-        <%--var student_id   = getInputTextValue("student_id");--%>
-        <%--var data = new FormData();--%>
-
-        <%--//이메일형식체크--%>
-        <%--var student_email   = getInputTextValue("student_email");--%>
-        <%--if(student_email){--%>
-            <%--var is_email = fn_isemail(student_email);--%>
-            <%--if (is_email == true) return false;--%>
-        <%--}--%>
-        <%--if(check.input("student_name", comment.input_student_name)   == false) return;--%>
-        <%--if(check.input("startDate", comment.input_member_startDate)   == false) return;--%>
-        <%--if(check.input("schoolname", comment.input_school_name)   == false) return;--%>
-        <%--//if(check.input("sel_school", comment.input_student_grade)   == false) return;--%>
-        <%--if(check.input("mother_name", comment.input_mother_name)   == false) return;--%>
-        <%--if(check.input("mother_phone1", comment.input_mother_tel1)   == false) return;--%>
-        <%--if(check.input("mother_phone2", comment.input_mother_tel2)   == false) return;--%>
-        <%--if(check.input("mother_phone3", comment.input_mother_tel3)   == false) return;--%>
-
-        <%--data.append("save_path", '<%=savePath%>');--%>
-        <%--$.each($('#attachFile')[0].files, function(i, file) {--%>
-            <%--data.append('file_name', file);--%>
-        <%--});--%>
-        <%--var attachFile = fn_clearFilePath($('#attachFile').val());--%>
-        <%--if (attachFile != "") { //학생사진 업로드시--%>
-
-            <%--$.ajax({--%>
-                <%--url: "<%=apiHost%>/upload/student_img_file",--%>
-                <%--method : "post",--%>
-                <%--dataType: "JSON",--%>
-                <%--data: data,--%>
-                <%--cache: false,--%>
-                <%--processData: false,--%>
-                <%--contentType: false,--%>
-                <%--success: function(result_data) {--%>
-                    <%--var errorCode = result_data.result.error_code;--%>
-                    <%--if (errorCode == "909") {--%>
-                        <%--alert(comment.file_name_not_allow_korean);--%>
-                        <%--return;--%>
-                    <%--} else if (errorCode == "906") {--%>
-                        <%--alert(comment.file_extension_not_allow);--%>
-                        <%--return;--%>
-                    <%--} else if (errorCode == "907") {--%>
-                        <%--alert(comment.file_size_not_allow_300kb);--%>
-                        <%--return;--%>
-                    <%--}--%>
-                    <%--var fileName = result_data.result.file_name;--%>
-                    <%--var fileUrl = result_data.result.file_url;--%>
-                    <%--var mother_phone3   = getInputTextValue("mother_phone3");--%>
-                    <%--var student_name    = getInputTextValue("student_name");--%>
-                    <%--var gender          = get_radio_value("gender_type");--%>
-                    <%--var startDate       = getInputTextValue("startDate");--%>
-                    <%--var student_phonenum = get_allphonenum("student_phone1","student_phone2","student_phone3");--%>
-                    <%--var student_telnum  = get_allphonenum("student_tel1","student_tel2","student_tel3");--%>
-                    <%--var student_email   = getInputTextValue("student_email");--%>
-                    <%--var student_grade   = getInputTextValue("sel_school");--%>
-                    <%--var schoolname      = getInputTextValue("schoolname");--%>
-                    <%--var student_memo    = getInputTextValue("student_memo");--%>
-                    <%--var mother_name     = getInputTextValue("mother_name");--%>
-                    <%--var father_name     = getInputTextValue("father_name");--%>
-                    <%--var mother_phonenum = get_allphonenum("mother_phone1","mother_phone2","mother_phone3");--%>
-                    <%--var father_phonenum = get_allphonenum("father_phone1","father_phone2","father_phone3");--%>
-                    <%--//var school_type =  $(":input:radio[name=school_type]:checked").val();--%>
-                    <%--var school_type = getSelectboxValue("sel_schoolType");  //2017.12.13 셀렉트박스로 변경되면서 수정(안지호)--%>
-                    <%--var etc_phonenum = get_allphonenum("etc_phone1","etc_phone2","etc_phone3");--%>
-                    <%--var etc_name     = getInputTextValue("etc_name");--%>
-
-                    <%--var data = {--%>
-                        <%--studentId:student_id,--%>
-                        <%--studentPhotoFile:fileName, //파일명--%>
-                        <%--studentPhotoUrl:fileUrl, //경로--%>
-                        <%--studentName:student_name,--%>
-                        <%--studentPassword:mother_phone3,--%>
-                        <%--studentGender:gender,--%>
-                        <%--studentBirthday:startDate,--%>
-                        <%--studentPhoneNumber:student_phonenum,--%>
-                        <%--homeTelNumber:student_telnum,--%>
-                        <%--studentEmail:student_email,--%>
-                        <%--studentGrade:student_grade,--%>
-                        <%--schoolType:school_type,--%>
-                        <%--schoolName:schoolname,--%>
-                        <%--studentMemo:student_memo,--%>
-                        <%--motherName:mother_name,--%>
-                        <%--motherPhoneNumber:mother_phonenum,--%>
-                        <%--fatherName:father_name,--%>
-                        <%--fatherPhoneNumber:father_phonenum,--%>
-                        <%--etcName:etc_name,--%>
-                        <%--etcPhoneNumber:etc_phonenum,--%>
-                    <%--};--%>
-                    <%--if (confirm(comment.isUpdate2)) {--%>
-                        <%--studentService.modifyStudentInfo(data,function () {--%>
-                            <%--goPage("student","student_list");--%>
-                        <%--});--%>
-                    <%--}--%>
-                <%--},--%>
-                <%--error : function (xhr, textStatus, errorThrown) {--%>
-                    <%--alert(comment.file_name_not_allow_korean);--%>
-                    <%--return;--%>
-                <%--}--%>
-            <%--});--%>
-        <%--} else { //학생사진 없을때--%>
-            <%--var mother_phone3    = getInputTextValue("mother_phone3");--%>
-            <%--var student_name    = getInputTextValue("student_name");--%>
-            <%--var gender          = get_radio_value("gender_type");--%>
-            <%--var startDate       = getInputTextValue("startDate");--%>
-            <%--var student_phonenum= get_allphonenum("student_phone1","student_phone2","student_phone3");--%>
-            <%--var student_telnum  = get_allphonenum("student_tel1","student_tel2","student_tel3");--%>
-            <%--var student_email   = getInputTextValue("student_email");--%>
-            <%--var student_grade   = getInputTextValue("sel_school");--%>
-            <%--var schoolname      = getInputTextValue("schoolname");--%>
-            <%--var student_memo    = getInputTextValue("student_memo");--%>
-            <%--var mother_name     = getInputTextValue("mother_name");--%>
-            <%--var father_name     = getInputTextValue("father_name");--%>
-            <%--var mother_phonenum = get_allphonenum("mother_phone1","mother_phone2","mother_phone3");--%>
-            <%--var father_phonenum = get_allphonenum("father_phone1","father_phone2","father_phone3");--%>
-            <%--//var school_type =  $(":input:radio[name=school_type]:checked").val();--%>
-            <%--var school_type = getSelectboxValue("sel_schoolType");  //2017.12.13 셀렉트박스로 변경되면서 수정(안지호)--%>
-            <%--var etc_phonenum = get_allphonenum("etc_phone1","etc_phone2","etc_phone3");--%>
-            <%--var etc_name     = getInputTextValue("etc_name");--%>
-
-            <%--var data = {--%>
-                <%--studentPhotoFile:"", //파일명--%>
-                <%--studentPhotoUrl:"", //경로--%>
-                <%--studentId:student_id,--%>
-                <%--studentName:student_name,--%>
-                <%--studentPassword:mother_phone3,--%>
-                <%--studentGender:gender,--%>
-                <%--studentBirthday:startDate,--%>
-                <%--studentPhoneNumber:student_phonenum,--%>
-                <%--homeTelNumber:student_telnum,--%>
-                <%--studentEmail:student_email,--%>
-                <%--studentGrade:student_grade,--%>
-                <%--schoolType:school_type,--%>
-                <%--schoolName:schoolname,--%>
-                <%--studentMemo:student_memo,--%>
-                <%--motherName:mother_name,--%>
-                <%--motherPhoneNumber:mother_phonenum,--%>
-                <%--fatherName:father_name,--%>
-                <%--fatherPhoneNumber:father_phonenum,--%>
-                <%--etcName:etc_name,--%>
-                <%--etcPhoneNumber:etc_phonenum,--%>
-            <%--};--%>
-            <%--if (confirm(comment.isUpdate2)) {--%>
-                <%--studentService.modifyStudentInfo(data,function () {--%>
-                    <%--goPage("student","student_list");--%>
-                <%--});--%>
-            <%--}--%>
-        <%--}--%>
     }
 
     function changeSchoolGrade(school_grade) {
@@ -395,8 +239,8 @@
             }
         });
     }
-
-    function school_search_popup() {//학교검색
+    //학교검색팝업
+    function school_search_popup() {
         //var school_type =  $(":input:radio[name=school_type]:checked").val();
         //초기화
         reset_value("schoo_name");
@@ -411,7 +255,7 @@
         document.getElementById("schoolname").value = school_name;
         $("#close_btn").trigger("click");
     }
-    //학교검색
+    //학교검색하기
     function school_search() {
         var school_type =  getSelectboxValue("sel_schoolType");
         var region =  getSelectboxValue("inputregion");

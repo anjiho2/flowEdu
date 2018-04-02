@@ -60,6 +60,8 @@ public class LectureStudentRelByIdDto implements MemberNameContain {
 
     private Integer paymentPrice;
 
+    private String memberName;
+
     @Override
     public Long manageMemberId() {
         return manageMemberId;

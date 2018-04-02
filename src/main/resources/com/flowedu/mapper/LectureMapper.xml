@@ -155,14 +155,27 @@
 	</select>
 
 	<select id="getLectureStudentRelByStudentId" resultType="com.flowedu.dto.LectureStudentRelByIdDto">
-		SELECT A.lecture_rel_id, A.lecture_id, A.add_yn, A.payment_yn, A.payment_date, A.payment_price, B.*, C.office_name, D.lecture_price_id, D.lecture_price
+		SELECT A.lecture_rel_id, A.lecture_id, A.add_yn, A.payment_yn, A.payment_date, A.payment_price, B.*, C.office_name,
+				D.lecture_price_id, D.lecture_price, E.member_name
 		FROM LECTURE_STUDENT_REL A LEFT JOIN LECTURE_INFO B
 		ON A.lecture_id = B.lecture_id LEFT JOIN OFFICE C
 		ON B.office_id = C.office_id LEFT JOIN LECTURE_PRICE D
-		ON B.lecture_price_id = D.lecture_price_id
+		ON B.lecture_price_id = D.lecture_price_id LEFT JOIN FLOWEDU_MEMBER E
+		ON B.charge_member_id = E.flow_member_id
 		WHERE A.student_id =  #{studentId}
-		<if test="type == 'MONTH'">
+		<if test="startDate !='' and endDate !=''">
 			AND DATE_FORMAT(A.create_date, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
+		</if>
+		<if test="searchType != ''">
+			<if test="searchType eq 'LECTURE_NAME'">
+				AND B.lecture_name LIKE CONCAT ('%', #{searchValue}, '%')
+			</if>
+			<if test="searchType eq 'STUDENT_NAME'">
+				AND E.member_name LIKE CONCAT ('%', #{searchValue}, '%')
+			</if>
+		</if>
+		<if test="end > 0">
+			LIMIT #{start}, #{end}
 		</if>
 	</select>
 
@@ -171,10 +184,19 @@
 		FROM LECTURE_STUDENT_REL A LEFT JOIN LECTURE_INFO B
 		ON A.lecture_id = B.lecture_id LEFT JOIN OFFICE C
 		ON B.office_id = C.office_id LEFT JOIN LECTURE_PRICE D
-		ON B.lecture_price_id = D.lecture_price_id
+		ON B.lecture_price_id = D.lecture_price_id LEFT JOIN FLOWEDU_MEMBER E
+		ON B.charge_member_id = E.flow_member_id
 		WHERE A.student_id =  #{studentId}
-		<if test="type == 'MONTH'">
+		<if test="startDate !='' and endDate !=''">
 			AND DATE_FORMAT(A.create_date, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
+		</if>
+		<if test="searchType != ''">
+			<if test="searchType eq 'LECTURE_NAME'">
+				AND B.lecture_name LIKE CONCAT ('%', #{searchValue}, '%')
+			</if>
+			<if test="searchType eq 'STUDENT_NAME'">
+				AND E.member_name LIKE CONCAT ('%', #{searchValue}, '%')
+			</if>
 		</if>
 	</select>
 
