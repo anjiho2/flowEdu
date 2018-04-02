@@ -7,7 +7,6 @@
 
     Long student_id = Long.parseLong(request.getParameter("student_id"));
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
-    String student_name = StringUtil.convertParmeterStr(request.getParameter("student_name"), "UTF-8");
 
     int siderMenuDepth1 = 1;
     int siderMenuDepth2 = 2;
@@ -90,7 +89,6 @@
         <form name="frm" method="get">
             <input type="hidden" id="page_gbn" name="page_gbn">
             <input type="hidden" id="student_id" name="student_id" value="<%=student_id%>">
-            <input type="hidden" id="student_name" name="student_name" value="<%=student_name%>">
             <input type="hidden" id="sPage" name="sPage" value="<%=sPage%>">
         </form>
 

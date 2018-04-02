@@ -7,7 +7,6 @@
 
     Long student_id = Long.parseLong(request.getParameter("student_id"));
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
-    String student_name = StringUtil.convertParmeterStr(request.getParameter("student_name"), "UTF-8");
 
     int siderMenuDepth1 = 1;
     int siderMenuDepth2 = 2;
@@ -92,7 +91,6 @@ $(document).ready(function() {
     <form name="frm" method="get">
         <input type="hidden" name="page_gbn" id="page_gbn">
         <input type="hidden" id="studentId" name="student_id" value="<%=student_id%>">
-        <input type="hidden" name="student_name" value="<%=student_name%>">
         <input type="hidden"  id="sPage" value="<%=sPage%>">
     </form>
         <div class="cont-wrap">

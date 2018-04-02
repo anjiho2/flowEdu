@@ -11,7 +11,6 @@
 
     Long student_id = Long.parseLong(request.getParameter("student_id"));
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
-    String student_name = StringUtil.convertParmeterStr(request.getParameter("student_name"), "UTF-8");
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
@@ -114,7 +113,6 @@ function payment_lecture(paymentResult, transType) {
     var check = new isCheck();
     var lectureRelId;
     var paymentPrice;
-    var studentName = '<%=student_name%>';
     var caclType;
     if (transType == "payment") {
         if (check.input("l_calcLecturePrice", "결제할 금액을 입력하세요") == false) return;
@@ -393,11 +391,9 @@ function cancel_payment(lecturePaymentLogId) {
 </div>
 </section>
 <section class="content">
-    <h3 class="title_t1"><%=student_name%>학생 수강료 납부</h3>
     <form name="frm" method="get">
         <input type="hidden" name="page_gbn" id="page_gbn">
         <input type="hidden" name="student_id" id="studentId" value="<%=student_id%>">
-        <input type="hidden" name="student_name" value="<%=student_name%>">
         <input type="hidden"  id="sPage" value="<%=sPage%>">
         <div class="tb_t1">
             <table>
