@@ -109,6 +109,32 @@
 		</if>
 	</select>
 
+	<select id="getLectureDetailInfoByPopup" parameterType="Long" resultType="com.flowedu.dto.LectureDetailDto">
+		SELECT A.*, B.office_id, B.lecture_room_name, C.office_name,
+				CASE
+					WHEN A.lecture_day = 'MON'
+					THEN '1'
+					WHEN A.lecture_day = 'TUE'
+					THEN '2'
+					WHEN A.lecture_day = 'WEN'
+					THEN '3'
+					WHEN A.lecture_day = 'THU'
+					THEN '4'
+					WHEN A.lecture_day = 'FRI'
+					THEN '5'
+					WHEN A.lecture_day = 'SAT'
+					THEN '6'
+				ELSE '0'
+				END AS day_cn
+		FROM LECTURE_DETAIL_INFO A LEFT JOIN LECTURE_ROOM_INFO B
+		ON A.lecture_room_id = B.lecture_room_id LEFT JOIN OFFICE C
+		ON B.office_id = C.office_id
+		<if test="lectureId > 0">
+			<where>A.lecture_id = #{lectureId}</where>
+		</if>
+		ORDER BY day_cnt ASC
+	</select>
+
 	<select id="getLectureInfo" resultType="com.flowedu.dto.LectureInfoDto">
 		SELECT A.*, B.member_name as charge_member_name, C.member_name as manage_member_name,
 		D.office_name, E.lecture_price,
@@ -163,6 +189,7 @@
 		ON B.lecture_price_id = D.lecture_price_id LEFT JOIN FLOWEDU_MEMBER E
 		ON B.charge_member_id = E.flow_member_id
 		WHERE A.student_id =  #{studentId}
+		AND A.add_yn = true
 		<if test="startDate !='' and endDate !=''">
 			AND DATE_FORMAT(A.create_date, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
 		</if>
@@ -187,6 +214,7 @@
 		ON B.lecture_price_id = D.lecture_price_id LEFT JOIN FLOWEDU_MEMBER E
 		ON B.charge_member_id = E.flow_member_id
 		WHERE A.student_id =  #{studentId}
+		AND A.add_yn = true
 		<if test="startDate !='' and endDate !=''">
 			AND DATE_FORMAT(A.create_date, '%Y-%m-%d') BETWEEN #{startDate} AND #{endDate}
 		</if>
@@ -342,7 +370,25 @@
 		FROM LECTURE_ROOM_INFO A
 		WHERE A.office_id = #{officeId}
 		ORDER BY lecture_room_name ASC
+	</select>
 
+	<select id="selectLectureListAtPopupSearch" resultType="com.flowedu.dto.LectureInfoDto">
+		SELECT A.lecture_id, A.lecture_name, A.lecture_status, B.member_name, A.lecture_start_date, A.lecture_end_date
+		FROM LECTURE_INFO A LEFT JOIN FLOWEDU_MEMBER B
+		ON A.charge_member_id = B.flow_member_id
+		WHERE DATE_FORMAT(now(), '%Y-%m-%d') BETWEEN A.lecture_start_date AND A.lecture_end_date
+		AND A.lecture_status IN ('OPEN', 'WAIT')
+		<if test="lectureStatus != ''">
+			AND A.lecture_status = #{lectureStatus}
+		</if>
+		<if test="searchType != ''">
+			<if test="searchType eq 'LECTURE_NAME'">
+				AND A.lecture_name LIKE CONCAT ('%', #{searchValue}, '%')
+			</if>
+			<if test="searchType eq 'TEACHER_NAME'">
+				AND B.member_name LIKE CONCAT ('%', #{searchValue}, '%')
+			</if>
+		</if>
 	</select>
 
 	<insert id="saveLectureRoom">
@@ -498,8 +544,6 @@
 	<update id="modifyLectureStudentRel">
 		UPDATE LECTURE_STUDENT_REL
 		<set>
-			<if test="lectureId > 0">lecture_id = #{lectureId},</if>
-			<if test="studentId > 0">student_id = #{studentId},</if>
 			<if test="addYn != null">add_yn = #{addYn}</if>
 		</set>
 		WHERE lecture_rel_id = #{lectureRelId}

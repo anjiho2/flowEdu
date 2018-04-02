@@ -3,6 +3,7 @@ package com.flowedu.service;
 import com.flowedu.config.PagingSupport;
 import com.flowedu.define.datasource.*;
 import com.flowedu.domain.CalcLecturePayment;
+import com.flowedu.domain.LectureInfoPopup;
 import com.flowedu.domain.LectureSearch;
 import com.flowedu.dto.*;
 import com.flowedu.error.FlowEduErrorCode;
@@ -567,6 +568,27 @@ public class LectureService extends PagingSupport {
         return lectureMapper.selectLecutreRoomRegSuccess(lectureDay, startTime, endTime, officeId);
     }
 
+    @Transactional
+    public List<LectureInfoPopup>getLectureInfoBySearchPopup(String lectureStatus, String searchType, String searchValue) {
+        List<LectureInfoDto> lectureInfoDtoList = lectureMapper.selectLectureListAtPopupSearch(
+                Util.isNullValue(lectureStatus, ""),
+                Util.isNullValue(searchType, ""),
+                Util.isNullValue(searchValue, "")
+        );
+        List<LectureInfoPopup>lectureInfoPopupList = new ArrayList<>();
+        for (LectureInfoDto lectureInfoDto : lectureInfoDtoList) {
+            List<LectureDetailDto>lectureDetailDtoList = lectureMapper.getLectureDetailInfoList(lectureInfoDto.getLectureId());
+            if (lectureDetailDtoList.size() > 0) {
+                LectureInfoPopup lectureInfoPopup = new LectureInfoPopup();
+                for (int i=0; i<lectureDetailDtoList.size(); i++) {
+                    String startTime = lectureDetailDtoList.get(i).getStartTime();
+                    String lectureDay = lectureDetailDtoList.get(i).getLectureDay();
+                }
+            }
+        }
+        return null;
+    }
+
     /**
      * <PRE>
      * 1. Comment : 강의실 명 저장
@@ -860,15 +882,12 @@ public class LectureService extends PagingSupport {
      * 3. 작성일 : 2017. 08 .14
      * </PRE>
      * @param lectureRelId
-     * @param lectureId
-     * @param studentId
+     * @param addYn
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void modifyLectureStudentRel(Long lectureRelId, Long lectureId, Long studentId, boolean addYn) {
-        if (lectureRelId == null || lectureId == null || studentId == null) {
-            throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
-        }
-        lectureMapper.modifyLectureStudentRel(lectureRelId, lectureId, studentId, addYn);
+    public void modifyLectureStudentRel(Long lectureRelId, boolean addYn) {
+        if (lectureRelId == null) return;
+        lectureMapper.modifyLectureStudentRel(lectureRelId, addYn);
     }
 
     /**

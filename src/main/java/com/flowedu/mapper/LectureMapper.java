@@ -27,6 +27,8 @@ public interface LectureMapper {
 
     List<LectureDetailDto> getLectureDetailInfoList(@Param("lectureId") Long lectureId);
 
+    List<LectureDetailDto> getLectureDetailInfoByPopup(@Param("lectureId") Long lectureId);
+
     LectureInfoDto getLectureInfo(@Param("lectureId")Long lectureId);
 
     int getLectureDetailCountByTime(@Param("lectureRoomId") Long lectureRoomId, @Param("startTime") String startTime, @Param("endTime") String endTime, @Param("lectureDay") String lectureDay);
@@ -66,6 +68,8 @@ public interface LectureMapper {
     List<LectureRoomDto>selectLecutreRoomRegSuccess(@Param("lectureDay") String lectureDay, @Param("startTime") String startTime,
                                                      @Param("endTime") String endTime, @Param("officeId") Long officeId);
 
+    List<LectureInfoDto>selectLectureListAtPopupSearch(@Param("lectureStatus") String lectureStatus, @Param("searchType") String searchType, @Param("searchValue") String searchValue);
+
     /** INSERT **/
     void saveLectureRoom(@Param("officeId") Long officeId, @Param("lectureRoomName") String lectureRoomName);
 
@@ -96,7 +100,7 @@ public interface LectureMapper {
 
     void modifyLecutreStatus(@Param("lectureId") Long lectureId, @Param("lectureStatus") String lectureStatus);
 
-    void modifyLectureStudentRel(@Param("lectureRelId") Long lectureRelId, @Param("lectureId") Long lectureId, @Param("studentId") Long studentId, @Param("addYn") boolean addYn);
+    void modifyLectureStudentRel(@Param("lectureRelId") Long lectureRelId, @Param("addYn") boolean addYn);
 
     void modifyAttendComment(@Param("lectureAttendId") Long lectureAttendId, @Param("attendType") String attendType, @Param("attendModifyComment") String attendModifyComment);
 
