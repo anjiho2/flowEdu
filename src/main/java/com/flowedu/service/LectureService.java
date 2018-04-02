@@ -656,6 +656,12 @@ public class LectureService extends PagingSupport {
         }
         List<LectureStudentRelDto> Arr = new ArrayList<>();
         for (Long studentId : studentIds) {
+
+
+
+
+
+
             int checkCount = this.checkLectureStudentRel(lectureId, studentId);
             if (checkCount == 1 || checkCount == 2) {
                 return false;

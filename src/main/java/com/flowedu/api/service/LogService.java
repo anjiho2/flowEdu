@@ -105,6 +105,8 @@ public class LogService extends ApiService {
      * @param lecturePaymentLogId
      * @return
      * @throws Exception
+     *
+     *
      */
     public LecturePaymentLog getLecturePaymentLogInfo(Long lecturePaymentLogId) {
         if (lecturePaymentLogId == null) {
