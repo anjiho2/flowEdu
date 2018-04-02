@@ -51,15 +51,15 @@ public class LoginService {
         if (resultMemberInfo.getFlowMemberId() != null) {
             dto = memberMapper.getFlowEduMemberCheck(resultMemberInfo.getFlowMemberId());
             String academyThumbnail = academyService.getAcademyThumbnailUrl(dto.getOfficeId());
-            UserSession.set(
-            new FlowEduMemberDto(
-                    dto.getFlowMemberId(),
-                    dto.getMemberType(),
-                    dto.getMemberName(),
-                    dto.getOfficeId(),
-                    academyThumbnail
-                )
-            );
+//            UserSession.set(
+//            new FlowEduMemberDto(
+//                    dto.getFlowMemberId(),
+//                    dto.getMemberType(),
+//                    dto.getMemberName(),
+//                    dto.getOfficeId(),
+//                    academyThumbnail
+//                )
+//            );
             dto2.setFlowMemberId(dto.getFlowMemberId());
             dto2.setPhoneNumber(dto.getPhoneNumber());
             dto2.setOfficeId(dto.getOfficeId());

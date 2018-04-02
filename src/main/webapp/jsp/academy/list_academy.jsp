@@ -10,7 +10,7 @@
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
-<script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/academyService.js'></script>
 <script type="text/javascript">
 
     function academy_modify(office_id) { //수정페이지 이동

@@ -2,7 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/common/jsp/common.jsp" %>
 <%
-	String webRoot = request.getContextPath();
 	String serverName = request.getServerName();
 	String version = ConfigHolder.gerVersion();
 %>
@@ -12,6 +11,7 @@
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="<%=webRoot%>/common/dist/style.bundle.css?ver=<%=version%>">
 <link rel="stylesheet" href="<%=webRoot%>/common/css/sider_menu.css?ver=<%=version%>">
+<link rel="stylesheet" href="<%=webRoot%>/common/css/addStyle.css?ver=<%=version%>">
 
 <!--  jquery plugin -->
 <script type='text/javascript' src="<%=webRoot%>/common/js/jquery-2.2.4.min.js"></script>
@@ -47,6 +47,9 @@
 <script src="<%=webRoot%>/js/page.js?ver=<%=version%>"></script>
 <!-- 공통으로 쓰는 값 모여있는 스크립트 -->
 <script src="<%=webRoot%>/js/convert_value.js?ver=<%=version%>"></script>
+
+<!-- 학생관리 추가 -->
+<script type='text/javascript' src="<%=webRoot%>/common/js/studentAdd.js?ver=<%=version%>"></script>
 
 <meta http-equiv="content-Type" content="text/html;charset=utf-8">
 <title>플로우 교육 관리자</title>

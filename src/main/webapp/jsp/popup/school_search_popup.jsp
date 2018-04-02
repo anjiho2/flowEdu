@@ -13,7 +13,7 @@
     }
 %>
 
-<script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/studentService.js'></script>
 <script>
     function school_name_html() { //부모창에 input값넣기
         var school_name = getInnerHtmlValue("a_school_name");

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<section class="top_area">
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/studentService.js'></script>
+<section class="top_area clear">
     <div class="gnb">
         <div class="total_search">
             <%--<button class="fa fa-search"></button>--%>
@@ -9,13 +10,15 @@
             <%--<span></span>--%>
             <%--<span></span>--%>
         <%--</div>--%>
+        <span id="l_office"></span>
         <div class="my_box">
             <%--<a href="javascript:void(0);" onclick="goPage('member','login_member_modify')"></a>--%>
-            <button id="my_menu_btn"><%=memberName%>님 안녕하세요. <span class="fa fa-chevron-down"></span></button>
+            <button id="my_menu_btn"><%=memberName%>님 안녕하세요. <span class="caret"></span></button>
             <ul class="my_menu" style="display: none;">
-                <li><a href="javascript:void(0);" onclick="goPage('member','login_member_modify')">비밀번호 변경</a></li>
-                <li><a href="javascript:void(0);" onclick="javascript:goLogout();">로그아웃</a></li>
+                <li><a href="javascript:void(0);" onclick="goPage('member','login_member_modify')"><span class="fa fa-cog"></span> 비밀번호 변경</a></li>
+                <li><a href="javascript:void(0);" onclick="javascript:goLogout();"><span class="fa fa-sign-out"></span> 로그아웃</a></li>
                 <!--
+
                 <li><a href="">메뉴2</a></li>
                 <li><a href="">메뉴3</a></li>
                 -->
@@ -43,5 +46,32 @@
         $('#header .menu_close_btn').click(function(){
             $('#header').animate({"left":"-350px"},500);
         });
+
+        var memberType = '<%=memberType%>';
+        if (memberType == 'ADMIN' || memberType == "CS") {
+            officeAllList("l_office", '<%=officeId%>');
+        } else {
+            memberOfficeList("l_office", '<%=officeId%>');
+        }
     });
+
+    // 상단 관 변경
+    function change_ofiice(val) {
+        var data = new FormData();
+        data.append("office_id", val);
+
+        $.ajax({
+            url: "<%=webRoot%>/session/change.do",
+            method: "POST",
+            dataType: "JSON",
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+            }, error: function (response) {
+            }
+        });
+        isReloadPage(true);
+    }
 </script>

@@ -6,8 +6,8 @@
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
-<script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/lectureManager.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/lectureService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/lectureManager.js'></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script type="text/javascript">
 

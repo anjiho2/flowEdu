@@ -12,11 +12,11 @@
     Long student_id = Long.parseLong(request.getParameter("student_id"));
     Long student_memo_id = Long.parseLong(request.getParameter("student_memo_id"));
     String sPage = Util.isNullValue(request.getParameter("sPage"), "1");
-    String student_name = StringUtil.convertParmeterStr(request.getParameter("student_name"), "UTF-8");
+    //String student_name = StringUtil.convertParmeterStr(request.getParameter("student_name"), "UTF-8");
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
-<script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/studentService.js'></script>
 <script>
 function init() {
     fn_search("new");
@@ -134,13 +134,13 @@ function changeProccessYn() {
     <input type="hidden"  id="sPage" value="<%=sPage%>">
     <input type="hidden" id="student_id" name="student_id" value="<%=student_id%>">
     <input type="hidden" id="student_memo_id" value="<%=student_memo_id%>">
-    <input type="hidden" name="student_name" value="<%=student_name%>">
+    <input type="hidden" name="student_name" value="<%=UserSession.memberName()%>">
     <input type="hidden" name="page_gbn" id="page_gbn">
 </form>
 <section class="content divide">
     <div class="left">
         <div class="tile_box">
-            <h3 class="title_t1"><%=student_name%> 학생 상담 상세 정보</h3>
+            <h3 class="title_t1">학생 상담 상세 정보</h3>
             <ul class="list_t1">
                 <li>
                     <strong>상담유형</strong>

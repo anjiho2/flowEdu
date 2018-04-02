@@ -11,7 +11,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  * <PRE>
  * 1. Comment    : 세션이 끊어졌을때 로그인 페이지로 이동
  * 2. 작성자     : 안지호
- * 3. 작성일     : 2016. 09. 22.
+ * 3. 작성일     : 2017. 09. 22.
  * </PRE>
  * @author anjiho
  *

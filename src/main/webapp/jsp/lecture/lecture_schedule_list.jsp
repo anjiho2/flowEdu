@@ -12,8 +12,8 @@
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
-<script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/lectureService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/academyService.js'></script>
 <link rel="stylesheet" href="//cdn.rawgit.com/fgelinas/timepicker/master/jquery.ui.timepicker.css">
 <script>
     function init2() {
@@ -36,7 +36,7 @@
                     function(data) { return "<input type=\"text\" name=\"endTime[]\" class=\"form-control\" id='endTime_" + i + "' value='" + cmpList.endTime + "'>" },
                     function(data) { return "<div class=\"form-group row marginX draghandle\">\n" +
                         "                            <input type=\"text\" class=\"form-control hasTimepicker\" name=\"roonName[]\" id='roomName_" + i + "' value='" + cmpList.lectureRoomName + "'  onclick='open_lecture_room(this.id);'>\n" +
-                        "                            <button type=\"button\" class=\"fa fa-close\" aria-label=\"Close\" value='" + i +"' onclick='del_html(this.value)'>\n" +
+                        "                            <button type=\"button\" class=\"fa fa-close\" aria-label=\"Close\" style=\"font-size: 25px; margin-left: 10px;\" value='" + i +"' onclick='del_html(this.value)'>\n" +
                         "                            </button>\n" +
                         "                        </div>" },
                 ];
@@ -76,7 +76,7 @@
                 function(data) { return "<input type=\"text\" name=\"endTime[]\" class=\"form-control\" id='endTime_" + trLen + "'>" },
                 function(data) { return "<div class=\"form-group row marginX draghandle\">\n" +
                     "                            <input type=\"text\" class=\"form-control hasTimepicker\" name=\"roonName[]\" id='roomName_" + trLen + "' onclick='open_lecture_room(this.id);'>\n" +
-                    "                            <button type=\"button\" class=\"fa fa-close\" aria-label=\"Close\" value='" + trLen +"' onclick='del_html(this.value)'>\n" +
+                    "                            <button type=\"button\" class=\"fa fa-close\" aria-label=\"Close\" style=\"font-size: 25px; margin-left: 10px;\" value='" + trLen +"' onclick='del_html(this.value)'>\n" +
                     "                            </button>\n" +
                     "                        </div>" },
             ];
@@ -163,6 +163,7 @@
             $("#class_"+j).find("input").val("");
         }
         initPopup($("#lectureRoomPopup"));
+        $("#lectureRoomPopup").css("top", "100px");
     }
     //강의실 리스트 불러오기
     function init(officeId) {
@@ -423,7 +424,6 @@
                         </tbody>
                     </table>
                 </div>
-                <br><br><br>
                 <div style="text-align: center">
                     <input type="button" class="btn_wrap s2 blue" value="선택" onclick="selectLectureRoom();">
                     <input type="button" class="btn_wrap s2 blue" value="취소" onclick="javascript:$('#close_btn').trigger('click');">

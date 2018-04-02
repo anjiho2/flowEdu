@@ -1,3 +1,33 @@
+function memberOfficeList(tag_id, val) {
+    authService.getMemberOfficeInfo(function (list) {
+        var html = "<select id='sel_office' onchange='change_ofiice(this.value);' class='form-control'>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].officeId == val) {
+                html += "<option value="+list[i].officeId+" selected>"+ list[i].officeName +"</option>";
+            } else {
+                html += "<option value="+list[i].officeId+">"+ list[i].officeName +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
+function officeAllList(tag_id, val) {
+    authService.getOfficeAllList(function (list) {
+        var html = "<select id='sel_office' onchange='change_ofiice(this.value);' class='form-control'>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].officeId == val) {
+                html += "<option value="+list[i].officeId+" selected>"+ list[i].officeName +"</option>";
+            } else {
+                html += "<option value="+list[i].officeId+">"+ list[i].officeName +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
 /** 멤버 종류 선택 셀렉트박스 **/
 function memberTypeSelectbox(tag_id, val) {
     memberService.getMemberType(function(list) {
@@ -558,7 +588,7 @@ function schoolTypeSelectbox(tag_id, val) {
 function schoolTypeSelectbox(tag_id, val) {
     studentService.getSchoolTypeList(function (list) {
         var html = "<select id='sel_schoolType' class='form-control' onchange='init(this.value);'>";
-        //html += "<option value=''>▶선택</option>";
+        html += "<option value=''>선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].id == val) {
                 html += "<option value="+list[i].id+" selected>"+ list[i].name +"</option>";
@@ -576,6 +606,38 @@ function schoolTypeSelectbox2(tag_id, val) {
     studentService.getSchoolTypeList(function (list) {
         var html = "<select id='sel_schoolType' class='form-control' onchange='studentList(this.value);'>";
         //html += "<option value=''>▶선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].id == val) {
+                html += "<option value="+list[i].id+" selected>"+ list[i].name +"</option>";
+            } else {
+                html += "<option value="+list[i].id +">"+ list[i].name  +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
+function schoolTypeSelectbox3(tag_id, val) {
+    studentService.getSchoolTypeList(function (list) {
+        var html = "<select id='sel_schoolType' class='form-control'>";
+        html += "<option value=''>선택</option>";
+        for (var i=0; i<list.length; i++) {
+            if (list[i].id == val) {
+                html += "<option value="+list[i].id+" selected>"+ list[i].name +"</option>";
+            } else {
+                html += "<option value="+list[i].id +">"+ list[i].name  +"</option>";
+            }
+        }
+        html += "</select>";
+        innerHTML(tag_id, html);
+    });
+}
+
+function schoolTypeSelectbox4(tag_id, val) {
+    studentService.getSchoolTypeList(function (list) {
+        var html = "<select id='sel_schoolType' class='form-control' onchange='select_school_type(this.value);'>";
+        html += "<option value=''>선택</option>";
         for (var i=0; i<list.length; i++) {
             if (list[i].id == val) {
                 html += "<option value="+list[i].id+" selected>"+ list[i].name +"</option>";

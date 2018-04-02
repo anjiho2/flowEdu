@@ -14,6 +14,8 @@ import com.flowedu.util.Aes256;
 import com.flowedu.util.RandomMake;
 import com.flowedu.util.Util;
 import com.google.common.collect.Lists;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -26,6 +28,8 @@ import java.util.*;
  */
 @Service
 public class MemberService extends PagingSupport {
+
+    static final Logger logger = LoggerFactory.getLogger(MemberService.class);
 
     @Autowired
     private MemberMapper memberMapper;
@@ -314,6 +318,9 @@ public class MemberService extends PagingSupport {
                 memberPassword, memeberEmail, sexualAssultConfirmDate, educationRegDate, memberType, memberAddressDetail, zipCode
         );
         memberMapper.saveFlowEduMember(dto);
+
+
+
         /*
         if (dto.getFlowMemberId()  != null && !"".equals(dto.getMemberEmail())) {
             //이메일 발송 예약

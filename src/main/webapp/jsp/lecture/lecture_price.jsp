@@ -14,8 +14,8 @@
 <style>
     input[type="text"]:disabled{background-color:white;}
 </style>
-<script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/academyService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/lectureService.js'></script>
 <script type="text/javascript">
     var check = new isCheck();
     function init() {

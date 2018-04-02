@@ -10,22 +10,40 @@
 	<select id="getSudentListCount" resultType="Integer">
 		SELECT count(student_id) FROM STUDENT
 		WHERE 1=1
-		<if test="gubun != ''">
-			AND school_type = #{gubun}
-		</if>
-		<if test="studentName != ''">
-			AND student_name LIKE CONCAT (#{studentName}, '%')
+        AND office_id = #{officeId}
+		<if test="searchType != ''">
+			<if test="searchType eq 'NAME'">
+				AND student_name LIKE CONCAT ('%', #{searchValue}, '%')
+			</if>
+			<if test="searchType eq 'PHONE'">
+				AND student_phone_number LIKE CONCAT ('%', #{searchValue}, '%')
+			</if>
+			<if test="searchType eq 'MOTHER_NAME'">
+				AND mother_name LIKE CONCAT ('%', #{searchValue}, '%')
+			</if>
+			<if test="searchType eq 'MOTHER_PHONE'">
+				AND mother_phone_number LIKE CONCAT ('%', #{searchValue}, '%')
+			</if>
 		</if>
 	</select>
 
 	<select id="getSudentList" resultType="com.flowedu.dto.StudentDto">
 		SELECT * FROM STUDENT
 		WHERE 1=1
-		<if test="gubun != ''">
-			AND school_type = #{gubun}
-		</if>
-		<if test="studentName != ''">
-			AND student_name LIKE CONCAT (#{studentName}, '%')
+        AND office_id = #{officeId}
+		<if test="searchType != ''">
+			<if test="searchType eq 'NAME'">
+				AND student_name LIKE CONCAT ('%', #{searchValue}, '%')
+			</if>
+			<if test="searchType eq 'PHONE'">
+				AND student_phone_number LIKE CONCAT ('%', #{searchValue}, '%')
+			</if>
+			<if test="searchType eq 'MOTHER_NAME'">
+				AND mother_name LIKE CONCAT ('%', #{searchValue}, '%')
+			</if>
+			<if test="searchType eq 'MOTHER_PHONE'">
+				AND mother_phone_number LIKE CONCAT ('%', #{searchValue}, '%')
+			</if>
 		</if>
 		LIMIT #{start}, #{end}
 	</select>
@@ -56,10 +74,11 @@
 	</select>
 
 	<select id="getStudentMemoList" resultType="com.flowedu.dto.StudentMemoDto">
-		SELECT A.*, B.member_name,
+		SELECT A.*, B.member_name, C.member_name as target_member_name,
 		(SELECT count(student_memo_id) FROM STUDENT_MEMO_REPLY WHERE student_memo_id = A.student_memo_id AND delete_yn = 0) as reply_count
 		FROM STUDENT_MEMO A LEFT JOIN FLOWEDU_MEMBER B
-		ON A.flow_member_id = B.flow_member_id
+		ON A.flow_member_id = B.flow_member_id LEFT JOIN FLOWEDU_MEMBER C
+		ON A.process_flow_member_id = C.flow_member_id
 		WHERE 1=1
 		<if test="studentId > 0">
 			AND student_id = #{studentId}
@@ -166,6 +185,22 @@
 		SELECT idx FROM sooa_ucc WHERE media_key = #{mediaKey}
 	</select>
 
+	<select id="selectStudentBrotherList" resultType="com.flowedu.dto.StudentDto">
+		SELECT A.student_brother_id, A.brother_id, B.student_name, B.school_name, B.student_grade
+		FROM STUDENT_BROTHER A LEFT JOIN STUDENT B
+		ON A.brother_id = B.student_id
+		WHERE A.student_id = #{studentId}
+	</select>
+
+	<select id="selectStudentSimpleMemo" resultType="com.flowedu.domain.StudentSimpleMemo">
+		SELECT B.student_name, C.member_name, A.memo_content, A.create_date
+		FROM STUDENT_SIMPLE_MEMO A LEFT JOIN STUDENT B
+		ON A.student_id = B.student_id LEFT JOIN FLOWEDU_MEMBER C
+		ON A.flow_member_id = C.flow_member_id
+		WHERE A.student_id = #{studentId}
+		ORDER BY A.create_date DESC
+	</select>
+
 	<update id="test2">
 		UPDATE sooa_ucc SET
 		thumbnail_file = #{t},
@@ -181,7 +216,7 @@
 			student_phone_number, student_email, school_name, school_type, student_grade,
 			student_photo_file, student_photo_url, student_memo, mother_name,
 			mother_phone_number, father_name, father_phone_number, parent_password,
-			etc_name, etc_phone_number, student_auth_key
+			etc_name, etc_phone_number, student_auth_key, office_id, bus_board_yn, student_status
 		)
 		VALUES
 		(
@@ -189,8 +224,11 @@
 			#{studentPhoneNumber}, #{studentEmail}, #{schoolName}, #{schoolType}, #{studentGrade},
 			#{studentPhotoFile}, #{studentPhotoUrl}, #{studentMemo}, #{motherName},
 			#{motherPhoneNumber}, #{fatherName}, #{fatherPhoneNumber}, #{parentPassword},
-			#{etcName}, #{etcPhoneNumber}, #{studentAuthKey}
+			#{etcName}, #{etcPhoneNumber}, #{studentAuthKey}, #{officeId}, #{busBoardYn}, #{studentStatus}
 		)
+        <selectKey resultType="Long" keyProperty="studentId" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
 	</insert>
 
 	<insert id="saveStudentInfoList" parameterType="list">
@@ -228,6 +266,29 @@
 		(#{studentMemoId}, #{flowMemberId}, #{replyContent})
 	</insert>
 
+	<insert id="saveStudentBrothers" parameterType="list">
+		INSERT INTO STUDENT_BROTHER
+  		(student_id, brother_id)
+  		VALUES
+  		<foreach collection="brotherIdList" item="value" separator=",">
+			(#{value.studentId}, #{value.brotherId})
+		</foreach>
+	</insert>
+
+	<insert id="insertStudentBrother" parameterType="com.flowedu.dto.StudentBrotherDto">
+		INSERT INTO STUDENT_BROTHER
+		(student_id, brother_id)
+		VALUES
+		(#{studentId}, #{brotherId})
+	</insert>
+
+	<insert id="insertStudentSimpleMemo">
+		INSERT INTO STUDENT_SIMPLE_MEMO
+		(student_id, flow_member_id, memo_content)
+		VALUES
+		(#{studentId}, #{flowMemberId}, #{memoContent})
+	</insert>
+
 	<update id="modifyStudentInfo" parameterType="com.flowedu.dto.StudentDto">
 		UPDATE STUDENT
 		<set>
@@ -250,6 +311,8 @@
 			<if test="fatherPhoneNumber != ''">father_phone_number = #{fatherPhoneNumber},</if>
 			<if test="etcName != ''">etc_name = #{etcName},</if>
 			<if test="etcPhoneNumber != ''">etc_phone_number = #{etcPhoneNumber},</if>
+			<if test="studentStatus != ''">student_status = #{studentStatus},</if>
+			<if test="busBoardYn != ''">bus_board_yn = #{busBoardYn},</if>
 		</set>
 		<where>
 			student_id = #{studentId}
@@ -269,6 +332,14 @@
 			<if test="replyContent != ''">delete_yn = #{deleteYn}</if>
 		</set>
 		WHERE student_memo_reply_id = #{studentMemoReplyId}
+	</update>
+
+	<update id="updateStudentBrother" parameterType="com.flowedu.dto.StudentBrotherDto">
+		UPDATE STUDENT_BROTHER
+		<set>
+			<if test="brotherId > 0">brother_id = #{brotherId}</if>
+		</set>
+		WHERE student_brother_id = #{studentBrotherId}
 	</update>
 
 </mapper>

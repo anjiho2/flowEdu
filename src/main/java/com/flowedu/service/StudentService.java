@@ -5,10 +5,8 @@ import com.flowedu.config.PagingSupport;
 import com.flowedu.define.datasource.SchoolType;
 import com.flowedu.define.datasource.StudentMemoType;
 import com.flowedu.domain.StudentMemo;
-import com.flowedu.dto.PagingDto;
-import com.flowedu.dto.StudentDto;
-import com.flowedu.dto.StudentMemoDto;
-import com.flowedu.dto.StudentMemoReplyDto;
+import com.flowedu.domain.StudentSimpleMemo;
+import com.flowedu.dto.*;
 import com.flowedu.error.FlowEduErrorCode;
 import com.flowedu.error.FlowEduException;
 import com.flowedu.mapper.StudentMapper;
@@ -109,8 +107,12 @@ public class StudentService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public int getSudentListCount(String gubun, String studentName) {
-        return studentMapper.getSudentListCount(Util.isNullValue(gubun, ""), Util.isNullValue(studentName, ""));
+    public int getSudentListCount(String searchType, String searchValue) {
+        return studentMapper.getSudentListCount(
+                UserSession.officeId(),
+                Util.isNullValue(searchType, ""),
+                Util.isNullValue(searchValue, "")
+        );
     }
 
     /**
@@ -124,9 +126,15 @@ public class StudentService extends PagingSupport {
      * @return
      */
     @Transactional(readOnly = true)
-    public List<StudentDto> getSudentList(int sPage, int pageListCount, String gubun, String studentName) {
+    public List<StudentDto> getSudentList(int sPage, int pageListCount, String searchType, String searchValue) {
         PagingDto pagingDto = getPagingInfo(sPage, pageListCount);
-        List<StudentDto> list = studentMapper.getSudentList(pagingDto.getStart(), pageListCount, Util.isNullValue(gubun, ""), Util.isNullValue(studentName, ""));
+        List<StudentDto> list = studentMapper.getSudentList(
+                pagingDto.getStart(),
+                pageListCount,
+                UserSession.officeId(),
+                Util.isNullValue(searchType, ""),
+                Util.isNullValue(searchValue, "")
+        );
         return list;
     }
 
@@ -213,7 +221,7 @@ public class StudentService extends PagingSupport {
      */
     @Transactional(readOnly = true)
     public List<StudentMemoDto> getStudentMemoLastThree(Long studentId) {
-        return studentMapper.getStudentMemoList(0, 3, studentId, "", "", "", "", null);
+        return studentMapper.getStudentMemoList(0, 5, studentId, "", "", "", "", null);
     }
 
     /**
@@ -302,6 +310,35 @@ public class StudentService extends PagingSupport {
 
     /**
      * <PRE>
+     * 1. Comment : 학생의 형제 정보 가져오기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 04 .01
+     * </PRE>
+     * @param studentId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<StudentDto>getStudentBrother(Long studentId) {
+        return studentMapper.selectStudentBrotherList(studentId);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 학생의 간단 메모 정보 가져오기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 04 .01
+     * </PRE>
+     * @param studentId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public List<StudentSimpleMemo>getStudentSimpleMemo(Long studentId) {
+        if (studentId == null) return null;
+        return studentMapper.selectStudentSimpleMemo(studentId);
+    }
+
+    /**
+     * <PRE>
      * 1. Comment : 학생정보 입력하기
      * 2. 작성자 : 안지호
      * 3. 작성일 : 2017. 08 .08
@@ -309,7 +346,7 @@ public class StudentService extends PagingSupport {
      * @param studentDto
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void saveStudentInfo(StudentDto studentDto) throws Exception {
+    public Long saveStudentInfo(StudentDto studentDto, List<StudentBrotherDto>studentBrotherDtoList) throws Exception {
         if (studentDto == null) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
@@ -319,9 +356,28 @@ public class StudentService extends PagingSupport {
             studentDto.getStudentEmail(), studentDto.getSchoolName(), studentDto.getSchoolType(),
             studentDto.getStudentGrade(), studentDto.getStudentPhotoFile(), studentDto.getStudentPhotoUrl(),
             studentDto.getStudentMemo(), studentDto.getMotherName(), studentDto.getMotherPhoneNumber(),
-            studentDto.getFatherName(), studentDto.getFatherPhoneNumber(), studentDto.getEtcName(), studentDto.getEtcPhoneNumber()
+            studentDto.getFatherName(), studentDto.getFatherPhoneNumber(), studentDto.getEtcName(), studentDto.getEtcPhoneNumber(),
+            studentDto.getOfficeId(), studentDto.isBusBoardYn(), studentDto.getStudentStatus()
         );
         studentMapper.saveStudentInfo(dto);
+        //메모내용이 있을때 메모 테이블에 내용추가 (2018. 04. 01 안지호)
+        if (!"".equals(studentDto.getStudentMemo())) {
+            studentMapper.insertStudentSimpleMemo(
+                    studentDto.getStudentId(),
+                    UserSession.flowMemberId(),
+                    studentDto.getStudentMemo()
+            );
+        }
+        //형제 정보가 있을때 입력
+        if (studentBrotherDtoList.size() > 0) {
+            for (StudentBrotherDto brotherDto : studentBrotherDtoList) {
+                if (brotherDto.getBrotherId() != null) {
+                    brotherDto.setStudentId(dto.getStudentId());
+                    studentMapper.insertStudentBrother(brotherDto);
+                }
+            }
+        }
+        return dto.getStudentId();
     }
 
     /**
@@ -357,7 +413,41 @@ public class StudentService extends PagingSupport {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
         studentMapper.saveStudentMemoReply(studentMemoId, UserSession.flowMemberId(), replyContent);
+    }
 
+    /**
+     * <PRE>
+     * 1. Comment : 학생 형제 저장하기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 04 .01
+     * </PRE>
+     * @param studentId
+     * @param brotherIds
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveStudentBrothers(Long studentId, List<Long>brotherIds) {
+        if (brotherIds.size() == 0) return;
+        List<StudentBrotherDto>Arr = new ArrayList<>();
+        for (Long brotherId : brotherIds) {
+            StudentBrotherDto brotherDto = new StudentBrotherDto(brotherId, studentId);
+            Arr.add(brotherDto);
+        }
+        studentMapper.saveStudentBrothers(Arr);
+    }
+
+    /**
+     * <PRE>
+     * 1. Comment : 학생 간단 메모 저장히기
+     * 2. 작성자 : 안지호
+     * 3. 작성일 : 2018. 04 .01
+     * </PRE>
+     * @param studentId
+     * @param memoContent
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveStudentSimpleMemo(Long studentId, String memoContent) {
+        if (studentId == null) return;
+        studentMapper.insertStudentSimpleMemo(studentId, UserSession.flowMemberId(), memoContent);
     }
 
     /**
@@ -370,7 +460,7 @@ public class StudentService extends PagingSupport {
      * @throws Exception
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void modifyStudentInfo(StudentDto studentDto) throws Exception {
+    public void modifyStudentInfo(StudentDto studentDto, List<StudentBrotherDto>studentBrotherDtoList) throws Exception {
         if (studentDto == null) {
             throw new FlowEduException(FlowEduErrorCode.BAD_REQUEST);
         }
@@ -380,9 +470,27 @@ public class StudentService extends PagingSupport {
                 studentDto.getStudentEmail(), studentDto.getSchoolName(), studentDto.getSchoolType(),
                 studentDto.getStudentGrade(), studentDto.getStudentPhotoFile(), studentDto.getStudentPhotoUrl(),
                 studentDto.getStudentMemo(), studentDto.getMotherName(), studentDto.getMotherPhoneNumber(),
-                studentDto.getFatherName(), studentDto.getFatherPhoneNumber(), studentDto.getEtcName(), studentDto.getEtcPhoneNumber()
+                studentDto.getFatherName(), studentDto.getFatherPhoneNumber(), studentDto.getEtcName(), studentDto.getEtcPhoneNumber(),
+                studentDto.getStudentStatus(), studentDto.isBusBoardYn()
         );
         studentMapper.modifyStudentInfo(dto);
+        //메모내용이 있을때 메모 테이블에 내용추가 (2018. 04. 01 안지호)
+        if (!"".equals(studentDto.getStudentMemo())) {
+            studentMapper.insertStudentSimpleMemo(
+                    studentDto.getStudentId(),
+                    UserSession.flowMemberId(),
+                    studentDto.getStudentMemo()
+            );
+        }
+        if (studentBrotherDtoList.size() == 0) return;
+        for (StudentBrotherDto brotherDto : studentBrotherDtoList) {
+            if (brotherDto.getStudentBrotherId() != null) {
+                studentMapper.updateStudentBrother(brotherDto);
+            } else {
+                if (brotherDto.getBrotherId() == null) return;
+                studentMapper.insertStudentBrother(brotherDto);
+            }
+        }
     }
 
     /**

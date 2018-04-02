@@ -167,3 +167,17 @@ function convert_school_value(val) {
     }
     return str;
 }
+
+function convert_student_status(val) {
+    var str = "";
+    if (val == "ATTEND") {
+        str = "재원생";
+    } else if (val == "WAIT") {
+        str = "대기생";
+    } else if (val == "CLOSE") {
+        str = "휴원생";
+    } else if (val == "DISMISS") {
+        str = "퇴원생";
+    }
+    return str;
+}

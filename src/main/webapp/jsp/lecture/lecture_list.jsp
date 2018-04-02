@@ -9,10 +9,10 @@
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
-<script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/studentService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>1
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/memberService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/academyService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/studentService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/lectureService.js'></script>
 <script type="text/javascript">
     function init(val) {
         if(val == undefined) {
@@ -65,17 +65,17 @@
                     function(data) {return data.regCount + " / " + data.lectureLimitStudent;},
                     function(data) {return convert_lecture_status(data.lectureStatus);},
                 ],
-                    {
-                    cellCreator:function(options) {
-                        console.log(options.rowData);
-                        var td = document.createElement("td");
-                        var index = 255 - (options.rowIndex * 50);
-                        if (options.rowData.lectureStatus == "CLOSE") {
-                            td.style.backgroundColor = "#e9edef";
-                        }
-                        return td;
-                    },
-                    escapeHtml:false});
+                {
+                cellCreator:function(options) {
+                    console.log(options.rowData);
+                    var td = document.createElement("td");
+                    var index = 255 - (options.rowIndex * 50);
+                    if (options.rowData.lectureStatus == "CLOSE") {
+                        td.style.backgroundColor = "#e9edef";
+                    }
+                    return td;
+                },
+                escapeHtml:false});
             });
         });
     }
@@ -95,8 +95,8 @@
 <section class="content">
     <h3 class="title_t1">강의관리</h3>
     <form name="frm" method="get">
-        <input type="hidden" name="lecture_id" id="lecture_id">
         <input type="hidden" name="page_gbn" id="page_gbn">
+        <input type="hidden" name="lecture_id" id="lecture_id">
         <input type="hidden" id="sPage" value="<%=sPage%>">
     </form>
     <div class="tb_t1">
@@ -186,10 +186,10 @@
 
 <!--
 
-<script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/lectureManager.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/academyService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/lectureManager.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/lectureService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/memberService.js'></script>
 <script type="text/javascript">
 
     function init(val) {

@@ -3,7 +3,12 @@ $.sidebarMenu = function(menu) {
     subMenuSelector = '.sidebar-submenu';
 
   $(menu).on('click', 'li a', function(e) {
+    //메뉴 권한 예외 처리 2018. 03. 30 안지호
     var $this = $(this);
+    if ($this.attr("data") == 1) {
+      alert(comment.auth_error_menu);
+      return;
+    }
     var checkElement = $this.next();
 
     if (checkElement.is(subMenuSelector) && checkElement.is(':visible')) {

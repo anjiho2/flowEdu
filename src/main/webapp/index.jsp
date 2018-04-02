@@ -1,15 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/common/jsp/top.jsp" %>
-<script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/loginService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/memberService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/loginService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/lectureService.js'></script>
 <script type="text/javascript">
     var check = new isCheck();
 
     function loginCheck() {
         var URL = null;
         if (httpCode == '901') {
-            URL = window.location.protocol + window.location.host + "/" + window.location.pathname ;
+            URL = window.location.pathname ;
             var data = getSearchParams();
             var i = 0;
             $.each(data, function(key, value){
@@ -166,19 +166,18 @@
         </div>
     </div>
 <!--아이디 찾기 레이어 시작-->
-    <div class="layer_popup_template apt_request_layer loginpopup" id="IdFindLayer" style="display: none;">
+    <div class="layer_popup_template apt_request_layer loginpopup popup-position" id="IdFindLayer" style="display: none;">
         <div class="layer-title">
             <h3>아이디 찾기</h3>
-            <button id="close_btn_id" type="button" class="fa fa-close btn-close"></button>
         </div>
         <div class="layer-body">
-            <div class="cont" style="margin:20px 0 15px 20px;">
+            <div class="cont">
                 <div class="form-group row">
-                    <label>이름</label>
+                    <label for="id_find_name">이름</label>
                     <div><input type="text"  class="form-control login_findbox" id="id_find_name"></div>
                 </div>
                 <div class="form-group row">
-                    <label>이메일</label>
+                    <label for="id_find_email">이메일</label>
                     <div><input type="text"  class="form-control login_findbox" id="id_find_email"></div>
                 </div>
                 <div id="EmailOk"  style="display: none;">
@@ -190,23 +189,24 @@
                 <button class="btn_pack blue" type="button" onclick="find_id();">찾기</button>
             </div>
         </div>
+
+        <button id="close_btn_id" type="button" class="fa fa-close btn-close popup-close"></button>
     </div>
     <!--아이디 찾기 레이어 끝-->
 
     <!--비밀번호 찾기 레이어 시작-->
-    <div class="layer_popup_template apt_request_layer loginpopup" id="PwFindLayer" style="display: none;">
+    <div class="layer_popup_template apt_request_layer loginpopup popup-position" id="PwFindLayer" style="display: none;">
         <div class="layer-title">
             <h3>비밀번호 찾기</h3>
-            <button id="close_btn_pw" type="button" class="fa fa-close btn-close"></button>
         </div>
         <div class="layer-body">
-            <div class="cont" style="margin:20px 0 15px 20px;">
+            <div class="cont">
                 <div class="form-group row">
-                    <label>아이디</label>
+                    <label for="memberId">아이디</label>
                     <div><input type="text" class="form-control login_findbox" id="memberId"></div>
                 </div>
                 <div class="form-group row">
-                    <label>이메일</label>
+                    <label for="member_email">이메일</label>
                     <div><input type="text" class="form-control login_findbox" id="member_email"></div>
                 </div>
                 <div class="form-group row" id='temporaryPassword_div' style="display: none;">
@@ -219,6 +219,8 @@
                 <button class="btn_pack blue" type="button" onclick="find_password();">찾기</button>
             </div>
         </div>
+
+        <button id="close_btn_pw" type="button" class="fa fa-close btn-close popup-close"></button>
     </div>
     <!--비밀번호 찾기 레이어 끝-->
 
@@ -261,13 +263,16 @@
     } else {
         System.out.print("========================================");
 %>
-
-    <script>
+<form name="frm" method="post">
+    <input type="hidden" name="page_gbn">
+</form>
+<script>
+    $(document).ready(function () {
         goPage("dashboard", "dashboard_list");
-    </script>
+    });
+</script>
 <%
     }
 %>
 </body>
 </html>
-

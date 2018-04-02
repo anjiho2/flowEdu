@@ -33,4 +33,10 @@ public class StudentMemoDto {
     private int replyCount;
 
     private String memoTitle;
+
+    private Long processFlowMemberId;
+
+    private String targetMemberName;
+
+    private String processDate;
 }

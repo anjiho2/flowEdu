@@ -32,7 +32,7 @@
 
 	<select id="getLectureInfoList" resultType="com.flowedu.dto.LectureInfoDto">
 		SELECT F.academy_group_name, A.lecture_id, D.office_name, A.lecture_name, A.school_type, A.lecture_grade, B.member_name, A.lecture_status, A.lecture_limit_student,
-				(SELECT count(lecture_rel_id) FROM LECTURE_STUDENT_REL WHERE lecture_id = A.lecture_id) as reg_count
+				(SELECT count(lecture_rel_id) FROM LECTURE_STUDENT_REL WHERE lecture_id = A.lecture_id AND add_yn = true) as reg_count
 		FROM LECTURE_INFO A LEFT JOIN FLOWEDU_MEMBER B
 		ON A.charge_member_id = B.flow_member_id LEFT JOIN FLOWEDU_MEMBER C
 		ON A.manage_member_id = C.flow_member_id LEFT JOIN OFFICE D
@@ -528,6 +528,10 @@
 
 	<delete id="deleteLectureDetailInfo">
 		DELETE FROM LECTURE_DETAIL_INFO WHERE lecture_id = #{lectureId}
+	</delete>
+
+	<delete id="deleteLectureStudentRel">
+		DELETE FROM LECTURE_STUDENT_REL WHERE lecture_rel_id = #{lectureRelId}
 	</delete>
 
 </mapper>

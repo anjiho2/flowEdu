@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="/common/jsp/top.jsp" %>
-<script type='text/javascript' src='/flowEdu/dwr/interface/memberService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/memberService.js'></script>
 <script type='text/javascript'>
     function find_password() {
         var check = new isCheck();

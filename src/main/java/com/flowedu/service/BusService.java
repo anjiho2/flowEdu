@@ -72,7 +72,6 @@ public class BusService extends PagingSupport {
         if (busIdx == null || busIdx == 0L) return null;
         BusDto busDto = busMapper.selectBusRouteInfo(busIdx);
         return busDto;
-
     }
 
     /**

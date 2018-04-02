@@ -15,8 +15,8 @@
 %>
 <%@include file="/common/jsp/top.jsp" %>
 <%@include file="/common/jsp/header.jsp" %>
-<script type='text/javascript' src='/flowEdu/dwr/interface/academyService.js'></script>
-<script type='text/javascript' src='/flowEdu/dwr/interface/lectureService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/academyService.js'></script>
+<script type='text/javascript' src='<%=webRoot%>/dwr/interface/lectureService.js'></script>
 <script>
     function init() {
         academyListSelectbox("l_academyList", "");
@@ -85,92 +85,153 @@
 <div class="container">
     <%@include file="/common/jsp/titleArea.jsp" %>
     <%@include file="/common/jsp/student_depth_menu.jsp" %>
-</div>
-</section>
-<form name="frm" method="get">
-    <input type="hidden" id="page_gbn" name="page_gbn">
-    <input type="hidden" id="student_id" name="student_id" value="<%=student_id%>">
-    <input type="hidden" id="student_name" name="student_name" value="<%=student_name%>">
-    <input type="hidden" id="sPage" name="sPage" value="<%=sPage%>">
-</form>
-<section class="content">
-    <div class="form-outer-group">
-        <div class="form-group row">
-            <h4 class="title_t1"><%=student_name%>학생의 출결현황 입니다.</h4>
-        </div>
-        <div class="form-group row">
-            <span id="l_academyList"></span>
-        </div>
-        <div class="form-group row">
-            <div class="input-group date common">
-                <input type="text" id="startDate" class="form-control date-picker" placeholder="시작일">
-                <span class="input-group-addon" id="datepicker_img">
-                    <span class="fa fa-calendar"></span>
-                </span>
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="input-group date common">
-                <input type="text" id="endDate" class="form-control date-picker" placeholder="종료일">
-                <span class="input-group-addon" id="datepicker_img2">
-                    <span class="fa fa-calendar"></span>
-                </span>
-            </div>
-        </div>
-        <div class="form-group row">
-            <button class="btn_pack blue" type="button" onclick="fn_search('new');">검색</button>
-        </div>
-    </div>
-    <div class="tb_t1">
-        <table>
-            <colsgroup>
-                <col width="*" />
-                <col width="*" />
-                <col width="*" />
-                <col width="*" />
-                <col width="*" />
-                <col width="*" />
-            </colsgroup>
-            <tr>
-                <th>등원일</th>
-                <th>강의명</th>
-                <th>출석상태</th>
-                <th>등원시간</th>
-                <th>하원시간</th>
-                <th>비고</th>
-            </tr>
-            <tbody id="dataList"></tbody>
-            <tr>
-                <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
-            </tr>
-        </table>
-        <div class="form-group row"></div>
-        <%@ include file="/common/inc/com_pageNavi.inc" %>
-    </div>
-</section>
-<!-- 출석상태 수정 레이어 시작 -->
-<div class="layer_popup_template apt_request_layer" id="attend_comment_layer" style="display: none;">
-    <input type="hidden" id="lecture_attend_id">
-    <div class="layer-title">
-        <h3>출석상태 수정사유를 입력해 주세요.</h3>
-        <button class="fa fa-close btn-close"></button>
-    </div>
-    <div class="layer-body">
-        <form name="pop_frm" class="form_st1">
-            <div>
-                <span id="l_attendType"></span>
-            </div><br>
-            <div>
-                <textarea class="form-control" id="comment" rows="5" maxlength="50" placeholder="최대 50자까지만 입력가능합니다." onkeyup="gfn_chkStrLen(this.value, 50);"></textarea>
-            </div>
+    </section>
+    <section class="content detail">
+        <form name="frm" method="get">
+            <input type="hidden" id="page_gbn" name="page_gbn">
+            <input type="hidden" id="student_id" name="student_id" value="<%=student_id%>">
+            <input type="hidden" id="student_name" name="student_name" value="<%=student_name%>">
+            <input type="hidden" id="sPage" name="sPage" value="<%=sPage%>">
         </form>
-        <div class="bot_btns_t1">
-            <button class="btn_pack blue" type="button" onclick="changeAttendStatus();">저장</button>
-            <button class="btn_pack btn-close">취소</button>
+
+        <div class="cont-wrap">
+            <div class="tb_t1 colTable searchInfo">
+                <table>
+                    <colsgroup>
+                        <col width="10%">
+                        <col width="90%">
+                    </colsgroup>
+                    <tr>
+                        <th>기간선택</th>
+                        <td>
+                            <div class="date-select">
+                                <div class="input-group date common">
+                                    <input type="text" id="startDate" class="form-control date-picker" placeholder="시작일">
+                                    <span class="input-group-addon" id="datepicker_img">
+                                        <span class="fa fa-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="date-select">
+                                <div class="input-group date common">
+                                    <input type="text" id="endDate" class="form-control date-picker" placeholder="종료일">
+                                    <span class="input-group-addon" id="datepicker_img2">
+                                        <span class="fa fa-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>상태</th>
+                        <td>
+                            <div class="search-box">
+                                <select id="" class="form-control">
+                                    <option value="">전체</option>
+                                    <option value="">출석</option>
+                                    <option value="">결석</option>
+                                    <option value="">지각</option>
+                                    <option value="">조퇴</option>
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>검색정보</th>
+                        <td>
+                            <div class="form-group">
+                                <div class="search-box clear">
+                                    <select id="" class="form-control">
+                                        <option value="">선택</option>
+                                        <option value="">강의명</option>
+                                        <option value="">담당 선생님</option>
+                                    </select>
+                                    <div class="search-input-box">
+                                        <label><input type="text" class="form-control"  id="" placeholder="강의명 입력" onkeypress="" ></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <button class="btn_pack blue" type="button" onclick="fn_search('new');">검색</button>
+            </div>
+
+            <div class="tb_t1">
+                <table>
+                    <colsgroup>
+                        <col width="10%" />
+                        <col width="25%" />
+                        <col width="10%" />
+                        <col width="10%" />
+                        <col width="10%" />
+                        <col width="10%" />
+                        <col width="25%" />
+                    </colsgroup>
+                    <tr class="t_head">
+                        <th>등원일</th>
+                        <th>강의명</th>
+                        <th>담당선생님</th>
+                        <th>출석상태</th>
+                        <th>등원시간</th>
+                        <th>하원시간</th>
+                        <th>비고</th>
+                    </tr>
+                    <tbody id="dataList">
+                        <tr>
+                            <td>2017-12-06</td>
+                            <td>수학의 아침5</td>
+                            <td>염희정</td>
+                            <td>출석</td>
+                            <td>16:30</td>
+                            <td>17:20</td>
+                            <td><button class="btn_pack state" onclick="attend_comment_popup();">상태변경</button></td>
+                        </tr>
+                    </tbody>
+                    <tr>
+                        <td id="emptys" colspan='23' bgcolor="#ffffff" align='center' valign='middle' style="visibility:hidden"></td>
+                    </tr>
+                </table>
+                <div class="form-group row"></div>
+                <%@ include file="/common/inc/com_pageNavi.inc" %>
+            </div>
         </div>
+    </section>
+
+
+    <!-- 출석상태 수정 레이어 시작 -->
+    <div class="layer_popup_template apt_request_layer" id="attend_comment_layer" style="display: none;width:500px">
+        <input type="hidden" id="lecture_attend_id">
+        <div class="layer-title">
+            <h3>출석상태 변경 사유를 입력해 주세요.</h3>
+        </div>
+        <div class="layer-body">
+            <div class="cont">
+                <form name="pop_frm" class="form_st1">
+                    <div>
+                        <select class="form-control">
+                            <option value="">출석</option>
+                            <option value="">지각</option>
+                            <option value="">결석</option>
+                            <option value="">조퇴</option>
+                            <option value="">보강</option>
+                        </select>
+                    </div><br>
+                    <div>
+                        <textarea class="form-control" id="comment" rows="5" maxlength="50" placeholder="최대 50자까지만 입력가능합니다." onkeyup="gfn_chkStrLen(this.value, 50);"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="bot_btns_t1">
+                <button class="btn_pack blue" type="button" onclick="changeAttendStatus();">저장</button>
+                <button class="btn_pack btn-close">취소</button>
+            </div>
+        </div>
+
+        <button class="fa fa-close btn-close popup-close"></button>
     </div>
-</div>
-<!-- 출석상태 수정 레이어 끝 -->
+    <!-- 출석상태 수정 레이어 끝 -->
 </div>
 <%@include file="/common/jsp/footer.jsp" %>
 </body>
